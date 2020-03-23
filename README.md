@@ -32,7 +32,7 @@ git clone https://github.com/sergadin/109-2020.git
 Выполняем команды (нужно указать свои данные)
 ```
 git config --global user.email "ВАШ EMAIL адрес"
-git config --global user.email "ВАШЕ ИМЯ"
+git config --global user.name "ВАШЕ ИМЯ"
 ```
 
 3. Создаем свою папку
