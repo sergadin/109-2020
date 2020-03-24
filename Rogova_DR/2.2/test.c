@@ -11,7 +11,6 @@ double square(double x);
 double justzero(double x);
 double modul(double x);
 
-
 int main(void)
 {
 	int i, num = 4;
