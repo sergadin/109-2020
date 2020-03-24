@@ -1,10 +1,6 @@
 #include<math.h>
 #include<stdio.h>
-<<<<<<< HEAD
 #include"inte.h"
-=======
-#include"sum.h"
->>>>>>> 76ed227e4382bd0549084eb068794cfcdd37cf92
 
 
 
