@@ -1,4 +1,4 @@
-typedef int(*RRFUN)(int a, int b);
+typedef double(*RRFUN)(double a, double b);
 
-int skal(int *a, int *b, int n, RRFUN fsum, RRFUN fproz);
+double simp(double a, double b, double n, RRFUN fsum, RRFUN fproz);
 

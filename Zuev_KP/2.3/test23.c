@@ -1,25 +1,26 @@
 #include <stdio.h>
+#include <math.h>
 #include "func.h"
-int proz(int a, int b);
-int sum(int a, int b);
+double func(double a, double b);
+double sum(double a, double b);
+
 
 int main(void)
 {
-	int i, n = 4, result1 = 0, result2 = 0;
-	int a[]={1, 2, 3, 4}, b[]={5, 6, 7, 8};
-    	result1 = skal(a, b, n, sum, proz);
-	result2 = skal(a, b, n, proz, sum);
-	printf("%d\n", result1);
-	printf("%d\n", result2);
+	double n = 5, a = 0, b = 5, result = 0;
+	result = simp(a, b, n, func, sum);
+	printf("%lf\n", result);
 	return 0;
 }
 
-int proz(int a, int b)
+double func(double a, double b)
 {
-    return a*b;
+    double k = b*(a/(a*a*a*a+4));
+    return k;
 }
-int sum(int a, int b)
+double sum(double a, double b)
 {
     return a+b;
 }
+
 

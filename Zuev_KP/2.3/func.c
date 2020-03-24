@@ -1,22 +1,29 @@
-#include"stdio.h"
-#include"stdlib.h"
-#include"math.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include"func.h"
 
-int skal(int *a, int *b, int n, RRFUN fsum, RRFUN fproz)
+double simp(double a, double b, double n, RRFUN ffunc, RRFUN fsum)
 
 
 {
-     	int res = 0;
+     	double h = 0, res1 = 0, res2 = 0, res = 0, x = 0;
 	if (n == 0)
 	{
 	return 0;
 	}
-	res = (*fproz)(a[0], b[0]);
+	h = (b-a)/2*n;
+	for(int i = 1; i < n-1; i++)
+	{
+		x = a+2*i*h;
+		res1 = (*fsum)(res, (*ffunc)(x, 1));
+	}
 	for(int i = 1; i < n; i++)
 	{
-		res = (*fsum)(res, (*fproz)(a[i], b[i]));
+		x = a+(2*i-1)*h;
+		res2 = (*fsum)(res, (*ffunc)(x, 1));
 	}
+	res = (*fsum)((*ffunc)(a, 1), (*fsum)((*ffunc)(b, 1), (*fsum)(res1, res2)));
 	return res;
 }
 
