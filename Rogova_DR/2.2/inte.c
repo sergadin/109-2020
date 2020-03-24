@@ -1,6 +1,6 @@
 #include<math.h>
 #include<stdio.h>
-#include"sum.h"
+#include"inte.h"
 
 
 
