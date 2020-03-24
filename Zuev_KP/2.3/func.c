@@ -8,10 +8,10 @@ double simp(double a, double b, double n, RRFUN ffunc, RRFUN fsum)
 
 {
 	int i;
-     	double h = 0, res1 = 0, res2 = 0, res = 0, x = 0;
+	double h = 0, res1 = 0, res2 = 0, res = 0, x = 0;
 	if (n == 0)
 	{
-	return 0;
+		return 0;
 	}
 	h = (b-a)/(2*n);
 	for(i = 1; i < n-1; i++)
