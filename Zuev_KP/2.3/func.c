@@ -12,7 +12,7 @@ double simp(double a, double b, double n, RRFUN ffunc, RRFUN fsum)
 	{
 	return 0;
 	}
-	h = (b-a)/2*n;
+	h = (b-a)/(2*n);
 	for(int i = 1; i < n-1; i++)
 	{
 		x = a+2*i*h;
@@ -23,10 +23,9 @@ double simp(double a, double b, double n, RRFUN ffunc, RRFUN fsum)
 		x = a+(2*i-1)*h;
 		res2 = (*fsum)(res, (*ffunc)(x, 1));
 	}
-	res = (*fsum)((*ffunc)(a, 1), (*fsum)((*ffunc)(b, 1), (*fsum)(res1, res2)));
+	res = (h/3)*(2*res1 + 4*res2 + (*ffunc)(a, 1) + (*ffunc)(b, 1));
 	return res;
 }
-
 
 
 
