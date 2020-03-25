@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define eps 0.000001;
+#define eps 0.000001
 
 double one(double x);
 double one(double x)
