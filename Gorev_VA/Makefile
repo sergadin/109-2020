@@ -1,2 +1,2 @@
 prog: file.c
-    gcc -o prog main.c
+    gcc -o prog file.c
