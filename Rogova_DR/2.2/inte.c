@@ -2,10 +2,10 @@
 #include<stdio.h>
 #include"inte.h"
 
+double mod(double x);
 
 
-
-double integ(double a, double b, int n, RRF func)
+double tipainteg(double a, double b, int n, RRF func)
 {
 	int i;
 	double len = (b - a)/n;
@@ -25,3 +25,41 @@ double integ(double a, double b, int n, RRF func)
 	}
 	return integall;
 }
+
+double mod(double x)
+{
+	if(x < 0)
+		return -x;
+	else
+		return x;
+}
+
+
+
+double norminteg(double a, double b, double eps, RRF func)
+{
+	int i;
+	int n = 100, k = 0;
+	double i1 = tipainteg(a, b, n, func), i2 = tipainteg(a, b, n, func);
+	while((mod(i2 - i1) > eps) && (k < 100))
+	{
+		k ++;
+		n = 2*n;
+		i1 = tipainteg(a, b, n, func);
+		i2 = tipainteg(a, b, 2*n, func);
+	}
+	return i2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
