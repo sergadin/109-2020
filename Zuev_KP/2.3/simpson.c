@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include"simpson.h"
-
 int checkbit( int value, int position) 
 {
 	int result;
@@ -15,7 +14,6 @@ int checkbit( int value, int position)
 	}
 	return result;
 }
-
 int obit(int value, int position) 
 {
 	return (value | (1 << position));
@@ -24,12 +22,6 @@ int zbit(int value, int position)
 {
 	return (value & ~(1 << position));
 }
-
-
-
-
-
-
 
 
 
@@ -56,7 +48,7 @@ double simp(double a, double b, double n, RRFUN ffunc)
 double integrate(double a, double b, double ep, RRFUN ffunc)
 {
 	int n = 2;
-	
+
 	double i1 = simp(a, b, n, ffunc), i2 = simp(a, b, 2*n, ffunc);
 	while ((n > 0) && (modul(i2 - i1) > ep) && ((checkbit(modul(i2 - i1), 32-1) == 0)))
 	{
@@ -74,13 +66,3 @@ double modul(double x)
 	else 
 		return x;
 }
-
-
-
-
-
-
-
-
-
-
