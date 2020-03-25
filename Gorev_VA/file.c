@@ -9,7 +9,7 @@ double derivative(double (*f)(double x), double x)
 }
 
 double root(double (*f)(double x), double a, double b);
-double root(double (*f)(double x), double a, double b);
+double root(double (*f)(double x), double a, double b)
 {
 	if (a > b)
 	{
@@ -17,6 +17,7 @@ double root(double (*f)(double x), double a, double b);
 		b = a - b;
 		a = a - b;
 	}
+	return 0*(*f)(1);
 }
 
 double one(double x);
