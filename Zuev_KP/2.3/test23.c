@@ -1,3 +1,5 @@
+//Кирилл Зуев, зайдите в вк
+
 #include <stdio.h>
 #include <math.h>
 #include "simpson.h"
