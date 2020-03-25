@@ -1,2 +1,2 @@
 all:
-  gcc file.c
+  gcc -с file.c
