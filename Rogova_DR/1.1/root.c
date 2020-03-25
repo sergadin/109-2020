@@ -17,8 +17,6 @@ double findroot(double a, double b, double eps, RRF func)
 		fend1 = (*func)(end1);
 		fend2 = (*func)(end2);
 		fmid = (*func)(mid);
-		if(fmid*fend1 < 0 && fmid*fend2 < 0)
-			return 0;
 		if(fmid*fend1 <= 0)
 		{
 			end2 = mid;
