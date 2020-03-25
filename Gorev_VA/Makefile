@@ -1,2 +1,2 @@
 all:
-  wgcc file.c
+  gcc file.c
