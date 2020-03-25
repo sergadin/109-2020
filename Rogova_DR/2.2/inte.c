@@ -5,7 +5,7 @@
 double mod(double x);
 
 
-double integ(double a, double b, int n, RRF func)
+double tipainteg(double a, double b, int n, RRF func)
 {
 	int i;
 	double len = (b - a)/n;
@@ -36,18 +36,19 @@ double mod(double x)
 
 
 
-int global(double a, double b, double eps, RRF func)
+double norminteg(double a, double b, double eps, RRF func)
 {
 	int i;
-	int n = 100;
-	double i1 = integ(a, b, n, func), i2 = integ(a, b, n, func);
-	while(mod(i2 - i1) > eps)
+	int n = 100, k = 0;
+	double i1 = tipainteg(a, b, n, func), i2 = tipainteg(a, b, n, func);
+	while((mod(i2 - i1) > eps) && (k < 100))
 	{
+		k ++;
 		n = 2*n;
-		i1 = integ(a, b, n, func);
-		i2 = integ(a, b, 2*n, func);
+		i1 = tipainteg(a, b, n, func);
+		i2 = tipainteg(a, b, 2*n, func);
 	}
-	return n;
+	return i2;
 }
 
 

@@ -5,7 +5,7 @@
 #define max3(a, b, c) (max2(max2((a), (b)), (c)))
 
 
-double cube(double x);
+double sin(double x);
 double line(double x);
 double square(double x);
 double justzero(double x);
@@ -13,27 +13,26 @@ double modul(double x);
 
 int main(void)
 {
-	int i, resn, num = 4;
-	double resi, eps = 0.001;
+	int i, num = 4;
+	double resi, eps = 0.1;
 	double trueans[] = {16.25, 2.5, 6.3, 0};
-	RRF funcs[] = {cube, line, square, justzero};
-	double a = 2;
-	double b = 3;
+	RRF funcs[] = {sin, line, square, justzero};
+	double a = 1e-9;
+	double b = 1;
 	int n = 10000;
 	for(i = 0; i < num; i++)
 	{
-		resn = global(a, b, eps, funcs[i]);
-		resi = integ(a, b, resn, funcs[i]);
-		printf("correct:\n%lf\nmy:\n%lf\nn:\n%d\n", trueans[i], resi, resn);
+		resi = norminteg(a, b, eps, funcs[i]);
+		printf("correct:\n%lf\nmy:\n%lf\n", trueans[i], resi);
 	}
 
 
 }
 
 
-double cube(double x)
+double sin(double x)
 {
-	return x*x*x;
+	return sin(1/x);
 }
 
 double line(double x)
