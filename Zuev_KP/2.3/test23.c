@@ -9,8 +9,8 @@ double func2(double a);
 int main(void)
 {
 	int i;
-	double ep = 0.00001, a = -2, b = 4, result = 0;
-	double e = 0.1;
+	double ep = 0.0001, a = -2, b = 4, result = 0;
+	double e = 0.0001;
 	double c[] = {36, 1.78244};
 	RRFUN funcs[] = {func1, func2};
 	for(i = 0; i < 2; i++)
