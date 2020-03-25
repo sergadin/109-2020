@@ -17,7 +17,7 @@ int main(void)
 	for(i = 0; i < 3; i++)
 	{
 		t = funcs[i](a);
-		if ((1/t) < 0.000000000000000000001)
+		if ((1/t) <= 0)
 		{
 			printf("infinity\n");
 			return 0;
