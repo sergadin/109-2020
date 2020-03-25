@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include"inte.h"
 
-
+double mod(double x);
 
 
 double integ(double a, double b, int n, RRF func)
@@ -25,3 +25,40 @@ double integ(double a, double b, int n, RRF func)
 	}
 	return integall;
 }
+
+double mod(double x)
+{
+	if(x < 0)
+		return -x;
+	else
+		return x;
+}
+
+
+
+int global(double a, double b, double eps, RRF func)
+{
+	int i;
+	int n = 100;
+	double i1 = integ(a, b, n, func), i2 = integ(a, b, n, func);
+	while(mod(i2 - i1) > eps)
+	{
+		n = 2*n;
+		i1 = integ(a, b, n, func);
+		i2 = integ(a, b, 2*n, func);
+	}
+	return n;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,8 +13,8 @@ double modul(double x);
 
 int main(void)
 {
-	int i, num = 4;
-	double res, e = 0.001;
+	int i, resn, num = 4;
+	double resi, eps = 0.001;
 	double trueans[] = {16.25, 2.5, 6.3, 0};
 	RRF funcs[] = {cube, line, square, justzero};
 	double a = 2;
@@ -22,15 +22,9 @@ int main(void)
 	int n = 10000;
 	for(i = 0; i < num; i++)
 	{
-		res = integ(a, b, n, funcs[i]);
-		if(modul(res - trueans[i]) < e*max3(res, trueans[i], 1))
-		{
-			printf("correct:\n%lf\nmy:\n%lf\nwin)))\n", trueans[i], res);
-		}
-		else
-		{
-			printf("correct:\n%lf\nmy:\n%lf\nlose(((\n", trueans[i], res);
-		}
+		resn = global(a, b, eps, funcs[i]);
+		resi = integ(a, b, resn, funcs[i]);
+		printf("correct:\n%lf\nmy:\n%lf\nn:\n%d\n", trueans[i], resi, resn);
 	}
 
 
