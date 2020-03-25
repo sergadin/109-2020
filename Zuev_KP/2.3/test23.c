@@ -3,19 +3,20 @@
 #include "simpson.h"
 double func1(double a);
 double func2(double a);
+double func3(double a);
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 
 int main(void)
 {
 	int i;
-	double ep = 0.0001, a = -2, b = 4, result = 0;
+	double ep = 0.0001, a = 0.0001, b = 1, result = 0;
 	double e = 0.0001;
-	double c[] = {36, 1.78244};
-	RRFUN funcs[] = {func1, func2};
-	for(i = 0; i < 2; i++)
+	double c[] = {8.66587, 0.819368, 0.504067};
+	RRFUN funcs[] = {func1, func2, func3};
+	for(i = 0; i < 3; i++)
 	{
-		result = simp(a, b, ep, funcs[i]);
+		result = integrate(a, b, ep, funcs[i]);
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
 		{
 			printf("пройден\n");
@@ -40,5 +41,11 @@ double func1(double a)
 double func2(double a)
 {
 	double k = sin(a*a+a-100);
+	return k;
+}
+
+double func3(double a)
+{
+	double k = sin(1/a);
 	return k;
 }
