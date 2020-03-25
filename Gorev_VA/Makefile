@@ -1,16 +1,3 @@
-all: do-test clean
+all: file.c
+#	gcc -c file.c
 
-inte.o: inte.c inte.h
-#	gcc -c inte.c
-
-test.o: test.o inte.h
-#	gcc -c test.c
-
-a.out: test.o inte.o
-	gcc test.o inte.o
-
-do-test: a.out
-	./a.out
-
-clean: test.o inte.o
-	rm test.o inte.o
