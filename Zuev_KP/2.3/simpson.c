@@ -3,8 +3,38 @@
 #include <math.h>
 #include"simpson.h"
 
-double simp(double a, double b, double n, RRFUN ffunc)
+int checkbit( int value, int position) 
+{
+	int result;
+	if ((value & (1 << position)) == 0) 
+	{
+		result = 0;
+	} else 
+	{
+		result = 1;
+	}
+	return result;
+}
 
+int obit(int value, int position) 
+{
+	return (value | (1 << position));
+}
+int zbit(int value, int position) 
+{
+	return (value & ~(1 << position));
+}
+
+
+
+
+
+
+
+
+
+
+double simp(double a, double b, double n, RRFUN ffunc)
 {
 	int i;
 	double h = 0, res1 = 0, res2 = 0, res = 0, x = 0, i1 = 0, i2 = 0, k = 1;
@@ -25,17 +55,14 @@ double simp(double a, double b, double n, RRFUN ffunc)
 
 double integrate(double a, double b, double ep, RRFUN ffunc)
 {
-	int n = 2, i;
+	int n = 2;
+	
 	double i1 = simp(a, b, n, ffunc), i2 = simp(a, b, 2*n, ffunc);
-	while ((n > 0) && (modul(i2 - i1) > ep))
+	while ((n > 0) && (modul(i2 - i1) > ep) && ((checkbit(modul(i2 - i1), 32-1) == 0)))
 	{
 		i1 = simp(a, b, n, ffunc);
 		n = 2*n;
 		i2 = simp(a, b, n, ffunc);
-		if (1/i2 <= 0)
-		{
-			return 0;
-		}
 	}
 	return i2;
 }
@@ -47,3 +74,13 @@ double modul(double x)
 	else 
 		return x;
 }
+
+
+
+
+
+
+
+
+
+
