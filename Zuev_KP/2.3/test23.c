@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 #include "func.h"
-double func1(double a, double b);
-double func2(double a, double b);
+double func1(double a);
+double func2(double a);
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 
@@ -35,14 +35,14 @@ int main(void)
 	return 0;
 }
 
-double func1(double a, double b)
+double func1(double a)
 {
-	double k = b*(8+2*a-a*a);
+	double k = (8+2*a-a*a);
 	return k;
 }
 
-double func2(double a, double b)
+double func2(double a)
 {
-	double k = b*sin(a*a+a-100);
+	double k = sin(a*a+a-100);
 	return k;
 }
