@@ -10,6 +10,7 @@ double func(double (*f)(double x));
 double func(double (*f)(double x))
 {
 	return 2 * (*f)(1);
+}
 
 int main(void)
 {
