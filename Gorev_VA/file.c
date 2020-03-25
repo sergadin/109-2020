@@ -2,14 +2,14 @@
 
 #define eps 0.000001
 
-double derivative(double (*f)(double x), double x);
-double derivative(double (*f)(double x), double x)
+double derivative(double (*f)(double), double x);
+double derivative(double (*f)(double), double x)
 {
 	return (f(x + eps) - f(x)) / eps;
 }
 
-double root(double (*f)(double x), double a, double b);
-double root(double (*f)(double x), double a, double b)
+double root(double (*f)(double), double a, double b);
+double root(double (*f)(double), double a, double b)
 {
 	if (a > b)
 	{
@@ -42,7 +42,7 @@ double SQR(double x)
 
 int main(void)
 {
-	int a = 4, b = 1;
+	double a = 4, b = 1;
 	a = a + b;
 	b = a - b;
 	a = a - b;
