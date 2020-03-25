@@ -9,8 +9,8 @@ double func2(double a, double b);
 int main(void)
 {
 	int i;
-	double ep = 1e-100, a = -2, b = 4, result = 0, k = 0;
-	double e = 1e-4;
+	double ep = 0.00001, a = -2, b = 4, result = 0, k = 0;
+	double e = 0.00001;
 	double c[] = {36, 1.78244};
 	RRFUN funcs[] = {func1, func2};
 	for(i = 0; i < 2; i++)
@@ -20,10 +20,15 @@ int main(void)
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
 		{
 			printf("пройден\n");
+			printf("%lf\n", result);
+			printf("%lf\n", k);
 		}
 		else
 		{
 			printf("не пройден\n");
+			printf("%lf\n", result);
+			printf("%lf\n", k);
+
 		}
 	}
 
