@@ -1,7 +1,13 @@
 #include <stdio.h>
 
+double zero(double x);
+double zero(double x)
+{
+	return 0*x;
+}
+
 int main(void)
 {
-  printf("42\n");
-  return 0;
+	printf("%f", 1 + zero(4));
+	return 0;
 }
