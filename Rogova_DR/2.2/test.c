@@ -17,8 +17,8 @@ int main(void)
 	double resi, eps = 0.1;
 	double trueans[] = {16.25, 2.5, 6.3, 0};
 	RRF funcs[] = {sin, line, square, justzero};
-	double a = 1e-9;
-	double b = 1;
+	double a = 2;
+	double b = 3;
 	int n = 10000;
 	for(i = 0; i < num; i++)
 	{

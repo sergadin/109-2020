@@ -8,21 +8,19 @@ double mod(double x);
 double tipainteg(double a, double b, int n, RRF func)
 {
 	int i;
-	double len = (b - a)/n;
+	double len = (b - a)/n, e = len/10000;
 	double x1, x2;
 	double f1, f2;
-	double integall = 0, integnow;
+	double integall = 0;
 	if((a >= b) || (n < 1))
 		return 0;	
-	for(i = 0; i < n; i++)
+	for(i = 1; i < n; i++)
 	{
-		x1 = a + len * i;
-		x2 = x1 + len;
+		x1 = a + len * i;	
 		f1 = (*func)(x1);
-		f2 = (*func)(x2);
-		integnow = (f1 + f2)*len/2;
-		integall += integnow;
+		integall += f1*len;
 	}
+	integall = integall + 0.5*len*((*func)(a + e) + (*func)(b - e));
 	return integall;
 }
 
