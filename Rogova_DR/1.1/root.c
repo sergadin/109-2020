@@ -10,7 +10,7 @@ double findroot(double a, double b, double eps, RRF func)
 	double fend1, fmid, fend2;
 	double lennow = b - a;
 	if((*func)(end1)*(*func)(end2) >= 0)
-		return 0;
+		return b+100000;
 	while(lennow > eps)
 	{
 		mid = (end1 + end2)/2;

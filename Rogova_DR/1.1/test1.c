@@ -13,7 +13,7 @@ int main(void)
 {
 	int i, numt = 3;
 	double res, eps = 0.001;
-	double tran[] = {2, 1, 0};
+	double tran[] = {1, 10000, 100000};
 	RRF funcs[] = {line, sqr, zer};
 	double a = 0;
 	double b = 3;
