@@ -32,6 +32,10 @@ double integrate(double a, double b, double ep, RRFUN ffunc)
 		i1 = simp(a, b, n, ffunc);
 		n = 2*n;
 		i2 = simp(a, b, n, ffunc);
+		if (1/i2 <= 0)
+		{
+			return 0;
+		}
 	}
 	return i2;
 }

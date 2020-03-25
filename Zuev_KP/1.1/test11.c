@@ -1,25 +1,42 @@
 #include <stdio.h>
+#include <math.h>
 #include "func.h"
-int proz(int a, int b);
-int sum(int a, int b);
+#define max2(a,b) ((b) > (a) ? (b) : (a))
+#define max3(a, b, c) (max2(max2((a), (b)), (c)))
+
+
+double line(double x);
+double sqr(double x);
+double zer(double x);
 
 int main(void)
 {
-	int i, n = 4, result1 = 0, result2 = 0;
-	int a[]={1, 2, 3, 4}, b[]={5, 6, 7, 8};
-    	result1 = skal(a, b, n, sum, proz);
-	result2 = skal(a, b, n, proz, sum);
-	printf("%d\n", result1);
-	printf("%d\n", result2);
-	return 0;
+	int i, numt = 3;
+	double res, eps = 0.001;
+	double tran[] = {1, 10000, 100000};
+	RRF funcs[] = {line, sqr, zer};
+	double a = 0;
+	double b = 3;
+	for(i = 0; i < numt; i++)
+	{
+		res = findroot(a, b, eps, funcs[i]);
+		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", tran[i], res, eps);
+		
+	}
 }
 
-int proz(int a, int b)
+double line(double x)
 {
-    return a*b;
-}
-int sum(int a, int b)
-{
-    return a+b;
+	return (x - 1);
+
 }
 
+double sqr(double x)
+{
+	return x*x;
+}
+
+double zer(double x)
+{
+	return 0*x;
+}
