@@ -16,7 +16,7 @@ double integ(double a, double b, int n, RRF func)
 		return 0;	
 	for(i = 0; i < n; i++)
 	{
-		x1 = len * i;
+		x1 = a + len * i;
 		x2 = x1 + len;
 		f1 = (*func)(x1);
 		f2 = (*func)(x2);

@@ -19,7 +19,7 @@ int main(void)
 	RRF funcs[] = {cube, line, square, justzero};
 	double a = 2;
 	double b = 3;
-	int n = 100000000;
+	int n = 10000;
 	for(i = 0; i < num; i++)
 	{
 		res = integ(a, b, n, funcs[i]);
