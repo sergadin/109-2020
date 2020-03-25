@@ -58,46 +58,6 @@ double modul(double x)
 
 
 
-/*
-
-
-while ((n > 0) && (k > ep))
-	{
-		res1 = 0, res2 = 0;
-		h = (b-a)/(2*n);
-		for(i = 1; i < n-1; i++)
-		{
-			x = a+2*i*h;
-			res1 = res1 + (*ffunc)(x);
-		}
-		for(i = 1; i < n; i++)
-		{
-			x = a+(2*i-1)*h;
-			res2 = res2 + (*ffunc)(x);
-		}
-		i1 = (h/3)*(2*res1 + 4*res2 + (*ffunc)(a) + (*ffunc)(b));
-		
-		res1 = 0, res2 = 0;
-		n = n*2;
-		h = (b-a)/(2*n);
-		for(i = 1; i < n-1; i++)
-		{
-			x = a+2*i*h;
-			res1 = res1 + (*ffunc)(x);
-		}
-		for(i = 1; i < n; i++)
-		{
-			x = a+(2*i-1)*h;
-			res2 = res2 + (*ffunc)(x);
-		}
-		i2 = (h/3)*(2*res1 + 4*res2 + (*ffunc)(a) + (*ffunc)(b));
-		k = modul(i2 - i1);
-		res = i2;
-	}
-
-
-
-*/
 
 
 
