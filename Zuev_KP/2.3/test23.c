@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "func.h"
+#include "simpson.h"
 double func1(double a);
 double func2(double a);
 #define MAX(a, b) (((a) > (b))?(a):(b))
