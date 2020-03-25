@@ -10,22 +10,26 @@ double func3(double a);
 int main(void)
 {
 	int i;
-	double ep = 0.0001, a = 0.0001, b = 1, result = 0;
+	double ep = 0.0001, a = 0.0001, b = 1, result = 0, t = 0;
 	double e = 0.0001;
-	double c[] = {8.66587, 0.819368, 0.504067};
+	double c[] = {8.66587, 0.819368, 0};
 	RRFUN funcs[] = {func1, func2, func3};
 	for(i = 0; i < 3; i++)
 	{
+		t = funcs[i](a);
+		if ((1/t) <= 0)
+		{
+			printf("infinity\n");
+			return 0;
+		}
 		result = integrate(a, b, ep, funcs[i]);
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
 		{
 			printf("пройден\n");
-			printf("%lf\n", result);
 		}
 		else
 		{
 			printf("не пройден\n");
-			printf("%lf\n", result);
 		}
 	}
 
@@ -46,6 +50,12 @@ double func2(double a)
 
 double func3(double a)
 {
-	double k = sin(1/a);
+	double k = sin(1/a)*exp(1/(a+0.005));
 	return k;
 }
+
+
+
+
+
+
