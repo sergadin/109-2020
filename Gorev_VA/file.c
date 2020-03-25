@@ -2,16 +2,27 @@
 
 #define eps 0.000001
 
-double one(double x);
-double one(double x)
-{
-	return 1 + 0*x;
-}
-
 double derivative(double (*f)(double x), double x);
 double derivative(double (*f)(double x), double x)
 {
 	return (f(x + eps) - f(x)) / eps;
+}
+
+double root(double (*f)(double x), double a, double b);
+double root(double (*f)(double x), double a, double b);
+{
+	if (a > b)
+	{
+		a = a + b;
+		b = a - b;
+		a = a - b;
+	}
+}
+
+double one(double x);
+double one(double x)
+{
+	return 1 + 0*x;
 }
 
 double func(double (*f)(double));
@@ -26,8 +37,15 @@ double SQR(double x)
 	return x*x;
 }
 
+
+
 int main(void)
 {
-	printf("%f", derivative(SQR, 2));
+	int a = 4, b = 1;
+	a = a + b;
+	b = a - b;
+	a = a - b;
+	printf("%f %f\n", a, b);
+	printf("%f\n", derivative(SQR, 2));
 	return 0;
 }
