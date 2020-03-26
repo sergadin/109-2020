@@ -26,7 +26,6 @@ double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
 
 	if (a_zero || b_zero) {
 		display_amount_of_iterations(counter);
-		fprintf(stdout, "Hi there, user\n");
 		*s = OK;
 
 		return (a_zero) ? a : b;
@@ -52,7 +51,6 @@ double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
         	b_zero = fabs(fn(b)) < precision;
         	if (a_zero || b_zero) {
                 	display_amount_of_iterations(counter);
-			fprintf(stdout, "Hi here\n");
 			*s = OK;
 
                 	return (a_zero) ? a : b;
@@ -73,7 +71,6 @@ double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
 	}
 	
 	display_amount_of_iterations(counter);
-	fprintf(stdout, "Finally, hi here\n");
 	*s = OK;
 
 	return a + (b - a) / 2;
