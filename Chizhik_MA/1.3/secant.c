@@ -12,14 +12,17 @@ double find_root(dFUNC fn, double a, double b, double precision) {
 	int counter = 0;
 	double tmp, swap;
 
-	unsigned int a_zero = fabs(fn(a)) < precision;
-	unsigned int b_zero = fabs(fn(b)) < precision;
+	unsigned int a_zero;
+	unsigned int b_zero;
 
         if (a > b) {
                 swap = a;
                 a = b;
                 b = swap;
         }
+
+	a_zero = fabs(fn(a)) < precision;
+	b_zero = fabs(fn(b)) < precision;
 
 	if (a_zero || b_zero) {
 		display_amount_of_iterations(counter);
