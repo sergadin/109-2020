@@ -21,8 +21,8 @@ int main(void)
 		result = integrate(a, b, ep, funcs[i]);
 		if (result > 10000000000)
 		{
-			printf("0\n");
 			printf("пройден\n");
+			printf("0\n");
 			return 0;
 		}
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
