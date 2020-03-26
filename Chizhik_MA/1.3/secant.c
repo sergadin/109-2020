@@ -8,7 +8,7 @@ void display_amount_of_iterations(int a) {
 	fprintf(stdout, "Amount of iterations: %d\n", a);
 }
 
-double find_root(dFUNC fn, double a, double b, double precision) {
+double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
 	int counter = 0;
 	double tmp, swap;
 
@@ -26,17 +26,24 @@ double find_root(dFUNC fn, double a, double b, double precision) {
 
 	if (a_zero || b_zero) {
 		display_amount_of_iterations(counter);
+		fprintf(stdout, "Hi there, user\n");
+		*s = OK;
+
 		return (a_zero) ? a : b;
 	}
 
 	if (compareDoubles(a, b, precision) == 0) {
 		display_amount_of_iterations(counter);
-		fprintf(stderr, "There's no roots\n");
+		fprintf(stderr, "There're no roots\n");
+		*s = NO_ROOTS;
+
 		return a - 10 * precision;
 	}
 
 	if (sgn(fn(a)) == sgn(fn(b))) {
 		fprintf(stderr, "I can't guarantee that there's at least one root\n");
+		*s = SAME_SIGN_AT_THE_ENDPOINTS;
+
 		return a - 1;
 	}
 	
@@ -45,6 +52,9 @@ double find_root(dFUNC fn, double a, double b, double precision) {
         	b_zero = fabs(fn(b)) < precision;
         	if (a_zero || b_zero) {
                 	display_amount_of_iterations(counter);
+			fprintf(stdout, "Hi here\n");
+			*s = OK;
+
                 	return (a_zero) ? a : b;
         	}
 
@@ -63,5 +73,8 @@ double find_root(dFUNC fn, double a, double b, double precision) {
 	}
 	
 	display_amount_of_iterations(counter);
+	fprintf(stdout, "Finally, hi here\n");
+	*s = OK;
+
 	return a + (b - a) / 2;
 }

@@ -23,9 +23,11 @@ static double quadratic(double x) {
 }
 
 int main(void) {
+	char *statusText[] = {"Everything is OK", "There're no roots", "sgn(f(a)) = sgn(f(b)) != 0"};
 	double left[] = {-1, 0, 6, 0};
 	double right[] = {-1, 5, 3, 1};
 	double root;
+	Status status;
 
 	dFUNC fnArr[N] = {zero, three, linear, quadratic};
 	double preciseAnswers[][N] = {
@@ -49,13 +51,14 @@ int main(void) {
 		fprintf(stdout, "Test %d\n\n", i + 1);
 		for (int j = 0; j < l; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
-			root = find_root(fnArr[i], left[j], right[j], EPS);
-			if ((root - left[j]) * (right[j] - root) < 0) {
-                                fprintf(stdout, "The program is unable to find a root here\n");
+			root = find_root(fnArr[i], left[j], right[j], EPS, &status);
+			if (status != OK) {
+                                fprintf(stdout, "The program is unable to find a root here:\n");
+				fprintf(stdout, "%s\n", statusText[status]);
 				if ((preciseAnswers[j][i] - left[j]) * (right[j] - preciseAnswers[j][i]) < 0) {
-					fprintf(stdout, "And it is absolutely great since there's really no roots\n");
+					fprintf(stdout, "And it is absolutely great since there're really no roots\n");
 				} else {
-					fprintf(stderr, "And that's our fault. We're sorry");
+					fprintf(stderr, "And that's our fault. We're sorry\n");
 					return -2;
 				}
                         } else {
