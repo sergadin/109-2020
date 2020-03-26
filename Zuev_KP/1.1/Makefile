@@ -17,5 +17,3 @@ do-test: a.out
 
 clean: test11.o delenie.o
 	rm test11.o delenie.o
-
-
