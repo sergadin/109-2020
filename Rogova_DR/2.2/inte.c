@@ -37,14 +37,14 @@ double mod(double x)
 double norminteg(double a, double b, double eps, RRF func)
 {
 	int i;
-	int n = 100, k = 0;
+	int n = 100;
 	double i1 = tipainteg(a, b, n, func), i2 = tipainteg(a, b, n, func);
-	while((mod(i2 - i1) > eps) && (k < 100))
+	while((mod(i1 - i2) > eps) && (n < 10000000))
 	{
-		k ++;
-		n = 2*n;
-		i1 = tipainteg(a, b, n, func);
-		i2 = tipainteg(a, b, 2*n, func);
+			n = 2*n;
+			printf("%d", n);
+			i1 = tipainteg(a, b, n, func);
+			i2 = tipainteg(a, b, 2*n, func);
 	}
 	return i2;
 }
