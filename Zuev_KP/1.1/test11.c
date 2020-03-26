@@ -13,10 +13,17 @@ int main(void)
 	double ep = 0.0001, a = 0.5, b = 4, result = 0;
 	double e = 0.0001;
 	double c[] = {0, 1};
+	ErrorCode ec;
 	RRFUN funcs[] = {func1, func2};
 	for(i = 0; i < 2; i++)
 	{
-		result = delenie(a, b, ep, funcs[i]);
+		result = delenie(a, b, ep, funcs[i], &ec);
+		if(ec != SF_OK)
+		{
+			printf("error\n");
+		
+		}
+		else
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
 		{
 			printf("пройден\n");
