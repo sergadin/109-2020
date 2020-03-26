@@ -11,10 +11,10 @@ double delenie(double a, double b, double ep, RRFUN func)
 	res1 = (*func)(k1);
 	res2 = (*func)(k2);
 	if(res1*res2 >= 0)
-		{
-			printf("нет корня\n");
-			return 0;
-		}
+	{
+		printf("нет корня\n");
+		return 0;
+	}
 	while(n > ep)
 	{
 		ser = (k1 + k2)/2;
