@@ -10,7 +10,7 @@ test.o: test.o inte.h
 #	gcc -c test.c
 
 a.out: test.o inte.o
-	gcc test.o inte.o
+	gcc test.o inte.o -lm 
 
 do-test: a.out
 	./a.out

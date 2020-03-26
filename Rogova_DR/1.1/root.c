@@ -14,16 +14,16 @@ double findroot(double a, double b, double eps, RRF func)
 	while(lennow > eps)
 	{
 		mid = (end1 + end2)/2;
-		fend1 = (*func)(end1);
-		fend2 = (*func)(end2);
 		fmid = (*func)(mid);
 		if(fmid*fend1 <= 0)
 		{
 			end2 = mid;
+			fend2 = fmid;
 		}
 		else
 		{
 			end1 = mid;
+			fend1 = fmid;
 		}
 		lennow = end2 - end1;
 	}
