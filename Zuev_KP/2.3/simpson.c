@@ -51,7 +51,7 @@ double integrate(double a, double b, double ep, RRFUN ffunc)
 
 	double i1 = simp(a, b, n, ffunc), i2 = simp(a, b, 2*n, ffunc);
 	while ((n > 0) && (modul(i2 - i1) > ep) && (n < 67108864))
-	{
+	{                                              
 		i1 = simp(a, b, n, ffunc);
 		n = 2*n;
 		printf("%d\n", n);
