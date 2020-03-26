@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include"simpson.h"
+static double simp(double a, double b, double ep, RRFUN ffunc);
 
 static double simp(double a, double b, double n, RRFUN ffunc)
 {
