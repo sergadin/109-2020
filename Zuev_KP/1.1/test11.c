@@ -1,42 +1,44 @@
 #include <stdio.h>
 #include <math.h>
-#include "func.h"
-#define max2(a,b) ((b) > (a) ? (b) : (a))
-#define max3(a, b, c) (max2(max2((a), (b)), (c)))
-
-
-double line(double x);
-double sqr(double x);
-double zer(double x);
+#include "delenie.h"
+#define MAX(a, b) (((a) > (b))?(a):(b))
+#define MAX1(a, b, c) MAX(a, MAX(b, c))
+double func1(double a);
+double func2(double a);
 
 int main(void)
 {
-	int i, numt = 3;
-	double res, eps = 0.001;
-	double tran[] = {1, 10000, 100000};
-	RRF funcs[] = {line, sqr, zer};
-	double a = 0;
-	double b = 3;
-	for(i = 0; i < numt; i++)
+	int i;
+	double ep = 0.0001, a = 0.5, b = 4, result = 0;
+	double e = 0.0001;
+	double c[] = {0, 1};
+	RRFUN funcs[] = {func1, func2};
+	for(i = 0; i < 2; i++)
 	{
-		res = findroot(a, b, eps, funcs[i]);
-		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", tran[i], res, eps);
-		
+		result = delenie(a, b, ep, funcs[i]);
+		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
+		{
+			printf("пройден\n");
+			printf("%lf\n", result);
+		}
+		else
+		{
+			printf("не пройден\n");
+			printf("%lf\n", result);
+		}
 	}
+	return 0;
 }
 
-double line(double x)
+double func1(double a)
 {
-	return (x - 1);
-
+	double k = (8+2*a);
+	return k;
 }
 
-double sqr(double x)
+double func2(double a)
 {
-	return x*x;
+	double k = (a*a+a-2);
+	return k;
 }
 
-double zer(double x)
-{
-	return 0*x;
-}
