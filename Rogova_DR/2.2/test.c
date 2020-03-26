@@ -13,6 +13,7 @@ double modul(double x);
 
 int main(void)
 {
+	ErrorCode ec;
 	int i;
 	double resi, eps = 0.1;
 	double trueans[] = {0.5, 0.333333, 0, 0.504066};
@@ -22,8 +23,11 @@ int main(void)
 	int n = 10000;
 	for(i = 0; i < 4; i++)
 	{
-		resi = norminteg(a, b, eps, funcs[i]);
-		printf("correct:\n%lf\nmy:\n%lf\n", trueans[i], resi);
+		resi = norminteg(a, b, eps, funcs[i], &ec);
+		if(ec == I_OK)
+			printf("correct:\n%lf\nmy:\n%lf\n", trueans[i], resi);
+		else
+			printf("Ups...");
 	}
 
 
