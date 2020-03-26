@@ -5,6 +5,7 @@
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 double func1(double a);
 double func2(double a);
+double modul(double x);
 
 int main(void)
 {
@@ -42,3 +43,10 @@ double func2(double a)
 	return k;
 }
 
+double modul(double x)
+{
+	if (x < 0)
+		return -x;
+	else 
+		return x;
+}

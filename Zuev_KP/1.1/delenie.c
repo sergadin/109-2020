@@ -34,10 +34,4 @@ double delenie(double a, double b, double ep, RRFUN func)
 	return (k1 + k2)/2;
 }
 
-double modul(double x)
-{
-	if (x < 0)
-		return -x;
-	else 
-		return x;
-}
+
