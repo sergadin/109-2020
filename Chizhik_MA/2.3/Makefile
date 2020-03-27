@@ -7,7 +7,7 @@ simpson.o: simpson.h umath.h simpson.c
 test.o: simpson.h umath.h test.c
 	gcc -c test.c
 a.out: simpson.o umath.o test.o
-	gcc -o a.out test.o simpson.o umath.o
+	gcc -o a.out test.o simpson.o umath.o -lm
 
 do-test: a.out
 	./a.out

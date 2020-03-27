@@ -4,8 +4,8 @@
 #include "simpson.h"
 #include "umath.h"
 
-#define N 4
-#define EPS 1e-7
+#define N 5
+#define EPS 1e-6
 
 static double fourty_five(double x) {
 	return 45 + 0 * x;
@@ -23,6 +23,10 @@ static double cube(double x) {
 	return x * x * x;
 }
 
+static double evil(double x) {
+	return sin(1 / x);
+}
+
 int main(void) {
 	char *statusText[] = {
 			"OK", 
@@ -35,12 +39,13 @@ int main(void) {
 	double integral;
 	Status s;
 
-	dFUNC funcs[N] = {fourty_five, id, sq, cube};
+	dFUNC funcs[N] = {fourty_five, id, sq, cube, evil};
 	double preciseAnswers[][N] = {
 			{135, 135, 135},
 			{7.5, 10.5, 1.5},
 			{49.5, 76.5, 13.5},
-			{63.75, 152.25, 3.75}
+			{63.75, 152.25, 3.75},
+			{1.310212, 0.898917, 0}
 	};
 
 	l = (int)(sizeof(left) / sizeof(double));
@@ -52,12 +57,13 @@ int main(void) {
 	}
 
 	for (i = 0; i < N; i++) {
-		fprintf(stdout, "Test %d\n\n", i + 1);
+		fprintf(stdout, "\nTest %d\n\n", i + 1);
 		for (j = 0; j < l; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
 			integral = simpson_integral(funcs[i], left[j], right[j], EPS, &s);
 			if (s != OK) {
-				fprintf(stdout, "The program can't integrate the given function\n");
+				fprintf(stdout, "The program can't integrate the given function:\n");
+				fprintf(stdout, "%s\n", statusText[s]);
 			} else {
 				fprintf(stdout, "Computed: approximately %lf\n", integral);
 				fprintf(stdout, "Expected: %lf\n", preciseAnswers[i][j]);
