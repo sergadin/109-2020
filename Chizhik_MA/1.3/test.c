@@ -36,9 +36,8 @@ int main(void) {
 		{3, 0, 3.5, 1},
 		{0, -4.76, 3.5, 1}
 	};
-	int n, l, r;
+	int l, r;
 
-	n = (int)(sizeof(fnArr) / sizeof(dFUNC));
 	l = (int)(sizeof(left) / sizeof(double));
 	r = (int)(sizeof(right) / sizeof(double));
 
