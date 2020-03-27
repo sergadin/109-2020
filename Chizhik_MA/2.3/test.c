@@ -24,6 +24,9 @@ static double cube(double x) {
 }
 
 static double evil(double x) {
+	if (compareDoubles(x, 0) == 0) {
+		return 0;
+	}
 	return sin(1 / x);
 }
 
