@@ -1,3 +1,4 @@
 typedef double (*RRF) (double x);
-double tipainteg(double a, double b, int n, RRF func);
-double norminteg(double a, double b, double eps, RRF func);
+typedef enum {I_OK = 0, I_BIGN}
+ErrorCode;
+double norminteg(double a, double b, double eps, RRF func, ErrorCode *error_code);

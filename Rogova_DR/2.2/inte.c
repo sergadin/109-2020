@@ -1,28 +1,35 @@
 #include<math.h>
 #include<stdio.h>
 #include"inte.h"
+#define max2(a, b) ((b) > (a) ?  (b) : (a))
+#define max3(a, b, c) max2(max2((a),(b)), (c))
+
 
 double mod(double x);
+char cheknemn(int n);
+static double tipainteg(double a, double b, int n, RRF func);
 
 
-double tipainteg(double a, double b, int n, RRF func)
+
+
+
+
+static double tipainteg(double a, double b, int n, RRF func)
 {
 	int i;
-	double len = (b - a)/n;
+	double len = (b - a)/n, e = len/10000;
 	double x1, x2;
 	double f1, f2;
-	double integall = 0, integnow;
+	double integall = 0;
 	if((a >= b) || (n < 1))
 		return 0;	
-	for(i = 0; i < n; i++)
+	for(i = 1; i < n; i++)
 	{
-		x1 = a + len * i;
-		x2 = x1 + len;
+		x1 = a + len * i;	
 		f1 = (*func)(x1);
-		f2 = (*func)(x2);
-		integnow = (f1 + f2)*len/2;
-		integall += integnow;
+		integall += f1*len;
 	}
+	integall = integall + 0.5*len*((*func)(a + e) + (*func)(b - e));
 	return integall;
 }
 
@@ -36,18 +43,22 @@ double mod(double x)
 
 
 
-double norminteg(double a, double b, double eps, RRF func)
+double norminteg(double a, double b, double eps, RRF func, ErrorCode *error_code)
 {
+
 	int i;
-	int n = 100, k = 0;
+	int n = 100;
 	double i1 = tipainteg(a, b, n, func), i2 = tipainteg(a, b, n, func);
-	while((mod(i2 - i1) > eps) && (k < 100))
+	*error_code = I_OK;
+	while((mod(i1 - i2) > eps*max3(1, i1, i2)) && (n < 10000000))
 	{
-		k ++;
-		n = 2*n;
-		i1 = tipainteg(a, b, n, func);
-		i2 = tipainteg(a, b, 2*n, func);
+			n = 2*n;
+			printf("%d", n);
+			i1 = tipainteg(a, b, n, func);
+			i2 = tipainteg(a, b, 2*n, func);
 	}
+	if(n >= 9999999)
+		*error_code = I_BIGN;
 	return i2;
 }
 

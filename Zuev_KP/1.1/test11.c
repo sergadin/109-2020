@@ -1,25 +1,59 @@
 #include <stdio.h>
-#include "func.h"
-int proz(int a, int b);
-int sum(int a, int b);
+#include <math.h>
+#include "delenie.h"
+#define MAX(a, b) (((a) > (b))?(a):(b))
+#define MAX1(a, b, c) MAX(a, MAX(b, c))
+double func1(double a);
+double func2(double a);
+double modul(double x);
 
 int main(void)
 {
-	int i, n = 4, result1 = 0, result2 = 0;
-	int a[]={1, 2, 3, 4}, b[]={5, 6, 7, 8};
-    	result1 = skal(a, b, n, sum, proz);
-	result2 = skal(a, b, n, proz, sum);
-	printf("%d\n", result1);
-	printf("%d\n", result2);
+	int i;
+	double ep = 0.0001, a = 0.5, b = 4, result = 0;
+	double e = 0.0001;
+	double c[] = {0, 1};
+	ErrorCode ec;
+	RRFUN funcs[] = {func1, func2};
+	for(i = 0; i < 2; i++)
+	{
+		result = delenie(a, b, ep, funcs[i], &ec);
+		if(ec != SF_OK)
+		{
+			printf("error\n");
+		
+		}
+		else
+		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
+		{
+			printf("пройден\n");
+			printf("%lf\n", result);
+		}
+		else
+		{
+			printf("не пройден\n");
+			printf("%lf\n", result);
+		}
+	}
 	return 0;
 }
 
-int proz(int a, int b)
+double func1(double a)
 {
-    return a*b;
-}
-int sum(int a, int b)
-{
-    return a+b;
+	double k = (8+2*a);
+	return k;
 }
 
+double func2(double a)
+{
+	double k = (a*a+a-2);
+	return k;
+}
+
+double modul(double x)
+{
+	if (x < 0)
+		return -x;
+	else 
+		return x;
+}
