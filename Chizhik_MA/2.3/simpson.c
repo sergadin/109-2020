@@ -24,13 +24,14 @@ double integration_with_fixed_step(dFUNC f, double a, double b, int n) {
 double simpson_integral(dFUNC f, double a, double b, double precision, Status *s) {
 	double current_i, prev_i;
 	double swap;
-	int n;
+	int n, sign = 1;
 	*s = OK;
 
 	if (a > b) {
 		swap = a;
 		a = b;
 		b = swap;
+		sign *= -1;
 	}
 
 	prev_i = integration_with_fixed_step(f, a, b, 2);
@@ -38,7 +39,7 @@ double simpson_integral(dFUNC f, double a, double b, double precision, Status *s
 	for (n = 4; n < 1e8; n *= 2) {
 		current_i = integration_with_fixed_step(f, a, b, n);
 		if (compareDoubles(current_i, prev_i, precision) == 0) {
-			return current_i;
+			return current_i * sign;
 		}
 		prev_i = current_i;
 	}
