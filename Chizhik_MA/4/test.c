@@ -39,6 +39,7 @@ int main(void) {
 				fprintf(stdout, "%s\n", statusText[s]);
 				if (s != BAD_VALUE) {
 					fprintf(stdout, "The expected result was %lf and we've got %lf\n", expected, result);
+					fprintf(stdout, "And that's normal: our function uses Taylor series expansion at x = 0, but your x = %lf is definitely far from this point\n", x[i]);
 				}
 			} else {
 				fprintf(stdout, "The degree of the last addendum: %d\n", n);
