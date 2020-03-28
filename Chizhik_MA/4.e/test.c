@@ -11,36 +11,42 @@ int main(void) {
 				"OK", 
 				"The computation takes too long..."
 			     };
-	dFUNC fn = exp;
-	double x[] = {0.7, 14, 54.1};
+	dFUNC fn[] = {exp, sin, cos, log};
+	taylorFUNC approximations[] = {taylor_exp, taylor_sin, taylor_cos, taylor_log};
+	double x[] = {-1.3, 0.7, 14, 25.1};
 	
-	double result;
-	int i, l, n;
+	double result, expected;
+	int i, j, points_len, funcs_len, n;
 	Status s;
 
-	l = (int)(sizeof(x) / sizeof(double));
+	points_len = (int)(sizeof(x) / sizeof(double));
+	funcs_len = (int)(sizeof(approximations) / sizeof(double));
 
-	if (l == 0) {
+	if (points_len == 0) {
 		fprintf(stderr, "Empty input is a bad thing. Please fix it\n");
 		return -1;
 	}
 
-	for (i = 0; i < l; i++) {
-		fprintf(stdout, "\nTest %d\n\n", i + 1);
-		result = taylor_exp(x[i], EPS, &n, &s);
-		fprintf(stdout, "The degree of the last addendum: %d\n", n);
-		if (s != OK) {
-			fprintf(stdout, "It's hard to compute with the given precision:\n");
-			fprintf(stdout, "%s\n", statusText[s]);
-			fprintf(stdout, "The expected result was %lf and we've got %lf\n", fn(x[i]), result);
-		} else {
-			fprintf(stdout, "Computed: %lf\n", result);
-			fprintf(stdout, "Expected: %lf\n", fn(x[i]));
-			if (compareDoubles(result, fn(x[i]), EPS) == 0) {
-				fprintf(stdout, "The difference is inconsiderable\n");
+	for (j = 0; j < funcs_len; j++) {
+		fprintf(stdout, "\nTest %d\n\n", j + 1);
+		for (i = 0; i < points_len; i++) {
+			fprintf(stdout, "Test %d.%d\n", j + 1, i + 1);
+			result = (approximations[j])(x[i], EPS, &n, &s);
+			expected = (j == 3) ? (fn[j])(x[i] + 1) : (fn[j])(x[i]);
+			fprintf(stdout, "The degree of the last addendum: %d\n", n);
+			if (s != OK) {
+				fprintf(stdout, "It's hard to compute with the given precision:\n");
+				fprintf(stdout, "%s\n", statusText[s]);
+				fprintf(stdout, "The expected result was %lf and we've got %lf\n", expected, result);
 			} else {
-				fprintf(stderr, "Something went wrong...\n");
-				return -2;
+				fprintf(stdout, "Computed: %lf\n", result);
+				fprintf(stdout, "Expected: %lf\n", expected);
+				if (compareDoubles(result, expected, EPS) == 0) {
+					fprintf(stdout, "The difference is inconsiderable\n");
+				} else {
+					fprintf(stderr, "Something went wrong...\n");
+					return -2;
+				}
 			}
 		}
 	}
