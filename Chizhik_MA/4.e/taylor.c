@@ -73,8 +73,13 @@ double taylor_cos(double x, double precision, int *n, Status *s) {
 double taylor_log(double x, double precision, int *n, Status *s) {
         *n = 1;
         double comp_value, taylor_addendum;
-
         *s = OK;
+
+	if (compareDoubles(x + 1, 0, precision) != 1) {
+                *s = BAD_VALUE;
+                return 0;
+        }
+
         comp_value = x;
         taylor_addendum = -x * x / 2;
 

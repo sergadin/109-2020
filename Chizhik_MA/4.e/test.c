@@ -9,7 +9,8 @@
 int main(void) {
 	char *statusText[] = {
 				"OK", 
-				"The computation takes too long..."
+				"The computation takes too long...",
+				"The given value is inappropriate"
 			     };
 	dFUNC fn[] = {exp, sin, cos, log};
 	taylorFUNC approximations[] = {taylor_exp, taylor_sin, taylor_cos, taylor_log};
@@ -35,9 +36,11 @@ int main(void) {
 			expected = (j == 3) ? (fn[j])(x[i] + 1) : (fn[j])(x[i]);
 			fprintf(stdout, "The degree of the last addendum: %d\n", n);
 			if (s != OK) {
-				fprintf(stdout, "It's hard to compute with the given precision:\n");
+				fprintf(stdout, "It's hard to compute:\n");
 				fprintf(stdout, "%s\n", statusText[s]);
-				fprintf(stdout, "The expected result was %lf and we've got %lf\n", expected, result);
+				if (s != BAD_VALUE) {
+					fprintf(stdout, "The expected result was %lf and we've got %lf\n", expected, result);
+				}
 			} else {
 				fprintf(stdout, "Computed: %lf\n", result);
 				fprintf(stdout, "Expected: %lf\n", expected);
