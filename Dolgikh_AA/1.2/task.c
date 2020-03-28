@@ -4,31 +4,53 @@
 double newton(RRFUN f, double a, double b, double eps)
 {
 	int k;
+	double x, A, B;
 
 	//Проверяем концы отрезка
-	if(f(a) == 0)
+	if(fabs(f(a)) < eps)
 		return a;
-	if(f(b) == 0)
+	if(fabs(f(b)) < eps)
 		return b;
 	
+	//Проверяем, разные ли знаки принимает функция на концах отрезка
+	if(f(a) * f(b) > 0)
+		return a - 1;
+
+	//Проверяем, не разные ли знаки принимает производная на концах отрезка
+	if(!(deriv(f, a, eps) * deriv(f, b, eps) > 0))
+		return a - 1;
+
+
 	//Выбираем начальную точку
-	double x;
-	/*
-	if(deriv(f, a, eps)*secderiv(f, a, eps) > 0)
+	if(f(a)*secderiv(f, a, eps) > 0)
 		x = b;
 	else
 		x = a;
-	b = x - f(x)/df(x);
-	a = x;
-	*/
-	x = (a + b) / 2;
+	B = x - f(x)/deriv(f, x, eps);
+	A = x;
 
 	//Запускаем итерационный процесс
-	while(fabs(a - b) > eps)
+	while(fabs(A - B) > eps)
 	{
-		a = b;
-		b = b - f(b)/deriv(f, b, eps);
-		if(k > 1000000) return a - 1;
+		
+		//Проверяем концы отрезка
+		if(fabs(f(A)) < eps)
+			return A;
+		if(fabs(f(B)) < eps)
+			return B;
+
+		//Проверяем, не разные ли знаки принимает производная на концах отрезка
+		if(!(deriv(f, A, eps) * deriv(f, B, eps) > 0))
+			return a - 1;
+
+
+		A = B;
+		B = B - f(B)/deriv(f, B, eps);
+
+		//если что-то не так и цикл идёт очень долго, прерываем
+		if(k > 1000000) 
+			return a - 1;
+		k++;
 	}
 	return b;
 }

@@ -7,7 +7,7 @@ test.o: test.c task.h
 	gcc -c test.c
 
 a.out: test.o task.o
-	gcc test.o task.o
+	gcc test.o task.o -lm
 
 do-test: a.out
 	./a.out
