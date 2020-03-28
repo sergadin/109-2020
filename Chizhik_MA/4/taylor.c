@@ -63,17 +63,18 @@ double taylor_cos(double x, double precision, int *n, Status *s) {
 
 
 double taylor_log(double x, double precision, int *n, Status *s) {
-        *n = 1;
+        double real_x = x - 1;
         double comp_value, taylor_addendum;
         *s = OK;
+	*n = 1;
 
-	if (compareDoubles(x + 1, 0, precision) != 1) {
+	if (compareDoubles(x, 0, precision) != 1) {
                 *s = BAD_VALUE;
                 return 0;
         }
 
-        comp_value = x;
-        taylor_addendum = -x * x / 2;
+        comp_value = real_x;
+        taylor_addendum = -real_x * real_x / 2;
 
         while (compareDoubles(taylor_addendum, 0, precision) != 0) {
                 comp_value += taylor_addendum;
@@ -83,7 +84,7 @@ double taylor_log(double x, double precision, int *n, Status *s) {
                 }
 
                 *n += 1;
-                taylor_addendum *= -x * (*n) / (*n + 1);
+                taylor_addendum *= -real_x * (*n) / (*n + 1);
         }
 
         return comp_value;

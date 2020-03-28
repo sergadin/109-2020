@@ -14,7 +14,7 @@ int main(void) {
 			     };
 	dFUNC fn[] = {exp, sin, cos, log};
 	taylorFUNC approximations[] = {taylor_exp, taylor_sin, taylor_cos, taylor_log};
-	double x[] = {-1.3, 0.7, 14, 25.1};
+	double x[] = {-1.3, 0.7, 0, 1, 14, 25.1};
 	
 	double result, expected;
 	int i, j, points_len, funcs_len, n;
@@ -33,7 +33,7 @@ int main(void) {
 		for (i = 0; i < points_len; i++) {
 			fprintf(stdout, "Test %d.%d\n", j + 1, i + 1);
 			result = (approximations[j])(x[i], EPS, &n, &s);
-			expected = (j == 3) ? (fn[j])(x[i] + 1) : (fn[j])(x[i]);
+			expected = (fn[j])(x[i]);
 			fprintf(stdout, "The degree of the last addendum: %d\n", n);
 			if (s != OK) {
 				fprintf(stdout, "It's hard to compute:\n");
