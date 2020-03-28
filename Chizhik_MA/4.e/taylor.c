@@ -12,7 +12,7 @@ double taylor_exp(double x, double precision, int *n, Status *s) {
 	comp_value = 1;
 	taylor_addendum = x;
 	
-	while (taylor_addendum > precision) {
+	while (compareDoubles(taylor_addendum, 0, precision) == 0) {
 		comp_value += taylor_addendum;
 		if (*n > 1e2) {
 			*s = TOO_LONG;
