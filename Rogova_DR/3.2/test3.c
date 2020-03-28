@@ -16,11 +16,11 @@ double zer(double x);
 int main(void)
 {
 	int i, num = 3;
-	double res, eps = 0.5;
-	double tran[] = {0, 0, 0};
+	double res, eps = 0.2;
+	double tran[] = {10, 100, 0};
 	RRF funcs[] = {line, sqr, zer};
-	double a = 1;
-	double b = 2;
+	double a = 10;
+	double b = 11;
 	for(i = 0; i < num; i++)
 	{
 		res = mini(a, b, eps, funcs[i]);
