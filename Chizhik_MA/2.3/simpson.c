@@ -45,5 +45,5 @@ double simpson_integral(dFUNC f, double a, double b, double precision, Status *s
 	}
 
 	*s = METHOD_DOES_NOT_CONVERGE;
-	return 0;
+	return current_i;
 }
