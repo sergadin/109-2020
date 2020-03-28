@@ -14,7 +14,7 @@ int main(void) {
 			     };
 	dFUNC fn[] = {exp, sin, cos, log};
 	taylorFUNC approximations[] = {taylor_exp, taylor_sin, taylor_cos, taylor_log};
-	double x[] = {-1.3, 0.7, 0, 1, 14, 25.1};
+	double x[] = {-1.3, -0.7, 0, 1, 14, 25.1};
 	
 	double result, expected;
 	int i, j, points_len, funcs_len, n;

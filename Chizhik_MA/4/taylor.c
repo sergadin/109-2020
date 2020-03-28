@@ -5,10 +5,11 @@
 #include "taylor.h"
 
 double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC start_value, diFUNC recurrence) {
-	*n = 1;
 	double comp_value, taylor_addendum;
 
+	*n = 1;
 	*s = OK;
+
 	comp_value = start_value(x);
 	taylor_addendum = start_value(x) * recurrence(x, *n);
 
@@ -77,8 +78,8 @@ double taylor_log(double x, double precision, int *n, Status *s) {
         taylor_addendum = -real_x * real_x / 2;
 
         while (compareDoubles(taylor_addendum, 0, precision) != 0) {
-                comp_value += taylor_addendum;
-                if (*n > 1e2) {
+		comp_value += taylor_addendum;
+                if (*n > 50) {
                         *s = TOO_LONG;  
                         return comp_value;
                 }
