@@ -51,6 +51,7 @@ int main(void)
 			B[i] = c;
 		}
 	}
+	fclose(input);
 
 	//Тесты
 	for(i = 0; i < 15; i++)
