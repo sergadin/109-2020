@@ -34,6 +34,7 @@ int main(void)
 	if((input = fopen("input.txt","r")) == NULL)
 	{
 		fprintf(stderr, "File opening error\n");
+		fclose(input);
 		return -1;
 	}
 	for(i = 0; i < 15; i++)
@@ -41,6 +42,7 @@ int main(void)
 		if(fscanf(input, "%lf %lf %lf", &A[i], &B[i], &trueans[i]) != 3)
 		{
 			fprintf(stderr, "File reading error\n");
+			fclose(input);	
 			return -1;
 		}
 		//Где надо, меняем концы отрезков местами
