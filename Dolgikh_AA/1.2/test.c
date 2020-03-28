@@ -13,27 +13,11 @@ double cube2(double x);
 
 int main(void)
 {
-	RRFUN f;
-	double a, b, c, res;
+	double  res, c;
 	double A[15],B[15],trueans[15];
 	RRFUN F[15];
 	int i;
 	FILE *input;
-
-	/*f = square2;
-	fprintf(stdout, "Enter a and b ");
-	fscanf(stdin, "%lf %lf", &a, &b);
-	if(b < a)
-	{
-		c = b;
-		b = a;
-		a = c;
-	}
-	fprintf(stdout,"Function returned this: %lf\n", newton(f, a, b, eps));
-	if(newton(f, a, b, eps) < a || newton(f, a, b, eps) > b)
-		fprintf(stdout, "There is no roots in [a,b] segment.\n");
-	else
-		fprintf(stdout, "Root is %lf\n", newton(f, a, b, eps));*/
 
 	//Записываем массив тестовых функций
 	for(i = 0; i < 5; i++)
