@@ -30,7 +30,7 @@ int main(void) {
 	printf("Start of the segment - a = -1 \n");
 	printf("End of the segment - b = 3 \n");
 	
-	printf("Numerical precision (< 10^(-8)) - eps = ");
+	printf("Numerical precision (> 10^(-9)) - eps = ");
 	if (!scanf("%lf", &eps)){
 		printf("ERROR::incorrect data entered\n");
 		return -1;
@@ -48,9 +48,6 @@ int main(void) {
         {"6. f = e^x", e_power_x},
     };
     
-    for (int test_num = 0; test_num < 6; test_num++) {
-		printf("%s\n", tests[test_num].name);
-	}
         	
     true_res[0] = 0;
     true_res[1] = 4;
