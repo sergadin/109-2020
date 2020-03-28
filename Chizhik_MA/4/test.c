@@ -14,7 +14,7 @@ int main(void) {
 			     };
 	dFUNC fn[] = {exp, sin, cos, log};
 	taylorFUNC approximations[] = {taylor_exp, taylor_sin, taylor_cos, taylor_log};
-	double x[] = {-1.3, -0.7, 0, 1, 14, 25.1};
+	double x[] = {-0.7, 0, 0.56, 1, 1.3, 4.5, 25.1};
 	
 	double result, expected;
 	int i, j, points_len, funcs_len, n;
@@ -34,7 +34,6 @@ int main(void) {
 			fprintf(stdout, "Test %d.%d\n", j + 1, i + 1);
 			result = (approximations[j])(x[i], EPS, &n, &s);
 			expected = (fn[j])(x[i]);
-			fprintf(stdout, "The degree of the last addendum: %d\n", n);
 			if (s != OK) {
 				fprintf(stdout, "It's hard to compute:\n");
 				fprintf(stdout, "%s\n", statusText[s]);
@@ -42,6 +41,7 @@ int main(void) {
 					fprintf(stdout, "The expected result was %lf and we've got %lf\n", expected, result);
 				}
 			} else {
+				fprintf(stdout, "The degree of the last addendum: %d\n", n);
 				fprintf(stdout, "Computed: %lf\n", result);
 				fprintf(stdout, "Expected: %lf\n", expected);
 				if (compareDoubles(result, expected, EPS) == 0) {

@@ -77,7 +77,7 @@ double taylor_log(double x, double precision, int *n, Status *s) {
         comp_value = real_x;
         taylor_addendum = -real_x * real_x / 2;
 
-        while (compareDoubles(taylor_addendum, 0, precision) != 0) {
+        while (compareDoubles(taylor_addendum, 0, precision / 2) != 0) {
 		comp_value += taylor_addendum;
                 if (*n > 50) {
                         *s = TOO_LONG;  
@@ -85,7 +85,9 @@ double taylor_log(double x, double precision, int *n, Status *s) {
                 }
 
                 *n += 1;
-                taylor_addendum *= -real_x * (*n) / (*n + 1);
+
+		taylor_addendum /= *n + 1;
+		taylor_addendum *= -real_x * (*n);
         }
 
         return comp_value;
