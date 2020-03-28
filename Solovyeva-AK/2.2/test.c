@@ -25,27 +25,13 @@ static double cos_x (double x) {
 }
 
 int main(void) {
-	double a, b, n, user_res[5], res;
+	double a = -1, b = 3, n, eps, true_res[6], res;
 	
-	printf("Start of the segment - a = ");
-	if (!scanf("%lf", &a)) {
-		printf("ERROR::incorrect data entered\n");
-		return -1;
-	}
+	printf("Start of the segment - a = -1 \n");
+	printf("End of the segment - b = 3 \n");
 	
-	printf("End of the segment - b = ");
-	if (!scanf("%lf", &b)) {
-		printf("ERROR::incorrect data entered\n");
-		return -1;
-	}
-	
-	if (a > b) {
-		printf("ERROR::segment parameters incorrected\n");
-		return -1;
-	}
-	
-	printf("Number of divisions - n = ");
-	if (!scanf("%lf", &n)){
+	printf("Numerical precision (< 10^(-8)) - eps = ");
+	if (!scanf("%lf", &eps)){
 		printf("ERROR::incorrect data entered\n");
 		return -1;
 	}
@@ -65,20 +51,19 @@ int main(void) {
     for (int test_num = 0; test_num < 6; test_num++) {
 		printf("%s\n", tests[test_num].name);
 	}
-			
-	printf("Your supposedly correct answer: \n");
         	
-    for (int i = 0; i < 6; i++) {
-        if(!scanf("%lf", &user_res[i])) {
-			printf("ERROR::incorrect data entered\n");
-			return -1;
-		}
-    }
+    true_res[0] = 0;
+    true_res[1] = 4;
+    true_res[2] = 9.33333333;
+    true_res[3] = 1.53002948;
+    true_res[4] = 0.98259099;
+    true_res[5] = 19.71765748;
     
     for(int test_num = 0; test_num < 6; test_num++) {
-		res = integral(tests[test_num].f, a, b, n);
-        printf("With test functions %s true answer is integral = %.6lf \n    Your answer is ", tests[test_num].name, res);
-        if (compare(user_res[test_num], res)) {
+		res = integral(tests[test_num].f, a, b, eps);
+        printf("With test functions %s integral = %.8lf \n    True answer is %.8lf \n    And it's ", 
+        tests[test_num].name, res, true_res[test_num]);
+        if (compare(true_res[test_num], res, eps)) {
 			printf("correct! \n"); 
 		} else {
 			printf("incorrect :c \n");
