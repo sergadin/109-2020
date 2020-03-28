@@ -1,7 +1,8 @@
 typedef double (*dFUNC)(double x);
 typedef enum {
 	OK,
-	TOO_LONG
+	TOO_LONG,
+	BAD_VALUE
 } Status;
 typedef double (*taylorFUNC)(double x, double precision, int *n, Status *s);
 
