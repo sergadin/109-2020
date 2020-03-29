@@ -3,7 +3,8 @@ typedef double (*diFUNC)(double x, int n);
 typedef enum {
 	OK,
 	TOO_LONG,
-	BAD_VALUE
+	BAD_VALUE,
+	TOO_BIG
 } Status;
 typedef double (*taylorFUNC)(double x, double precision, int *n, Status *s);
 
@@ -20,3 +21,8 @@ double id(double x);
 double sin_square(double x, int n);
 
 double cos_square(double x, int n);
+
+double effective_taylor_exp(double x, double precision, int *n, Status *s);
+double effective_taylor_sin(double x, double precision, int *n, Status *s);
+double effective_taylor_cos(double x, double precision, int *n, Status *s);
+double effective_taylor_log(double x, double precision, int *n, Status *s);

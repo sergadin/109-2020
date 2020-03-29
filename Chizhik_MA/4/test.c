@@ -4,17 +4,18 @@
 #include "umath.h"
 #include "taylor.h"
 
-#define EPS 1e-4
+#define EPS 1e-3
 
 int main(void) {
 	char *statusText[] = {
 				"OK", 
 				"The computation takes too long...",
-				"The given value is inappropriate"
+				"The given value is inappropriate",
+				"The abscissa is too big to get precise answer"
 			     };
 	dFUNC fn[] = {exp, sin, cos, log};
-	taylorFUNC approximations[] = {taylor_exp, taylor_sin, taylor_cos, taylor_log};
-	double x[] = {-0.7, 0, 0.56, 1, 1.3, 4.5, 25.1};
+	taylorFUNC approximations[] = {effective_taylor_exp, effective_taylor_sin, effective_taylor_cos, effective_taylor_log};
+	double x[] = {-0.7, 0, 0.56, 1, 1.5, M_E, 3, M_PI, 4.5, 25.1};
 	
 	double result, expected;
 	int i, j, points_len, funcs_len, n;
@@ -39,12 +40,11 @@ int main(void) {
 				fprintf(stdout, "%s\n", statusText[s]);
 				if (s != BAD_VALUE) {
 					fprintf(stdout, "The expected result was %lf and we've got %lf\n", expected, result);
-					fprintf(stdout, "And that's normal: our function uses Taylor series expansion at x = 0, but your x = %lf is definitely far from this point\n", x[i]);
 				}
 			} else {
 				fprintf(stdout, "The degree of the last addendum: %d\n", n);
-				fprintf(stdout, "Computed: %lf\n", result);
-				fprintf(stdout, "Expected: %lf\n", expected);
+				fprintf(stdout, "Computed: %.3f\n", result);
+				fprintf(stdout, "Expected: %.3f\n", expected);
 				if (compareDoubles(result, expected, EPS) == 0) {
 					fprintf(stdout, "The difference is inconsiderable\n");
 				} else {

@@ -13,7 +13,7 @@ double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC sta
 	comp_value = start_value(x);
 	taylor_addendum = start_value(x) * recurrence(x, *n);
 
-	while (compareDoubles(taylor_addendum, 0, precision) != 0) {
+	while (compareDoubles(taylor_addendum, 0, precision / 4) != 0) {
 		comp_value += taylor_addendum;
 		if (*n > 1e2) {
 			*s = TOO_LONG;
@@ -26,7 +26,6 @@ double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC sta
 
 	return comp_value;
 }
-
 
 double one(double x) {
 	return 1 + 0 * x;
@@ -77,7 +76,7 @@ double taylor_log(double x, double precision, int *n, Status *s) {
         comp_value = real_x;
         taylor_addendum = -real_x * real_x / 2;
 
-        while (compareDoubles(taylor_addendum, 0, precision / 2) != 0) {
+        while (compareDoubles(taylor_addendum, 0, precision / 4) != 0) {
 		comp_value += taylor_addendum;
                 if (*n > 50) {
                         *s = TOO_LONG;  
@@ -86,9 +85,75 @@ double taylor_log(double x, double precision, int *n, Status *s) {
 
                 *n += 1;
 
-		taylor_addendum /= *n + 1;
-		taylor_addendum *= -real_x * (*n);
+		taylor_addendum *= (-real_x) * (*n) / ((*n) + 1);
         }
 
         return comp_value;
+}
+
+//Using this you can compute values of functions far from zero
+
+double effective_taylor_exp(double x, double precision, int *n, Status *s) {
+	int floor;
+	double sum, decimal_part;
+	
+	floor = (int)x;
+	decimal_part = x - floor;
+
+	sum = pow(M_E, floor);
+	
+	if (floor > 1e2) {
+		*s = TOO_BIG;
+		return sum;
+	}
+
+	sum *= taylor_exp(decimal_part, precision, n, s);
+	return sum;
+}
+
+double effective_taylor_sin(double x, double precision, int *n, Status *s) {
+	double new_x = x;
+	int sign = 1;
+	if (new_x < 0) {
+		sign *= -1;
+		new_x *= -1;
+	}
+
+	while (new_x > M_PI) {
+		new_x -= 2 * M_PI;
+	}
+
+	return sign * taylor_sin(new_x, precision, n, s);
+}
+
+double effective_taylor_cos(double x, double precision, int *n, Status *s) {
+	double new_x = x;
+	if (new_x < 0) {
+		new_x *= -1;
+	}
+
+	while (new_x > M_PI) {
+		new_x -= 2 * M_PI;
+	}
+
+	return taylor_cos(new_x, precision, n, s);
+}
+
+double effective_taylor_log(double x, double precision, int *n, Status *s) {
+	const double sqrt_e = 1.648721271;
+	double new_x = x;
+	int pow = 0;
+	*s = OK;
+
+	if (compareDoubles(new_x, 0, precision) != 1) {
+		*s = BAD_VALUE;
+		return 0;
+	}
+
+	while (new_x > 1.65) {
+		new_x /= sqrt_e;
+		pow++;
+	}
+
+	return ((double)pow / 2) + taylor_log(new_x, precision, n, s);
 }
