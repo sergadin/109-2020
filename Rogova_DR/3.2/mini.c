@@ -9,14 +9,14 @@ double vparab(double a, double b, double c, RRF func);
 
 double mini(double a1, double c1, double eps, RRF func)
 {
-	double k = 0.382;
+	double k = (sqrt(5) - 1)/2;
 	double a = a1;
         double c = c1;
 	double x = (a + c)/2, w = x, v = x;
 	double fx = (*func)(x), fw = fx, fv= fx;
 	double d = c - a, e = d;
 	double g, u, fu;
-	while(d > eps)
+	while(e > eps)
 	{
 		g = e;
 		e = d;
