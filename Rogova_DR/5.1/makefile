@@ -4,10 +4,10 @@ CFLAGS=-g
 all: do-test clean
 
 test5.o: test5.cpp interpol.h
-#	gcc -c test5.cpp
+#	g++ -c test5.cpp
 
 a.out: test5.o interpol.h
-	gcc test5.o interpol.h
+	g++ test5.o interpol.h
 
 do-test: a.out
 	./a.out

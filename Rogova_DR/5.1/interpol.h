@@ -1,4 +1,4 @@
-#include<iostream>
+#include"iostream"
 using namespace std;
 
 class CppInter
@@ -29,11 +29,6 @@ class CppInter
 		{
 			double y0 = -1;
 			double p = 1;
-			for(int i = 0; i < n; i++)
-			{
-				if(x0 == x[i])
-					return y[i];
-			}
 			for(int i = 0; i < n; i ++)
 			{
 				y0 += p;
