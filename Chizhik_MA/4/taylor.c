@@ -91,7 +91,7 @@ double taylor_log(double x, double precision, int *n, Status *s) {
         return comp_value;
 }
 
-//Using this you can compute values of functions far from zero
+//Using these functions you can compute values far from zero with quite a high accuracy
 
 double effective_taylor_exp(double x, double precision, int *n, Status *s) {
 	int floor;
