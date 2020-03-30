@@ -3,7 +3,7 @@ all: do-test clear
 do-test: a.out
 	./a.out
 
-a.out: file.o root.o
+a.out: file.o trap_sum.o
 	gcc -c trap_sum.c
 	gcc -c trap_sum.c
 	gcc trap_sum.o file.o
