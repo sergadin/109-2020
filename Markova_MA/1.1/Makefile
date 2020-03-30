@@ -1,20 +1,5 @@
-CC=gcc
-CFLAGS=-g
+typedef double(*RRFUN)(double x);
 
-all: do-test clean
-
-sum.o: sum.c sum.h
-	gcc -c sum.c -o sum.o
-
-test_sum.o: test_sum.c sum.h
-	gcc -c test_sum.c
-
-a.out: test_sum.o sum.o
-	gcc test_sum.o sum.o
-
-do-test: a.out
-	./a.out
-
-clean: test_sum.o sum.o
-	rm test_sum.o sum.o a.out leak.out
-	
+double root(RRFUN f, double a, double b, double eps);
+double abcf(RRFUN f, double x);
+double f1 (double x);
