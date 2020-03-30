@@ -62,7 +62,7 @@ double F1(double x)
 double F2(double x);
 double F2(double x)
 {
-	return 1/256 * x*x*x*x + 4;
+	return 1/256 * x*x*x*x - 4;
 }
 
 double F3(double x);
