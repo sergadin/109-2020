@@ -1,9 +1,12 @@
 #include <iostream>
+#include <string>
 #include <cmath>
 #include <cstdlib>
 
 #include "interpolation.h"
 #include "umath.h"
+
+using namespace std;
 
 Point::Point(double x, double y) {
 	this -> x = x;
@@ -25,16 +28,15 @@ int Point::compare(const void *a, const void *b) {
 	return compareDoubles(A -> x, B -> x, EPS);
 }
 
-Interpolation::Interpolation(Point *pts, int n, double precision, Status *s) {
+Interpolation::Interpolation(Point *pts, int n, double precision) {
 	int i, j;
 
 	this -> points = (Point *)malloc(n * sizeof(Point));
 	this -> precision = precision;
 	this -> n = n;
-	*s = OK;
 
 	if (n < 2) {
-                *s = NOT_ENOUGH_DATA;
+                throw UserException(3, "The amount of points is not enough to compute anything");
         } else {
 		start = pts[0].getX();
         	end = pts[0].getX();
@@ -50,20 +52,18 @@ Interpolation::Interpolation(Point *pts, int n, double precision, Status *s) {
 
         	for (j = 0; j < n - 1; j++) {
                 	if (compareDoubles((this -> points)[j].getX(), (this -> points)[j + 1].getX(), EPS) == 0) {
-                        	*s = NOT_A_FUNCTION;
+                        	throw new UserException(1, "Two points have equal abscissae");
                 	}
         	}
 	}
 }
 
-double Interpolation::Lagrange(double x, Status *s) {
+double Interpolation::Lagrange(double x) {
 	int i, j;
 	double value = 0, product;
-	*s = OK;
 
 	if ((x > this -> end) || (x < this -> start)) {
-		*s = OUTSIDE_THE_SEGMENT;
-		return 0;
+		throw UserException(2, "This abscissa doesn't have an interpolated value");
 	}
 
 	for (i = 0; i < this -> n; i++) {
@@ -82,4 +82,14 @@ double Interpolation::Lagrange(double x, Status *s) {
 
 Interpolation::~Interpolation() {
 	free(this -> points);
+}
+
+UserException::UserException(int code, string message) : code_(code), message_(message) {}
+
+string UserException::message() const {
+	return this -> message_;
+}
+
+int UserException::code() const {
+	return this -> code_;
 }

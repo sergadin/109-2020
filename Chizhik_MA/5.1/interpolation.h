@@ -1,12 +1,10 @@
-typedef double (*dFUNC)(double x);
-typedef enum {
-	OK,
-	NOT_A_FUNCTION,
-	OUTSIDE_THE_SEGMENT,
-	NOT_ENOUGH_DATA
-} Status;
+#include <string>
 
 #define EPS 1e-7
+
+using namespace std;
+
+typedef double (*dFUNC)(double x);
 
 class Point {
 	private:
@@ -26,8 +24,18 @@ class Interpolation {
 		double start, end, precision;
 		int n;
 	public:
-		Interpolation(Point *pts, int n, double precision, Status *s);
+		Interpolation(Point *pts, int n, double precision);
 		~Interpolation();
 
-		double Lagrange(double x, Status *s);
+		double Lagrange(double x);
+};
+
+class UserException {
+	private:
+		int code_;
+		string message_;
+	public:
+		UserException(int code, string message);
+		string message() const;
+		int code() const;
 };
