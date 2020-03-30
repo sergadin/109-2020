@@ -5,10 +5,10 @@ double trap_sum(double (*f) (double), double a, double b, int N)
 {
 	double S = 0, x1, x2;
 	x1 = a;
-	for (int i = 1; i <= (N + 1); i++)
+	for (int i = 1; i <= N; i++)
 	{
-		x2 = (a * ((double)(N - i) / (double)N) + b * ((double)i / (double)N));
-		S += 0.5 * (f(x2) + f(x1)) / (double)N;
+		x2 = (a * (N - i) / N + b * i / N));
+		S += 0.5 * (f(x2) + f(x1)) / N;
 		x1 = x2;
 	}
 	if (a > b)
