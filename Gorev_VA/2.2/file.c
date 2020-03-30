@@ -31,7 +31,7 @@ double SQR(double x)
 double F1(double x);
 double F1(double x)
 {
-	return x*x*x*x*x*x - x*x*x*x - 2x + 1;
+	return x*x*x*x*x*x - x*x*x*x - 2 * x + 1;
 }
 
 int main(void)
