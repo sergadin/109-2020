@@ -20,11 +20,11 @@ double f4 (double x)
 int main(void)
 {
 	double a = -4, b = 2, eps = 0,0001;
-	if(f1(a)f1(b) >= 0 || f2(a)f2(b) >= 0 || f3(a)f3(b) >= 0 || f4(a)f4(b) >= 0)
+	if(f1(a)*f1(b) >= 0 || f2(a)*f2(b) >= 0 || f3(a)*f3(b) >= 0 || f4(a)*f4(b) >= 0)
 	{
 		printf("FAULT");
 	}
-	if(f(a) > 0)
+	if(f1(a) > 0)
 	{
 		double temp;
 		temp = a;
@@ -32,8 +32,29 @@ int main(void)
 		b = temp;
 	}
 	root(f1, a, b, eps);
+	if(f2(a) > 0)
+	{
+		double temp;
+		temp = a;
+		a = b;
+		b = temp;
+	}
 	root(f2, a, b, eps);
+	if(f3(a) > 0)
+	{
+		double temp;
+		temp = a;
+		a = b;
+		b = temp;
+	}
 	root(f3, a, b, eps);
+	if(f4(a) > 0)
+	{
+		double temp;
+		temp = a;
+		a = b;
+		b = temp;
+	}
 	root(f4, a, b, eps);
 	return 0;
 }
