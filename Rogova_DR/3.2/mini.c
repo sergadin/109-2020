@@ -9,78 +9,39 @@ double vparab(double a, double b, double c, RRF func);
 
 double mini(double a1, double c1, double eps, RRF func)
 {
-	double k = (sqrt(5) - 1)/2;
+	double minn, t, k = (sqrt(5) + 1)/2, resk = 2 - k;
 	double a = a1;
-        double c = c1;
-	double x = (a + c)/2, w = x, v = x;
-	double fx = (*func)(x), fw = fx, fv= fx;
-	double d = c - a, e = d;
-	double g, u, fu;
-	while(e > eps)
+        double b = c1;
+	double f1, f2;
+	double x1 = a + resk*(b - a) , x2 = b - resk*(b - a);
+	f1 = (*func)(x1);
+	f2 = (*func)(x2);
+	do
 	{
-		g = e;
-		e = d;
-		if((x != w) && (w != u) && (u != x) && (fx != fw) && (fv != fw) && (fv != fx))
-			u = vparab(x, w, u, func);
-		if((u <= c - eps) && (u >= a + eps) && (mod(u - x) < g/2))
+		if(f1 < f2)
 		{
-			d = mod(u - x);
-		}	
-		else 
-		{
-			if(x < (c - a)/2)
-			{
-				u = x + k*(c - x);
-				d = c - x;
-			}
-			else
-			{
-				u = x - k*(x - a);
-				d = x - a;
-			}
-		}
-		if(mod(u - x) < eps)
-			u = x + sign(u - x)*eps;
-		fu = (*func)(u);
-		if(fu <= fx)
-		{
-			if(u >= x)
-				a = x;
-			else
-				c = x;
-			v = u;
-			w = x;
-			x = u;
-			fv = fw;
-			fw = fx;
-			fx = fu;
+			b = x2;
+			x2 = x1;
+			f2 = f1;
+			x1 = a + resk*(b - a);
+			f1 = (*func)(x1);
+			minn = x1;
 		}
 		else
 		{
-			if(u >= x)
-				c = u;
-			else
-				a = u;
-			if((fu <= fw) || (w = x))
-			{
-				v = w;
-				w = u;
-				fv = fw;
-				fw = fu;
-			}
-			else
-			{
-				if((fu <= fv) || (v == x) || (v == w))
-				{
-					v = u;
-					fv = fu;
-				}
-			}
-
+			a = x1;
+			x1 = x2;
+			f1 = f2;
+			x2 = b - resk*(b - a);
+			f2 = (*func)(x2);
+			minn = x2;
 		}
+		
+	}while (mod(b - a) > 2*eps);
+	minn = vparab(a, minn, b, func);
+	return (*func)(minn);
 
-	}
-	return fu;
+
 
 }
 
@@ -99,7 +60,10 @@ double vparab(double a, double b, double c, RRF func)
 	double ya = (*func)(a);
 	double yb = (*func)(b);
 	double yc = (*func)(c);
-	v = b - ((b - a)*(b - a)*(yb - yc) - (b - c)*(b - c)*(yb - ya))*0.5/((b - a)*(yb - yc) - (b - c)*(yb - ya));
+	if((yc > yb) && (yb < ya))
+		v = b - ((b - a)*(b - a)*(yb - yc) - (b - c)*(b - c)*(yb - ya))*0.5/((b - a)*(yb - yc) - (b - c)*(yb - ya));
+	else 
+		v = (a + b)/2;
 	return v;
 
 
