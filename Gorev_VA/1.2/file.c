@@ -30,7 +30,8 @@ double F4(double x)
 double Arctg(double x);
 double Arctg(double x)
 {
-	return atan(x);
+	double y = atan(x);
+	return y;
 }
 
 int main(void)
@@ -68,12 +69,14 @@ int main(void)
 	else
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
 	
-	R = root(sin, -5, 5, Error);
+	/*R = root(sin, -5, 5, Error);
 	printf("f(x) = arctg(x) at [-5, 5]\n");
 	if (*Error)
 		printf(" Error\n");
 	else
-		printf(" calculated root: %lf\n actual root:     %f\n", R, 0.0);
+		printf(" calculated root: %lf\n actual root:     %f\n", R, 0.0);*/
+		
+	printf("%f\n", atan(3.3));
 	
 	return 0;
 }
