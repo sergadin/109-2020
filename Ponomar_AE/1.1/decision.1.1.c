@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "decision.h"
+#include "decision.1.1.h"
 
 double dcsn_f_x(double X_1, double X_2, double E, RRF func)
 {
@@ -23,7 +23,6 @@ double dcsn_f_x(double X_1, double X_2, double E, RRF func)
                         right = mid;
                         f_right = f_mid;
                 }
-                printf("%lf %lf\n", left, right);
                 cur_length = right-left;
         }
 

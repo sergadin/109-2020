@@ -3,17 +3,17 @@ CFLAGS=-g
 
 all: do-test clean
 
-inte.o: decision.c decision.h
-#	gcc -c decision.c
+decision.1.1.o: decision.1.1.c decision.1.1.h
+#	gcc -c decision.1.1.c
 
-test.o: test_file_1.1.o decision.h
-#	gcc -c decision.c
+test.o: test.o decision.1.1.h
+#	gcc -c decision.1.1.c
 
-a.out: test_file_1.1.o decision.o
-	gcc test_file_1.1.o decision.o
+a.out: test.o decision.1.1.o
+	gcc test.o decision.1.1.o
 
 do-test: a.out
 	./a.out
 
-clean: test_file_1.1.o decision.o
-	rm test_file_1.1.o decision.o
+clean: test.o decision.1.1.o
+	rm test.o decision.1.1.o
