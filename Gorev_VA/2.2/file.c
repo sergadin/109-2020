@@ -7,7 +7,7 @@ double trap_sum(double (*f) (double), double a, double b, int N)
 	x1 = a;
 	for (int i = 1; i <= (N + 1); i++)
 	{
-		x2 = (a * ((double)i / (double)N) + b * ((double)(N - i) / (double)N));
+		x2 = (a * ((double)(N - i) / (double)N) + b * ((double)i / (double)N));
 		S += 0.5 * (f(x2) + f(x1)) / (double)N;
 		x1 = x2;
 	}
