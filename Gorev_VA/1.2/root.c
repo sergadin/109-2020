@@ -31,13 +31,19 @@ double root(double (*f)(double), double a, double b, int* Error)
 				return c;
 			}
 			if (((b - a) < eps) || ((c - a) < eps))
-				return c;
+				{
+					*Error = 0;
+					return c;
+				}
 			else
 				a = c;
 		}
 		else
 			if (((b - a) < eps) || ((b - c) < eps))
-				return c;
+				{
+					*Error = 0;
+					return c;
+				}
 			else
 				b = c;
 	}
