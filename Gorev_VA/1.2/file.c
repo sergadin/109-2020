@@ -5,7 +5,7 @@
 double derivative(double (*f)(double), double x);
 double derivative(double (*f)(double), double x)
 {
-	return ((*f)(x + eps / 100) - (*f)(x)) / (eps / 100);
+	return ((*f)(x + eps/2) - (*f)(x)) / (eps/2);
 }
 
 double root(double (*f)(double), double a, double b);
@@ -23,13 +23,14 @@ double root(double (*f)(double), double a, double b)
 		return c;
 	while (1)
 	{
+		printf("%f\n", derivative(f, b));
 		c = b - (*f)(b) / derivative(f, b);
 		printf("b %f\n", c);
 		if ((c > b) || (c < a))
 		{
 			c = a - (*f)(a) / derivative(f, a);
 			printf("a %f\n", c);
-			if (((b - a) < (eps / 2)) || ((c - a) < (eps / 2)))
+			if (((b - a) < (eps)) || ((c - a) < (eps)))
 				break;
 			else
 				a = c;
@@ -58,19 +59,19 @@ double func(double (*f)(double))
 double F1(double x);
 double F1(double x)
 {
-	return x*x - 1;
+	return x*x - 1.0;
 }
 
 double F2(double x);
 double F2(double x)
 {
-	return 1/256 * x*x*x*x - 4;
+	return 1.0/256.0 * x*x*x*x - 4.0;
 }
 
 double F3(double x);
 double F3(double x)
 {
-	return 1/(x*x) - 2;
+	return 1.0/(x*x) - 2.0;
 }
 
 int main(void)
