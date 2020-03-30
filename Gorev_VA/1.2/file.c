@@ -29,12 +29,14 @@ double root(double (*f)(double), double a, double b)
 			c = a - (*f)(a) / derivative(f, a);
 			if (((b - a) < (eps / 2)) || ((c - a) < (eps / 2)))
 				break;
+			else
+				a = c;
 		}
 		else
 			if (((b - a) < (eps / 2)) || ((b - c) < (eps / 2)))
 				break;
-		else
-			b = c;
+			else
+				b = c;
 	}
 	return c;
 }
