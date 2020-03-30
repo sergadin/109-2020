@@ -27,11 +27,11 @@ double F4(double x)
 	return x*x*x*x - x*x;
 }
 
-/*double Arctg(double x);
+double Arctg(double x);
 double Arctg(double x)
 {
-	return (double)atan(x);
-}*/
+	return atan(x);
+}
 
 int main(void)
 {
