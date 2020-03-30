@@ -37,7 +37,7 @@ int main(void)
 	printf("f(x) = x^2 - 1 at [0, 2]\n");
 	if (Error)
 		printf(" Error\n");
-	else
+	//else
 		printf(" calculated root: %f\n actual root:     %f\n", R , 1.0);
 	
 	*Error = 0;
@@ -45,7 +45,7 @@ int main(void)
 	printf("f(x) = 1/256 x^4 - 4 at [-2, -6]\n");
 	if (Error)
 		printf(" Error\n");
-	else
+	//else
 		printf(" calculated root: %f\n actual root:     %f\n", R, -5.6568542495);
 	
 	*Error = 0;
@@ -53,7 +53,7 @@ int main(void)
 	printf("f(x) = 1/x^3 - 2 at [0.5, 2]\n");
 	if (Error)
 		printf(" Error\n");
-	else
+	//else
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.7937005293);
 	
 	*Error = 0;
@@ -61,7 +61,7 @@ int main(void)
 	printf("f(x) = x^4 - x^2 at [-1, 1]\n");
 	if (Error)
 		printf(" Error\n");
-	else
+	//else
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
 	
 	return 0;
