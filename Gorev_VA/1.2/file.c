@@ -41,7 +41,7 @@ double F4(double x)
 int main(void)
 {
 	int* Error;
-	int R;
+	double R;
 	Error = (int*)malloc(1 * sizeof(int));
 	
 	*Error = 0;
