@@ -5,27 +5,32 @@
 double derivative(double (*f)(double), double x);
 double derivative(double (*f)(double), double x)
 {
-	return (f(x + eps / 100) - f(x)) / (eps / 100);
+	return ((*f)(x + eps / 100) - (*f)(x)) / (eps / 100);
 }
 
-/*double root(double (*f)(double), double a, double b);
+double root(double (*f)(double), double a, double b);
 double root(double (*f)(double), double a, double b)
 {
-	double der = 0;
 	double c;
 	if (a > b)
 	{
-		der = a;
+		c = a;
 		a = b;
-		b = der;
+		b = c;
 	}
 	c = a;
-	while (((b - a) >= eps) || (b - c) >= eps)
+	if ((b - a) < eps)
+		return c;
+	while (1)
 	{
-		der = derivative(f, b);
-		c = b - f(
+		c = b - (*f)(b) / derivative(f, b);
+		if (((b - a) >= eps) || (b - c) >= eps)
+			break;
+		else
+			b = c;
 	}
-}*/
+	return c;
+}
 
 double one(double x);
 double one(double x)
@@ -42,13 +47,13 @@ double func(double (*f)(double))
 double SQR(double x);
 double SQR(double x)
 {
-	return x*x;
+	return x*x - 1;
 }
 
 
 
 int main(void)
 {
-	printf("%f\n", derivative(SQR, 2));
+	printf("%f\n", root(SQR, 0, 2));
 	return 0;
 }
