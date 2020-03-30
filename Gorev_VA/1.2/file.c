@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "root.h"
 
 double F1(double x);
@@ -40,7 +41,6 @@ int main(void)
 	else
 		printf(" calculated root: %f\n actual root:     %f\n", R , 1.0);
 	
-	*Error = 0;
 	R = root(F2, -2.0, -6.0, Error);
 	printf("f(x) = 1/256 x^4 - 4 at [-2, -6]\n");
 	if (*Error)
@@ -48,7 +48,6 @@ int main(void)
 	else
 		printf(" calculated root: %f\n actual root:     %f\n", R, -5.6568542495);
 	
-	*Error = 0;
 	R = root(F3, 0.5, 2.0, Error);
 	printf("f(x) = 1/x^3 - 2 at [0.5, 2]\n");
 	if (*Error)
@@ -56,9 +55,15 @@ int main(void)
 	else
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.7937005293);
 	
-	*Error = 0;
 	R = root(F4, -0.75, 0.75, Error);
 	printf("f(x) = x^4 - x^2 at [-0.75, 0.75]\n");
+	if (*Error)
+		printf(" Error\n");
+	else
+		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
+	
+	R = root(atan, -0.75, 0.75, Error);
+	printf("f(x) = atan(x) at [-5, 5]\n");
 	if (*Error)
 		printf(" Error\n");
 	else
