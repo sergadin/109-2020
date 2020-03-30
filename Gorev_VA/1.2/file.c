@@ -27,6 +27,12 @@ double F4(double x)
 	return x*x*x*x - x*x;
 }
 
+double Arctg(double x);
+double Arctg(double x)
+{
+	return atan(x);
+}
+
 int main(void)
 {
 	int* Error;
@@ -62,8 +68,8 @@ int main(void)
 	else
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
 	
-	R = root(atan, -0.75, 0.75, Error);
-	printf("f(x) = atan(x) at [-5, 5]\n");
+	R = root(Arctg, -0.75, 0.75, Error);
+	printf("f(x) = arctg(x) at [-5, 5]\n");
 	if (*Error)
 		printf(" Error\n");
 	else
