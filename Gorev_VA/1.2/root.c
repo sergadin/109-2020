@@ -1,3 +1,4 @@
+#include <math.h>
 #include "root.h"
 #define eps 0.000001
 
