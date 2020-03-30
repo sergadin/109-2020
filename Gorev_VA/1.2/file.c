@@ -24,9 +24,11 @@ double root(double (*f)(double), double a, double b)
 	while (1)
 	{
 		c = b - (*f)(b) / derivative(f, b);
+		printf("b %f\n", c);
 		if ((c > b) || (c < a))
 		{
 			c = a - (*f)(a) / derivative(f, a);
+			printf("a %f\n", c);
 			if (((b - a) < (eps / 2)) || ((c - a) < (eps / 2)))
 				break;
 			else
@@ -73,7 +75,7 @@ double F3(double x)
 
 int main(void)
 {
-	printf("%f\n", root(F1, 0, 2));
+	//printf("%f\n", root(F1, 0, 2));
 	printf("%f\n", root(F2, -6, -2));
 	//printf("%f\n", root(F3, 1 / 2, 2));
 	return 0;
