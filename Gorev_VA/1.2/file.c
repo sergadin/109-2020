@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "trap_sum.h"
+#include "root.h"
 
 double X(double x);
 double X(double x)
