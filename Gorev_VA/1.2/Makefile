@@ -1,4 +1,3 @@
-all: file.c
-	gcc file.c
-	./a.out
-	rm a.out
+all: file.c root.c root.h
+	gcc -c file.c
+	gcc -c root.c
