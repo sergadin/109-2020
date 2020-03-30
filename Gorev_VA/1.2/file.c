@@ -28,6 +28,7 @@ double root(double (*f)(double), double a, double b)
 		{
 			c = a - (*f)(a) / derivative(f, a);
 			if (((b - a) < (eps / 2)) || ((c - a) < (eps / 2)))
+				break;
 		}
 		else
 			if (((b - a) < (eps / 2)) || ((b - c) < (eps / 2)))
