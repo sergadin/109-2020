@@ -21,9 +21,11 @@ double root(double (*f)(double), double a, double b)
 	c = a;
 	if ((b - a) < eps)
 		return c;
+	printf("%f\n", c);
 	while (1)
 	{
 		c = b - (*f)(b) / derivative(f, b);
+		printf("%f\n", c);
 		if (((b - a) >= eps) || (b - c) >= eps)
 			break;
 		else
