@@ -1,4 +1,12 @@
-all:
-	gcc file.c
+all: do-test clear
+
+do-test: a.out
 	./a.out
-	rm a.out
+
+a.out: file.o root.o
+	gcc -c trap_sum.c
+	gcc -c trap_sum.c
+	gcc trap_sum.o file.o
+
+clear:
+	rm trap_sum.o file.o a.out

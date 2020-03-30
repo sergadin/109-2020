@@ -1,19 +1,5 @@
 #include <stdio.h>
 
-double trap_sum(double (*f) (double), double a, double b, int N);
-double trap_sum(double (*f) (double), double a, double b, int N)
-{
-	double S = 0, x1, x2;
-	x1 = a;
-	for (int i = 1; i <= N; i++)
-	{
-		x2 = a * (N - i) / N + b * i / N;
-		S += 0.5 * (f(x2) + f(x1)) * (b - a) / N;
-		x1 = x2;
-	}
-	return S;
-}
-
 double X(double x);
 double X(double x)
 {
@@ -41,7 +27,7 @@ int main(void)
 
 	printf("f(x) = x^2 at [2, -1]\n");
 	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(SQR, 2, -1, 100), trap_sum(SQR, 2, -1, 1000), trap_sum(SQR, 2, -1, 10000));
-	printf(" actual:    %f\n", 3.0);
+	printf(" actual:    %f\n", -3.0);
 
 	printf("f(x) = x^6 - x^4 - 2x + 1 at [0, 2]\n");
 	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F1, 0, 2, 100), trap_sum(F1, 0, 2, 1000), trap_sum(F1, 0, 2, 10000));
