@@ -61,7 +61,7 @@ int main(void)
 		printf(" calculated root: %f\n actual root:     %f\n", R, -5.6568542495);
 	
 	*Error = 0;
-	R = root(F3, 0.5, 2.0);
+	R = root(F3, 0.5, 2.0, Error);
 	printf("f(x) = 1/x^3 - 2 at [0.5, 2]\n");
 	if (Error)
 		printf(" Error\n");
