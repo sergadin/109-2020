@@ -33,8 +33,8 @@ double F3(double x)
 
 int main(void)
 {
-	printf("%f\n", root(F1, 0.0, 2.0));
-	printf("%f\n", root(F2, -6.0, -2.0));
-	printf("%f\n", root(F3, 0.5, 2.0));
+	printf("f(x) = x^2 - 1 at [0, 2]\n calculated root: %f\n actual root:     %f\n", root(F1, 0.0, 2.0), 1.0);
+	printf("f(x) = 1/256 x^4 - 4 at [-6, -2]\n calculated root: %f\n actual root:     %f\n", root(F2, -6.0, -2.0), -5.6568542495);
+	printf("f(x) = 1/x^3 - 2 at [0.5, 2]\n calculated root: %f\n actual root:     %f\n", root(F3, 0.5, 2.0), 0.7937005293);
 	return 0;
 }

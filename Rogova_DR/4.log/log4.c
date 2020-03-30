@@ -5,10 +5,14 @@
 
 double mod(double x);
 
-double teyl(double x, double eps)
+double teyl(double x, double eps, ErrorCode *error_code)
 {
+	*error_code = MF_OK;
 	if((x > 1) || (x <= -1))
+	{
+		*error_code = MF_ERROR;
 		return 1000000;
+	}
 	double tey = x;
 	double res = 0;
 	int k = 2;

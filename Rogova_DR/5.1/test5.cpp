@@ -3,14 +3,14 @@
 
 int main()
 {
-	double x[] = {1, 3, 4, 5, 6, 7};
-	double yline[] = {1, 3, 4, 5, 6, 7};
-	double ysqr[] = {1, 9, 16, 25, 36, 49};
-	double yzer[] = {0, 0, 0, 0, 0, 0};
+	int n = 6;
+	double * x = (double *) malloc(n);
+	double * yline = (double *) malloc(n);
+	double * ysqr = (double *) malloc(n);
+	double * yzer = (double *) malloc(n);
 	double truan[] = {2, 4, 0};	
 	double x0 = 2;
 	double y0[] = {0, 0, 0};
-	int n = 6;
 	CppInter line(n, x, yline);
 	y0[0] = line.newPoint(x0);
 
