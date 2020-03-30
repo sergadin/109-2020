@@ -30,7 +30,7 @@ double F4(double x)
 double Arctg(double x);
 double Arctg(double x)
 {
-	return (double)atan((double)x);
+	return atan(x);
 }
 
 int main(void)
