@@ -26,7 +26,7 @@ double root(double (*f)(double), double a, double b)
 	{
 		c = b - (*f)(b) / derivative(f, b);
 		printf("%f\n", c);
-		if (((b - a) >= eps) || (b - c) >= eps)
+		if (((b - a) < eps) || (b - c) < eps)
 			break;
 		else
 			b = c;
