@@ -73,7 +73,7 @@ int main(void)
 	if (*Error)
 		printf(" Error\n");
 	else
-		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
+		printf(" calculated root: %lf\n actual root:     %f\n", R, 0.0);
 	
 	return 0;
 }
