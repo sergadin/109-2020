@@ -37,25 +37,25 @@ Interpolation::Interpolation(Point *pts, int n, double precision) {
 
 	if (n < 2) {
                 throw UserException(3, "The amount of points is not enough to compute anything");
-        } else {
-		start = pts[0].getX();
-        	end = pts[0].getX();
+        }
+		
+	start = pts[0].getX();
+        end = pts[0].getX();
 
-        	for (i = 0; i < n; i++) {
-                	(this -> points)[i] = pts[i];
+       	for (i = 0; i < n; i++) {
+               	(this -> points)[i] = pts[i];
 
-                	if (pts[i].getX() < start) start = pts[i].getX();
-	                if (pts[i].getX() > end) end = pts[i].getX();
-	        }
+               	if (pts[i].getX() < start) start = pts[i].getX();
+                if (pts[i].getX() > end) end = pts[i].getX();
+        }
 
-        	qsort(this -> points, n, sizeof(Point), Point::compare);
+	qsort(this -> points, n, sizeof(Point), Point::compare);
 
-        	for (j = 0; j < n - 1; j++) {
-                	if (compareDoubles((this -> points)[j].getX(), (this -> points)[j + 1].getX(), EPS) == 0) {
-                        	throw new UserException(1, "Two points have equal abscissae");
-                	}
-        	}
-	}
+        for (j = 0; j < n - 1; j++) {
+               	if (compareDoubles((this -> points)[j].getX(), (this -> points)[j + 1].getX(), EPS) == 0) {
+                       	throw new UserException(1, "Two points have equal abscissae");
+               	}
+       	}
 }
 
 double Interpolation::Lagrange(double x) {
