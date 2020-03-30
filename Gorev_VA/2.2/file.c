@@ -34,7 +34,7 @@ int main(void)
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
-		printf(" calc int:  %f\n", i);
+		printf(" calc int:  %f\n", I);
 	printf(" actual:    %f\n", 0.5);
 
 	printf("f(x) = x^2 at [2, -1]\n");
@@ -43,7 +43,7 @@ int main(void)
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
-		printf(" calc int:  %f\n", i);
+		printf(" calc int:  %f\n", I);
 	printf(" actual:    %f\n", -3.0);
 
 	printf("f(x) = x^6 - x^4 - 2x + 1 at [0, 2]\n");
@@ -52,7 +52,7 @@ int main(void)
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
-		printf(" calc int:  %f\n", i);
+		printf(" calc int:  %f\n", I);
 	printf(" actual:    %f\n", 9.8857142857);
 
 	return 0;
