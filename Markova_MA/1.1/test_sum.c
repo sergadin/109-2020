@@ -58,6 +58,5 @@ int main(void)
 	root(f4, a, b, eps);
 	return 0;
 }
-почему я все еще ничего не понимаю
 
 

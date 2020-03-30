@@ -12,11 +12,11 @@ double abcf(RRFUN f, double x)
 		return (*f)(x);
 	}
 }
-void root(RRFUN f, double a, double b, double eps);
+void root(RRFUN f, double a, double b, double eps)
 {
 	int check = 0;
 	double m = (a + b)/2;
-	while(abcf(f,m) < eps)
+	while(b - a < eps)
 	{
 		if((*f)(m) < 0)
 		{
@@ -31,9 +31,9 @@ void root(RRFUN f, double a, double b, double eps);
 		if (check > T)
 		{
 			printf("FAULT");
-			return NULL;
 			break;
+			return;
 		}
 	}
-	printf("\nAnswer = %e\nfunction value = %e\nIterations = %d\n", m, absf(f, m), check);	
+	printf("Answer = %e\nfunction value = %e\nIterations = %d\n", m, absf(f, m), check);	
 }
