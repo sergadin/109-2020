@@ -9,5 +9,4 @@ a.out: file.o root.o
 	gcc root.o file.o
 
 clear:
-	rm a.out
 	rm root.o file.o a.out
