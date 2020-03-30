@@ -30,7 +30,7 @@ int main(void)
 	
 	printf("f(x) = x at [0, 1]\n");
 	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(X, 0, 1, 100), trap_sum(X, 0, 1, 1000), trap_sum(X, 0, 1, 10000));
-	I = integral(X, 0, 1, Error);
+	I = integral(X, 0.0, 1.0, Error);
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
@@ -39,7 +39,7 @@ int main(void)
 
 	printf("f(x) = x^2 at [2, -1]\n");
 	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(SQR, 2, -1, 100), trap_sum(SQR, 2, -1, 1000), trap_sum(SQR, 2, -1, 10000));
-	I = integral(SQR, 0, 1, Error);
+	I = integral(SQR, 2.0, -1.0, Error);
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
@@ -48,7 +48,7 @@ int main(void)
 
 	printf("f(x) = x^6 - x^4 - 2x + 1 at [0, 2]\n");
 	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F1, 0, 2, 100), trap_sum(F1, 0, 2, 1000), trap_sum(F1, 0, 2, 10000));
-	I = integral(F1, 0, 1, Error);
+	I = integral(F1, 0, 2.0, Error);
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else

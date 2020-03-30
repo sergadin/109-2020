@@ -22,6 +22,7 @@ double integral(double (*f) (double), double a, double b, int* Error)
 	for (int i = 2; i <= 10; i++, N *= 10, I1 = I)
 	{
 		I = trap_sum(f, a, b, N);
+		printf("   %f\n", I);
 		if (((I - I1) < eps) && ((I1 - I) < eps))
 		{
 			*Error = 0;
