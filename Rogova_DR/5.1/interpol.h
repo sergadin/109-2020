@@ -4,25 +4,19 @@ using namespace std;
 class CppInter
 {
 	private:
-		int n = 6;
-		double x[6];
-		double y[6];
+		int n;
+		double * x;
+		double * y;
 	public:
-		void setPoint(int nn, double xx[6], double yy[6])
+		CppInter(int nn, double * xx, double * yy)
 		{
 			n = nn;
-			x[6] = xx[6];
-			y[6] = yy[6];
-		}
-		CppInter(int nn, double xx[6], double yy[6])
-		{
-			setPoint(nn, xx, yy);
-		}
-		void getPoint()
-		{
+			double * x = (double *) malloc(n + 1);
+			double * y = (double *) malloc(n + 1);
 			for(int i = 0; i < n; i++)
 			{
-				cout<<"x"<<x[i]<<"y"<<y[i]<<endl; 
+				x[i] = xx[i];
+				y[i] = yy[i];
 			}
 		}
 		double newPoint(double x0)
@@ -42,5 +36,10 @@ class CppInter
 			}
 			return y0;
 
+		}
+		~CppInter()
+		{
+			free(x);
+			free(y);
 		}
 };
