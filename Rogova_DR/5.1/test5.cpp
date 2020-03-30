@@ -4,12 +4,19 @@
 int main()
 {
 	int n = 6;
-	double * x = (double *) malloc(n);
-	double * yline = (double *) malloc(n);
-	double * ysqr = (double *) malloc(n);
-	double * yzer = (double *) malloc(n);
+	double * x = (double *) malloc(n + 1);
+	double * yline = (double *) malloc(n + 1);
+	double * ysqr = (double *) malloc(n + 1);
+	double * yzer = (double *) malloc(n + 1);
+	for(int i = 0; i < n; i++)
+	{
+		x[i] = i;
+		yline[i] = i;
+		ysqr[i] = i*i;
+		yzer[i] = 0;
+	}
 	double truan[] = {2, 4, 0};	
-	double x0 = 2;
+	double x0 = 0.6;
 	double y0[] = {0, 0, 0};
 	CppInter line(n, x, yline);
 	y0[0] = line.newPoint(x0);
