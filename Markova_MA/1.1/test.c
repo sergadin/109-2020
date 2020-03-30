@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "sum.h"
+#include "f.h"
 double f1 (double x)
 {
 	return x*x + 5*x - 6;

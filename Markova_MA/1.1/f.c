@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "sum.h"
+#include "f.h"
 
 double abcf(RRFUN f, double x)
 {
