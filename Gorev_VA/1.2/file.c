@@ -57,8 +57,8 @@ int main(void)
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.7937005293);
 	
 	*Error = 0;
-	R = root(F4, -1.0, 1.0, Error);
-	printf("f(x) = x^4 - x^2 at [-1, 1]\n");
+	R = root(F4, -0.75, 0.75, Error);
+	printf("f(x) = x^4 - x^2 at [-0.75, 0.75]\n");
 	if (*Error)
 		printf(" Error\n");
 	else
