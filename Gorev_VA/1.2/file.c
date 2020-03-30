@@ -68,12 +68,12 @@ int main(void)
 	else
 		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
 	
-	R = root(Arctg, -0.75, 0.75, Error);
+	R = root(Arctg, -5, 5, Error);
 	printf("f(x) = arctg(x) at [-5, 5]\n");
 	if (*Error)
 		printf(" Error\n");
 	else
-		printf(" calculated root: %f\n actual root:     %f\n", R, 0.0);
+		printf(" calculated root: %lf\n actual root:     %f\n", R, 0.0);
 	
 	return 0;
 }
