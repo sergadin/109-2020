@@ -8,7 +8,7 @@ double f1 (double x)
 
 int main(void)
 {
-	double a = -4, b = 2, eps = 0,0001, m;
+	double a = -4, b = 2, eps = 0.0001, m;
 	if(f1(a)*f1(b) >= 0)
 	{
 		printf("FAULT");
@@ -21,7 +21,7 @@ int main(void)
 		b = temp;
 	}
 	m = root(f1, a, b, eps);
-	printf("Answer = %e\nfunction value = %e\n", m, absf1(f, m));
+	printf("Answer = %e\nfunction value = %e\n", m, absf(f1, m));
 	return 0;
 }
 
