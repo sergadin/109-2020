@@ -5,7 +5,7 @@
 double derivative(double (*f)(double), double x);
 double derivative(double (*f)(double), double x)
 {
-	return (f(x + eps) - f(x)) / eps;
+	return (f(x + eps / 100) - f(x)) / (eps / 100);
 }
 
 /*double root(double (*f)(double), double a, double b);
