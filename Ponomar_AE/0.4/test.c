@@ -29,7 +29,7 @@ int main(void)
     {
         result = scalar(x, y, N, funcs_sum[i], funcs_multipl[i]);
 	printf("true: %d real: %d +- %lf\n", true_answer[i], result, E);
-        if(abs(result - true_answer[i]) > E * MAX(1, result, true_answer[i]))
+        if(fabs(result - true_answer[i]) > E * MAX(1, result, true_answer[i]))
             printf("ERROR test %d\n", i+1);
     }
     return 0;
