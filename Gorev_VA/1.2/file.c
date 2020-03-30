@@ -24,8 +24,14 @@ double root(double (*f)(double), double a, double b)
 	while (1)
 	{
 		c = b - (*f)(b) / derivative(f, b);
-		if (((b - a) < (eps / 2)) || (b - c) < (eps / 2))
-			break;
+		if ((c > b) || (c < a))
+		{
+			c = a - (*f)(a) / derivative(f, a);
+			if (((b - a) < (eps / 2)) || ((c - a) < (eps / 2)))
+		}
+		else
+			if (((b - a) < (eps / 2)) || ((b - c) < (eps / 2)))
+				break;
 		else
 			b = c;
 	}
