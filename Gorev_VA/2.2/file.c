@@ -8,11 +8,9 @@ double trap_sum(double (*f) (double), double a, double b, int N)
 	for (int i = 1; i <= N; i++)
 	{
 		x2 = a * (N - i) / N + b * i / N;
-		S += 0.5 * (f(x2) + f(x1)) / N;
+		S += 0.5 * (f(x2) + f(x1)) * (b - a) / N;
 		x1 = x2;
 	}
-	if (a > b)
-		S = -S;
 	return S;
 }
 
