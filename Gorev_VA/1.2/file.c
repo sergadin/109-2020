@@ -2,18 +2,6 @@
 #include <stdlib.h>
 #include "root.h"
 
-double one(double x);
-double one(double x)
-{
-	return 1.0 + 0.0*x;
-}
-
-double func(double (*f)(double));
-double func(double (*f)(double))
-{
-	return 2.0 * (*f)(1.0);
-}
-
 double F1(double x);
 double F1(double x)
 {

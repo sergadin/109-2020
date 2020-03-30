@@ -21,6 +21,7 @@ double root(double (*f)(double), double a, double b, int* Error)
 		return c;
 	for (int i = 1; i <= 1000000; i++)
 	{
+		printf("%d\n", i);
 		c = b - (*f)(b) / derivative(f, b);
 		if ((c > b) || (c < a))
 		{
