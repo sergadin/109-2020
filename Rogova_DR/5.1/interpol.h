@@ -11,8 +11,8 @@ class CppInter
 		CppInter(int nn, double * xx, double * yy)
 		{
 			n = nn;
-			x = (double *) malloc(n + 1);
-			y = (double *) malloc(n + 1);
+			x = (double *) malloc(n*sizeof(double));
+			y = (double *) malloc(n*sizeof(double));
 			for(int i = 0; i < n; i++)
 			{
 				x[i] = xx[i];
