@@ -21,7 +21,7 @@ double integr(double (*f)(double), double a, double b, ErrorCode *perr)
 	
 	double h = (a + b)/2, I1 = 0, I2;
 	int check = 0;
-	I2 = (ab(b - a)*h)/2
+	I2 = (ab(b - a)*h)/2;
 	if(a >= b)
 	{
 		*perr = INT_ND;
@@ -32,7 +32,7 @@ double integr(double (*f)(double), double a, double b, ErrorCode *perr)
 		check++;
 		if(check > T)
 		{
-			*perr = INT_NOT;\\\ не сходится
+			*perr = INT_NOT;
 			return I1;
 		}
 		I1 = I2;
