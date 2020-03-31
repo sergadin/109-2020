@@ -4,7 +4,6 @@
 double modul(double x);
 double func1(double x);
 double func2(double x);
-double func3(double x);
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 
