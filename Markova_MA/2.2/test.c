@@ -38,48 +38,48 @@ int main(void)
 	}
 	
 	printf("x*x + 1 = 0 ");
-	m = root(f2, a, b, eps, &err);
+	m = integr(f2, a, b, &err);
+	
 	switch(err)
 	{
-	case ROOT_NOT:
+	case INT_NOT:
         printf("FAULT\n");
 		break;
 	case INT_ND:
 		printf("NO DATA\n");
 		break;
-	case ROOT_OK:
-		m = root(f2, a, b, eps, NULL);
+	case INT_OK:
 		printf("Answer = %e\n", m);
 	}
 	
 	printf("x*x*x = 0 ");
-	m = root(f3, a, b, eps, &err);
+	m = integr(f3, a, b, &err);
+	
 	switch(err)
 	{
-	case ROOT_NOT:
+	case INT_NOT:
         printf("FAULT\n");
 		break;
 	case INT_ND:
 		printf("NO DATA\n");
 		break;
-	case ROOT_OK:
-		m = root(f3, a, b, eps, NULL);
+	case INT_OK:
 		printf("Answer = %e\n", m);
 	}
 	
 	printf("x*x + 8*x = 0 ");
-	m = root(f4, a, b, eps, &err);
+	m = integr(f4, a, b, &err);
+	
 	switch(err)
 	{
-		case ROOT_NOT:
-			printf("FAULT\n");
-			break;
-		case INT_ND:
-			printf("NO DATA\n");
-			break;
-		case ROOT_OK:
-			m = root(f4, a, b, eps, NULL);
-			printf("Answer = %e\n", m);
+	case INT_NOT:
+        printf("FAULT\n");
+		break;
+	case INT_ND:
+		printf("NO DATA\n");
+		break;
+	case INT_OK:
+		printf("Answer = %e\n", m);
 	}
 	return 0;
 }
