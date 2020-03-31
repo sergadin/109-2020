@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define eps 0.000001
+#define eps 0.00001
 
 double Min(double(*f) (double), double a, double b, int* Error);
 double Min(double(*f) (double), double a, double b, int* Error)
@@ -29,13 +29,13 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		{
 			a = x0;
 			x0 = x1;
-			q = 1; // на следующем шаге нужно считать х1
+			q = 1; // Г­Г  Г±Г«ГҐГ¤ГіГѕГ№ГҐГ¬ ГёГ ГЈГҐ Г­ГіГ¦Г­Г® Г±Г·ГЁГІГ ГІГј Гµ1
 		}
 		else
 		{
 			b = x1;
 			x1 = x0;
-			q = 0; // на следующем шаге нужно считать х0
+			q = 0; // Г­Г  Г±Г«ГҐГ¤ГіГѕГ№ГҐГ¬ ГёГ ГЈГҐ Г­ГіГ¦Г­Г® Г±Г·ГЁГІГ ГІГј Гµ0
 		}
 		printf("  %f %f %f %f\n", a, x0, x1, b);
 		if ((b - a) < eps)
