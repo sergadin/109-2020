@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define eps 0.0000001
@@ -67,6 +68,7 @@ double F1(double x)
 int main(void)
 {
 	int* Error;
+	Error = (int*)malloc(1 * sizeof(int));
 	printf("%f", Min(F1, 0, 2, Error));
 	return 0;
 }
