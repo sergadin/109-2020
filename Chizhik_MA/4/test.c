@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "umath.h"
+#include "../lib/umath.h"
 #include "taylor.h"
 
 #define EPS 1e-3
