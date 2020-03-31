@@ -29,13 +29,13 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		{
 			a = x0;
 			x0 = x1;
-			q = 1; // Г­Г  Г±Г«ГҐГ¤ГіГѕГ№ГҐГ¬ ГёГ ГЈГҐ Г­ГіГ¦Г­Г® Г±Г·ГЁГІГ ГІГј Гµ1
+			q = 1; // на следующем шаге нужно считать х1
 		}
 		else
 		{
 			b = x1;
 			x1 = x0;
-			q = 0; // Г­Г  Г±Г«ГҐГ¤ГіГѕГ№ГҐГ¬ ГёГ ГЈГҐ Г­ГіГ¦Г­Г® Г±Г·ГЁГІГ ГІГј Гµ0
+			q = 0; // на следующем шаге нужно считать х0
 		}
 		printf("  %f %f %f %f\n", a, x0, x1, b);
 		if ((b - a) < eps)
@@ -49,9 +49,9 @@ double Min(double(*f) (double), double a, double b, int* Error)
 	}
 	else
 	{
-		x2 = x1;
 		x0 = a;
 		x1 = b;
+		x2 = (x1 + x2) * 0.5;
 		f0 = (*f)(x0);
 		f1 = (*f)(x1);
 		f2 = (*f)(x2);
