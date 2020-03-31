@@ -3,7 +3,7 @@
 #include <string>
 
 #include "interpolation.h"
-#include "umath.h"
+#include "../lib/umath.h"
 
 using namespace std;
 

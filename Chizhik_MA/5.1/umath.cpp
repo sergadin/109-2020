@@ -1,5 +1,5 @@
 #include <cmath>
-#include "umath.h"
+#include "../lib/umath.h"
 
 double max(double *arr, int n) {
 	double max;
