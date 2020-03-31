@@ -14,7 +14,6 @@ double taylor(double x, double ep, RRFUN ffunc)
 	{
 		p = -p*x*x/(n*(n+1)); 
 		s = s+p;
-		//printf("%lf\n", p);
 		n = n+2;
 	}
 	return s;
