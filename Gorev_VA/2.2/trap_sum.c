@@ -15,7 +15,7 @@ double trap_sum(double (*f) (double), double a, double b, int N)
 	return S;
 }
 
-double interal(double (*f) (double), double a, double b, int* Error)
+double integral(double (*f) (double), double a, double b, int* Error)
 {
 	double I = 0, I1 = 0;
 	int N = 100;

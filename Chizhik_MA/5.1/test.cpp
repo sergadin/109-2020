@@ -12,21 +12,14 @@ static double sq(double x) {
 }
 
 int main(void) {
-	string statusText[] = {
-				"OK",
-				"Two points have equal abscissae",
-				"This abscissa doesn't have an interpolated value",
-				"The amount of points is not enough to compute anything"
-	};
 	double x[] = {-10, 0, 10};
 	double y[] = {100, 0, 100}; //We expect y = x^2
 
-	double test_x[] = {-50, -3, 0, 1, 2, 4, 40};
+	double test_x[] = {-25, -3, 0, 1, 2.5, 4, 38};
 	int x_len, y_len, i, j, n;
 	double result;
 	Point *pts;
 	Interpolation *points;
-	Status s;
 
 	x_len = (int)(sizeof(x) / sizeof(double));
 	y_len = (int)(sizeof(y) / sizeof(double));
@@ -51,30 +44,34 @@ int main(void) {
 		pts[j] = Point(x[j], y[j]);
 	}
 
-	points = new Interpolation(pts, x_len, EPS, &s);
-	if (s != OK) {
-		cerr << "An error has happened:" << endl << statusText[s] << endl;
-
-		delete points;
-		return -1;
+	try {
+		points = new Interpolation(pts, x_len, EPS);
+	} catch (UserException &e) {
+		cerr << "An error has happened:" << endl << e.message() << endl;
+		
+		free(pts);
+                return -1;
 	}
 
 	for (i = 0; i < n; i++) {
 		cout << endl << "Test " << (i + 1) << endl;
-		result = points -> Lagrange(test_x[i], &s);
-		if (s != OK) {
-			cerr << "An error has happened: " << endl << statusText[s] << endl;
+
+		try {
+			result = points -> Lagrange(test_x[i]);
+		} catch (UserException &e) {
+			cerr << "An error has happened: " << endl << e.message() << endl;
+			continue;
+		}
+
+		cout << "Interpolated value: " << result << endl;
+		cout << "Expected: " << sq(test_x[i]) << endl;
+		if (compareDoubles(sq(test_x[i]), result, EPS) == 0) {
+			cout << "The difference is incosiderable" << endl;
 		} else {
-			cout << "Interpolated value: " << result << endl;
-			cout << "Expected: " << sq(test_x[i]) << endl;
-			if (compareDoubles(sq(test_x[i]), result, EPS) == 0) {
-				cout << "The difference is incosiderable" << endl;
-			} else {
-				cerr << "Something went wrong..." << endl;
-				delete points;
-				free(pts);
-				return -2;
-			}
+			cerr << "Something went wrong..." << endl;
+			delete points;
+			free(pts);
+			return -2;
 		}
 	}
 
