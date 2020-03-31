@@ -121,6 +121,11 @@ double effective_taylor_sin(double x, double precision, int *n, Status *s) {
 
 	floor = (int)(new_x / (2 * M_PI));
 	new_x -= floor * 2 * M_PI;
+	if (new_x > M_PI) {
+		new_x -= 2 * M_PI;
+		new_x *= -1;
+		sign *= -1;
+	}
 
 	return sign * taylor_sin(new_x, precision, n, s);
 }
@@ -135,6 +140,10 @@ double effective_taylor_cos(double x, double precision, int *n, Status *s) {
 
 	floor = (int)(new_x / (2 * M_PI));
 	new_x -= floor * 2 * M_PI;
+	if (new_x > M_PI) {
+		new_x -= 2 * M_PI;
+		new_x *= -1;
+	}
 
 	return taylor_cos(new_x, precision, n, s);
 }
