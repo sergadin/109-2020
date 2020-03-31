@@ -3,28 +3,28 @@
 
 int main()
 {
-	int n = 6;
-	double * x = (double *) malloc(n + 1);
-	double * yline = (double *) malloc(n + 1);
-	double * ysqr = (double *) malloc(n + 1);
-	double * yzer = (double *) malloc(n + 1);
-	for(int i = 0; i < n; i++)
+	int n0 = 6;
+       	double * x1 = (double *) malloc(n0*sizeof(double));
+	double * yline = (double *) malloc(n0*sizeof(double));
+	double * ysqr = (double *) malloc(n0*sizeof(double));
+	double * yzer = (double *) malloc(n0* sizeof(double));
+	double truan[] = {2, 4, 0};
+	double x0 = 0.6;
+	double y0[] = {0, 0, 0};
+	for(int i = 0; i < n0; i++)
 	{
-		x[i] = i;
+		x1[i] = i;
 		yline[i] = i;
 		ysqr[i] = i*i;
 		yzer[i] = 0;
 	}
-	double truan[] = {2, 4, 0};	
-	double x0 = 0.6;
-	double y0[] = {0, 0, 0};
-	CppInter line(n, x, yline);
+       	CppInter line(n0, x1, yline);
 	y0[0] = line.newPoint(x0);
 
-	CppInter sqr(n, x, ysqr);
+	CppInter sqr(n0, x1, ysqr);
 	y0[1] = sqr.newPoint(x0);
 
-	CppInter zer(n, x, yzer);
+	CppInter zer(n0, x1, yzer);
 	y0[2] = zer.newPoint(x0);
 
 	for(int i = 0; i < 3; i++)
