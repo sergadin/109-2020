@@ -4,42 +4,42 @@
 
 double mod(double x);
 double sign(double x);
-double vparab(double a, double b, double c, RRF func);
+double vparab(double a, double x, double b, RRF func);
 
 
-double mini(double a1, double c1, double eps, RRF func)
+double mini(double a1, double b1, double eps, RRF func)
 {
-	double minn, t, k = (sqrt(5) + 1)/2, resk = 2 - k;
+	double minn, x,  k = (sqrt(5) + 1)/2;
 	double a = a1;
-        double b = c1;
+        double b = b1;
 	double f1, f2;
-	double x1 = a + resk*(b - a) , x2 = b - resk*(b - a);
-	f1 = (*func)(x1);
-	f2 = (*func)(x2);
-	do
+	double x1, x2;
+	while(mod(b - a) >= eps)
 	{
-		if(f1 < f2)
+		x1 = b - (b - a)/k;
+		x2 = a + (b - a)/k;
+		f1 = (*func)(x1);
+		f2 = (*func)(x2);
+		if(f1 >= f2)
 		{
-			b = x2;
-			x2 = x1;
-			f2 = f1;
-			x1 = a + resk*(b - a);
-			f1 = (*func)(x1);
-			minn = x1;
+			a = x1;
+			x = x2;
 		}
 		else
 		{
-			a = x1;
-			x1 = x2;
-			f1 = f2;
-			x2 = b - resk*(b - a);
-			f2 = (*func)(x2);
-			minn = x2;
+			b = x2;
+			x = x1;
 		}
-		
-	}while (mod(b - a) > 2*eps);
-	minn = vparab(a, minn, b, func);
-	return (*func)(minn);
+		if(mod(b - a) < eps)
+		{
+			x = (a + b)/2;
+		}
+	}
+	if(((*func)(x) != (*func)(a)) && ((*func)(x) != (*func)(b)))
+		minn = (*func)(x - ((x-a)*(x-a)*((*func)(x)-(*func)(b))-(x-b)*(x-b)*((*func)(x)-(*func)(a)))/(2*((x-a)*((*func)(x)-(*func)(b))-(x-b)*((*func)(x)-(*func)(a)))));
+	else
+		minn = (*func)(x);
+	return minn;
 
 
 
@@ -54,16 +54,13 @@ double mod(double x)
 
 }
 
-double vparab(double a, double b, double c, RRF func)
+double vparab(double a, double x, double b, RRF func)
 {
 	double v;
 	double ya = (*func)(a);
+	double yx = (*func)(x);
 	double yb = (*func)(b);
-	double yc = (*func)(c);
-	if((yc > yb) && (yb < ya))
-		v = b - ((b - a)*(b - a)*(yb - yc) - (b - c)*(b - c)*(yb - ya))*0.5/((b - a)*(yb - yc) - (b - c)*(yb - ya));
-	else 
-		v = (a + b)/2;
+	v = x - ((x - a)*(x - a)*(yx - yb) - (x - b)*(x - b)*(yx - ya))/(2*((x - a)*(yx - yb) - (x - b)*(yx - ya)));
 	return v;
 
 

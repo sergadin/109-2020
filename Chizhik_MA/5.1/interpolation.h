@@ -1,10 +1,7 @@
 #include <string>
-
 #define EPS 1e-7
 
 using namespace std;
-
-typedef double (*dFUNC)(double x);
 
 class Point {
 	private:
