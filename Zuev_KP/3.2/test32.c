@@ -14,7 +14,7 @@ int main(void)
 	int i;
 	double ep = 1e-10, a = 0, b = 4, result = 0;
 	double e = 0.01;
-	double c[] = {8, -19.9, -1, 0};
+	double c[] = {8, -14.9, -1, 0};
 	RRFUN funcs[] = {func1, func2, func3, func4};
 	for(i = 0; i < 4; i++)
 	{
@@ -42,7 +42,7 @@ double func1(double x)
 
 double func2(double x)
 {
-	double k = (x*x*x*x*x - 3*x*x*x*x);
+	double k = (x*x*x*x*x - 3*x*x*x*x+5);
 	return k;
 }
 
