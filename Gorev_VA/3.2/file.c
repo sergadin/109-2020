@@ -6,7 +6,7 @@
 double Min(double(*f) (double), double a, double b, int* Error);
 double Min(double(*f) (double), double a, double b, int* Error)
 {
-	double x0, x1, x3, f1, f2, f3;
+	double x0, x1, x2, f0, f1, f2;
 	int q;
 	if (a > b)
 	{
@@ -41,13 +41,13 @@ double Min(double(*f) (double), double a, double b, int* Error)
 
 	if ((b - a) >= eps)
 	{
-		x1 = a;
-		x2 = 0.5 * (a + b);
-		x3 = b;
+		x0 = a;
+		x1 = 0.5 * (a + b);
+		x2 = b;
+		f0 = f(x0);
 		f1 = f(x1);
 		f2 = f(x2);
-		f3 = f(x3);
-		x1 = -0.5 * (x2 * x2 * f3 - x3 * x3 * f2 + x3 * x3* f1 - x1 * x1 * f3 + x1 * x1 * f2 - x2 * x2 * f1) / (f2 * x3 - f3 * x2 + f3 * x1 - f1 * x3 + f1 * x2 - f2 * x1);
+		x1 = -0.5 * (x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0* f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1) / (f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
 		if ((x1 >= a) && (x1 <= b))
 		{
 			*Error = 0;
