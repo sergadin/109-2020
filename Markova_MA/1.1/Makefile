@@ -1,9 +1,12 @@
-all: run
-test.o: test.c
-	gcc -std=c99 -c test.c -o test.o -lm
-f.o: f.c
-	gcc -std=c99 -c f.c -o f.o -lm
-run: test.o f.o
-	gcc -o run test.o f.o -lm
-clean: 
-	rm -rf *.o
+all: do-test clear
+
+do-test: a.out
+	./a.out
+
+a.out: test.o f.o
+	gcc -c test.c
+	gcc -c f.c
+	gcc f.o test.o -lm
+
+clear:
+	rm f.o test.o a.out
