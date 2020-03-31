@@ -18,12 +18,12 @@ double Min(double(*f) (double), double a, double b, int* Error)
 	x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 	q = 1;
 
-	for (int i = 1; i <= 1000000; i++)
+	for (int i = 1; i <= 1000; i++)
 	{
 		if (q)
-			x1 = a + (b - a) * (sqrt(5) - 1) * 0.5;
+			x1 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 		else
-			x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
+			x0 = a + (b - a) * (sqrt(5) - 1) * 0.5;
 
 		printf("%f  %f\n", x0, x1);
 
@@ -44,6 +44,11 @@ double Min(double(*f) (double), double a, double b, int* Error)
 
 	if ((b - a) >= eps)
 	{
+		*Error = 1;
+		return 0.0;
+	}
+	else
+	{
 		x0 = a;
 		x1 = 0.5 * (a + b);
 		x2 = b;
@@ -56,9 +61,12 @@ double Min(double(*f) (double), double a, double b, int* Error)
 			*Error = 0;
 			return x1;
 		}
+		else
+		{
+			*Error = 1;
+			return 0;
+		}
 	}
-	*Error = 1;
-	return 0.0;
 }
 
 double F1(double x);
