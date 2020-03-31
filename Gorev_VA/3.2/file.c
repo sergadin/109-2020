@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define eps 0.0001
+#define eps 0.000001
 
 double Min(double(*f) (double), double a, double b, int* Error);
 double Min(double(*f) (double), double a, double b, int* Error)
@@ -25,8 +25,6 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		else
 			x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 
-		printf("%f  %f\n", x0, x1);
-
 		if ((*f)(x0) >= (*f)(x1))
 		{
 			a = x0;
@@ -39,7 +37,7 @@ double Min(double(*f) (double), double a, double b, int* Error)
 			x1 = x0;
 			q = 0; // на следующем шаге нужно считать х0
 		}
-
+		printf("  %f %f %f %f\n", a, x0, x1, b);
 		if ((b - a) < eps)
 			break;
 	}
@@ -51,24 +49,18 @@ double Min(double(*f) (double), double a, double b, int* Error)
 	}
 	else
 	{
+		x2 = x1;
 		x0 = a;
-		x1 = 0.5 * (a + b);
-		x2 = b;
-		f0 = f(x0);
-		f1 = f(x1);
-		f2 = f(x2);
-		x1 = -0.5 * (x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0* f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1) / (f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
-		printf("  %f %f\n", x1, b - a);
-		if ((x1 >= a) && (x1 <= b))
-		{
-			*Error = 0;
-			return x1;
-		}
-		else
-		{
-			*Error = 1;
-			return 0;
-		}
+		x1 = b;
+		f0 = (*f)(x0);
+		f1 = (*f)(x1);
+		f2 = (*f)(x2);
+		printf(" %f %f %f  %f %f %f\n", x0, x1, x2, f0, f1, f2);
+		//printf("    %f %f", x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1, f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
+		x1 = -0.5 * (x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1) / (f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
+		printf("    %f %f\n", x1, b - a);
+		*Error = 0;
+		return x1;
 	}
 }
 
