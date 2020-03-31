@@ -80,7 +80,7 @@ double F1(double x)
 int main(void)
 {
 	double x0 = 0.577299, x2 = 0.577381, x1 = 0.5 * (0.577299 + 0.577381);
-	double f0 = f(x0), f1 = f(x1), f2 = f(x2);
+	double f0 = F1(x0), f1 = F1(x1), f2 = F1(x2);
 	x1 = -0.5 * (x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1) / (f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
 	printf("%f\n", x1);
 	return 0;
