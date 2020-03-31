@@ -1,4 +1,8 @@
+typedef enum { INT_OK, INT_NOT, INT_ND } ErrorCode;
+double integr(double (*f)(double), double a, double b, ErrorCode *perr)
 
-double root(double (*f)(double), double a, double b, double eps);
+
 double f1 (double x);
-void all(double (*f)(double), double a, double b, double eps);
+double f2 (double x);
+double f3 (double x);
+double f4 (double x);

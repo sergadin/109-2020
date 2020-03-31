@@ -36,7 +36,6 @@ int main(void) {
 		"OK",
 		"Function is not unimodal here",
 	};
-	int i, j;
 	double min;
 	Status s;
 
@@ -53,25 +52,25 @@ int main(void) {
 				{1, 4}
 	};
 
-	for (i = 0; i < N; i++) {
+	for (int i = 0; i < N; i++) {
 		fprintf(stdout, "\nTest %d\n\n", i + 1);
-		for (j = 0; j < M; j++) {
+		for (int j = 0; j < M; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
 			min = find_minimum(fn[i], segments[j][0], segments[j][1], EPS, &s);
 			if (s != OK) {
 				fprintf(stdout, "%s\n", statusText[s]);
-				fprintf(stdout, "But the minimum value is %lf\n", min);
+				fprintf(stdout, "But the minimum value is %lf\n", (*fn[i])(min));
 				fprintf(stdout, "Expected result: %lf\n", preciseAnswers[i][j]);
-				if (compareDoubles(min, preciseAnswers[i][j], EPS) == 0) {
+				if (compareDoubles((*fn[i])(min), preciseAnswers[i][j], EPS) == 0) {
 					fprintf(stdout, "And our computations were absolutely correct!\n");
 				} else {
 					fprintf(stderr, "Khmmm...\n");
 					return -1;
 				}
 			} else {
-				fprintf(stdout, "Computed: %lf\n", min);
+				fprintf(stdout, "Computed: %lf\n", (*fn[i])(min));
 				fprintf(stdout, "Expected: %lf\n", preciseAnswers[i][j]);
-				if (compareDoubles(min, preciseAnswers[i][j], EPS) == 0) {
+				if (compareDoubles((*fn[i])(min), preciseAnswers[i][j], EPS) == 0) {
 					fprintf(stdout, "The difference is inconsiderable\n");
 				} else {
 					fprintf(stderr, "Something went wrong\n");
