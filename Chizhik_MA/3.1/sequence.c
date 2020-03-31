@@ -49,7 +49,7 @@ double find_minimum(dFUNC f, double a, double b, double precision, Status *s) {
 
 	if (right - left > 4 * step) {
 		*s = NOT_UNIMODAL;
-		return ((*f)(a) < (*f)(b)) ? (*f)(a) : (*f)(b);
+		return ((*f)(a) < (*f)(b)) ? a : b;
 	}
 
 	for (int j = 0; j < 3; j++) {
@@ -57,7 +57,7 @@ double find_minimum(dFUNC f, double a, double b, double precision, Status *s) {
 		y[j] = (*f)(x[j]);
 	}
 
-	return (*f)(find_parabola_vertex(x, y));
+	return find_parabola_vertex(x, y);
 }
 
 double find_parabola_vertex(double *x, double *y) {
