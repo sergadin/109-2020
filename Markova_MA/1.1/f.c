@@ -22,6 +22,7 @@ double root(double (*f)(double), double a, double b, double eps)
 }
 void all (double (*f)(double), double a, double b, double eps)
 {
+	double m;
 	if((*f)(a)*(*f)(b) >= 0)
 	{
 		printf("FAULT");
