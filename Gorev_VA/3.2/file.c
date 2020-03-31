@@ -3,8 +3,6 @@
 #include <math.h>
 #include "min_value.h"
 
-#define eps 0.000001
-
 double F1(double x);
 double F1(double x)
 {
