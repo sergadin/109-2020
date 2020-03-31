@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include "f.h"
 
 double root(double (*f)(double), double a, double b, double eps)
