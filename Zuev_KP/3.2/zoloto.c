@@ -27,7 +27,14 @@ double minimum(double a, double b, double ep, RRFUN ffunc)
 			x = (a+b)/2;
 		}
 	}
-	min = (*ffunc)(x - ((x-a)*(x-a)*((*ffunc)(x)-(*ffunc)(b))-(x-b)*(x-b)*((*ffunc)(x)-(*ffunc)(a)))/(2*((x-a)*((*ffunc)(x)-(*ffunc)(b))-(x-b)*((*ffunc)(x)-(*ffunc)(a)))));
+	if (((*ffunc)(a)>(*ffunc)(x)) && ((*ffunc)(x)<(*ffunc)(b)))
+	{
+		min = (*ffunc)(x - ((x-a)*(x-a)*((*ffunc)(x)-(*ffunc)(b))-(x-b)*(x-b)*((*ffunc)(x)-(*ffunc)(a)))/(2*((x-a)*((*ffunc)(x)-(*ffunc)(b))-(x-b)*((*ffunc)(x)-(*ffunc)(a)))));
+	}
+	else
+	{
+		min = (*ffunc)(x);
+	}
 	return min;
 }
 
