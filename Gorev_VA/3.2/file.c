@@ -25,6 +25,8 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		else
 			x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 
+		printf("%f  %f\n", x0, x1);
+
 		if ((*f)(x0) >= (*f)(x1))
 		{
 			a = x0;
@@ -69,6 +71,6 @@ int main(void)
 {
 	int* Error;
 	Error = (int*)malloc(1 * sizeof(int));
-	printf("%f", Min(F1, 0, 2, Error));
+	printf("%f\n", Min(F1, 0, 2, Error));
 	return 0;
 }
