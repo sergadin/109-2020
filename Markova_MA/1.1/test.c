@@ -22,7 +22,8 @@ int main(void)
 {
 	double a = -4, b = 2, eps = 0.0001, m;
 	ErrorCode err;
-	double m = root(f2, a, b, eps, &err);
+	m = root(f1, a, b, eps, &err);
+	
 	printf("x*x + 5*x - 6 = 0 ");
 	switch(err)
 	{
@@ -30,9 +31,10 @@ int main(void)
         printf("FAULT\n");
 		break;
 	case ROOT_OK:
-		m = root(f, a, b, eps, NULL);
+		m = root(f1, a, b, eps, NULL);
 		printf("Answer = %e\n", m);
 	}
+	
 	printf("x*x + 1 = 0 ");
 	m = root(f2, a, b, eps, &err);
 	switch(err)
@@ -41,29 +43,31 @@ int main(void)
         printf("FAULT\n");
 		break;
 	case ROOT_OK:
-		m = root(f, a, b, eps, NULL);
+		m = root(f2, a, b, eps, NULL);
 		printf("Answer = %e\n", m);
 	}
+	
 	printf("x*x*x = 0 ");
-	m = root(f, a, b, eps, &err);
+	m = root(f3, a, b, eps, &err);
 	switch(err)
 	{
 	case ROOT_NOT:
         printf("FAULT\n");
 		break;
 	case ROOT_OK:
-		m = root(f, a, b, eps, NULL);
+		m = root(f3, a, b, eps, NULL);
 		printf("Answer = %e\n", m);
 	}
+	
 	printf("x*x + 8*x = 0 ");
-	m = root(f2, a, b, eps, &err);
+	m = root(f4, a, b, eps, &err);
 	switch(err)
 	{
 		case ROOT_NOT:
 			printf("FAULT\n");
 			break;
 		case ROOT_OK:
-			m = root(f, a, b, eps, NULL);
+			m = root(f4, a, b, eps, NULL);
 			printf("Answer = %e\n", m);
 	}
 	return 0;
