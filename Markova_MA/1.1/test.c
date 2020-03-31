@@ -10,19 +10,8 @@ double f1 (double x)
 int main(void)
 {
 	double a = -4, b = 2, eps = 0.0001, m;
-	if(f1(a)*f1(b) >= 0)
-	{
-		printf("FAULT");
-	}
-	if(f1(a) > 0)
-	{
-		double temp;
-		temp = a;
-		a = b;
-		b = temp;
-	}
-	m = root(f1, a, b, eps);
-	printf("Answer = %e\n", m);
+	printf("x*x + 5*x - 6 ");
+	all(f1, a, b, eps);
 	return 0;
 }
 
