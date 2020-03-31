@@ -15,7 +15,7 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		a = b;
 		b = x1;
 	}
-	x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
+	x0 = a + (b - a) * (sqrt(5) - 1) * 0.5;
 	q = 1;
 
 	for (int i = 1; i <= 1000; i++)
@@ -79,6 +79,6 @@ int main(void)
 {
 	int* Error;
 	Error = (int*)malloc(1 * sizeof(int));
-	printf("%f\n", Min(F1, 0, 2, Error));
+	printf("%f\n", Min(F1, 0.0, 2.0, Error));
 	return 0;
 }
