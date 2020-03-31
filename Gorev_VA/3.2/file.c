@@ -41,7 +41,7 @@ int main(void)
 	else
 		printf(" calculated min value: %f\n actual min value:     %f\n", V, -1.0);
 
-	printf("f(x) = x^3 - x at [0, 1]\n");
+	printf("f(x) = x + 1.5 at [0, 1]\n");
 	V = min_value(F3, 0.0, 2.0, Error);
 	if (*Error)
 		printf("Error\n");
