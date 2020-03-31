@@ -27,32 +27,37 @@ int main(void)
 	switch(err)
 	case ROOT_NOT:
         printf("FAULT\n");
-	case ROOT_OK:
 		break;
-	m = root(f, a, b, eps, NULL);
-	printf("Answer = %e\n", m);
+	case ROOT_OK:
+		m = root(f, a, b, eps, NULL);
+		printf("Answer = %e\n", m);
 	
 	printf("x*x + 1 = 0 ");
+	m = root(f2, a, b, eps, &err);
 	switch(err)
 	case ROOT_NOT:
         printf("FAULT\n");
+		break;
 	case ROOT_OK:
 		m = root(f, a, b, eps, NULL);
 		printf("Answer = %e\n", m);
 	
 	printf("x*x*x = 0 ");
-	m = root(f, a, b, eps, NULL);
+	m = root(f, a, b, eps, &err);
 	switch(err)
 	case ROOT_NOT:
         printf("FAULT\n");
+		break;
 	case ROOT_OK:
 		m = root(f, a, b, eps, NULL);
 		printf("Answer = %e\n", m);
 	
 	printf("x*x + 8*x = 0 ");
+	m = root(f2, a, b, eps, &err);
 	switch(err)
 	case ROOT_NOT:
         printf("FAULT\n");
+		break;
 	case ROOT_OK:
 		m = root(f, a, b, eps, NULL);
 		printf("Answer = %e\n", m);
