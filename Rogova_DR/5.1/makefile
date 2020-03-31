@@ -10,4 +10,4 @@ do-test: a.out
 	./a.out
 
 clean: test5.o interpol.h
-	rm test5.o interpol.h
+	rm test5.o
