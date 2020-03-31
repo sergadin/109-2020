@@ -30,11 +30,13 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		if ((*f)(x0) >= (*f)(x1))
 		{
 			a = x0;
+			x0 = x1
 			q = 1; // на следующем шаге нужно считать х1
 		}
 		else
 		{
 			b = x1;
+			x1 = x0
 			q = 0; // на следующем шаге нужно считать х0
 		}
 
