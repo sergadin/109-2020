@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include "f.h"
 
-double root(RRFUN f, double a, double b, double eps);
+double root(double (*f)(double), double a, double b, double eps);
 {
 	double m = (a + b)/2;
-	while(b - a < eps)
+	while((b - a) < eps)
 	{
 		if((*f)(m) < 0)
 		{
