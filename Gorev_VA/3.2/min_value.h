@@ -1,0 +1,1 @@
+double min_value(double(*f) (double), double a, double b, int* Error);
