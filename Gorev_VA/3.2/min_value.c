@@ -1,3 +1,4 @@
+#include <math.h>
 #include "min_value.h"
 
 double min_value(double(*f) (double), double a, double b, int* Error)
