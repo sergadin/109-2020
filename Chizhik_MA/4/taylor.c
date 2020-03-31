@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "umath.h"
+#include "../lib/umath.h"
 #include "taylor.h"
 
 double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC start_value, diFUNC recurrence) {
@@ -15,7 +15,7 @@ double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC sta
 
 	while (compareDoubles(taylor_addendum, 0, precision / 4) != 0) {
 		comp_value += taylor_addendum;
-		if (*n > 1e2) {
+		if (*n > 100) {
 			*s = TOO_LONG;
 			return comp_value;
 		}
@@ -102,7 +102,7 @@ double effective_taylor_exp(double x, double precision, int *n, Status *s) {
 
 	sum = pow(M_E, floor);
 	
-	if (floor > 1e2) {
+	if (floor > 100) {
 		*s = TOO_BIG;
 		return sum;
 	}
@@ -113,28 +113,28 @@ double effective_taylor_exp(double x, double precision, int *n, Status *s) {
 
 double effective_taylor_sin(double x, double precision, int *n, Status *s) {
 	double new_x = x;
-	int sign = 1;
+	int floor, sign = 1;
 	if (new_x < 0) {
 		sign *= -1;
 		new_x *= -1;
 	}
 
-	while (new_x > M_PI) {
-		new_x -= 2 * M_PI;
-	}
+	floor = (int)(new_x / (2 * M_PI));
+	new_x -= floor * 2 * M_PI;
 
 	return sign * taylor_sin(new_x, precision, n, s);
 }
 
 double effective_taylor_cos(double x, double precision, int *n, Status *s) {
 	double new_x = x;
+	int floor;
+
 	if (new_x < 0) {
 		new_x *= -1;
 	}
 
-	while (new_x > M_PI) {
-		new_x -= 2 * M_PI;
-	}
+	floor = (int)(new_x / (2 * M_PI));
+	new_x -= floor * 2 * M_PI;
 
 	return taylor_cos(new_x, precision, n, s);
 }
