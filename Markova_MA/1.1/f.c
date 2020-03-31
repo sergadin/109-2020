@@ -18,7 +18,7 @@ double root(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 	double m = (a + b)/2;
 	if(perr != NULL)
 	{
-        *perr = INT_OK;
+        *perr = ROOT_OK;
 		if((*f)(a)*(*f)(b) >= 0)
 		{
 			*perr = ROOT_NOT;
