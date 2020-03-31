@@ -6,14 +6,14 @@ static double modul(double x);
 
 double taylor(double x, double ep, RRFUN ffunc)
 {
-	double p, s;
+	double k, s;
 	int n = 2;
-	p = x;
+	k = x;
 	s = x;
-	while (modul(p)>ep)
+	while (modul(k)>ep)
 	{
-		p = -p*x*x/(n*(n+1)); 
-		s = s+p;
+		k = -k*x*x/(n*(n+1)); 
+		s = s+k;
 		n = n+2;
 	}
 	return s;
