@@ -59,6 +59,7 @@ double Min(double(*f) (double), double a, double b, int* Error)
 }
 
 double F1(double x);
+double F1(double x)
 {
 	return x * x * x - x;
 }
