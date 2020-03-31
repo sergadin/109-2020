@@ -10,8 +10,8 @@ double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC sta
 	*n = 1;
 	*s = OK;
 
-	comp_value = start_value(x);
-	taylor_addendum = start_value(x) * recurrence(x, *n);
+	comp_value = (*start_value)(x);
+	taylor_addendum = (*start_value)(x) * (*recurrence)(x, *n);
 
 	while (compareDoubles(taylor_addendum, 0, precision / 4) != 0) {
 		comp_value += taylor_addendum;
@@ -21,7 +21,7 @@ double taylor_recurrent(double x, double precision, int *n, Status *s, dFUNC sta
 		}
 
 		*n += 1;
-		taylor_addendum *= recurrence(x, *n);
+		taylor_addendum *= (*recurrence)(x, *n);
 	}
 
 	return comp_value;
