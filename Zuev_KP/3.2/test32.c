@@ -4,6 +4,8 @@
 double modul(double x);
 double func1(double x);
 double func2(double x);
+double func3(double x);
+double func4(double x);
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 
@@ -12,9 +14,9 @@ int main(void)
 	int i;
 	double ep = 1e-10, a = 0, b = 4, result = 0;
 	double e = 0.01;
-	double c[] = {8, -19.9};
-	RRFUN funcs[] = {func1, func2};
-	for(i = 0; i < 2; i++)
+	double c[] = {8, -19.9, -1, 0};
+	RRFUN funcs[] = {func1, func2, func3, func4};
+	for(i = 0; i < 4; i++)
 	{
 		result = minimum(a, b, ep, funcs[i]);
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
@@ -41,6 +43,18 @@ double func1(double x)
 double func2(double x)
 {
 	double k = (x*x*x*x*x - 3*x*x*x*x);
+	return k;
+}
+
+double func3(double x)
+{
+	double k = cos(x);
+	return k;
+}
+
+double func4(double x)
+{
+	double k = x*x*x;
 	return k;
 }
 
