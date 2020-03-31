@@ -2,7 +2,7 @@
 #include <math.h>
 
 #include "simpson.h"
-#include "umath.h"
+#include "../lib/umath.h"
 
 double integration_with_fixed_step(dFUNC f, double a, double b, int n) {
 	double step, x, sum;

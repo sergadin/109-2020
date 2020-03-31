@@ -2,7 +2,7 @@
 #include <math.h>
 
 #include "simpson.h"
-#include "umath.h"
+#include "../lib/umath.h"
 
 #define N 5
 #define EPS 1e-6
