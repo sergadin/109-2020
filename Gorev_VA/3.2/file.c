@@ -15,15 +15,15 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		a = b;
 		b = x1;
 	}
-	x0 = a + (b - a) * (sqrt(5) - 1) * 0.5;
+	x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 	q = 1;
 
 	for (int i = 1; i <= 1000; i++)
 	{
 		if (q)
-			x1 = b - (b - a) * (sqrt(5) - 1) * 0.5;
+			x1 = a + (b - a) * (sqrt(5) - 1) * 0.5;
 		else
-			x0 = a + (b - a) * (sqrt(5) - 1) * 0.5;
+			x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 
 		printf("%f  %f\n", x0, x1);
 
