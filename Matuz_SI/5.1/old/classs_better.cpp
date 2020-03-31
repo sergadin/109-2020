@@ -1,6 +1,6 @@
 #include <iostream>
 typedef double(*RRfun)(double x);
-/*
+
 try {
     size = (int)(sizeof(array) / sizeof(double));
 }
@@ -14,7 +14,7 @@ try {
 catch(const arr_err) {
     std::cout << "smth wrong with memory\n";
 }
-*/
+
     ///////////////////////////////////
 
 class finding_function
@@ -31,12 +31,12 @@ public:
     {
         this -> m_n = number;
         this -> m_x = (double*)malloc((this -> m_n)* sizeof(double));
-        /*if ((this -> m_x) == NULL)
-            throw mem_err("smth wrong with memory");*/
+        if ((this -> m_x) == NULL)
+            throw mem_err("smth wrong with memory");
         setX(arrayX);
         this -> m_y = (double*)malloc((this -> m_n)* sizeof(double));
-       /* if ((this -> m_y) == NULL)
-            throw arr_err("smth wrong with memory");*/
+        if ((this -> m_y) == NULL)
+            throw arr_err("smth wrong with memory");
         setY(arrayY);
     }
 
@@ -57,19 +57,17 @@ public:
     void setN(const int number) {this -> m_n = number;}
     void setX(const double* array)
     {
-        /*int size;
         size = (int)(sizeof(array) / sizeof(double));
         if (size < this -> m_n)
-            throw array_err("smth wrong with array's size");*/
+            throw array_err("smth wrong with array's size");
         for(int i = 0; i < (this -> m_n); i++)
             (this -> m_x)[i] = array[i];
     }
     void setY(const double* array)
     {
-        /*int size;
         size = (int)(sizeof(array) / sizeof(double));
         if (size < this -> m_n)
-            throw array_err("smth wrong with array's size");*/
+            throw array_err("smth wrong with array's size");
         for(int i = 0; i < (this -> m_n); i++)
             (this ->  m_y)[i] = array[i];
     }

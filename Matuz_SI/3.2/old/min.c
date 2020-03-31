@@ -17,14 +17,16 @@ void Min_Search_Golden_Section(RRfun f, double* a, double* b, double eps)
     while ( !stop( *a, *b, eps) ) {
         if (Fx1 > Fx2) {
             *a = x1;
-          
+            if (stop(*a, *b, eps))
+                break;
             x1 = x2;
             Fx1 = Fx2;
             x2 = *b - mu*(*b - *a);
             Fx2 = (*f)(x2);
         } else {
             *b = x2;
-            
+            if (stop(*a, *b, eps))
+                break;
             x2 = x1;
             Fx2 = Fx1;
             x1 = *a + mu*(*b - *a);
@@ -32,18 +34,6 @@ void Min_Search_Golden_Section(RRfun f, double* a, double* b, double eps)
         }
     }
 return;
-}
-
-double parabolic_approx(double x1, double x2, double x3, RRfun f)
-{
-    double approx;
-    double F1 = (*f)(x1);
-    double F2 = (*f)(x2);
-    double F3 = (*f)(x3);
-    approx = x2 - 0.5*((x2 - x1)*(x2 - x1)*(F2 - F3) - (x2 - x3)*(x2 - x3)*(F2 - F1))/((x2 - x1)*(F2 - F1) - (x2 - x1)*(F2 - F1));
-    return approx;
-
-
 }
 
 double module(double x)
