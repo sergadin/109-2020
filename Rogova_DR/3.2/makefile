@@ -6,7 +6,7 @@ all: do-test clean
 mini.o: mini.c mini.h
 #	gcc -c mini.c 
 
-test3.o: test3.o mini.h
+test3.o: test3.c mini.h
 #	gcc -c test3.c 
 
 a.out: test3.o mini.o
