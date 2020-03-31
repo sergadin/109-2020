@@ -108,12 +108,12 @@ double f3(double x) {return x*x*x;}
 int main()
 {
 
-    try {
+    /*try {
         //x = (double*)malloc((n)*sizeof(double));
     }
     catch(const char *message) {
         std::cout << message << "\n";
-    }
+    }*/
 
 
     RRfun f[] = {f1, f2, f3};
