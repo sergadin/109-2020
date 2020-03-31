@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define eps 0.00001
+#define eps 0.000001
 
-double Min(double(*f) (double), double a, double b, int* Error);
-double Min(double(*f) (double), double a, double b, int* Error)
+double min_value(double(*f) (double), double a, double b, int* Error);
+double min_value(double(*f) (double), double a, double b, int* Error)
 {
 	double x0, x1, x2, f0, f1, f2;
 	int q;
@@ -17,7 +17,6 @@ double Min(double(*f) (double), double a, double b, int* Error)
 	}
 	x0 = b - (b - a) * (sqrt(5) - 1) * 0.5;
 	q = 1;
-
 	for (int i = 1; i <= 1000; i++)
 	{
 		if (q)
@@ -55,12 +54,9 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		f0 = (*f)(x0);
 		f1 = (*f)(x1);
 		f2 = (*f)(x2);
-		printf(" %f %f %f  %f %f %f\n", x0, x1, x2, f0, f1, f2);
-		//printf("    %f %f", x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1, f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
 		a = x2 - ((x2 - x1) * (x2 - x1) * (f2 - f0) - (x2 - x0) * (x2 - x0) * (f2 - f1)) / ((x2 - x1) * (f2 - f0) - (x2 - x0) * (f2 - f1)) * 0.5;
-		printf("    %f %f\n", a, x1 - x0);
 		*Error = 0;
-		return a;
+		return f(a);
 	}
 }
 
@@ -70,10 +66,29 @@ double F1(double x)
 	return x * x * x - x;
 }
 
+double F2(double x);
+double F2(double x)
+{
+	return sin(x);
+}
+
+double F3(double x);
+double F3(double x)
+{
+	return x + 1.5;
+}
+
 int main(void)
 {
 	int* Error;
 	Error = (int*)malloc(1 * sizeof(int));
-	printf("%f\n", Min(F1, 0.0, 2.0, Error));
+	printf("f(x) = x^3 - x at [0, 2]\n");
+	printf(" calculated min value: %f\n actual min value:     %f\n", min_value(F1, 0.0, 2.0, Error), -0.3849001795);
+
+	printf("f(x) = sin(x) at [3, 6]\n");
+	printf(" calculated min value: %f\n actual min value:     %f\n", min_value(F2, 3.0, 6.0, Error), -1.0);
+
+	printf("f(x) = x^3 - x at [0, 1]\n");
+	printf(" calculated min value: %f\n actual min value:     %f\n", min_value(F3, 0.0, 2.0, Error), 1.5);
 	return 0;
 }
