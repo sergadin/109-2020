@@ -59,8 +59,10 @@ double Min(double(*f) (double), double a, double b, int* Error)
 		f2 = (*f)(x2);
 		printf(" %f %f %f  %f %f %f\n", x0, x1, x2, f0, f1, f2);
 		//printf("    %f %f", x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1, f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
-		x1 = -0.5 * (x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1) / (f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
-		printf("    %f %f\n", x1, b - a);
+		a = (x2 * x2 * f0 - x0 * x0 * f2 + x0 * x0 * f1 - x1 * x1 * f0 + x1 * x1 * f2 - x2 * x2 * f1);
+		b = (f2 * x0 - f0 * x2 + f0 * x1 - f1 * x0 + f1 * x2 - f2 * x1);
+		a = a / b;
+		printf("    %f %f\n", a, x1 - x0);
 		*Error = 0;
 		return x1;
 	}
