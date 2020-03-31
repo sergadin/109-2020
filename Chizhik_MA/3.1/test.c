@@ -36,7 +36,6 @@ int main(void) {
 		"OK",
 		"Function is not unimodal here",
 	};
-	int i, j;
 	double min;
 	Status s;
 
@@ -53,9 +52,9 @@ int main(void) {
 				{1, 4}
 	};
 
-	for (i = 0; i < N; i++) {
+	for (int i = 0; i < N; i++) {
 		fprintf(stdout, "\nTest %d\n\n", i + 1);
-		for (j = 0; j < M; j++) {
+		for (int j = 0; j < M; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
 			min = find_minimum(fn[i], segments[j][0], segments[j][1], EPS, &s);
 			if (s != OK) {
