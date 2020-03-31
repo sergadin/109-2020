@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define eps 0.0001
+#define eps 0.000001
 
 double Min(double(*f) (double), double a, double b, int* Error);
 double Min(double(*f) (double), double a, double b, int* Error)
