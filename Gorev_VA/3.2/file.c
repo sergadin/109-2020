@@ -37,7 +37,7 @@ double Min(double(*f) (double), double a, double b, int* Error)
 			x1 = x0;
 			q = 0; // на следующем шаге нужно считать х0
 		}
-		printf("  %f %f %f %f\n", a, x0, x1);
+		printf("  %f %f %f %f\n", a, x0, x1, b);
 		if ((b - a) < eps)
 			break;
 	}
