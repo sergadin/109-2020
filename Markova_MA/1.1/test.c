@@ -21,7 +21,7 @@ int main(void)
 		b = temp;
 	}
 	m = root(f1, a, b, eps);
-	printf("Answer = %e\nfunction value = %e\n", m, absf(f1, m));
+	printf("Answer = %e\n", m);
 	return 0;
 }
 

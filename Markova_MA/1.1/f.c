@@ -1,17 +1,6 @@
 #include <stdio.h>
 #include "f.h"
 
-double abcf(RRFUN f, double x)
-{
-	if ((*f)(x) < 0)
-	{
-		return -(*f)(x); 
-	}
-	else
-	{
-		return (*f)(x);
-	}
-}
 double root(RRFUN f, double a, double b, double eps);
 {
 	double m = (a + b)/2;
