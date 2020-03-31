@@ -49,9 +49,9 @@ double Min(double(*f) (double), double a, double b, int* Error)
 	}
 	else
 	{
+		x2 = x1;
 		x0 = a;
 		x1 = b;
-		x2 = (x1 + x2) * 0.5;
 		f0 = (*f)(x0);
 		f1 = (*f)(x1);
 		f2 = (*f)(x2);
