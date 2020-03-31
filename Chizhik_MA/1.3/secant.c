@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "umath.h"
+#include "../lib/umath.h"
 #include "secant.h"
 
 void display_amount_of_iterations(int a) {

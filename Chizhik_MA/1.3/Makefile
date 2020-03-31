@@ -1,10 +1,10 @@
 all: do-test clean
 
-umath.o: umath.c umath.h
-	gcc -c umath.c
-secant.o: secant.c secant.h umath.h
+umath.o: ../lib/umath.c ../lib/umath.h
+	gcc -c ../lib/umath.c
+secant.o: secant.c secant.h ../lib/umath.h
 	gcc -c secant.c
-test.o: test.c secant.h umath.h
+test.o: test.c secant.h ../lib/umath.h
 	gcc -c test.c
 a.out: secant.o test.o umath.o
 	gcc -o a.out test.o secant.o umath.o
