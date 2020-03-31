@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "umath.h"
+#include "../lib/umath.h"
 #include "taylor.h"
 
 #define EPS 1e-3
@@ -33,8 +33,8 @@ int main(void) {
 		fprintf(stdout, "\nTest %d\n\n", j + 1);
 		for (i = 0; i < points_len; i++) {
 			fprintf(stdout, "Test %d.%d\n", j + 1, i + 1);
-			result = (approximations[j])(x[i], EPS, &n, &s);
-			expected = (fn[j])(x[i]);
+			result = (*approximations[j])(x[i], EPS, &n, &s);
+			expected = (*fn[j])(x[i]);
 			if (s != OK) {
 				fprintf(stdout, "It's hard to compute:\n");
 				fprintf(stdout, "%s\n", statusText[s]);

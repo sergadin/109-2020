@@ -1,10 +1,10 @@
 all: do-test clean
 
-umath.o: umath.h umath.c
-	gcc -c umath.c
-simpson.o: simpson.h umath.h simpson.c
+umath.o: ../lib/umath.h ../lib/umath.c
+	gcc -c ../lib/umath.c
+simpson.o: simpson.h ../lib/umath.h simpson.c
 	gcc -c simpson.c
-test.o: simpson.h umath.h test.c
+test.o: simpson.h ../lib/umath.h test.c
 	gcc -c test.c
 a.out: simpson.o umath.o test.o
 	gcc -Wall -Wextra -Werror -Wold-style-declaration -Wold-style-definition \

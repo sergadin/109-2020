@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <math.h>
-
-#include "umath.h"
+#include <cmath>
+#include "../lib/umath.h"
 
 double max(double *arr, int n) {
 	double max;
@@ -29,4 +27,13 @@ int compareDoubles(double a, double b, double precision) {
 	}
 
 	return -1;
+}
+
+int sgn(double x) {
+	if (x > 0) {
+		return 1;
+	} else if (x < 0) {
+		return -1;
+	}
+	return 0;
 }

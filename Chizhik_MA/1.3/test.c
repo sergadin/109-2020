@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "umath.h"
+#include "../lib/umath.h"
 #include "secant.h"
 
 #define EPS 1e-7

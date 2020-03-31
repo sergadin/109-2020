@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "umath.h"
+#include "../lib/umath.h"
 #include "secant.h"
 
 void display_amount_of_iterations(int a) {
@@ -22,8 +22,8 @@ double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
                 b = swap;
         }
 
-	a_zero = fabs(fn(a)) < precision;
-	b_zero = fabs(fn(b)) < precision;
+	a_zero = fabs((*fn)(a)) < precision;
+	b_zero = fabs((*fn)(b)) < precision;
 
 	if (a_zero || b_zero) {
 		display_amount_of_iterations(counter);
@@ -42,8 +42,8 @@ double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
 	}
 	
 	while(fabs(a - b) > precision) {
-		a_zero = fabs(fn(a)) < precision;
-        	b_zero = fabs(fn(b)) < precision;
+		a_zero = fabs((*fn)(a)) < precision;
+        	b_zero = fabs((*fn)(b)) < precision;
         	if (a_zero || b_zero) {
                 	display_amount_of_iterations(counter);
                 	return (a_zero) ? a : b;
@@ -52,9 +52,9 @@ double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
 		if (counter > 1e6) {
 			break;
 		}
-		tmp = b + fn(b) * (a - b) / (fn(b) - fn(a));
+		tmp = b + (*fn)(b) * (a - b) / ((*fn)(b) - (*fn)(a));
 
-		if (sgn(fn(tmp)) == sgn(fn(a))) {
+		if (sgn((*fn)(tmp)) == sgn((*fn)(a))) {
 			a = tmp;
 		} else {
 			b = tmp;

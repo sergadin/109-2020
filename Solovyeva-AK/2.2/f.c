@@ -19,7 +19,7 @@ double integral(double f(double), double a, double b, double eps){
 			In2 += (f(x) + f(x + dx))/2 * dx;
 		}
 		n *= 2;
-	} while ((fabs(In1-In2))/3 >= eps);
+	} while ((fabs(In1-In2))/3 >= (eps*max_3_dbl(In1, In2, 1)));
 	return In2;
 }
 

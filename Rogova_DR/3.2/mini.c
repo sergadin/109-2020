@@ -4,83 +4,44 @@
 
 double mod(double x);
 double sign(double x);
-double vparab(double a, double b, double c, RRF func);
+double vparab(double a, double x, double b, RRF func);
 
 
-double mini(double a1, double c1, double eps, RRF func)
+double mini(double a1, double b1, double eps, RRF func)
 {
-	double k = (sqrt(5) - 1)/2;
+	double minn, x,  k = (sqrt(5) + 1)/2;
 	double a = a1;
-        double c = c1;
-	double x = (a + c)/2, w = x, v = x;
-	double fx = (*func)(x), fw = fx, fv= fx;
-	double d = c - a, e = d;
-	double g, u, fu;
-	while(e > eps)
+        double b = b1;
+	double f1, f2;
+	double x1, x2;
+	while(mod(b - a) >= eps)
 	{
-		g = e;
-		e = d;
-		if((x != w) && (w != u) && (u != x) && (fx != fw) && (fv != fw) && (fv != fx))
-			u = vparab(x, w, u, func);
-		if((u <= c - eps) && (u >= a + eps) && (mod(u - x) < g/2))
+		x1 = b - (b - a)/k;
+		x2 = a + (b - a)/k;
+		f1 = (*func)(x1);
+		f2 = (*func)(x2);
+		if(f1 >= f2)
 		{
-			d = mod(u - x);
-		}	
-		else 
-		{
-			if(x < (c - a)/2)
-			{
-				u = x + k*(c - x);
-				d = c - x;
-			}
-			else
-			{
-				u = x - k*(x - a);
-				d = x - a;
-			}
-		}
-		if(mod(u - x) < eps)
-			u = x + sign(u - x)*eps;
-		fu = (*func)(u);
-		if(fu <= fx)
-		{
-			if(u >= x)
-				a = x;
-			else
-				c = x;
-			v = u;
-			w = x;
-			x = u;
-			fv = fw;
-			fw = fx;
-			fx = fu;
+			a = x1;
+			x = x2;
 		}
 		else
 		{
-			if(u >= x)
-				c = u;
-			else
-				a = u;
-			if((fu <= fw) || (w = x))
-			{
-				v = w;
-				w = u;
-				fv = fw;
-				fw = fu;
-			}
-			else
-			{
-				if((fu <= fv) || (v == x) || (v == w))
-				{
-					v = u;
-					fv = fu;
-				}
-			}
-
+			b = x2;
+			x = x1;
 		}
-
+		if(mod(b - a) < eps)
+		{
+			x = (a + b)/2;
+		}
 	}
-	return fu;
+	if(((*func)(x) != (*func)(a)) && ((*func)(x) != (*func)(b)))
+		minn = (*func)(x - ((x-a)*(x-a)*((*func)(x)-(*func)(b))-(x-b)*(x-b)*((*func)(x)-(*func)(a)))/(2*((x-a)*((*func)(x)-(*func)(b))-(x-b)*((*func)(x)-(*func)(a)))));
+	else
+		minn = (*func)(x);
+	return minn;
+
+
 
 }
 
@@ -93,13 +54,13 @@ double mod(double x)
 
 }
 
-double vparab(double a, double b, double c, RRF func)
+double vparab(double a, double x, double b, RRF func)
 {
 	double v;
 	double ya = (*func)(a);
+	double yx = (*func)(x);
 	double yb = (*func)(b);
-	double yc = (*func)(c);
-	v = b - ((b - a)*(b - a)*(yb - yc) - (b - c)*(b - c)*(yb - ya))*0.5/((b - a)*(yb - yc) - (b - c)*(yb - ya));
+	v = x - ((x - a)*(x - a)*(yx - yb) - (x - b)*(x - b)*(yx - ya))/(2*((x - a)*(yx - yb) - (x - b)*(yx - ya)));
 	return v;
 
 

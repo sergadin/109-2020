@@ -2,7 +2,7 @@
 #include <math.h>
 
 #include "simpson.h"
-#include "umath.h"
+#include "../lib/umath.h"
 
 #define N 5
 #define EPS 1e-6
@@ -67,6 +67,9 @@ int main(void) {
 			if (s != OK) {
 				fprintf(stdout, "The program can't integrate the given function:\n");
 				fprintf(stdout, "%s\n", statusText[s]);
+				if (s == METHOD_DOES_NOT_CONVERGE) {
+					fprintf(stdout, "The best computed value is %lf\n", integral);
+				}
 			} else {
 				fprintf(stdout, "Computed: approximately %lf\n", integral);
 				fprintf(stdout, "Expected: %lf\n", preciseAnswers[i][j]);

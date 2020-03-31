@@ -1,2 +1,2 @@
 typedef double (*RRF)(double x);
-double mini(double a, double b, double eps, RRF func);
+double mini(double a1, double b1, double eps, RRF func);

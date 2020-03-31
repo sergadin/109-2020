@@ -4,9 +4,9 @@
 
 
 
-double line(double x);
-double sqr(double x);
-double zer(double x);
+double cube(double x);
+double somef(double x);
+double cosin(double x);
 
 
 
@@ -16,34 +16,35 @@ double zer(double x);
 int main(void)
 {
 	int i, num = 3;
-	double res, eps = 0.001;
-	double tran[] = {1, 1, 0};
-	RRF funcs[] = {line, sqr, zer};
-	double a = 1;
-	double b = 2;
-	for(i = 0; i < num; i++)
+	double res, eps = 0.000001;
+	double tran[] = {-1, 0, -19.9};
+	RRF funcs[] = {cosin, cube, somef};
+	double a = 0;
+	double b = 4;
+	while(eps < 3)
 	{
-		res = mini(a, b, eps, funcs[i]);
-		printf("correct:\n%lf\nmy:\n%lf\n", tran[i], res);
+		eps = eps*3;
+		res = mini(a, b, eps, funcs[2]);
+		printf("eps:\n%lf\nmy:\n%lf\n", eps, res);
 	}
 }
 
 
 
-double line(double x)
+double cosin(double x)
 {
-	return x;
+	return cos(x);
 }
 
 
-double sqr(double x)
+double cube(double x)
 {
-	return x*x;
+	return x*x*x;
 }
 
 
 
-double zer(double x)
+double somef(double x)
 {
-	return 0*x;
+	return (x*x*x*x*x - 3*x*x*x*x);
 }
