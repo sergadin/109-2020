@@ -25,7 +25,7 @@ static double e_power_x (double x) {
 }
 
 int main(void) {
-	double a = -100, b = 100, eps, true_res[6];
+	double a = -100, b = 100, eps, true_res[6] =  {0, -1, -2, -1.69562077, -0.64118574, -1};
 	struct eq res;
 	
 	printf("Start of the segment - a = -100 \n");
@@ -48,15 +48,7 @@ int main(void) {
         {"5. f = x + 2^x", logarifm},
         {"6. f = e^x", e_power_x},
     };
-        	
-    true_res[0] = 0;
-    true_res[1] = -1;
-    true_res[2] = -2;
-    true_res[3] = -1.69562077;
-    true_res[4] = -0.64118574;
-    true_res[5] = -1;
-    
-    
+ 
     for(int test_num = 0; test_num < 6; test_num++) {
 		res = root(tests[test_num].f, a, b, eps);
 		if (res.value != -1) {
@@ -68,7 +60,7 @@ int main(void) {
 				printf("incorrect :c \n");
 			}
 		} else {
-			printf("With test functions %s :\n    There are no roots on the chosen segment\n", tests[test_num].name);
+			printf("With test functions %s :\n    The sings at the ends of segment are the same\n", tests[test_num].name);
 			
 		}
     }

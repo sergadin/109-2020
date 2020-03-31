@@ -4,6 +4,11 @@ struct eq root (double f(double), double a, double b, double eps){
 	double t, f1, f2;
 	struct eq equation;
 	equation.quantity = 0;
+	if (f(a)*f(b) > 0) {
+		equation.value = -1;
+		equation.quantity = 0;
+		return equation;
+	}
     do {
 		equation.quantity++;
 		f1 = f(a);
@@ -14,16 +19,10 @@ struct eq root (double f(double), double a, double b, double eps){
 		} else {
 			a = t;
 		}
-	} while (fabs(b - a) >= eps);
+	} while (compare(a,b,eps));
     equation.value = (a + b)/2;
     f1 = f(equation.value);
-    if (fabs(f1) <= eps) {
-		return equation;
-	} else {
-		equation.value = -1;
-		equation.quantity = 0;
-		return equation;
-	}
+	return equation;
 }
 
 double max_2_dbl (double x, double y){

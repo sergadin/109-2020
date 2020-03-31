@@ -25,7 +25,7 @@ static double cos_x (double x) {
 }
 
 int main(void) {
-	double a = -1, b = 3, n, eps, true_res[6], res;
+	double a = -1, b = 3, n, eps, true_res[6] = {0, 4, 9.33333333, 1.53002948, 0.98259099, 19.71765748}, res;
 	
 	printf("Start of the segment - a = -1 \n");
 	printf("End of the segment - b = 3 \n");
@@ -47,14 +47,6 @@ int main(void) {
         {"5. f = cos(x)", cos_x},
         {"6. f = e^x", e_power_x},
     };
-    
-        	
-    true_res[0] = 0;
-    true_res[1] = 4;
-    true_res[2] = 9.33333333;
-    true_res[3] = 1.53002948;
-    true_res[4] = 0.98259099;
-    true_res[5] = 19.71765748;
     
     for(int test_num = 0; test_num < 6; test_num++) {
 		res = integral(tests[test_num].f, a, b, eps);
