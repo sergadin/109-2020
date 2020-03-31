@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "f.h"
 
-double root(double (*f)(double), double a, double b, double eps);
+double root(double (*f)(double), double a, double b, double eps)
 {
 	double m = (a + b)/2;
 	while((b - a) < eps)
