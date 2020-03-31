@@ -21,8 +21,8 @@ double F3(double x)
 	return x + 1.5;
 }
 
-double F3(double x);
-double F3(double x)
+double F4(double x);
+double F4(double x)
 {
 	return -x * x * 2.0;
 }
