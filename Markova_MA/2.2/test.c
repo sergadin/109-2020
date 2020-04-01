@@ -5,11 +5,11 @@
 
 double f1 (double x)
 {
-	return x*x + 5*x - 6;
+	return sin(1/x);
 }
 double f2 (double x)
 {
-	return x*x + 1;
+	return exp(1/x)*sin(1/x);
 }
 double f3 (double x)
 {
@@ -23,10 +23,9 @@ int main(void)
 {
 	double a = -4, b = 2, m;
 	ErrorCode err;
-	printf("popgк");
 	m = integral(f1, a, b, &err);
 	
-	printf("x*x + 5*x - 6");
+	printf("f1 ");
 	switch(err)
 	{
 	case INT_NOT:
@@ -39,7 +38,7 @@ int main(void)
 		printf("Answer = %e\n", m);
 	}
 	
-	printf("x*x + 1 = 0 ");
+	printf("f2 ");
 	m = integral(f2, a, b, &err);
 	
 	switch(err)
@@ -54,7 +53,7 @@ int main(void)
 		printf("Answer = %e\n", m);
 	}
 	
-	printf("x*x*x = 0 ");
+	printf("f3 ");
 	m = integral(f3, a, b, &err);
 	
 	switch(err)
@@ -69,7 +68,7 @@ int main(void)
 		printf("Answer = %e\n", m);
 	}
 	
-	printf("x*x + 8*x = 0 ");
+	printf("f4 ");
 	m = integral(f4, a, b, &err);
 	
 	switch(err)
