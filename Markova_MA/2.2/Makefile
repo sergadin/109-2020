@@ -1,7 +1,7 @@
 all: do-test
 
 f.o: f.c f.h
-	gcc -с f.c 
+	gcc -c f.c -lm
 
 test.o: test.c f.h
 	gcc -c test.c
