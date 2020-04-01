@@ -16,7 +16,7 @@ double ab (double m)
 	}
 }
 
-double integr(double (*f)(double), double a, double b, ErrorCode *perr)
+double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 {
 	
 	double h = (a + b)/2, I1 = 0, I2;

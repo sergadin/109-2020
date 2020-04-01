@@ -1,5 +1,5 @@
 typedef enum { INT_OK, INT_NOT, INT_ND } ErrorCode;
-double integr(double (*f)(double), double a, double b, ErrorCode *perr)
+double integral(double (*f)(double), double a, double b, ErrorCode *perr);
 
 
 double f1 (double x);

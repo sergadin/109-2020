@@ -22,7 +22,7 @@ int main(void)
 {
 	double a = -4, b = 2, eps = 0.0001, m;
 	ErrorCode err;
-	m = integr(f1, a, b, &err);
+	m = integral(f1, a, b, &err);
 	
 	printf("x*x + 5*x - 6");
 	switch(err)
@@ -38,7 +38,7 @@ int main(void)
 	}
 	
 	printf("x*x + 1 = 0 ");
-	m = integr(f2, a, b, &err);
+	m = integral(f2, a, b, &err);
 	
 	switch(err)
 	{
@@ -53,7 +53,7 @@ int main(void)
 	}
 	
 	printf("x*x*x = 0 ");
-	m = integr(f3, a, b, &err);
+	m = integral(f3, a, b, &err);
 	
 	switch(err)
 	{
@@ -68,7 +68,7 @@ int main(void)
 	}
 	
 	printf("x*x + 8*x = 0 ");
-	m = integr(f4, a, b, &err);
+	m = integral(f4, a, b, &err);
 	
 	switch(err)
 	{
