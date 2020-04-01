@@ -39,24 +39,6 @@ void Min_Search_Golden_Section(RRfun f, double* a, double* b, double eps)
 return;
 }
 
-void min(RRfun f, double a, double b, double eps)
-{
-    double xmin;
-    Min_Search_Golden_Section(f, &a, &b, eps);
-    printf("  local min is in (%.10lf; %.10lf)\n", a, b);
-	
-    printf("f(a) = %.10lf \nf(b) = %.10lf  \n", (*f)(a), (*f)(b));
-    xmin = (a+b)/2;  
-    if(((*f)(xmin) != (*f)(a)) && ((*f)(xmin) != (*f)(b)))
-    {
-        xmin = parabolic_approx(a, (a+b)/2, b, f);
-    }
-    printf("     function's value is y = %.10lf \n", (*f)(xmin));
-    printf("     function's argument is x = %.10lf \n", xmin);
-        
-return;      
-}
-
 double parabolic_approx(double x1, double x2, double x3, RRfun f)
 {
     double approx;
