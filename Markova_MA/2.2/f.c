@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
-#define eps 0.01
+#define eps 0.00001
 #define T 1000
 double ab (double m) 
 {
