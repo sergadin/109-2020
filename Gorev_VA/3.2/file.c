@@ -21,6 +21,20 @@ double F3(double x)
 	return x + 1.5;
 }
 
+double F4(double x);
+double F4(double x)
+{
+	return -x * x * 2.0;
+}
+
+double F5(double x);
+double F5(double x)
+{
+	if (x >= 0)
+		return x;
+	return -x;
+}
+
 int main(void)
 {
 	int* Error;
@@ -41,11 +55,26 @@ int main(void)
 	else
 		printf(" calculated min value: %f\n actual min value:     %f\n", V, -1.0);
 
-	printf("f(x) = x^3 - x at [0, 1]\n");
-	V = min_value(F3, 0.0, 2.0, Error);
+	printf("f(x) = x + 1.5 at [0, 1]\n");
+	V = min_value(F3, 0.0, 1.0, Error);
 	if (*Error)
 		printf("Error\n");
 	else
 		printf(" calculated min value: %f\n actual min value:     %f\n", V, 1.5);
+
+	printf("f(x) = -2x^2 at [-1, 1]\n");
+	V = min_value(F4, -1.0, 1.0, Error);
+	if (*Error)
+		printf("Error\n");
+	else
+		printf(" calculated min value: %f\n actual min value:     %f\n", V, -0.0);
+
+	printf("f(x) = |x| at [-1, 1]\n");
+	V = min_value(F5, -1.0, 1.0, Error);
+	if (*Error)
+		printf("Error\n");
+	else
+		printf(" calculated min value: %f\n actual min value:     %f\n", V, 0.0);
+
 	return 0;
 }
