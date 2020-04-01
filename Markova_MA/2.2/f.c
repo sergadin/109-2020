@@ -43,8 +43,9 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 			I2 += (*f)(h1) + (*f)(h1 + h);
 		}
 		I2 *= h/2;
+		printf("%e\n", I2);
 	}
-	printf("%d", check);
+	printf("%d\n", check);
 	*perr = INT_OK;
 	return I2;
 }
