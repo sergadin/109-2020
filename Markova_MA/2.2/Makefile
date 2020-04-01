@@ -1,9 +1,9 @@
 all: do-test
 
 f.o: f.c f.h
-	gcc f.c -lm
+	gcc -с f.c -lm
 
-test.o: test.o f.h
+test.o: test.c f.h
 	gcc -c test.c
 
 a.out: test.o f.o
