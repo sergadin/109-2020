@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stddef.h>
 #include "../lib/umath.h"
 #include "determinant.h"
 
@@ -42,7 +43,7 @@ double find_determinant(double *matrix, int n, double precision) {
 double *get_matrix_element(double *matrix, int order, int i, int j) {
 	unsigned int something_went_wrong = (i > order) || (j > order) || (i < 0) || (j < 0);
 	if (something_went_wrong) {
-		return 0;
+		return NULL;
 	}
 	return &matrix[i * order + j];
 }
