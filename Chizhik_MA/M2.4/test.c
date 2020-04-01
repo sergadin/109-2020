@@ -6,7 +6,7 @@
 #include "system.h"
 
 #define M 3
-#define EPS 1e-6
+#define EPS 1e-9
 #define in "input.txt"
 
 int main(void) {
@@ -97,7 +97,7 @@ int main(void) {
 				fprintf(stdout, "Solution of the system:\n");
 				for (int c = 0; c < n; c++) {
 					fprintf(stdout, "x_%d = %lf\n", c + 1, solution[c]);
-					if (compareDoubles(solution[c], answer[c], EPS * 10) != 0) {
+					if (compareDoubles(solution[c], answer[c], EPS) != 0) {
 						fprintf(stderr, "\nWait... The answer's not correct\n");
 						free(solution);
 						free(answer);
