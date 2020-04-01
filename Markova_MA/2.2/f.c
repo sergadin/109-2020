@@ -19,7 +19,7 @@ double ab (double m)
 double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 {
 	
-	double h = (a + b)/2, I1 = 0, I2;
+	double h = (b - a)/2, I1 = 0, I2;
 	int check = 0;
 	I2 = (ab(b - a)*h)/2;
 	if(a >= b)

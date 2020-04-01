@@ -23,7 +23,7 @@ int main(void)
 {
 	double a = -4, b = 2, m;
 	ErrorCode err;
-	printf("popg");
+	printf("popgк");
 	m = integral(f1, a, b, &err);
 	
 	printf("x*x + 5*x - 6");
