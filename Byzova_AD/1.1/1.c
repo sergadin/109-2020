@@ -3,8 +3,7 @@
 
 #include"func.h"
 
-double solve1(double a0, double b0, double eps, RRFunc f)
-{
+double solve1(double a0, double b0, double eps, RRFunc f) {
 	double a = a0, b = b0;
     double mid = (a0 + b0)/2;
 	double fa , fb, fmid = 0; 
