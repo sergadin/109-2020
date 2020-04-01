@@ -21,7 +21,7 @@ double f4 (double x)
 }
 int main(void)
 {
-	double a = -4, b = 2, m;
+	double a = 0.001, b = 2, m;
 	ErrorCode err;
 	m = integral(f1, a, b, &err);
 	
