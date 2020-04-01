@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
+#define eps 0.01
+#define T 1000
 double f1 (double x)
 {
 	return x*x + 5*x - 6;

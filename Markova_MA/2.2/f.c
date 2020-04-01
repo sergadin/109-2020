@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
-#define eps 0.000001
-#define T 100000
+#define eps 0.01
+#define T 1000
 double ab (double m) 
 {
 	if(m < 0)
