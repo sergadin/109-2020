@@ -30,6 +30,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 	while(ab(I1 - I2) > eps)
 	{
 		check++;
+		printf("%e/n", check);
 		if(check > T)
 		{
 			*perr = INT_NOT;
