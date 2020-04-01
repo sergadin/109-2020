@@ -6,7 +6,7 @@ double find_determinant(double *matrix, int n, double precision) {
 	double det = 1, sign = 1;
 	int str_of_max;
 
-	for (int j = 0; j < n - 1; j++) {
+	for (int j = 0; j < n; j++) {
 		str_of_max = j;
 		for (int i = j; i < n; i++) {
 			if (fabs(*get_matrix_element(matrix, n, i, j)) > 
@@ -32,10 +32,8 @@ double find_determinant(double *matrix, int n, double precision) {
 				*get_matrix_element(matrix, n, b, c) -= coef * *get_matrix_element(matrix, n, j, c);
 			}
 		}
-	}
 
-	for (int k = 0; k < n; k++) {
-		det *= *get_matrix_element(matrix, n, k, k);
+		det *= *get_matrix_element(matrix, n, j, j);
 	}
 
 	return sign * det;
