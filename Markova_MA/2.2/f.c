@@ -22,6 +22,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 	double h = (b - a)/2, I1 = 0, I2;
 	int check = 0;
 	I2 = (ab(b - a)*h)/2;
+	printf("start:%e\n", I2);
 	if(a >= b)
 	{
 		*perr = INT_ND;
@@ -41,6 +42,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 		for(double h1 = a; h1 <= b; h1 += h)
 		{
 			I2 += (*f)(h1) + (*f)(h1 + h);
+			printf("now:%e\n", I2);
 		}
 		I2 *= h/2;
 		printf("%e\n", I2);
