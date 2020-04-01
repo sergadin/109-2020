@@ -44,6 +44,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr)
 		}
 		I2 *= h/2;
 	}
+	printf("%d", check);
 	*perr = INT_OK;
 	return I2;
 }
