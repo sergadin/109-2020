@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
-#define eps 0.00001
 #define T 1000
 double ab (double m) 
 {
@@ -16,7 +15,7 @@ double ab (double m)
 	}
 }
 
-double integral(double (*f)(double), double a, double b, ErrorCode *perr)
+double integral(double (*f)(double), double a, double b, ErrorCode *perr, double eps)
 {
 	
 	double h = (b - a)/2, I1 = 0, I2;
