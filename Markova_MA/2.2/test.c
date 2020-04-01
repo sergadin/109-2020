@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
-#define eps 0.01
-#define T 1000
+
 double f1 (double x)
 {
 	return x*x + 5*x - 6;
@@ -22,7 +21,7 @@ double f4 (double x)
 }
 int main(void)
 {
-	double a = -4, b = 2, eps = 0.0001, m;
+	double a = -4, b = 2, m;
 	ErrorCode err;
 	m = integral(f1, a, b, &err);
 	

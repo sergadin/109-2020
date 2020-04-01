@@ -1,4 +1,6 @@
-typedef enum { INT_OK, INT_NOT, INT_ND } ErrorCode;
+#define eps 0.01
+#define T 1000
+typedef enum { INT_OK = 0, INT_NOT, INT_ND } ErrorCode;
 double integral(double (*f)(double), double a, double b, ErrorCode *perr);
 
 
