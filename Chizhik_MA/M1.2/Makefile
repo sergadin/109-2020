@@ -9,7 +9,7 @@ test.o: determinant.h ../lib/umath.h test.c
 
 a.out: umath.o determinant.o test.o
 	gcc -Wall -Wextra -Werror -Wold-style-declaration -Wold-style-definition \
-    -Wfloat-equal -pedantic -std=c99 -o a.out umath.o determinant.o test.o -lm
+    -Wfloat-equal -pedantic -std=c99 -o a.out umath.o determinant.o test.o
 do-test: a.out
 	./a.out
 
