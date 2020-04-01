@@ -21,7 +21,7 @@ double simpson(double a, double b, int n, RRFUN function)
   return result;
 }
 
-double integrate(double a, double b, double epsilon, RRFUN function
+double integrate(double a, double b, double epsilon, RRFUN function)
 {
   int n = 2;
   double res1 = 0, res2 = 0;
@@ -32,6 +32,5 @@ double integrate(double a, double b, double epsilon, RRFUN function
 		n = 2*n;
 		result2 = simpson(a, b, n, function);
 	}
-  if (n < 1000000000)
 	return result2;
 }
