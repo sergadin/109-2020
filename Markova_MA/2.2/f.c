@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
-#define eps 0.000001
-#define T 100000
+#define T 1000
 double ab (double m) 
 {
 	if(m < 0)
@@ -16,10 +15,10 @@ double ab (double m)
 	}
 }
 
-double integr(double (*f)(double), double a, double b, ErrorCode *perr)
+double integral(double (*f)(double), double a, double b, ErrorCode *perr, double eps)
 {
 	
-	double h = (a + b)/2, I1 = 0, I2;
+	double h = (b - a)/2, I1 = 0, I2;
 	int check = 0;
 	I2 = (ab(b - a)*h)/2;
 	if(a >= b)

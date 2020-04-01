@@ -1,0 +1,7 @@
+3 1 0 0 2 0 1 0 4 0 0 1 11 2 4 11
+2 1 1 1 1 1 1 0 0
+1 5 6 1.2
+# n e e ... e a a ... a
+# n - order of the matrix
+# e ((n + 1) * n numbers) - elements of the augmented matrix
+# a - expected answers (n numbers)
