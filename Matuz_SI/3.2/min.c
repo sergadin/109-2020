@@ -1,6 +1,10 @@
 #include <math.h>
 #include <stdio.h>
 #include "min.h"
+#define EPS_D 0.0000000000000001
+#define Max2(a, b) ((a)>(b) ? (a) : (b))
+#define Max3(a, b, c) Max2(Max2((a), (b)), (c))
+
 
 
 void Min_Search_Golden_Section(RRfun f, double* a, double* b, double eps)
@@ -39,7 +43,7 @@ void Min_Search_Golden_Section(RRfun f, double* a, double* b, double eps)
 return;
 }
 
-void min(RRfun f, double a, double b, double eps)
+void min_with_strange_parabola_thing(RRfun f, double a, double b, double eps)
 {
     double xmin;
     Min_Search_Golden_Section(f, &a, &b, eps);
@@ -47,7 +51,7 @@ void min(RRfun f, double a, double b, double eps)
 	
     printf("f(a) = %.10lf \nf(b) = %.10lf  \n", (*f)(a), (*f)(b));
     xmin = (a+b)/2;  
-    if(((*f)(xmin) != (*f)(a)) && ((*f)(xmin) != (*f)(b)))
+    if((module((*f)(xmin) - (*f)(a))>EPS_D*Max3(1, (*f)(xmin), (*f)(a))) && (module((*f)(xmin) - (*f)(b))>EPS_D*Max3(1, (*f)(xmin), (*f)(b))))
     {
         xmin = parabolic_approx(a, (a+b)/2, b, f);
     }

@@ -24,7 +24,7 @@ int main(void)
     for(int i = 0; i < n; i++)
     {
          printf("Test %d | ", i+1);
-         min(f[i], a[i], b[i], eps);  
+         min_with_strange_parabola_thing(f[i], a[i], b[i], eps);  
     }    
   
 
