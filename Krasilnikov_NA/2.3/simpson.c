@@ -21,15 +21,18 @@ double simpson(double a, double b, int n, RRFUN function)
 	return result;
 }
 
-double integrate(double a, double b, double epsilon, RRFUN function)
+struct result  integrate(double a, double b, double epsilon, RRFUN function)
 {
 	int n = 2;
 	double res1 = simpson(a, b, n, function), res2 = simpson(a, b, 2*n, function);
+  struct result answer;
 	while ((fabs(res2 - res1) > epsilon) && (n < 1000000000))
 	{
 		res1 = simpson(a, b, n, function);
 		n = 2*n;
 		res2 = simpson(a, b, n, function);
 	}
-	return res2;
+  answer.rofi = res2;
+  answer.n = n;
+	rerurn answer;
 }

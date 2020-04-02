@@ -13,7 +13,8 @@ int main()
 {
 	FILE *fin, *fout, *ans;
 	int i, m;
-	double a, b, epsilon, result, *answers;
+	double a, b, epsilon, *answers;
+  struct result answer;
 	RRFUN funcs[] = {first, second};
 	m = 2;
 	if ((fin = fopen("input.txt","r")) == NULL)
@@ -69,8 +70,18 @@ int main()
 	}
 	for(i = 0; i < m; i++)
 	{
-		result = integrate(a, b, epsilon, funcs[i]);
-		if (fabs(result - answers[i]) < epsilon * MAXOF3(result, answers[i], 1))
+		answer.rofi = integrate(a, b, epsilon, funcs[i]);
+    if (answer.n >= 1000000000)
+    {
+      fprintf(fout, "Test № %d: LOSS\n", (i + 1));
+      fprintf(fout, "Impossible to calculate\n");
+      fclose(fin);
+      fclose(ans);
+      fclose(fout);
+      free(answers);
+      return -1;
+    }
+		if (fabs(answer.rofi - answers[i]) < epsilon * MAXOF3(answer.rofi, answers[i], 1))
 		{
 			fprintf(fout, "Test № %d: OK\n", (i + 1));
 		}
