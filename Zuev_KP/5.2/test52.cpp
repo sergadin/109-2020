@@ -6,8 +6,8 @@ using namespace std;
       
 int main()
 {
-        int n = 10; 
-        double *x = (double*) malloc(n *sizeof(double));
+        int n = 9; 
+        double x[] = {1, 1.5, 4.45, 6, 7.8, 9, 11, 14, 15};
         double *y1 = (double*) malloc(n *sizeof(double));
 	double *y2 = (double*) malloc(n *sizeof(double));
         double x0 = 4.589;
@@ -15,7 +15,6 @@ int main()
 	double c[] = {-24.49, -0.8174};
         for(int i = 0; i < n; i++)
         {
-                x[i] = i;
                 y1[i] = 0.125*x[i]*x[i]+5-7*x[i];
 		y2[i] = 5*sin(x[i]+5);
         }
