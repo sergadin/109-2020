@@ -62,13 +62,7 @@ int main(void) {
 			}
 		}
 
-		fprintf(stdout, "Augmented matrix of the system:\n");
-		for (int i = 0; i < n; i++) {
-                	for (int j = 0; j < n + 1; j++) {
-                        	fprintf(stdout, "%lf ", matrix[i][j]);
-                	}
-                	fprintf(stdout, "\n");
-        	}
+		printMatrix(matrix, n, n + 1, "Augmented matrix of the system:");
 
 		solution = solve_system(matrix, n, EPS, &s);
 		if (s == CANNOT_ALLOCATE_MEMORY) {
@@ -78,15 +72,8 @@ int main(void) {
 			return -1;
 		}
 
-		fprintf(stdout, "Matrix after implementation of Gauss elimination\n");
-		for (int i = 0; i < n; i++) {
-                	for (int j = 0; j < n + 1; j++) {
-                        	fprintf(stdout, "%lf ", matrix[i][j]);
-                	}
-                	fprintf(stdout, "\n");
-        	}
+		printMatrix(matrix, n, n + 1, "Matrix after implementation of Gauss elimination:");
 
-		
 		if ((answer = (double *)malloc(n * sizeof(double))) == NULL) {
 			fprintf(stderr, "Malloc can't allocate memory for correct answer\n");
 			clear_two_dimensional_matrix(matrix, n);

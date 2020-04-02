@@ -55,6 +55,17 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 	return solution;
 }
 
+void printMatrix(double **matrix, int m, int n, char *comment) {
+	fprintf(stdout, "\n%s\n", comment);
+	for (int i = 0; i < m; i++) {
+               	for (int j = 0; j < n; j++) {
+                       	fprintf(stdout, "%lf ", matrix[i][j]);
+               	}
+               	fprintf(stdout, "\n");
+        }
+	fprintf(stdout, "\n");
+}
+
 void clear_two_dimensional_matrix(double **matrix, int n) {
 	for (int i = 0; i < n; i++) {
 		free(matrix[i]);
