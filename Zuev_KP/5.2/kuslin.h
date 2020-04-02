@@ -1,4 +1,6 @@
 #include"iostream"
+#include"math.h"
+
 using namespace std;
 
 class klin
@@ -22,6 +24,16 @@ class klin
 		double interpolation(double x0)
 		{
 			double y0 = 0;
+			double h = 0, k = 0;
+			for(int i = 1; i < n; i ++)
+			{
+				if ((x[i-1]<=x0) && (x0<=x[i]))
+				{
+					h = (y[i]-y[i-1])/(x[i]-x[i-1]);
+					k = y[i-1]-h*x[i-1];
+					y0 = h*x0+k;
+				}
+			}
 			return y0;
 		}
 };
