@@ -10,10 +10,10 @@ test_simpson.o: test_simpson.c simpson.h
 #	gcc -c test_simpson.c
 
 a.out: test_simpson.o simpson.o
-	gcc test_simpson.o simpson.o
+	gcc test_simpson.o simpson.o -lm
 
 do-test: a.out
 	./a.out
 
 clean: test_simpson.o simpson.o
-	rm test_simpson.o simpson.o a.out leak.out
+	rm test_simpson.o simpson.o a.out
