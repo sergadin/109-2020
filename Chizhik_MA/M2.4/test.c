@@ -5,8 +5,8 @@
 #include "../lib/umath.h"
 #include "system.h"
 
-#define M 4
-#define EPS 1e-10
+#define M 5
+#define EPS 1e-11
 #define in "input.txt"
 
 int main(void) {
