@@ -72,7 +72,7 @@ int main(void) {
 			return -1;
 		}
 
-		printMatrix(matrix, n, n + 1, "Matrix after implementation of Gauss elimination:");
+		printMatrix(matrix, n, n + 1, "Matrix after applying some row operations:");
 
 		if ((answer = (double *)malloc(n * sizeof(double))) == NULL) {
 			fprintf(stderr, "Malloc can't allocate memory for correct answer\n");
