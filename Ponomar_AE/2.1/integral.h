@@ -1,3 +1,4 @@
 typedef double (*RRF)(double x);
-double integral(RRF func, double X_a, double X_b, double E);
+typedef enum {SF_OK = 0, SF_ERROR} ErrorCode;
+double integral(RRF func, double X_a, double X_b, double E, ErrorCode *error_code);
 
