@@ -3,9 +3,9 @@ CFLAGS=-g
 
 all: do-test clean
 
-sum.o sum.c sum.h
+sum.o: sum.c sum.h
 
-test.o: test.o sum.h
+test.o: test.c sum.h
 
 a.out: test.o sum.o
 	gcc test.o sum.o
@@ -13,5 +13,5 @@ a.out: test.o sum.o
 do-test: a.out
 	./a.out
 
-clean: test.o sum.o
-	rm sum.o sum.o
+clean: test.o sum.o ./a.out
+	rm test.o sum.o ./a.out
