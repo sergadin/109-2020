@@ -5,7 +5,7 @@
 #include "../lib/umath.h"
 #include "system.h"
 
-#define M 3
+#define M 4
 #define EPS 1e-10
 #define in "input.txt"
 
@@ -62,6 +62,14 @@ int main(void) {
 			}
 		}
 
+		fprintf(stdout, "Augmented matrix of the system:\n");
+		for (int i = 0; i < n; i++) {
+                	for (int j = 0; j < n + 1; j++) {
+                        	fprintf(stdout, "%lf ", matrix[i][j]);
+                	}
+                	fprintf(stdout, "\n");
+        	}
+
 		solution = solve_system(matrix, n, EPS, &s);
 		if (s == CANNOT_ALLOCATE_MEMORY) {
 			fprintf(stderr, "Malloc can't allocate memory for solution");
@@ -69,6 +77,15 @@ int main(void) {
 			fclose(input);
 			return -1;
 		}
+
+		fprintf(stdout, "Matrix after implementation of Gauss elimination\n");
+		for (int i = 0; i < n; i++) {
+                	for (int j = 0; j < n + 1; j++) {
+                        	fprintf(stdout, "%lf ", matrix[i][j]);
+                	}
+                	fprintf(stdout, "\n");
+        	}
+
 		
 		if ((answer = (double *)malloc(n * sizeof(double))) == NULL) {
 			fprintf(stderr, "Malloc can't allocate memory for correct answer\n");

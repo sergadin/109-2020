@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <stdlib.h>
 #include <stddef.h>
 #include <math.h>
@@ -44,7 +46,7 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 
 		solution[j] = matrix[j][n];
 
-		for (int k = n - 2; k >= 0; k--) {
+		for (int k = j - 1; k >= 0; k--) {
 			matrix[k][n] -= matrix[k][j] * matrix[j][n];
 			matrix[k][j] = 0;
 		}
