@@ -1,16 +1,13 @@
-CC=gcc 
+CC=gcc
 CFLAGS=-g
 
 all: do-test clean
 
-test.o: test52.o kuslin.h
-#	g++ -c test52.cpp 
-
-a.out: test52.o kuslin.o
-	gcc test52.o kuslin.o -lm
+test.o: test52.cpp  kuslin.h
+#	g++ -c test52.c
 
 do-test: a.out
-	./a.out 
+	./a.out
 
-clean: test52.o kuslin.o
-	rm test52.o kuslin.o 
+clean: test52.o kuslin.h
+	rm test52.o 
