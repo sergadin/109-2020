@@ -8,13 +8,13 @@
 double square(double x);
 double cube(double x);
 double exp(double x);
-
+double badfunc(double x);
 
 int main(void)
 {
 	double res, c;
-	double A[15],B[15],trueans[15];
-	RRFUN F[15];
+	double A[16],B[16],trueans[16];
+	RRFUN F[16];
 	int i;
 	FILE *input;
 	ErrorCode err;
@@ -27,6 +27,7 @@ int main(void)
 		F[i] = square;
 	F[11] = F[12] = F[13] = cube;
 	F[14] = exp;
+	F[15] = badfunc;
 
 	//Записываем массивы концов отрезков, числа отрезков и правильных ответов
 	if((input = fopen("input.txt","r")) == NULL)
@@ -34,7 +35,7 @@ int main(void)
 		fprintf(stderr, "File opening error\n");
 		return -1;
 	}
-	for(i = 0; i < 15; i++)
+	for(i = 0; i < 16; i++)
 	{
 		if(fscanf(input,"%lf %lf %lf", &A[i], &B[i], &trueans[i]) != 3)
 		{
@@ -53,13 +54,13 @@ int main(void)
 	fclose(input);
 
 	//Тесты
-	for(i = 0; i < 15; i ++)
+	for(i = 0; i < 16; i ++)
 	{
 		res = integrate(F[i], A[i], B[i], eps, &err);
 		fprintf(stdout, "Test #%d ", i + 1);
 		if(err == INT_NOTOK)
-			fprintf(stdout, "Integration error\n");
-		if(fabs(res - trueans[i]) > eps)
+			fprintf(stdout, "Integration error ");
+		else if(fabs(res - trueans[i]) > eps)
 			fprintf(stdout, "Error %lf\n", fabs(res - trueans[i]));
 		else
 			fprintf(stdout, "OK\n");
@@ -81,4 +82,11 @@ double cube(double x)
 double exp(double x)
 {
 	return pow(E, x);
+}
+double badfunc(double x)
+{
+	if(fabs(x) < eps)
+		return 0;
+	else
+		return sin(1/x)/x/x;
 }

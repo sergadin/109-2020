@@ -10,7 +10,7 @@ double gauss(RRFUN f, double a, double b, int N)
 {
 	int i;
 	double I = 0;
-	for(i = 0; i < N; i++)
+	for(i = 1; i < N; i++)
 		I += piece(f, a + (i-1)*(b-a)/N, a + i*(b-a)/N);
 	return I;
 }
