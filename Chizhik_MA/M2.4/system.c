@@ -40,6 +40,8 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 
 	for (int j = n - 1; j >= 0; j--) {
 		matrix[j][n] /= matrix[j][j];
+		matrix[j][j] = 1;
+
 		solution[j] = matrix[j][n];
 
 		for (int k = n - 2; k >= 0; k--) {
