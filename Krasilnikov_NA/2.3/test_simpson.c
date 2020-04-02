@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <math.h>
 #include "simpson.h"
+
+#define MAXOF2(x, y) (((x) > (y))?(x):(y))
+#define MAXOF3(x, y, z) MAXOF2(x, MAXOF2(y, z))
+
 double first(double x);
+double second(double x);
+
 int main()
 {
 	FILE *fin, *fout, *ans;
 	int i, m;
 	double a, b, epsilon, result, *answers;
-	RRFUN funcs[] = {first};
-	m = 1;
+	RRFUN funcs[] = {first, second};
+	m = 2;
 	if ((fin = fopen("input.txt","r")) == NULL)
 	{
 		printf("INVALID INPUT FILE");
@@ -19,14 +25,14 @@ int main()
 	{
 		printf("INVALID ANSWERS FILE");
 		fclose(fin);
-		return -2;
+		return -1;
 	}
 	if ((fout = fopen("output.txt","w")) == NULL)
 	{
 		printf("INVALID OUTPUT FILE");
 		fclose(ans);
 		fclose(fin);
-		return -3;
+		return -1;
 	}
 	if ((answers = (double*) malloc(m * sizeof(double))) == NULL)
 	{
@@ -34,16 +40,16 @@ int main()
 		fclose(fin);
 		fclose(ans);
 		fclose(fout);
-		return -4;
+		return -1;
 	}
 	for(i = 0; i < m; i++)
 	{
-		if (fscanf(fin, "%lf", &answers[i]) != 1)
+		if (fscanf(ans, "%lf", &answers[i]) != 1)
 		{
 			fclose(fin);
 			fclose(ans);
 			fclose(fout);
-			return -5;
+			return -1;
 		}
 	}
 	if (fscanf(fin, "%lf", &epsilon) != 1)
@@ -51,7 +57,7 @@ int main()
 		fclose(fin);
 		fclose(ans);
 		fclose(fout);
-		return -6;
+		return -1;
 	}
 	if (fscanf(fin, "%lf %lf", &a, &b) != 2)
 	{
@@ -59,12 +65,12 @@ int main()
 		fclose(ans);
 		fclose(fout);
 		free(answers);
-		return -7;
+		return -1;
 	}
 	for(i = 0; i < m; i++)
 	{
 		result = integrate(a, b, epsilon, funcs[i]);
-		if (result == answers[i])
+		if (fabs(result - answers[i]) < epsilon * MAXOF3(result, answers[i], 1))
 		{
 			fprintf(fout, "Test № %d: OK\n", (i + 1));
 		}
@@ -75,7 +81,7 @@ int main()
 			fclose(ans);
 			fclose(fout);
 			free(answers);
-			return -8;
+			return -1;
 		}
 	}
 	fclose(fin);
@@ -86,5 +92,9 @@ int main()
 }
 double first(double x)
 {
-	return (x *(x + 2)) * 3;
+	return (x *(x + 2)) * 3 - 7;
+}
+double second(double x)
+{
+	return sin(1/x);
 }
