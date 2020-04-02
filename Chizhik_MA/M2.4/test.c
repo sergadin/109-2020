@@ -6,7 +6,7 @@
 #include "system.h"
 
 #define M 3
-#define EPS 1e-9
+#define EPS 1e-10
 #define in "input.txt"
 
 int main(void) {

@@ -12,8 +12,6 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 		return NULL;
 	}
 
-	double abs_det = 1;
-
 	for (int j = 0; j < n; j++) {
 		int str_of_max = j;
 		for (int i = j + 1; i < n; i++) {
@@ -38,8 +36,6 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 				matrix[b][c] -= coef * matrix[j][c];
 			}
 		}
-
-		abs_det *= fabs(matrix[j][j]);
 	}
 
 	for (int j = n - 1; j >= 0; j--) {
