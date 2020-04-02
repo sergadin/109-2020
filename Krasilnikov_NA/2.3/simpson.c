@@ -6,7 +6,7 @@ double simpson(double a, double b, int n, RRFUN function)
 {
 	double preresult1 = 0, preresult2 = 0, result = 0, x = 0, h;
 	int i;
-	h = (b - a)/(2 * n);
+	h = (b - a)/n;
 	for(i = 1; i < n; i += 2)
 	{
 		x = a + (h * i);
