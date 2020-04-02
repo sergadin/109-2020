@@ -5,8 +5,8 @@
 #include "../lib/umath.h"
 #include "system.h"
 
-#define M 3
-#define EPS 1e-9
+#define M 5
+#define EPS 1e-11
 #define in "input.txt"
 
 int main(void) {
@@ -62,6 +62,8 @@ int main(void) {
 			}
 		}
 
+		printMatrix(matrix, n, n + 1, "Augmented matrix of the system:");
+
 		solution = solve_system(matrix, n, EPS, &s);
 		if (s == CANNOT_ALLOCATE_MEMORY) {
 			fprintf(stderr, "Malloc can't allocate memory for solution");
@@ -69,7 +71,9 @@ int main(void) {
 			fclose(input);
 			return -1;
 		}
-		
+
+		printMatrix(matrix, n, n + 1, "Matrix after applying some row operations:");
+
 		if ((answer = (double *)malloc(n * sizeof(double))) == NULL) {
 			fprintf(stderr, "Malloc can't allocate memory for correct answer\n");
 			clear_two_dimensional_matrix(matrix, n);

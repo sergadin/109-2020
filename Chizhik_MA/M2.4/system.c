@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <stdlib.h>
 #include <stddef.h>
 #include <math.h>
@@ -11,8 +13,6 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 		*s = CANNOT_ALLOCATE_MEMORY;
 		return NULL;
 	}
-
-	double abs_det = 1;
 
 	for (int j = 0; j < n; j++) {
 		int str_of_max = j;
@@ -38,21 +38,32 @@ double *solve_system(double **matrix, int n, double precision, Status *s) {
 				matrix[b][c] -= coef * matrix[j][c];
 			}
 		}
-
-		abs_det *= fabs(matrix[j][j]);
 	}
 
 	for (int j = n - 1; j >= 0; j--) {
 		matrix[j][n] /= matrix[j][j];
+		matrix[j][j] = 1;
+
 		solution[j] = matrix[j][n];
 
-		for (int k = n - 2; k >= 0; k--) {
+		for (int k = j - 1; k >= 0; k--) {
 			matrix[k][n] -= matrix[k][j] * matrix[j][n];
 			matrix[k][j] = 0;
 		}
 	}
 
 	return solution;
+}
+
+void printMatrix(double **matrix, int m, int n, char *comment) {
+	fprintf(stdout, "\n%s\n", comment);
+	for (int i = 0; i < m; i++) {
+               	for (int j = 0; j < n; j++) {
+                       	fprintf(stdout, "%lf ", matrix[i][j]);
+               	}
+               	fprintf(stdout, "\n");
+        }
+	fprintf(stdout, "\n");
 }
 
 void clear_two_dimensional_matrix(double **matrix, int n) {
