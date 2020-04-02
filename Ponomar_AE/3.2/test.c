@@ -4,7 +4,7 @@
 
 #define max(a,b) ((a)>(b) ? (a) : (b))
 #define MAX(a,b,c) (max(max((a), (b)), (c)))
-#define E 1e-10
+#define E 0.0000000001
 
 double func1(double x);
 double func2(double x);
@@ -14,13 +14,13 @@ int main(void)
 {
 	int i, N = 3;
 	RRFUN funcs[] = {func1, func2, func3};
-	double result, true_answer[] = {-1, -6, -12.1716124};
-	double xa = -5, xb = 4;
+	double result, true_answer[] = {-5, -6, -12.1716124};
+	double xa = -5, xb = 4, eps = 0.000001;
 	for(i = 0; i < N; i++)
 	{
 		result = minimum(xa, xb, E, funcs[i]);
-		printf("true: %lf real: %lf+-%lf\n", true_answer[i], result, E);
-		if (fabs(result - true_answer[i]) > 1000/E * MAX(1, result, true_answer[i]))
+		printf("true: %lf real: %lf+-%lf\n", true_answer[i], result, eps);
+		if (fabs(result - true_answer[i]) > eps * MAX(1, result, true_answer[i]))
 		{
 		       	printf("ERROR test %d\n", i+1);		
 		}
@@ -29,7 +29,7 @@ int main(void)
 
 double func1(double x)
 {
-	return sin(x);
+	return x;
 }
 
 double func2(double x)

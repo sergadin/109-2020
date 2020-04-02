@@ -29,15 +29,7 @@ double minimum(double xa, double xb, double E, RRFUN func)
        	f_xb = (*func)(xb);
 	f_x = (*func)(x);
 
-	if ((f_xa > f_x) && (f_x < f_xb))
-	{
-		minimum = (*func)(x - ((x-xa)*(x-xa)*(f_x-f_xb)-(x-xb)*(x-xb)*(f_x-f_xa))/(2*((x-xa)*(f_x-f_xb)-(x-xb)*(f_x-f_xa))));
-	}
-
-	else
-	{
-		minimum = f_x;
-	}
+	minimum = f_x;
 
 	return minimum;
 }
