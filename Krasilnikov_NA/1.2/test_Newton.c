@@ -55,6 +55,7 @@ int main()
 	{
 		if (fscanf(ans, "%lf", &answers[i]) != 1)
 		{
+			fprintf(fout, "INVALID ANSWER FORMAT");
 			fclose(fin);
 			fclose(ans);
 			fclose(fout);
@@ -64,6 +65,7 @@ int main()
 	}
 	if (fscanf(fin, "%lf", &epsilon) != 1)
 	{
+		fprintf(fout, "INVALID INPUT FORMAT");
 		fclose(fin);
 		fclose(ans);
 		fclose(fout);
@@ -72,6 +74,7 @@ int main()
 	}
 	if ((otrezoks = (struct otrezok*) malloc(m * sizeof(struct otrezok))) == NULL)
 	{
+		printf("MEMORY ALLOCATION ERROR");
 		fclose(fin);
 		fclose(ans);
 		fclose(fout);
@@ -83,6 +86,7 @@ int main()
 	{
 		if (fscanf(fin, "%lf %lf", &otrezoks[i].leftend, &otrezoks[i].rightend) != 2)
 		{
+			fprintf(fout, "INVALID INPUT FORMAT");
 			fclose(fin);
 			fclose(ans);
 			fclose(fout);
@@ -94,7 +98,7 @@ int main()
 	for(i = 0; i < m; i++)
 	{
 		answer = calculation(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i]);
-		if (answer.n == 0)
+		if (answer.iterations == 0)
 		{
 			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
 			fprintf(fout, "Incorrect function\n");
@@ -107,11 +111,17 @@ int main()
 		}
 		if (fabs(answer.rofc - answers[i]) <= epsilon)
 		{
-			fprintf(fout, "Test № %d: OK\n", (i + 1));
+			fprintf(fout, "Test № %d: OK | ", (i + 1));
+			fprintf(fout, "Calculated result: %g | ", answer.rofc);
+			fprintf(fout, "Reference result: %g | ", answers[i]);
+			fprintf(fout, "Number of iterations: %d\n", answer.iterations);
 		}
 		else
 		{
-			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
+			fprintf(fout, "Test № %d: LOSS | ", (i + 1));
+			fprintf(fout, "Calculated result: %g | ", answer.rofc);
+			fprintf(fout, "Reference result: %g | ", answers[i]);
+			fprintf(fout, "Number of iterations: %d\n", answer.iterations);
 			fclose(fin);
 			fclose(ans);
 			fclose(fout);
@@ -129,25 +139,25 @@ int main()
 }
 double first(double x)
 {
-	return 4(x*x*x) + 6(x*x) + x + 5;
+	return 4 * (x*x*x) + 6 * (x*x) + x + 5;
 }
 double second(double x)
 {
-	return sin(1/x);
+	return (x * x * x * x * x) + (-4) * (x * x * x) + 5 * (x * x) + 9;
 }
 double third(double x)
 {
-	return x;
+	return (-1) * (x * x * x) + (7) * (x * x) + 2 ;
 }
 double fourth(double x)
 {
-	return 0 * x;
+	return exp(x) + log(x) - 3;
 }
 double fifth(double x)
 {
-	return x * x;
+	return sin(x);
 }
 double sixth(double x)
 {
-	return exp(x) * log(x);
+	return (sin(0.01 * x * x));
 }
