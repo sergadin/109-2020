@@ -16,7 +16,7 @@ double Sin(double x, double eps, int* Error)
 		S += summand;
 		n += 2;
 		summand *= -x * x / (n * (n - 1));
-	} while ((n < 1000) || (Abs(summand) < eps));
+	} while ((n < 1000) || (Abs(summand) >= eps));
 
 	if (Abs(summand) >= eps)
 	{
