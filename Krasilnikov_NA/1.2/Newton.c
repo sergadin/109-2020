@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include"Newton.h"
 
-struct result calculation(double a, double b, double epsilon, RRFUN function);
+struct result calculation(double a, double b, double epsilon, RRFUN function)
 {
   double length = (b - a);
   struct result answer;
@@ -14,12 +14,12 @@ struct result calculation(double a, double b, double epsilon, RRFUN function);
   while (length > epsilon)
   {
     length = length/2;
-    if ((*function)(a) = 0)
+    if ((*function)(a) == 0)
     {
       answer.rofc = a;
       return answer;
     }
-    if ((*function)(b) = 0)
+    if ((*function)(b) == 0)
     {
       answer.rofc = b;
       return answer;
