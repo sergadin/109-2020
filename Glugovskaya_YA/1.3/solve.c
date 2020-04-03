@@ -35,7 +35,7 @@ int solve(double a, double b, double eps,double*res,double(*func)(double))
 		}	
 	}
 	
-	if(it> = MAX_IT)
+	if(it>= MAX_IT)
 	{
 		printf("not found\n");
 		return -1;
