@@ -34,7 +34,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 		I2 = 0;
 		h /= 2;
 		h1 = a + h;
-		for(int i = 1, i < n; i++)
+		for(int i = 1; i < n; i++)
 		{
 			I2 += (*f)(h1);
 			h1 += h;
