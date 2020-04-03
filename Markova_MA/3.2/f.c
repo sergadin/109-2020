@@ -1,4 +1,6 @@
 #include"f.h"
+
+#include <math.h>
 double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr)
 {
 	double x2 = gold(f, x1, x3, eps, perr), u;
@@ -39,11 +41,11 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
     {
 		b = x2;
     }
-	while (fabs(b - a) => eps)
+	while (fabs(b - a) >= eps)
     {
     x1 = b - (b - a)/phi;
     x2 = a + (b - a)/phi;
-		if( x1 != a && x2 != b))
+		if( x1 != a && x2 != b)
 		{
 			if((*f)(x1) >= (*f)(x2))
 			{
