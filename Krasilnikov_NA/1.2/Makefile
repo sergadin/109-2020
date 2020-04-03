@@ -3,17 +3,17 @@ CFLAGS=-g
 
 all: do-test clean
 
-simpson.o: simpson.c simpson.h
-#	gcc -c simpson.c
+Newton.o: Newton.c Newton.h
+#	gcc -c Newton.c
 
-test_simpson.o: test_simpson.c simpson.h
-#	gcc -c test_simpson.c
+test_Newton.o: test_Newton.c Newton.h
+#	gcc -c test_Newton.c
 
-a.out: test_simpson.o simpson.o
-	gcc test_simpson.o simpson.o -lm
+a.out: test_Newton.o Newton.o
+	gcc test_Newton.o Newton.o -lm
 
 do-test: a.out
 	./a.out
 
-clean: test_simpson.o simpson.o
-	rm test_simpson.o simpson.o a.out
+clean: test_Newton.o Newton.o
+	rm test_Newton.o Newton.o a.out

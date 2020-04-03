@@ -1,37 +1,71 @@
 #include <stdio.h>
+#include <math.h>
 #include"Newton.h"
 
-struct result calculation(double a, double b, double epsilon, RRFUN function);
+struct result calculation(double a, double b, double epsilon, RRFUN function, ErrorCode *error);
 {
-  double length = (b - a);
+  double A, B, C;
   struct result answer;
+  *error = INT_OK;
   answer.iterations = 0;
   if ((*function)(a) * (*function)(b) > 0)
   {
     answer.rofc = 0;
+    *error = CALC_NEOK;
     return answer;
   }
-  while (length > epsilon)
+  if (fabs(*function)(a) <= epsilon)
   {
-    length = length/2;
-    if ((*function)(a) = 0)
+    answer.rofc = a;
+    return answer;
+  }
+  if (fabs(*function)(b) <= epsilon)
+  {
+    answer.rofc = b;
+    return answer;
+  }
+  if ((second_derivative(function, a, epsilon)) * (*function)(a) > 0)
+  {
+    A = a;
+  }
+  else
+  {
+    A = b;
+  }
+  while ((((*function)(A))/(derivative(A)) >= epsilon) && (answer. iterations < 100000000)
+  {
+    if (fabs(*function)(A) <= epsilon)
     {
       answer.rofc = a;
       return answer;
     }
-    if ((*function)(b) = 0)
+    if (fabs(*function)(B) <= epsilon)
     {
       answer.rofc = b;
       return answer;
     }
-    a += length;
-    if ((*function)(a) * (*function)(b) > 0)
-    {
-      a -= length;
-      b -= length;
-    }
+    B = A - ((*function)(A))/(derivative(A));
+    C = A;
+    A = B;
+    B = C;
     answer.iterations++;
   }
-  answer.rofc = (a + b)/2;
+  if (answer.iterations >= 99999999)
+  {
+    *error = CALC_NEOK;
+  }
+  answer.rofc = A;
   return answer;
+
+
+
+
+}
+double derivative(RRFUN function, double x, double h)
+{
+  return ((*function)(x + h) - (*function)(x))/(h)
+}
+double second_derivative(RRFUN function, double x, double h)
+{
+  return ((*function)(x + 2 * h) - 2 * (*function)(x + h) + (*function)(x))/(h * h)
 }

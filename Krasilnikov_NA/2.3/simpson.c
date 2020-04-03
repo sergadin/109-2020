@@ -23,22 +23,25 @@ double simpson(double a, double b, int n, RRFUN function)
 	}
 	result = (h/3) * ((*function)(a) + (*function)(b) + 2 * preresult2 + 4 * preresult1);
 	return result;
-	
+
 
 }
 
-struct result  integrate(double a, double b, double epsilon, RRFUN function)
+double integrate(double a, double b, double epsilon, RRFUN function, ErrorCode *error)
 {
 	int n = 2;
-	double res1 = simpson(a, b, n, function), res2 = simpson(a, b, 8*n, function);
-	struct result answer;
-	while ((fabs(res2 - res1) >= MAXOF3(res1, res2, 1) * epsilon * 0.001) && (n < 100000000))
+	double res1 = simpson(a, b, n, function), res2 = simpson(a, b, 4*n, function);
+	double answer;
+	*error = INT_OK;
+	while ((fabs(res2 - res1) >= MAXOF3(res1, res2, 1) * epsilon) && (n < 1000000000))
 	{
 		res1 = simpson(a, b, n, function);
-		n = 8*n;
+		n = 4*n;
 		res2 = simpson(a, b, n, function);
 	}
-	answer.rofi = res2;
-	answer.n = n;
-	return answer;
+	if(n >= 999999999)
+	{
+		*error = INT_NEOK;
+	}
+	return res2;
 }
