@@ -12,10 +12,10 @@ double Sin(double x, double eps, int* Error)
 {
 	int N = 0;
 	double S = 0, summand = Abs(x);
-	printf("sumands\n");
+	printf("summands\n");
 	for (int n = 1; n < 1000; n++, summand *= Abs(x) / n)
 	{
-		printf("      %d\n", N);
+		printf("      %f\n", summand);
 		if (summand < eps)
 		{
 			N = n;

@@ -32,11 +32,18 @@ int main(void)
 	else
 		printf(" calculated value: %f\n actual value:     %f\n", S, sin(10));
 
-	S = Sin(10, 0.001, Error);
-	printf("x = 10, eps = 10^-2:\n");
+	/*S = Sin(100, 0.00001, Error);
+	printf("x = 100, eps = 10^-5:\n");
 	if (*Error)
-		printf(" Error\n actual value:     %f\n", sin(10));
+		printf(" Error\n actual value:     %f\n", sin(100));
 	else
-		printf(" calculated value: %f\n actual value:     %f\n", S, sin(10));
+		printf(" calculated value: %f\n actual value:     %f\n", S, sin(100));*/
+
+	S = Sin(100, 0.001, Error);
+	printf("x = 100, eps = 10^-2:\n");
+	if (*Error)
+		printf(" Error\n actual value:     %f\n", sin(100));
+	else
+		printf(" calculated value: %f\n actual value:     %f\n", S, sin(100));
 
 }
