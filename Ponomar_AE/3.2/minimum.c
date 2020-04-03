@@ -23,7 +23,7 @@ double minimum(double xa, double xb, double E, RRFUN func)
 		}
 	}
 	x = (xa+xb)/2;
-	minimum = f_x;
+	minimum = (*func)(x);
 
 	return minimum;
 }
