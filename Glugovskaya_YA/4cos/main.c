@@ -8,9 +8,9 @@ int main(void)
 	double x, eps, result, cosinus;
 	while(1)
 	{
-		printf("input x:\n");
+		printf("Input x in radians:\n");
 		scanf("%lf", &x);
-		printf("input eps:\n");
+		printf("Input eps:\n");
 		scanf("%lf", &eps);
 		if(eps < 0)
 		{

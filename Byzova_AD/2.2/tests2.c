@@ -13,18 +13,18 @@ double f4(double x);
 int main(void)
 {
 	int i;
+	double eps = 0.5;
 	double a = -5;
 	double b = 1;
 	int N = 6;
-//	double eps = 0.01;
 	double result;
 	double r_ans[] = {6,-42, -210 };
 	RRFunc funcs[] = {f1, f3, f4};
 	
 	for(i = 0; i < 3; i++){
-
-		result = solve2(a, b, N, funcs[i]);
+		result = solve2(a, b,eps, N, funcs[i]);
 		printf("правильный ответ:\n%lf\nответ:\n%lf\n%d трапеций/ии\n", r_ans[i], result, N);	
+	printf("меньше?=%d\n", fabs(r_ans[i] - result)/3 < eps);
 	}
 }
 double f0(double x) { 
