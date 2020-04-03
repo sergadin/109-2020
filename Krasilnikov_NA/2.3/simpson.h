@@ -1,10 +1,5 @@
 typedef double(*RRFUN)(double x);
-
-struct result
-{
-  double rofi; //result of integration
-  int n;
-};
+typedef enum { INT_OK=0, INT_NEOK} ErrorCode;
 
 double simpson(double a, double b, int n, RRFUN function);
-struct result integrate(double a, double b, double epsilon, RRFUN function);
+double integrate(double a, double b, double epsilon, RRFUN function, ErrorCode *error);

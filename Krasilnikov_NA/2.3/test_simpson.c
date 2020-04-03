@@ -24,7 +24,8 @@ int main()
 	FILE *fin, *fout, *ans;
 	int i, m;
 	double a, b, epsilon, *answers;
-	struct result answer;
+	double answer;
+	ErrorCode eofi; //error_of_integratio
 	struct otrezok *otrezoks;
 	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth};
 	m = 6;
@@ -97,7 +98,7 @@ int main()
 	for(i = 0; i < m; i++)
 	{
 		answer = integrate(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i]);
-		if (answer.n >= 1000000000)
+		if (eofi == INT_NEOK)
 		{
 			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
 			fprintf(fout, "Impossible to calculate\n");
