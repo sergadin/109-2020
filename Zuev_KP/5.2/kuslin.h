@@ -12,18 +12,29 @@ class klin
 		double *x;
 		double *y;	
 	public:
-		
-	
-		klin(int dlina, double *a, double *b)
-		{
 
-			n = dlina;
-			x = (double*) malloc(n *sizeof(double));
-			y = (double*) malloc(n *sizeof(double));
-			for(int i = 0; i < n; i++)
+
+		klin(int dlina, double *a, double *b)
+		{	
+			try
 			{
-				x[i] = a[i];
-				y[i] = b[i];
+				n = dlina;
+				x = (double*) malloc(n *sizeof(double));
+				y = (double*) malloc(n *sizeof(double));
+				if ((y == NULL) || (x == NULL))
+				{
+					throw 123;
+				}
+
+				for(int i = 0; i < n; i++)
+				{
+					x[i] = a[i];
+					y[i] = b[i];
+				}
+			}
+			catch(int code)
+			{
+				cout<<"error "<<endl;
 			}
 
 		}
@@ -45,6 +56,7 @@ class klin
 		}
 		~klin()
 		{
+
 			free(x);
 			free(y);
 		}
@@ -55,7 +67,7 @@ class klin
 
 
 
-				
+
 
 
 
