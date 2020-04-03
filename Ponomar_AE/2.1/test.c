@@ -20,19 +20,18 @@ int main(void)
 	int i = 0, num = 6;
 	double X_a = -7, X_b = 1, result, eps = 0.01;
 	RRF funcs[] = {zero, linear, square, sin_x, e_x, error_func};
-	double true_answer[] = {0, -24, 114.666666667, 0.213599948, 2.717369946, -0.221273350};
+	double true_answer[] = {0, -24, 114.666666667, 0.213599948, 2.717369946, 0};
 
 	for(i = 0; i < num; i++) 
 	{
 		result = integral(funcs[i], X_a, X_b, E, &ec);
-
-		if (ec != SF_OK)
+		if (ec != SF_OK || fabs(result) > fabs(X_a-X_b)*1000000 || isnan(result) != 0)
                 {
                         printf("ERROR test %d\n", i + 1);
                 }
 		else
 		{
-			printf("TEST %d true: %lf real: %lf \n", i + 1, true_answer[i], result);
+			printf("TEST %d true: %lf real: %lf\n", i + 1, true_answer[i], result);
 			if (fabs(result-true_answer[i]) > eps*MAX(1, fabs(result), fabs(true_answer[i]))) 
 			{
 				printf("incorrect TEST %d\n", i+1);
@@ -70,5 +69,5 @@ double e_x(double x)
  
 double error_func(double x)
 {
-	return sin(1/x);
+	return sin(1/x)*exp(1/x);
 }
