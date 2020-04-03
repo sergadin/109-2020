@@ -5,7 +5,7 @@
 
 double f1 (double x)
 {
-	return sin(1/x);
+	return x*sin(x);
 }
 double f2 (double x)
 {
@@ -21,7 +21,7 @@ double f4 (double x)
 }
 int main(void)
 {
-	double a = 0.001, b = 2, m, eps = 0.00001;
+	double a = 0, b = 2, m, eps = 0.00001;
 	ErrorCode err;
 	m = integral(f1, a, b, &err, eps);
 	
