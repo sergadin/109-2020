@@ -21,7 +21,7 @@ long long int Factorial(int n){
 }
 
 double funcRemainder(double x, int count){
-    return pow(ab(x),count + 2) / funcFactorial(count + 2);
+    return pow(ab(x),count + 2) / Factorial(count + 2);
 }
 
 double sin_(double x, double eps){

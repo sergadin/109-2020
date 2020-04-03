@@ -18,8 +18,7 @@ double ab (double m)
 
 double integral(double (*f)(double), double a, double b, ErrorCode *perr, double eps)
 {
-	
-	double h = (b - a)/2, I1 = 0, I2, state;
+	double h = (b - a)/2, I1 = 0, I2, state, h1;
 	int check = 0, n = 2;
 	I2 = (ab(b - a)*h)/2;
 	if(a >= b)
@@ -34,9 +33,11 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 		I1 = I2;
 		I2 = 0;
 		h /= 2;
+		h1 = a + h;
 		for(int i = 1, i < n; i++)
 		{
 			I2 += (*f)(h1);
+			h1 += h;
 		}
 		I2 = (I2 + state)*h;
 		n *= 2;

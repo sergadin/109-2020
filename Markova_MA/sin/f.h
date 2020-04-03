@@ -1,5 +1,5 @@
 
-long long int Factorial(long long int n);
+long long int Factorial(int n);
 
 double funcRemainder(double x, int count);
 
