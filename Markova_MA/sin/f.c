@@ -19,7 +19,7 @@ double sin_(double x, double eps){
     double now = x, ans = 0;
     while(now >= eps && count < 100){
         ans += now;
-		now = -now*x*x/(n*(n + 1));
+		now = -(now*x*x/n)/(n + 1));
 		printf("%e\n", now);
 		n += 2;
 		count++;
