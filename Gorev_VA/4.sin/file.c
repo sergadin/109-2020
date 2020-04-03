@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "sin.h"
 
@@ -18,20 +18,20 @@ int main(void)
 	if (*Error)
 		printf(" Error\n actual value:     %f", sin(0));
 	else
-		prinf(" calculated value: %f\n actual value:     %f", , sin(0));
+		printf(" calculated value: %f\n actual value:     %f", S, sin(0));
 
 	S = Sin(1, eps, Error);
 	printf("x = 1:\n");
 	if (*Error)
 		printf(" Error\n actual value:     %f", sin(1));
 	else
-		prinf(" calculated value: %f\n actual value:     %f", , sin(1));
+		printf(" calculated value: %f\n actual value:     %f", S, sin(1));
 
 	S = Sin(100, eps, Error);
 	printf("x = 100:\n");
 	if (*Error)
 		printf(" Error\n actual value:     %f", sin(100));
 	else
-		prinf(" calculated value: %f\n actual value:     %f", , sin(100));
+		printf(" calculated value: %f\n actual value:     %f", S, sin(100));
 
 }
