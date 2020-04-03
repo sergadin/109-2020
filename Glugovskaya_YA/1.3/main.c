@@ -22,15 +22,13 @@ int main(void)
 	b = 5;
 	res = solve(a,b,e,&x,func1);
 	printf("\nИтерации=%d Корень=%lf\n",res,x);
-	corAn = 2.142397398973329;
-	printf("%lf\n", corAn-x);
-	if (fabs(corAn-x)<e) printf("Correct answer\n");
+	corAn = 2.142397;
+	printf("DIFFERENCE: %lf\n", corAn-x);
 	
 	res = solve(a,b,e,&x,func);	
 	printf("\nИтерации=%d Корень=%lf\n",res,x);
 	corAn = 1.70977; 
-	printf("%lf\n", corAn-x);
-	if (fabs(corAn-x)<e) printf("Correct answer\n");
+	printf("DIFFERENCE:%lf\n", corAn-x);
 	
 
 	
@@ -39,7 +37,6 @@ int main(void)
 	res = solve(a,b,e,&x,func2);
 	printf("\nИтерации=%d Корень=%lf\n",res,x);
 	corAn = -0.337571;
-	printf("%lf\n", corAn-x);
-	if (fabs(corAn-x)<e) printf("Correct answer\n");
+	printf("DIFFERENCE:%lf\n", corAn-x);
 	return 0;
 }
