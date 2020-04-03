@@ -6,7 +6,9 @@
 #define max(a,b) ((a)>(b) ? (a) : (b))
 #define MAX(a,b,c) (max(max((a), (b)), (c)))
 
-double integral(RRF func, double X_a, double X_b, double E, ErrorCode *error_code)
+static double INTEGRAL(RRF func, double X_a, double X_b, double E);
+
+static double INTEGRAL(RRF func, double X_a, double X_b, double E)
 {
 	int n = 2;
 	double result1 = 0, result2 = 0, x, dx = (X_b - X_a)/n;
@@ -34,5 +36,26 @@ double integral(RRF func, double X_a, double X_b, double E, ErrorCode *error_cod
 	}
 
 	return result2;
+}
+
+double integral(RRF func, double X_a, double X_b, double E, ErrorCode *error_code)
+{
+	int i;
+	double	eps = 0.00001;
+	double int1 = INTEGRAL(func, X_a, X_b, eps), int2 = INTEGRAL(func, X_a, X_b, eps);
+	*error_code = INT_OK;
+	while((fabs(int1 - int2) > E * MAX(1, int1, int2)) && (eps >= 0.0000000001))
+	{
+			eps = eps/2;
+			printf("%lf", eps);
+			int1 = INTEGRAL(func, X_a, X_b, eps);
+			int2 = INTEGRAL(func, X_a, X_b, eps/2);
+	}
+
+	if(eps <= 0.0000000001)
+	{
+		*error_code = INT_ERROR;
+	}
+	return int2;
 }
 
