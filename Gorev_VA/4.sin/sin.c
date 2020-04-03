@@ -30,7 +30,7 @@ double Sin(double x, double eps, int* Error)
 	
 	*Error = 0;
 	summand = Abs(x);
-	printf("   %d\n", N)
+	printf("   %d\n", N);
 	for (int n = 1; n < N; n += 2, summand *= Abs(x) * Abs(x) / (n * (n - 1)))
 	{
 		if ((n % 4) == 1)
