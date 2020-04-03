@@ -14,6 +14,7 @@ int main(void){
     double a = 0, b = 8, eps, x;
     ErrorCode err;
     x = p(f, a, b, eps, &err);
+	printf("Точка минимума: %e", x);
 	if(err)
 	{
 		printf("error");

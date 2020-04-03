@@ -21,7 +21,7 @@ double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr
 		if ((u >= x1) && (u <= x2))
 		{
 			*perr = OK;
-			return u;
+			return (*f)(u);
 		}
 		else
 		{
@@ -72,6 +72,11 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		}
 		check++;
     }
+	if((b - a) >= eps)
+	{
+		*perr  = ER;
+		return 0;
+	}
 	printf("%e\n", (a + b)/2);
     return (a + b)/2;
 }
