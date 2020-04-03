@@ -25,7 +25,7 @@ int main(void)
 	for(i = 0; i < num; i++) 
 	{
 		result = integral(funcs[i], X_a, X_b, E, &ec);
-		if (ec != SF_OK || fabs(result) > fabs(X_a-X_b)*1000000 || isnan(result) != 0)
+		if (ec == SF_OK || fabs(result) > fabs(X_a-X_b)*1000000 || isnan(result) != 0)
                 {
                         printf("ERROR test %d\n", i + 1);
                 }
