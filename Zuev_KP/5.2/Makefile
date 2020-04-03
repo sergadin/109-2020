@@ -3,8 +3,11 @@ CFLAGS=-g
 
 all: do-test clean
 
-test.o: test52.cpp  kuslin.h
-#	g++ -c test52.c
+test.o: test52.o kuslin.h
+#	g++ -c test52.cpp
+
+a.out: test52.o
+	g++ test52.o
 
 do-test: a.out
 	./a.out

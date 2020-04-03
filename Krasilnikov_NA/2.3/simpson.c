@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <math.h>
 #include"simpson.h"
+
+#define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
+#define MAXOF3(x, y, z) MAXOF2(x, MAXOF2(y, z))
+
 double simpson(double a, double b, int n, RRFUN function)
 {
 	double preresult1 = 0, preresult2 = 0, result = 0, x = 0, h;
 	int i;
-	h = (b - a)/(2 * n);
+	h = (b - a)/n;
 	for(i = 1; i < n; i += 2)
 	{
 		x = a + (h * i);
@@ -19,17 +23,22 @@ double simpson(double a, double b, int n, RRFUN function)
 	}
 	result = (h/3) * ((*function)(a) + (*function)(b) + 2 * preresult2 + 4 * preresult1);
 	return result;
+	
+
 }
 
-double integrate(double a, double b, double epsilon, RRFUN function)
+struct result  integrate(double a, double b, double epsilon, RRFUN function)
 {
 	int n = 2;
-	double res1 = simpson(a, b, n, function), res2 = simpson(a, b, 2*n, function);
-	while ((fabs(res2 - res1) > epsilon) && (n < 1000000000))
+	double res1 = simpson(a, b, n, function), res2 = simpson(a, b, 8*n, function);
+	struct result answer;
+	while ((fabs(res2 - res1) >= MAXOF3(res1, res2, 1) * epsilon * 0.001) && (n < 100000000))
 	{
 		res1 = simpson(a, b, n, function);
-		n = 2*n;
+		n = 8*n;
 		res2 = simpson(a, b, n, function);
 	}
-	return res2;
+	answer.rofi = res2;
+	answer.n = n;
+	return answer;
 }
