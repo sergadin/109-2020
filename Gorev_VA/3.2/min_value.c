@@ -24,13 +24,13 @@ double min_value(double(*f) (double), double a, double b, int* Error)
 		{
 			a = x0;
 			x0 = x1;
-			q = 1; // íŕ ńëĺäóţůĺě řŕăĺ íóćíî ń÷čňŕňü ő1
+			q = 1;
 		}
 		else
 		{
 			b = x1;
 			x1 = x0;
-			q = 0; // íŕ ńëĺäóţůĺě řŕăĺ íóćíî ń÷čňŕňü ő0
+			q = 0;
 		}
 		if ((b - a) < eps)
 			break;
@@ -60,6 +60,5 @@ double min_value(double(*f) (double), double a, double b, int* Error)
 			*Error = 1;
 			return 0.0;
 		}
-
 	}
 }

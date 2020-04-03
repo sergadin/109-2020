@@ -35,6 +35,12 @@ double F5(double x)
 	return -x;
 }
 
+double F6(double x);
+double F6(double x)
+{
+	return cos(1 / x)*exp(1 / (x + 100));
+}
+
 int main(void)
 {
 	int* Error;
@@ -75,6 +81,15 @@ int main(void)
 		printf("Error\n");
 	else
 		printf(" calculated min value: %f\n actual min value:     %f\n", V, 0.0);
+	
+	// тест взят у кирилла зуева, который сдал эту же самую программу
+	// отличий в алгоритме я не нашел
+	printf("f(x) = cos(1 / x)*exp(1 / (x + 100)); at [0, 4]\n");
+	V = min_value(F6, 0.0, 4.0, Error);
+	if (*Error)
+		printf("Error\n");
+	else
+		printf(" calculated min value: %f\n actual min value:     %f\n", V, -1.0100181188);
 
 	return 0;
 }

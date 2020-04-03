@@ -47,3 +47,9 @@ int sgn(double x) {
 	}
 	return 0;
 }
+
+void swap(double *a, double *b) {
+	double swap = *a;
+	*a = *b;
+	*b = swap;
+}
