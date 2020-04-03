@@ -1,11 +1,8 @@
-//Кирилл Зуев, зайдите в вк
-
 #include <stdio.h>
 #include <math.h>
 #include "simpson.h"
 double func1(double a);
 double func2(double a);
-double func3(double a);
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 

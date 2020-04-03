@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
+
 double f1 (double x)
 {
-	return x*x + 5*x - 6;
+	return sin(1/x);
 }
 double f2 (double x)
 {
-	return x*x + 1;
+	return exp(x)*sin(1/x);
 }
 double f3 (double x)
 {
@@ -20,15 +21,68 @@ double f4 (double x)
 }
 int main(void)
 {
-	double a = -4, b = 2, eps = 0.0001, m;
-	printf("x*x + 5*x - 6 = 0 ");
-	all(f1, a, b, eps);
-	printf("x*x + 1 = 0 ");
-	all(f2, a, b, eps);
-	printf("x*x*x = 0 ");
-	all(f3, a, b, eps);
-	printf("x*x + 8*x = 0 ");
-	all(f4, a, b, eps);
+	double a = 0.001, b = 2, m, eps = 0.00001;
+	ErrorCode err;
+	m = integral(f1, a, b, &err, eps);
+	
+	printf("f1 ");
+	switch(err)
+	{
+	case INT_NOT:
+        printf("FAULT\n");
+		break;
+	case INT_ND:
+		printf("NO DATA\n");
+		break;
+	case INT_OK:
+		printf("Answer = %e\n", m);
+	}
+	
+
+	printf("f2 ");
+	m = integral(f2, a, b, &err, eps);
+	
+	switch(err)
+	{
+	case INT_NOT:
+        printf("FAULT\n");
+		break;
+	case INT_ND:
+		printf("NO DATA\n");
+		break;
+	case INT_OK:
+		printf("Answer = %e\n", m);
+	}
+	
+	printf("f3 ");
+	m = integral(f3, a, b, &err , eps);
+	
+	switch(err)
+	{
+	case INT_NOT:
+        printf("FAULT\n");
+		break;
+	case INT_ND:
+		printf("NO DATA\n");
+		break;
+	case INT_OK:
+		printf("Answer = %e\n", m);
+	}
+	
+	printf("f4 ");
+	m = integral(f4, a, b, &err, eps);
+	
+	switch(err)
+	{
+	case INT_NOT:
+        printf("FAULT\n");
+		break;
+	case INT_ND:
+		printf("NO DATA\n");
+		break;
+	case INT_OK:
+		printf("Answer = %e\n", m);
+	}
 	return 0;
 }
 

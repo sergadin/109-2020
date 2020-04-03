@@ -87,15 +87,27 @@ public:
 
 int main()
 {
-    double x[] = {1, 2, 3, 4};
-    double y[] = {1, 4, 9, 16};
-    int n = 4;
-    double point = 7.6; // x^2 57.76
+    double x[3][4] = {
+      {1, 2, 3, 4},
+      {2, 25, 40, 100},
+      {-2, -1, 1, 3}
+    };
+
+    double y[3][4] = {
+      {1, 4, 9, 16}, // 57.76 x^2
+      {0.5, 0.04, 0.025, 0.001}, // 0.05 1/x
+      {-8, -1, 1, 27} // 8 x^3
+    };
+
+    int n = 4, test = 3;
+    double point[] = {7.6, 20, 2}; 
     double value;
+    for(int i = 0; i < test; i++)
+    {
+	finding_function data(n, x[i], y[i]);
+	value = data.lagrange_interpolation(point[i]);
 
-    finding_function data(n, x, y);
-    value = data.lagrange_interpolation(point);
-
-    std::cout << value;
+	std::cout << value << "\n";
+    }
     return 0;
 }
