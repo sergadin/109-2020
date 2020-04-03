@@ -36,4 +36,9 @@ class klin
 			}
 			return y0;
 		}
+		~klin()
+		{
+			free(x);
+			free(y);
+		}
 };

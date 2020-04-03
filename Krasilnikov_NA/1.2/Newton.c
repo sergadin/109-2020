@@ -31,7 +31,7 @@ struct result calculation(double a, double b, double epsilon, RRFUN function, Er
   {
     A = b;
   }
-  
+
 
 }
 double derivative(RRFUN function, double x, double h)
