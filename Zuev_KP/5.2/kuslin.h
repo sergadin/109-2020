@@ -23,7 +23,7 @@ class klin
 				y = (double*) malloc(n *sizeof(double));
 				if ((y == NULL) || (x == NULL))
 				{
-					throw 123;
+					throw 1;
 				}
 
 				for(int i = 0; i < n; i++)
