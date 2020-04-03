@@ -71,6 +71,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 			return 0;
 		}
 		printf("%d\n", check);
+		printf("%e\n", b - a);
 		check++;
     }
 	printf("%e\n", b - a);
