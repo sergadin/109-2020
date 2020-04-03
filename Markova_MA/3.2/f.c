@@ -14,7 +14,7 @@ double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr
 		f1 = (*f)(x1);
 		f2 = (*f)(x2);
 		u = x2 - ((x2 - x1) * (x2 - x1) * (f2 - f3) - (x2 - x3) * (x2 - x3) * (f2 - f1)) / ((x2 - x1) * (f2 - f3) - (x2 - x3) * (f2 - f1)) * 0.5;
-		if ((u >= a) && (u <= b))
+		if ((u >= x1) && (u <= x2))
 		{
 			*perr = OK;
 			return f(u);
