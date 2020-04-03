@@ -37,7 +37,7 @@ double Sin(double x, double eps, int* Error)
 			S += summand;
 		else
 			S -= summand;
-		prinf("   %f\n", S);
+		printf("   %f\n", S);
 	}
 	return S;
 }
