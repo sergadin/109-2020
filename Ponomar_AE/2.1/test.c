@@ -13,10 +13,10 @@ double square(double x);
 double sin_x(double x);
 double e_x(double x);
 double error_func(double x);
- 
+
 int main(void) 
 {
-	ErrorCode ec;
+	ErrorCode err;
 	int i = 0, num = 6;
 	double X_a = -7, X_b = 1, result, eps = 0.01;
 	RRF funcs[] = {zero, linear, square, sin_x, e_x, error_func};
@@ -24,19 +24,20 @@ int main(void)
 
 	for(i = 0; i < num; i++) 
 	{
-		result = integral(funcs[i], X_a, X_b, E, &ec);
-		if (ec == SF_OK || fabs(result) > fabs(X_a-X_b)*1000000 || isnan(result) != 0)
-                {
-                        printf("ERROR test %d\n", i + 1);
-                }
-		else
+		result = integral(funcs[i], X_a, X_b, E, &err);
+		switch(err) 
 		{
-			printf("TEST %d true: %lf real: %lf\n", i + 1, true_answer[i], result);
-			if (fabs(result-true_answer[i]) > eps*MAX(1, fabs(result), fabs(true_answer[i]))) 
-			{
-				printf("incorrect TEST %d\n", i+1);
-			}
+			case INT_ERROR:
+				printf("ERROR %d\n", err);
+				return -1;
 		}
+
+		printf("TEST %d true: %lf real: %lf\n", i + 1, true_answer[i], result);
+		if (fabs(result-true_answer[i]) > eps*MAX(1, fabs(result), fabs(true_answer[i]))) 
+		{
+			printf("incorrect TEST %d\n", i+1);
+		}
+
 	}
 
 	return 0;
@@ -66,7 +67,7 @@ double e_x(double x)
 {
 	return exp(x);
 }
- 
+
 double error_func(double x)
 {
 	return sin(1/x)*exp(1/x);
