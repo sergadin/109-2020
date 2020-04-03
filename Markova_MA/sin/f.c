@@ -1,4 +1,6 @@
 #include "f.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 double ab (double m) 
 {
