@@ -27,5 +27,7 @@ int main()
 		cout<<"Правильный ответ="<< c[i] <<endl;
                 cout<<"Мой ответ="<< y0[i] <<endl;
         }
-return 0;
+	free(y1);
+	free(y2);
+   	return 0;
 }
