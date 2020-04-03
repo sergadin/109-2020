@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 #include "sin.h"
 
@@ -7,7 +6,6 @@ int main(void)
 {
 	ErrorCode E;
 	double S;
-	Error = (int*)malloc(1 * sizeof(int));
 
 	printf("f(x) = sin(x)\n");
 
