@@ -21,5 +21,5 @@ double sin_(double x, double eps){
 		n += 2;
 		count++;
     }
-    return answer;
+    return ans;
 }
