@@ -7,7 +7,7 @@ double Abs(double x)
 	return -x;
 }
 
-double Sin(double x, double eps, int* Error)
+double Sin(double x, double eps, ErrorCode E)
 {
 	double S = 0, summand = x;
 	int n = 1;
@@ -20,10 +20,10 @@ double Sin(double x, double eps, int* Error)
 
 	if (Abs(summand) >= eps)
 	{
-		*Error = !0;
+		E = ERROR_OF_INT;
 		return 0.0;
 	}
 	
-	*Error = 0;
+	E = OK;
 	return S;
 }
