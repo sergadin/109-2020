@@ -4,7 +4,7 @@
 
 struct result calculation(double a, double b, double epsilon, RRFUN function, ErrorCode *error);
 {
-  double A;
+  double A, B, C;
   struct result answer;
   *error = INT_OK;
   answer.iterations = 0;
@@ -12,6 +12,7 @@ struct result calculation(double a, double b, double epsilon, RRFUN function, Er
   {
     answer.rofc = 0;
     *error = CALC_NEOK;
+    return answer;
   }
   if (fabs(*function)(a) <= epsilon)
   {
@@ -31,6 +32,32 @@ struct result calculation(double a, double b, double epsilon, RRFUN function, Er
   {
     A = b;
   }
+  while ((((*function)(A))/(derivative(A)) >= epsilon) && (answer. iterations < 100000000)
+  {
+    if (fabs(*function)(A) <= epsilon)
+    {
+      answer.rofc = a;
+      return answer;
+    }
+    if (fabs(*function)(B) <= epsilon)
+    {
+      answer.rofc = b;
+      return answer;
+    }
+    B = A - ((*function)(A))/(derivative(A));
+    C = A;
+    A = B;
+    B = C;
+    answer.iterations++;
+  }
+  if (answer.iterations >= 99999999)
+  {
+    *error = CALC_NEOK;
+  }
+  answer.rofc = A;
+  return answer;
+
+
 
 
 }
