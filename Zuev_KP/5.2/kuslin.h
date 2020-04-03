@@ -16,25 +16,15 @@ class klin
 
 		klin(int dlina, double *a, double *b)
 		{	
-			try
-			{
-				n = dlina;
-				x = (double*) malloc(n *sizeof(double));
-				y = (double*) malloc(n *sizeof(double));
-				if ((y == NULL) || (x == NULL))
-				{
-					throw 1;
-				}
+			n = dlina;
+			x = (double*) malloc(n *sizeof(double));
+			y = (double*) malloc(n *sizeof(double));
 
-				for(int i = 0; i < n; i++)
-				{
-					x[i] = a[i];
-					y[i] = b[i];
-				}
-			}
-			catch(int code)
+
+			for(int i = 0; i < n; i++)
 			{
-				cout<<"error "<<endl;
+				x[i] = a[i];
+				y[i] = b[i];
 			}
 
 		}
@@ -43,6 +33,10 @@ class klin
 		{
 			double y0 = 0;
 			double h = 0, k = 0;
+			if ((y == NULL) || (x == NULL))
+			{
+				throw 0;
+			}
 			for(int i = 1; i < n; i ++)
 			{
 				if ((x[i-1]<=x0) && (x0<=x[i]))
