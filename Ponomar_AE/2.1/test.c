@@ -5,7 +5,7 @@
 
 #define max(a,b) ((a)>(b) ? (a) : (b))
 #define MAX(a,b,c) (max(max((a), (b)), (c)))
-#define E 0.0000001
+#define E 0.00000001
 
 double zero(double x);
 double linear(double x);
