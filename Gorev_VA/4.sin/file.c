@@ -3,8 +3,6 @@
 #include <math.h>
 #include "sin.h"
 
-#define eps 0.0000001
-
 int main(void)
 {
 	int* Error;
@@ -13,24 +11,31 @@ int main(void)
 
 	printf("f(x) = sin(x)\n");
 
-	S = Sin(0, eps, Error);
-	printf("x = 0:\n");
+	S = Sin(0, 0.00001, Error);
+	printf("x = 0, eps = 10^-5:\n");
 	if (*Error)
-		printf(" Error\n actual value:     %f", sin(0));
+		printf(" Error\n actual value:     %f\n", sin(0));
 	else
 		printf(" calculated value: %f\n actual value:     %f", S, sin(0));
 
-	S = Sin(1, eps, Error);
-	printf("x = 1:\n");
+	S = Sin(1, 0.00001, Error);
+	printf("x = 1, eps = 10^-5:\n");
 	if (*Error)
-		printf(" Error\n actual value:     %f", sin(1));
+		printf(" Error\n actual value:     %f\n", sin(1));
 	else
 		printf(" calculated value: %f\n actual value:     %f", S, sin(1));
 
-	S = Sin(100, eps, Error);
-	printf("x = 100:\n");
+	S = Sin(100, 0.00001, Error);
+	printf("x = 100, eps = 10^-5:\n");
 	if (*Error)
-		printf(" Error\n actual value:     %f", sin(100));
+		printf(" Error\n actual value:     %f\n", sin(100));
+	else
+		printf(" calculated value: %f\n actual value:     %f", S, sin(100));
+
+	S = Sin(100, 0.001, Error);
+	printf("x = 100, eps = 10^-2:\n");
+	if (*Error)
+		printf(" Error\n actual value:     %f\n", sin(100));
 	else
 		printf(" calculated value: %f\n actual value:     %f", S, sin(100));
 
