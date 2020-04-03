@@ -12,6 +12,15 @@ double solve1(double a0, double b0, double eps, RRFunc f) {
 	if( (*f)(a)*(*f)(b) > 0 ) { // считаем, что в таком случае корня нет
 		return -1;
 	}
+	
+	if((*f)(a) == 0) {
+	return a;
+	}
+	
+	if((*f)(b) == 0) {
+	return b;
+	}
+
 
 	while(len > eps) { // пока окрестность корня недостаточной точности
 		
