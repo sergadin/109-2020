@@ -13,7 +13,7 @@ double f(double x){
 int main(void){
     double a = 0, b = 8, eps, x;
     ErrorCode err;
-    x = p(f, a, b, eps, err);
+    x = p(f, a, b, eps, &err);
 	if(err)
 	{
 		printf("error");
