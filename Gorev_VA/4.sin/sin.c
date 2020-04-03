@@ -20,7 +20,7 @@ double Sin(double x, double eps, int* Error)
 
 	if (Abs(summand) >= eps)
 	{
-		*Error = 1;
+		*Error = !0;
 		return 0.0;
 	}
 	
