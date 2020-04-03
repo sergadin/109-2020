@@ -1,5 +1,6 @@
 #include"f.h"
-
+#include <stdlib.h>
+#include <math.h>
 #include <math.h>
 double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr)
 {
@@ -14,6 +15,7 @@ double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr
 		f1 = (*f)(x1);
 		f2 = (*f)(x2);
 		u = x2 - ((x2 - x1) * (x2 - x1) * (f2 - f3) - (x2 - x3) * (x2 - x3) * (f2 - f1)) / ((x2 - x1) * (f2 - f3) - (x2 - x3) * (f2 - f1)) * 0.5;
+		printf("%e\n", u);
 		if ((u >= x1) && (u <= x2))
 		{
 			*perr = OK;
@@ -68,5 +70,6 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		}
 		check++;
     }
+	printf("%e\n", (a + b)/2);
     return (a + b)/2;
 }
