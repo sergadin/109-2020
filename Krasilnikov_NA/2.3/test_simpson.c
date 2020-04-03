@@ -113,7 +113,11 @@ int main()
 		}
 		if (fabs(answer - answers[i]) <= epsilon * MAXOF3(answer, answers[i], 1))
 		{
-			fprintf(fout, "Test № %d: OK\n", (i + 1));
+			fprintf(fout, "Test № %d: OK | ", (i + 1));
+			fprintf(fout, "Calculated value: %lf | ", answer);
+			fprintf(fout, "Exact value: %lf | ", answers[i]);
+			fprintf(fout, "Error value: %lf\n", fabs(answer - answers[i]));
+
 		}
 		else
 		{
