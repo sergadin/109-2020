@@ -6,14 +6,13 @@
 #include "f.h"
 
 double f(double x){
-    return sin(x);
+    return x*x*x;
 }
 
 
 int main(void){
-    double a, b, eps, x;
-    scanf("%lf %lf %lf",  &a, &b, &eps);
-	ErrorCode err;
+    double a = 0, b = 8, eps, x;
+    ErrorCode err;
     x = p(f, a, b, eps, err);
 	if(err)
 	{

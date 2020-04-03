@@ -17,7 +17,7 @@ double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr
 		if ((u >= x1) && (u <= x2))
 		{
 			*perr = OK;
-			return f(u);
+			return u;
 		}
 		else
 		{
