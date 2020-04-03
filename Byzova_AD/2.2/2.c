@@ -19,6 +19,7 @@ double square(double x0, double x1,RRFunc f){
 	if ( (*f)(x0)*(*f)(x1) < 0 && (*f)(x0) < 0) { //два подобных треуг.
 	return - fabs((*f)(x0) - (*f)(x1)) * h / 2 ;
 	}
+	printf("error");
 	return -1;
 }
 

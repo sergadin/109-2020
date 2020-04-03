@@ -10,6 +10,7 @@ double solve1(double a0, double b0, double eps, RRFunc f) {
 	double len = b - a;
 
 	if( (*f)(a)*(*f)(b) > 0 ) { // считаем, что в таком случае корня нет
+		printf("нет корней");
 		return -1;
 	}
 	
