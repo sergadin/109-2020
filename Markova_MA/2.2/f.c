@@ -28,7 +28,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 		return I2;
 	}
 	state = ((*f)(a) + (*f)(b))/2;
-	while(ab(I1 - I2) > eps*max2(1, I2, I1) && check < T)
+	while(ab(I1 - I2) > eps*max3(1, I2, I1) && check < T)
 	{
 		check++;
 		I1 = I2;

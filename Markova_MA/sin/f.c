@@ -1,4 +1,4 @@
-#include "prototype_4.h"
+#include "f.h"
 #include <math.h>
 double ab (double m) 
 {
