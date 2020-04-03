@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include "f.h"
-#define T 1000
+#define max2(a, b) ((b) > (a) ?  (b) : (a))
+#define max3(a, b, c) max2(max2((a),(b)), (c))
 double ab (double m) 
 {
 	if(m < 0)
@@ -18,30 +19,32 @@ double ab (double m)
 double integral(double (*f)(double), double a, double b, ErrorCode *perr, double eps)
 {
 	
-	double h = (b - a)/2, I1 = 0, I2;
-	int check = 0;
+	double h = (b - a)/2, I1 = 0, I2, state;
+	int check = 0, n = 2;
 	I2 = (ab(b - a)*h)/2;
 	if(a >= b)
 	{
 		*perr = INT_ND;
 		return I2;
 	}
-	while(ab(I1 - I2) > eps)
+	state = ((*f)(a) + (*f)(b))/2;
+	while(ab(I1 - I2) > eps*max2(1, I2, I1) && check < T)
 	{
 		check++;
-		if(check > T)
-		{
-			*perr = INT_NOT;
-			return I1;
-		}
 		I1 = I2;
 		I2 = 0;
 		h /= 2;
-		for(double h1 = a; h1 <= b; h1 += h)
+		for(int i = 1, i < n; i++)
 		{
-			I2 += (*f)(h1) + (*f)(h1 + h);
+			I2 += (*f)(h1);
 		}
-		I2 *= h/2;
+		I2 = (I2 + state)*h;
+		n *= 2;
+	}
+	if(check >= T)
+	{
+		*perr = INT_NOT;
+		return I1;
 	}
 	*perr = INT_OK;
 	return I2;
