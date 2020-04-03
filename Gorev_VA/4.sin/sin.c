@@ -10,10 +10,15 @@ double Abs(double x)
 double Sin(double x, double eps, int* Error)
 {
 	int N = 0;
-	double S = 0, summand = Abs(x);
-	for (int n = 1; n < 1000; n++, summand *= Abs(x) / n)
+	double S = 0, summand = x;
+	for (int n = 1; n < 1000; n += 2, summand *= x * x / (n * (n - 1)))
 	{
-		if (summand < eps)
+		if ((n % 4) == 1)
+			S += summand;
+		else
+			S -= summand;
+
+		if (Abs(summand) < eps)
 		{
 			N = n;
 			break;
@@ -27,13 +32,5 @@ double Sin(double x, double eps, int* Error)
 	}
 	
 	*Error = 0;
-	summand = x;
-	for (int n = 1; n < N; n += 2, summand *= x * x / (n * (n - 1)))
-	{
-		if ((n % 4) == 1)
-			S += summand;
-		else
-			S -= summand;
-	}
 	return S;
 }
