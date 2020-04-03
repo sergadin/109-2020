@@ -18,6 +18,8 @@ double third(double x);
 double fourth(double x);
 double fifth(double x);
 double sixth(double x);
+double seventh(double x);
+double eighth(double x);
 
 int main()
 {
@@ -27,8 +29,8 @@ int main()
 	double answer;
 	ErrorCode eofi; //error_of_integratio
 	struct otrezok *otrezoks;
-	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth};
-	m = 6;
+	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth, seventh, eighth};
+	m = 8;
 	if ((fin = fopen("input.txt","r")) == NULL)
 	{
 		printf("INVALID INPUT FILE");
@@ -97,7 +99,7 @@ int main()
 	}
 	for(i = 0; i < m; i++)
 	{
-		answer = integrate(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i]);
+		answer = integrate(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i], &eofi);
 		if (eofi == INT_NEOK)
 		{
 			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
@@ -109,9 +111,13 @@ int main()
 			free(otrezoks);
 			return -1;
 		}
-		if (fabs(answer.rofi - answers[i]) <= epsilon * MAXOF3(answer.rofi, answers[i], 1))
+		if (fabs(answer - answers[i]) <= epsilon * MAXOF3(answer, answers[i], 1))
 		{
-			fprintf(fout, "Test № %d: OK\n", (i + 1));
+			fprintf(fout, "Test № %d: OK | ", (i + 1));
+			fprintf(fout, "Calculated value: %lf | ", answer);
+			fprintf(fout, "Exact value: %lf | ", answers[i]);
+			fprintf(fout, "Error value: %lf\n", fabs(answer - answers[i]));
+
 		}
 		else
 		{
@@ -155,3 +161,12 @@ double sixth(double x)
 {
 	return exp(x) * log(x);
 }
+double seventh(double x)
+{
+	return exp(1/(x + 0.05));
+}
+double eighth(double x)
+{
+	return sin(1/(x + 0.05) )*  exp(1/(x + 0.05));
+}
+
