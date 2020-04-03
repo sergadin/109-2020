@@ -73,6 +73,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		printf("%d\n", check);
 		check++;
     }
+	printf("%e\n", b - a);
 	if((b - a) >= eps)
 	{
 		*perr  = ER;

@@ -6,7 +6,7 @@
 #include "f.h"
 
 double f(double x){
-    return x*x*x;
+    return x;
 }
 
 
