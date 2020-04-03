@@ -10,12 +10,13 @@ double Abs(double x)
 double Sin(double x, double eps, int* Error)
 {
 	double S = 0, summand = x;
-	for (int n = 1; n < 1000; n += 2, summand *= -x * x / (n * (n - 1)))
+	int n = 1;
+	do
 	{
 		S += summand;
-		if (Abs(summand) < eps)
-			break;
-	}
+		n += 2;
+		summand *= -x * x / (n * (n - 1));
+	} while ((n < 1000) || (Abs(summand) < eps));
 
 	if (Abs(summand) >= eps)
 	{
