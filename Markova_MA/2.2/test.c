@@ -9,7 +9,7 @@ double f1 (double x)
 }
 double f2 (double x)
 {
-	return exp(x)*sin(1/x);
+	return x;
 }
 double f3 (double x)
 {
