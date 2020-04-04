@@ -4,7 +4,7 @@
 #include <math.h>
 double f (double x)
 {
-	printf("%e ," x*x);
+	printf("%e ,", x*x);
 	return 1/(x*x);
 }
 
