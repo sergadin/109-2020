@@ -4,6 +4,17 @@
 #include <stdlib.h>
 #include <math.h>
 #include <math.h>
+double ab (double m) 
+{
+	if(m < 0)
+	{
+		return -m;
+	}
+	else
+	{
+		return m;
+	}
+}
 double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr)
 {
 	double f1, f2, f3, x2 = gold(f, x1, x3, eps, perr), u;
