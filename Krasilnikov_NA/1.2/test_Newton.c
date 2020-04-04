@@ -23,7 +23,7 @@ int main()
 	double a, b, epsilon, *answers;
 	struct result answer;
 	struct otrezok *otrezoks;
-	ErrorCode eofс; //error_of_calculation
+	ErrorCode eofc; //error_of_calculation
 	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth};
 	m = 6;
 	if ((fin = fopen("input.txt","r")) == NULL)
@@ -160,5 +160,5 @@ double fifth(double x)
 }
 double sixth(double x)
 {
-	return (sin(0.01 * x * x));
+	return (log10(x/(x + 1)) + cos(2 * x));
 }
