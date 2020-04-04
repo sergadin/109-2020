@@ -71,6 +71,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
     double f1, f2, f3, u;
 	if(perr)
 	{
+		printf("tut\n");
 		return 0;
 	}
 	else
