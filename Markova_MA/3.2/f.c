@@ -5,7 +5,6 @@
 #include <math.h>
 #include <math.h>
 
-#define min(a, b) ((a) < (b) ? (a) : (b))
 double ab (double m) 
 {
 	if(m < 0)
@@ -86,7 +85,14 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		if ((u >= a) && (u <= b))
 		{
 			*perr = OK;
-			return min((*f)(u), (*f)(x2);
+			if((*f)(u) > (*f)(x2))
+			{
+				return (*f)(x2);
+			}
+			else
+			{
+				return (*f)(u);
+			}
 		}
 		else
 		{
