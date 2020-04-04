@@ -23,7 +23,7 @@ double f4 (double x)
 }
 
 int main(void){
-    double a = -1, b = 8, eps = 0.001, x;
+    double a = -1, b = 8, eps = 0.001, m;
     ErrorCode err = OK;
     m = gold(f1, a, b, &err, eps);
 	
