@@ -17,15 +17,15 @@ int main(void)
 	int i;
 	double a = -5;
 	double b = 1;
-	double eps = 0.01;
+	double eps = 0.0001;
 	double result;
-	double r_ans[] = {-3, 0 ,0.702, 0.246 };
+	double r_ans[] = {-3, 0 ,0.7016, 0.2463 };
 	RRFunc funcs[] = {f1, f2, f3, f4};
 	
 	for(i = 0; i < 4; i++){
 
 		result = solve1(a, b, eps, funcs[i]);
-		printf("правильный ответ:\n%lf\nответ:\n%lf\nпогрешность%lf\n", r_ans[i], result, eps);	
+		printf("правильный ответ:\n%lf\nответ:\n%lf\nпогрешность%lf, eps=%lf, меньше?=%d\n", r_ans[i], result, r_ans[i]-result, eps, fabs(r_ans[i]-result) < eps);	
 	}
 }
 
