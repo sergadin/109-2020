@@ -16,6 +16,7 @@ void a (double (*f)(double), int (*g)(double, double), double x)
 		if (check > T)
 		{
 			printf("error ");
+			break;
 		}
 	}
 	printf("\n");
