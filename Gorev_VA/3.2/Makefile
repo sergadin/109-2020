@@ -5,7 +5,7 @@ do-test: a.out
 
 a.out: file.o min_value.o
 	gcc -c min_value.c
-	gcc -c min_value.c
+	gcc -c file.c
 	gcc min_value.o file.o -lm
 
 clear:
