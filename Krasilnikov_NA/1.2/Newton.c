@@ -2,11 +2,11 @@
 #include <math.h>
 #include"Newton.h"
 
-struct result calculation(double a, double b, double epsilon, RRFUN function, ErrorCode *error);
+struct result calculation(double a, double b, double epsilon, RRFUN function, ErrorCode *error)
 {
   double A, B, C;
   struct result answer;
-  *error = INT_OK;
+  *error = CALC_OK;
   answer.iterations = 0;
   if ((*function)(a) * (*function)(b) > 0)
   {
@@ -14,12 +14,12 @@ struct result calculation(double a, double b, double epsilon, RRFUN function, Er
     *error = CALC_NEOK;
     return answer;
   }
-  if (fabs(*function)(a) <= epsilon)
+  if (fabs((*function)(a)) <= epsilon)
   {
     answer.rofc = a;
     return answer;
   }
-  if (fabs(*function)(b) <= epsilon)
+  if (fabs((*function)(b)) <= epsilon)
   {
     answer.rofc = b;
     return answer;
@@ -32,19 +32,19 @@ struct result calculation(double a, double b, double epsilon, RRFUN function, Er
   {
     A = b;
   }
-  while ((((*function)(A))/(derivative(A)) >= epsilon) && (answer. iterations < 100000000)
+  while ((fabs(((*function)(A))/(derivative(function, A, epsilon))) >= epsilon) && (answer. iterations < 100000000))
   {
-    if (fabs(*function)(A) <= epsilon)
+    if (fabs((*function)(A)) <= epsilon)
     {
       answer.rofc = a;
       return answer;
     }
-    if (fabs(*function)(B) <= epsilon)
+    if (fabs((*function)(B)) <= epsilon)
     {
       answer.rofc = b;
       return answer;
     }
-    B = A - ((*function)(A))/(derivative(A));
+    B = A - ((*function)(A))/(derivative(function, A, epsilon));
     C = A;
     A = B;
     B = C;
@@ -56,16 +56,12 @@ struct result calculation(double a, double b, double epsilon, RRFUN function, Er
   }
   answer.rofc = A;
   return answer;
-
-
-
-
 }
 double derivative(RRFUN function, double x, double h)
 {
-  return ((*function)(x + h) - (*function)(x))/(h)
+  return ((*function)(x + h) - (*function)(x))/(h);
 }
 double second_derivative(RRFUN function, double x, double h)
 {
-  return ((*function)(x + 2 * h) - 2 * (*function)(x + h) + (*function)(x))/(h * h)
+  return ((*function)(x + 2 * h) - 2 * (*function)(x + h) + (*function)(x))/(h * h);
 }
