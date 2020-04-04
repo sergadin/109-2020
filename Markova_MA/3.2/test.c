@@ -30,13 +30,10 @@ int main(void){
 	printf("f1 ");
 	switch(err)
 	{
-	case INT_NOT:
+	case ER:
         printf("FAULT\n");
 		break;
-	case INT_ND:
-		printf("NO DATA\n");
-		break;
-	case INT_OK:
+	case OK:
 		printf("Answer = %e\n", m);
 	}
 	
@@ -46,13 +43,10 @@ int main(void){
 	
 	switch(err)
 	{
-	case INT_NOT:
+	case ER:
         printf("FAULT\n");
 		break;
-	case INT_ND:
-		printf("NO DATA\n");
-		break;
-	case INT_OK:
+	case OK:
 		printf("Answer = %e\n", m);
 	}
 	
@@ -61,13 +55,10 @@ int main(void){
 	
 	switch(err)
 	{
-	case INT_NOT:
+	case ER:
         printf("FAULT\n");
 		break;
-	case INT_ND:
-		printf("NO DATA\n");
-		break;
-	case INT_OK:
+	case OK:
 		printf("Answer = %e\n", m);
 	}
 	
@@ -76,13 +67,10 @@ int main(void){
 	
 	switch(err)
 	{
-	case INT_NOT:
+	case ER:
         printf("FAULT\n");
 		break;
-	case INT_ND:
-		printf("NO DATA\n");
-		break;
-	case INT_OK:
+	case OK:
 		printf("Answer = %e\n", m);
 	}
 }

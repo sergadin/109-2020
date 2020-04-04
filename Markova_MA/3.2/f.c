@@ -16,7 +16,7 @@ double ab (double m)
 		return m;
 	}
 }
-double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr)
+double gold(double (*f)(double), double a, double b , ErrorCode *perr, double eps)
 {
 	int check = 1;
     double phi, x1, x2;
