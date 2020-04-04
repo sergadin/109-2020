@@ -44,7 +44,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 		n *= 2;
 		I1 = I2;
 		I2 = I2 = i(f, a, b, n);
-		printf("%e\n", I2);
+		//printf("%e\n", I2);
 	}
 	if(check >= T)
 	{
