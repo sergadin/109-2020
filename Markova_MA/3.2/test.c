@@ -11,7 +11,7 @@ double f(double x){
 
 
 int main(void){
-    double a = -1, b = 8, eps = 0.1, x;
+    double a = -1, b = 8, eps = 0.001, x;
     ErrorCode err = OK;
     x = gold(f, a, b, eps, &err);
 	printf("Точка минимума: %e\n", x);
