@@ -1,0 +1,1 @@
+double taylor(double x, double eps);
