@@ -69,7 +69,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 	printf("%e\n", (a + b)/2);
 	x2 = (a + b)/2;
     double f1, f2, f3, u;
-	if(perr)
+	if(*perr)
 	{
 		printf("tut\n");
 		return 0;
