@@ -23,6 +23,7 @@ int main()
 	double a, b, epsilon, *answers;
 	struct result answer;
 	struct otrezok *otrezoks;
+	ErrorCode eofс; //error_of_calculation
 	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth};
 	m = 6;
 	if ((fin = fopen("input.txt","r")) == NULL)
@@ -97,8 +98,8 @@ int main()
 	}
 	for(i = 0; i < m; i++)
 	{
-		answer = calculation(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i]);
-		if (answer.iterations == 0)
+		answer = calculation(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i], &eofc);
+		if (eofc == CALC_NEOK)
 		{
 			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
 			fprintf(fout, "Incorrect function\n");

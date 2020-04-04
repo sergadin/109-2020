@@ -7,30 +7,23 @@ double Abs(double x)
 	return -x;
 }
 
-double Sin(double x, double eps, int* Error)
+double Sin(double x, double eps, ErrorCode E)
 {
-	int N = 0;
 	double S = 0, summand = x;
-	for (int n = 1; n < 1000; n += 2, summand *= x * x / (n * (n - 1)))
+	int n = 1;
+	do
 	{
-		if ((n % 4) == 1)
-			S += summand;
-		else
-			S -= summand;
+		S += summand;
+		n += 2;
+		summand *= -x * x / (n * (n - 1));
+	} while ((n < 1000) || (Abs(summand) >= eps));
 
-		if (Abs(summand) < eps)
-		{
-			N = n;
-			break;
-		}
-	}
-
-	if (N == 0)
+	if (Abs(summand) >= eps)
 	{
-		*Error = 1;
+		E = ERROR_OF_INT;
 		return 0.0;
 	}
 	
-	*Error = 0;
+	E = OK;
 	return S;
 }

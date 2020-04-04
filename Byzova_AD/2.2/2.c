@@ -21,16 +21,17 @@ double square(double x0, double x1,RRFunc f){
 	}
 	printf("error");
 	return -1;
+
 }
 
-double solve2(double a0, double b0,double eps, int N, RRFunc f){
-	double prev_res = 0;
-	double next_res = 0;
-//	double delta = 0;
-	double h = (b0 - a0)/N; //кусочки на которые делим
+double integrate(double a0, double b0,double eps, int N, RRFunc f, ErrorCode *perr){
+double prev_res = 0;
+double next_res = 0;
+double h = (b0 - a0)/N; //кусочки на которые делим
+*perr = INT_OK;
 	for(double i = a0 ; i < b0 ; i += h) {
 		prev_res += square(i, i + h, f); 
-// считаем площадь на кусочках и складываем
+		// считаем площадь на кусочках и складываем
 
 	}
 
@@ -40,13 +41,20 @@ double solve2(double a0, double b0,double eps, int N, RRFunc f){
 	}	
 	
 	while( fabs(next_res - prev_res)/3 >= eps){
-	h /= 2;
+		N *= 2;
+		h /= 2;
 		prev_res = next_res;
 		next_res = 0;
 		for(double i = a0 ; i < b0 ; i += h) {
 			next_res += square(i, i + h, f); 
 		}
-	}	
+	
+
+		if(N > 10000) {
+			*perr = INT_ERROR;
+			return -1;
+		}	
+	}
 	
 return next_res;
 }

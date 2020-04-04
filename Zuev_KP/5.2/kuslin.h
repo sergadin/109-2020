@@ -3,6 +3,8 @@
 
 using namespace std;
 
+
+
 class klin
 {
 	private:
@@ -10,21 +12,31 @@ class klin
 		double *x;
 		double *y;	
 	public:
+
+
 		klin(int dlina, double *a, double *b)
-		{
+		{	
 			n = dlina;
 			x = (double*) malloc(n *sizeof(double));
 			y = (double*) malloc(n *sizeof(double));
+
+
 			for(int i = 0; i < n; i++)
 			{
 				x[i] = a[i];
 				y[i] = b[i];
 			}
+
 		}
+
 		double interpolation(double x0)
 		{
 			double y0 = 0;
 			double h = 0, k = 0;
+			if ((y == NULL) || (x == NULL))
+			{
+				throw 0;
+			}
 			for(int i = 1; i < n; i ++)
 			{
 				if ((x[i-1]<=x0) && (x0<=x[i]))
@@ -38,7 +50,31 @@ class klin
 		}
 		~klin()
 		{
+
 			free(x);
 			free(y);
 		}
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
