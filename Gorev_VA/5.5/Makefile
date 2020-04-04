@@ -3,10 +3,9 @@ all: do-test clear
 do-test: a.out
 	./a.out
 
-a.out: file.o appr.o
-	g++ -c appr.c
+a.out: file.o
 	g++ -c file.c
-	g++ appr.o file.o -lm
+	g++ file.o -lm
 
 clear:
-	rm appr.o file.o a.out
+	rm file.o a.out

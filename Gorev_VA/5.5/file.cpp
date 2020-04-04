@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdlib.h>
+#include "appr.h"
 
 using namespace std;
 
@@ -22,34 +23,35 @@ double F3(double x)
 int main(void)
 {
 	Appr A;
-	double* a, b;
+	double* x;
 	int N = 10;
-	a = (double*)malloc(N * sizeof(double));
+	x = (double*)malloc(N * sizeof(double));
 	for (int i = 0; i < N; i++)
 	{
-		a[i] = (double)i / (double)N;
+		x[i] = (double)i / (double)N;
 	}
 	cout << "approximation at 0, 0.1, ... , 0.9:\n";
 	
 	cout << "f(x) = x + 1:\n";
-	cout << " calculated approximation: ";
-	A.approximation(F1, a, N);
-	cout << "y = " << A.return_k() << " x + " << A.return_b() << "\n";
-	cout << " actual approximation:     ";
-	cout << "y = 2 x + 1\n";
+	A.approximation(F1, x, N);
+	cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
+	cout << " actual approximation:     y = 2 x + 1\n";
+	cout << " approximation value at x = 0.5: " << A.return_k() * 0.5 + A.return_b() << "\n";
+	cout << " actual value at x = 0.5:        " << F1(0.5) << "\n";
 	
 	cout << "f(x) = x^2:\n";
-	cout << " calculated approximation: ";
-	A.approximation(F2, a, N);
-	cout << "y = " << A.return_k() << " x + " << A.return_b() << "\n";
-	cout << " actual approximation:     ";
-	cout << "y = 0.9 x - 0.12\n";
+	A.approximation(F2, x, N);
+	cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
+	cout << " actual approximation:     y = 0.9 x - 0.12\n";
+	cout << " approximation value at x = 0.5: " << A.return_k() * 0.5 + A.return_b() << "\n";
+	cout << " actual value at x = 0.5:        " << F2(0.5) << "\n";
 	
 	cout << "f(x) = sin(x):\n";
-	cout << " calculated approximation: ";
-	A.approximation(F3, a, N);
-	cout << "y = " << A.return_k() << " x + " << A.return_b() << "\n";
-	cout << " actual approximation:     ";
-	cout << "y = 0.878649 x + 0.0218487\n";
+	A.approximation(F3, x, N);
+	cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
+	cout << " actual approximation:     y = 0.878649 x + 0.0218487\n";
+	cout << " approximation value at x = 0.5: " << A.return_k() * 0.5 + A.return_b() << "\n";
+	cout << " actual value at x = 0.5:        " << F3(0.5) << "\n";
+	
 	return 0;
 }
