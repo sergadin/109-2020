@@ -5,7 +5,7 @@ do-test: a.out
 
 a.out: file.o appr.o
 	g++ -c appr.c
-	g++ -c appr.c
+	g++ -c file.c
 	g++ appr.o file.o -lm
 
 clear:
