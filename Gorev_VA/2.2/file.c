@@ -63,13 +63,12 @@ int main(void)
 	printf(" actual:    %f\n", 9.8857142857);
 
 	printf("f(x) = x sin(x) at [0, 2pi]\n");
-	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F1, 0, 2, 100), trap_sum(F1, 0, 2, 1000), trap_sum(F1, 0, 2, 10000));
-	I = integral(F1, 0, 2 * pi, Error);
+	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F2, 0, 2, 100), trap_sum(F2, 0, 2, 1000), trap_sum(F2, 0, 2, 10000));
+	I = integral(F2, 0, 2 * pi, Error);
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
 		printf(" calc int:  %f\n", I);
-	printf(" actual:    %f\n", 9.8857142857);
 
 	return 0;
 }
