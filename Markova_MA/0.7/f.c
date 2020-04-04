@@ -15,7 +15,7 @@ void a (double (*f)(double), int (*g)(double, double), double x)
 		printf(", %e", ans);
 		if (check > T)
 		{
-			printf("error");
+			printf("error ");
 		}
 	}
 }

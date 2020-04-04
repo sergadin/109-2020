@@ -4,7 +4,7 @@
 #include <math.h>
 double f (double x)
 {
-	return 1/(x*x);
+	return x*x - 1;
 }
 
 int g (double x, double y)
@@ -13,6 +13,6 @@ int g (double x, double y)
 }
 
 int main(){
-    double x = 1;
+    double x = 0.5;
     a(f, g, x);
 }
