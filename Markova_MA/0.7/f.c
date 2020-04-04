@@ -4,9 +4,10 @@
 #include <math.h>
 
 
-void a (double (*f)(double), int (*g)(double, double), double x)
+void a (long double (*f)(long double), int (*g)(long double, long double), double x)
 {
-	double ans = (*f)(x), check = 0;
+	long double ans = (*f)(x);
+	int check = 0;
 	printf("%e", ans);
 	while(((*g)(ans, (*f)(ans)) > 0) || ((*g)(ans, (*f)(ans)) < 0))
 	{

@@ -2,14 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-double f (double x)
+long double f (long double x)
 {
 	return x*x - 3*x - 4;
 }
 
-int g (double x, double y)
+int g (long double x, long double y)
 {
-	return (int)(x - y);
+	if(x = y)
+	{
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 int main(){
