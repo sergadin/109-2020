@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "trap_sum.h"
-
+#define pi 3.141592653589793238462643
 double X(double x);
 double X(double x)
 {
@@ -18,6 +19,12 @@ double F1(double x);
 double F1(double x)
 {
 	return x*x*x*x*x*x - x*x*x*x - 2 * x + 1;
+}
+
+double F2(double x);
+double F2(double x)
+{
+	return x * sin(x);
 }
 
 int main(void)
@@ -49,6 +56,15 @@ int main(void)
 	printf("f(x) = x^6 - x^4 - 2x + 1 at [0, 2]\n");
 	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F1, 0, 2, 100), trap_sum(F1, 0, 2, 1000), trap_sum(F1, 0, 2, 10000));
 	I = integral(F1, 0, 2.0, Error);
+	if (*Error)
+		printf("Error: the integral could not be calculated\n");
+	else
+		printf(" calc int:  %f\n", I);
+	printf(" actual:    %f\n", 9.8857142857);
+
+	printf("f(x) = x sin(x) at [0, 2pi]\n");
+	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F1, 0, 2, 100), trap_sum(F1, 0, 2, 1000), trap_sum(F1, 0, 2, 10000));
+	I = integral(F1, 0, 2 * pi, Error);
 	if (*Error)
 		printf("Error: the integral could not be calculated\n");
 	else
