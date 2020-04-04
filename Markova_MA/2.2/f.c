@@ -25,8 +25,8 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 		*perr = INT_ND;
 		return I2;
 	}
-	state = ((*f)(a) + (*f)(b))/2;
-	I2 = state*(b - a);
+	state = (*f)(a) + (*f)(b);
+	I2 = state*(b - a)/2;
 	while(ab(I1 - I2) > eps && check < T)
 	{
 		check++;
@@ -39,7 +39,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 			I2 += (*f)(h1);
 			h1 += h;
 		}
-		I2 = (I2 + state)*h;
+		I2 = (I2 + 2*state)*h/2;
 		printf("%e\n", I2);
 		n *= 2;
 	}
