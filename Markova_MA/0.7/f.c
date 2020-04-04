@@ -8,12 +8,12 @@ void a (long double (*f)(long double), int (*g)(long double, long double), doubl
 {
 	long double ans = (*f)(x);
 	int check = 0;
-	printf("%e", ans);
+	printf("%Le", ans);
 	while(((*g)(ans, (*f)(ans)) > 0) || ((*g)(ans, (*f)(ans)) < 0))
 	{
 		check++;
 		ans = (*f)(ans);
-		printf(", %e", ans);
+		printf(", %Le", ans);
 		if (check > T)
 		{
 			printf("error ");
