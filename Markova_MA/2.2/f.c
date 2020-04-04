@@ -17,7 +17,7 @@ double ab (double m)
 }
 double i (double (*f)(double), double a, double b, int n)
 {
-	double h = (b - a)/n, h1;
+	double I2 = 0, h = (b - a)/n, h1;
 	h1 = a + h;
 	for(int i = 1; i < n; i++)
 		{
