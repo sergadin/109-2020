@@ -81,12 +81,12 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 			*perr  = ER;
 			return 0;
 		}
-		printf("%d\n", check);
-		printf("%e\n", b - a);
+		//printf("%d\n", check);
+		//printf("%e\n", b - a);
 		check++;
     }
 	*perr  = OK;
-	printf("%e\n", b - a);
+	//printf("%e\n", (b + a)/2);
 	if(ab(b - a) >= eps)
 	{
 		*perr  = ER;
