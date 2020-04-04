@@ -9,6 +9,7 @@ void a (long double (*f)(long double), int (*g)(long double, long double), doubl
 	long double ans = (*f)(x);
 	int check = 0;
 	printf("%Le", ans);
+	printf("%Le", (*f)(ans));
 	while(((*g)(ans, (*f)(ans)) > 0) || ((*g)(ans, (*f)(ans)) < 0))
 	{
 		check++;
