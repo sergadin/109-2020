@@ -40,6 +40,7 @@ double integral(double (*f)(double), double a, double b, ErrorCode *perr, double
 			h1 += h;
 		}
 		I2 = (I2 + state)*h;
+		printf("%e\n", I2);
 		n *= 2;
 	}
 	if(check >= T)
