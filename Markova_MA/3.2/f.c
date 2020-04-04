@@ -67,7 +67,8 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		return 0;
 	}
 	printf("%e\n", (a + b)/2);
-    double f1, f2, f3, x2 = (a + b)/2, u;
+	x2 = (a + b)/2;
+    double f1, f2, f3, u;
 	if(perr)
 	{
 		return 0;
@@ -79,7 +80,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		f2 = (*f)(x2);
 		u = x2 - ((x2 - a) * (x2 - a) * (f2 - f3) - (x2 - b) * (x2 - b) * (f2 - f1)) / ((x2 - x1) * (f2 - f3) - (x2 - b) * (f2 - f1)) * 0.5;
 		printf("%e\n", u);
-		if ((u >= a1) && (u <= x2))
+		if ((u >= a) && (u <= b))
 		{
 			*perr = OK;
 			return (*f)(u);
