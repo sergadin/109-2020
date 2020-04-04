@@ -5,7 +5,7 @@ do-test: a.out
 
 a.out: file.o sin.o
 	gcc -c sin.c
-	gcc -c sin.c
+	gcc -c file.c
 	gcc sin.o file.o -lm
 
 clear:
