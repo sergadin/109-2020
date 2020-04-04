@@ -1,7 +1,5 @@
 #include "trap_sum.h"
 
-#define eps 0.000001
-
 double trap_sum(double (*f) (double), double a, double b, int N)
 {
 	double S = 0, x1, x2;
