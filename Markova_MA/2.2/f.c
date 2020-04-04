@@ -18,21 +18,21 @@ double ab (double m)
 
 double integral(double (*f)(double), double a, double b, ErrorCode *perr, double eps)
 {
-	double h = (b - a)/2, I1 = 0, I2, state, h1;
+	double h, I1 = 0, I2, state, h1;
 	int check = 0, n = 2;
-	I2 = (ab(b - a)*h)/2;
 	if(a >= b)
 	{
 		*perr = INT_ND;
 		return I2;
 	}
 	state = ((*f)(a) + (*f)(b))/2;
-	while(ab(I1 - I2) > eps && check < T)
+	I2 = state*(b - a);
+	while(ab(I1 - I2) > eps*max3(1, I1, I2) && check < T)
 	{
 		check++;
 		I1 = I2;
 		I2 = 0;
-		h /= 2;
+		h = (a + b)/n;
 		h1 = a + h;
 		for(int i = 1; i < n; i++)
 		{

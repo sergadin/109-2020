@@ -12,14 +12,14 @@ double f(double x){
 
 int main(void){
     double a = -1, b = 8, eps = 0.1, x;
-    ErrorCode err;
+    ErrorCode err = OK;
     x = p(f, a, b, eps, &err);
-	printf("Точка минимума: %e", x);
+	printf("Точка минимума: %e\n", x);
 	if(err)
 	{
 		printf("error");
 	}
 	else{
-		printf("Точка минимума: %e", x);
+		printf("Точка минимума: %e\n", x);
 	}
 }
