@@ -17,7 +17,7 @@ double ab (double m)
 }
 double p (double (*f)(double), double x1, double x3, double eps, ErrorCode *perr)
 {
-	double f1, f2, f3, x2 = gold(f, x1, x3, eps, perr), u;
+	double f1, f2, f3, x2 = gold(f, x1, x3, eps, &perr), u;
 	if(perr)
 	{
 		return 0;
@@ -45,7 +45,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 {
 	int check = 1;
     double phi, x1, x2;
-    phi = (1+sqrt(5))/2;
+    phi = (1 + sqrt(5))/2;
     x1 = b - (b - a)/phi;
     x2 = a + (b - a)/phi;
     if((*f)(x1) >= (*f)(x2))
