@@ -35,7 +35,7 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
     {
     x1 = b - (b - a)/phi;
     x2 = a + (b - a)/phi;
-		if( x1 != a && x2 != b)
+		if( (a <= x1 || x1 <= a) && (b >= x2 || x2 >= b)
 		{
 			if((*f)(x1) >= (*f)(x2))
 			{
