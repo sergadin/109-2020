@@ -9,7 +9,7 @@ long double f (long double x)
 
 int g (long double x, long double y)
 {
-	if(x = y)
+	if(x == y)
 	{
 		return 0;
 	}
