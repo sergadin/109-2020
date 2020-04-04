@@ -75,29 +75,22 @@ double gold(double (*f)(double), double a, double b, double eps, ErrorCode *perr
 		printf("tut\n");
 		return 0;
 	}
+	f3 = (*f)(b);
+	f1 = (*f)(a);
+	f2 = (*f)(x2);
+	u = x2 - ((x2 - a) * (x2 - a) * (f2 - f3) - (x2 - b) * (x2 - b) * (f2 - f1)) / ((x2 - x1) * (f2 - f3) - (x2 - b) * (f2 - f1)) * 0.5;
+	//printf("%e\n", u);
+	if(u < a || b < u)
+	{
+		*perr = ER;
+		return 0;
+	}
+	if((*f)(u) > (*f)(x2))
+	{
+		return (*f)(x2);
+	}
 	else
 	{
-		f3 = (*f)(b);
-		f1 = (*f)(a);
-		f2 = (*f)(x2);
-		u = x2 - ((x2 - a) * (x2 - a) * (f2 - f3) - (x2 - b) * (x2 - b) * (f2 - f1)) / ((x2 - x1) * (f2 - f3) - (x2 - b) * (f2 - f1)) * 0.5;
-		printf("%e\n", u);
-		if ((u >= a) && (u <= b))
-		{
-			*perr = OK;
-			if((*f)(u) > (*f)(x2))
-			{
-				return (*f)(x2);
-			}
-			else
-			{
-				return (*f)(u);
-			}
-		}
-		else
-		{
-			*perr = ER;
-			return 0;
-		}
+		return (*f)(u);
 	}
 }
