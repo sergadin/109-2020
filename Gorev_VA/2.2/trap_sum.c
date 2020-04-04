@@ -25,7 +25,6 @@ double integral(double (*f) (double), double a, double b, int* Error)
 			*Error = 0;
 			return I;
 		}
-	printf("   %d, %f\n", i, I);
 	}
 	*Error = 1;
 	return I;
