@@ -23,4 +23,5 @@ class rms_approximation {
         void Print_matrix();
         void free_memory();
         double Calc_in_x(double x);
+        void Setx(double x1, double x2, double x3, double x4, double x5);
 };

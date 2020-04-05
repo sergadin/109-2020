@@ -5,15 +5,14 @@ static double test_f(double x) {
 }
 
 int main() {
-    cout << "n = ";
     rms_approximation first;
-    cin >> first.n;
-    cout << endl;
     first.f = test_f;
-    first.Cin_x();
-    double x;
-    cout << "x = ";
-    cin >> x;
+    cout <<"We approximate the function X^2/(1-x) by linear function" << endl << endl;
+    first.Setx(5,6,7,8,9);
+    first.Cout_table();
+    cout << endl;
+    double x = 8.5;
+    cout << "In point x = " << x << endl;;
     cout << "f(x) = " << test_f(x) <<"\nres = " << first.Calc_in_x(x) << endl;
     first.free_memory(); 
 }

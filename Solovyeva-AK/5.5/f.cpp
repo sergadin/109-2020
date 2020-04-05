@@ -68,3 +68,13 @@ double rms_approximation::Calc_in_x(double x){
 void rms_approximation::free_memory(){
     free(x);
 }
+
+void rms_approximation::Setx(double x1, double x2, double x3, double x4, double x5){
+    n = 5;
+    this->Allocate_memory();
+    x[0] = x1;
+    x[1] = x2;
+    x[2] = x3;
+    x[3] = x4;
+    x[4] = x5;
+}
