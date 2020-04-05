@@ -13,9 +13,8 @@ int main()
 		double x0 = 6;
 		double y0[2] = {0, 0};
 		double true_ans[2] = {216, 5.93989};
-		double *y1, *y2; 
-		*y1 = (double*) malloc(n *sizeof(double));
-		*y2 = (double*) malloc(n *sizeof(double));
+		double *y1 = (double*) malloc(n *sizeof(double));
+		double *y2 = (double*) malloc(n *sizeof(double));
 		if ((y1 == NULL) || (y2 == NULL))
 		{
 			throw -1;
