@@ -8,8 +8,8 @@ int main()
 {
 	try
 	{	
-		int n = 5; 
-		double x[5] = {1, 2.4, 5.6, 10, 14};
+		int n = 10; 
+		double x[5] = {1, 2, 2.4, 3, 4, 5.6, 7, 8, 9, 10};
 		double x0 = 6;
 		double y0[2] = {0, 0};
 		double true_ans[2] = {216, 5.93989};
@@ -30,8 +30,8 @@ int main()
 		y0[1] = f2.inter(x0);
 		for(int i = 0; i < 2; i++)
 		{	
-			cout<<"true answer = \n"<< true_ans[i] <<endl;
-			cout<<"my answer = "<< y0[i] <<endl;
+			cout<<"true answer = "<< true_ans[i] << endl;
+			cout<<"my answer = "<< y0[i] << endl;
 		}
 		free(y1);
 		free(y2);
