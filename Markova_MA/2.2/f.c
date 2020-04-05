@@ -15,32 +15,36 @@ double ab (double m)
 		return m;
 	}
 }
-
+double i (double (*f)(double), double a, double b, int n)
+{
+	double I2 = 0, h = (b - a)/n, h1;
+	h1 = a + h;
+	for(int i = 1; i < n; i++)
+		{
+			I2 += (*f)(h1);
+			h1 += h;
+		}
+	return (2*I2 + (*f)(a) + (*f)(b))*h/2;
+}
 double integral(double (*f)(double), double a, double b, ErrorCode *perr, double eps)
 {
-	double h = (b - a)/2, I1 = 0, I2, state, h1;
-	int check = 0, n = 2;
-	I2 = (ab(b - a)*h)/2;
+	double I1 = 0, I2 = 0, state;
+	int check = 0, n = 128;
 	if(a >= b)
 	{
 		*perr = INT_ND;
 		return I2;
 	}
-	state = ((*f)(a) + (*f)(b))/2;
+	I1 = i(f, a, b, n);
+	I2 = i(f, a, b, 2*n);
+	n *= 2;
 	while(ab(I1 - I2) > eps && check < T)
 	{
 		check++;
-		I1 = I2;
-		I2 = 0;
-		h /= 2;
-		h1 = a + h;
-		for(int i = 1; i < n; i++)
-		{
-			I2 += (*f)(h1);
-			h1 += h;
-		}
-		I2 = (I2 + state)*h;
 		n *= 2;
+		I1 = I2;
+		I2 = I2 = i(f, a, b, n);
+		//printf("%e\n", I2);
 	}
 	if(check >= T)
 	{

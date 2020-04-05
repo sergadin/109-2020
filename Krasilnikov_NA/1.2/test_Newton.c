@@ -23,7 +23,7 @@ int main()
 	double a, b, epsilon, *answers;
 	struct result answer;
 	struct otrezok *otrezoks;
-	ErrorCode eofс; //error_of_calculation
+	ErrorCode eofc; //error_of_calculation
 	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth};
 	m = 6;
 	if ((fin = fopen("input.txt","r")) == NULL)
@@ -113,15 +113,15 @@ int main()
 		if (fabs(answer.rofc - answers[i]) <= epsilon)
 		{
 			fprintf(fout, "Test № %d: OK | ", (i + 1));
-			fprintf(fout, "Calculated result: %g | ", answer.rofc);
-			fprintf(fout, "Reference result: %g | ", answers[i]);
+			fprintf(fout, "Calculated result: %4.8f | ", answer.rofc);
+			fprintf(fout, "Reference result: %4.8f | ", answers[i]);
 			fprintf(fout, "Number of iterations: %d\n", answer.iterations);
 		}
 		else
 		{
 			fprintf(fout, "Test № %d: LOSS | ", (i + 1));
-			fprintf(fout, "Calculated result: %g | ", answer.rofc);
-			fprintf(fout, "Reference result: %g | ", answers[i]);
+			fprintf(fout, "Calculated result: %4.8f | ", answer.rofc);
+			fprintf(fout, "Reference result: %4.8f | ", answers[i]);
 			fprintf(fout, "Number of iterations: %d\n", answer.iterations);
 			fclose(fin);
 			fclose(ans);
@@ -160,5 +160,5 @@ double fifth(double x)
 }
 double sixth(double x)
 {
-	return (sin(0.01 * x * x));
+	return (log10(x/(x + 1)) + cos(2 * x));
 }

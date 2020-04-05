@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "trap_sum.h"
 
 double X(double x);
@@ -18,6 +19,20 @@ double F1(double x);
 double F1(double x)
 {
 	return x*x*x*x*x*x - x*x*x*x - 2 * x + 1;
+}
+
+double F2(double x);
+double F2(double x)
+{
+	return x * sin(x);
+}
+
+double F3(double x);
+double F3(double x)
+{
+	if (x < (eps / 100))
+		return 0.0;
+	return sin(1 / x);
 }
 
 int main(void)
@@ -54,6 +69,24 @@ int main(void)
 	else
 		printf(" calc int:  %f\n", I);
 	printf(" actual:    %f\n", 9.8857142857);
+
+	printf("f(x) = x sin(x) at [0, 2pi]\n");
+	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F2, 0, 2*pi, 100), trap_sum(F2, 0, 2*pi, 1000), trap_sum(F2, 0, 2*pi, 10000));
+	I = integral(F2, 0, 2 * pi, Error);
+	if (*Error)
+		printf("Error: the integral could not be calculated\n");
+	else
+		printf(" calc int:  %f\n", I);
+	printf(" actual:    -2pi\n");
+	
+	printf("f(x) = sin(1/x) at [0, 1/pi]\n");
+	printf(" N = 100:   %f\n N = 1000:  %f\n N = 10000: %f\n", trap_sum(F3, 0, 1 / pi, 100), trap_sum(F3, 0, 1 / pi, 1000), trap_sum(F3, 0, 1 / pi, 10000));
+	I = integral(F3, 0, 1 / pi, Error);
+	if (*Error)
+		printf("Error: the integral could not be calculated\n");
+	else
+		printf(" calc int:  %f\n", I);
+	printf(" actual:    -0.0736679\n");
 
 	return 0;
 }
