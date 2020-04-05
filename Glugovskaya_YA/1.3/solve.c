@@ -17,7 +17,10 @@ int solve(double a, double b, double eps,double*res,double(*func)(double))
 		printf("cannot find\n");
 		return CantFind;
 	} 
-	
+	if (fa == fb) {
+		printf("Выберите другой отрезок\n");
+		return CantFind;
+	}
 	for(it = 0; it < MAX_IT; it ++)
 	{
 		c = a - fa * (b - a) / (fb - fa);
