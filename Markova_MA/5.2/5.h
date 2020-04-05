@@ -13,8 +13,8 @@ class c
 		c(int long_, double *a, double *b)
 		{	
 			n = long_;
-			x = new double[n];
-			y = new double[n];
+			x = (double*) malloc(n *sizeof(double));;
+			y = (double*) malloc(n *sizeof(double));;
 
 
 			for(int i = 0; i < n; i++)
