@@ -1,36 +1,55 @@
-#include "f.h"
+#include<stdio.h> 
+#include<stdlib.h>
+#include"solve.h"
+#include<math.h>
+#include"test.h"
+#define TooManyIT -1
 
 int main (void)
 {
 	int n;
-	double a, b, res;
-	
-	printf("\nPlease enter \"a\": ");
-	if(scanf("%lf", &a) != 1)
-	{
-		printf("\nWrong input\n\n");
-		return 0;
-	}
-	
-	printf("\nPlease enter \"b\": ");
-	if(scanf("%lf", &b) != 1)
-	{
-		printf("\nWrong input\n\n");
-		return 0;
-	}
+	double a, b, res, eps;
 	
 	printf("\nPlease enter \"n\": ");
-	if((scanf("%d", &n) != 1) || (n < 1))
+	if(scanf("%d", &n) != 1)
 	{
 		printf("\nWrong input\n\n");
 		return 0;
 	}
 	
-	//printf("\nn = %d\n\n", n);
-	res = solve(f, a, b, n);
+	printf("\nPlease enter \"eps\": ");
+	if(scanf("%lf", &eps) != 1)
+	{
+		printf("\nWrong input\n\n");
+		return 0;
+	}
+	a = 1.2;
+	b = 2;
+	res = solve(f, a, b, n, eps);
 	
-	printf("\nres = %lf\n\n", res);
+	if (res != TooManyIT)
+	{
+		printf("\nres = %lf\n\n", res);
+	}
+	else 
+	{
+		printf ("\n Too Many Iterations\n");
+	}
 	
+	
+	a = 0.3;
+	b = 1;
+	res = solve(f1, a, b, n, eps);
+	
+	if (res != TooManyIT)
+	{
+		printf("\nres = %lf\n\n", res);
+	}
+	else 
+	{
+		printf ("\n Too Many Iterations\n");
+	}
+
 	return 0;
 }
 

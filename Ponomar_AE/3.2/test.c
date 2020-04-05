@@ -4,17 +4,18 @@
 
 #define max(a,b) ((a)>(b) ? (a) : (b))
 #define MAX(a,b,c) (max(max((a), (b)), (c)))
-#define E 0.0000000001
+#define E 0.00000001
 
 double func1(double x);
 double func2(double x);
 double func3(double x);
+double func4(double x);
 
 int main(void)
 {
-	int i, N = 3;
-	RRFUN funcs[] = {func1, func2, func3};
-	double result, true_answer[] = {-5, -6, -12.1716124};
+	int i, N = 4;
+	RRFUN funcs[] = {func1, func2, func3, func4};
+	double result, true_answer[] = {-5, -6, -12.1716124, 0};
 	double xa = -5, xb = 4, eps = 0.000001;
 	for(i = 0; i < N; i++)
 	{
@@ -40,4 +41,9 @@ double func2(double x)
 double func3(double x)
 {
 	return (x+2)*(x+2)*(x+2) - 10*x -20;
+}
+
+double func4(double x)
+{
+	return x*x;
 }
