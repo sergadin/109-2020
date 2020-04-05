@@ -1,13 +1,13 @@
 all: do-test clean
 
-test.o: test52.o kuslin.h
-#	g++ -c test52.cpp
+test.o: 5.o 5.h
+#	g++ -c 5.cpp
 
-a.out: test52.o
-	g++ test52.o
+a.out: 5.o
+	g++ 5.o
 
 do-test: a.out
 	./a.out
 
-clean: test52.o kuslin.h
-	rm test52.o 
+clean: 5.o 5.h
+	rm 5.o 

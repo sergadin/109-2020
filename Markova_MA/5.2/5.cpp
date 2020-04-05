@@ -9,10 +9,10 @@ int main()
 	try
 	{	
 		int n = 5; 
-		double x[5] = {1, 1.5, 4.45, 14, 15};
-		double x0 = 4.589;
-		double y0[] = {0, 0};
-		double true_ans[] = {-24.49, -0.8174};
+		double x[5] = {1, 2.4, 5.6, 10, 14};
+		double x0 = 6;
+		double y0[2] = {0, 0};
+		double true_ans[2] = {216, 5.93989};
 		double *y1, *y2; 
 		*y1 = new double[n];
 		*y2 = new double[n];
