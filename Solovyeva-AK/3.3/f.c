@@ -5,21 +5,31 @@ double shredding_sizing_grid (double f(double), double a, double b, double eps, 
         *perr = INT_OK; 
     coefficients parab;
     int n = 10;
-    double h = (b - a)/n, min = f(a), min_x = a, tmp;
-    double x1, x2, x3, x4, x5;
-    for (int i = 0; i <= n; i++) {
-        tmp = f(a+i*h);
-        if (tmp < min) {
-            min_x = a+i*h;
-            min = tmp;
+    double h = (b - a)/n , min = f(a), min_x = a, tmp;
+    double x1 = a, x2 = b, x3, x4, x5;
+    while (h > 0.1) {
+        h = (x2 - x1)/n;
+        for (int i = 0; i <= n; i++) {
+            tmp = f(x1+i*h);
+            if (tmp < min) {
+                min_x = x1+i*h;
+                min = tmp;
+            }
+        }
+        x1 = min_x - h;
+        if (x1 < a) {
+            x1 = a;
+        }
+        x2 = min_x + h;
+        if (x2 > b) {
+            x2 = b;
         }
     }
+    x1 = min_x - h;
     x2 = min_x;
-    x1 = x2 - h;
-    x3= x2 + h;
+    x3 = min_x + h;
     parab = parabola(f, x1, x2, x3);
     do {
-        h = h/2;
         if (parab.c2 != 0) {
             x4 = - parab.c1 / (2 * parab.c2);
         } else if (f(a) < f(b)) {
@@ -32,13 +42,17 @@ double shredding_sizing_grid (double f(double), double a, double b, double eps, 
         } else if (x4 > b) {
             return f(b);
         }
-        x1 = x4 - h;
-        x2 = x4;
-        x3 = x4 + h;
+        if (x4 > x2) {
+            x1 = x2;
+            x2 = x4;
+        } else {
+            x3 = x2;
+            x2 = x4;
+        }
         parab = parabola(f, x1, x2, x3);
-        x5 = - parab.c1 / (2 * parab.c2); 
+        x5 = - parab.c1 / (2 * parab.c2);
     } while (!compare(f(x4), f(x5), eps));
-    return f(x5);
+    return f(x4);
 }
 
 

@@ -8,7 +8,7 @@ int main(void)
 	double x, eps, result, cosinus;
 	while(1)
 	{
-		printf("Input x in radians:\n");
+		printf("\n\nInput x in radians:\n");
 		scanf("%lf", &x);
 		printf("Input eps:\n");
 		scanf("%lf", &eps);
@@ -21,7 +21,7 @@ int main(void)
 		printf("RESULT: %lf \n", result);
 		cosinus = cos(x);
 		printf("COS: %lf \n", cosinus);
-		printf("DIFFERENCE: %lf \n", cosinus - result);
+		printf("DIFFERENCE: %lf \n", fabs(cosinus - result));
 	} 
 	
 	return 0;
