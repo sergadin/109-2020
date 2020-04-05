@@ -4,25 +4,29 @@
 #include<math.h>
 
 static int count = 0;
-double func(double x)
+double func (double x)
 {
 	count++;
-	return sin(x)*x-x*x-3*x*x+10;
+	return sin(x)*x - x*x - 3*x*x + 10;
 }
 
 double func1(double x)
 {
 	count++;
-	return cos(x)+pow(3,x)-10;
+	return cos(x) + pow(3,x) - 10;
 }
 
-double func2(double x)
+double func2 (double x)
 {
 	count++;
-	return sin(x)+cos(x)*x+4*x+2;
+	return sin(x) + cos(x)*x + 4*x + 2;
 }
-
-int get_count(void)
+double func3 (double x)
+{
+	count++;
+	return 2*x - 2;
+}
+int get_count (void)
 {
 	return count;
 }

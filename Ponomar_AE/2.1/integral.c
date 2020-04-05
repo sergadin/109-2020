@@ -1,10 +1,10 @@
-#include <stdio.h>
+i#include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include "integral.h"
 
 #define max(a,b) ((a)>(b) ? (a) : (b))
-#define MAX(a,b,c) (max(max((a), (b)), (c)))
+#define MAX(a,b,c) (max(max((a),(b)), (c)))
 
 static double INTEGRAL(RRF func, double X_a, double X_b, double E);
 
@@ -58,4 +58,3 @@ double integral(RRF func, double X_a, double X_b, double E, ErrorCode *error_cod
 	}
 	return int2;
 }
-
