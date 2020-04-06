@@ -5,6 +5,7 @@
 #include"test.h"
 #define TooManyIT -1
 
+
 int main (void)
 {
 	int n;
