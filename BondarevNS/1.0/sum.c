@@ -2,7 +2,7 @@
 #include <math.h>
 #include "sum.h"
 
-double findRoot(double a, double b, double epsilon, RRF f)
+double findRoot(double a, double b, double epsilon, RRFUN f)
 {
 	while(fabs(b - a) > epsilon) 
 	{
