@@ -19,11 +19,15 @@ double f3(double x) {
 int main(void) {
 	double result, a = -4, b = 4, eps = 0.001;
 	double ideal[] = {-1, 0, -1};
+    ErrorCode perr;
     int i;
 	RRfun fun[] = {f1, f2, f3};
 	for(i = 0; i < 3; i++) {
-		result = minim(a, b, fun[i], eps);
-		printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
+		result = minim(a, b, fun[i], eps, &perr);
+        if(perr == I_OK)
+		    printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
+        else
+            printf("Sorry\n");
 	}
     return 0;
 }
