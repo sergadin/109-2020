@@ -17,13 +17,19 @@ double f3(double x) {
 }
 
 int main(void) {
+    ErrorCode perr;
     int n = 1000;
 	double result, a = 0, b = 1;
 	double ideal[] = {5.0, 27.33333, 0.98158};
 	RRfun fun[] = {f1, f2, f3};
 	for(int i = 0; i < 3; i++) {
-		result = simp(a, b, fun[i], n);
-		printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
+		result = simp(a, b, fun[i], n, &perr);
+        if(perr == I_OK)
+		    printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
+        else {
+            printf("Sorry\n");
+            return -1;        
+        }
 	}
     return 0;
 }
