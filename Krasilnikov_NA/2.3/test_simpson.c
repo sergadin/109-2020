@@ -32,7 +32,7 @@ int main()
 	FILE *fin, *fout, *ans;
 	int i, m;
 	double a, b, epsilon;
-       	struct format_answer *answers;
+	struct format_answer *answers;
 	double answer;
 	ErrorCode eofi; //error_of_integratio
 	struct otrezok *otrezoks;
@@ -66,7 +66,7 @@ int main()
 	}
 	for(i = 0; i < m; i++)
 	{
-		if (fscanf(ans, "%lf", &answers[i]) != 1)
+		if (fscanf(ans, "%lf %в", &answers[i].answer, &answers[i].check) != 2)
 		{
 			fclose(fin);
 			fclose(ans);
@@ -107,34 +107,37 @@ int main()
 	for(i = 0; i < m; i++)
 	{
 		answer = integrate(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i], &eofi);
-		if (eofi == INT_NEOK)
+		fprintf(fout, "Test № %d: ", (i  + 1);
+		if ((eofi == INT_NEOK) && (answers[i].check == -1)
 		{
-			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
-			fprintf(fout, "Impossible to calculate\n");
-			fclose(fin);
-			fclose(ans);
-			fclose(fout);
-			free(answers);
-			free(otrezoks);
-			return -1;
-		}
-		if (fabs(answer - answers[i]) <= epsilon * MAXOF3(answer, answers[i], 1))
-		{
-			fprintf(fout, "Test № %d: OK | ", (i + 1));
-			fprintf(fout, "Calculated value: %lf | ", answer);
-			fprintf(fout, "Exact value: %lf | ", answers[i]);
-			fprintf(fout, "Error value: %lf\n", fabs(answer - answers[i]));
-
+			fprintf(fout, "OK | Impossible to integrate");
 		}
 		else
 		{
-			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
-			fclose(fin);
-			fclose(ans);
-			fclose(fout);
-			free(answers);
-			free(otrezoks);
-			return -1;
+			if (eofi == INT_NEOK)
+			{
+				fprintf(fout, "LOSS | Impossible to reach the defined accuracy");
+				fclose(fin);
+				fclose(ans);
+				fclose(fout);
+				free(answers);
+				free(otrezoks);
+				return -1;
+			}
+			if (fabs(answer - answers[i].answer) >= MAXOF3(answer, answers[i].answer, 1) * epsilon)
+			{
+				fprintf(fout, "LOSS | Calculated value: %lf, Exact value: %lf, Error value: %lf", answer, answers[i].answer, fabs(answer - answers[i].answer));
+				fclose(fin);
+				fclose(ans);
+				fclose(fout);
+				free(answers);
+				free(otrezoks);
+				return -1;
+			}
+			else
+			{
+				fprintf(fout, "OK | Calculated value: %lf, Exact value: %lf, Error value: %lf", answer, answers[i].answer, fabs(answer - answers[i].answer));
+			}
 		}
 	}
 	fclose(fin);
@@ -176,4 +179,3 @@ double eighth(double x)
 {
 	return sin(1/(x + 0.05) )*  exp(1/(x + 0.05));
 }
-

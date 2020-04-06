@@ -35,11 +35,6 @@ double integrate(double a, double b, double epsilon, RRFUN function, ErrorCode *
 	*error = INT_OK;
 	while ((fabs(res2 - res1) >= MAXOF3(res1, res2, 1) * epsilon) && (n < 1000000000))
 	{
-		if ((isnan(res1) != 0)||(isnan(res2) != 0))
-		{
-			*error = INT_SOVSEMNEOK;
-			return 0;
-		}
 		res1 = simpson(a, b, n, function);
 		n = 4*n;
 		res2 = simpson(a, b, n, function);
