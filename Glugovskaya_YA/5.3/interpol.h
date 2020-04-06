@@ -56,7 +56,7 @@ class PicQuadratic
 						throw 0;
 					}
 					
-					Y0 = Y1 + (Y1 - Y2) * (X0 - X1)/(X1 - X2);
+					Y0 = Y1 + (Y1 - Y2) * (X0 - X1) / (X1 - X2);
 					Y0 += (Y1 - Y2) * (X0 - X2) * (X0 - X1) / ((X1 - X2) * (X1 - X3));
 					Y0 -= (Y2 - Y3) * (X0 - X2) * (X0 - X1) / ((X2 - X3) * (X1 - X3));
 					

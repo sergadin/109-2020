@@ -8,7 +8,7 @@ int main()
 	double *y_line = (double *) malloc(N * sizeof(double)); //2*x+2
 	double *y_parabola = (double *) malloc(N * sizeof(double)); //3*x*x+4*x+1
 	double *y_sin = (double *) malloc(N * sizeof(double)); //sin(x)
-	double x_points[] = {-1.5, -0.5, 0, 1, 1.5, 3};
+	double x_points[] = {-1.5, -0.5, 0, 1, 1.5, 2.5};
 	double X0 = 0.5;
 	double Y0[] = {0, 0, 0};
 	double CorAnswers[] = {3, 3.75, 0.479};
