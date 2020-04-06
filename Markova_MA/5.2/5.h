@@ -40,11 +40,11 @@ class c
 					q = 1;
 				}
 			}
-			if (q)
+			if (!q)
 			{
-				return y0;
+				throw -1;
 			}
-			throw -1;
+			return y0;
 		}
 		~c()
 		{
