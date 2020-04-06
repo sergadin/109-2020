@@ -33,13 +33,13 @@ double integrate(double a, double b, double epsilon, RRFUN function, ErrorCode *
 	double res1 = simpson(a, b, n, function), res2 = simpson(a, b, 4*n, function);
 	double answer;
 	*error = INT_OK;
-	while ((fabs(res2 - res1) >= MAXOF3(res1, res2, 1) * epsilon) && (n < 1000000000))
+	while ((fabs(res2 - res1) >= MAXOF3(res1, res2, 1) * epsilon) && (n < 100000000))
 	{
 		res1 = simpson(a, b, n, function);
 		n = 4*n;
 		res2 = simpson(a, b, n, function);
 	}
-	if(n >= 999999999)
+	if(n >= 99999999)
 	{
 		*error = INT_NEOK;
 	}
