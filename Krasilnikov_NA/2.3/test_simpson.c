@@ -26,6 +26,7 @@ double fifth(double x);
 double sixth(double x);
 double seventh(double x);
 double eighth(double x);
+double nineth(double x);
 
 int main()
 {
@@ -36,8 +37,8 @@ int main()
 	double answer;
 	ErrorCode eofi; //error_of_integratio
 	struct otrezok *otrezoks;
-	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth, seventh, eighth};
-	m = 8;
+	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth, seventh, eighth, nineth};
+	m = 9;
 	if ((fin = fopen("input.txt","r")) == NULL)
 	{
 		printf("INVALID INPUT FILE");
@@ -56,7 +57,7 @@ int main()
 		fclose(fin);
 		return -1;
 	}
-	if ((answers = (struct format_answer*) malloc(m * sizeof(double))) == NULL)
+	if ((answers = (struct format_answer*) malloc(m * sizeof(struct format_answer))) == NULL)
 	{
 		printf("MEMORY ALLOCATION ERROR");
 		fclose(fin);
@@ -66,7 +67,7 @@ int main()
 	}
 	for(i = 0; i < m; i++)
 	{
-		if (fscanf(ans, "%lf %в", &answers[i].answer, &answers[i].check) != 2)
+		if (fscanf(ans, "%lf %d", &answers[i].answer, &answers[i].check) != 2)
 		{
 			fclose(fin);
 			fclose(ans);
@@ -107,16 +108,16 @@ int main()
 	for(i = 0; i < m; i++)
 	{
 		answer = integrate(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i], &eofi);
-		fprintf(fout, "Test № %d: ", (i  + 1);
-		if ((eofi == INT_NEOK) && (answers[i].check == -1)
+		fprintf(fout, "Test № %d: ", (i  + 1));
+		if ((eofi == INT_NEOK) && (answers[i].check == -1))
 		{
-			fprintf(fout, "OK | Impossible to integrate");
+			fprintf(fout, "OK | Impossible to integrate\n");
 		}
 		else
 		{
 			if (eofi == INT_NEOK)
 			{
-				fprintf(fout, "LOSS | Impossible to reach the defined accuracy");
+				fprintf(fout, "LOSS | Impossible to reach the defined accuracy\n");
 				fclose(fin);
 				fclose(ans);
 				fclose(fout);
@@ -126,7 +127,7 @@ int main()
 			}
 			if (fabs(answer - answers[i].answer) >= MAXOF3(answer, answers[i].answer, 1) * epsilon)
 			{
-				fprintf(fout, "LOSS | Calculated value: %lf, Exact value: %lf, Error value: %lf", answer, answers[i].answer, fabs(answer - answers[i].answer));
+				fprintf(fout, "LOSS | Calculated value: %lf, Exact value: %lf, Error value: %lf\n", answer, answers[i].answer, fabs(answer - answers[i].answer));
 				fclose(fin);
 				fclose(ans);
 				fclose(fout);
@@ -136,7 +137,7 @@ int main()
 			}
 			else
 			{
-				fprintf(fout, "OK | Calculated value: %lf, Exact value: %lf, Error value: %lf", answer, answers[i].answer, fabs(answer - answers[i].answer));
+				fprintf(fout, "OK | Calculated value: %lf, Exact value: %lf, Error value: %lf\n", answer, answers[i].answer, fabs(answer - answers[i].answer));
 			}
 		}
 	}
@@ -178,4 +179,8 @@ double seventh(double x)
 double eighth(double x)
 {
 	return sin(1/(x + 0.05) )*  exp(1/(x + 0.05));
+}
+double nineth(double x)
+{ 
+	return sin(1/x)*  exp(1/x);
 }
