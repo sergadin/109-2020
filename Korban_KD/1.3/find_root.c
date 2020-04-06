@@ -54,7 +54,10 @@ int find_root(dndFUNC f, double a, double b, double eps, double *x)
 		}
 
 		if( ( fabs(a - c)<=PRECITION*f_max(a, c, 1) ) || ( fabs(b - c)<=PRECITION*f_max(b, c, 1) ) )
-			break;
+        {
+            *x = c;
+            return UNABLE;
+        }
 
 		if( val_a*val_c<=0 )
 		{
