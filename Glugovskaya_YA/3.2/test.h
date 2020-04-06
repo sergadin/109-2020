@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-//static int count=0;
 double func(double x);
 double func1(double x);
 double func2(double x);
