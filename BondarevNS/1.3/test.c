@@ -27,7 +27,7 @@ double res, epsilon = 0.001;
 double  otvet [] = {-2, 0, 0};
 double a = -3;
 double b = 1;
-RRFUN f[] = {f1, f2, f3 , f4};
+RRFUN f[] = {f1, f2, f3 };
                  
 	for(int i = 0; i < 3; i++)
 	{
