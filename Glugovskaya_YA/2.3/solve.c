@@ -6,6 +6,7 @@
 #define MAX_IT 1e6
 #define TooManyIT -1
 
+
 double solve (double (*f)(double), double a, double b, int n, double eps)
 {
 	double h = (b - a)/(2*n), s1 = 0, s2 = 4*f(a + h), I2n, In;
