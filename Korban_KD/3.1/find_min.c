@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <math.h>
 #include "find_min.h"
 #include "../lib/exmath.h"
@@ -11,17 +12,10 @@ int find_min(dndFUNC f, double a, double b, double eps, double *x)
 	val = f(a);
 	for( it = 1; it<MAX_IT; it++ )
 	{
-		if( i >= (NUM) )
+		if( i == (int)(NUM) )
 		{
-			if( fabs(h)<eps )
-			{
-				*x = a + i*h;
-				return it;
-			}
-
-			a = a + i*h;
-			i = 0;
-			h /= -NUM;
+            *x = a + i*h;
+            return NOT_UNIMODAL;
 		}
 
 		val_next = f(a + (i + 1)*h);
@@ -34,7 +28,13 @@ int find_min(dndFUNC f, double a, double b, double eps, double *x)
 		{
 			if( fabs(h)<eps )
 			{
-				*x = a + i*h;
+				double prev_val = f(a + (i - 1)*h);
+                double prev_x = a + (i - 1)*h, cur_x = a + i*h, next_x = a + (i + 1)*h;
+                
+                *x = cur_x - ((cur_x - prev_x) * (cur_x - prev_x) * (val - val_next) - (cur_x - next_x) * (cur_x - next_x) * (val - prev_val)) / 
+                (2 * ((cur_x - prev_x) * (val - val_next) - (cur_x - next_x) * (val - prev_val)));
+                
+                printf("%lf",(2 * ((cur_x - prev_x) * (val - val_next) - (cur_x - next_x) * (val - prev_val))));
 				return it;
 			}
 

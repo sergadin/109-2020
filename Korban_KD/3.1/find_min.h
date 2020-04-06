@@ -1,8 +1,13 @@
 typedef double (*dndFUNC)(double x);
 #define MAX_IT 1e16
-#define PRECITION 1e-16
 #define NUM 1e4
-#define NOT_FOUND (-1)
+
+enum FIND_ROOT_CODES
+{
+    NOT_UNIMODAL = -2,
+    NOT_FOUND,
+};
+
 
 
 
