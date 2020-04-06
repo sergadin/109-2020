@@ -12,6 +12,12 @@ struct otrezok
 	double rightend;
 };
 
+struct format_answer
+{
+	double answer;
+	int check;
+};
+
 double first(double x);
 double second(double x);
 double third(double x);
@@ -25,7 +31,8 @@ int main()
 {
 	FILE *fin, *fout, *ans;
 	int i, m;
-	double a, b, epsilon, *answers;
+	double a, b, epsilon;
+       	struct format_answer *answers;
 	double answer;
 	ErrorCode eofi; //error_of_integratio
 	struct otrezok *otrezoks;
@@ -49,7 +56,7 @@ int main()
 		fclose(fin);
 		return -1;
 	}
-	if ((answers = (double*) malloc(m * sizeof(double))) == NULL)
+	if ((answers = (struct format_answer*) malloc(m * sizeof(double))) == NULL)
 	{
 		printf("MEMORY ALLOCATION ERROR");
 		fclose(fin);
