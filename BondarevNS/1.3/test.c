@@ -29,18 +29,19 @@ double f4 (double x)
 
 int main (void)
 {
+double res;
 double epsilon [] = {0.1, 0.01, 0.01, 0.001};
 double  otvet [] = {-2, 2 , 1, 0};
 double a [] = {-3, 0, -1, -1 };
 double b [] = {-1, 3, 2, 1 };
 RRFUN f[] = {f1, f2, f3 , f4};
                  
-	for(int i = 0; i < numt; i++)
+	for(int i = 0; i < 4; i++)
 	{
-		res = findroot(a, b, eps, f[i]);
+		res = findRoot(a, b, epsilon, f[i]);
 		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", otvet[i], res, epsilon);	
 	}
-
+}
 
 
 
