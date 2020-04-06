@@ -11,7 +11,7 @@ class Pribl
 		double *y;
 		double *y1;
 	public:
-		Pribl(int len, double *a, double *b, double *c, double *d)
+		Pribl(int len, double *xx, double *xx1, double yy, double *yy1)
 		{
 			n = len;
 			x = (double*) malloc(n *sizeof(double));
@@ -21,10 +21,10 @@ class Pribl
 
 			for(int i = 0; i < n; i++)
 			{
-				x[i] = a[i];
-				x1[i] = b[i];
-				y[i] = c[i];
-				y1[i] = d[i];
+				x[i] = xx[i];
+				x1[i] = xx1[i];
+				y[i] = yy[i];
+				y1[i] = yy1[i];
 			}
 
 		}
@@ -32,11 +32,6 @@ class Pribl
 		double interpol(double x0)
 		{
 			double y0, f_i_1, f_i;
-
-			if ((y == NULL) || (x == NULL))
-			{
-				throw 0;
-			}
 
 			for(int i = 1; i < n; i++)
 			{
@@ -58,7 +53,9 @@ class Pribl
 		{
 
 			free(x);
+			free(x1);
 			free(y);
+			free(y1);
 		}
 };
 
