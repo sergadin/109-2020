@@ -22,7 +22,6 @@ double solve (double (*f)(double), double a, double b, int n, double eps)
 		h = (b - a) / (2*n);
 		s1 = 0;
 		s2 = 4*f(a + h);
-		
 		for (i = 1; i < n; i++)
 		{
 			s1 += 2*f(a + 2*i*h);
