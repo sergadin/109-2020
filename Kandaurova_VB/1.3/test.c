@@ -17,13 +17,27 @@ double f3(double x) {
 }
 
 int main(void) {
+    ErrorCode perr;
 	double result, eps = 0.0001, a = -4, b = 4;
 	double ideal[] = {-2, -3, -3};
 	RRfun fun[] = {f1, f2, f3};
 	for(int i = 0; i < 3; i++) {
-		result = chord(a, b, fun[i], eps);
-		printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
-	}
+		result = chord(a, b, fun[i], eps, &perr);
+        if(perr == I_OK) 
+		    printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
+        else if(perr == I_NOSIGM){
+            printf("Sorry, non-exisment segment\n");
+            return -1;
+	    }
+        else if(perr == I_SMALL){
+            printf("Sorry, segment is too small\n");
+            return -1;
+	    }
+``      else if(perr == I_MUCH){
+            printf("Sorry, too much iterations\n");
+            return -1;
+	    }
+    }
     return 0;
 }
 

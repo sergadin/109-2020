@@ -22,7 +22,7 @@ int main()
                 double *square1 = (double *) malloc(n * sizeof(double));
                 double *sinus1 = (double *) malloc(n * sizeof(double));
 
-		if ((x1 == NULL) || (linear == NULL) || ((square) == NULL) || ((sinus) == NULL))
+		if ((linear1 == NULL) || (square1 == NULL) || (sinus1 == NULL)|| (linear == NULL) || ((square) == NULL) || ((sinus) == NULL))
 		{
 			throw 123;
 		}
