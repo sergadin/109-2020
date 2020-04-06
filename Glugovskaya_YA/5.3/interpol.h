@@ -14,6 +14,11 @@ class PicQuadratic
 			n = count;
 			x = (double *) malloc(count * sizeof(double));
 			y = (double *) malloc(count * sizeof(double));
+			if ((y == NULL) || (x == NULL) || (n < 3))
+			{
+				throw 0;
+			}
+			
 			for(int i = 0; i < count; i++)
 			{
 				x[i] = CoordX[i];
@@ -24,12 +29,6 @@ class PicQuadratic
 		double solve(double X0)
 		{
 			double Y0 = 0, X1, Y1, X2, Y2, X3, Y3;
-			if ((y == NULL) || (x == NULL))
-			{
-				throw 0;
-			}
-			
-			
 			for(int i = 1; i < n; i ++)
 			{
 				if ((x[i-1] <= X0) && (X0 <= x[i]))
