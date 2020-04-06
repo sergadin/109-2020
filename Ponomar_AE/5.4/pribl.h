@@ -19,6 +19,11 @@ class Pribl
 			y = (double*) malloc(n *sizeof(double));
                         y1 = (double*) malloc(n *sizeof(double));
 
+			if (n <= 0)
+			{
+				throw -1;
+			}
+
 			for(int i = 0; i < n; i++)
 			{
 				x[i] = xx[i];

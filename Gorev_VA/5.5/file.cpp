@@ -20,6 +20,11 @@ double F3(double x)
 	return sin(x);
 }
 
+double F4(double x)
+{
+	return sin(1.0 / x);
+}
+
 int main(void)
 {
 	Appr A;
@@ -35,8 +40,9 @@ int main(void)
 	
 	cout << "f(x) = x + 1:\n";
 	A.approximation(F1, x, N, E);
-	if (E = ERROR)
-		cout << "Error of approximation\n";
+	if (E == ERROR)
+		cout << " Error of approximation\n";
+	else
 	{
 		cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
 		cout << " actual approximation:     y = 2 x + 1\n";
@@ -46,8 +52,9 @@ int main(void)
 	
 	cout << "f(x) = x^2:\n";
 	A.approximation(F2, x, N, E);
-	if (E = ERROR)
-		cout << "Error of approximation\n";
+	if (E == ERROR)
+		cout << " Error of approximation\n";
+	else
 	{
 		cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
 		cout << " actual approximation:     y = 0.9 x - 0.12\n";
@@ -57,8 +64,9 @@ int main(void)
 	
 	cout << "f(x) = sin(x):\n";
 	A.approximation(F3, x, N, E);
-	if (E = ERROR)
-		cout << "Error of approximation\n";
+	if (E == ERROR)
+		cout << " Error of approximation\n";
+	else
 	{
 		cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
 		cout << " actual approximation:     y = 0.878649 x + 0.0218487\n";
@@ -66,7 +74,24 @@ int main(void)
 		cout << " actual value at x = 0.5:        " << F3(0.5) << "\n";
 	}
 	
-	cout << "Обновилась!\n";
+	cout << "f(x) = sin(1/x):\n";
+	A.approximation(F4, x, N, E);
+	if (E == ERROR)
+		cout << " Error of approximation\n";
+	else
+	{
+		cout << " calculated approximation: y = " << A.return_k() << " x + " << A.return_b() << "\n";
+		cout << " actual approximation:     y = 0.878649 x + 0.0218487\n";
+		cout << " approximation value at x = 0.5: " << A.return_k() * 0.5 + A.return_b() << "\n";
+		cout << " actual value at x = 0.5:        " << F3(0.5) << "\n";
+	}
 	
+	/*double x = -1.0 / 0.0, y = 0.0 / 0.0;
+	x = y * 0.0;
+	printf("%f\n", x);
+	x = 0.0 / 0.0;
+	printf("%f\n", x);
+	x = sin(1.0 / 0.0);
+	printf("%f\n", x);*/
 	return 0;
 }
