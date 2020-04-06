@@ -9,7 +9,7 @@
 int solve(double a, double b, double eps, double*res, double(*func)(double))
 {
 	int it;
-	double l, m, fl, fm, t;
+	double l, m, fl, fm, t, x;
 	t = (1 + sqrt(5)) / 2;
 	
 	l = b - (b-a) / t;
@@ -48,9 +48,19 @@ int solve(double a, double b, double eps, double*res, double(*func)(double))
 		printf("cannot found\n");
 		return TooManyIT;
 	}
-		
-	printf("\nmin=(%lf,", (b+a) / 2);
+	x = (b+a) / 2;
 	
-	*res=func((b+a)/2);
+	if ((func(a) > func(x)) && func(x) < func(b))
+	{
+		x = x - ((x-a)*(x-a)*(func(x) - func(b)) - (x - b) * (x - b) * (func(x) - func(a)))/(2 * ((x - a) * (func(x) - func(b)) - (x - b) * (func(x) - func(a))));
+		printf("\nmin=(%lf,", x);
+		*res = func(x - ((x-a)*(x-a)*(func(x) - func(b)) - (x - b) * (x - b) * (func(x) - func(a)))/(2 * ((x - a) * (func(x) - func(b)) - (x - b) * (func(x) - func(a)))));
+	}
+	else
+	{
+		printf("\nmin=(%lf,", (b+a) / 2);
+		*res = (func)(x);
+	}
+	
 	return 0;
 }
