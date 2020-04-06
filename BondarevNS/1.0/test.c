@@ -1,54 +1,43 @@
-#include <stdio.h>
-#include "sum.h"
-double o(double x);
-double f(double x);
-double z(double x);
-double modul(double x);
-#define MAX(a, b) (((a) > (b))?(a):(b))
-#define MAX1(a, b, c) MAX(a, MAX(b, c))
+#include<stdio.h>
+#include<math.h>
+#include"sum.h"
+#define max2(a,b) ((b) > (a) ? (b) : (a))
+#define max3(a, b, c) (max2(max2((a), (b)), (c)))
+
+double line(double x);
+double sqr(double x);
+double zer(double x);
+
+
 int main(void)
 {
-	int i, n = 4, m = 3;
-	double array[] = {1, 1, 5, 9}, result;
-	double b[] = {0, 4, 16};
-	double e = 0.000000000000000000000000000000000001;
-	double k = 0;
-	double l = 0;
-	RRFUN funcs[] = {z, o, f};
-	for(i = 0; i < m; i++)
+	int i, numt = 3;
+	double res, epsilon = 0.001;
+	double tran[] = {1, 10000, 100000};
+	RRF funcs[] = {line, sqr, zer};
+	double a = 0;
+	double b = 3;
+	for(i = 0; i < numt; i++)
 	{
-		result = sum(funcs[i], array, n);
-		if (modul(result - b[i]) < e*MAX1(result, b[i], 1))
-		{
-			printf("пройден\n");
-		}
-		else
-		{
-			printf("не пройден\n");
-		}
+		res = findroot(a, b, eps, funcs[i]);
+		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", tran[i], res, epsilon);
+		
 	}
-	return 0;
 }
 
-double modul(double x)
+double line(double x)
 {
-	if (x < 0)
-		return -x;
-	else 
-		return x;
+	return (x - 1);
+
 }
-double z(double x)
+
+double sqr(double x)
 {
-	x *= 1;
-	return 0;
+	return x*x;
 }
-double f(double x)
+
+double zer(double x)
 {
-	return x;
-}
-double o(double x)
-{
-	x *= 1;
-	return 1;
+	return 0*x;
 }
 

@@ -52,6 +52,5 @@ int solve(double a, double b, double eps, double*res, double(*func)(double))
 	printf("\nmin=(%lf,", (b+a) / 2);
 	
 	*res=func((b+a)/2);
-	//printf("it: %d\n", it);
 	return 0;
 }

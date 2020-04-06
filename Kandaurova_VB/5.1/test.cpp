@@ -4,6 +4,7 @@
 
 int main(void) {
     int n = 10, i;
+    ErrorCode perr;
     double *y1 = (double *)malloc(n * sizeof(double));
     double *y2 = (double *)malloc(n * sizeof(double));
     double *y3 = (double *)malloc(n * sizeof(double));
@@ -19,16 +20,23 @@ int main(void) {
         y4[i] = sin(i);        
         x0[i] = i;
     }
-    inte p1(x0, y1, n);
-    Y[0] = p1.Y(X);
-    inte p2(x0, y2, n);
-    Y[1] = p2.Y(X);
-    inte p3(x0, y3, n);
-    Y[2] = p3.Y(X);
-    inte p4(x0, y4, n);
-    Y[3] = p4.Y(X);
+    inte p1(x0, y1, n, &perr);
+    Y[0] = p1.Y(X, &perr);
+    inte p2(x0, y2, n, &perr);
+    Y[1] = p2.Y(X, &perr);
+    inte p3(x0, y3, n, &perr);
+    Y[2] = p3.Y(X, &perr);
+    inte p4(x0, y4, n, &perr);
+    Y[3] = p4.Y(X, &perr);
     for(i = 0; i < 4; i++) {
-        std::cout<<"ideal: "<<ideal[i]<<" result: "<<Y[i]<<std::endl;   
+        if(perr == I_OK)
+            std::cout<<"ideal: "<<ideal[i]<<" result: "<<Y[i]<<std::endl; 
+        else if(perr == I_SAME) {
+            std::cout<<"Sorry, same points"<<std::endl;  
+        }
+        else if(perr == I_FEW) {
+            std::cout<<"Sorry, too few points"<<std::endl;  
+        }
     }
     free(y1);
     free(y2);

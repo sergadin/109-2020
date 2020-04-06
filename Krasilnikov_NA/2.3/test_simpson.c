@@ -12,6 +12,12 @@ struct otrezok
 	double rightend;
 };
 
+struct format_answer
+{
+	double answer;
+	int check;
+};
+
 double first(double x);
 double second(double x);
 double third(double x);
@@ -20,17 +26,19 @@ double fifth(double x);
 double sixth(double x);
 double seventh(double x);
 double eighth(double x);
+double nineth(double x);
 
 int main()
 {
 	FILE *fin, *fout, *ans;
 	int i, m;
-	double a, b, epsilon, *answers;
+	double a, b, epsilon;
+	struct format_answer *answers;
 	double answer;
 	ErrorCode eofi; //error_of_integratio
 	struct otrezok *otrezoks;
-	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth, seventh, eighth};
-	m = 8;
+	RRFUN funcs[] = {first, second, third, fourth, fifth, sixth, seventh, eighth, nineth};
+	m = 9;
 	if ((fin = fopen("input.txt","r")) == NULL)
 	{
 		printf("INVALID INPUT FILE");
@@ -49,7 +57,7 @@ int main()
 		fclose(fin);
 		return -1;
 	}
-	if ((answers = (double*) malloc(m * sizeof(double))) == NULL)
+	if ((answers = (struct format_answer*) malloc(m * sizeof(struct format_answer))) == NULL)
 	{
 		printf("MEMORY ALLOCATION ERROR");
 		fclose(fin);
@@ -59,7 +67,7 @@ int main()
 	}
 	for(i = 0; i < m; i++)
 	{
-		if (fscanf(ans, "%lf", &answers[i]) != 1)
+		if (fscanf(ans, "%lf %d", &answers[i].answer, &answers[i].check) != 2)
 		{
 			fclose(fin);
 			fclose(ans);
@@ -100,34 +108,37 @@ int main()
 	for(i = 0; i < m; i++)
 	{
 		answer = integrate(otrezoks[i].leftend, otrezoks[i].rightend, epsilon, funcs[i], &eofi);
-		if (eofi == INT_NEOK)
+		fprintf(fout, "Test № %d: ", (i  + 1));
+		if ((eofi == INT_NEOK) && (answers[i].check == -1))
 		{
-			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
-			fprintf(fout, "Impossible to calculate\n");
-			fclose(fin);
-			fclose(ans);
-			fclose(fout);
-			free(answers);
-			free(otrezoks);
-			return -1;
-		}
-		if (fabs(answer - answers[i]) <= epsilon * MAXOF3(answer, answers[i], 1))
-		{
-			fprintf(fout, "Test № %d: OK | ", (i + 1));
-			fprintf(fout, "Calculated value: %lf | ", answer);
-			fprintf(fout, "Exact value: %lf | ", answers[i]);
-			fprintf(fout, "Error value: %lf\n", fabs(answer - answers[i]));
-
+			fprintf(fout, "OK | Impossible to integrate\n");
 		}
 		else
 		{
-			fprintf(fout, "Test № %d: LOSS\n", (i + 1));
-			fclose(fin);
-			fclose(ans);
-			fclose(fout);
-			free(answers);
-			free(otrezoks);
-			return -1;
+			if (eofi == INT_NEOK)
+			{
+				fprintf(fout, "LOSS | Impossible to reach the defined accuracy\n");
+				fclose(fin);
+				fclose(ans);
+				fclose(fout);
+				free(answers);
+				free(otrezoks);
+				return -1;
+			}
+			if (fabs(answer - answers[i].answer) >= MAXOF3(answer, answers[i].answer, 1) * epsilon)
+			{
+				fprintf(fout, "LOSS | Calculated value: %lf, Exact value: %lf, Error value: %lf\n", answer, answers[i].answer, fabs(answer - answers[i].answer));
+				fclose(fin);
+				fclose(ans);
+				fclose(fout);
+				free(answers);
+				free(otrezoks);
+				return -1;
+			}
+			else
+			{
+				fprintf(fout, "OK | Calculated value: %lf, Exact value: %lf, Error value: %lf\n", answer, answers[i].answer, fabs(answer - answers[i].answer));
+			}
 		}
 	}
 	fclose(fin);
@@ -169,4 +180,7 @@ double eighth(double x)
 {
 	return sin(1/(x + 0.05) )*  exp(1/(x + 0.05));
 }
-
+double nineth(double x)
+{ 
+	return sin(1/x)*  exp(1/x);
+}
