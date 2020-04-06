@@ -8,7 +8,7 @@ sum.o: sum.c sum.h
 test.o: test.c sum.h
 
 a.out: test.o sum.o
-	gcc test.o sum.o
+	gcc test.o sum.o -lm
 
 do-test: a.out
 	./a.out
