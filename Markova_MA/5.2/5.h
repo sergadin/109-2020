@@ -10,9 +10,13 @@ class c
 		double *x;
 		double *y;	
 	public:
-		c(int long_, double *a, double *b)
+		c(int length, double *a, double *b)
 		{	
-			n = long_;
+			n = length;
+			if (n < 1)
+			{
+				throw -1;
+			}
 			x = (double*) malloc(n *sizeof(double));
 			y = (double*) malloc(n *sizeof(double));
 			for(int i = 0; i < n; i++)
@@ -26,10 +30,7 @@ class c
 			int q = 0;
 			double y0 = 0;
 			double tg = 0, a_0 = 0;
-			if (n < 1)
-			{
-				throw -1;
-			}
+			
 			for(int i = 1; i < n; i ++)
 			{
 				if ((x[i - 1] <= x0) && (x0 <= x[i]))
