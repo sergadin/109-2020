@@ -29,8 +29,7 @@ double f4 (double x)
 
 int main (void)
 {
-double res;
-double epsilon [] = {0.1, 0.01, 0.01, 0.001};
+double res, epsilon = 0.001;
 double  otvet [] = {-2, 2 , 1, 0};
 double a [] = {-3, 0, -1, -1 };
 double b [] = {-1, 3, 2, 1 };
