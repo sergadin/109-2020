@@ -1,45 +1,56 @@
-#include<stdio.h>
-#include<math.h>
-#include"sum.h"
-#define max2(a,b) ((b) > (a) ? (b) : (a))
-#define max3(a, b, c) (max2(max2((a), (b)), (c)))
+#include <stdio.h>
+#include <math.h>
+#include "sum.h"
+double f1 (double x);
+double f2 (double x);
+double f3 (double x);
+double f4 (double x);
 
-double line(double x);
-double sqr(double x);
-double zer(double x);
-
-double line(double x)
+double f1 (double x)
 {
-	return (x - 1);
-
+	return  x + 2;
 }
 
-double sqr(double x)
+double f2 (double x)
 {
-	return x*x;
+        return x*x - 4;
 }
 
-double zer(double x)
+double f3 (double x)
 {
-	return 0*x;
+        return  2*x*x - 1;
+}
+
+double f4 (double x)
+{
+        return x*x*x;
 }
 
 
 
-int main(void)
+
+int main (void)
+
+
 {
-	int i, numt = 3;
-	double res, epsilon = 0.001;
-	double tran[] = {1, 10000, 100000};
-	RRFUN funcs[] = {line, sqr, zer};
-	double a = 0;
-	double b = 3;
-	for(i = 0; i < numt; i++)
-	{
-		res = findRoot(a, b, epsilon, funcs[i]);
-		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", tran[i], res, epsilon);
-		
-	}
+
+    double epsilon [] = {0.1, 0.01, 0.01, 0.001};
+    double  otvet [] = {-2, 2 , 1, 0};
+    double a [] = {-3, 0, -1, -1 };
+    double b [] = {-1, 3, 2, 1 };
+
+    RRFUN f[] = {f1, f2, f3 , f4};
+   
+
+
+    for (int i=0;i<4;i++)
+              {
+            if (fabs(sum(a[i], b[i], epsilon[i], f[i] ) - otvet[i])<0,0000001)
+                  {printf("OK\n");}
+	    else {printf("test failed\n");}
+
+              }
 }
+
 
 
