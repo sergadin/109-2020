@@ -7,7 +7,7 @@ double minim(double a, double b, RRfun fun, double eps, ErrorCode *perr){
     right = left + 2 * h;
     *perr = I_OK;
     if(h < 2 * eps)
-        *perr = I_NO;
+        *perr = I_SMALL;
     while(h > 2 * eps) {
             prev = left;
         	next = prev + h * 2;
@@ -27,7 +27,7 @@ double minim(double a, double b, RRfun fun, double eps, ErrorCode *perr){
 		h /= 2;
         k++;
         if(k > 10000)
-            *perr = I_NO;
+            *perr = I_MUCH;
     }
     if(((*fun)(now) != (*fun)(left)) && ((*fun)(now) != (*fun)(right)))
 		result = (*fun)(now - ((now - left) * (now - left) * ((*fun)(now) - (*fun)(right)) - (now - right) * (now - right) * ((*fun)(now) - (*fun)(left))) / (2 * ((now - left)*((*fun)(now) - (*fun)(right)) - (now - right) * ((*fun)(now) - (*fun)(left)))));
