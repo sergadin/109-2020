@@ -14,7 +14,7 @@ int find_min(dndFUNC f, double a, double b, double eps, double *x)
 	{
 		if( i == (int)(NUM) )
 		{
-            *x = a + i*h;
+            *x = ((*f)(a) < (*f)(b)) ? a : b;
             return NOT_UNIMODAL;
 		}
 
@@ -34,7 +34,6 @@ int find_min(dndFUNC f, double a, double b, double eps, double *x)
                 *x = cur_x - ((cur_x - prev_x) * (cur_x - prev_x) * (val - val_next) - (cur_x - next_x) * (cur_x - next_x) * (val - prev_val)) / 
                 (2 * ((cur_x - prev_x) * (val - val_next) - (cur_x - next_x) * (val - prev_val)));
                 
-                printf("%lf",(2 * ((cur_x - prev_x) * (val - val_next) - (cur_x - next_x) * (val - prev_val))));
 				return it;
 			}
 
