@@ -18,12 +18,11 @@ double f3(double x) {
 
 int main(void) {
     ErrorCode perr;
-    int n = 1000;
-	double result, a = 0, b = 1;
+	double answer, a = 0, b = 1, eps = 0.001;
 	double ideal[] = {5.0, 27.33333, 0.98158};
 	RRfun fun[] = {f1, f2, f3};
 	for(int i = 0; i < 3; i++) {
-		result = simp(a, b, fun[i], n, &perr);
+		answer = result(a, b, fun[i], &perr, eps);
         if(perr == I_OK)
 		    printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
         else if(perr == I_NOSEGM){
@@ -32,6 +31,10 @@ int main(void) {
 	    }
         else if(perr == I_FEW){
             printf("Sorry, too few segments\n");
+            return -1;
+	    }
+        else if(perr == I_NO){
+            printf("Sorry, don't converge\n");
             return -1;
 	    }
 	}
