@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<math.h>
-#include"root.h"
+#include"sum.h"
 #define max2(a,b) ((b) > (a) ? (b) : (a))
 #define max3(a, b, c) (max2(max2((a), (b)), (c)))
 
