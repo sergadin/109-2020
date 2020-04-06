@@ -21,13 +21,13 @@ double inte::Y(double X0, ErrorCode *perr) {
     double k, s = 0;
     *perr = I_OK;
     if(N < 1)
-        *perr = I_NO;
+        *perr = I_FEW;
     for (int i = 0; i < N; i++) {
         k = 1;
         for (int j = 0; j < N; j++) {
             if (i != j) {
                 if(x[i] == x[j]) {
-                    *perr = I_NO;              
+                    *perr = I_SAME;              
                 }
                 k *= (X0 - x[j]) / (x[i] - x[j]);                
             }

@@ -31,8 +31,12 @@ int main(void) {
     for(i = 0; i < 4; i++) {
         if(perr == I_OK)
             std::cout<<"ideal: "<<ideal[i]<<" result: "<<Y[i]<<std::endl; 
-        else
-            std::cout<<"Sorry"<<std::endl;  
+        else if(perr == I_SAME) {
+            std::cout<<"Sorry, same points"<<std::endl;  
+        }
+        else if(perr == I_FEW) {
+            std::cout<<"Sorry, too few points"<<std::endl;  
+        }
     }
     free(y1);
     free(y2);

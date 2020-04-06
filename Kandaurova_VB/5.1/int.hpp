@@ -1,4 +1,4 @@
-typedef enum {I_OK = 0, I_NO} ErrorCode;
+typedef enum {I_OK = 0, I_SAME, I_FEW} ErrorCode;
 
 class inte{
     private: 
