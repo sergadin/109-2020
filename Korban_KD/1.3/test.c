@@ -27,7 +27,7 @@ double f4(double x)
     return tan(x-1);
 }
 
-#define EPSILON 1e-15
+#define EPSILON 1e-17
 
 int main (void)
 {
@@ -51,7 +51,7 @@ int main (void)
                     printf("in function #%d: same sign [ sgn(a)==sign(b) ]\n", i+1);
                     break;
                 case UNABLE:
-                    printf("function #%d: this method is incorrect\n", i+1);
+                    printf("function #%d: this method is incorrect for this function at precition=%e\n", i+1, eps);
                     break;
                 case NOT_FOUND:
                     printf("function #%d: iteration count is too hight\n", i+1);
