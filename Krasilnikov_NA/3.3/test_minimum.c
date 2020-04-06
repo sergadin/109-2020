@@ -11,6 +11,6 @@ int main ()
 {
   struct otrezok answer;
   int epsilon = 0.01;
-  answer = setka(first, epsilon, 0.2, 100);
+  answer = setka(first, epsilon, 0.2, 10);
   return 0;
 }
