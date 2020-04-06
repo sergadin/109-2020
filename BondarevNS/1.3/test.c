@@ -37,8 +37,8 @@ RRFUN f[] = {f1, f2, f3 , f4};
                  
 	for(int i = 0; i < numt; i++)
 	{
-		res = findroot(a, b, eps, funcs[i]);
-		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", tran[i], res, eps);	
+		res = findroot(a, b, eps, f[i]);
+		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", otvet[i], res, epsilon);	
 	}
 
 
