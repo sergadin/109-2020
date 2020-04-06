@@ -9,20 +9,6 @@ int main(void)
 	double a, b, e, x;
 	int res;
 	
-	/*printf("input a\n");
-	if(scanf("%lf",&a)!=1)
-	{
-		printf("cannot read a\n");
-		return 1;
-	}
-	printf("input b\n");
-	
-	if(scanf("%lf",&b)!=1)
-	{
-		printf("cannot read b\n");
-		return 2;
-	}
-	*/
 	printf("input eps\n");
 	
 	if(scanf("%lf",&e) != 1)

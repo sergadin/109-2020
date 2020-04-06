@@ -66,5 +66,7 @@ int main(void)
 		cout << " actual value at x = 0.5:        " << F3(0.5) << "\n";
 	}
 	
+	cout << "Обновилась!\n";
+	
 	return 0;
 }
