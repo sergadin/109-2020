@@ -45,7 +45,7 @@ int main (void)
 
     for (int i=0;i<4;i++)
               {
-            if (fabs(sum(a[i], b[i], epsilon[i], f[i] ) - otvet[i])<0,0000001)
+            if (fabs(findRoot(a[i], b[i], epsilon[i], f[i] ) - otvet[i])<0,0000001)
                   {printf("OK\n");}
 	    else {printf("test failed\n");}
 
