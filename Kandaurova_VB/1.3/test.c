@@ -25,9 +25,11 @@ int main(void) {
 		result = chord(a, b, fun[i], eps, &perr);
         if(perr == I_OK) 
 		    printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
-        else 
+        else {
             printf("Sorry\n");
-	}
+            return -1;
+	    }
+    }
     return 0;
 }
 
