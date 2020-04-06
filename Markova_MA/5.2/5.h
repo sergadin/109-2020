@@ -15,20 +15,18 @@ class c
 			n = long_;
 			x = (double*) malloc(n *sizeof(double));
 			y = (double*) malloc(n *sizeof(double));
-
-
 			for(int i = 0; i < n; i++)
 			{
 				x[i] = a[i];
 				y[i] = b[i];
 			}
-
 		}
 		double inter(double x0)
 		{
+			int q = 0;
 			double y0 = 0;
 			double tg = 0, a_0 = 0;
-			if ((y == NULL) || (x == NULL))
+			if (n < 1)
 			{
 				throw -1;
 			}
@@ -39,9 +37,14 @@ class c
 					tg = (y[i] - y[i - 1])/(x[i] - x[i - 1]);
 					a_0 = y[i - 1] - tg*x[i - 1];
 					y0 = tg*x0 + a_0;
+					q = 1;
 				}
 			}
-			return y0;
+			if (q)
+			{
+				return y0;
+			}
+			throw -1;
 		}
 		~c()
 		{
