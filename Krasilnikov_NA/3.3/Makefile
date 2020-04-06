@@ -10,7 +10,7 @@ test_minimum.o: test_minimum.c minimum.h
 #	gcc -c test_simpson.c
 
 a.out: test_minimum.o minimum.o
-	gcc test_simpson.o minimum.o -lm
+	gcc test_minimum.o minimum.o -lm
 
 do-test: a.out
 	./a.out

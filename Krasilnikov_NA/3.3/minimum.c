@@ -11,7 +11,7 @@ struct otrezok setka (RRFUN function, double epsilon, double a, double b)
 	int n = 10, i, cofi = 0, memory; //cofi = count_of_iterations
 	double h = (b - a)/n, min = (*function)(a);
 	struct otrezok answer;
-	while ((b - a) >= epsilon) && (cofi < 100))
+	while (((b - a) >= epsilon) && (cofi < 9))
 	{
 		for (i = 0; i <= n; i++)
 		{
@@ -36,6 +36,8 @@ struct otrezok setka (RRFUN function, double epsilon, double a, double b)
 		}
 		n *= 10;
 		h /= 10;
+		cofi++;
+		printf("\n%lf %lf\n", a, b);
 	}
 	answer.leftend = a;
 	answer.rightend = b;

@@ -6,3 +6,6 @@ struct otrezok
   double rightend;
   double leftend;
 };
+
+
+struct otrezok setka (RRFUN function, double epsilon, double a, double b);

@@ -5,13 +5,12 @@
 
 double first(double x)
 {
-  return x * x - 6 * x + 7;
+  return x * x * log(x);
 }
 int main ()
 {
   struct otrezok answer;
-  epsilon = 0.01;
-  answer = setka(first, epsilon, -100, 100);
-  printf ("%lf %lf", answer.leftend, answer.rightend);
+  int epsilon = 0.01;
+  answer = setka(first, epsilon, 0.2, 100);
   return 0;
 }
