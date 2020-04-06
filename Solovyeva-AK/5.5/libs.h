@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 #include <cstdio>
 #include <math.h>
 using namespace std;
@@ -8,20 +8,29 @@ typedef double (*FUN)(double);
 
 class rms_approximation {
     private:
+        int n;
+        double *x;
+        double *y;
         double matrix[2][3];
         double a;
         double b;
         void Make_matrix();
         void Calculate();
-        void Allocate_memory();
     public:
-        double *x;
-        int n;
-        FUN f;
-        void Cin_x();
+        rms_approximation();
         void Cout_table();
         void Print_matrix();
-        void free_memory();
         double Calc_in_x(double x);
-        void Setx(double x1, double x2, double x3, double x4, double x5);
+        void Addxy(double valueX, double valueY);
+        ~rms_approximation();
+};
+
+class UserException {
+	private:
+		int code_;
+		string message_;
+	public:
+		UserException(int code, string message);
+		string message() const;
+		int code() const;
 };

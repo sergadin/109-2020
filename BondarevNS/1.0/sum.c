@@ -1,12 +1,14 @@
 #include <stdio.h>
+#include <math.h>
 #include "sum.h"
-double sum(RRFUN function, double *array, int n)
+
+double findRoot(double a, double b, double epsilon, RRFUN f)
 {
-	int i;
-	double sum = 0;
-	for ( i = 0; i < n; i++)
+	while(fabs(b - a) > epsilon) 
 	{
-		sum += (*function)(array[i]);
+		a = b - (b - a) * (*f(b)) / ((*f(b)) - (*f(a)));
+		b = a + (a - b) * (*f(a)) / ((*f(a)) - (*f(b)));
 	}
-	return sum;
+
+	return b;
 }
