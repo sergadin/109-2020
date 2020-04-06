@@ -24,20 +24,21 @@ double f3(double x)
 
 double f4(double x)
 {
-    return tan(x);
+    return tan(x-1);
 }
 
+#define EPSILON 1e-15
 
 int main (void)
 {
-    double x, eps = 1e-16;
+    double x, eps = EPSILON;
     dndFUNC foo[] = {f1, f2, f3, f4};
-    double a[] = {-1, 1, 9, -10};
-    double b[] = {2, 2.5, 100,10};
-    double answers[] = {1, 2, 10, 0};
+    double a[] = {-1, 1, 9, 0};
+    double b[] = {2, 2.5, 100, 2.3};
+    double answers[] = {1, 2, 10, 1};
     int iter, correct = 0;
     
-    printf("eps=%0.16lf\n\n", eps);
+    printf("eps=%e\n\n", eps);
     
     for(int i = 0; i < 4; i++)
     {
@@ -66,7 +67,7 @@ int main (void)
             correct++;
         }
         else
-            printf("function #%d x=%.16lf answer=%.16lf incorrect\niterations: %d\n", i+1, x, answers[i], iter);
+            printf("function #%d x=%.16lf answer=%.16lf incorrect diferance=%e\niterations: %d\n", i+1, x, answers[i], fabs(x - answers[i]), iter);
     }
     if(correct == 4)
         printf("all test are succesfull\n");

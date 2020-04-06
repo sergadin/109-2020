@@ -67,6 +67,6 @@ int find_root(dndFUNC f, double a, double b, double eps, double *x)
 			val_a = val_c;
 		}
 	}
-
+    *x = c;
 	return NOT_FOUND;
 }
