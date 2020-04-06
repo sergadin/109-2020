@@ -11,7 +11,7 @@ double setka (RRFUN function, double epsilon, double a, double b, ErrorCode *err
 	int n = 10, i, cofi = 0, memory; //cofi = count_of_iterations
 	double h = (b - a)/n, min = (*function)(a), c, A, B, C, min_x;
 	*error = MIN_OK;
-	while (((b - a) >= epsilon) && (cofi < 4))
+	while (((b - a) >= epsilon) && (cofi < 7))
 	{
 		for (i = 0; i <= n; i++)
 		{
@@ -42,7 +42,7 @@ double setka (RRFUN function, double epsilon, double a, double b, ErrorCode *err
 		h /= 10;
 		cofi++;
 	}
-	if ((cofi >= 4) && ((b - a) >= epsilon))
+	if ((cofi >= 7) && ((b - a) >= epsilon))
 	{
 		*error = MIN_NEOK;
 		return -1;
