@@ -8,7 +8,7 @@ double f3(double x);
 double f4(double x);
 
 #define PRECITION 1e-10
-#define EPSILON 1e-6
+#define EPSILON 1e-10
 
 
 double f1(double x)
