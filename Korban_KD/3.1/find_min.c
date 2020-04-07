@@ -24,7 +24,8 @@ int find_min(dndFUNC f, double a, double b, double eps, double *x)
 		{
 			i++;
 			val = val_next;
-		} else
+		} 
+		else
 		{
 			if( fabs(h)<eps )
 			{
@@ -39,7 +40,7 @@ int find_min(dndFUNC f, double a, double b, double eps, double *x)
 
 			a = a + i*h;
 			i = 0;
-			h /= -NUM;
+			h /= -10;
 		}
 	}
 

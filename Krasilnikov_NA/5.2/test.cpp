@@ -84,14 +84,14 @@ int main()
 		ea = 6 * point * point * point +  3 * point * point + point + 4;
 		approximation test3(n, x3, y);
 		ca = test3.interpolation(point);
-		cout << "Test № 2: OK" << endl;
+		cout << "Test № 3: OK" << endl;
 		cout << "Calculated answer = " << ca << " | " ;
 		cout << "Exact answer = " << ea << endl;
 		free(y);
 	}
 	catch(...)
 	{
-		cout << "Test № 2: LOSS " << endl;
+		cout << "Test № 3: LOSS " << endl;
 	}
 	return 0;
 }

@@ -27,7 +27,7 @@ double f4(double x)
     return tan(x-1);
 }
 
-#define EPSILON 1e-17
+#define EPSILON 1e-15
 
 int main (void)
 {
@@ -61,7 +61,7 @@ int main (void)
             }
             
         }
-        if(fabs(x - answers[i]) <= PRECITION*f_max(1, x, answers[i]))
+        if(fabs(x - answers[i]) <= eps)
         {
             printf("function #%d x=%lf answer is correct\niterations: %d\n", i+1, x, iter);
             correct++;

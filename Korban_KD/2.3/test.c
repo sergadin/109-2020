@@ -8,7 +8,7 @@ double f3(double x);
 double f4(double x);
 
 #define PRECITION 1e-10
-#define EPSILON 1e-6
+#define EPSILON 1e-10
 
 
 double f1(double x)
@@ -59,7 +59,7 @@ int main (void)
             }
             
         }
-        if(fabs(x - answers[i]) <= PRECITION*f_max(1, x, answers[i]))
+        if(fabs(x - answers[i]) <= eps)
         {
             printf("function #%d x=%.16lf answer is correct\niterations: %d\n", i+1, x, iter);
             correct++;

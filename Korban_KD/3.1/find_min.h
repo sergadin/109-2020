@@ -1,6 +1,6 @@
 typedef double (*dndFUNC)(double x);
 #define MAX_IT 1e16
-#define NUM 1e4
+#define NUM 1e5
 
 enum FIND_ROOT_CODES
 {

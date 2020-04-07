@@ -39,12 +39,7 @@ class approximation
 			double answer;
 			for (i = 0; i < (_n - 1); i++)
 			{
-				if (point == x[i])
-				{
-					answer = y[i];
-					check = 1;
-				}
-				else if ((x[i] < point) && (point < x[i + 1]))
+				if ((x[i] < point) && (point < x[i + 1]))
 				{
 					k = (y[i + 1] - y[i])/(x[i  + 1] - x[i]);
 					b = y[i + 1] - k * x[i + 1];

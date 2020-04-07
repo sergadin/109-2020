@@ -1,2 +1,2 @@
 prog: aproximation_lin.h test.cpp
-	g++ -lm test.cpp -o prog
+	g++ test.cpp -o prog -lm 
