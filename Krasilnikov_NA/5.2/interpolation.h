@@ -6,25 +6,25 @@ using namespace std;
 class approximation
 {
 	private:
-		int n;
-		int i;
+		int _n;
 		double *x;
 		double *y;
 	public:
 		approximation (int N, double *A, double *B)
 		{
-			n = N;
-			if (n < 2)
+      int i;
+			_n = N;
+			if _(n < 2)
 			{
 				throw -1;
 			}
-			x = (double*) malloc (n * sizeof(double));
-			y = (double*) malloc (n * sizeof(double));
+			x = (double*) malloc (_n * sizeof(double));
+			y = (double*) malloc (_n * sizeof(double));
 			if ((x == NULL) || (y == NULL))
 			{
 				throw -1;
 			}
-			for (i = 0; i < n; i++)
+			for (i = 0; i < _n; i++)
 			{
 				x[i] = A[i];
 				y[i] = B[i];
@@ -32,11 +32,12 @@ class approximation
 		}
 		double interpolation (double point)
 		{
+    	int i;
 			int check = 0;
 			double k;
 			double b;
 			double answer;
-			for (i = 0; i < (n - 1); i++)
+			for (i = 0; i < (_n - 1); i++)
 			{
 				if (point == x[i])
 				{
