@@ -58,7 +58,6 @@ int find_root(dndFUNC f, double a, double b, double eps, double *x)
             *x = c;
             return UNABLE;
         }
-
 		if( val_a*val_c<=0 )
 		{
 			b = c;
