@@ -14,7 +14,8 @@ double setka (RRFUN function, double epsilon, double a, double b, ErrorCode *err
 	while (((b - a) >= epsilon) && (cofi < max_iterations))
 	{
 		min = (*function)(a);
-		for (i = 0; i <= n; i++)
+		memory = 0;
+		for (i = 1; i <= n; i++)
 		{
 			if (min >= (*function)(a + h *i))
 			{
