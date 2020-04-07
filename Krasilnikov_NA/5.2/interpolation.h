@@ -12,9 +12,9 @@ class approximation
 	public:
 		approximation (int N, double *A, double *B)
 		{
-      int i;
+			int i;
 			_n = N;
-			if _(n < 2)
+			if (_n < 2)
 			{
 				throw -1;
 			}
@@ -32,7 +32,7 @@ class approximation
 		}
 		double interpolation (double point)
 		{
-    	int i;
+			int i;
 			int check = 0;
 			double k;
 			double b;
