@@ -10,7 +10,7 @@ int main()
 	{
 		// Тест № 1
 		int n = 10;
-		double x[n] = {1.59, 1.87, 2.51, 3.43, 4.88, 7.22, 8, 8.04, 8.8, 9.49};
+		double x1[n] = {1.59, 1.87, 2.51, 3.43, 4.88, 7.22, 8, 8.04, 8.8, 9.49};
 		double point = 2.43;
 		double ca; //calculated_answer
 		double ea; //exact_answer
@@ -21,10 +21,10 @@ int main()
 		}
 		for(int i = 0; i < n; i++)
 		{
-			y[i] = log(sin(x[i])) * sqrt(x[i]);
+			y[i] = log(sin(x1[i])) * sqrt(x1[i]);
 		}
 		ea = log(sin(point)) * sqrt(point);
-		approximation test1(n, x, y);
+		approximation test1(n, x1, y);
 		ca = test1.interpolation(point);
 		cout << "Test № 1: OK" << endl;
 		cout << "Calculated answer = " << ca << " | " ;
@@ -38,11 +38,9 @@ int main()
   try
 	{
 		// Тест № 2
-		int n = 5;
-		double x[n] = {2.61, 3.83, 5.59, 6.64, 7.85};
-		double point = 4.41;
-		double ca; //calculated_answer
-		double ea; //exact_answer
+		n = 5;
+		double x2[n] = {2.61, 3.83, 5.59, 6.64, 7.85};
+		point = 4.41;
 		double *y = (double*) malloc(n *sizeof(double));
 		if (y == NULL)
 		{
@@ -50,10 +48,10 @@ int main()
 		}
 		for(int i = 0; i < n; i++)
 		{
-			y[i] = x[i] * x[i] + 4;
+			y[i] = x2[i] * x2[i] + 4;
 		}
 		ea = point * point + 4;
-		approximation test2(n, x, y);
+		approximation test2(n, x2, y);
 		ca = test2.interpolation(point);
 		cout << "Test № 2: OK" << endl;
 		cout << "Calculated answer = " << ca << " | " ;
