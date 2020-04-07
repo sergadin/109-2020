@@ -79,11 +79,11 @@ int main()
 		}
 		for(int i = 0; i < n; i++)
 		{
-			y[i] = 6 * x3[i] * x3[i] * x3[i] +  3 x3[i] * x3[i] + x3[i] + 4;
+			y[i] = 6 * x3[i] * x3[i] * x3[i] + 3 * x3[i] * x3[i] + x3[i] + 4;
 		}
 		ea = 6 * point * point * point +  3 * point * point + point + 4;
 		approximation test3(n, x3, y);
-		ca = test2.interpolation(point);
+		ca = test3.interpolation(point);
 		cout << "Test № 2: OK" << endl;
 		cout << "Calculated answer = " << ca << " | " ;
 		cout << "Exact answer = " << ea << endl;
