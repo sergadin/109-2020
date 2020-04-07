@@ -35,7 +35,7 @@ int main()
 	{
 		cout << "Test № 1: LOSS " << endl;
 	}
-  try
+	try
 	{
 		// Тест № 2
 		int n = 5;
@@ -64,7 +64,7 @@ int main()
 	{
 		cout << "Test № 2: LOSS " << endl;
 	}
-  try
+	try
 	{
 		// Тест № 3
 		int n = 7;
