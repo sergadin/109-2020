@@ -38,9 +38,11 @@ int main()
   try
 	{
 		// Тест № 2
-		n = 5;
+		int n = 5;
 		double x2[n] = {2.61, 3.83, 5.59, 6.64, 7.85};
-		point = 4.41;
+		double point = 4.41;
+		double ca;
+		double ea;
 		double *y = (double*) malloc(n *sizeof(double));
 		if (y == NULL)
 		{
