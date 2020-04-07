@@ -60,6 +60,6 @@ class approximation
 		~approximation()
 		{
 			free(x);
-				free(y);
+			free(y);
 		}
 };
