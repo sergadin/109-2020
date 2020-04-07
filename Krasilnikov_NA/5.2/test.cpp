@@ -64,5 +64,34 @@ int main()
 	{
 		cout << "Test № 2: LOSS " << endl;
 	}
+  try
+	{
+		// Тест № 3
+		int n = 7;
+		double x3[n] = {1.03, 2.12, 2.96, 3.91, 4.73, 5.65, 6.83};
+		double point = 6.57;
+		double ca;
+		double ea;
+		double *y = (double*) malloc(n *sizeof(double));
+		if (y == NULL)
+		{
+			throw -1;
+		}
+		for(int i = 0; i < n; i++)
+		{
+			y[i] = 6 * x3[i] * x3[i] * x3[i] +  3 x3[i] * x3[i] + x3[i] + 4;
+		}
+		ea = 6 * point * point * point +  3 * point * point + point + 4;
+		approximation test3(n, x3, y);
+		ca = test2.interpolation(point);
+		cout << "Test № 2: OK" << endl;
+		cout << "Calculated answer = " << ca << " | " ;
+		cout << "Exact answer = " << ea << endl;
+		free(y);
+	}
+	catch(...)
+	{
+		cout << "Test № 2: LOSS " << endl;
+	}
 	return 0;
 }
