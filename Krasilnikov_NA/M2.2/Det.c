@@ -4,7 +4,7 @@
 #include "Det.h"
 
 #define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
-#define MAXOF3(x, y, z) MAXOF2(x, MAXOF2(y, z))
+
 
 double determinant(int n, double **matrix, double epsilon)
 {
@@ -60,7 +60,7 @@ double determinant(int n, double **matrix, double epsilon)
 			{
 				coef = fabs(matrix[i][j]);
 				for (k = j; k < n; k++)
-				{ 
+				{
 					matrix[i][k] = matrix[i][k] / coef;
 				}
 				print(matrix, n);
