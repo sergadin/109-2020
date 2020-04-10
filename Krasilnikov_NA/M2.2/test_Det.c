@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "Det.h"
 #define EPS 0.000001
 
@@ -42,12 +43,20 @@ int main(void)
   		fclose(fout);
   		return -1;
   	}
+	if (n <= 1)
+	{
+		
+  		fprintf(fout, " LOSS | Unexpected error. Invalid input format\n");
+		fclose(fin);
+		fclose(fout);
+		return -1;
+	}
   	if ((matrix = (double**) malloc(n * sizeof(double*))) == NULL)
   	{
   		fprintf(fout, " LOSS | Unexpected error. Memory allocation error\n");
   		fclose(fin);
   		fclose(fout);
-  		return -2;
+  		return -1;
   	}
   	for (i = 0; i < n; i++)
   	{
@@ -100,13 +109,13 @@ int main(void)
       free(matrix[i]);
     }
     free(matrix);
-    if (fabs(ea - ca) < MAXOF3(ea, ca, 1) * epsilon)
+    if (fabs(ea - ca) < MAXOF3(ea, ca, 1) * EPS)
     {
-      fprintf(fout, " OK | Exact answer: %g | Calculated answer: %g | Error value: %g", ea, ca, fabs(ea - ca));
+      fprintf(fout, " OK | Exact answer: %g | Calculated answer: %g | Error value: %4.10f\n", ea, ca, fabs(ea - ca));
     }
     else
     {
-      fprintf(fout, " LOSS | Exact answer: %g | Calculated answer: %g | Error value: %g", ea, ca, fabs(ea - ca));
+      fprintf(fout, " LOSS | Exact answer: %g | Calculated answer: %g | Error value: %4.10f\n", ea, ca, fabs(ea - ca));
       fclose(fin);
       fclose(fout);
     }
