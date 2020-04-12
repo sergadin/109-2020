@@ -111,11 +111,11 @@ int main(void)
     free(matrix);
     if (fabs(ea - ca) < MAXOF3(ea, ca, 1) * EPS)
     {
-      fprintf(fout, " OK | Exact answer: %g | Calculated answer: %g | Error value: %4.10f\n", ea, ca, fabs(ea - ca));
+      fprintf(fout, " OK | Exact answer: %6.10f | Calculated answer: %6.10f | Error value: %1.10f\n", ea, ca, fabs(ea - ca));
     }
     else
     {
-      fprintf(fout, " LOSS | Exact answer: %g | Calculated answer: %g | Error value: %4.10f\n", ea, ca, fabs(ea - ca));
+      fprintf(fout, " LOSS | Exact answer: %6.10f | Calculated answer: %6.10f | Error value: %1.10f\n", ea, ca, fabs(ea - ca));
       fclose(fin);
       fclose(fout);
     }

@@ -10,7 +10,6 @@ double determinant(int n, double **matrix, double epsilon)
 {
 	double det = 1, sign = 1, memory, coef;
 	int rwmeoc, i, j, k; //row_with_max_element_of_column
-	print(matrix, n);
 	for (j = 0; j < n; j++)
 	{
 		rwmeoc = j;
@@ -35,7 +34,6 @@ double determinant(int n, double **matrix, double epsilon)
 			}
 			sign *= (-1);
 		}
-		print(matrix, n);
 		if (matrix[j][j] < 0)
 		{
 			for (i = 0; i < n; i++)
@@ -44,7 +42,6 @@ double determinant(int n, double **matrix, double epsilon)
 			}
 			sign *= (-1);
 		}
-		print(matrix, n);
 		for (i = (j + 1); i < n; i++)
 		{
 			if (matrix[i][j] > 0)
@@ -55,20 +52,13 @@ double determinant(int n, double **matrix, double epsilon)
 				}
 				sign *= (-1);
 			}
-			print(matrix, n);
 			if (fabs(matrix[i][j]) > MAXOF2(fabs(matrix[i][j]), 1) * epsilon)
 			{
 				coef = fabs(matrix[i][j] / matrix[j][j]);
 				for (k = j; k < n; k++)
 				{
-					matrix[i][k] = matrix[i][k] / coef;
-				}
-				print(matrix, n);
-				for (k = j; k < n; k++)
-				{
 					matrix[i][k] = matrix[i][k] + matrix[j][k] * coef;
 				}
-				print(matrix, n);
 			}
 		}
 	}
@@ -78,18 +68,4 @@ double determinant(int n, double **matrix, double epsilon)
 	}
 	det *= sign;
 	return det;
-}
-
-void print(double **matrix, int n)
-{
-	int i, j;
-	for (i = 0; i < n; i++)
-	{
-		for (j = 0; j < n; j++)
-		{
-			printf("%g ", matrix[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
 }
