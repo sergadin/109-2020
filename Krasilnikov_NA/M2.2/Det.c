@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "Det.h"
 
 #define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))

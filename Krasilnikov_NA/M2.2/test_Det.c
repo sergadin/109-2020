@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "Det.h"
-#define EPS 0.000001
 
+#define EPS 0.000001
 #define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
 #define MAXOF3(x, y, z) MAXOF2(x, MAXOF2(y, z))
 
@@ -45,7 +44,7 @@ int main(void)
   	}
 	if (n <= 1)
 	{
-		
+
   		fprintf(fout, " LOSS | Unexpected error. Invalid input format\n");
 		fclose(fin);
 		fclose(fout);
