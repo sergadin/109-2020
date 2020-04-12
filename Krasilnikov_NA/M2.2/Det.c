@@ -5,7 +5,6 @@
 
 #define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
 
-
 double determinant(int n, double **matrix, double epsilon)
 {
 	double det = 1, sign = 1, memory, coef;
