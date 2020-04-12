@@ -9,7 +9,7 @@ double determinant(int n, double **matrix, double epsilon)
 {
 	double det = 1, sign = 1, memory, coef;
 	int rwmeoc, i, j, k; //row_with_max_element_of_column
-	for (j = 0; j < n; j++)
+	for (j = 0; j < n - 1; j++)
 	{
 		rwmeoc = j;
 		for (i = (j + 1); i < n; i++)
