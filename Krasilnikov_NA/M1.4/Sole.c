@@ -10,6 +10,7 @@ double find_determinant(int n, double *matrix, double epsilon)
 {
 	double det = 1, sign = 1, memory, coef;
 	int rwmeoc, i, j, k; //row_with_max_element_of_column
+	print(matrix, n);
 	for (j = 0; j < n; j++)
 	{
 		rwmeoc = j;
@@ -28,12 +29,13 @@ double find_determinant(int n, double *matrix, double epsilon)
 		{
 			for (i = 0; i < n; i ++)
 			{
-				memory = matrix(n, rwmeoc, j);
-				matrix(n, rwmeoc, j) = matrix(n, j, i);
+				memory = matrix(n, rwmeoc, i);
+				matrix(n, rwmeoc, i) = matrix(n, j, i);
 				matrix(n, j, i) = memory;
 			}
 			sign *= (-1);
 		}
+		print(matrix, n);
 		if (matrix(n, j, j) < 0)
 		{
 			for (i = 0; i < n; i++)
@@ -44,7 +46,7 @@ double find_determinant(int n, double *matrix, double epsilon)
 		}
 		for (i = (j + 1); i < n; i++)
 		{
-			if (matrix(n, j, i) > 0)
+			if (matrix(n, i, j) > 0)
 			{
 				for (k = 0; k < n; k++)
 				{
@@ -64,8 +66,22 @@ double find_determinant(int n, double *matrix, double epsilon)
 	}
 	for (i = 0; i < n; i++)
 	{
-		det *= matrix(n, i, i;
+		det *= matrix(n, i, i);
 	}
 	det *= sign;
 	return det;
+}
+
+void print(double *matrix, int n)
+{
+	int i;
+	printf("\n");
+	for (i = 0; i < n * n; i ++)
+	{
+		printf("%lf ", matrix[i]);
+		if (i % n == (n - 1))
+		{
+			printf("\n");
+		}
+	}
 }
