@@ -51,13 +51,10 @@ double determinant(int n, double **matrix, double epsilon)
 				}
 				sign *= (-1);
 			}
-			if (fabs(matrix[i][j]) > MAXOF2(fabs(matrix[i][j]), 1) * epsilon)
+			coef = fabs(matrix[i][j] / matrix[j][j]);
+			for (k = j; k < n; k++)
 			{
-				coef = fabs(matrix[i][j] / matrix[j][j]);
-				for (k = j; k < n; k++)
-				{
-					matrix[i][k] = matrix[i][k] + matrix[j][k] * coef;
-				}
+				matrix[i][k] = matrix[i][k] + matrix[j][k] * coef;
 			}
 		}
 	}
