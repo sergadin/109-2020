@@ -89,8 +89,8 @@ int main(void)
 			}
 		}
 		definition = definition_test(n, determinant, EPS/n);
-    find_solution(n, matrix, EPS/n);
-		if (det == 0)
+    		answer = find_solution(n, matrix, EPS/n);
+		if (definition == 0)
 		{
 			fprintf(fout, " LOSS | System is not defined");
 			fclose(fin);
@@ -100,6 +100,5 @@ int main(void)
 			free(matrix);
 			return -1;
 		}
-		printf("%lf", det);
 	}
 }
