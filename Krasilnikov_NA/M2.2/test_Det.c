@@ -12,7 +12,7 @@ int main(void)
 	double ca; // calculated_answer
 	double ea; // exact_answer
 	double **matrix;
-  int cot; // count_of_test
+  int cot; // count_of_tests
 	int n, i, j, k, l;
 	if ((fin = fopen("input.txt", "r")) == NULL)
 	{
@@ -117,6 +117,7 @@ int main(void)
       fprintf(fout, " LOSS | Exact answer: %6.10f | Calculated answer: %6.10f | Error value: %1.10f\n", ea, ca, fabs(ea - ca));
       fclose(fin);
       fclose(fout);
+			return -1;
     }
   }
   fclose(fin);
