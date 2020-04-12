@@ -11,7 +11,8 @@ int main(void)
 {
 	FILE *fin, *fout;
 	double *answer, *determinant, *matrix;
-	double current, det;
+	double current;
+  int definition;
 	int i, j, n, memory;
 	int cot; //count_of_tests
 	if ((fin = fopen("input.txt", "r")) == NULL)
@@ -87,8 +88,9 @@ int main(void)
 				j = memory;
 			}
 		}
-		det = find_determinant(n, determinant, EPS/n);
-		if (fabs(det) < MAXOF2(fabs(det), 1) * EPS)
+		definition = definition_test(n, determinant, EPS/n);
+    find_solution(n, matrix, EPS/n);
+		if (det == 0)
 		{
 			fprintf(fout, " LOSS | System is not defined");
 			fclose(fin);
