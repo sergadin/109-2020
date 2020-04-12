@@ -17,7 +17,7 @@ double determinant(int n, double **matrix, double epsilon)
 		for (i = (j + 1); i < n; i++)
 		{
 			if (fabs(matrix[i][j]) > fabs(matrix[rwmeoc][j]))
-			{;
+			{
 				rwmeoc = i;
 			}
 		}
@@ -58,23 +58,15 @@ double determinant(int n, double **matrix, double epsilon)
 			print(matrix, n);
 			if (fabs(matrix[i][j]) > MAXOF2(fabs(matrix[i][j]), 1) * epsilon)
 			{
-				coef = fabs(matrix[i][j]);
+				coef = fabs(matrix[i][j] / matrix[j][j]);
 				for (k = j; k < n; k++)
 				{
 					matrix[i][k] = matrix[i][k] / coef;
 				}
 				print(matrix, n);
-				det = det * coef;
-				coef = fabs(matrix[j][j]);
 				for (k = j; k < n; k++)
 				{
-					matrix[i][k] = matrix[i][k] * coef;
-				}
-				det = det / coef;
-				print(matrix, n);
-				for (k = j; k < n; k++)
-				{
-					matrix[i][k] = matrix[i][k] + matrix[j][k];
+					matrix[i][k] = matrix[i][k] + matrix[j][k] * coef;
 				}
 				print(matrix, n);
 			}
