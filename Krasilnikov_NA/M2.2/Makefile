@@ -7,7 +7,7 @@ Det.o: Det.c Det.h
 #	gcc -c Det.c
 
 test_Det.o: test_Det.c Det.h
-#	gcc -c test_Taylor.c
+#	gcc -c test_Det.c
 
 a.out: test_Det.o Det.o
 	gcc test_Det.o Det.o -lm
