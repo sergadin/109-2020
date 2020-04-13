@@ -33,9 +33,12 @@ int definition_test(int n, double *matrix, double epsilon)
 
 double *find_solution(int n, double *matrix, double epsilon)
 {
-	double memory, coef;
-	print(matrix, n);
+	double memory, coef, *solution;
 	int rwmeoc, i, j, k; //row_with_max_element_of_column
+	if ((solution = (double *) malloc(n * sizeof(double))) == NULL)
+	{
+		return NULL;
+	}
 	for (j = 0; j < (n - 1); j++)
 	{
 		rwmeoc = j;
@@ -55,7 +58,6 @@ double *find_solution(int n, double *matrix, double epsilon)
 				matrix((n + 1), j, i) = memory;
 			}
 		}
-		print(matrix, n);
 		if (matrix((n + 1), j, j) < 0)
 		{
 			for (i = 0; i < n + 1; i++)
@@ -63,7 +65,6 @@ double *find_solution(int n, double *matrix, double epsilon)
 				matrix((n + 1), j, i) *= (-1);
 			}
 		}
-		print(matrix, n);
 		for (i = (j + 1); i < n; i++)
 		{
 			if (matrix((n + 1), i, j) > 0)
@@ -73,7 +74,6 @@ double *find_solution(int n, double *matrix, double epsilon)
 					matrix((n + 1), i, k) *= (-1);
 				}
 			}
-			print(matrix, n);
 			coef = fabs(matrix((n + 1), i, j) / matrix((n + 1), j, j));
 			for (k = j; k < (n + 1); k++)
 			{
@@ -81,7 +81,6 @@ double *find_solution(int n, double *matrix, double epsilon)
 			}
 		}
 	}
-	print(matrix, n);
 	for (j = (n - 1); j > -1; j--)
 	{
 		if (matrix((n + 1), j, j) < 0)
@@ -89,12 +88,11 @@ double *find_solution(int n, double *matrix, double epsilon)
 			matrix((n + 1), j, j) *= (-1);
 			matrix((n + 1), j, n) *= (-1);
 		}
-		print(matrix, n);	
 		for (i = (j - 1); i > -1; i--)
 		{
 			if (fabs(matrix((n + 1), i, j)) > MAXOF2(fabs(matrix((n + 1), i, j)), 1) * epsilon)
 			{
-		
+
 				if (matrix((n + 1), i, j) > 0)
 				{
 					for (k = 0; k < (n + 1); k++)
@@ -108,25 +106,14 @@ double *find_solution(int n, double *matrix, double epsilon)
 			}
 		}
 	}
-	print(matrix, n);
 	for (j = 0; j < n; j++)
 	{
 		matrix((n + 1), j, n) = matrix((n + 1), j, n) / matrix((n + 1), j, j);
 		matrix((n + 1), j, j) = matrix((n + 1), j, j) / matrix((n + 1), j, j);
-	}	
-	print(matrix, n);
-}
-
-void print(double *matrix, int n)
-{
-	int i;
-	printf("\n");
-	for (i = 0; i < n * (n + 1); i ++)
-	{
-		printf("%lf ", matrix[i]);
-		if (i % (n + 1) == n)
-		{
-			printf("\n");
-		}
 	}
+	for (j = 0; j < n; j++)
+	{
+		solution[j] = matrix((n + 1), j, n);
+	}	
+	return solution;
 }
