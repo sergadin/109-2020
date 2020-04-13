@@ -22,3 +22,10 @@
 1.47 -0.77 1 4 2.34
 3.477800221 -1.189135832 2.629387342 -1.579347064
 
+###input.txt format###
+c 
+n e e e ... e a a ... a
+c - count of tests
+e - ((n + 1) * n numbers) - elements of matrix
+a - (n numbers) - solution of system 
+
