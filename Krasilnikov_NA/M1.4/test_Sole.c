@@ -20,7 +20,7 @@ int main(void)
 	}
 	if ((fout = fopen("output.txt", "w")) == NULL)
 	{
-		printf("Outputfile doesn't exist");
+		printf("Output file doesn't exist");
 		fclose(fin);
 		return -1;
 	}
