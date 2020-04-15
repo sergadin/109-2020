@@ -5,14 +5,14 @@
 
 #define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
 
-double determinant(int n, double **matrix, double epsilon)
+double find_determinant(int n, double **matrix, double epsilon)
 {
 	double det = 1, sign = 1, memory, coef;
-	int rwmeoc, i, j, k; //row_with_max_element_of_column
-	for (j = 0; j < n - 1; j++)
+	int rwmeoc; //row_with_max_element_of_column
+	for (int j = 0; j < n - 1; j++)
 	{
 		rwmeoc = j;
-		for (i = (j + 1); i < n; i++)
+		for (int i = (j + 1); i < n; i++)
 		{
 			if (fabs(matrix[i][j]) > fabs(matrix[rwmeoc][j]))
 			{
@@ -25,7 +25,7 @@ double determinant(int n, double **matrix, double epsilon)
 		}
 		if (rwmeoc != j)
 		{
-			for (i = 0; i < n; i ++)
+			for (int i = 0; i < n; i ++)
 			{
 				memory = matrix[rwmeoc][i];
 				matrix[rwmeoc][i] = matrix[j][i];
@@ -35,30 +35,30 @@ double determinant(int n, double **matrix, double epsilon)
 		}
 		if (matrix[j][j] < 0)
 		{
-			for (i = 0; i < n; i++)
+			for (int i = 0; i < n; i++)
 			{
 				matrix[j][i] *= (-1);
 			}
 			sign *= (-1);
 		}
-		for (i = (j + 1); i < n; i++)
+		for (int i = (j + 1); i < n; i++)
 		{
 			if (matrix[i][j] > 0)
 			{
-				for (k = 0; k < n; k++)
+				for (int k = 0; k < n; k++)
 				{
 					matrix[i][k] *= (-1);
 				}
 				sign *= (-1);
 			}
 			coef = fabs(matrix[i][j] / matrix[j][j]);
-			for (k = j; k < n; k++)
+			for (int k = j; k < n; k++)
 			{
 				matrix[i][k] = matrix[i][k] + matrix[j][k] * coef;
 			}
 		}
 	}
-	for (i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		det *= matrix[i][i];
 	}

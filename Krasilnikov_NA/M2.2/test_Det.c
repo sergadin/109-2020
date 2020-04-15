@@ -10,11 +10,9 @@
 int main(void)
 {
 	FILE *fin, *fout;
-	double ca; // calculated_answer
-	double ea; // exact_answer
+	double ca, ea; // calculated_answer, exact_answer
 	double **matrix;
-	int cot; // count_of_tests
-	int n, i, j, k, l;
+	int n, cot; // count_of_tests
 	if ((fin = fopen("input.txt", "r")) == NULL)
 	{
 		printf("Input file doesn't exist\n");
@@ -33,7 +31,7 @@ int main(void)
 		fclose(fout);
 		return -1;
 	}
-	for (l = 0; l < cot; l++)
+	for (int l = 0; l < cot; l++)
 	{
 		fprintf(fout, "Test № %d:", (l + 1));
 		if (fscanf(fin, "%d", &n) != 1)
@@ -58,14 +56,14 @@ int main(void)
 			fclose(fout);
 			return -1;
 		}
-		for (i = 0; i < n; i++)
+		for (int i = 0; i < n; i++)
 		{
 			if ((matrix[i] = (double *) malloc(n * sizeof(double))) == NULL)
 			{
 				fprintf(fout, " LOSS | Unexpected error. Memory allocation error\n");
 				fclose(fin);
 				fclose(fout);
-				for (j = 0; j < i; j++)
+				for (int j = 0; j < i; j++)
 				{
 					free(matrix[j]);
 				}
@@ -73,16 +71,16 @@ int main(void)
 				return -3;
 			}
 		}
-		for(i = 0; i < n; i++)
+		for(int i = 0; i < n; i++)
 		{
-			for (j = 0; j < n; j++)
+			for (int j = 0; j < n; j++)
 			{
 				if (fscanf(fin, "%lf", &matrix[i][j]) != 1)
 				{
 					fprintf(fout, " LOSS | Unexpected error. Invalid input file format\n");
 					fclose(fin);
 					fclose(fout);
-					for (k = 0; k < n; k++)
+					for (int k = 0; k < n; k++)
 					{
 						free(matrix[k]);
 					}
@@ -96,15 +94,15 @@ int main(void)
 			fprintf(fout, " LOSS | Unexpected error. Invalid input file format\n");
 			fclose(fin);
 			fclose(fout);
-			for (i = 0; i < n; i++)
+			for (int i = 0; i < n; i++)
 			{
 				free(matrix[i]);
 			}
 			free(matrix);
 			return -1;
 		}
-		ca = determinant(n, matrix, EPS/n);
-		for (i = 0; i < n; i++)
+		ca = find_determinant(n, matrix, EPS/n);
+		for (int i = 0; i < n; i++)
 		{
 			free(matrix[i]);
 		}
