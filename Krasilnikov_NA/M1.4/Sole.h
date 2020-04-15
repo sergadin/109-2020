@@ -1,2 +1,3 @@
-int definition_test(int n, double *matrix, double epsilon);
-double *find_solution(int n, double *matrix, double epsilon);
+typedef enum {SYSTEM_OK = 0, ALLOCATION_ERROR, NOT_DEFINED} ErrorCode;
+
+double *solve_system(int n, double *mos, double epsilon, ErrorCode *error);
