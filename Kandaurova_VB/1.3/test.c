@@ -25,9 +25,19 @@ int main(void) {
 		result = chord(a, b, fun[i], eps, &perr);
         if(perr == I_OK) 
 		    printf("ideal:\n%f\nresult:\n%f\n", ideal[i], result);
-        else 
-            printf("Sorry\n");
-	}
+        else if(perr == I_NOSIGM){
+            printf("Sorry, non-exisment segment\n");
+            return -1;
+	    }
+        else if(perr == I_SMALL){
+            printf("Sorry, segment is too small\n");
+            return -1;
+	    }
+``      else if(perr == I_MUCH){
+            printf("Sorry, too much iterations\n");
+            return -1;
+	    }
+    }
     return 0;
 }
 

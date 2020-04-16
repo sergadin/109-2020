@@ -1,4 +1,4 @@
 typedef double(*RRFUN)(double x);
 
-double sum(RRFUN function, double *array, int n);
+double findRoot(double a, double b, double epsilon, RRF f);
 

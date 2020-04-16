@@ -1,12 +1,11 @@
 all: do-test clean
 
-f.o: f.cpp
-	g++ -c f.cpp
+rms_approximation.o: rms_approximation.cpp
+	g++ -c rms_approximation.cpp
 test.o: test.cpp
 	g++ -c test.cpp
-run: f.o test.o
-	g++ -o run f.o test.o -lm
-
+run: rms_approximation.o test.o
+	g++ -o run test.o rms_approximation.o -lm
 do-test: run
 	./run
 clean: 

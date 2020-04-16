@@ -3,11 +3,11 @@ FLAGS = -W -Wall -Wunused -Wcast-align -Werror -pedantic -pedantic-errors -fstac
 
 
 prog: main.o sin.o
-	gcc -lm $(FLAGS) -o prog -Wall main.o sin.o
+	gcc  $(FLAGS) -o prog -Wall main.o sin.o -lm 
 main.o: main.c sin.h
-	gcc $(FLAGS)  -c main.c
+	gcc $(FLAGS)  -c main.c -lm 
 sin.o: sin.c sin.h
-	gcc $(FLAGS)  -c sin.c
+	gcc $(FLAGS)  -c sin.c -lm 
 
 clean:
 	rm -rf *.o 

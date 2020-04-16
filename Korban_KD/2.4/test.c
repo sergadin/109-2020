@@ -6,8 +6,8 @@ double f1(double x);
 double f2(double x);
 double f3(double x);
 double f4(double x);
+double f5(double x);
 
-#define PRECITION 1e-10
 #define EPSILON 1e-6
 
 
@@ -31,6 +31,11 @@ double f4(double x)
     return tan(x);
 }
 
+double f5(double x)
+{
+    return pow(10, 10) +sin(x);
+}
+
 
 int main (void)
 {
@@ -41,7 +46,7 @@ int main (void)
     double answers[] = {-0.9564497444549821, 0.8906258945147004, 11.9999991010769982, -0.0000007729053253};
     int iter, correct = 0;
     
-    printf("eps=%0.16lf\n\n", eps);
+    printf("eps=%e\n\n", eps);
     
     for(int i = 0; i < 4; i++)
     {
@@ -59,14 +64,37 @@ int main (void)
             }
             
         }
-        if(fabs(x - answers[i]) <= PRECITION*f_max(1, x, answers[i]))
+        if(fabs(x - answers[i]) <= eps)
         {
-            printf("function #%d x=%.16lf answer is correct\niterations: %d\n", i+1, x, iter);
+            printf("function #%d I=%lf answer is correct\niterations: %d\n", i+1, x, iter);
             correct++;
         }
         else
-            printf("function #%d x=%.16lf answer=%.16lf incorrect\niterations: %d\n", i+1, x, answers[i], iter);
+            printf("function #%d I=%.16lf answer=%.16lf incorrect diferance=%e\niterations: %d\n", i+1, x, answers[i], fabs(x - answers[i]), iter);
     }
+    
+    iter = integrate(f5, -1, 1, eps, &x);
+        if(iter < 0)
+        {
+            switch(iter)
+            {
+                case -1:
+                    printf("function: 10^10 + sin(x) iteration count is too hight\n");
+                    break;
+                default:
+                    printf("function: 10^10 + sin(x) unknown error");
+            }
+            
+        }
+        if(fabs(x - 2*pow(10, 10)) <= eps)
+        {
+            printf("function 10^10 + sin(x) -1<=x<=1 I=%lf answer is correct\niterations: %d\n", x, iter);
+            correct++;
+        }
+        else
+            printf("function 10^10 + sin(x) -1<=x<=1 I=%.16lf answer=%.16lf incorrect diferance=%e\niterations: %d\n", x, 2*pow(10, 10), fabs(x - 2*pow(10, 10)), iter);
+    
+    
     if(correct == 4)
         printf("all test are succesfull\n");
     else

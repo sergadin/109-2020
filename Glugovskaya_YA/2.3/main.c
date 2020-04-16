@@ -30,6 +30,7 @@ int main (void)
 	if (res != TooManyIT)
 	{
 		printf("\nres = %lf\n\n", res);
+		printf("Correct Answer: 1.09012\n");
 	}
 	else 
 	{
@@ -44,6 +45,7 @@ int main (void)
 	if (res != TooManyIT)
 	{
 		printf("\nres = %lf\n\n", res);
+		printf("Correct Answer: 3.07202\n");
 	}
 	else 
 	{
