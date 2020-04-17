@@ -179,6 +179,7 @@ int main(void)
 	for (int i = 0; i < M; i++)
 		for (int j = 0; j < N; j++)
 			matr[i * N + j] = i * N + j;
+	matr[8] += 1.0;
 	MATR = multiply(matr, M, N, 0, 2.0);
 
 	print_matrix(matr, M, N);
