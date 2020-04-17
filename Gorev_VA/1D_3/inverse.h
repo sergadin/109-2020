@@ -119,6 +119,9 @@ void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 		else
 			break;
 	}
+	for (int k = 0; k < n; k++)
+		if (Abs(A[k * n + k] < eps))
+			*Error = MATR_IS_SINGULAR;
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 		{
