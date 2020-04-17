@@ -178,6 +178,8 @@ int main(void)
 			matr[i * N + j] = i * N + j;
 	MATR = multiply(matr, M, N, 0, 2.0);
 
+	print_matrix(matr, M, N);
+
 	diag(matr, MATR, N, Error);
 
 	/*print_matrix(matr, M, N);
