@@ -56,8 +56,8 @@ double *swap(double *matr, int m, int n, int i1, int i2)
 	return A;
 }
 
-double multiply(double *matr, int m, int n, int i1, double c);
-double multiply(double *matr, int m, int n, int i1, double c)
+double *multiply(double *matr, int m, int n, int i1, double c);
+double *multiply(double *matr, int m, int n, int i1, double c)
 {
 	double *A;
 	A = (double*)malloc(m * n * sizeof(double));
@@ -72,8 +72,8 @@ double multiply(double *matr, int m, int n, int i1, double c)
 	return A;
 }
 
-double plus_str(double *matr, int m, int n, int i1, int i2, double c);
-double plus_str(double *matr, int m, int n, int i1, int i2, double c)
+double *plus_str(double *matr, int m, int n, int i1, int i2, double c);
+double *plus_str(double *matr, int m, int n, int i1, int i2, double c)
 {
 	double *A;
 	A = (double*)malloc(m * n * sizeof(double));
