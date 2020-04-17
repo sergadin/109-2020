@@ -24,7 +24,7 @@ double *transp(double *matr, int m, int n)
 }
 
 double *swap(double *matr, int m, int n, int i1, int i2);
-double *swap(double *matr, int m, int n, int i1, int i2);
+double *swap(double *matr, int m, int n, int i1, int i2)
 {
 	double *A;
 	if (i1 == i2)
