@@ -41,7 +41,7 @@ int main(void)
 
 	print_matrix(matr, N, N);
 	printf("\n");
-	print_matrix(inverse(matr, N, Error), M, N);
+	print_matrix(inverse(matr, N, Error), N, N);
 
 	free(matr);
 	free(Error);

@@ -126,8 +126,8 @@ void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 		}
 }
 
-double *inverse(double *A, int n, int *Error);
-double *inverse(double *A, int n, int *Error)
+double *inverse(double *A, int n, ErrorCode *Error);
+double *inverse(double *A, int n, ErrorCode *Error)
 {
 	double *A_dop;
 	A_dop = (double*)malloc(n * n * sizeof(double));
