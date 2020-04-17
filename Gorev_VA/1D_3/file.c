@@ -190,7 +190,7 @@ int main(void)
 	print_matrix(matr, M, N);
 	printf("\n");
 
-	diag(matr, MATR, N, Error, t);
+	diag(matr, MATR, N, Error, r);
 
 	/*print_matrix(matr, M, N);
 	printf("\n");
