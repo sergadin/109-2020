@@ -118,7 +118,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 		*Error = 1;
 		for (int i = 0; i < n; i++);
 		{
-			if (Abs(x) >= eps)
+			if (Abs(A[i * n]) >= eps)
 			{
 				*Error = 0;
 				A = swap(A, n, n, 0, i);
@@ -166,7 +166,7 @@ int main(void)
 	double *matr, *MATR;
 	int N = 2, M = 2;
 	int *Error;
-	E = (int*)malloc(sizeof(int));
+	Error = (int*)malloc(sizeof(int));
 
 	matr = (double*)malloc(N * M * sizeof(double));
 	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3;
