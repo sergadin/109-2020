@@ -119,7 +119,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 		*Error = 1;
 		for (int i = k; i < n; i++)
 		{
-			if (Abs(A[i * n]) >= eps)
+			if (Abs(A[i * n + k]) >= eps)
 			{
 				*Error = 0;
 				A = swap(A, n, n, k, i);
