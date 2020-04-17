@@ -122,11 +122,11 @@ void diag(double *A, double *A_dop, int n, int *Error)
 			if (Abs(A[i * n + k]) >= eps)
 			{
 				*Error = 0;
-				A = swap(A, n, n, k, i);
 				A_dop = swap(A_dop, n, n, k, i);
+				A = swap(A, n, n, k, i);
 
-				A = multiply(A, n, n, k, 1.0 / A[k * n + k]);
 				A_dop = multiply(A_dop, n, n, k, 1.0 / A[k * n + k]);
+				A = multiply(A, n, n, k, 1.0 / A[k * n + k]);
 				break;
 			}
 		}
@@ -137,8 +137,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 			for (int i = k + 1; i < n; i++)
 				for (int j = k; j < n; j++)
 				{
-					A = plus_str(A, n, n, i, k, -A[i * n + k] / A[k * n + k]);
 					A_dop = plus_str(A_dop, n, n, i, k, -A[i * n + k] / A[k * n + k]);
+					A = plus_str(A, n, n, i, k, -A[i * n + k] / A[k * n + k]);
 				}
 		}
 		else
@@ -149,8 +149,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 		{
-			B[i * n + j] = A[i * n + j];
 			B_dop[i * n + j] = A_dop[i * n + j];
+			B[i * n + j] = A[i * n + j];
 		}
 }
 
