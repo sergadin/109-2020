@@ -126,6 +126,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				A_dop = swap(A, n, n, k, i);
 				break;
 			}
+			print_matrix(A, n, n);
+			printf("\n");
 		}
 		if (*Error == 0)
 		{
@@ -136,6 +138,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 					A_dop = plus_str(A_dop, n, n, i, k, -A[i * n + k] / A[k * n + k]);
 				}
 		}
+		print_matrix(A, n, n);
+		printf("\n");
 	}
 
 	/*if (n > 1)
