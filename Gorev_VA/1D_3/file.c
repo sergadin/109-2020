@@ -122,6 +122,9 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				*Error = 0;
 				A = swap(A, n, n, k, i);
 				A_dop = swap(A_dop, n, n, k, i);
+
+				A = multiply(A, n, n, k, 1.0 / A[k * n + k]);
+				A_dop = multiply(A_dop, n, n, k, 1.0 / A[k * n + k]);
 				break;
 			}
 		}
