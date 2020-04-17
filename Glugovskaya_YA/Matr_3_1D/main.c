@@ -66,13 +66,14 @@ int main(int argc,char **argv)
 			return 3;
 		}
 	}
-	
+	printf("Matrix A:\n");
 	prn_matr(a, n);
 	Find_Matr_Dopolneni(a, MINORS, n);
 	TRANS(MINORS, n);
 	det = DET(a, n);
 	printf("Det: %lf\n", det);
 	
+	printf("Matrix A^(-1):\n");
 	for(i = 0; i < n; i++)
 	{
 		for (j = 0; j < n; j++)
