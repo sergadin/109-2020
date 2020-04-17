@@ -1,13 +1,19 @@
-CC=gcc
+CC=gcc 
 CFLAGS=-g
 
 all: do-test clean
 
-test5.o: test5.cpp interpol.h
-#	g++ -c test5.cpp
+rank.o: rank.c rank.h
+#	gcc -c mini.c 
+
+testM.o: testM.c rank.h
+#	gcc -c testM.c 
+
+a.out: testM.o rank.o
+	gcc testM.o rank.o -lm
 
 do-test: a.out
-	./a.out
+	./a.out 
 
-clean: test5.o interpol.h
-	rm test5.o
+clean: testM.o mini.o
+	rm testM.o rank.o 
