@@ -166,12 +166,14 @@ double *inverse(double *A, int n, int *Error)
 int main(void)
 {
 	double *matr, *MATR;
-	int N = 2, M = 2;
+	int N = 3, M = 3;
 	int *Error;
 	Error = (int*)malloc(sizeof(int));
 
 	matr = (double*)malloc(N * M * sizeof(double));
-	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3;
+	for (int i = 0; i < M; i++)
+		for (int j = 0; j < N; j++)
+			matr[i * n + j] = i * n + j;
 	MATR = multiply(matr, M, N, 0, 2.0);
 
 	diag(matr, MATR, N, Error);
