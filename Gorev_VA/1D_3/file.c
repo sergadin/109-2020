@@ -125,6 +125,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				A_dop = swap(A, n, n, 0, i);
 			}
 		}
+		print_matrix(A, n, n);
+		printf("\n");
 		if (*Error == 0)
 		{
 			for (int i = 1; i < n; i++)
