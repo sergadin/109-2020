@@ -32,7 +32,7 @@ double DET(double *a, int n){
 	}
 	return det * sgn;
 }
-void Matr_Dopolneni(double *a, double *MINORS, int n)
+void Find_Matr_Dopolneni(double *a, double *MINORS, int n)
 {
 	int i, j;
 	for (i = 0; i < n; i++)
