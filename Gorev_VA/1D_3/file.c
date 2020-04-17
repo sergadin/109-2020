@@ -123,7 +123,6 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				*Error = 0;
 				B = swap(A, n, n, 0, i);
 				A = B;
-				free(B);
 				A_dop = swap(A, n, n, 0, i);
 			}
 		}
