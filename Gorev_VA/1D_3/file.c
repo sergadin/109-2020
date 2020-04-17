@@ -33,14 +33,14 @@ double *read_matrix(int m, int n)
 	return matr;
 }
 
-double *transp(double *matr, int m, int n);
-double *transp(double *matr, int m, int n)
+double *centr_sym(double *matr, int n);
+double *centr_sym(double *matr, int n)
 {
 	double *T;
 	T = (double*)malloc(m * n * sizeof(double));
 	for (int i = 0; i < n; i++)
-		for (int j = 0; j < m; j++)
-			T[i * m + j] = matr[j * n + i];
+		for (int j = 0; j < n; j++)
+			T[i * n + j] = matr[(n - 1 - i) * n + (n - 1 - j)];
 	return T;
 }
 
@@ -157,21 +157,53 @@ void diag(double *A, double *A_dop, int n, int *Error)
 double *inverse(double *A, int n, int *Error);
 double *inverse(double *A, int n, int *Error)
 {
-	double *B;
-	B = (double*)malloc(n * n * sizeof(double));
+	double *A_dop;
+	A_dop = (double*)malloc(n * n * sizeof(double));
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			if (i == j)
-				B[i * n + j] = 1;
+				A_dop[i * n + j] = 1;
 			else
-				B[i * n + j] = 0;
-	diag(A, B, n, Error);
-	if (*Error == 1)
-		return A;
-	A = transp(A, n, n);
-	B = transp(B, n, n);
-	diag(A, B, n, Error);
-	return transp(B, n, n);
+				A_dop[i * n + j] = 0;
+
+	diag(A, A_dop, n, Error);
+	A = centr_sym(A, n);
+	A_dop = centr_sym(A_dop, n);
+	diag(A, A_dop, n, Error);
+	return centr_sym(A_dop);
+
+	/*for (int k = 0; k < (n - 1); k++)
+	{
+		*Error = 1;
+		for (int i = k; i < n; i++)
+		{
+			if (Abs(A[i * n + k]) >= eps)
+			{
+				*Error = 0;
+				A = swap(A, n, n, k, i);
+				A_dop = swap(A_dop, n, n, k, i);
+
+				A = multiply(A, n, n, k, 1.0 / A[k * n + k]);
+				A_dop = multiply(A_dop, n, n, k, 1.0 / A[k * n + k]);
+				break;
+			}
+		}
+		print_matrix(A, n, n);
+		printf("\n");
+		if (*Error == 0)
+		{
+			for (int i = k + 1; i < n; i++)
+				for (int j = k; j < n; j++)
+				{
+					A = plus_str(A, n, n, i, k, -A[i * n + k] / A[k * n + k]);
+					A_dop = plus_str(A_dop, n, n, i, k, -A[i * n + k] / A[k * n + k]);
+				}
+		}
+		else
+			break;
+		print_matrix(A, n, n);
+		printf("\n");
+	}*/
 }
 
 int main(void)
