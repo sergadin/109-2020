@@ -124,6 +124,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				B = swap(A, n, n, 0, i);
 				A = B;
 				A_dop = swap(A, n, n, 0, i);
+				break;
 			}
 		}
 		print_matrix(A, n, n);
