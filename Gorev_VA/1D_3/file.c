@@ -173,7 +173,7 @@ int main(void)
 	matr = (double*)malloc(N * M * sizeof(double));
 	for (int i = 0; i < M; i++)
 		for (int j = 0; j < N; j++)
-			matr[i * n + j] = i * n + j;
+			matr[i * N + j] = i * N + j;
 	MATR = multiply(matr, M, N, 0, 2.0);
 
 	diag(matr, MATR, N, Error);
