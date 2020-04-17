@@ -1,49 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_matrix(double *matr, int m, int n)
-{
-	for (int i = 0; i < m; i++)
-	{
-		for (int j = 0; j < n; j++)
-			printf("%e ", matr[i * n + j]);
-		printf("\n");
-	}
-}
+#define eps 0.0000001
 
-double *transp(double *matr, int m, int n)
+void PLUS1(double *matr, int n);
+void PLUS1(double *matr, int n)
 {
-	double *M;
-	M = (double*)malloc(m * n * sizeof(double));
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < m; j++)
-			M[i * m + j] = matr[j * n + i];
-	return M;
-}
-
-double *inverse(double *A, int n)
-{
-	double *B;
-	B = (double*)malloc(n * n * sizeof(double));
-
+	matr[0] = 1;
 }
 
 int main(void)
 {
-	double *matr, *MATR;
-	int N = 2, M = 3;
-	matr = (double*)malloc(N * M * sizeof(double));
-	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3, matr[4] = 4, matr[5] = 5;
-	MATR = transp(matr, M, N);
-	print_matrix(matr, M, N);
-	printf("\n");
-	print_matrix(MATR, N, M);
+	double *matr;
+	int N = 2;
 
-	printf("\n\n");
+	matr = (double*)malloc(N * N * sizeof(double));
+	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3;
+	
+	PLUS1(matr, N);
+	
+	printf("%g\n", matr[0]);
 
-	MATR = transp(matr, N, M);
-	print_matrix(matr, N, M);
-	printf("\n");
-	print_matrix(MATR, M, N);
+	free(matr);
 	return 0;
 }
