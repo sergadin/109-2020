@@ -179,6 +179,7 @@ int main(void)
 	MATR = multiply(matr, M, N, 0, 2.0);
 
 	print_matrix(matr, M, N);
+	printf("\n");
 
 	diag(matr, MATR, N, Error);
 
