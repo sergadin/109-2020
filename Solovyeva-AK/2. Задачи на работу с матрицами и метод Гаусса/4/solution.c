@@ -1,91 +1,50 @@
 #include "libs.h"
 
-double deter(int n, double **matrix_now) {
-    double **matrix = malloc(sizeof(double *) * n);
-    for (int i = 0; i < n; i++) {
-        matrix[i] = malloc(sizeof(double) * n);
-    }
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            matrix[i][j] = matrix_now[i][j];
-        }
-    }
-    double eps = 0.00001;
-    double det = 1;
-    for (int k = 0; k < n; k++) {
-        for (int i = k; i < n; i++) {
-            double tmp = matrix[i][k];
-            if (fabs(tmp) < eps) continue;
-            for (int j = 0; j < n; j++)
-                matrix[i][j] = matrix[i][j] / tmp;
-            det *= tmp;
-            if (i == k) continue;
-            for (int j = 0; j < n; j++)
-                matrix[i][j] = matrix[i][j] -matrix[k][j];
-        }
-    }
-    for (int i = 0; i < n; i++)
-        det *= matrix[i][i];
+void gauss_m(int n, double *matrix_now, double *x) {
+    double *matrix = malloc(sizeof(double *) * n * (n+1));
     
-    for (int i = 0; i < n; ++i) {
-        free(matrix[i]);
-    }
-    free(matrix);
-    
-    return det;
-}
-
-
-void reverse(int n, double **matrix_now, double **new) {
-    double **matrix = malloc(sizeof(double *) * n);
-    for (int i = 0; i < n; ++i) {
-        matrix[i] = malloc(sizeof(double) * n);
-    }
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            matrix[i][j] = matrix_now[i][j];
+        for (int j = 0; j < n + 1; j++) {
+            matrix[i*(n + 1) + j] = matrix_now[i*(n + 1) + j];
         }
     }
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (i == j) {
-                new[i][j] = 1;
-            }
-        }
-    }
+    double max_elem;
+    int max_index;
     const double eps = 0.000001;
     for (int k = 0; k < n; k++) {
+        max_elem = fabs(matrix[k*(n + 1) + k]);
+        max_index = k;
+        for (int i = k + 1; i < n; i++) {
+            if (max_elem < fabs(matrix[i*(n + 1) + k])) {
+                max_elem = fabs(matrix[i*(n + 1) + k]);
+                max_index = i;
+            }
+        }
+        if (max_elem < eps) {
+            return;
+        }
+
+        for (int j = 0; j < n + 1; j++) {
+            double tmp = matrix[k*(n + 1) + j];
+            matrix[k*(n + 1) + j] = matrix[max_index*(n + 1) + j];
+            matrix[max_index*(n + 1) + j] = tmp;
+        }
+
         for (int i = k; i < n; i++) {
-            double tmp = matrix[i][k];
+            double tmp = matrix[i*(n + 1) + k];
             if (fabs(tmp) < eps) continue;
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = matrix[i][j] / tmp;
-                new[i][j] = new[i][j] / tmp;
-            }
+            for (int j = 0; j < n + 1; j++)
+            matrix[i*(n + 1) + j] = matrix[i*(n + 1) + j] / tmp;
             if (i == k) continue;
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = matrix[i][j] - matrix[k][j];
-                new[i][j] = new[i][j] - new[k][j];
-            }
+            for (int j = 0; j < n + 1; j++)
+            matrix[i*(n + 1) + j] = matrix[i*(n + 1) + j] - matrix[k*(n + 1) + j];
         }
     }
+
     for (int k = n - 1; k >= 0; k--) {
-        for (int i = n - 1; i >= 0; i--) {
-            double tmp = matrix[i][k];
-            if (fabs(tmp) < eps) continue;
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = matrix[i][j] / tmp;
-                new[i][j] = new[i][j] / tmp;
-            }
-            if (i == k) continue;
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = matrix[i][j] - matrix[k][j];
-                new[i][j] = new[i][j] - new[k][j];
-            }
-        }
-    }
-    for (int i = 0; i < n; ++i) {
-        free(matrix[i]);
+        x[k] = matrix[k*(n + 1) + n];
+        for (int i = 0; i < k; i++)
+        matrix[i*(n + 1) + n] = matrix[i*(n + 1) + n] - matrix[i*(n + 1) + k] * x[k];
     }
     free(matrix);
 }

@@ -5,8 +5,7 @@ generate.o: generate.c
 	gcc -std=c99 -c generate.c -o generate.o -lm
 run: solution.o generate.o
 	gcc -o run generate.o solution.o -lm
-do: run
+ do: run
 	./run
 clean:
 	rm -rf *.o
-
