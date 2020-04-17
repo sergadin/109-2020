@@ -121,7 +121,9 @@ void diag(double *A, double *A_dop, int n, int *Error)
 			if (Abs(A[i * n]) >= eps)
 			{
 				*Error = 0;
-				A = swap(A, n, n, 0, i);
+				B = swap(A, n, n, 0, i);
+				A = B;
+				free(B);
 				A_dop = swap(A, n, n, 0, i);
 			}
 		}
