@@ -133,6 +133,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 					A = plus_str(A, n, n, i, 0, -A[i * n] / A[0]);
 					A_dop = plus_str(A_dop, n, n, i, 0, -A[i * n] / A[0]);
 				}
+			print_matrix(A, n, n);
 			B = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
 			B_dop = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
 			for (int i = 0; i < (n - 1); i++)
@@ -149,6 +150,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 						A[(i + 1) * n + (j + 1)] = B[i * (n - 1) + j];
 						A_dop[(i + 1) * n + (j + 1)] = B_dop[i * (n - 1) + j];
 					}
+			print_matrix(A, n, n);
 		}
 	}
 }
@@ -172,10 +174,12 @@ int main(void)
 	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3;
 	MATR = multiply(matr, M, N, 0, 2.0);
 
-	print_matrix(matr, M, N);
+	diag(matr, MATR, N, Error);
+
+	/*print_matrix(matr, M, N);
 	printf("\n");
 	diag(matr, MATR, N, Error);
-	print_matrix(MATR, M, N);
+	print_matrix(MATR, M, N);*/
 
 	free(matr);
 	free(MATR);
