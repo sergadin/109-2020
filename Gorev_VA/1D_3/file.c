@@ -17,7 +17,7 @@ int main(void)
 	double *matr;
 	int N = 2;
 	matr = (double*)malloc(N * N * sizeof(double));
-	matr = { 0, 0, 0, 0 };
+	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3;
 	print_matrix(matr, N, N);
 	return 0;
 }
