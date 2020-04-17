@@ -88,6 +88,7 @@ double *plus_str(double *matr, int m, int n, int i1, int i2, double c)
 void diag(double *A, double *A_dop, int n, ErrorCode *Error);
 void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 {
+	*Error = OK;
 	double *B, *B_dop;
 	B = A, B_dop = A_dop;
 	for (int k = 0; k < (n - 1); k++)

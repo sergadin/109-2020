@@ -38,12 +38,21 @@ int main(void)
 		return -1;
 	}
 	matr = read_matrix(N, N, input);
-
+	printf("A = \n");
 	print_matrix(matr, N, N);
 	printf("\n");
-	print_matrix(inverse(matr, N, Error), N, N);
-
+	matr = inverse(matr, N, Error);
+	if (*Error == OK)
+	{
+		printf("A^-1 = \n");
+		print_matrix(matr, N, N);
+		printf("\n");
+	}
+	if (*Error == MATR_IS_SINGULAR)
+		printf("Matrix is singular\n\n");
+	fclose(input);
 	free(matr);
+
 	free(Error);
 	return 0;
 }
