@@ -116,7 +116,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 	if (n > 1)
 	{
 		*Error = 1;
-		for (int i = 0; i < n; i++);
+		for (int i = 0; i < n; i++)
 		{
 			if (Abs(A[i * n]) >= eps)
 			{
