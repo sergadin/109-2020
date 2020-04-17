@@ -136,57 +136,11 @@ void diag(double *A, double *A_dop, int n, int *Error)
 					A_dop = plus_str(A_dop, n, n, i, k, -A[i * n + k] / A[k * n + k]);
 				}
 		}
+		else
+			break;
 		print_matrix(A, n, n);
 		printf("\n");
 	}
-
-	/*if (n > 1)
-	{
-		*Error = 1;
-		for (int i = 0; i < n; i++)
-		{
-			if (Abs(A[i * n]) >= eps)
-			{
-				*Error = 0;
-				A = swap(A, n, n, 0, i);
-				A_dop = swap(A, n, n, 0, i);
-				break;
-			}
-		}
-		print_matrix(A, n, n);
-		printf("\n");
-		if (*Error == 0)
-		{
-			for (int i = 1; i < n; i++)
-				for (int j = 0; j < n; j++)
-				{
-					A = plus_str(A, n, n, i, 0, -A[i * n] / A[0]);
-					A_dop = plus_str(A_dop, n, n, i, 0, -A[i * n] / A[0]);
-				}
-			print_matrix(A, n, n);
-			printf("\n");
-			B = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
-			B_dop = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
-			for (int i = 0; i < (n - 1); i++)
-				for (int j = 0; j < (n - 1); j++)
-				{
-					B[i * (n - 1) + j] = A[(i + 1) * n + (j + 1)];
-					B_dop[i * (n - 1) + j] = A_dop[(i + 1) * n + (j + 1)];
-				}
-			diag(B, B_dop, n - 1, Error);
-			if (*Error == 0)
-				for (int i = 0; i < (n - 1); i++)
-					for (int j = 0; j < (n - 1); j++)
-					{
-						A[(i + 1) * n + (j + 1)] = B[i * (n - 1) + j];
-						A_dop[(i + 1) * n + (j + 1)] = B_dop[i * (n - 1) + j];
-					}
-			free(B);
-			free(B_dop);
-			print_matrix(A, n, n);
-			printf("\n");
-		}
-	}*/
 }
 
 double *inverse(double *A, int n, int *Error);
@@ -194,7 +148,19 @@ double *inverse(double *A, int n, int *Error)
 {
 	double *B;
 	B = (double*)malloc(n * n * sizeof(double));
-
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			if (i == j)
+				B[i * n + j] = 1;
+			else
+				B[i * n + j] = 0;
+	diag(A, B, n, Error);
+	if (*Error == 1)
+		return A;
+	A = transp(A);
+	B = transp(B);
+	diag(A, B, n, Error);
+	return transp(B);
 }
 
 int main(void)
