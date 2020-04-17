@@ -37,7 +37,7 @@ double *centr_sym(double *matr, int n);
 double *centr_sym(double *matr, int n)
 {
 	double *T;
-	T = (double*)malloc(m * n * sizeof(double));
+	T = (double*)malloc(n * n * sizeof(double));
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			T[i * n + j] = matr[(n - 1 - i) * n + (n - 1 - j)];
@@ -170,7 +170,7 @@ double *inverse(double *A, int n, int *Error)
 	A = centr_sym(A, n);
 	A_dop = centr_sym(A_dop, n);
 	diag(A, A_dop, n, Error);
-	return centr_sym(A_dop);
+	return centr_sym(A_dop, n);
 
 	/*for (int k = 0; k < (n - 1); k++)
 	{
