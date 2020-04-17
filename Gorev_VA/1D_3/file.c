@@ -114,7 +114,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 {
 	double *B, *B_dop;
 
-	for (int k = 0; k < (n - 1); k++)
+	for (int k = 0; k < (n); k++)
 	{
 		*Error = 1;
 		for (int i = k; i < n; i++)
@@ -123,7 +123,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 			{
 				*Error = 0;
 				A = swap(A, n, n, k, i);
-				A_dop = swap(A, n, n, k, i);
+				A_dop = swap(A_dop, n, n, k, i);
 				break;
 			}
 			print_matrix(A, n, n);
