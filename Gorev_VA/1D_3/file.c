@@ -112,8 +112,6 @@ double *plus_str(double *matr, int m, int n, int i1, int i2, double c)
 void diag(double *A, double *A_dop, int n, int *Error);
 void diag(double *A, double *A_dop, int n, int *Error)
 {
-	double *B, *B_dop;
-
 	for (int k = 0; k < (n); k++)
 	{
 		*Error = 1;
@@ -126,9 +124,9 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				A_dop = swap(A_dop, n, n, k, i);
 				break;
 			}
-			print_matrix(A, n, n);
-			printf("\n");
 		}
+		print_matrix(A, n, n);
+		printf("\n");
 		if (*Error == 0)
 		{
 			for (int i = k + 1; i < n; i++)
