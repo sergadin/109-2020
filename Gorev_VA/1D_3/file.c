@@ -148,7 +148,7 @@ void diag(double *A, double *A_dop, int n, int *Error, int *t)
 					B[i * (n - 1) + j] = A[(i + 1) * n + (j + 1)];
 					B_dop[i * (n - 1) + j] = A_dop[(i + 1) * n + (j + 1)];
 				}
-			diag(B, B_dop, n - 1, Error);
+			diag(B, B_dop, n - 1, Error, t);
 			if (*Error == 0)
 				for (int i = 0; i < (n - 1); i++)
 					for (int j = 0; j < (n - 1); j++)
@@ -190,7 +190,7 @@ int main(void)
 	print_matrix(matr, M, N);
 	printf("\n");
 
-	diag(matr, MATR, N, Error, );
+	diag(matr, MATR, N, Error, t);
 
 	/*print_matrix(matr, M, N);
 	printf("\n");
