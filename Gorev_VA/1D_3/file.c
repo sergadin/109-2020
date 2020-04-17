@@ -160,10 +160,10 @@ double *inverse(double *A, int n, int *Error)
 	diag(A, B, n, Error);
 	if (*Error == 1)
 		return A;
-	A = transp(A);
-	B = transp(B);
+	A = transp(A, n, n);
+	B = transp(B, n, n);
 	diag(A, B, n, Error);
-	return transp(B);
+	return transp(B, n, n);
 }
 
 int main(void)
