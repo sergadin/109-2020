@@ -109,8 +109,8 @@ double *plus_str(double *matr, int m, int n, int i1, int i2, double c)
 	return A;
 }
 
-void diag(double *A, double *A_dop, int n, int *Error);
-void diag(double *A, double *A_dop, int n, int *Error)
+void diag(double *A, double *A_dop, int n, int *Error, int *t);
+void diag(double *A, double *A_dop, int n, int *Error, int *t)
 {
 	double *B, *B_dop;
 	if (n > 1)
@@ -136,6 +136,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 					A = plus_str(A, n, n, i, 0, -A[i * n] / A[0]);
 					A_dop = plus_str(A_dop, n, n, i, 0, -A[i * n] / A[0]);
 				}
+			if (n == 2)
+				*t = 1;
 			print_matrix(A, n, n);
 			printf("\n");
 			B = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
@@ -156,6 +158,8 @@ void diag(double *A, double *A_dop, int n, int *Error)
 					}
 			print_matrix(A, n, n);
 			printf("\n");
+			if (*t == 1)
+				printf("r\n\n");
 		}
 	}
 }
@@ -172,8 +176,9 @@ int main(void)
 {
 	double *matr, *MATR;
 	int N = 3, M = 3;
-	int *Error;
+	int *Error, *r;
 	Error = (int*)malloc(sizeof(int));
+	r = (int*)malloc(sizeof(int));
 
 	matr = (double*)malloc(N * M * sizeof(double));
 	for (int i = 0; i < M; i++)
@@ -185,7 +190,7 @@ int main(void)
 	print_matrix(matr, M, N);
 	printf("\n");
 
-	diag(matr, MATR, N, Error);
+	diag(matr, MATR, N, Error, );
 
 	/*print_matrix(matr, M, N);
 	printf("\n");
