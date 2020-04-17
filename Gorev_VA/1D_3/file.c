@@ -156,6 +156,8 @@ void diag(double *A, double *A_dop, int n, int *Error, int *t)
 						A[(i + 1) * n + (j + 1)] = B[i * (n - 1) + j];
 						A_dop[(i + 1) * n + (j + 1)] = B_dop[i * (n - 1) + j];
 					}
+			free(B);
+			free(B_dop);
 			print_matrix(A, n, n);
 			printf("\n");
 			if (*t == 1)
