@@ -56,6 +56,38 @@ double *swap(double *matr, int m, int n, int i1, int i2)
 	return A;
 }
 
+double multiply(double *matr, int m, int n, int i1, double c);
+double multiply(double *matr, int m, int n, int i1, double c)
+{
+	double *A;
+	A = (double*)malloc(m * n * sizeof(double));
+	for (int i = 0; i < i1; i++)
+		for (int j = 0; j < n; j++)
+			A[i * n + j] = matr[i * n + j];
+	for (int j = 0; j < n; j++)
+		A[i1 * n + j] = c * matr[i1 * n + j];
+	for (int i = i1 + 1; i < m; i++)
+		for (int j = 0; j < n; j++)
+			A[i * n + j] = matr[i * n + j];
+	return A;
+}
+
+double plus_str(double *matr, int m, int n, int i1, int i2, double c);
+double plus_str(double *matr, int m, int n, int i1, int i2, double c)
+{
+	double *A;
+	A = (double*)malloc(m * n * sizeof(double));
+	for (int i = 0; i < i1; i++)
+		for (int j = 0; j < n; j++)
+			A[i * n + j] = matr[i * n + j];
+	for (int j = 0; j < n; j++)
+		A[i1 * n + j] = matr[i1 * n + j] + c * matr[i2 * n + j];
+	for (int i = i1 + 1; i < m; i++)
+		for (int j = 0; j < n; j++)
+			A[i * n + j] = matr[i * n + j];
+	return A;
+}
+
 double *inverse(double *A, int n)
 {
 	double *B;
@@ -69,10 +101,14 @@ int main(void)
 	int N = 2, M = 3;
 	matr = (double*)malloc(N * M * sizeof(double));
 	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3, matr[4] = 4, matr[5] = 5;
-	MATR = swap(matr, M, N, 0, 2);
+	MATR = multiply(matr, M, N, 0, 2.0);
 	print_matrix(matr, M, N);
 	printf("\n");
-	print_matrix(MATR, N, M);
+	print_matrix(MATR, M, N);
+
+	MATR = plus_str(matr, M, N, 1, 0, 2.0);
+	printf("\n");
+	print_matrix(MATR, M, N);
 
 	
 	return 0;
