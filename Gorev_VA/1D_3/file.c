@@ -20,7 +20,7 @@ double *read_matrix(int m, int n, FILE* input)
 	matr = (double*)malloc(m * n * sizeof(double));
 	for (int i = 0; i < m; i++)
 		for (int j = 0; j < n; j++)
-			fscanf(input, "%lf", matr[i * n + j]);
+			fscanf(input, "%lf", &matr[i * n + j]);
 	return matr;
 }
 
@@ -39,7 +39,7 @@ int main(void)
 	}
 	matr = read_matrix(N, N, input);
 
-	print_matrix(matr, M, N);
+	print_matrix(matr, N, N);
 	printf("\n");
 	print_matrix(inverse(matr, N, Error), M, N);
 
