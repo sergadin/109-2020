@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define eps 0.0000001
+
+double Abs(double x);
+double Abs(double x)
+{
+	if (x >= 0)
+		return x;
+	return -x;
+}
+
 void print_matrix(double *matr, int m, int n);
 void print_matrix(double *matr, int m, int n)
 {
@@ -10,6 +20,17 @@ void print_matrix(double *matr, int m, int n)
 			printf("%g ", matr[i * n + j]);
 		printf("\n");
 	}
+}
+
+double *read_matrix(int m, int n);
+double *read_matrix(int m, int n)
+{
+	double *matr;
+	matr = (double*)malloc(m * n * sizeof(double));
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+			matr[i * n + j];
+	return matr;
 }
 
 double *transp(double *matr, int m, int n);
@@ -88,7 +109,52 @@ double *plus_str(double *matr, int m, int n, int i1, int i2, double c)
 	return A;
 }
 
-double *inverse(double *A, int n)
+void diag(double *A, double *A_dop, int n, int *Error);
+void diag(double *A, double *A_dop, int n, int *Error)
+{
+	double *B, *B_dop;
+	if (n > 1)
+	{
+		*Error = 1;
+		for (int i = 0; i < n; i++);
+		{
+			if (Abs(x) >= eps)
+			{
+				*Error = 0;
+				A = swap(A, n, n, 0, i);
+				A_dop = swap(A, n, n, 0, i);
+			}
+		}
+		if (*Error == 0)
+		{
+			for (int i = 1; i < n; i++)
+				for (int j = 0; j < n; j++)
+				{
+					A = plus_str(A, n, n, i, 0, -A[i * n] / A[0]);
+					A_dop = plus_str(A_dop, n, n, i, 0, -A[i * n] / A[0]);
+				}
+			B = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
+			B_dop = (double*)malloc((n - 1) * (n - 1) * sizeof(double));
+			for (int i = 0; i < (n - 1); i++)
+				for (int j = 0; j < (n - 1); j++)
+				{
+					B[i * (n - 1) + j] = A[(i + 1) * n + (j + 1)];
+					B_dop[i * (n - 1) + j] = A_dop[(i + 1) * n + (j + 1)];
+				}
+			diag(B, B_dop, n - 1, Error);
+			if (*Error == 0)
+				for (int i = 0; i < (n - 1); i++)
+					for (int j = 0; j < (n - 1); j++)
+					{
+						A[(i + 1) * n + (j + 1)] = B[i * (n - 1) + j];
+						A_dop[(i + 1) * n + (j + 1)] = B_dop[i * (n - 1) + j];
+					}
+		}
+	}
+}
+
+double *inverse(double *A, int n, int *Error);
+double *inverse(double *A, int n, int *Error)
 {
 	double *B;
 	B = (double*)malloc(n * n * sizeof(double));
@@ -98,18 +164,21 @@ double *inverse(double *A, int n)
 int main(void)
 {
 	double *matr, *MATR;
-	int N = 2, M = 3;
+	int N = 2, M = 2;
+	int *Error;
+	E = (int*)malloc(sizeof(int));
+
 	matr = (double*)malloc(N * M * sizeof(double));
-	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3, matr[4] = 4, matr[5] = 5;
+	matr[0] = 0, matr[1] = 1, matr[2] = 2, matr[3] = 3;
 	MATR = multiply(matr, M, N, 0, 2.0);
+
 	print_matrix(matr, M, N);
 	printf("\n");
+	diag(matr, MATR, N, Error);
 	print_matrix(MATR, M, N);
 
-	MATR = plus_str(matr, M, N, 1, 0, 2.0);
-	printf("\n");
-	print_matrix(MATR, M, N);
-
-	
+	free(matr);
+	free(MATR);
+	free(Error);
 	return 0;
 }
