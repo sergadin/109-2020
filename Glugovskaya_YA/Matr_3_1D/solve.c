@@ -12,9 +12,8 @@ double DET(double *a, int n){
 	
 	for (i = 0; i < n; i++)
 	{		
-		if (i < n - 1) sgn *= MaxEl(a, n, i);
-		
-		if (a[i * n + i] != 0)
+		if (i < n - 1) sgn *= MaxEl_In_Collon(a, n, i);
+		if (a[i * n + i] < 0 || a[i * n + i] > 0)
 		{
 			
 			del = a[i * n  + i];
@@ -33,7 +32,7 @@ double DET(double *a, int n){
 	}
 	return det * sgn;
 }
-void MATR_of_ADDITION(double *a, double *MINORS, int n)
+void Matr_Dopolneni(double *a, double *MINORS, int n)
 {
 	int i, j;
 	for (i = 0; i < n; i++)
@@ -48,7 +47,7 @@ void MATR_of_ADDITION(double *a, double *MINORS, int n)
 double DET_MINOR(double *a, int I, int J, int n)
 {
 	int i, j;
-	double *buf; 
+	double *buf, Det_Minor; 
 	buf = (double*) malloc (n*n*sizeof(double));
 	for (i = 0; i < I; i++)
 	{
@@ -74,7 +73,9 @@ double DET_MINOR(double *a, int I, int J, int n)
 	}
 	//printf("Matr without %d %d\n", I, J);
 	//prn_matr(buf, n-1);
-	return DET(buf, n-1);
+	Det_Minor = DET(buf, n-1);
+	free(buf);
+	return Det_Minor;
 }
 
 void TRANS(double *MINORS, int n)

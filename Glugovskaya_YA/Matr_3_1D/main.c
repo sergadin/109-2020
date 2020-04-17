@@ -68,7 +68,7 @@ int main(int argc,char **argv)
 	}
 	
 	prn_matr(a, n);
-	MATR_of_ADDITION(a, MINORS, n);
+	Matr_Dopolneni(a, MINORS, n);
 	TRANS(MINORS, n);
 	det = DET(a, n);
 	printf("Det: %lf\n", det);
