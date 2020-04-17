@@ -113,7 +113,32 @@ void diag(double *A, double *A_dop, int n, int *Error);
 void diag(double *A, double *A_dop, int n, int *Error)
 {
 	double *B, *B_dop;
-	if (n > 1)
+
+	for (int k = 0; k < (n - 1); k++)
+	{
+		*Error = 1;
+		for (int i = k; i < n; i++)
+		{
+			if (Abs(A[i * n]) >= eps)
+			{
+				*Error = 0;
+				A = swap(A, n, n, k, i);
+				A_dop = swap(A, n, n, k, i);
+				break;
+			}
+		}
+		if (*Error == 0)
+		{
+			for (int i = k + 1; i < n; i++)
+				for (int j = k; j < n; j++)
+				{
+					A = plus_str(A, n, n, i, k, -A[i * n + k] / A[k * n + k]);
+					A_dop = plus_str(A_dop, n, n, i, k, -A[i * n + k] / A[k * n + k]);
+				}
+		}
+	}
+
+	/*if (n > 1)
 	{
 		*Error = 1;
 		for (int i = 0; i < n; i++)
@@ -159,7 +184,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 			print_matrix(A, n, n);
 			printf("\n");
 		}
-	}
+	}*/
 }
 
 double *inverse(double *A, int n, int *Error);
