@@ -145,7 +145,6 @@ double *inverse(double *A, int n, ErrorCode *Error)
 	diag(A, A_dop, n, Error);
 	if (*Error == MATR_IS_SINGULAR)
 		return A_dop;
-	printf("r\n");
 	A = centr_sym(A, n);
 	A_dop = centr_sym(A_dop, n);
 	diag(A, A_dop, n, Error);
