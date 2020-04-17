@@ -1,3 +1,4 @@
+typedef enum { OK = 0, MATR_IS_SINGULAR } ErrorCode;
 #define eps 0.0000001
 
 double Abs(double x);
@@ -91,12 +92,12 @@ void diag(double *A, double *A_dop, int n, int *Error)
 	B = A, B_dop = A_dop;
 	for (int k = 0; k < (n - 1); k++)
 	{
-		*Error = 1;
+		*Error = MATR_IS_SINGULAR;
 		for (int i = k; i < n; i++)
 		{
 			if (Abs(A[i * n + k]) >= eps)
 			{
-				*Error = 0;
+				*Error = OK;
 				A_dop = swap(A_dop, n, n, k, i);
 				A = swap(A, n, n, k, i);
 
@@ -105,7 +106,7 @@ void diag(double *A, double *A_dop, int n, int *Error)
 				break;
 			}
 		}
-		if (*Error == 0)
+		if (*Error == OK)
 		{
 			for (int i = k + 1; i < n; i++)
 				for (int j = k; j < n; j++)
