@@ -112,6 +112,8 @@ double det(double **A, int n)
 			{
 				q = 0;
 				A = swap(A, n, n, k, i);
+				if (k != i)
+					det = -det;
 				break;
 			}
 		}
