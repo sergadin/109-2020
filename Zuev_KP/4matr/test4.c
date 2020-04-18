@@ -2,19 +2,20 @@
 #include <math.h>
 #include <stdlib.h>
 #include "clin.h"
-#define MAX(a, b) (((a) > (b))?(a):(b))
-#define MAX1(a, b, c) MAX(a, MAX(b, c))
-double modul(double x);
 
 int main(void)
 {
-	double e = 0.1, result = 0, current = 0;
-	double b[] = {2};
-
 	int i, j, n_rows = 3, n_cols = 4;
+	double current;
 	double **matrix2d = malloc(n_rows* sizeof(double));
-	FILE *input;
-	if((input = fopen("input.txt", "r")) == NULL)
+	double *x1;
+	FILE *input1;
+	int o[n_rows];
+	for ( i = 0; i < n_cols; i++ )
+	{
+		o[i] = i;
+	}
+	if((input1 = fopen("input1.txt", "r")) == NULL)
 	{
 		return -1;
 	}
@@ -26,12 +27,22 @@ int main(void)
 	{
 		for(int j = 0; j < n_cols; j ++)
 		{
-			fscanf(input, "%lf", &current);
+			fscanf(input1, "%lf", &current);
 			matrix2d[i][j] = current;
 		}
 	}
-	result = clin(matrix2d, n_rows, n_cols);
-	printf("%lf\n", result);
+	x1 = clin(matrix2d, n_rows, n_cols);
+	for ( i = 0; i < n_rows; i++ )
+	{
+		for ( j = 0; j < n_rows; j++ )
+		{
+			if ( i == o[j] )
+			{
+				printf( "%lf\n", x1[j] );
+				break;
+			}
+		}
+	}
 	for(int row = 0; row < n_rows; row ++)
 	{
 		free(matrix2d[row]);
@@ -40,10 +51,34 @@ int main(void)
 	return 0;
 }
 
-double modul(double x)
-{
-	if (x < 0)
-		return -x;
-	else 
-		return x;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

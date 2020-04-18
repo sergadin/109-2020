@@ -4,7 +4,7 @@ CFLAGS=-g
 all: do-test clean
 
 rank.o: rank.c rank.h
-#	gcc -c mini.c 
+#	gcc -c rank.c 
 
 testM.o: testM.c rank.h
 #	gcc -c testM.c 
@@ -15,5 +15,5 @@ a.out: testM.o rank.o
 do-test: a.out
 	./a.out 
 
-clean: testM.o mini.o
+clean: testM.o rank.o
 	rm testM.o rank.o 

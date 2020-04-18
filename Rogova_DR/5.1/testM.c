@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<math.h>
 #include"rank.h"
 #include<stdlib.h>
@@ -22,7 +23,7 @@ int main(void)
 		return -1;
 	for(int row = 0; row < nrow; row ++)
 	{
-		matrix[row] = malloc(nrow * sizeof(double));
+		matrix[row] = malloc(ncol * sizeof(double));
 	}
 
 
