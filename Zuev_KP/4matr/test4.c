@@ -2,17 +2,16 @@
 #include <math.h>
 #include <stdlib.h>
 #include "clin.h"
-#define MAX(a, b) (((a) > (b))?(a):(b))
-#define MAX1(a, b, c) MAX(a, MAX(b, c))
-double modul(double x);
 
 int main(void)
 {
-	double e = 0.1, result = 0, current = 0;
-	double b[] = {2};
-
 	int i, j, n_rows = 3, n_cols = 4;
+	double current;
 	double **matrix2d = malloc(n_rows* sizeof(double));
+	double *x;
+	int otv[n_rows];
+	for ( i = 0; i < n_cols; i++ )
+		otv[i] = i;
 	FILE *input;
 	if((input = fopen("input.txt", "r")) == NULL)
 	{
@@ -30,8 +29,16 @@ int main(void)
 			matrix2d[i][j] = current;
 		}
 	}
-	result = clin(matrix2d, n_rows, n_cols);
-	printf("%lf\n", result);
+
+	x = clin(matrix2d, n_rows, n_cols);
+	printf( "Ответ:\n" );
+	for ( i = 0; i < n_rows; i++ )
+		for ( j = 0; j < n_rows; j++ )
+			if ( i == otv[j] )
+			{
+				printf( "%f\n", x[j] );
+				break;
+			}
 	for(int row = 0; row < n_rows; row ++)
 	{
 		free(matrix2d[row]);
@@ -40,10 +47,34 @@ int main(void)
 	return 0;
 }
 
-double modul(double x)
-{
-	if (x < 0)
-		return -x;
-	else 
-		return x;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
