@@ -15,5 +15,5 @@ a.out: testM.o rank.o
 do-test: a.out
 	./a.out 
 
-clean: testM.o mini.o
+clean: testM.o rank.o
 	rm testM.o rank.o 

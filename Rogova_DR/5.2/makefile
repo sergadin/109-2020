@@ -7,13 +7,13 @@ obr.o: obr.c obr.h
 #	gcc -c obr.c 
 
 testm.o: testm.c obr.h
-#	gcc -c testM.c 
+#	gcc -c testm.c 
 
-a.out: testM.o rank.o
-	gcc testM.o rank.o -lm
+a.out: testm.o obr.o
+	gcc testm.o obr.o -lm
 
 do-test: a.out
 	./a.out 
 
-clean: testM.o mini.o
-	rm testM.o rank.o 
+clean: testm.o obr.o
+	rm testm.o obr.o 
