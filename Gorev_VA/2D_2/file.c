@@ -156,8 +156,7 @@ int main(void)
 	print_matrix(matr, M, N);
 	printf("\n");
 
-	det(matr, N);
-	print_matrix(matr, M, N);
+	printf("%g\n", det(matr, N));
 	printf("\n");
 
 	for (int i = 0; i < M; i++)
