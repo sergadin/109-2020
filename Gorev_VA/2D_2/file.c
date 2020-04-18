@@ -43,7 +43,7 @@ double **swap(double **matr, int m, int n, int i1, int i2)
 	}
 	A = (double**)malloc(m * sizeof(double));
 	for (int i = 0; i < m; i++)
-		A[i] = (double**)malloc(n * sizeof(double));
+		A[i] = (double*)malloc(n * sizeof(double));
 
 	for (int i = 0; i < i1; i++)
 		for (int j = 0; j < n; j++)
