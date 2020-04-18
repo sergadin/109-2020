@@ -12,7 +12,7 @@ double* obr(double *matr, int n, double *edmatr)
 	int i = -1;
 	int maxstr;
 	int stolb = n - 1;
-	while((q <= n - 1) && (i < n))
+	while((q < n - 1) && (i < n))
 	{
 		i ++;		
 		for(int j = (q + 1); j < n; j++)
@@ -29,7 +29,6 @@ double* obr(double *matr, int n, double *edmatr)
 					edmatr[EL(n, q, k)] = edmatr[EL(n, j, k)];
 					edmatr[EL(n, j, k)] = edmax11;
 
-					printf("\n%lf", edmatr[EL(n, j, k)]);
 				}
 			}
 		}
@@ -37,14 +36,11 @@ double* obr(double *matr, int n, double *edmatr)
 		{
 			for(int k = (q + 1); k < n; k++)
 			{
-				p =  matr[EL(n, k, i)]/matr[EL(n, q, i)];				
-				for(int t = i; t < n; t++)
-				{
-					matr[EL(n, k, t)] = matr[EL(n, k, t)] - p*matr[EL(n, q, t)];
-					edmatr[EL(n, k, t)] = edmatr[EL(n, k, t)] - p*edmatr[EL(n, q, t)];
-
-					
-					printf("\n%lf", edmatr[EL(n, k, t)]);
+				p =  matr[EL(n, k, i)]/matr[EL(n, q, i)];	
+				for(int t = 0; t < n; t++)
+				{ 
+					matr[EL(n, k, t)] = matr[EL(n, k, t)] - (p*matr[EL(n, q, t)]);
+					edmatr[EL(n, k, t)] = edmatr[EL(n, k, t)] - (p*edmatr[EL(n, q, t)]);
 				}
 				
 			}
@@ -58,14 +54,13 @@ double* obr(double *matr, int n, double *edmatr)
 	{
 		for(int j = i + 1; j >= 0; j--)
 		{
-			matr[EL(n, j, stolb)] = 0;
 			for(int k = n - 1; k >= 0; k --)
 			{
 			     edmatr[EL(n, j, k)] -= edmatr[EL(n, i, k)]*matr[EL(n, j, stolb)]/matr[EL(n, i, stolb)];
 
 			}
 		}
-	stolb --;
+	stolb--;
 	}
 	for(int i = 0; i < n; i++)
 	{

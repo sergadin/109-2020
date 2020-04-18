@@ -13,7 +13,7 @@ int main(void)
 	FILE *input1;
         FILE *input2;
         FILE *input3;
-	int n = 8;
+	int n = 2;
 	double el;
 	double eps1, eps2, eps3;
 
@@ -101,6 +101,7 @@ double sum_el_mproz(double * m1, double * m2, int n)
 			for(int k = 0; k < n; k++)
 			{
 				sum += m1[EL(n, i, k)]*m2[EL(n, k, j)];
+		
 			}
 
 		}
