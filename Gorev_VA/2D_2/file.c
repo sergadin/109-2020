@@ -62,57 +62,63 @@ double **swap(double **matr, int m, int n, int i1, int i2)
 	return A;
 }
 
-double *multiply(double *matr, int m, int n, int i1, double c);
-double *multiply(double *matr, int m, int n, int i1, double c)
+double **multiply(double **matr, int m, int n, int i1, double c);
+double **multiply(double **matr, int m, int n, int i1, double c)
 {
-	double *A;
-	A = (double*)malloc(m * n * sizeof(double));
+	double **A;
+	A = (double**)malloc(m * sizeof(double));
+	for (int i = 0; i < m; i++)
+		A[i] = (double*)malloc(n * sizeof(double));
+
 	for (int i = 0; i < i1; i++)
 		for (int j = 0; j < n; j++)
-			A[i * n + j] = matr[i * n + j];
+			A[i][j] = matr[i][j];
 	for (int j = 0; j < n; j++)
-		A[i1 * n + j] = c * matr[i1 * n + j];
+		A[i1][j] = c * matr[i1][j];
 	for (int i = i1 + 1; i < m; i++)
 		for (int j = 0; j < n; j++)
-			A[i * n + j] = matr[i * n + j];
+			A[i][j] = matr[i][j];
 	return A;
 }
 
-double *plus_str(double *matr, int m, int n, int i1, int i2, double c);
-double *plus_str(double *matr, int m, int n, int i1, int i2, double c)
+double **plus_str(double **matr, int m, int n, int i1, int i2, double c);
+double **plus_str(double **matr, int m, int n, int i1, int i2, double c)
 {
-	double *A;
-	A = (double*)malloc(m * n * sizeof(double));
+	double **A;
+	A = (double**)malloc(m * sizeof(double));
+	for (int i = 0; i < m; i++)
+		A[i] = (double*)malloc(n * sizeof(double));
+
 	for (int i = 0; i < i1; i++)
 		for (int j = 0; j < n; j++)
-			A[i * n + j] = matr[i * n + j];
+			A[i][j] = matr[i][j];
 	for (int j = 0; j < n; j++)
-		A[i1 * n + j] = matr[i1 * n + j] + c * matr[i2 * n + j];
+		A[i1][j] = matr[i1][j] + c * matr[i2][j];
 	for (int i = i1 + 1; i < m; i++)
 		for (int j = 0; j < n; j++)
-			A[i * n + j] = matr[i * n + j];
+			A[i][j] = matr[i][j];
 	return A;
 }
 
-void diag(double *A, double *A_dop, int n, ErrorCode *Error);
-void diag(double *A, double *A_dop, int n, ErrorCode *Error)
+void diag(double **A, double **A_dop, int n, ErrorCode *Error);
+void diag(double **A, double **A_dop, int n, ErrorCode *Error)
 {
-	/**Error = OK;
-	double *B, *B_dop;
+	*Error = OK;
+	double **B, **B_dop;
 	B = A, B_dop = A_dop;
 	for (int k = 0; k < (n - 1); k++)
 	{
 		*Error = MATR_IS_SINGULAR;
 		for (int i = k; i < n; i++)
 		{
-			if (Abs(A[i * n + k]) >= eps)
+			if (Abs(A[i][k]) >= eps)
 			{
 				*Error = OK;
 				A_dop = swap(A_dop, n, n, k, i);
 				A = swap(A, n, n, k, i);
 
-				A_dop = multiply(A_dop, n, n, k, 1.0 / A[k * n + k]);
-				A = multiply(A, n, n, k, 1.0 / A[k * n + k]);
+				A_dop = multiply(A_dop, n, n, k, 1.0 / A[k][k]);
+				A = multiply(A, n, n, k, 1.0 / A[k][k]);
 				break;
 			}
 		}
@@ -121,22 +127,22 @@ void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 			for (int i = k + 1; i < n; i++)
 				for (int j = k; j < n; j++)
 				{
-					A_dop = plus_str(A_dop, n, n, i, k, -A[i * n + k] / A[k * n + k]);
-					A = plus_str(A, n, n, i, k, -A[i * n + k] / A[k * n + k]);
+					A_dop = plus_str(A_dop, n, n, i, k, -A[i][k] / A[k][k]);
+					A = plus_str(A, n, n, i, k, -A[i][k] / A[k][k]);
 				}
 		}
 		else
 			break;
 	}
 	for (int k = 0; k < n; k++)
-		if (Abs(A[k * n + k]) < eps)
+		if (Abs(A[k][k]) < eps)
 			*Error = MATR_IS_SINGULAR;
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 		{
-			B_dop[i * n + j] = A_dop[i * n + j];
-			B[i * n + j] = A[i * n + j];
-		}*/
+			B_dop[i][j] = A_dop[i][j];
+			B[i][j] = A[i][j];
+		}
 }
 
 void print_matrix(double **matr, int m, int n);
@@ -152,21 +158,35 @@ void print_matrix(double **matr, int m, int n)
 
 int main(void)
 {
-	double **matr;
-	int N = 2, M = 3;
+	double **matr, **MATR;
+	int N = 3, M = 3;
+	ErrorCode *Error;
+	Error = (ErrorCode*)malloc(sizeof(ErrorCode));
 	matr = (double**)malloc(M * sizeof(double));
 	for (int i = 0; i < M; i++)
 		matr[i] = (double*)malloc(N * sizeof(double));
 	for (int i = 0; i < M; i++)
 		for (int j = 0; j < N; j++)
 			matr[i][j] = i * N + j;
+	MATR = (double**)malloc(M * sizeof(double));
+	for (int i = 0; i < M; i++)
+		MATR[i] = (double*)malloc(N * sizeof(double));
+	for (int i = 0; i < M; i++)
+		for (int j = 0; j < N; j++)
+			MATR[i][j] = i * N + j;
+
 	print_matrix(matr, M, N);
 	printf("\n");
-	matr = swap(matr, M, N, 0, 2);
-	print_matrix(matr, M, N);
-	printf("\n");
-	matr = centr_sym(matr, N);
-	print_matrix(matr, M, N);
-	printf("\n");
+
+	diag(matr, MATR, N, Error);
+	free(Error);
+	for (int i = 0; i < M; i++)
+	{
+		free(matr[i]);
+		free(MATR[i]);
+	}
+	free(matr);
+	free(MATR);
+
 	return 0;
 }
