@@ -152,7 +152,7 @@ int main(void)
 	for (int i = 0; i < M; i++)
 		for (int j = 0; j < N; j++)
 			matr[i][j] = i * N + j;
-
+	matr[2][2] += 1.0;
 	print_matrix(matr, M, N);
 	printf("\n");
 
