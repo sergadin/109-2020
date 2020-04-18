@@ -169,7 +169,7 @@ double **M1(int n)
 		M[i] = (double*)malloc(n * sizeof(double));
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
-			M[i] = i * n + j;
+			M[i][j] = i * n + j;
 	return M;
 }
 
@@ -195,22 +195,22 @@ int main(void)
 	double **matr;
 	int N = 4;
 
-	matr = E(N);
-	printf("A =\n")
+	matr = Identity(N);
+	printf("A =\n");
 	print_matrix(matr, N, N);
 	printf("\n");
 	printf("|A| = %g\n", det(matr, N));
 	printf("\n");
 
 	matr = M1(N);
-	printf("A =\n")
+	printf("A =\n");
 		print_matrix(matr, N, N);
 	printf("\n");
 	printf("|A| = %g\n", det(matr, N));
 	printf("\n");
 
 	matr = M2(N);
-	printf("A =\n")
+	printf("A =\n");
 		print_matrix(matr, N, N);
 	printf("\n");
 	printf("|A| = %g\n", det(matr, N));
