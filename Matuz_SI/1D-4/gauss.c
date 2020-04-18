@@ -34,12 +34,11 @@ void find_answer(int n, double *data, double *x)
 
     for(int i = 0; i < n; i++)
     {
-        //Partial Pivoting
         for(int k = i + 1; k < n; k++)
         {
             //printf("%lf %lf\n", fabs(matrix[i*(n + 1) + i]), fabs(matrix[k*(n + 1) + i]));
             if(fabs(matrix[i*(n + 1) + i]) < fabs(matrix[k*(n + 1) + i])){
-                //Swap the rows
+                //swap the rows
                 for(int j = 0; j < n + 1; j++){
                     double temp;
                     temp = matrix[i*(n + 1) + j];
