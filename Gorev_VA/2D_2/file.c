@@ -179,6 +179,9 @@ int main(void)
 	printf("\n");
 
 	diag(matr, MATR, N, Error);
+	print_matrix(matr, M, N);
+	printf("\n");
+
 	free(Error);
 	for (int i = 0; i < M; i++)
 	{
