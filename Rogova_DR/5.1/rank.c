@@ -22,7 +22,7 @@ double frank(double **matr, int n, int m)
 				matr[j] = maxa11;
 			}
 		}
-		if(matr[q][i] != 0)
+		if(fabs(matr[q][i]) > 0.00001)
 		{
 			for(int k = (q + 1); k < n; k++)
 			{

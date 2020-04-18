@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include"obr.h"
+#include<math.h>
 #define EL(ncol, row, col)\
 	((ncol)*(row) + (col))
 
@@ -32,7 +33,7 @@ double* obr(double *matr, int n, double *edmatr)
 				}
 			}
 		}
-		if(matr[EL(n, q, i)] != 0)
+		if(fabs(matr[EL(n, q, i)]) > 0.00001)
 		{
 			for(int k = (q + 1); k < n; k++)
 			{
