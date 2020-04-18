@@ -116,9 +116,6 @@ void diag(double **A, double **A_dop, int n, ErrorCode *Error)
 				*Error = OK;
 				A_dop = swap(A_dop, n, n, k, i);
 				A = swap(A, n, n, k, i);
-
-				A_dop = multiply(A_dop, n, n, k, 1.0 / A[k][k]);
-				A = multiply(A, n, n, k, 1.0 / A[k][k]);
 				break;
 			}
 		}
@@ -185,8 +182,7 @@ int main(void)
 	free(Error);
 	for (int i = 0; i < M; i++)
 	{
-		free(matr[i]);
-		free(MATR[i]);
+		free(matr[i], MATR[i]);
 	}
 	free(matr);
 	free(MATR);
