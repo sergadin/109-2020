@@ -3,10 +3,10 @@ CFLAGS=-g
 
 all: do-test clean
 
-rank.o: rank.c rank.h
-#	gcc -c rank.c 
+obr.o: obr.c obr.h
+#	gcc -c obr.c 
 
-testM.o: testM.c rank.h
+testm.o: testm.c obr.h
 #	gcc -c testM.c 
 
 a.out: testM.o rank.o
