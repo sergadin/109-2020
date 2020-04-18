@@ -182,7 +182,8 @@ int main(void)
 	free(Error);
 	for (int i = 0; i < M; i++)
 	{
-		free(matr[i], MATR[i]);
+		free(matr[i]);
+		free(MATR[i]);
 	}
 	free(matr);
 	free(MATR);
