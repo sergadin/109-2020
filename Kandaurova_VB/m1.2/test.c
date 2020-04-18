@@ -5,7 +5,7 @@
 int main(void) {
 	FILE *input;
 	int n = 8;
-	double ans, el, true = 1;
+	double ans, el, true = 2;
 	double *matrix = (double *)malloc(n * n *  sizeof(double));
 	if((input = fopen("input.txt", "r")) == NULL) {
         printf("Не удалось открыть файл\n");
