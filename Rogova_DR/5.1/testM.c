@@ -23,7 +23,7 @@ int main(void)
 		return -1;
 	for(int row = 0; row < nrow; row ++)
 	{
-		matrix[row] = malloc(nrow * sizeof(double));
+		matrix[row] = malloc(ncol * sizeof(double));
 	}
 
 

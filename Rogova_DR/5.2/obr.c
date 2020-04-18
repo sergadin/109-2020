@@ -1,14 +1,12 @@
-
 #include<stdio.h>
-#include"rank.h"
+#include"obr.h"
 #define EL(ncol, row, col)\
-	([(ncol)*(row) + (col)])
+	((ncol)*(row) + (col))
 
-double * obr(double *matr, int n, double *edmatr)
+double* obr(double *matr, int n, double *edmatr)
 {
 	double maxa11, edmax11;
 	double p = 0;
-	double edp = 0;
 	int cstr = 0, cel = 0;
 	int q = 0;
 	int i = -1;
@@ -21,15 +19,17 @@ double * obr(double *matr, int n, double *edmatr)
 		{
 			if(matr[EL(n, j, i)] > matr[EL(n, q, i)])
 			{
-				for(int k = 0; k < n, k ++)
+				for(int k = 0; k < n; k ++)
 				{
 					maxa11 = matr[EL(n, q, k)];
 					matr[EL(n, q, k)] = matr[EL(n, j, k)];
 					matr[EL(n, j, k)] = maxa11;
 
-					edmaxa11 = edmatr[EL(n, q, k)];
+					edmax11 = edmatr[EL(n, q, k)];
 					edmatr[EL(n, q, k)] = edmatr[EL(n, j, k)];
-					edmatr[EL(n, j, k)] = edmaxa11;
+					edmatr[EL(n, j, k)] = edmax11;
+
+					printf("\n%lf", edmatr[EL(n, j, k)]);
 				}
 			}
 		}
@@ -38,11 +38,13 @@ double * obr(double *matr, int n, double *edmatr)
 			for(int k = (q + 1); k < n; k++)
 			{
 				p =  matr[EL(n, k, i)]/matr[EL(n, q, i)];				
-				edp =  edmatr[EL(n, k, i)]/edmatr[EL(n, q, i)];
 				for(int t = i; t < n; t++)
 				{
 					matr[EL(n, k, t)] = matr[EL(n, k, t)] - p*matr[EL(n, q, t)];
-					edmatr[EL(n, k, t)] = edmatr[EL(n, k, t)] - edp*edmatr[EL(n, q, t)];
+					edmatr[EL(n, k, t)] = edmatr[EL(n, k, t)] - p*edmatr[EL(n, q, t)];
+
+					
+					printf("\n%lf", edmatr[EL(n, k, t)]);
 				}
 				
 			}

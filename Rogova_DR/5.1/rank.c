@@ -8,11 +8,10 @@ double frank(double **matr, int n, int m)
 	double p = 0;
 	int cstr = 0, cel = 0;
 	int q = 0;
-	int i = -1;
+	int i = 0;
 	int maxstr;
-	while((q <= n - 1) && (i < m))
-	{
-		i ++;		
+	while((q < n - 1) && (i < m - 1))
+	{		
 		for(int j = (q + 1); j < n; j++)
 		{
 			if(matr[j][i] > matr[q][i])
@@ -36,7 +35,7 @@ double frank(double **matr, int n, int m)
 			}
 			q = q + 1;
 		}
-		
+	i++;	
 	}
 	for(int i = 0; i < n; i++)
 	{
