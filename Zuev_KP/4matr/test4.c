@@ -9,10 +9,12 @@ int main(void)
 	double current;
 	double **matrix2d = malloc(n_rows* sizeof(double));
 	double *x;
+	FILE *input;
 	int otv[n_rows];
 	for ( i = 0; i < n_cols; i++ )
+{
 		otv[i] = i;
-	FILE *input;
+}
 	if((input = fopen("input.txt", "r")) == NULL)
 	{
 		return -1;
@@ -29,14 +31,13 @@ int main(void)
 			matrix2d[i][j] = current;
 		}
 	}
-
 	x = clin(matrix2d, n_rows, n_cols);
 	printf( "Ответ:\n" );
 	for ( i = 0; i < n_rows; i++ )
 		for ( j = 0; j < n_rows; j++ )
 			if ( i == otv[j] )
 			{
-				printf( "%f\n", x[j] );
+				printf( "%lf\n", x[j] );
 				break;
 			}
 	for(int row = 0; row < n_rows; row ++)

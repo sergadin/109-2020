@@ -20,12 +20,20 @@ double* clin(double **matrix2d, int n_rows, int n_cols)
 		for ( i = k + 1; i < n; i++ )
 			for ( j = n; j >= k; j-- )
 				matrix2d[i] [j] -= matrix2d[k] [j] * matrix2d[i] [k];
+
 	}
 	for ( i = 0; i < n; i++ )
+{
+printf( "%d\n", i );
 		x[i] = matrix2d[i] [n];
+					
+}
 	for ( i = n - 2; i >= 0; i-- )
 		for ( j = i + 1; j < n; j++ )
+{
 			x[i] -= x[j] * matrix2d[i] [j];
+
+}
 	return x;
 }
 
