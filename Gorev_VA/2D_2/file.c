@@ -144,7 +144,7 @@ void print_matrix(double **matr, int m, int n)
 
 int main(void)
 {
-	double **matr, **MATR;
+	double **matr;
 	int N = 3, M = 3;
 	matr = (double**)malloc(M * sizeof(double));
 	for (int i = 0; i < M; i++)
@@ -152,27 +152,16 @@ int main(void)
 	for (int i = 0; i < M; i++)
 		for (int j = 0; j < N; j++)
 			matr[i][j] = i * N + j;
-	MATR = (double**)malloc(M * sizeof(double));
-	for (int i = 0; i < M; i++)
-		MATR[i] = (double*)malloc(N * sizeof(double));
-	for (int i = 0; i < M; i++)
-		for (int j = 0; j < N; j++)
-			MATR[i][j] = i * N + j;
 
 	print_matrix(matr, M, N);
 	printf("\n");
 
-	diag(matr, MATR, N, Error);
+	det(matr, N);
 	print_matrix(matr, M, N);
 	printf("\n");
 
 	for (int i = 0; i < M; i++)
-	{
 		free(matr[i]);
-		free(MATR[i]);
-	}
 	free(matr);
-	free(MATR);
-
 	return 0;
 }
