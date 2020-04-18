@@ -4,41 +4,31 @@
 #include"clin.h"
 static double modul(double x);
 
-double* clin(double **matrix2d, int n_rows, int n_cols)
+double* clin(double **mas, int n_rows, int n_cols)
 {
-	int k, n, j, i;
-	double *x;
-	n = n_rows;
-	for ( k = 0; k < n; k++ )
+	int k, j, i;
+	double *x = malloc(n_rows* sizeof(double));
+	for ( k = 0; k < n_rows; k++ )
 	{
-		if (modul(matrix2d[k] [k]) < 0.0001 )
+		if ( modul( mas[k] [k] ) < 0.0001 )
 		{
-			printf( "infinity" );
+			printf( "infinity");
 			return 0;
 		}
-		for ( j = n; j >= k; j-- )
-			matrix2d[k] [j] = matrix2d[k] [j] / matrix2d[k] [k];
-		for ( i = k+1; i < n; i++ )
-		{
-			for ( j = n; j >= k; j--)
-			{
-			matrix2d[i] [j] = matrix2d[i] [j]-matrix2d[k] [j] * matrix2d[i] [k];
-			}
-		}	
+		for ( j = n_rows; j >= k; j-- )
+			mas[k] [j] /= mas[k] [k];
+		for ( i = k + 1; i < n_rows; i++ )
+			for ( j = n_rows; j >= k; j-- )
+				mas[i] [j] -= mas[k] [j] * mas[i] [k];
 	}
-	for ( i = 1; i < n; i++)
+	for ( i = 0; i < n_rows; i++ )
 	{
-		x[i] = matrix2d[i][n];
+		x[i] = mas[i] [n_rows];
 	}
-	x[0] = matrix2d[0][n];
-	for ( i = n - 2; i >= 0; i-- )
-	{	
-		for ( j = i + 1; j < n; j++ )
-		{
-			x[i] = x[i]-x[j] * matrix2d[i] [j];
-
-		}
-	}
+	for ( i = n_rows - 2; i >= 0; i-- )
+		for ( j = i + 1; j < n_rows; j++ )
+			x[i] -= x[j] * mas[i] [j];
+	free(x);
 	return x;
 }
 
