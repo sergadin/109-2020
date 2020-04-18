@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef enum { OK = 0, MATR_IS_SINGULAR } ErrorCode;
 #define eps 0.0000001
 
 double Abs(double x);
@@ -100,46 +98,37 @@ double **plus_str(double **matr, int m, int n, int i1, int i2, double c)
 	return A;
 }
 
-void diag(double **A, double **A_dop, int n, ErrorCode *Error);
-void diag(double **A, double **A_dop, int n, ErrorCode *Error)
+double det(double **A, int n);
+double det(double **A, int n)
 {
-	*Error = OK;
-	double **B, **B_dop;
-	B = A, B_dop = A_dop;
+	int q = 0;
+	double det = 1.0;
 	for (int k = 0; k < (n - 1); k++)
 	{
-		*Error = MATR_IS_SINGULAR;
+		q = 1;
 		for (int i = k; i < n; i++)
 		{
 			if (Abs(A[i][k]) >= eps)
 			{
-				*Error = OK;
-				A_dop = swap(A_dop, n, n, k, i);
+				q = 0;
 				A = swap(A, n, n, k, i);
 				break;
 			}
 		}
-		if (*Error == OK)
+		if (q == 0)
 		{
 			for (int i = k + 1; i < n; i++)
 				for (int j = k; j < n; j++)
 				{
-					A_dop = plus_str(A_dop, n, n, i, k, -A[i][k] / A[k][k]);
 					A = plus_str(A, n, n, i, k, -A[i][k] / A[k][k]);
 				}
 		}
 		else
-			break;
+			return 0.0;
 	}
 	for (int k = 0; k < n; k++)
-		if (Abs(A[k][k]) < eps)
-			*Error = MATR_IS_SINGULAR;
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-		{
-			B_dop[i][j] = A_dop[i][j];
-			B[i][j] = A[i][j];
-		}
+		det *= A[k][k];
+	return det;
 }
 
 void print_matrix(double **matr, int m, int n);
