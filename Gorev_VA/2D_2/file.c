@@ -146,8 +146,6 @@ int main(void)
 {
 	double **matr, **MATR;
 	int N = 3, M = 3;
-	ErrorCode *Error;
-	Error = (ErrorCode*)malloc(sizeof(ErrorCode));
 	matr = (double**)malloc(M * sizeof(double));
 	for (int i = 0; i < M; i++)
 		matr[i] = (double*)malloc(N * sizeof(double));
@@ -168,7 +166,6 @@ int main(void)
 	print_matrix(matr, M, N);
 	printf("\n");
 
-	free(Error);
 	for (int i = 0; i < M; i++)
 	{
 		free(matr[i]);
