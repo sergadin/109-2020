@@ -64,7 +64,7 @@ int main (void)
             }
             
         }
-        if(fabs(x - answers[i]) <= eps)
+        if(fabs(x - answers[i]) <= eps*f_max(1, x, answers[i]))
         {
             printf("function #%d I=%lf answer is correct\niterations: %d\n", i+1, x, iter);
             correct++;
@@ -86,7 +86,7 @@ int main (void)
             }
             
         }
-        if(fabs(x - 2*pow(10, 10)) <= eps)
+        if(fabs(x - 2*pow(10, 10)) <= eps*f_max(1, x, 2*1e11))
         {
             printf("function 10^10 + sin(x) -1<=x<=1 I=%lf answer is correct\niterations: %d\n", x, iter);
             correct++;
