@@ -13,7 +13,7 @@ double rank(double **mas, int n_rows, int n_cols)
 		{
 			d = mas[k][k]; 
 			if (d == 0)
-				d = 1;
+				break;
 			s = mas[i][k] / d;
 			for (j = 0; j < n_cols; j ++)
 			{
@@ -27,7 +27,7 @@ double rank(double **mas, int n_rows, int n_cols)
 		{
 			d = mas[k][i]; 
 			if (d == 0)
-				d = 1;
+				break;
 			mas[k-1][i] -= mas[k][i]*mas[k-1][i]/d;
 		}
 	}
