@@ -11,7 +11,7 @@ double* clin(double **mas, int n_rows, int n_cols)
 	double *x = malloc(n_rows* sizeof(double));
 	for ( k = 0; k < n_rows; k++ )
 	{	
-		void glavelem( int k, double **mas, int n_rows);
+		glavelem(k, mas, n_rows);
 		if ( modul( mas[k] [k] ) < 0.0001 )
 		{
 			printf( "infinity");
@@ -29,8 +29,9 @@ double* clin(double **mas, int n_rows, int n_cols)
 	}
 	for ( i = n_rows - 2; i >= 0; i-- )
 		for ( j = i + 1; j < n_rows; j++ )
+		{
 			x[i] -= x[j] * mas[i] [j];
-	free(x);
+		}
 	return x;
 }
 
