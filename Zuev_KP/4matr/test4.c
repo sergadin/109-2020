@@ -14,9 +14,6 @@ int main(void)
 	double *x1 = malloc(n_rows* sizeof(double));
 	double b[] = {0, -1, 2};
 	FILE *input1;
-	int o[n_rows];
-	for ( i = 0; i < n_rows; i++ )
-		o[i] = i;
 	if((input1 = fopen("input1.txt", "r")) == NULL)
 	{
 		return -1;
@@ -35,16 +32,7 @@ int main(void)
 	}
 	x1 = clin(mas, n_rows, n_cols);
 	for ( i = 0; i < n_rows; i++ )
-	{
-		for ( j = 0; j < n_rows; j++ )
-		{
-			if ( i == o[j] )
-			{
-				printf( "%lf\n", x1[j] );
-				break;
-			}
-		}
-	}
+		printf( "%lf\n", x1[i] );
 	for(i = 0; i < n_rows; i++)
 	{
 		if (modul(x1[i] - b[i]) < e*MAX1(x1[i], b[i], 1))
@@ -64,6 +52,7 @@ int main(void)
 	free(mas);
 	return 0;
 }
+
 
 double modul(double x)
 {
