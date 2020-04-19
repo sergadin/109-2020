@@ -21,4 +21,5 @@ int main(void) {
 	ans = dete(matrix, n);
 	printf("answer: %lf\ntrue answer: %lf\n", ans, true);
 	free(matrix);
+    fclose(input);
 }
