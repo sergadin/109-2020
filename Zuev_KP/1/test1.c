@@ -10,7 +10,7 @@ int main(void)
 {
 	int i, j, n_rows = 3, n_cols = 5;
 	double current, e = 0.1;
-	double **mas = malloc(n_rows* sizeof(double));
+	double *mas = malloc(n_rows*n_cols* sizeof(double));
 	double result;
 	double b[] = {2};
 	FILE *input1;
@@ -18,17 +18,10 @@ int main(void)
 	{
 		return -1;
 	}
-	for(int row = 0; row < n_rows; row++)
+	for(i = 0; i < n_rows*n_cols ; i ++)
 	{
-		mas[row] = malloc(n_cols* sizeof(double));
-	}
-	for(i = 0; i < n_rows ; i ++)
-	{
-		for(j = 0; j < n_cols; j ++)
-		{
-			fscanf(input1, "%lf", &current);
-			mas[i][j] = current;
-		}
+		fscanf(input1, "%lf", &current);
+		mas[i] = current;
 	}
 	result = rank(mas, n_rows, n_cols);
 		printf( "%lf\n", result);
@@ -42,10 +35,6 @@ int main(void)
 		{
 			printf("не пройден\n");
 		}
-	}
-	for(int row = 0; row < n_rows; row ++)
-	{
-		free(mas[row]);
 	}
 	free(mas);
 	return 0;

@@ -2,8 +2,10 @@
 #include"stdlib.h"
 #include"math.h"
 #include"rank.h"
+#define EL(m, n_cols, row, col) \
+    ((m)[(n_cols) * (row) + col])
 
-double rank(double **mas, int n_rows, int n_cols)
+double rank(double *mas, int n_rows, int n_cols)
 {
 	int k, j, i;
 	double r = n_rows, t = 0, s = 0, d = 0;
@@ -11,13 +13,13 @@ double rank(double **mas, int n_rows, int n_cols)
 	{
 		for (i = k + 1; i < n_rows; i ++)
 		{
-			d = mas[k][k]; 
+			d = EL(mas, n_cols, k, k); 
 			if (d == 0)
 				break;
-			s = mas[i][k] / d;
+			s = EL(mas, n_cols, i, k)/d;
 			for (j = 0; j < n_cols; j ++)
 			{
-				mas[i][j] -= mas[k][j] * s;
+				EL(mas, n_cols, i, j) -= EL(mas, n_cols, k, j) * s;
 			}
 		}
 	}
@@ -25,10 +27,10 @@ double rank(double **mas, int n_rows, int n_cols)
 	{
 		for (i = n_cols-1; i >= 0; i --)
 		{
-			d = mas[k][i]; 
+			d = EL(mas, n_cols, k, i); 
 			if (d == 0)
 				break;
-			mas[k-1][i] -= mas[k][i]*mas[k-1][i]/d;
+			EL(mas, n_cols, k-1, i) -= EL(mas, n_cols, k, i)*EL(mas, n_cols, k-1, i)/d;
 		}
 	}
 	for(i = 0; i < n_rows; i++)
@@ -36,7 +38,7 @@ double rank(double **mas, int n_rows, int n_cols)
 		t=0;
 		for(j = 0; j < n_cols; j++)
 		{
-			if(mas[i][j] == 0)
+			if(EL(mas, n_cols, i, j) == 0)
 			{
 				t=t+1;
 			}
