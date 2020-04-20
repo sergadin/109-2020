@@ -70,4 +70,7 @@ int main(void)
 		free(matrix[row]);
 	}
 	free(matrix);
+	fclose(input1);
+	fclose(input2);
+	fclose(input3);
 }

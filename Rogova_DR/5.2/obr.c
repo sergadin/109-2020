@@ -5,11 +5,11 @@
 #define EL(ncol, col, row)\
 	((ncol)*(row) + (col))
 
-double* obr(double *matr, int n, double * edmatr, double * NUL)
+void obr(double *matr, int n, double * edmatr, double * NUL)
 {
 	int k, j, i;
 	double c;
-	for (k = 0; k < n; k++)
+	for (k = 0; k < n - 1; k++)
 	{
 		for(int m = k; m < n; m ++)
 		{
@@ -28,39 +28,51 @@ double* obr(double *matr, int n, double * edmatr, double * NUL)
 			}
 		}
 
-		if(fabs(matr[EL(n, k, k)]) < 0.0001)
+		if(fabs(matr[EL(n, k, k)]) > 0.0001)
 		{
-			return NUL;
-		}
-		for(j = n; j >= k; j--)
-		{
-			c = matr[EL(n, k, k)];
-			matr[EL(n, k, j)] /= c;
-			edmatr[EL(n, k, j)] /= c;
-		}
-		for(i = k + 1; i < n; i++)
-			for(j = n - 1; j >= k; j--)
+		
+			for(j = n - 1; j >= 0; j--)
 			{
-				c = matr[EL(n, i, k)];
-				matr[EL(n, i, j)] -= matr[EL(n, k, j)] * c;
-				edmatr[EL(n, i, j)] -= edmatr[EL(n, k, j)] * c;
+				c = matr[EL(n, k, k)];
+				matr[EL(n, k, j)] /= c;
+				edmatr[EL(n, k, j)] /= c;
 			}
-				
+			for(i = k + 1; i < n; i++)
+			
+				for(j = n - 1; j >= 0; j--)
+				{
+					c = matr[EL(n, i, k)];
+					matr[EL(n, i, j)] -= matr[EL(n, k, j)] * c;
+					edmatr[EL(n, i, j)] -= edmatr[EL(n, k, j)] * c;
+				}
+		}		
 
 	}
 
-		for(i = 0; i < n; i++)
+	for(i = 0; i < n; i++)
+	{
+		for(j = 0; j < n; j++)
 		{
-			for(j = 0; j < n; j++)
-			{
-				c = matr[EL(n, i, i)];
-				matr[EL(n, i, j)] /= c;
-				edmatr[EL(n, i, j)] /= c;
-			}
+			c = matr[EL(n, i, i)];
+			matr[EL(n, i, j)] /= c;
+			edmatr[EL(n, i, j)] /= c;
 		}
-				
+	}
+	
+	for(i = n - 1; i >= 0; i --)
+	{
+		for(j = 0; j < i; j++)
+		{
+			for(k = 0; k < n; k ++)
+			{
+				c = matr[EL(n, j, i)];
+				matr[EL(n, j, k)] -= matr[EL(n, i, k)]*c;
+				edmatr[EL(n, j, k)] -= edmatr[EL(n, i, k)]*c;
+			}
 
-	return edmatr;
+		}
+	}
+				
 }
 
 

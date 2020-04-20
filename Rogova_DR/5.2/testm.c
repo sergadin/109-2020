@@ -16,7 +16,6 @@ int main(void)
 	double * NUL = malloc(n * n * sizeof(double));
 	double * matrix = malloc(n * n  * sizeof(double ));
 	double * edmatrix = malloc(n * n  * sizeof(double ));
-	double * postedmatrix = malloc(n * n  * sizeof(double ));
 
 	if((input1 = fopen("input1.txt", "r")) == NULL)
 		return -1;
@@ -51,8 +50,7 @@ int main(void)
 				edmatrix[EL(n, i, j)] = 0;
 		}
         }
-	postedmatrix = edmatrix;
-        edmatrix = obr(matrix, n, edmatrix, NUL);
+        obr(matrix, n, edmatrix, NUL);
 	for(int i = 0; i < n; i ++)
 	{
 		for(int j = 0; j < n; j ++)
@@ -66,14 +64,23 @@ int main(void)
 	{
 		for(int j = 0; j < n; j ++)
 		{
+			if(i == j)
+				edmatrix[EL(n, i, j)] = 1;
+			else
+				edmatrix[EL(n, i, j)] = 0;
+		}
+        }
+	for(int i = 0; i < n; i ++)
+	{
+		for(int j = 0; j < n; j ++)
+		{
 			if(fscanf(input2, "%lf", &el) != 1)
 				return -1;
 			matrix[EL(n, i, j)] = el;
 			printf("\n%lf\n", matrix[EL(n, i, j)]);
 		}
 	}
-	edmatrix = postedmatrix;
-	edmatrix = obr(matrix, n, edmatrix, NUL);
+	obr(matrix, n, edmatrix, NUL);
 	for(int i = 0; i < n; i ++)
 	{
 		for(int j = 0; j < n; j ++)
@@ -93,8 +100,18 @@ int main(void)
 			printf("\n%lf\n", matrix[EL(n, i, j)]);
 		}
 	}
-	edmatrix = postedmatrix;
-	edmatrix = obr(matrix, n, edmatrix, NUL);
+	
+	for(int i = 0; i < n; i ++)
+	{
+		for(int j = 0; j < n; j ++)
+		{
+			if(i == j)
+				edmatrix[EL(n, i, j)] = 1;
+			else
+				edmatrix[EL(n, i, j)] = 0;
+		}
+        }
+	obr(matrix, n, edmatrix, NUL);
 	for(int i = 0; i < n; i ++)
 	{
 		for(int j = 0; j < n; j ++)
@@ -104,6 +121,17 @@ int main(void)
 		}
 	}
 
+	for(int i = 0; i < n; i ++)
+	{
+		for(int j = 0; j < n; j ++)
+		{
+			if(i == j)
+				edmatrix[EL(n, i, j)] = 1;
+			else
+				edmatrix[EL(n, i, j)] = 0;
+		}
+        }
+	free(edmatrix);
 	free(matrix);
 	free(NUL);
 
