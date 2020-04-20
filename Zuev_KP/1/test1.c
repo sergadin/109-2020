@@ -5,7 +5,7 @@
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 double modul(double x);
-//2 -1 3 -2 4 4 -2 5 1 7 2 -1 1 8 2
+
 int main(void)
 {
 	int i, j, n_rows = 3, n_cols = 5;
