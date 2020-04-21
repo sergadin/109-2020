@@ -50,6 +50,7 @@ int main(void)
 	}
 	free(x1);
 	free(mas);
+	fclose(input1);
 	return 0;
 }
 
