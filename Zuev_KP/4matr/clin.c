@@ -5,7 +5,8 @@
 static double modul(double x);
 static void glavelem(int k, double **mas, int n_rows);
 
-double* clin(double **mas, int n_rows, int n_cols)       //подается массив, количество строк и столбцоы. В inpute каждый n_cols-1 элемент-свободный член
+double* clin(double **mas, int n_rows, int n_cols)       //подается массив, количество строк и столбцов. 
+                                                         //В inpute каждый n_cols-1 элемент-свободный член
 {
 	int k, j, i; 
 	double *x = malloc(n_rows* sizeof(double));
