@@ -8,7 +8,7 @@ double modul(double x);
 
 int main(void)
 {
-	int i, j, n_rows = 3, n_cols = 4;
+	int row, i, j, n_rows = 3, n_cols = 4;
 	double current, e = 0.1;
 	double **mas = malloc(n_rows* sizeof(double));
 	double *x1 = malloc(n_rows* sizeof(double));
@@ -18,7 +18,7 @@ int main(void)
 	{
 		return -1;
 	}
-	for(int row = 0; row < n_rows; row++)
+	for(row = 0; row < n_rows; row++)
 	{
 		mas[row] = malloc(n_cols* sizeof(double));
 	}
@@ -44,7 +44,7 @@ int main(void)
 			printf("не пройден\n");
 		}
 	}
-	for(int row = 0; row < n_rows; row ++)
+	for(row = 0; row < n_rows; row ++)
 	{
 		free(mas[row]);
 	}

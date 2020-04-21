@@ -33,7 +33,7 @@ double* clin(double **mas, int n_rows, int n_cols)       //подается ма
 		{
 			x[i] -= x[j] * mas[i] [j];
 		}
-	return x;                                        //возвращаем корни уравнения
+	return x; 	                                      //возвращаем корни уравнения
 }
 
 static double modul(double x)
