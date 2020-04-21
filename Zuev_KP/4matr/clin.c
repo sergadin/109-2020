@@ -5,13 +5,13 @@
 static double modul(double x);
 static void glavelem(int k, double **mas, int n_rows);
 
-double* clin(double **mas, int n_rows, int n_cols)
+double* clin(double **mas, int n_rows, int n_cols)       //подается массив, количество строк и столбцоы. В inpute каждый n_cols-1 элемент-свободный член
 {
-	int k, j, i;
+	int k, j, i; 
 	double *x = malloc(n_rows* sizeof(double));
-	for ( k = 0; k < n_rows; k++ )
-	{	
-		glavelem(k, mas, n_rows);
+	for ( k = 0; k < n_rows; k++ )                   //метод Гаусса
+	{	         
+		glavelem(k, mas, n_rows);                //ищет наибольший элемент и меняет строки и столбцы местами              
 		if ( modul( mas[k] [k] ) < 0.0001 )
 		{
 			printf( "infinity");
@@ -23,7 +23,7 @@ double* clin(double **mas, int n_rows, int n_cols)
 			for ( j = n_rows; j >= k; j-- )
 				mas[i] [j] -= mas[k] [j] * mas[i] [k];
 	}
-	for ( i = 0; i < n_rows; i++ )
+	for ( i = 0; i < n_rows; i++ )                    //обратный ход метода Гаусса (поиск корней)
 	{
 		x[i] = mas[i] [n_rows];
 	}
@@ -32,7 +32,7 @@ double* clin(double **mas, int n_rows, int n_cols)
 		{
 			x[i] -= x[j] * mas[i] [j];
 		}
-	return x;
+	return x;                                        //возвращаем корни уравнения
 }
 
 static double modul(double x)
