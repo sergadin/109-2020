@@ -4,6 +4,7 @@
 #include"rank.h"
 #define EL(m, n_cols, row, col) \
     ((m)[(n_cols) * (row) + col])
+static double modul(double x);
 
 double rank(double *mas, int n_rows, int n_cols)
 {
@@ -14,7 +15,7 @@ double rank(double *mas, int n_rows, int n_cols)
 		for (i = k + 1; i < n_rows; i ++)
 		{
 			d = EL(mas, n_cols, k, k); 
-			if (d == 0)
+			if (modul(d) < 0.000001)
 				break;
 			s = EL(mas, n_cols, i, k)/d;
 			for (j = 0; j < n_cols; j ++)
@@ -28,7 +29,7 @@ double rank(double *mas, int n_rows, int n_cols)
 		for (i = n_cols-1; i >= 0; i --)
 		{
 			d = EL(mas, n_cols, k, i); 
-			if (d == 0)
+			if (modul(d) < 0.000001)
 				break;
 			EL(mas, n_cols, k-1, i) -= EL(mas, n_cols, k, i)*EL(mas, n_cols, k-1, i)/d;
 		}
@@ -53,6 +54,13 @@ double rank(double *mas, int n_rows, int n_cols)
 	return r;
 }
 
+static double modul(double x)
+{
+	if (x < 0)
+		return -x;
+	else 
+		return x;
+}
 
 
 
