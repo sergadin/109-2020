@@ -12,6 +12,7 @@ int main(void)
 	double current, e = 0.1;
 	double **mas = malloc(n_rows* sizeof(double));
 	double *x1 = malloc(n_rows* sizeof(double));
+	double *x = malloc(n_rows* sizeof(double));
 	double b[] = {4.05, -0.72, -3.7};
 	FILE *input1;
 	if((input1 = fopen("input1.txt", "r")) == NULL)
@@ -30,7 +31,7 @@ int main(void)
 			mas[i][j] = current;
 		}
 	}
-	x1 = clin(mas, n_rows, n_cols);
+	x1 = clin(mas, n_rows, n_cols, x);
 	for ( i = 0; i < n_rows; i++ )
 		printf( "%lf\n", x1[i] );
 	for(i = 0; i < n_rows; i++)
@@ -49,6 +50,7 @@ int main(void)
 		free(mas[row]);
 	}
 	free(x1);
+	free(x);
 	free(mas);
 	fclose(input1);
 	return 0;

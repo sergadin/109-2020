@@ -5,11 +5,10 @@
 static double modul(double x);
 static void glavelem(int k, double **mas, int n_rows);
 
-double* clin(double **mas, int n_rows, int n_cols)       //подается массив, количество строк и столбцов. 
+double* clin(double **mas, int n_rows, int n_cols, double *x)       //подается массив, количество строк и столбцов. 
                                                          //В inpute каждый n_cols-1 элемент-свободный член
 {
 	int k, j, i; 
-	double *x = malloc(n_rows* sizeof(double));
 	for ( k = 0; k < n_rows; k++ )                   //метод Гаусса
 	{	         
 		glavelem(k, mas, n_rows);                //ищет наибольший элемент и меняет строки и столбцы местами              
