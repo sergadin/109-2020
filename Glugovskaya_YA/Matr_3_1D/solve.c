@@ -13,6 +13,7 @@ double DET(double *a, int n){
 	for (i = 0; i < n; i++)
 	{		
 		if (i < n - 1) sgn *= MaxEl_In_Collon(a, n, i);
+		if (n == 5) prn_matr(a, n);
 		if (a[i * n + i] < 0 || a[i * n + i] > 0)
 		{
 			
@@ -29,6 +30,7 @@ double DET(double *a, int n){
 			}
 		}
 		det *= a[i * n + i];
+		if (n == 5) prn_matr(a, n);
 	}
 	return det * sgn;
 }

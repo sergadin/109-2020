@@ -68,10 +68,9 @@ int main(int argc,char **argv)
 	printf("Matrix A:\n");
 	prn_matr(Matr_Equations, n, m);
 	
-	det = Stepped_View(Matr_Equations, n, m);
-	printf("Det: %lf\n", det);	
-	
-	Return_Move(Matr_Equations, n, m);
+	det = Solve_of_system(Matr_Equations, n, m);
+	printf("\nDet: %lf\n", det);	
+
 	printf("\nCorrect answer:-1.615  1.153  -2.231  2\n");
 	
 	for (int row = 0; row < n; row++)

@@ -5,7 +5,7 @@
 #include "MaxEl.h"
 #include "prn_matr.h"
 
-double Stepped_View(double **a, int n, int m){
+double Solve_of_system(double **a, int n, int m){
 	
 	int i, j, l, sgn = 1;;
 	double del, kof, det = 1;
@@ -31,13 +31,8 @@ double Stepped_View(double **a, int n, int m){
 		}
 		det *= a[i][i];
 	}
-	return det * sgn;
-}
-
-void Return_Move(double **a, int n, int m){
 	
 	double *x;
-	int i, j;
 	x = (double*) malloc ((m - 1) * sizeof(double));
 	
 	for (i = 0; i < n; i++) x[i] = 1;
@@ -63,4 +58,6 @@ void Return_Move(double **a, int n, int m){
 	for (i = 0; i< m-1; i++) printf("%lf ", x[i]);
 	
 	free(x);
+	
+	return det * sgn;
 }
