@@ -41,6 +41,7 @@ int main(void){
     }
     free(matrix);
     free(rev);
-    
+
+    fclose(inp);    
     return 0;
 }
