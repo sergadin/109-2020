@@ -37,6 +37,7 @@ int main(void)
 		}
 	}
 	free(mas);
+	fclose(input1);
 	return 0;
 }
 
