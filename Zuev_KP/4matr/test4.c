@@ -2,80 +2,62 @@
 #include <math.h>
 #include <stdlib.h>
 #include "clin.h"
+#define MAX(a, b) (((a) > (b))?(a):(b))
+#define MAX1(a, b, c) MAX(a, MAX(b, c))
+double modul(double x);
 
 int main(void)
 {
 	int i, j, n_rows = 3, n_cols = 4;
-	double current;
-	double **matrix2d = malloc(n_rows* sizeof(double));
-	double *x;
-	FILE *input;
-	int otv[n_rows];
-	for ( i = 0; i < n_cols; i++ )
-{
-		otv[i] = i;
-}
-	if((input = fopen("input.txt", "r")) == NULL)
+	double current, e = 0.1;
+	double **mas = malloc(n_rows* sizeof(double));
+	double *x1 = malloc(n_rows* sizeof(double));
+	double b[] = {4.05, -0.72, -3.7};
+	FILE *input1;
+	if((input1 = fopen("input1.txt", "r")) == NULL)
 	{
 		return -1;
 	}
 	for(int row = 0; row < n_rows; row++)
 	{
-		matrix2d[row] = malloc(n_cols* sizeof(double));
+		mas[row] = malloc(n_cols* sizeof(double));
 	}
-	for(int i = 0; i < n_rows; i ++)
+	for(i = 0; i < n_rows ; i ++)
 	{
-		for(int j = 0; j < n_cols; j ++)
+		for(j = 0; j < n_cols; j ++)
 		{
-			fscanf(input, "%lf", &current);
-			matrix2d[i][j] = current;
+			fscanf(input1, "%lf", &current);
+			mas[i][j] = current;
 		}
 	}
-	x = clin(matrix2d, n_rows, n_cols);
-	printf( "Ответ:\n" );
+	x1 = clin(mas, n_rows, n_cols);
 	for ( i = 0; i < n_rows; i++ )
-		for ( j = 0; j < n_rows; j++ )
-			if ( i == otv[j] )
-			{
-				printf( "%lf\n", x[j] );
-				break;
-			}
+		printf( "%lf\n", x1[i] );
+	for(i = 0; i < n_rows; i++)
+	{
+		if (modul(x1[i] - b[i]) < e*MAX1(x1[i], b[i], 1))
+		{
+			printf("пройден\n");
+		}
+		else
+		{
+			printf("не пройден\n");
+		}
+	}
 	for(int row = 0; row < n_rows; row ++)
 	{
-		free(matrix2d[row]);
+		free(mas[row]);
 	}
-	free(matrix2d);
+	free(x1);
+	free(mas);
 	return 0;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+double modul(double x)
+{
+	if (x < 0)
+		return -x;
+	else 
+		return x;
+}

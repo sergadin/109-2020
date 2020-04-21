@@ -1,1 +1,1 @@
-double* obr(double * matr, int n, double * edmatr);
+void obr(double * matr, int n, double * edmatr, double * NUL);

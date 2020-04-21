@@ -1,84 +1,78 @@
-#include<stdio.h>
+#include"stdio.h"
+#include"stdlib.h"
+#include"math.h"
 #include"obr.h"
-#define EL(ncol, row, col)\
+#define EL(ncol, col, row)\
 	((ncol)*(row) + (col))
 
-double* obr(double *matr, int n, double *edmatr)
+void obr(double *matr, int n, double * edmatr, double * NUL)
 {
-	double maxa11, edmax11;
-	double p = 0;
-	int cstr = 0, cel = 0;
-	int q = 0;
-	int i = -1;
-	int maxstr;
-	int stolb = n - 1;
-	while((q <= n - 1) && (i < n))
+	int k, j, i;
+	double c;
+	for (k = 0; k < n - 1; k++)
 	{
-		i ++;		
-		for(int j = (q + 1); j < n; j++)
+		for(int m = k; m < n; m ++)
 		{
-			if(matr[EL(n, j, i)] > matr[EL(n, q, i)])
+			if(matr[EL(n, m, k)] > matr[EL(n, k, k)])
 			{
-				for(int k = 0; k < n; k ++)
-				{
-					maxa11 = matr[EL(n, q, k)];
-					matr[EL(n, q, k)] = matr[EL(n, j, k)];
-					matr[EL(n, j, k)] = maxa11;
+				for(int t = 0; t < n; t++)
+				{	
+					c = matr[EL(n, m, t)];
+					matr[EL(n, m, t)] = matr[EL(n, k, t)];
+					matr[EL(n, k, t)] = c;
+					c = edmatr[EL(n, m, t)];
+					edmatr[EL(n, m, t)] = edmatr[EL(n, k, t)];
+					edmatr[EL(n, k, t)] = c;
 
-					edmax11 = edmatr[EL(n, q, k)];
-					edmatr[EL(n, q, k)] = edmatr[EL(n, j, k)];
-					edmatr[EL(n, j, k)] = edmax11;
-
-					printf("\n%lf", edmatr[EL(n, j, k)]);
 				}
 			}
 		}
-		if(matr[EL(n, q, i)] != 0)
-		{
-			for(int k = (q + 1); k < n; k++)
-			{
-				p =  matr[EL(n, k, i)]/matr[EL(n, q, i)];				
-				for(int t = i; t < n; t++)
-				{
-					matr[EL(n, k, t)] = matr[EL(n, k, t)] - p*matr[EL(n, q, t)];
-					edmatr[EL(n, k, t)] = edmatr[EL(n, k, t)] - p*edmatr[EL(n, q, t)];
 
-					
-					printf("\n%lf", edmatr[EL(n, k, t)]);
-				}
-				
-			}
-			q = q + 1;
-		}
+		if(fabs(matr[EL(n, k, k)]) > 0.0001)
+		{
 		
-	}
-
-
-	for(int i = n - 1; i >= 0; i--)
-	{
-		for(int j = i + 1; j >= 0; j--)
-		{
-			matr[EL(n, j, stolb)] = 0;
-			for(int k = n - 1; k >= 0; k --)
+			for(j = n - 1; j >= 0; j--)
 			{
-			     edmatr[EL(n, j, k)] -= edmatr[EL(n, i, k)]*matr[EL(n, j, stolb)]/matr[EL(n, i, stolb)];
-
+				c = matr[EL(n, k, k)];
+				matr[EL(n, k, j)] /= c;
+				edmatr[EL(n, k, j)] /= c;
 			}
-		}
-	stolb --;
+			for(i = k + 1; i < n; i++)
+			
+				for(j = n - 1; j >= 0; j--)
+				{
+					c = matr[EL(n, i, k)];
+					matr[EL(n, i, j)] -= matr[EL(n, k, j)] * c;
+					edmatr[EL(n, i, j)] -= edmatr[EL(n, k, j)] * c;
+				}
+		}		
+
 	}
-	for(int i = 0; i < n; i++)
+
+	for(i = 0; i < n; i++)
 	{
-		for(int j = 0; j < n; j ++)
+		for(j = 0; j < n; j++)
 		{
-			edmatr[EL(n, i, j)] = edmatr[EL(n, i, j)]/matr[EL(n, i, i)];
+			c = matr[EL(n, i, i)];
+			matr[EL(n, i, j)] /= c;
+			edmatr[EL(n, i, j)] /= c;
 		}
 	}
-return edmatr;
+	
+	for(i = n - 1; i >= 0; i --)
+	{
+		for(j = 0; j < i; j++)
+		{
+			for(k = 0; k < n; k ++)
+			{
+				c = matr[EL(n, j, i)];
+				matr[EL(n, j, k)] -= matr[EL(n, i, k)]*c;
+				edmatr[EL(n, j, k)] -= edmatr[EL(n, i, k)]*c;
+			}
 
-
-
+		}
+	}
+				
 }
-
 
 

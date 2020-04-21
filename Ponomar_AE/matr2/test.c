@@ -18,7 +18,7 @@ int main(void)
 		return -1;
 	}
        
-        for (int j = 0; j < M; j++) 
+        for (int numt = 0; numt < M; numt++) 
 	{
 		if ((fscanf(input, "%d", &n) != 1) || (n <= 0)) 
 		{
@@ -55,7 +55,8 @@ int main(void)
 			return -1;
 		}
 
-		fprintf(stdout, "TEST %d real: %lf true: %lf\n", (j+1), det, true_answer);
+		fprintf(stdout, "TEST %d real: %lf true: %lf\n", (numt+1), 
+				det, true_answer);
 		free(matrix);
 	}
 

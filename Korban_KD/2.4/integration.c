@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "integration.h"
+#include "../lib/exmath.h"
 
 
 
@@ -30,7 +31,7 @@ int integrate(dndFUNC f, double a, double b,  double eps, double *x)
 
         integ2 = gaus(f, a, b , n);
         
-        if(fabs(integ1 - integ2) < eps)
+        if(fabs(integ1 - integ2) < eps*f_max(1, integ1, integ2))
         {
             *x = integ2;
             return n;
