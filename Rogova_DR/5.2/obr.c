@@ -5,7 +5,7 @@
 #define EL(ncol, col, row)\
 	((ncol)*(row) + (col))
 
-void obr(double *matr, int n, double * edmatr, double * NUL)
+void obr(double *matr, int n, double * edmatr)
 {
 	int k, j, i;
 	double c;
