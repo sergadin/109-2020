@@ -1,14 +1,13 @@
-all: do clean
+all: do-test
 
-rank.o: rank.h rank.c
-        gcc -c rank.c
-test.o: rank.h test.c
-        gcc -c test.c
-a.out: rank.o test.o
-        gcc -o a.out test.c rank.o -lm
-do: a.out
-        ./a.out
-clean:
-	rm -rf *.o
-~                                                                               
-~                           
+rank.o: rank.c rank.h
+	gcc -c rank.c
+
+test.o: test.c rank.h
+	gcc -c test.c
+
+a.out: test.o rank.o
+	gcc test.o rank.o
+
+do-test: a.out
+	./a.out
