@@ -4,6 +4,12 @@
 #include<stdlib.h>
 #define EL(ncol, row, col)\
 	((ncol) * (row) + (col))
+void readm(double * matrix, int n, FILE * input);
+void makeited(double * edmatrix, int n);
+void printm(double * matrix, int n);
+double * proz(double * m1, double * m2, int n, double * nul);
+void makeitnul(double * nul, int n);
+void copy2to1(double * m1, double * m2, int n);
 
 int main(void)
 {
@@ -12,8 +18,8 @@ int main(void)
         FILE *input3;
 	int n = 2;
 	double el;
-
-	double * NUL = malloc(n * n * sizeof(double));
+	double * nul = malloc(n * n * sizeof(double));
+	double * postmatrix = malloc(n * n * sizeof(double));
 	double * matrix = malloc(n * n  * sizeof(double ));
 	double * edmatrix = malloc(n * n  * sizeof(double ));
 
@@ -23,117 +29,114 @@ int main(void)
 		return -1;
 	if((input3 = fopen("input3.txt", "r")) == NULL)
 		return -1;
+	readm(matrix, n, input1);
+	copy2to1(postmatrix, matrix, n);
+	makeited(edmatrix, n);
+	makeitnul(nul, n);
+	obr(matrix, n, edmatrix);
+	nul = proz(postmatrix, edmatrix, n, nul);
+	printm(postmatrix, n);
+	printm(nul, n);
 
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(fscanf(input1, "%lf", &el) != 1)
-				return -1;
-			matrix[EL(n, i, j)] = el;
-			printf("\n%lf\n", matrix[EL(n, i, j)]);
-		}
-	}
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-			NUL[EL(n, i, j)] = 0;
-	}
+	readm(matrix, n, input2);
+	copy2to1(postmatrix, matrix, n);
+	makeited(edmatrix, n);
+	makeitnul(nul, n);
+	obr(matrix, n, edmatrix);
+       	nul = proz(postmatrix, edmatrix, n, nul);
+	printm(postmatrix, n);
+	printm(nul, n);
 
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(i == j)
-				edmatrix[EL(n, i, j)] = 1;
-			else
-				edmatrix[EL(n, i, j)] = 0;
-		}
-        }
-        obr(matrix, n, edmatrix, NUL);
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			
-			printf("elem_m1(%d,%d):\n%lf\n",i, j, edmatrix[EL(n, i, j)]);
-		}
-	}
- 	
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(i == j)
-				edmatrix[EL(n, i, j)] = 1;
-			else
-				edmatrix[EL(n, i, j)] = 0;
-		}
-        }
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(fscanf(input2, "%lf", &el) != 1)
-				return -1;
-			matrix[EL(n, i, j)] = el;
-			printf("\n%lf\n", matrix[EL(n, i, j)]);
-		}
-	}
-	obr(matrix, n, edmatrix, NUL);
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			
-			printf("elem_m2(%d,%d):\n%lf\n",i, j, edmatrix[EL(n, i, j)]);
-		}
-	}
+	readm(matrix, n, input3);
+	copy2to1(postmatrix, matrix, n);
+	makeited(edmatrix, n);
+	makeitnul(nul, n);
+	obr(matrix, n, edmatrix);
+	nul = proz(postmatrix, edmatrix, n, nul);
+	printm(postmatrix, n);
+	printm(nul, n);
 
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(fscanf(input3, "%lf", &el) != 1)
-				return -1;
-			matrix[EL(n, i, j)] = el;
-			printf("\n%lf\n", matrix[EL(n, i, j)]);
-		}
-	}
-	
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(i == j)
-				edmatrix[EL(n, i, j)] = 1;
-			else
-				edmatrix[EL(n, i, j)] = 0;
-		}
-        }
-	obr(matrix, n, edmatrix, NUL);
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			
-			printf("elem_m3(%d,%d):\n%lf\n",i, j, edmatrix[EL(n, i, j)]);
-		}
-	}
+	fclose(input1);
+	fclose(input2);
+	fclose(input3);
 
-	for(int i = 0; i < n; i ++)
-	{
-		for(int j = 0; j < n; j ++)
-		{
-			if(i == j)
-				edmatrix[EL(n, i, j)] = 1;
-			else
-				edmatrix[EL(n, i, j)] = 0;
-		}
-        }
+	free(nul);
+	free(postmatrix);
 	free(edmatrix);
 	free(matrix);
-	free(NUL);
 
 }
+void copy2to1(double * m1, double * m2, int n)
+{
 
+	for(int i = 0; i < n; i++)
+	{
+		for(int j  = 0; j < n; j++)
+		{
+			m1[EL(n, i, j)] = m2[EL(n, i, j)];
+		}
+	}
+}
+void  makeitnul(double * nul, int n)
+{
+	for(int i = 0; i < n; i++)
+	{
+		for(int j  = 0; j < n; j++)
+		{
+			nul[EL(n, i, j)] = 0;
+		}
+	}
+}
+double * proz(double * m1, double * m2, int n, double * nul)
+{
+	for(int i = 0; i < n; i++)
+	{
+		for(int j = 0; j < n; j++)
+		{
+			for(int k = 0; k < n; k++)
+			{
+				nul[EL(n, i, j)] += m1[EL(n, i, k)]*m2[EL(n, k, j)];
+			}
+		}
+	}
+	return nul;
+}
+void readm(double * matrix, int n, FILE * input)
+{
+	double el;
+	for(int i = 0; i < n; i ++)
+	{
+		for(int j = 0; j < n; j ++)
+		{
+			if(fscanf(input, "%lf", &el) == 1)
+				matrix[EL(n, i, j)] = el;
+				
+		}
+	}
+}
+void makeited(double * edmatrix, int n)
+{
+
+	for(int i = 0; i < n; i ++)
+	{
+		for(int j = 0; j < n; j ++)
+		{
+			if(i == j)
+				edmatrix[EL(n, i, j)] = 1;
+			else
+				edmatrix[EL(n, i, j)] = 0;
+		}
+        }
+}
+void printm(double * matrix, int n)
+{
+	printf("\nMATRIX:\n");
+	for(int i = 0; i < n; i ++)
+	{
+		for(int j = 0; j < n; j ++)
+		{
+			
+			printf("elem_m(%d,%d):\n%lf\n",i, j, matrix[EL(n, i, j)]);
+		}
+	}
+}

@@ -1,12 +1,13 @@
-all: do clean
+all: do-test
 
-determinant.o: determinant.h determinant.c
+determinant.o: determinant.c determinant.h
 	gcc -c determinant.c
-test.o: determinant.h test.c
+
+test.o: test.c determinant.h
 	gcc -c test.c
-a.out: determinant.o test.o
-	        gcc -o a.out test.c determinant.o -lm
-do: a.out
+
+a.out: test.o determinant.o
+	gcc test.o determinant.o
+
+do-test: a.out
 	./a.out
-clean:
-	rm -rf *.o
