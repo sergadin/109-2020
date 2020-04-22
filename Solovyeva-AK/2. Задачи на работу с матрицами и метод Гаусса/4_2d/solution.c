@@ -1,14 +1,6 @@
 #include "libs.h"
 
-void gauss_m(int n, double **matrix_now, double *x) {
-    double **matrix = malloc(sizeof(double *) * n);
-    for (int i = 0; i < n; i++) {
-        matrix[i] = malloc(sizeof(double) * (n + 1));
-    }
-    
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n + 1; j++)
-            matrix[i][j] = matrix_now[i][j];
+void solve_system(int n, double **matrix, double *x) {
     double max_elem;
     int max_index;
     const double eps = 0.000001;
@@ -47,8 +39,4 @@ void gauss_m(int n, double **matrix_now, double *x) {
         for (int i = 0; i < k; i++)
         matrix[i][n] = matrix[i][n] - matrix[i][k] * x[k];
     }
-    for (int i = 0; i < n; ++i) {
-        free(matrix[i]);
-    }
-    free(matrix);
 }

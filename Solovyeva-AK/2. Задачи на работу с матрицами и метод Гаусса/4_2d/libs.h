@@ -2,4 +2,4 @@
 #include <stdlib.h>
 #include <math.h>
 
-void gauss_m(int n, double **matrix_now, double *x);
+void solve_system(int n, double **matrix_now, double *x);

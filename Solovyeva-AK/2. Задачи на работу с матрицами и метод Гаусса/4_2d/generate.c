@@ -1,12 +1,13 @@
 #include "libs.h"
 
-void print_matrix(int n, double **matrix) {
-    printf("\n");
+void print_system(int n, double **matrix) {
+    printf("System:\n\n");
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n + 1; j++) {
-            printf("%.2lf ", matrix[i][j]);
+        printf("%.2lf*x0", matrix[i][0]);
+        for (int j = 1; j < n; j++) {
+            printf(" + %.2lf*x%d", matrix[i][j], j);
         }
-        printf("\n");
+        printf(" = %.2lf\n", matrix[i][n]);
     }
     return;
 }
@@ -33,13 +34,14 @@ int main() {
         }
     }
     
-    print_matrix(n, matrix);
-    gauss_m(n, matrix, x);
+    print_system(n, matrix);
+    solve_system(n, matrix, x);
+    printf("\nSolution:\n\n");
     for(int i = 0; i < n; i++) {
-        printf("%.8lf ", x[i]);
+        printf("x%d=%.8lf\n", i, x[i]);
     }
     
-     for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         free(matrix[i]);
     }
     free(matrix);
