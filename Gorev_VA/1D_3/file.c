@@ -95,7 +95,7 @@ int main(void)
 	fclose(input);
 	free(matr);
 
-	if ((input = fopen("input3.txt", "r")) == NULL)
+	if ((input = fopen("input2.txt", "r")) == NULL)
 	{
 		return -1;
 	}
