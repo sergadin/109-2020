@@ -8,8 +8,8 @@ double Abs(double x)
 	return -x;
 }
 
-void centr_sym(double **matr, int n);
-void centr_sym(double **matr, int n)
+double **centr_sym(double **matr, int n);
+double **centr_sym(double **matr, int n)
 {
 	double **T;
 	T = (double**)malloc(n * sizeof(double));
@@ -18,37 +18,82 @@ void centr_sym(double **matr, int n)
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < n; j++)
 			T[i][j] = matr[n - 1 - i][n - 1 - j];
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++)
-			matr[i][j] = T[i][j];
-	for (int i = 0; i < n; i++)
-		free(T[i]);
-	free(T);
+	return T;
 }
 
-void swap(double **matr, int n, int i1, int i2);
-void swap(double **matr, int n, int i1, int i2)
+double **swap(double **matr, int m, int n, int i1, int i2);
+double **swap(double **matr, int m, int n, int i1, int i2)
 {
-	for (int j = 0; j < n; j++)
+	double **A;
+	if (i1 == i2)
+		return matr;
+	if (i1 > i2)
 	{
-		matr[i1][j] += matr[i2][j];
-		matr[i2][j] = matr[i1][j] - matr[i2][j];
-		matr[i1][j] = matr[i1][j] - matr[i2][j];
+		A = (double**)malloc(sizeof(double));
+		A[0] = (double*)malloc(sizeof(double));
+		A[0][0] = i1;
+		i1 = i2;
+		i2 = A[0][0];
+		free(A[0]);
+		free(A);
 	}
+	A = (double**)malloc(m * sizeof(double));
+	for (int i = 0; i < m; i++)
+		A[i] = (double*)malloc(n * sizeof(double));
+
+	for (int i = 0; i < i1; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
+	for (int j = 0; j < n; j++)
+		A[i1][j] = matr[i2][j];
+	for (int i = i1 + 1; i < i2; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
+	for (int j = 0; j < n; j++)
+		A[i2][j] = matr[i1][j];
+	for (int i = i2 + 1; i < m; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
+
+	return A;
 }
 
-void multiply(double **matr, int n, int i1, double c);
-void multiply(double **matr, int n, int i1, double c)
+double **multiply(double **matr, int m, int n, int i1, double c);
+double **multiply(double **matr, int m, int n, int i1, double c)
 {
+	double **A;
+	A = (double**)malloc(m * sizeof(double));
+	for (int i = 0; i < m; i++)
+		A[i] = (double*)malloc(n * sizeof(double));
+
+	for (int i = 0; i < i1; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
 	for (int j = 0; j < n; j++)
-		matr[i1][j] = c * matr[i1][j];
+		A[i1][j] = c * matr[i1][j];
+	for (int i = i1 + 1; i < m; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
+	return A;
 }
 
-void plus_str(double **matr, int n, int i1, int i2, double c);
-void plus_str(double **matr, int n, int i1, int i2, double c)
+double **plus_str(double **matr, int m, int n, int i1, int i2, double c);
+double **plus_str(double **matr, int m, int n, int i1, int i2, double c)
 {
+	double **A;
+	A = (double**)malloc(m * sizeof(double));
+	for (int i = 0; i < m; i++)
+		A[i] = (double*)malloc(n * sizeof(double));
+
+	for (int i = 0; i < i1; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
 	for (int j = 0; j < n; j++)
-		matr[i1][j] = matr[i1][j] + c * matr[i2][j];
+		A[i1][j] = matr[i1][j] + c * matr[i2][j];
+	for (int i = i1 + 1; i < m; i++)
+		for (int j = 0; j < n; j++)
+			A[i][j] = matr[i][j];
+	return A;
 }
 
 double det(double **A, int n);
@@ -64,7 +109,7 @@ double det(double **A, int n)
 			if (Abs(A[i][k]) >= eps)
 			{
 				q = 0;
-				swap(A, n, k, i);
+				A = swap(A, n, n, k, i);
 				if (k != i)
 					det = -det;
 				break;
@@ -75,7 +120,7 @@ double det(double **A, int n)
 			for (int i = k + 1; i < n; i++)
 				for (int j = k; j < n; j++)
 				{
-					plus_str(A, n, i, k, -A[i][k] / A[k][k]);
+					A = plus_str(A, n, n, i, k, -A[i][k] / A[k][k]);
 				}
 		}
 		else

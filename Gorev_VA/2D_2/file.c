@@ -70,7 +70,6 @@ int main(void)
 	printf("\n");
 	printf("|A| = %g\n", det(matr, N));
 	printf("\n");
-	//free(matr);
 
 	matr = M1(N);
 	printf("A =\n");
@@ -78,7 +77,6 @@ int main(void)
 	printf("\n");
 	printf("|A| = %g\n", det(matr, N));
 	printf("\n");
-	//free(matr);
 
 	matr = M2(N);
 	printf("A =\n");
@@ -86,7 +84,6 @@ int main(void)
 	printf("\n");
 	printf("|A| = %g\n", det(matr, N));
 	printf("\n");
-	//free(matr);
 
 	for (int i = 0; i < N; i++)
 		free(matr[i]);
