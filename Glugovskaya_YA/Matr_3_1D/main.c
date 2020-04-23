@@ -5,11 +5,6 @@
 #include"read_matr.h"
 #include"prn_matr.h"
 #include"solve.h"
-#define Open_Err -1
-#define Read_Err -2
-#define All_Correct 1
-#define Not_to_End -3
-#define Err_of_Mem 2
 
 //1.exe n matr.txt
 int main(int argc,char **argv)
