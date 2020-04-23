@@ -26,15 +26,12 @@ void centr_sym(double *matr, int n)
 void swap(double *matr, int n, int i1, int i2);
 void swap(double *matr, int n, int i1, int i2)
 {
-	double *A;
-	A = (double*)malloc(sizeof(double));
 	for (int j = 0; j < n; j++)
 	{
-		A[0] = matr[i1 * n + j];
-		matr[i1 * n + j] = matr[i2 * n + j];
-		matr[i2 * n + j] = A[0];
+		matr[i1 * n + j] += matr[i2 * n + j];
+		matr[i2 * n + j] = matr[i1 * n + j] - matr[i2 * n + j];
+		matr[i1 * n + j] = matr[i1 * n + j] - matr[i2 * n + j];
 	}
-	free(A);
 }
 
 void multiply(double *matr, int n, int i1, double c);
