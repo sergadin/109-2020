@@ -26,8 +26,5 @@ double *read_matrix(int m, int n, FILE* input)
 
 int main(void)
 {
-	double *matr;
-	int N = 3;
-	FILE *input;
 	return 0;
 }
