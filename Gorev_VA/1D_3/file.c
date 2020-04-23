@@ -28,9 +28,6 @@ int main(void)
 {
 	double *matr;
 	int N = 3;
-	ErrorCode *Error;
 	FILE *input;
-	Error = (ErrorCode*)malloc(sizeof(ErrorCode));
-	free(Error);
 	return 0;
 }
