@@ -21,7 +21,7 @@ int main(int argc,char **argv)
 	if ((argc != 4) || !(n = atoi(argv[1])) || !(m = atoi(argv[2])))
 	{
 		
-		printf("Usage:%s\n", argv[0]);
+		printf("Usage:%s n m filename\n n and m - martix size \n filename - name of file with n * m numbers \n", argv[0]);
 		return 1;
 	}
 	
