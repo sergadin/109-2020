@@ -5,7 +5,7 @@
 
 double find_determinant(int n, double **matrix, double epsilon)
 {
-	double det = 1, sign = 1, memory, coef;
+	double det = 1, sign = 1, coef;
 	int rwmeoc; //row_with_max_element_of_column
 	for (int j = 0; j < n; j++)
 	{
@@ -25,9 +25,9 @@ double find_determinant(int n, double **matrix, double epsilon)
 		{
 			for (int i = 0; i < n; i ++)
 			{
-				memory = matrix[rwmeoc][i];
-				matrix[rwmeoc][i] = matrix[j][i];
-				matrix[j][i] = memory;
+				matrix[rwmeoc][i] += matrix[j][i];
+				matrix[j][i] = matrix[rwmeoc][i] - matrix[j][i];
+				matrix[rwmeoc][i] = matrix[rwmeoc][i] - matrix[j][i];
 			}
 			sign *= (-1);
 		}
