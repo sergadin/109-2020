@@ -95,6 +95,33 @@ int main(void)
 	fclose(input);
 	free(matr);
 
+
+	free(Error);
+
+	Error = (ErrorCode*)malloc(sizeof(ErrorCode));
+
+
+	if ((input = fopen("input1.txt", "r")) == NULL)
+	{
+		return -1;
+	}
+	matr = read_matrix(N, N, input);
+	printf("A = \n");
+	print_matrix(matr, N, N);
+	printf("\n");
+	inverse(matr, N, Error);
+	if (*Error == OK)
+	{
+		printf("A^-1 = \n");
+		print_matrix(matr, N, N);
+		printf("\n");
+	}
+	if (*Error == MATR_IS_SINGULAR)
+		printf("Matrix is singular\n\n");
+	fclose(input);
+	free(matr);
+
+
 	if ((input = fopen("input2.txt", "r")) == NULL)
 	{
 		return -1;
@@ -114,6 +141,28 @@ int main(void)
 		printf("Matrix is singular\n\n");
 	fclose(input);
 	free(matr);
+
+
+	if ((input = fopen("input3.txt", "r")) == NULL)
+	{
+		return -1;
+	}
+	matr = read_matrix(N, N, input);
+	printf("A = \n");
+	print_matrix(matr, N, N);
+	printf("\n");
+	inverse(matr, N, Error);
+	if (*Error == OK)
+	{
+		printf("A^-1 = \n");
+		print_matrix(matr, N, N);
+		printf("\n");
+	}
+	if (*Error == MATR_IS_SINGULAR)
+		printf("Matrix is singular\n\n");
+	fclose(input);
+	free(matr);
+
 
 	free(Error);
 	return 0;
