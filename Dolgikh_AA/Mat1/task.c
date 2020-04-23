@@ -1,46 +1,50 @@
 #include "task.h"
-#include "math.h"
+#include <math.h>
 #include <stdio.h>
 
 int rank(double *data, int n_rows, int n_cols)
 {
-	int k = 0, l = 0, i, j;
+	int k = 0, fail = 1, i, j;
+	double max = 0;
+	int maxrow, maxcol;
 
 	while(1)
 	{
 		printmat(data, n_rows, n_cols);
-
-		//Ищем первый ненулевой столбец
+		
+		fail = 1;
+		max = 0;
+		//Ищем максимальный по модулю элемент
 		for(i = 0; i < n_cols; i++)
 		{
-			l = 0;
 			for(j = k; j < n_rows; j++)
 			{
 				if(!(fabs(EL(data, n_cols, j, i)) < eps))
+					fail = 0;
+				if(fabs(EL(data, n_cols, j, i)) > fabs(max))
 				{
-					l = 1;
-					break;
-				}
+					max = EL(data, n_cols, j, i);
+					maxrow = j;
+					maxcol = i;
+				}		
 			}
-			if(l == 1)
-				break;
 		}
-		if(l == 0)
+
+		if(fail)
 		{
 			fprintf(stdout,"we haven't found non-zero column :(\n");
-			k -= 1;
+			k--;
 			break;
 		}
-		fprintf(stdout,"we found non-zero column #%d\n",i+1);
-		//Если в нём верхний элемент ноль, то меняем строчки так, чтобы был не ноль
-		if(fabs(EL(data, n_cols, k, i)) < eps)
-			swaprows(data, n_cols, k, j);
+		fprintf(stdout,"we found non-zero column #%d\n",maxcol+1);
+		swaprows(data, n_cols, k, maxrow);
+		swapcols(data, n_rows, n_cols, k, maxcol);
 		//Обнуляем все нижние элементы столбца
 		for(j = k+1; j < n_rows; j++)
 		{
-			if(!(fabs(EL(data, n_cols, j, i)) < eps))
+			if(!(fabs(EL(data, n_cols, j, k)) < eps))
 			{
-				plusrows(data, n_cols, j, k, (-EL(data, n_cols, j, i)) / EL(data, n_cols, k, i));
+				plusrows(data, n_cols, j, k, (-EL(data, n_cols, j, k)) / EL(data, n_cols, k, k));
 			}
 		}
 
@@ -63,6 +67,18 @@ void swaprows(double *data, int n_cols, int row1, int row2)
 		t = EL(data, n_cols, row1, i);
 		EL(data, n_cols, row1, i) = EL(data, n_cols, row2, i);
 		EL(data, n_cols, row2, i) = t;
+	}
+}
+void swapcols(double *data, int n_rows, int n_cols, int col1, int col2)
+{
+	int i;
+	double t;
+
+	for(i = 0; i < n_rows; i++)
+	{
+		t = EL(data, n_cols, i, col1);
+		EL(data, n_cols, i, col1) = EL(data, n_cols, i, col2);
+		EL(data, n_cols, i, col2) = t;
 	}
 }
 void plusrows(double *data, int n_cols, int row1, int row2, double k)

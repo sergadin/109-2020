@@ -1,10 +1,10 @@
 #include "task.h"
-#include "math.h"
+#include <math.h>
 #include <stdio.h>
 
 int inv(double **matrix, double **matrixinv, int N)
 {
-	int k = 0, l = 0, i, j;
+	int k = 0, i, j, fail = 1;
 
 	//Делаем из второй матрицы единичную
 	for(i = 0; i < N; i++)
@@ -24,20 +24,20 @@ int inv(double **matrix, double **matrixinv, int N)
 		//Ищем первый ненулевой столбец
 		for(i = 0; i < N; i++)
 		{
-			l = 0;
+			fail = 1;
 			for(j = k; j < N; j++)
 			{
 				if(!(fabs(matrix[j][i]) < eps))
 				{
-					l = 1;
+					fail = 0;
 					break;
 				}
 			}
-			if(l == 1)
+			if(!fail)
 				break;
 		}
 		//Если унитреугольная не получается, возвращаем 0
-		if(l == 0)
+		if(fail)
 		{
 			return 0;
 		}
