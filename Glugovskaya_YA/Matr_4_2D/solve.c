@@ -15,7 +15,7 @@ double *Solve_of_system(double **a, int n, int m, double *Solution){
 	{		
 		if (i < n - 1) sgn *= MaxEl_In_Collon(a, n, m, i);
 		
-		if (a[i][i] > 1e-15)
+		if (fabs(a[i][i]) > 1e-15)
 		{
 			
 			del = a[i][i];
