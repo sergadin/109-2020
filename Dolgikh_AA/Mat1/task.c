@@ -13,6 +13,7 @@ int rank(double *data, int n_rows, int n_cols)
 		printmat(data, n_rows, n_cols);
 		
 		fail = 1;
+		max = 0;
 		//Ищем максимальный по модулю элемент
 		for(i = 0; i < n_cols; i++)
 		{
