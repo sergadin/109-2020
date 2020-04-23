@@ -3,19 +3,13 @@
 #include <math.h>
 #include "Sole.h"
 
-#define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
 #define MATRIX(n, i, j) mos[(n) * (i) + (j)]
 
-double *solve_system(int n, double *mos, double epsilon, ErrorCode *error)
+void *solve_system(int n, double *mos, double *ca, double epsilon, ErrorCode *error)
 {
-	double memory, coef, *solution;
+	double memory, coef;
 	int rwmeoc; //row_with_max_element_of_column
 	*error = SYSTEM_OK;
-	if ((solution = (double *) malloc(n * sizeof(double))) == NULL)
-	{
-		*error = ALLOCATION_ERROR;		
-		return NULL;
-	}
 	for (int j = 0; j < n; j++)
 	{
 		rwmeoc = j;
@@ -26,10 +20,10 @@ double *solve_system(int n, double *mos, double epsilon, ErrorCode *error)
 				rwmeoc = i;
 			}
 		}
-		if (fabs(MATRIX((n + 1), rwmeoc, j)) < MAXOF2(fabs(MATRIX((n + 1), rwmeoc, j)), 1) * epsilon)
+		if (fabs(MATRIX((n + 1), rwmeoc, j)) < epsilon)
 		{
 			*error = NOT_DEFINED;
-			return NULL;
+			break;
 		}
 		if (rwmeoc != j)
 		{
@@ -63,38 +57,40 @@ double *solve_system(int n, double *mos, double epsilon, ErrorCode *error)
 			}
 		}
 	}
-	for (int j = (n - 1); j > -1; j--)
+	if (*error != NOT_DEFINED)
 	{
-		if (MATRIX((n + 1), j, j) < 0)
+		for (int j = (n - 1); j > -1; j--)
 		{
-			MATRIX((n + 1), j, j) *= (-1);
-			MATRIX((n + 1), j, n) *= (-1);
-		}
-		for (int i = (j - 1); i > -1; i--)
-		{
-			if (fabs(MATRIX((n + 1), i, j)) > MAXOF2(fabs(MATRIX((n + 1), i, j)), 1) * epsilon)
+			if (MATRIX((n + 1), j, j) < 0)
 			{
-				if (MATRIX((n + 1), i, j) > 0)
+				MATRIX((n + 1), j, j) *= (-1);
+				MATRIX((n + 1), j, n) *= (-1);
+			}
+			for (int i = (j - 1); i > -1; i--)
+			{
+				if (fabs(MATRIX((n + 1), i, j)) > epsilon)
 				{
-					for (int k = 0; k < (n + 1); k++)
+					if (MATRIX((n + 1), i, j) > 0)
 					{
-						MATRIX((n + 1), i, k) *= (-1);
+						for (int k = 0; k < (n + 1); k++)
+						{
+							MATRIX((n + 1), i, k) *= (-1);
+						}
 					}
+					coef = fabs(MATRIX((n + 1), i, j)) / MATRIX((n + 1), j, j);
+					MATRIX((n + 1), i, j) = MATRIX((n + 1), i, j) + MATRIX((n + 1), j, j) * coef;
+					MATRIX((n + 1), i, n) = MATRIX((n + 1), i, n) + MATRIX((n + 1), j, n) * coef;
 				}
-				coef = fabs(MATRIX((n + 1), i, j)) / MATRIX((n + 1), j, j);
-				MATRIX((n + 1), i, j) = MATRIX((n + 1), i, j) + MATRIX((n + 1), j, j) * coef;
-				MATRIX((n + 1), i, n) = MATRIX((n + 1), i, n) + MATRIX((n + 1), j, n) * coef;
 			}
 		}
-	}
-	for (int j = 0; j < n; j++)
-	{
-		MATRIX((n + 1), j, n) = MATRIX((n + 1), j, n) / MATRIX((n + 1), j, j);
-		MATRIX((n + 1), j, j) = MATRIX((n + 1), j, j) / MATRIX((n + 1), j, j);
-	}
-	for (int j = 0; j < n; j++)
-	{
-		solution[j] = MATRIX((n + 1), j, n);
+		for (int j = 0; j < n; j++)
+		{
+			MATRIX((n + 1), j, n) = MATRIX((n + 1), j, n) / MATRIX((n + 1), j, j);
+			MATRIX((n + 1), j, j) = MATRIX((n + 1), j, j) / MATRIX((n + 1), j, j);
+		}
+		for (int j = 0; j < n; j++)
+		{
+			ca[j] = MATRIX((n + 1), j, n);
+		}
 	}	
-	return solution;
 }

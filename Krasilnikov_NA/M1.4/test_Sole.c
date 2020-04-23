@@ -42,7 +42,7 @@ int main(void)
 			fclose(fout);
 			return -1;
 		}
-		if ((ea  = (double *) malloc(n * sizeof(double))) == NULL)
+		if ((ea = (double *) malloc(n * sizeof(double))) == NULL)
 		{
 			fprintf(fout, " LOSS | Memory allocation error");
 			fclose(fin);
@@ -93,17 +93,7 @@ int main(void)
 				return -1;
 			}
 		}
-		ca = solve_system(n, mos, EPS/n, &se);
-		if (se == ALLOCATION_ERROR)
-		{
-			fprintf(fout, " LOSS | Memory allocation error");
-			fclose(fin);
-			fclose(fout);
-			free(ea);
-			free(ca);
-			free(mos);
-			return -1;
-		}
+		solve_system(n, mos, ca, EPS/n, &se);
 		if (se == NOT_DEFINED)
 		{
 			fprintf(fout, " LOSS | System isn't defined");
