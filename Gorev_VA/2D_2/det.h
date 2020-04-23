@@ -44,8 +44,8 @@ void multiply(double **matr, int n, int i1, double c)
 		matr[i1][j] = c * matr[i1][j];
 }
 
-void plus_str(double **matr, int m, int n, int i1, int i2, double c);
-void plus_str(double **matr, int m, int n, int i1, int i2, double c)
+void plus_str(double **matr, int n, int i1, int i2, double c);
+void plus_str(double **matr, int n, int i1, int i2, double c)
 {
 	for (int j = 0; j < n; j++)
 		matr[i1][j] = matr[i1][j] + c * matr[i2][j];
