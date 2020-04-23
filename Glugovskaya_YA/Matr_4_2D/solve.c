@@ -5,16 +5,17 @@
 #include "MaxEl.h"
 #include "prn_matr.h"
 
-double Solve_of_system(double **a, int n, int m){
+
+double *Solve_of_system(double **a, int n, int m, double *Solution){
 	
 	int i, j, l, sgn = 1;;
-	double del, kof, det = 1;
+	double del, kof;
 	
 	for (i = 0; i < n; i++)
 	{		
 		if (i < n - 1) sgn *= MaxEl_In_Collon(a, n, m, i);
 		
-		if (a[i][i] < 0 || a[i][i] > 0)
+		if (a[i][i] > 1e-15)
 		{
 			
 			del = a[i][i];
@@ -28,14 +29,12 @@ double Solve_of_system(double **a, int n, int m){
 					a[j][l] -= kof * a[i][l];		
 				}
 			}
-		}
-		det *= a[i][i];
+		}		
 	}
+	prn_matr(a, n, m);
 	
-	double *x;
-	x = (double*) malloc ((m - 1) * sizeof(double));
 	
-	for (i = 0; i < n; i++) x[i] = 1;
+	for (i = 0; i < n; i++) Solution[i] = 1;
 	
 	if (n < m - 1) {
 		 printf("Бесконечно много решений, одно из них:\n");
@@ -45,7 +44,7 @@ double Solve_of_system(double **a, int n, int m){
 	{
 		a[i][m-1] /= a[i][i];
 		a[i][i] =1;
-		x[i] = a[i][m-1];
+		Solution[i] = a[i][m-1];
 
 		for (j = i - 1; j >= 0; j--)
 		{
@@ -53,11 +52,6 @@ double Solve_of_system(double **a, int n, int m){
 			a[j][i] = 0;
 		}
 	}
-	
-	printf("Vect\n");
-	for (i = 0; i< m-1; i++) printf("%lf ", x[i]);
-	
-	free(x);
-	
-	return det * sgn;
+
+	return Solution;
 }

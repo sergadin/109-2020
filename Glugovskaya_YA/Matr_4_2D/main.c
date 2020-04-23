@@ -16,7 +16,8 @@ int main(int argc,char **argv)
 	int n, m, i, j;
 	double t, res, det;
 	char *File_Name = 0;
-    
+	double *Solution;
+	   
 	if ((argc != 4) || !(n = atoi(argv[1])) || !(m = atoi(argv[2])))
 	{
 		
@@ -25,6 +26,8 @@ int main(int argc,char **argv)
 	}
 	
 	File_Name = argv[3];
+	
+	Solution = (double*) malloc((m - 1) * sizeof(double *));
 	
 	double **Matr_Equations = malloc(n * sizeof(double *));
 	for (int row = 0; row < n; row++)
@@ -68,8 +71,10 @@ int main(int argc,char **argv)
 	printf("Matrix A:\n");
 	prn_matr(Matr_Equations, n, m);
 	
-	det = Solve_of_system(Matr_Equations, n, m);
-	printf("\nDet: %lf\n", det);	
+	Solution = Solve_of_system(Matr_Equations, n, m, Solution);
+	for (i = 0; i < m-1; i++){
+			printf("%lf ", Solution[i]);
+	}
 
 	printf("\nCorrect answer:-1.615  1.153  -2.231  2\n");
 	
@@ -79,6 +84,7 @@ int main(int argc,char **argv)
     }
 	
     free(Matr_Equations);
-	
+	free(Solution);
+		
 	return 0;
 }
