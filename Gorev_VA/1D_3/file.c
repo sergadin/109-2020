@@ -164,6 +164,6 @@ int main(void)
 	free(matr);
 
 
-	free(Error);
+	
 	return 0;
 }
