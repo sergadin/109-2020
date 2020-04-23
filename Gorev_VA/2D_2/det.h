@@ -75,7 +75,7 @@ double det(double **A, int n)
 			for (int i = k + 1; i < n; i++)
 				for (int j = k; j < n; j++)
 				{
-					A = plus_str(A, n, i, k, -A[i][k] / A[k][k]);
+					plus_str(A, n, i, k, -A[i][k] / A[k][k]);
 				}
 		}
 		else
