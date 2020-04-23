@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "inverse.h"
 
 double Abs(double x);
