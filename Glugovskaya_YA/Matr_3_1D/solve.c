@@ -5,6 +5,36 @@
 #include "MaxEl.h"
 #include "prn_matr.h"
 
+int Inverse_matrix(double *a, int n)
+{
+	double *MINORS;
+	if (!(MINORS = (double*) malloc (n*n*sizeof(double))))
+	{
+		printf("not enough memory\n");
+		return Err_of_Mem;
+	}
+
+	Find_Matr_Dopolneni(a, MINORS, n);
+	TRANS(MINORS, n);
+	double det = DET(a, n);
+	printf("Det: %lf\n", det);
+	
+	printf("Matrix A^(-1):\n");
+	for(int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			printf("%lf ", MINORS[i * n + j]/det);
+			if (j == n - 1) printf("\n");
+		}
+		if (i == n - 1)break;
+	}
+	
+	free(MINORS);
+	return 1;
+}
+	
+
 double DET(double *a, int n){
 	
 	int i, j, l, sgn = 1;;
@@ -12,9 +42,9 @@ double DET(double *a, int n){
 	
 	for (i = 0; i < n; i++)
 	{		
-		if (i < n - 1) sgn *= MaxEl_In_Collon(a, n, i);
-		if (n == 5) prn_matr(a, n);
-		if (a[i * n + i] < 0 || a[i * n + i] > 0)
+		if (i < n - 1) sgn *= Raising_row_with_MaxEl_In_Collon(a, n, i);
+		
+		if (fabs(a[i * n + i]) > EPS)
 		{
 			
 			del = a[i * n  + i];
@@ -30,7 +60,6 @@ double DET(double *a, int n){
 			}
 		}
 		det *= a[i * n + i];
-		if (n == 5) prn_matr(a, n);
 	}
 	return det * sgn;
 }

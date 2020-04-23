@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "solve.h"
 #include <math.h>
-int MaxEl_In_Collon(double *a, int n, int Pos)
+int Raising_row_with_MaxEl_In_Collon(double *a, int n, int Pos)
 {
-	int i, j, Pos_MaxEl=0;
 	double *Start;
 	double buf, maxel = *(a + (Pos)*n + Pos);
+	int Pos_MaxEl = Pos;
 	
-	for (i = Pos; i < n; i++)
+	for (int i = Pos + 1; i < n; i++)
 	{
 		
 			if(fabs(a[ i*n + Pos]) >= fabs (maxel)) {
@@ -22,7 +22,7 @@ int MaxEl_In_Collon(double *a, int n, int Pos)
 	}
 	//printf("maxel:%lf %d %d\n", maxel, Pos_MaxEl, Pos);
 	Start = a+Pos_MaxEl*n;
-	for (i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		//printf("a[%d]=%lf a[%d]=%lf\n", Pos_MaxEl*n+i, a[Pos_MaxEl*n+i], i+Pos*n, a[i+Pos*n]);
 		buf = *(Start + i);

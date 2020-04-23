@@ -9,30 +9,25 @@
 #define Read_Err -2
 #define All_Correct 1
 #define Not_to_End -3
+#define Err_of_Mem 2
 
 //1.exe n matr.txt
 int main(int argc,char **argv)
 {
-	int n, i, j;
-	double t, res, det;
+	int n;
+	double t, res;
 	char *File_Name = 0;
-	double *a, *MINORS;
+	double *a;
 	
 	if ((argc != 3) || !(n = atoi(argv[1])))
 	{
 		
-		printf("Usage:%s\n", argv[0]);
+		printf("Usage:%s n filename \n n - martix size \n filename - name of file with n * n numbers\n", argv[0]);
 		return 1;
 	}
 	File_Name = argv[2];
 	
 	if (!(a = (double*) malloc (n*n*sizeof(double))))
-	{
-		printf("not enough memory\n");
-		return 2;
-	}
-	
-	if (!(MINORS = (double*) malloc (n*n*sizeof(double))))
 	{
 		printf("not enough memory\n");
 		return 2;
@@ -68,24 +63,10 @@ int main(int argc,char **argv)
 	}
 	printf("Matrix A:\n");
 	prn_matr(a, n);
-	Find_Matr_Dopolneni(a, MINORS, n);
-	TRANS(MINORS, n);
-	det = DET(a, n);
-	printf("Det: %lf\n", det);
-	
-	printf("Matrix A^(-1):\n");
-	for(i = 0; i < n; i++)
-	{
-		for (j = 0; j < n; j++)
-		{
-			printf("%lf ", MINORS[i * n + j]/det);
-			if (j == n - 1) printf("\n");
-		}
-		if (i == n - 1)break;
-	}
-	
-	
+	res = Inverse_matrix(a, n);
+	if (res == Err_of_Mem) return 2;
+
 	free(a);
-	free(MINORS);
+
 	return 0;
 }
