@@ -1,5 +1,5 @@
 #include "task.h"
-#include "math.h"
+#include <math.h>
 #include <stdio.h>
 
 int rank(double *data, int n_rows, int n_cols)
