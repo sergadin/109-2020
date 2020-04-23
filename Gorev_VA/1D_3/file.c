@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "inverse.h"
 
-void print_matrix(double *matr, int m, int n);
 void print_matrix(double *matr, int m, int n)
 {
 	for (int i = 0; i < m; i++)
@@ -13,7 +12,6 @@ void print_matrix(double *matr, int m, int n)
 	}
 }
 
-double *read_matrix(int m, int n, FILE* input);
 double *read_matrix(int m, int n, FILE* input)
 {
 	double *matr;

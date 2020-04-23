@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include "inverse.h"
 
-double Abs(double x);
 double Abs(double x)
 {
 	if (x >= 0)
@@ -9,7 +8,6 @@ double Abs(double x)
 	return -x;
 }
 
-void centr_sym(double *matr, int n);
 void centr_sym(double *matr, int n)
 {
 	double *T;
@@ -23,7 +21,6 @@ void centr_sym(double *matr, int n)
 	free(T);
 }
 
-void swap(double *matr, int n, int i1, int i2);
 void swap(double *matr, int n, int i1, int i2)
 {
 	for (int j = 0; j < n; j++)
@@ -34,21 +31,18 @@ void swap(double *matr, int n, int i1, int i2)
 	}
 }
 
-void multiply(double *matr, int n, int i1, double c);
 void multiply(double *matr, int n, int i1, double c)
 {
 	for (int j = 0; j < n; j++)
 		matr[i1 * n + j] = c * matr[i1 * n + j];
 }
 
-void plus_str(double *matr, int n, int i1, int i2, double c);
 void plus_str(double *matr, int n, int i1, int i2, double c)
 {
 	for (int j = 0; j < n; j++)
 		matr[i1 * n + j] = matr[i1 * n + j] + c * matr[i2 * n + j];
 }
 
-void diag(double *A, double *A_dop, int n, ErrorCode *Error);
 void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 {
 	*Error = OK;
@@ -85,7 +79,6 @@ void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 			*Error = MATR_IS_SINGULAR;
 }
 
-void inverse(double *A, int n, ErrorCode *Error);
 void inverse(double *A, int n, ErrorCode *Error)
 {
 	double *A_dop;
