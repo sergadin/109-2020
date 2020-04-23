@@ -4,20 +4,22 @@
 
 int rank(double *data, int n_rows, int n_cols)
 {
-	int k = 0, fail = 1, i, j;
+	int k = 0, fail = 0, i = 0, j = 0;
 	double max = 0;
 	int maxrow, maxcol;
 
-	while(1)
+	while(!fail && k < n_rows)
 	{
 		printmat(data, n_rows, n_cols);
+		fprintf(stdout,"\n");
 		
+		k++;
 		fail = 1;
 		max = 0;
 		//Ищем максимальный по модулю элемент
 		for(i = 0; i < n_cols; i++)
 		{
-			for(j = k; j < n_rows; j++)
+			for(j = k-1; j < n_rows; j++)
 			{
 				if(!(fabs(EL(data, n_cols, j, i)) < eps))
 					fail = 0;
@@ -32,29 +34,24 @@ int rank(double *data, int n_rows, int n_cols)
 
 		if(fail)
 		{
-			fprintf(stdout,"we haven't found non-zero column :(\n");
 			k--;
-			break;
 		}
-		fprintf(stdout,"we found non-zero column #%d\n",maxcol+1);
-		swaprows(data, n_cols, k, maxrow);
-		swapcols(data, n_rows, n_cols, k, maxcol);
-		//Обнуляем все нижние элементы столбца
-		for(j = k+1; j < n_rows; j++)
+		else
 		{
-			if(!(fabs(EL(data, n_cols, j, k)) < eps))
+			swaprows(data, n_cols, k, maxrow);
+			swapcols(data, n_rows, n_cols, k, maxcol);
+			//Обнуляем все нижние элементы столбца
+			for(j = k; j < n_rows; j++)
 			{
-				plusrows(data, n_cols, j, k, (-EL(data, n_cols, j, k)) / EL(data, n_cols, k, k));
+				if(!(fabs(EL(data, n_cols, j, k-1)) < eps))
+				{
+					plusrows(data, n_cols, j, k-1, (-EL(data, n_cols, j, k-1)) / EL(data, n_cols, k-1, k-1));
+				}
 			}
 		}
-
-		if(k == n_rows - 1 || i == n_cols - 1)
-			break;
-		else
-			k++;
 	}
 
-	return k + 1;
+	return k;
 }
 
 void swaprows(double *data, int n_cols, int row1, int row2)
