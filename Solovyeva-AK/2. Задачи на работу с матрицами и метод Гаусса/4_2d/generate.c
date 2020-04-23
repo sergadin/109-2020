@@ -1,18 +1,5 @@
 #include "libs.h"
 
-void print_system(int n, double **matrix) {
-    printf("System:\n\n");
-    for (int i = 0; i < n; i++) {
-        printf("%.2lf*x0", matrix[i][0]);
-        for (int j = 1; j < n; j++) {
-            printf(" + %.2lf*x%d", matrix[i][j], j);
-        }
-        printf(" = %.2lf\n", matrix[i][n]);
-    }
-    return;
-}
-
-
 int main() {
     int n = 5;
     double **matrix = malloc(n * sizeof(*matrix));
@@ -26,7 +13,7 @@ int main() {
         for (int j = 0; j < n+1; j++) {
             if (j == n) {
                 matrix[i][j] = 4*i + 1;
-            } else if ( i != j) {
+            } else if ( i == j) {
                 matrix[i][j] = (double)(i + j) / 5;
             } else { 
                 matrix[i][j] = 40 + 10 + (double)j / 10 + (double)i / 4;
@@ -39,6 +26,11 @@ int main() {
     printf("\nSolution:\n\n");
     for(int i = 0; i < n; i++) {
         printf("x%d=%.8lf\n", i, x[i]);
+    }
+    if(check_solution(n, matrix, x)){
+        printf("\nCorrect\n");
+    } else {
+        printf("\nIncorrect\n");
     }
     
     for (int i = 0; i < n; ++i) {
