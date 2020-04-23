@@ -28,9 +28,9 @@ void swap(double *matr, int n, int i1, int i2)
 {
 	for (int j = 0; j < n; j++)
 	{
-		matr[i1 * n + j] += matr[i2 * n + j];
-		matr[i2 * n + j] = matr[i1 * n + j] - matr[i2 * n + j];
-		matr[i1 * n + j] = matr[i1 * n + j] - matr[i2 * n + j];
+		double A = matr[i1 * n + j];
+		matr[i1 * n + j] = matr[i2 * n + j];
+		matr[i2 * n + j] = A;
 	}
 }
 
