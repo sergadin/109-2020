@@ -28,12 +28,9 @@ void centr_sym(double **matr, int n)
 
 void swap(double **matr, int n, int i1, int i2)
 {
-	for (int j = 0; j < n; j++)
-	{
-		double A = matr[i1][j];
-		matr[i1][j] = matr[i2][j];
-		matr[i2][j] = A;
-	}
+	double *A = matr[i1];
+	matr[i1] = matr[i2];
+	matr[i2] = A;
 }
 
 void multiply(double **matr, int n, int i1, double c)
