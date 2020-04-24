@@ -4,7 +4,7 @@
 
 #define fin "input.txt"
 #define E 0.001
-#define M 4
+#define M 5
 
 int main(void) 
 {

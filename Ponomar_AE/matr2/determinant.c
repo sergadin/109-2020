@@ -33,11 +33,14 @@ double determinant_matrix(double *matrix, int n, double E)
 
 		for (int a = j + 1; a < n; a++) 
 		{
-			factor = matrix(n, a, j)/matrix(n, j, j);
-			for (int b = j; b < n; b++) 
-			{
-				matrix(n, a, b) -= factor*matrix(n, j, b);
-			}
+                        if (fabs(matrix(n, j, j))>E)
+                        {
+			        factor = matrix(n, a, j)/matrix(n, j, j);
+			        for (int b = j; b < n; b++) 
+			        {
+				        matrix(n, a, b) -= factor*matrix(n, j, b);
+			        }
+                        }
 		}
 
 		determinant *= matrix(n, j, j);
