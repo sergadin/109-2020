@@ -4,6 +4,8 @@
 #include <math.h>
 #include "rank.h"
 
+#define min(a,b) ((a)<(b) ? (a) : (b))
+
 void swap(double *a, double *b);
 void printMatrix(double **matrix, int n, int m);
 
@@ -15,9 +17,10 @@ int rank_matrix(double **matrix, int n, int m, double E)
 	{
 		for (int a = j + 1; a < n; a++) 
 		{
-			if (matrix[j][j] != 0)
+			if (fabs(matrix[j][j])>E)
 			{
 				double factor = matrix[a][j]/matrix[j][j];
+
 			        for (int b = j; b < m; b++) 
 			        {
 					matrix[a][b] -= factor*matrix[j][b];
@@ -26,7 +29,7 @@ int rank_matrix(double **matrix, int n, int m, double E)
 		}
 
 	}
-	for (int j = 0; j < n; j++)
+	for (int j = 0; j < min(n, m); j++)
 	{
 		if (fabs(matrix[j][j])>E)
 		{

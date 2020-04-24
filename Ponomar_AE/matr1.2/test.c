@@ -4,7 +4,7 @@
 #include "rank.h"
 
 #define min(a,b) ((a)<(b) ? (a) : (b))
-#define NUMT 3
+#define NUMT 4
 #define E 0.0001
 #define fin "input.txt"
 
@@ -17,14 +17,15 @@ int main(void)
 	if ((input = fopen(fin, "r")) == NULL) 
 	{
 		fprintf(stderr, "ERROR open %s\n", fin);
+                fclose(input);
 		return -1;
 	}
 
 	for (int numt = 0; numt < NUMT; numt++) 
 	{
-		if ((fscanf(input, "%d%d%d", &n, &m, &true_answer) != 3) || (n<=0) || (m<=0)) 
+		if ((fscanf(input, "%d%d", &n, &m) != 2)) 
 		{
-			fprintf(stderr, "ERROR read N||M||true_answer\n");
+			fprintf(stderr, "ERROR read N||M\n");
 			fclose(input);
 			return -1;
 		}
@@ -41,7 +42,7 @@ int main(void)
 			if ((matrix[i] = (double *) malloc(m * sizeof(double))) == NULL) 
 			{
 				fprintf(stderr, "ERROR memory %d\n", i + 1);
-				for (int j = 0; j < i; j++)
+				for (int j = 0; j <= i; j++)
 				{
 					free(matrix[j]);
 				}
@@ -70,6 +71,17 @@ int main(void)
 		}
 		
 		rank = rank_matrix(matrix, n, m, E);
+                if ((fscanf(input, "%d", &true_answer) != 1)) 
+		{
+			fprintf(stderr, "ERROR read true_answer\n");
+			for (int i = 0; i < n; i++)
+			{
+				free(matrix[i]);
+			}
+			free(matrix);
+			fclose(input);
+			return -1;
+		}
 		fprintf(stdout, "TEST %d real: %d true: %d\n", (numt+1), rank, true_answer);
 		for (int i = 0; i < n; i++) 
 		{
