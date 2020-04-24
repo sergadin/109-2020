@@ -65,11 +65,10 @@ void diag(double *A, double *A_dop, int n, ErrorCode *Error)
 		if (*Error == OK)
 		{
 			for (int i = k + 1; i < n; i++)
-				for (int j = k; j < n; j++)
-				{
-					plus_str(A_dop, n, i, k, -A[i * n + k] / A[k * n + k]);
-					plus_str(A, n, i, k, -A[i * n + k] / A[k * n + k]);
-				}
+			{
+				plus_str(A_dop, n, i, k, -A[i * n + k] / A[k * n + k]);
+				plus_str(A, n, i, k, -A[i * n + k] / A[k * n + k]);
+			}
 		}
 		else
 			break;
