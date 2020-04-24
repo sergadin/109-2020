@@ -23,12 +23,7 @@ double find_determinant(int n, double **matrix, double epsilon)
 		}
 		if (rwmeoc != j)
 		{
-			for (int i = 0; i < n; i ++)
-			{
-				matrix[rwmeoc][i] += matrix[j][i];
-				matrix[j][i] = matrix[rwmeoc][i] - matrix[j][i];
-				matrix[rwmeoc][i] = matrix[rwmeoc][i] - matrix[j][i];
-			}
+			swap_strings(matrix, rwmeoc, j);
 			sign *= (-1);
 		}
 		if (matrix[j][j] < 0)
@@ -62,4 +57,11 @@ double find_determinant(int n, double **matrix, double epsilon)
 	}
 	det *= sign;
 	return det;
+}
+
+void swap_strings(double **matrix, int i, int j)
+{
+	double *tmp = matrix[i];
+	matrix[i] = matrix[j];
+	matrix[j] = tmp;	
 }
