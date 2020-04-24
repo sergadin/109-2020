@@ -4,7 +4,7 @@
 
 int inv(double **matrix, double **matrixinv, int N)
 {
-	int k = 0, i, j, fail = 0, I, J;
+	int curr_row = 0, i, j, non_zero_not_found = 0, I, J;
 
 	//Делаем из второй матрицы единичную
 	for(i = 0; i < N; i++)
@@ -19,49 +19,48 @@ int inv(double **matrix, double **matrixinv, int N)
 	}
 
 	//Методом Гаусса приводим матрицу к унитреугольному виду
-	while(!fail && k < N)
+	while(!non_zero_not_found && curr_row < N)
 	{
-		k++;
-		fail = 1;
+		non_zero_not_found = 1;
 
 		//Ищем первый ненулевой столбец
 		for(i = 0; i < N; i++)
 		{
-			for(j = k-1; j < N; j++)
+			for(j = curr_row; j < N; j++)
 			{
-				if(!(fabs(matrix[j][i]) < eps) && fail)
+				if(!(fabs(matrix[j][i]) < eps) && non_zero_not_found)
 				{
-					fail = 0;
+					non_zero_not_found = 0;
 					I = i;
 					J = j;
 				}
 			}
 		}
-		//Если унитреугольная не получается, возвращаем 0
-		if(!fail)
+		if(!non_zero_not_found)
 		{
 			//Если в нём верхний элемент ноль, то меняем строчки так, чтобы был не ноль
-			if(fabs(matrix[k-1][I]) < eps)
+			if(fabs(matrix[curr_row][I]) < eps)
 			{
-				swaprows(matrix, N, k-1, J);
-				swaprows(matrixinv, N, k-1, J);
+				swaprows(matrix, N, curr_row, J);
+				swaprows(matrixinv, N, curr_row, J);
 			}
 			//И делаем верхний элемент единицей
-			multrow(matrixinv, N, k-1, 1/matrix[k-1][I]);
-			multrow(matrix, N, k-1, 1/matrix[k-1][I]);
+			multrow(matrixinv, N, curr_row, 1/matrix[curr_row][I]);
+			multrow(matrix, N, curr_row, 1/matrix[curr_row][I]);
 			//Обнуляем все нижние элементы столбца
-			for(j = k; j < N; j++)
+			for(j = curr_row + 1; j < N; j++)
 			{
 				if(!(fabs(matrix[j][I]) < eps))
 				{
-					plusrows(matrixinv, N, j, k-1, (-matrix[j][I]) / matrix[k-1][I]);
-					plusrows(matrix, N, j, k-1, (-matrix[j][I]) / matrix[k-1][I]);
+					plusrows(matrixinv, N, j, curr_row, (-matrix[j][I]) / matrix[curr_row][I]);
+					plusrows(matrix, N, j, curr_row, (-matrix[j][I]) / matrix[curr_row][I]);
 				}
 			}
+			curr_row++;
 		}
 	}
 
-	if(!fail)
+	if(!non_zero_not_found)
 	{
 		//Обратным ходом метода Гаусса превращаем матрицу в единичную
 		for(i = N-1; i > 0; i--)
@@ -74,7 +73,7 @@ int inv(double **matrix, double **matrixinv, int N)
 		}
 	}
 
-	return 1 - fail;
+	return 1 - non_zero_not_found;
 }
 
 void swaprows(double **matrix, int N, int row1, int row2)
