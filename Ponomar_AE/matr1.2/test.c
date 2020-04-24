@@ -4,7 +4,7 @@
 #include "rank.h"
 
 #define min(a,b) ((a)<(b) ? (a) : (b))
-#define NUMT 4
+#define NUMT 3
 #define E 0.0001
 #define fin "input.txt"
 
