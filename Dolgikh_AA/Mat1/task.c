@@ -13,13 +13,12 @@ int rank(double *data, int n_rows, int n_cols)
 		printmat(data, n_rows, n_cols);
 		fprintf(stdout,"\n");
 		
-		curr_row++;
 		non_zero_not_found = 1;
 		max = 0;
 		//Ищем максимальный по модулю элемент
 		for(i = 0; i < n_cols; i++)
 		{
-			for(j = curr_row-1; j < n_rows; j++)
+			for(j = curr_row; j < n_rows; j++)
 			{
 				if(fabs(EL(data, n_cols, j, i)) > fabs(max))
 				{
@@ -31,22 +30,19 @@ int rank(double *data, int n_rows, int n_cols)
 			}
 		}
 
-		if(non_zero_not_found)
-		{
-			curr_row--;
-		}
-		else
+		if(!non_zero_not_found)
 		{
 			swaprows(data, n_cols, curr_row, maxrow);
 			swapcols(data, n_rows, n_cols, curr_row, maxcol);
 			//Обнуляем все нижние элементы столбца
-			for(j = curr_row; j < n_rows; j++)
+			for(j = curr_row+1; j < n_rows; j++)
 			{
-				if(!(fabs(EL(data, n_cols, j, curr_row-1)) < eps))
+				if(!(fabs(EL(data, n_cols, j, curr_row)) < eps))
 				{
-					plusrows(data, n_cols, j, curr_row-1, (-EL(data, n_cols, j, curr_row-1)) / EL(data, n_cols, curr_row-1, curr_row-1));
+					plusrows(data, n_cols, j, curr_row, (-EL(data, n_cols, j, curr_row)) / EL(data, n_cols, curr_row, curr_row));
 				}
 			}
+			curr_row++;
 		}
 	}
 
