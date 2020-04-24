@@ -4,25 +4,25 @@
 
 int rank(double *data, int n_rows, int n_cols)
 {
-	int curr_row = 0, non_zero_not_found = 0, i = 0, j = 0;
+	int curr_row = 0, non_zero_found = 1;
 	double max = 0;
 	int maxrow, maxcol;
 
-	while(!non_zero_not_found && curr_row < n_rows)
+	while(non_zero_found && curr_row < n_rows)
 	{
 		printmat(data, n_rows, n_cols);
 		fprintf(stdout,"\n");
 		
-		non_zero_not_found = 1;
+		non_zero_found = 0;
 		max = 0;
 		//Ищем максимальный по модулю элемент
-		for(i = 0; i < n_cols; i++)
+		for(int i = 0; i < n_cols; i++)
 		{
-			for(j = curr_row; j < n_rows; j++)
+			for(int j = curr_row; j < n_rows; j++)
 			{
 				if(fabs(EL(data, n_cols, j, i)) > fabs(max))
 				{
-					non_zero_not_found = 0;
+					non_zero_found = 1;
 					max = EL(data, n_cols, j, i);
 					maxrow = j;
 					maxcol = i;
@@ -30,12 +30,12 @@ int rank(double *data, int n_rows, int n_cols)
 			}
 		}
 
-		if(!non_zero_not_found)
+		if(non_zero_found)
 		{
 			swaprows(data, n_cols, curr_row, maxrow);
 			swapcols(data, n_rows, n_cols, curr_row, maxcol);
 			//Обнуляем все нижние элементы столбца
-			for(j = curr_row+1; j < n_rows; j++)
+			for(int j = curr_row+1; j < n_rows; j++)
 			{
 				if(!(fabs(EL(data, n_cols, j, curr_row)) < eps))
 				{
