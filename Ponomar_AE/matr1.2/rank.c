@@ -6,57 +6,67 @@
 
 #define min(a,b) ((a)<(b) ? (a) : (b))
 
-void swap(double *a, double *b);
 void printMatrix(double **matrix, int n, int m);
 
-int rank_matrix(double **matrix, int n, int m, double E) 
-{	
-	int rank = 0, string;
+int rank_matrix(double **matrix, int n, int m, double E)
+{
+	int rank = 0, curr_string = 0, k = 1;
+	double max = 0;
+	int max_string, max_column;
 
-	for (int j = 0; j < m; j++) 
+	while((k == 1) && (curr_string < min(n, m)))
 	{
-		string = j;
-		for (int i = j + 1; i < n; i++) 
+                k = 0;
+                max = 0;
+		for(int i = curr_string; i < n; i++)
 		{
-			if (fabs(matrix[i][j]) > fabs(matrix[string][j])) 
+			for(int j = curr_string; j < m; j++)
 			{
-				string = i;
+				if(fabs(matrix[i][j]) > fabs(max))
+				{
+					k = 1;
+					max = matrix[i][j];
+					max_string = i;
+					max_column = j;
+				}	
 			}
 		}
 
-		if (string != j) 
+		if (k == 1)
 		{
-			for (int a = 0; a < m; a++) 
-			{
-				double change = (matrix[j][a]);
-				matrix[j][a] = matrix[string][a];
-				matrix[string][a] = change;
-			}
-		}
-		for (int a = j + 1; a < n; a++) 
-		{
-			if (fabs(matrix[j][j])>E)
-			{
-				double factor = matrix[a][j]/matrix[j][j];
+	                for(int j = curr_string; j < m; j++)
+	                {
+		                double change = matrix[curr_string][j];
+		                matrix[curr_string][j] = matrix[max_string][j];
+		                matrix[max_string][j] = change;
+	                }
+                        for(int i = curr_string; i < n; i++)
+	                {
+		                double change = matrix[i][curr_string];
+		                matrix[i][curr_string] = matrix[i][max_column];
+		                matrix[i][max_column] = change;
+	                }
 
-			        for (int b = j; b < m; b++) 
-			        {
-					matrix[a][b] -= factor*matrix[j][b];
-			        }
+			for(int i = curr_string + 1; i < n; i++)
+			{
+				if(fabs(matrix[curr_string][curr_string]) > E)
+				{
+                                        double factor = matrix[i][curr_string] / matrix[curr_string][curr_string];
+                                     	for(int j = curr_string; j < m; j++)
+	                                {
+                                                matrix[i][j] -= matrix[curr_string][j] * factor;
+                                                                      
+                                        }
+				}
 			}
+                        
+			curr_string++;
 		}
-
 	}
-	for (int j = 0; j < min(n, m); j++)
-	{
-		if (fabs(matrix[j][j])>E)
-		{
-			rank++;
-		}
-	}
-	
-	return rank;
+
+        return curr_string;
 }
+
 
 void printMatrix(double **matrix, int n, int m)
 {
@@ -68,10 +78,4 @@ void printMatrix(double **matrix, int n, int m)
 		}
 		printf("\n");
 	}
-}
-void swap(double *a, double *b) 
-{
-	double swap = *a;
-	*a = *b;
-	*b = swap;
 }
