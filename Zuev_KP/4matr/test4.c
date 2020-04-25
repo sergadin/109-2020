@@ -11,7 +11,6 @@ int main(void)
 	int row, i, j, n_rows = 3, n_cols = 4;
 	double current, e = 0.1;
 	double **mas = malloc(n_rows* sizeof(double));
-	double *x1 = malloc(n_rows* sizeof(double));
 	double *x = malloc(n_rows* sizeof(double));
 	double b[] = {4.05, -0.72, -3.7};
 	FILE *input1;
@@ -31,12 +30,12 @@ int main(void)
 			mas[i][j] = current;
 		}
 	}
-	x1 = clin(mas, n_rows, n_cols, x);
+	x = clin(mas, n_rows, n_cols, x);
 	for ( i = 0; i < n_rows; i++ )
-		printf( "%lf\n", x1[i] );
+		printf( "%lf\n", x[i] );
 	for(i = 0; i < n_rows; i++)
 	{
-		if (modul(x1[i] - b[i]) < e*MAX1(x1[i], b[i], 1))
+		if (modul(x[i] - b[i]) < e*MAX1(x[i], b[i], 1))
 		{
 			printf("пройден\n");
 		}
@@ -49,7 +48,6 @@ int main(void)
 	{
 		free(mas[row]);
 	}
-	free(x1);
 	free(x);
 	free(mas);
 	fclose(input1);

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g
+CFLAGS= -g
 
 all: do-test clean
 
