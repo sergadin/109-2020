@@ -11,10 +11,28 @@ void printMatrix(double **matrix, int n, int m);
 
 int rank_matrix(double **matrix, int n, int m, double E) 
 {	
-	int rank = 0;
+	int rank = 0, string;
 
-	for (int j = 0; j < n; j++) 
+	for (int j = 0; j < m; j++) 
 	{
+		string = j;
+		for (int i = j + 1; i < n; i++) 
+		{
+			if (fabs(matrix[i][j]) > fabs(matrix[string][j])) 
+			{
+				string = i;
+			}
+		}
+
+		if (string != j) 
+		{
+			for (int a = 0; a < m; a++) 
+			{
+				double change = (matrix[j][a]);
+				matrix[j][a] = matrix[string][a];
+				matrix[string][a] = change;
+			}
+		}
 		for (int a = j + 1; a < n; a++) 
 		{
 			if (fabs(matrix[j][j])>E)
