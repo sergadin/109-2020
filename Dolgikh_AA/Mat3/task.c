@@ -4,7 +4,7 @@
 
 int inv(double **matrix, double **matrixinv, int N)
 {
-	int k = 0, i, j, fail = 1;
+	int curr_row = 0, i, j, non_zero_found = 1, I, J;
 
 	//Делаем из второй матрицы единичную
 	for(i = 0; i < N; i++)
@@ -19,77 +19,68 @@ int inv(double **matrix, double **matrixinv, int N)
 	}
 
 	//Методом Гаусса приводим матрицу к унитреугольному виду
-	while(1)
+	while(non_zero_found && curr_row < N)
 	{
+		non_zero_found = 0;
+
 		//Ищем первый ненулевой столбец
 		for(i = 0; i < N; i++)
 		{
-			fail = 1;
-			for(j = k; j < N; j++)
+			for(j = curr_row; j < N; j++)
 			{
-				if(!(fabs(matrix[j][i]) < eps))
+				if(!(fabs(matrix[j][i]) < eps) && !non_zero_found)
 				{
-					fail = 0;
-					break;
+					non_zero_found = 1;
+					I = i;
+					J = j;
 				}
 			}
-			if(!fail)
-				break;
 		}
-		//Если унитреугольная не получается, возвращаем 0
-		if(fail)
+		if(non_zero_found)
 		{
-			return 0;
-		}
-		//Если в нём верхний элемент ноль, то меняем строчки так, чтобы был не ноль
-		if(fabs(matrix[k][i]) < eps)
-		{
-			swaprows(matrix, N, k, j);
-			swaprows(matrixinv, N, k, j);
-		}
-		//И делаем верхний элемент единицей
-		multrow(matrixinv, N, k, 1/matrix[k][i]);
-		multrow(matrix, N, k, 1/matrix[k][i]);
-		//Обнуляем все нижние элементы столбца
-		for(j = k+1; j < N; j++)
-		{
-			if(!(fabs(matrix[j][i]) < eps))
+			//Если в нём верхний элемент ноль, то меняем строчки так, чтобы был не ноль
+			if(fabs(matrix[curr_row][I]) < eps)
 			{
-				plusrows(matrixinv, N, j, k, (-matrix[j][i]) / matrix[k][i]);
-				plusrows(matrix, N, j, k, (-matrix[j][i]) / matrix[k][i]);
+				swaprows(matrix, curr_row, J);
+				swaprows(matrixinv, curr_row, J);
+			}
+			//И делаем верхний элемент единицей
+			multrow(matrixinv, N, curr_row, 1/matrix[curr_row][I]);
+			multrow(matrix, N, curr_row, 1/matrix[curr_row][I]);
+			//Обнуляем все нижние элементы столбца
+			for(j = curr_row + 1; j < N; j++)
+			{
+				if(!(fabs(matrix[j][I]) < eps))
+				{
+					plusrows(matrixinv, N, j, curr_row, (-matrix[j][I]) / matrix[curr_row][I]);
+					plusrows(matrix, N, j, curr_row, (-matrix[j][I]) / matrix[curr_row][I]);
+				}
+			}
+			curr_row++;
+		}
+	}
+
+	if(non_zero_found)
+	{
+		//Обратным ходом метода Гаусса превращаем матрицу в единичную
+		for(i = N-1; i > 0; i--)
+		{
+			for(j = 0; j < i; j++)
+			{
+				plusrows(matrixinv, N, j, i, -matrix[j][i]);
+				plusrows(matrix, N, j, i, -matrix[j][i]);
 			}
 		}
-
-		if(k == N - 1 || i == N - 1)
-			break;
-		else
-			k++;
 	}
 
-	//Обратным ходом метода Гаусса превращаем матрицу в единичную
-	for(i = N-1; i > 0; i--)
-	{
-		for(j = 0; j < i; j++)
-		{
-			plusrows(matrixinv, N, j, i, -matrix[j][i]);
-			plusrows(matrix, N, j, i, -matrix[j][i]);
-		}
-	}
-
-	return 1;
+	return non_zero_found;
 }
 
-void swaprows(double **matrix, int N, int row1, int row2)
+void swaprows(double **matrix, int row1, int row2)
 {
-	int i;
-	double t;
-
-	for(i = 0; i < N; i++)
-	{
-		t = matrix[row1][i];
-		matrix[row1][i] = matrix[row2][i];
-		matrix[row2][i] = t;
-	}
+	double *ROW = matrix[row1];
+	matrix[row1] = matrix[row2];
+	matrix[row2] = ROW;
 }
 void plusrows(double **matrix, int N, int row1, int row2, double k)
 {

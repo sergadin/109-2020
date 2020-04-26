@@ -33,7 +33,6 @@ int main(void)
 	Error = (ErrorCode*)malloc(sizeof(ErrorCode));
 
 
-	matr = (double*)malloc(N * N * sizeof(double));
 	if ((input = fopen("input1.txt", "r")) == NULL)
 	{
 		return -1;
@@ -42,7 +41,7 @@ int main(void)
 	printf("A = \n");
 	print_matrix(matr, N, N);
 	printf("\n");
-	matr = inverse(matr, N, Error);
+	inverse(matr, N, Error);
 	if (*Error == OK)
 	{
 		printf("A^-1 = \n");
@@ -55,7 +54,6 @@ int main(void)
 	free(matr);
 
 
-	matr = (double*)malloc(N * N * sizeof(double));
 	if ((input = fopen("input2.txt", "r")) == NULL)
 	{
 		return -1;
@@ -64,7 +62,7 @@ int main(void)
 	printf("A = \n");
 	print_matrix(matr, N, N);
 	printf("\n");
-	matr = inverse(matr, N, Error);
+	inverse(matr, N, Error);
 	if (*Error == OK)
 	{
 		printf("A^-1 = \n");
@@ -77,7 +75,6 @@ int main(void)
 	free(matr);
 
 
-	matr = (double*)malloc(N * N * sizeof(double));
 	if ((input = fopen("input3.txt", "r")) == NULL)
 	{
 		return -1;
@@ -86,7 +83,7 @@ int main(void)
 	printf("A = \n");
 	print_matrix(matr, N, N);
 	printf("\n");
-	matr = inverse(matr, N, Error);
+	inverse(matr, N, Error);
 	if (*Error == OK)
 	{
 		printf("A^-1 = \n");

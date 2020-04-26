@@ -3,13 +3,11 @@
 #include <math.h>
 #include "Det.h"
 
-#define MAXOF2(x, y) (((x) > (y)) ? (x) : (y))
-
 double find_determinant(int n, double **matrix, double epsilon)
 {
-	double det = 1, sign = 1, memory, coef;
+	double det = 1, sign = 1, coef;
 	int rwmeoc; //row_with_max_element_of_column
-	for (int j = 0; j < n - 1; j++)
+	for (int j = 0; j < n; j++)
 	{
 		rwmeoc = j;
 		for (int i = (j + 1); i < n; i++)
@@ -19,18 +17,13 @@ double find_determinant(int n, double **matrix, double epsilon)
 				rwmeoc = i;
 			}
 		}
-		if (fabs(matrix[rwmeoc][j]) < MAXOF2(fabs(matrix[rwmeoc][j]), 1) * epsilon)
+		if (fabs(matrix[rwmeoc][j]) < epsilon)
 		{
 			return 0;
 		}
 		if (rwmeoc != j)
 		{
-			for (int i = 0; i < n; i ++)
-			{
-				memory = matrix[rwmeoc][i];
-				matrix[rwmeoc][i] = matrix[j][i];
-				matrix[j][i] = memory;
-			}
+			swap_strings(matrix, rwmeoc, j);
 			sign *= (-1);
 		}
 		if (matrix[j][j] < 0)
@@ -64,4 +57,11 @@ double find_determinant(int n, double **matrix, double epsilon)
 	}
 	det *= sign;
 	return det;
+}
+
+void swap_strings(double **matrix, int i, int j)
+{
+	double *tmp = matrix[i];
+	matrix[i] = matrix[j];
+	matrix[j] = tmp;	
 }

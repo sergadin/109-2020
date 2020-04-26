@@ -1,8 +1,12 @@
-all: f clear
+all: do-test clear
 
-f: file.c
-	gcc file.c
+do-test: a.out
 	./a.out
 
-clear: a.out
-	rm a.out
+a.out: inverse.o file.o
+	gcc -c inverse.c
+	gcc -c file.c
+	gcc inverse.o file.o -lm
+
+clear:
+	rm inverse.o file.o a.out
