@@ -19,8 +19,8 @@ int main (void) {
 		return -1;
 	}
 	if (( output = fopen("output.txt" , "w")) == NULL ) {
-    	printf ("Не удалось открыть файл") ;
-        fclose(input);
+    		printf ("Не удалось открыть файл") ;
+        	fclose(input);
 		return -1;
 	}  
 	if(fscanf(input, "%d", &N) != 1 || N <= 0) {
@@ -47,9 +47,10 @@ int main (void) {
 		for (int j = 0; j < M; j++) {
 	    	if (fscanf(input, "%lf", &matrix[i * M + j]) != 1) {
 	        	printf("недостаточно элементов\n");
-				fprintf(output,"%d\n please add more elements",error);
+			fprintf(output,"%d\n please add more elements",error);
 	        	free(matrix);
 	        	fclose(input);
+			fclose(output);
 	        	return 0;
 	    	}
 		}
