@@ -26,11 +26,15 @@ int main (void) {
 	if(fscanf(input, "%d", &N) != 1 || N <= 0) {
 		printf("невозможно прочитать количесвто строк\n");
 		fprintf(output,"%d\n error read N",error);
+		fclose(input);
+		fclose(output);
 		return 0;
 	}		
 	if(fscanf(input, "%d", &M) != 1 || M <= 0){
 		fprintf(output,"%d\n error read M",error);
 		printf("невозможно прочитать количесвто столбцов\n");
+		fclose(input);
+		fclose(output);
 		return 0;
 	}
    
