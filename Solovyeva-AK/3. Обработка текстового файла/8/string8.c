@@ -18,9 +18,21 @@ char *read_string(FILE *in) {
 
 
 int main(int argc, char *argv[]){
-    FILE *inp = fopen("input.txt", "r");
-    FILE *out = fopen("out.txt", "w");
+    FILE *inp, *out;
     char *start, *end;
+
+    if ((inp = fopen("input.txt", "r")) == NULL) {
+        printf("ERROR\n");
+        return -1;
+    }
+    
+    if ((out = fopen("output.txt", "w")) == NULL) {
+        printf("ERROR\n");
+        fclose(inp);
+        return -1;
+    }
+
+
     if (argc == 1) {
         start = malloc(2);
         end = malloc(2);

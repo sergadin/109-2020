@@ -19,10 +19,21 @@ char *read_string(FILE *in) {
 
 
 int main(void){
-    FILE *inp = fopen("input.txt", "r");
-    FILE *out = fopen("out.txt", "w");
+    FILE *inp, *out;
     char *str;
     int flag = 0;
+
+    if ((inp = fopen("input.txt", "r")) == NULL) {
+        printf("ERROR\n");
+        return -1;
+    }
+    
+    if ((out = fopen("output.txt", "w")) == NULL) {
+        printf("ERROR\n");
+        fclose(inp);
+        return -1;
+    }
+
     while(str = read_string(inp)){
         int len = strlen(str);
         for(int i = 0; i < len; i++) {
