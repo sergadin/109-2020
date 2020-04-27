@@ -76,5 +76,9 @@ char *read_string(FILE *f) {
 		}
 	} while (t_len > 0);
 
+	if (curr_len == 1) {
+		free(result);
+		return NULL;
+	}
 	return result;
 }
