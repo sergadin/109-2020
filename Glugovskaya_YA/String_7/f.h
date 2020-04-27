@@ -1,4 +1,4 @@
-#define LEN 1234
+#define LEN 123456
 #define ERROR_OPEN_A -1
 #define ERROR_OPEN_B -2
 #define ERROR_READ_A -3
