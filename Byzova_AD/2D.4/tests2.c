@@ -10,7 +10,7 @@ int main(void) {
 	double **matrix;
 	int N, M;
 	FILE * input , * output ;
-
+	int k, j, i;
 	
 	if (( input = fopen("input.txt" , "r")) == NULL ) {
 		printf ("Не удалось открыть файл") ;
@@ -38,21 +38,21 @@ int main(void) {
 	
 	matrix = (double**)malloc(M * sizeof(double*));
 	
-	for( int k = 0; k < M; k++) {
+	for(k = 0; k < M; k++) {
 		matrix[k] = (double *)malloc(N *sizeof(double));
 	}
 
-	for (int i = 0; i < N; i++) {
+	for (i = 0; i < N; i++) {
 
-        for (int j = 0; j < M; j++) {
+        for (j = 0; j < M; j++) {
 
             if (fscanf(input, "%lf", &matrix[i][j]) != 1) {
                 printf("please add more elements\n");
 				fprintf(output,"%d\n error read elements",error);
-                for(int k = 0; k < N; k++) {
+                for(k = 0; k < M; k++) {
                     free(matrix[k]);
                 }
-               // free(matrix);
+                free(matrix);
                 fclose(input);
 				fclose(output);
                 return -1;
@@ -63,11 +63,12 @@ answers(N, M, matrix, output);
 fclose(output);	
 fclose(input);
 
-for (int k = 0; k < N; k++) {
-	free(matrix[k]);
-}
+//возникает ошибка "double free or corruption" "aborted (core dumped)" если раскомментировать ниже
+//for (k = 0; k < M; k++) {
+//	free(matrix[k]);
+//}
 
-//free(matrix);
+free(matrix);
 return 0;
 }
 

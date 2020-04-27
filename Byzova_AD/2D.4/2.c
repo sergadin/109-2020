@@ -87,18 +87,19 @@
 	}		
 void answers(int n, int m, double **matrix, FILE *output) {
 	int error = -2;
+	double x_i;
+	int i;
 	gauss_down(n, m, matrix) ;
 	gauss_up(n, m, matrix);
-	double x_i;
-	for (int i = 0; i < n; i++){
+	for (i = 0; i < n; i++){
 		if (matrix[i][i] != 0) {
 			x_i = matrix[i][m - 1] / matrix[i][i];
 			printf("x_%d = %lf\n", i, x_i);
-			fprintf(output, "%lf\n", x_i);
+			fprintf(output, "x_i = %lf\n", x_i);
 		}
 		else {
-			printf("несовместная система или бесконечно много решений");
-			fprintf(output,"%d\t несовместная система или бесконечно много решений", error);	
+			printf("\n%d несовместная система или бесконечно много решений\n", error);
+			fprintf(output,"error %d\t несовместная система или бесконечно много решений", error);	
 		break;	
 		}
 	}
