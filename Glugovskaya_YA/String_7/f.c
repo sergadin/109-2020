@@ -36,7 +36,7 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 	
 			if (count > max_lenght && (Last_whitespace > -1 && Last_whitespace > Last_line_trans))
 			{
-				printf("Count %d:\n", count);
+				//printf("Count %d:\n", count);
 				if (buf[i+1] != '\n') 
 					buf[Last_whitespace] = '\n';
 				count = i - Last_whitespace;
