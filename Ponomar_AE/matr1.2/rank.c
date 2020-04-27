@@ -10,13 +10,13 @@ void printMatrix(double **matrix, int n, int m);
 
 int rank_matrix(double **matrix, int n, int m, double E)
 {
-	int rank = 0, curr_string = 0, k = 1;
+	int rank = 0, curr_string = 0, presence_nonzero = 1;
 	double max = 0;
 	int max_string, max_column;
 
-	while((k == 1) && (curr_string < min(n, m)))
+	while((presence_nonzero == 1) && (curr_string < min(n, m)))
 	{
-                k = 0;
+                presence_nonzero = 0;
                 max = 0;
 		for(int i = curr_string; i < n; i++)
 		{
@@ -24,7 +24,7 @@ int rank_matrix(double **matrix, int n, int m, double E)
 			{
 				if(fabs(matrix[i][j]) > fabs(max))
 				{
-					k = 1;
+					presence_nonzero = 1;
 					max = matrix[i][j];
 					max_string = i;
 					max_column = j;
@@ -32,7 +32,7 @@ int rank_matrix(double **matrix, int n, int m, double E)
 			}
 		}
 
-		if (k == 1)
+		if (presence_nonzero == 1)
 		{
 	                for(int j = curr_string; j < m; j++)
 	                {
