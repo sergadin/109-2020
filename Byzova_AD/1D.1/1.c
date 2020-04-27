@@ -21,15 +21,13 @@
 	
 	void print_matrix(int n, int m, double *matrix){
     printf("\nтеперь матрица\n");
-	for(int i = 0; i < n; i++)
-    {
-        for(int j = 0; j < m; j++)
-        {
-            printf("%lf\t", matrix[i * m + j]);
-        }
-    printf("\n");
-    }
-}
+	for(int i = 0; i < n; i++) {
+        	for(int j = 0; j < m; j++) {
+            		printf("%lf\t", matrix[i * m + j]);
+        	}
+    		printf("\n");
+    	}
+	}
 
 	void algorithm(int n, int m, double *matrix) { // ступенчатый вид
 	
