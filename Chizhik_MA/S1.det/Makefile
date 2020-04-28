@@ -13,6 +13,7 @@ a.out: ustrings.o umath.o determinant.o test.o
 
 do-test: a.out
 	valgrind ./a.out
+	cat output.txt
 	diff -y output.txt answer.txt
 	echo "There're no differences"
 clean: ustrings.o umath.o determinant.o test.o
