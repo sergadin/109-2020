@@ -53,3 +53,25 @@ void swap(double *a, double *b) {
 	*a = *b;
 	*b = swap;
 }
+
+int perm_sign(int *arr, int n) {
+	int sign = 1;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (arr[i] > arr[j]) {
+				sign *= -1;
+			} else if (arr[i] == arr[j]) {
+				return 0;
+			}
+		}
+	}
+	return sign;
+}
+
+void inverse(int *arr, int n) {
+	for (int i = 0; i < n / 2; i++) {
+		int swap = arr[i];
+		arr[i] = arr[(n - 1) - i];
+		arr[(n - 1) - i] = swap;
+	}
+}
