@@ -83,6 +83,8 @@ int main(int argc, char **argv)
         res = rank_matrix(a, n ,m);
     
         printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
+        printf("redused row echelon form\n");
+        print_matrix(a, n, m);
         
         printf("rank=%d\n", res);
         
@@ -92,7 +94,7 @@ int main(int argc, char **argv)
         for(k = 1; k <= 4; k++)
         {
             init_matrix(a, n , m , k);
-            printf("ROWS AND COLUMS ARE COUNTED FORM 0\n\n");
+            printf("ROWS AND COLUMS ARE COUNTED FORM 0\nk==%d\n\n",k);
             printf("matrix\n");
             print_matrix(a, n, m);
 
@@ -101,7 +103,8 @@ int main(int argc, char **argv)
             res = rank_matrix(a, n ,m);
     
             printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
-        
+            printf("redused row echelon form\n");
+            print_matrix(a, n, m);
             printf("rank=%d\n", res);
         
             printf("/////////////////////////////////////////////////////////\n");
@@ -110,7 +113,6 @@ int main(int argc, char **argv)
     }
     for(int i = 0; i < n; i++)
     {
-        printf("%d\n", i);
         free(a[i]);
     }
     free(a);
