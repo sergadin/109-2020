@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     
     if( !(argc==3 || argc==4) || (n = atoi(argv[1]))<=0 || (m = atoi(argv[2]))<=0 )
     {
-        fprintf(stderr, "Usage: %s (matrix n x n) [n] [file] (test mode w/o file )\n", argv[0]);
+        fprintf(stderr, "Usage: %s (matrix n x n) [n] [] [file] (test mode w/o file )\n", argv[0]);
         return INPUT_ERROR;
     }
 
@@ -33,18 +33,6 @@ int main(int argc, char **argv)
     }
 
     if( !(a = malloc(n*n*sizeof(double))) )
-    {
-        fprintf(stderr, "Memory ERROR!\n");
-        return MEMORY_ERROR;
-    }
-    
-    if( !(b = malloc(n*n*sizeof(double))) )
-    {
-        fprintf(stderr, "Memory ERROR!\n");
-        return MEMORY_ERROR;
-    }
-    
-    if( !(c = malloc(n*n*sizeof(double))) )
     {
         fprintf(stderr, "Memory ERROR!\n");
         return MEMORY_ERROR;

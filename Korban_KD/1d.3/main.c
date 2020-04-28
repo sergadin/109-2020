@@ -21,15 +21,15 @@ int main(int argc, char **argv)
     clock_t time_start;
     
     
-    if( !(argc==3 || argc==4) || (n = atoi(argv[1]))<=0 || (m = atoi(argv[2]))<=0 )
+    if( !(argc==2 || argc==3) || (n = atoi(argv[1]))<=0 )
     {
         fprintf(stderr, "Usage: %s (matrix n x n) [n] [file] (test mode w/o file )\n", argv[0]);
         return INPUT_ERROR;
     }
 
-    if( argc==4 )
+    if( argc==3)
     {
-        name = argv[3];
+        name = argv[2];
     }
 
     if( !(a = (double*)malloc(n*n*sizeof(double))) )
@@ -50,6 +50,10 @@ int main(int argc, char **argv)
         return MEMORY_ERROR;
     }
 
+    if ( n > 8)
+        m = 8;
+    else
+        m = n;
     if( name )
     {
         int res_read;
@@ -87,7 +91,7 @@ int main(int argc, char **argv)
         
         printf("ROWS AND COLUMS ARE COUNTED FORM 0\n\n");
         printf("matrix\n");
-        print_matrix(a, n, 8);
+        print_matrix(a, n, m);
 
         time_start = clock();
     
@@ -104,12 +108,12 @@ int main(int argc, char **argv)
             return 0;
         }
         printf("inverted matrix\n");
-        print_matrix(b, n, 8);
+        print_matrix(b, n, m);
         
         printf("after multiplication\n");
         read_matrix(a, n, n, name);
         mult_matrix(a, b, c, n, n, n);
-        print_matrix(c, n, 8);
+        print_matrix(c, n, m);
         
         for(int i = 0; i < n; i++)
         {
@@ -143,7 +147,7 @@ int main(int argc, char **argv)
             init_matrix(a, n, k);
             printf("matrix\n");
             printf("after multiplication\n");
-            print_matrix(a, n, 8);
+            print_matrix(a, n, m);
 
             time_start = clock();
     
@@ -160,12 +164,12 @@ int main(int argc, char **argv)
                 return 0;
             }
             printf("inverted matrix\n");
-            print_matrix(b, n, 8);
+            print_matrix(b, n, m);
             
             printf("after multiplication\n");
             init_matrix(a, n, k);
             mult_matrix(a, b, c, n, n, n);
-            print_matrix(c, n, 8);
+            print_matrix(c, n, m);
             
             for(int i = 0; i < n; i++)
             {
