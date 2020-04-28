@@ -9,9 +9,9 @@ int rank_matrix (double **a ,int n, int m)
     {
         double norm_a = norm_matrix(a, n, m);
         int max_i, max_j;
-        if ( find_max_abs_redused(n, a, i , &max_i, &max_j) < 1e-16*norm_a )
+        if ( find_max_abs_redused(n, m, a, i , &max_i, &max_j) < 1e-16*norm_a )
         {
-            return DETERMINANT_0;
+            return i;
         }
         //printf("imax=%d jmax=%d\n", max_i, max_j);
         if( max_i != i)
@@ -19,14 +19,14 @@ int rank_matrix (double **a ,int n, int m)
             a[i] = a[max_i];
         }
         
-        if( max_i != i)
+        if( max_j != i)
         {
             for(int k = 0; k < n; k++)
             {
                 a[k][i] = a[k][max_j];
             }
         }
-        for(int j = i+1; j < n ; j++)
+        for(int j = i+1; j < m ; j++)
         {
             a[i][j] /= a[i][i];;
         }
@@ -34,7 +34,7 @@ int rank_matrix (double **a ,int n, int m)
         
         for(int j = i+1 ; j < n; j++)
         {
-            for(int k = i+1 ; k < n; k++)
+            for(int k = i+1 ; k < m; k++)
             {
                 a[j][k] -= a[i][k]*a[j][i];
             }

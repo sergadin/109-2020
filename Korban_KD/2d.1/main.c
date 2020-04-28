@@ -43,7 +43,6 @@ int main(int argc, char **argv)
         if( !(a[i] = (double*)malloc(m*sizeof(double))) )
         {
             fprintf(stderr, "Memory ERROR!\n");
-            free(a);
             return MEMORY_ERROR;
         }
     }
@@ -77,11 +76,11 @@ int main(int argc, char **argv)
         }
         printf("ROWS AND COLUMS ARE COUNTED FORM 0\n\n");
         printf("matrix\n");
-        print_matrix(a, m, n);
+        print_matrix(a, n, m);
 
         time_start = clock();
     
-        res = rank_matrix(a, m ,n);
+        res = rank_matrix(a, n ,m);
     
         printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
         
@@ -92,27 +91,26 @@ int main(int argc, char **argv)
     {
         for(k = 1; k <= 4; k++)
         {
-            printf("ROWS AND COLUMS ARE COUNTED FORM 0\nk==%d\n", k);
-            init_matrix(a, n, k);
+            init_matrix(a, n , m , k);
+            printf("ROWS AND COLUMS ARE COUNTED FORM 0\n\n");
             printf("matrix\n");
-            print_matrix(a, m, n);
+            print_matrix(a, n, m);
 
             time_start = clock();
     
-            res = rank_matrix(a, n, m);
+            res = rank_matrix(a, n ,m);
     
             printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
-            
-            printf("res=%d\n", res);
+        
+            printf("rank=%d\n", res);
         
             printf("/////////////////////////////////////////////////////////\n");
 
         }
-        
     }
-    for(int i = 1; i < n; i++)
+    for(int i = 0; i < n; i++)
     {
-        printf("%d",i);
+        printf("%d\n", i);
         free(a[i]);
     }
     free(a);

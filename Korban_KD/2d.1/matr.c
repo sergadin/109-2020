@@ -7,18 +7,19 @@
 int read_matrix(double **a, int n, int m, const char *name)
 {
     FILE *file;
-    int i, len = m*n;
 
     if( !(file = fopen(name, "r")) )
         return MATR_ERR_OPEN;
 
-    for( i = 0; i<len; i++ )
+    for(int  i = 0; i<n; i++ )
     {
         for(int j = 0; j < m; j++)
         {
             if( fscanf(file, "%lf", &(a[i][j]) )!=1 )
-            fclose(file);
-            return MATR_ERR_READ;
+            {
+                fclose(file);
+                return MATR_ERR_READ;
+            }
         }
     }
     fclose(file);
@@ -28,50 +29,47 @@ int read_matrix(double **a, int n, int m, const char *name)
 
 double f1(int n, int i, int j)
 {
-     (void)n;
      return n - (i>j ? i : j) + 1 ;
 }
 
-double f3(int n, int i, int j)
+double f3(int i, int j)
 {
-    (void)n;
     return fabs((double)(i-j));
 }
 
-double f4(int n, int i, int j)
+double f4(int i, int j)
 {
-    (void)n;
     return 1/((double)i + (double)j + 1);
 }
 
-void init_matrix(double **a, int n, int k)
+void init_matrix(double **a, int n, int m, int k)
 {
     int i, j;
 
     if (k==1)
     {
         for( i = 0; i < n; i++ )
-            for( j = 0; j < n; j++ )
+            for( j = 0; j < m; j++ )
                 a[i][j] = f1(n, i, j);
     }
     if(k==2)
     {
         for( i = 0; i < n; i++ )
-            for( j = 0; j < n; j++ )
+            for( j = 0; j < m; j++ )
                 a[i][j] = fmax(i, j);
     }
     if(k==3)
     {
         for( i = 0; i < n; i++ )
-            for( j = 0; j < n; j++ )
-                a[i][j] = f3(n, i, j);
+            for( j = 0; j < m; j++ )
+                a[i][j] = f3(i, j);
     }
     
     if(k==4)
     {
         for( i = 0; i < n; i++ )
-            for( j = 0; j < n; j++ )
-                a[i][j] = f4(n, i, j);
+            for( j = 0; j < m; j++ )
+                a[i][j] = f4(i, j);
     }
 }
 
@@ -95,9 +93,9 @@ void print_matrix(double **a, int n, int m)
     m_max = (m>M_MAX ? M_MAX : m);
     n_max = (n>N_MAX ? N_MAX : n);
 
-    for( i = 0; i<m_max; i++ )
+    for( i = 0; i<n_max; i++ )
     {
-        for( j = 0; j<n_max; j++ )
+        for( j = 0; j<m_max; j++ )
             printf("\t%lf", a[i][j]);
         printf("\n");
     }
@@ -295,14 +293,14 @@ void mult_matrix(double *a, double *b, double *c, int m, int n, int k)
     }
 }
 
-double find_max_abs_redused(int n, double **a, int start, int  *max_i, int *max_j)
+double find_max_abs_redused(int n, int m, double **a, int start, int  *max_i, int *max_j)
 {
     double max = fabs(a[start][start]);
     *max_i = start;
     *max_j = start;
     for(int i = start; i < n; i++)
     {
-        for(int j = start; j < n; j++)
+        for(int j = start; j < m; j++)
         {
             double temp = fabs(a[i][j]);
             if( (i==start) && (j==start))
