@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sort.h>
+
 char **ar_of_words(FILE* input)
 {
 	char **A;
