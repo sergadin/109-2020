@@ -21,7 +21,7 @@ int invert_matrix (int n, double *a, double *b)
     {
         double norm_a = norm_matrix(a, n);
         int max_i;
-        if ( find_max_abs_redused_colum(n, a, i , &max_i) < 1e-25*norm_a )
+        if ( find_max_abs_redused_colum(n, a, i , &max_i) < 1e-16*norm_a )
         {
             return DETERMINANT_0;
         }

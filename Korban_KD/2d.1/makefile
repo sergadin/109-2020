@@ -4,12 +4,12 @@ FLAGS =-fsanitize=address -mfpmath=sse -fstack-protector-all -W -Wall -Wextra -W
 
 
 
-prog: main.o matr.o invert_matrix.o ../lib/exmath.o
-	gcc $(FLAGS) main.o matr.o invert_matrix.o -o prog ../lib/exmath.o -lm
+prog: main.o matr.o rank.o ../lib/exmath.o
+	gcc $(FLAGS) main.o matr.o rank.o -o prog ../lib/exmath.o -lm
 main.o: main.c
 	gcc $(FLAGS) -c main.c -lm
-invert_matrix.o: invert_matrix.c invert_matrix.h
-	gcc $(FLAGS) -c invert_matrix.c  -lm
+rank.o: rank.c rank.h
+	gcc $(FLAGS) -c rank.c  -lm
 matr.o: matr.c matr.h
 	gcc $(FLAGS) -c matr.c -o matr.o -lm
 

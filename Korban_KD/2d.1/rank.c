@@ -7,7 +7,7 @@ int rank_matrix (double **a ,int n, int m)
 {
     for(int i = 0; i < n; i++)
     {
-        double norm_a = norm_matrix(a, n);
+        double norm_a = norm_matrix(a, n, m);
         int max_i, max_j;
         if ( find_max_abs_redused(n, a, i , &max_i, &max_j) < 1e-16*norm_a )
         {
@@ -23,7 +23,7 @@ int rank_matrix (double **a ,int n, int m)
         {
             for(int k = 0; k < n; k++)
             {
-                a[k][i] = a[k][max_j]
+                a[k][i] = a[k][max_j];
             }
         }
         for(int j = i+1; j < n ; j++)

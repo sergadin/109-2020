@@ -4,7 +4,7 @@
 #define M_MAX 10
 #define N_MAX 10
 
-int read_matrix(double **a, int m, int n, const char *name)
+int read_matrix(double **a, int n, int m, const char *name)
 {
     FILE *file;
     int i, len = m*n;
@@ -16,14 +16,15 @@ int read_matrix(double **a, int m, int n, const char *name)
     {
         for(int j = 0; j < m; j++)
         {
-            if( fscanf(file, "%lf", a[i[j]] )!=1 )
+            if( fscanf(file, "%lf", &(a[i][j]) )!=1 )
             fclose(file);
             return MATR_ERR_READ;
         }
-
+    }
     fclose(file);
     return MATR_SUCCESS;
 }
+
 
 double f1(int n, int i, int j)
 {
@@ -87,7 +88,7 @@ void init_matrix(double **a, int n, int k)
      }
 }
 
-void print_matrix(double *a, int m, int n)
+void print_matrix(double **a, int n, int m)
 {
     int i, j, m_max, n_max;
 
@@ -236,7 +237,7 @@ void mult_vector(double *a, double *b, double *c, int m, int n)
     }
 }
 
-double norm_matrix(double *a, int n ,int m)
+double norm_matrix(double **a, int n ,int m)
 {
     double sum = 0, max;
     for(int i = 0; i < n; i++)
@@ -256,38 +257,6 @@ double norm_matrix(double *a, int n ,int m)
         }
     }
     return max;
-}
-
-
-double find_determinant (int n, double *a )
-{
-    double res = 1, norm_a = norm_matrix(a, n);
-    for(int i = 0; i < n; i++)
-    {
-        int max_i;
-        if ( find_max_abs_redused_colum(n, a, i , &max_i) < 1e-20*norm_a )
-        {
-            return 0;
-        }
-        if(max_i != i)
-        {
-            row_swap(a, n, n, max_i, i);
-            res *= -1;
-        }
-        for(int j = i+1 ; j < n; j++)
-        {
-            for(int k = i +1  ; k < n; k++)
-            {
-                a[j*n + k] -= a[i*n +k]*(a[j*n + i]/a[i*n + i]);
-            }
-        
-        }
-    }
-    for(int i = 0; i < n; i++)
-    {
-        res *= a[i*n + i ];
-    }
-    return res;
 }
 
 
@@ -326,16 +295,16 @@ void mult_matrix(double *a, double *b, double *c, int m, int n, int k)
     }
 }
 
-double find_max_abs_redused(int n, double *a, int start, int  *max_i, int *max_j)
+double find_max_abs_redused(int n, double **a, int start, int  *max_i, int *max_j)
 {
-    double max = fabs(a[start*n +start]);
+    double max = fabs(a[start][start]);
     *max_i = start;
     *max_j = start;
     for(int i = start; i < n; i++)
     {
         for(int j = start; j < n; j++)
         {
-            double temp = fabs(a[i*n + j]);
+            double temp = fabs(a[i][j]);
             if( (i==start) && (j==start))
                 continue;
             

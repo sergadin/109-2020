@@ -15,7 +15,7 @@ enum RETURN_CODES
 
 int main(int argc, char **argv)
 {
-    double *a, *b, *c;
+    double **a;
     int n, m, k, res;
     char *name = 0;
     clock_t time_start;
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
         name = argv[3];
     }
 
-    if( !(a = (double**)malloc(n*sizeof(double))) )
+    if( !(a = (double**)malloc(n*sizeof(double*))) )
     {
         fprintf(stderr, "Memory ERROR!\n");
         return MEMORY_ERROR;
@@ -41,17 +41,18 @@ int main(int argc, char **argv)
     for(int i = 0; i < n; i++)
     {
         if( !(a[i] = (double*)malloc(m*sizeof(double))) )
-    {
-        fprintf(stderr, "Memory ERROR!\n");
-        return MEMORY_ERROR;
-    }
+        {
+            fprintf(stderr, "Memory ERROR!\n");
+            free(a);
+            return MEMORY_ERROR;
+        }
     }
 
     if( name )
     {
         int res_read;
 
-        res_read = read_matrix(a, n, n, name);
+        res_read = read_matrix(a, n, m, name);
 
         if( res_read!=MATR_SUCCESS )
         {
@@ -67,6 +68,10 @@ int main(int argc, char **argv)
                     fprintf(stderr, "Unknown ERROR code: %d\n", res_read);
             }
 
+            for(int i = 0; i < n; i++)
+            {
+                free(a[i]);
+            }
             free(a);
             return READ_ERROR;
         }
@@ -76,7 +81,7 @@ int main(int argc, char **argv)
 
         time_start = clock();
     
-        res = rank_matrix(n, a);
+        res = rank_matrix(a, m ,n);
     
         printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
         
@@ -90,12 +95,11 @@ int main(int argc, char **argv)
             printf("ROWS AND COLUMS ARE COUNTED FORM 0\nk==%d\n", k);
             init_matrix(a, n, k);
             printf("matrix\n");
-            printf("after multiplication\n");
             print_matrix(a, m, n);
 
             time_start = clock();
     
-            rank = rank_matrix(n, a, b);
+            res = rank_matrix(a, n, m);
     
             printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
             
@@ -106,8 +110,11 @@ int main(int argc, char **argv)
         }
         
     }
-    
+    for(int i = 1; i < n; i++)
+    {
+        printf("%d",i);
+        free(a[i]);
+    }
     free(a);
-    
     return 0;
 } 
