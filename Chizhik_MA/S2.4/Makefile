@@ -11,7 +11,6 @@ a.out: ustrings.o word.o test.o
 	gcc -o a.out ustrings.o word.o test.o
 
 do-test: a.out
-	./a.out
 	valgrind ./a.out
 	diff -y answer.txt output.txt
 	echo "There're no differences"
