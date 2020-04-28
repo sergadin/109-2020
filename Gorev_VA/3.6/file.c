@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sort.h>
+#include "sort.h"
 
 void Print(char **A);
 void Print(char **A)
