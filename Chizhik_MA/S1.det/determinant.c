@@ -6,10 +6,7 @@
 #include "determinant.h"
 
 void find_determinant(char **matrix, int n, FILE *output) {
-	int sign;
-	int perm[n];
-	int fact = factorial(n);
-
+	int perm[n], fact = factorial(n);
 	for (int k = 0; k < n; k++) {
 		perm[k] = k;
 	}

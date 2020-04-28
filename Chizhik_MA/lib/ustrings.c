@@ -70,8 +70,9 @@ char *read_string(FILE *f) {
 		curr_len += t_len;
 
 		if ((curr_len > 1) && (result[curr_len - 2] == '\n')) {
-			result[curr_len - 2] = 0;
-			result = (char *)realloc(result, curr_len - 1);
+			curr_len--;
+			result[curr_len - 1] = '\0';
+			result = (char *)realloc(result, curr_len);
 			break;
 		}
 	} while (t_len > 0);
