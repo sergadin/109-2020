@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 #include "matr.h"
+#define M_MAX 10
+#define N_MAX 10
 
-
-int read_matrix(double *a, int m, int n, const char *name)
+int read_matrix(double **a, int m, int n, const char *name)
 {
     FILE *file;
     int i, len = m*n;
@@ -12,8 +13,10 @@ int read_matrix(double *a, int m, int n, const char *name)
         return MATR_ERR_OPEN;
 
     for( i = 0; i<len; i++ )
-        if( fscanf(file, "%lf", a + i )!=1 )
+    {
+        for(int j = 0; j < m; j++)
         {
+            if( fscanf(file, "%lf", a[i[j]] )!=1 )
             fclose(file);
             return MATR_ERR_READ;
         }
@@ -40,7 +43,7 @@ double f4(int n, int i, int j)
     return 1/((double)i + (double)j + 1);
 }
 
-void init_matrix(double *a, int n, int k)
+void init_matrix(double **a, int n, int k)
 {
     int i, j;
 
@@ -48,26 +51,26 @@ void init_matrix(double *a, int n, int k)
     {
         for( i = 0; i < n; i++ )
             for( j = 0; j < n; j++ )
-                a[i*n + j] = f1(n, i, j);
+                a[i][j] = f1(n, i, j);
     }
     if(k==2)
     {
         for( i = 0; i < n; i++ )
             for( j = 0; j < n; j++ )
-                a[i*n + j] = fmax(i, j);
+                a[i][j] = fmax(i, j);
     }
     if(k==3)
     {
         for( i = 0; i < n; i++ )
             for( j = 0; j < n; j++ )
-                a[i*n + j] = f3(n, i, j);
+                a[i][j] = f3(n, i, j);
     }
     
     if(k==4)
     {
         for( i = 0; i < n; i++ )
             for( j = 0; j < n; j++ )
-                a[i*n + j] = f4(n, i, j);
+                a[i][j] = f4(n, i, j);
     }
 }
 
@@ -84,16 +87,17 @@ void init_matrix(double *a, int n, int k)
      }
 }
 
-void print_matrix(double *a, int n, int m)
+void print_matrix(double *a, int m, int n)
 {
-    int i, j,n_max;
-    
-    n_max = m;
+    int i, j, m_max, n_max;
 
-    for( i = 0; i<n_max; i++ )
+    m_max = (m>M_MAX ? M_MAX : m);
+    n_max = (n>N_MAX ? N_MAX : n);
+
+    for( i = 0; i<m_max; i++ )
     {
         for( j = 0; j<n_max; j++ )
-            printf("\t%.10lf", a[i*n + j]);
+            printf("\t%lf", a[i][j]);
         printf("\n");
     }
 }
@@ -232,15 +236,15 @@ void mult_vector(double *a, double *b, double *c, int m, int n)
     }
 }
 
-double norm_matrix(double *a, int n)
+double norm_matrix(double *a, int n ,int m)
 {
     double sum = 0, max;
     for(int i = 0; i < n; i++)
     {
         sum = 0;
-        for(int j = 0; j < n; j++)
+        for(int j = 0; j < m; j++)
         {
-            sum = sum + a[i*n + j];
+            sum = sum + a[i][j];
         }
         if(i == 0)
         {

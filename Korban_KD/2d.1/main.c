@@ -3,7 +3,7 @@
 #include <time.h>
 #include <math.h>
 #include "matr.h"
-#include "invert_matrix.h"
+#include "rank.h"
 #include "../lib/exmath.h"
 
 enum RETURN_CODES
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     
     if( !(argc==3 || argc==4) || (n = atoi(argv[1]))<=0 || (m = atoi(argv[2]))<=0 )
     {
-        fprintf(stderr, "Usage: %s (matrix n x n) [n] [] [file] (test mode w/o file )\n", argv[0]);
+        fprintf(stderr, "Usage: %s (matrix n x m) [n] [m] [file] (test mode w/o file ) (n rows m colums)\n", argv[0]);
         return INPUT_ERROR;
     }
 
@@ -32,10 +32,19 @@ int main(int argc, char **argv)
         name = argv[3];
     }
 
-    if( !(a = malloc(n*n*sizeof(double))) )
+    if( !(a = (double**)malloc(n*sizeof(double))) )
     {
         fprintf(stderr, "Memory ERROR!\n");
         return MEMORY_ERROR;
+    }
+    
+    for(int i = 0; i < n; i++)
+    {
+        if( !(a[i] = (double*)malloc(m*sizeof(double))) )
+    {
+        fprintf(stderr, "Memory ERROR!\n");
+        return MEMORY_ERROR;
+    }
     }
 
     if( name )
@@ -61,54 +70,16 @@ int main(int argc, char **argv)
             free(a);
             return READ_ERROR;
         }
-        
-        for(int i = 0; i < n; i++)
-        {
-            for(int j = 0; j < n; j++)
-            {                
-                if(i==j)
-                    b[i*n + j] = 1;
-                else
-                    b[i*n + j] = 0;
-            }
-        }
-        
         printf("ROWS AND COLUMS ARE COUNTED FORM 0\n\n");
         printf("matrix\n");
-        print_matrix(a, n, 8);
+        print_matrix(a, m, n);
 
         time_start = clock();
     
-        res = invert_matrix(n, a, b);
+        res = rank_matrix(n, a);
     
         printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
         
-        if(res !=OK)
-        {
-            printf("determinant is 0\n");
-            free(a);
-            free(b);
-            free(c);
-            return 0;
-        }
-        printf("inverted matrix\n");
-        print_matrix(b, n, 8);
-        
-        printf("after multiplication\n");
-        read_matrix(a, n, n, name);
-        mult_matrix(a, b, c, n, n, n);
-        print_matrix(c, n, 8);
-        
-        for(int i = 0; i < n; i++)
-        {
-            for(int j = 0; j < n; j++)
-            {                
-                if(i==j)
-                    c[i*n + j] -= 1;
-            }
-        }
-        
-        printf("norm of error: %e\n", norm_matrix(c, n)/norm_matrix(a, n));
         
         
     } 
@@ -116,55 +87,18 @@ int main(int argc, char **argv)
     {
         for(k = 1; k <= 4; k++)
         {
-            
-            for(int i = 0; i < n; i++)
-            {
-                for(int j = 0; j < n; j++)
-                {                
-                    if(i==j)
-                        b[i*n + j] = 1;
-                    else
-                        b[i*n + j] = 0;
-                }
-            }
             printf("ROWS AND COLUMS ARE COUNTED FORM 0\nk==%d\n", k);
             init_matrix(a, n, k);
             printf("matrix\n");
             printf("after multiplication\n");
-            print_matrix(a, n, 8);
+            print_matrix(a, m, n);
 
             time_start = clock();
     
-            res = invert_matrix(n, a, b);
+            res = rank_matrix(n, a, b);
     
             printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
             
-            if(res !=OK)
-            {
-                printf("determinant is 0\n");
-                free(a);
-                free(b);
-                free(c);
-                return 0;
-            }
-            printf("inverted matrix\n");
-            print_matrix(b, n, 8);
-            
-            printf("after multiplication\n");
-            init_matrix(a, n, k);
-            mult_matrix(a, b, c, n, n, n);
-            print_matrix(c, n, 8);
-            
-            for(int i = 0; i < n; i++)
-            {
-                for(int j = 0; j < n; j++)
-                {                
-                    if(i==j)
-                        c[i*n + j] -= 1;
-                }
-            }
-        
-            printf("norm of error: %e\n", norm_matrix(c, n)/norm_matrix(a, n));
         
             printf("/////////////////////////////////////////////////////////\n");
 
@@ -173,8 +107,6 @@ int main(int argc, char **argv)
     }
     
     free(a);
-    free(b);
-    free(c);
     
     return 0;
 } 

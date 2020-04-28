@@ -93,7 +93,7 @@ void print_matrix(double *a, int n, int m)
     for( i = 0; i<n_max; i++ )
     {
         for( j = 0; j<n_max; j++ )
-            printf("\t%.10lf", a[i*n + j]);
+            printf(" %10.3e", a[i*n + j]);
         printf("\n");
     }
 }
@@ -106,7 +106,7 @@ void print_vector(double *a, int n, int m)
     (void)n;
     for(int i = 0; i < n_max; i++)
     {
-        printf("\t%lf", a[i]);
+        printf(" %10.3e", a[i]);
     }
     printf("\n");
 }

@@ -78,17 +78,6 @@ int main(int argc, char **argv)
             return READ_ERROR;
         }
         
-        for(int i = 0; i < n; i++)
-        {
-            for(int j = 0; j < n; j++)
-            {                
-                if(i==j)
-                    b[i*n + j] = 1;
-                else
-                    b[i*n + j] = 0;
-            }
-        }
-        
         printf("ROWS AND COLUMS ARE COUNTED FORM 0\n\n");
         printf("matrix\n");
         print_matrix(a, n, m);
@@ -132,21 +121,9 @@ int main(int argc, char **argv)
     {
         for(k = 1; k <= 4; k++)
         {
-            
-            for(int i = 0; i < n; i++)
-            {
-                for(int j = 0; j < n; j++)
-                {                
-                    if(i==j)
-                        b[i*n + j] = 1;
-                    else
-                        b[i*n + j] = 0;
-                }
-            }
             printf("ROWS AND COLUMS ARE COUNTED FORM 0\nk==%d\n", k);
             init_matrix(a, n, k);
             printf("matrix\n");
-            printf("after multiplication\n");
             print_matrix(a, n, m);
 
             time_start = clock();
