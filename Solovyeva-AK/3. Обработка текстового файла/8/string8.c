@@ -4,16 +4,24 @@
 #include <limits.h>
 
 char *read_string(FILE *in) {
-    char buf[PATH_MAX];
-    buf[0] = 0;
-    char *s = fgets(buf, PATH_MAX, in);
-    if(s) {
-        int len = strlen(s);
-        char *res = malloc(len + 1);
-        strcpy(res, s);
-        return res;
-    }
-    return NULL;
+	char buf[1024];
+	char *s = fgets(buf, 1024, in);
+	if(s) {
+		int len = strlen(s);
+		int tmp = 0;
+		char *res = malloc(len+1);
+		while(s) {
+			strcpy(res+tmp, s);
+			s = fgets(buf, 1024, in);
+			if (s) {
+				tmp = strlen(s);
+				len += tmp;
+				res = realloc(res, len+1);
+			}
+		}
+		return res;
+}
+return NULL;
 }
 
 
