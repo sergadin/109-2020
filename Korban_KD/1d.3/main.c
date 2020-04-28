@@ -32,19 +32,19 @@ int main(int argc, char **argv)
         name = argv[3];
     }
 
-    if( !(a = malloc(n*n*sizeof(double))) )
+    if( !(a = (double*)malloc(n*n*sizeof(double))) )
     {
         fprintf(stderr, "Memory ERROR!\n");
         return MEMORY_ERROR;
     }
     
-    if( !(b = malloc(n*n*sizeof(double))) )
+    if( !(b = (double*)malloc(n*n*sizeof(double))) )
     {
         fprintf(stderr, "Memory ERROR!\n");
         return MEMORY_ERROR;
     }
     
-    if( !(c = malloc(n*n*sizeof(double))) )
+    if( !(c = (double*)malloc(n*n*sizeof(double))) )
     {
         fprintf(stderr, "Memory ERROR!\n");
         return MEMORY_ERROR;
