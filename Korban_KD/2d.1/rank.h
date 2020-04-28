@@ -1,5 +1,4 @@
-int invert_matrix (int n, double * a, double *b);
-double find_max_abs_redused(int n, double *a, int start,int *max_i,int *max_j);
+int rank_matrix (double **a ,int n, int m);
  
 enum INVERT_MATRIX
 {

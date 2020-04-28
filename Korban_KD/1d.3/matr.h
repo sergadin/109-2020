@@ -25,4 +25,5 @@ double norm_matrix(double *a, int n);
 void mult_vector(double *a, double *b, double *c, int m, int n);
 double find_determinant (int n, double *a );
 double find_max_abs_redused_colum(int n, double *a, int start,int *max_i);
-void mult_matrix(double *a, double *b, double *c, int m, int n, int k);double find_max_abs_redused(int n, double *a, int start, int  *max_i, int *max_j);
+void mult_matrix(double *a, double *b, double *c, int m, int n, int k);
+double find_max_abs_redused(int n, double *a, int start, int  *max_i, int *max_j);

@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     
         printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
         
-        
+        printf("rank=%d\n", res);
         
     } 
     else
@@ -95,10 +95,11 @@ int main(int argc, char **argv)
 
             time_start = clock();
     
-            res = rank_matrix(n, a, b);
+            rank = rank_matrix(n, a, b);
     
             printf("Elapsed %.2lf\n", (double)(clock() - time_start)/CLOCKS_PER_SEC);
             
+            printf("res=%d\n", res);
         
             printf("/////////////////////////////////////////////////////////\n");
 
