@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <math.h>
 #include "sum.h"
-double f1 (double x);
-double f2 (double x);
-double f3 (double x);
+double f1(double x);
+double f2(double x);
+double f3(double x);
 
 
-int main (void)
+int main(void)
 {
 	double res, epsilon = 0.001;
 	double  otvet [] = {1, 2, 2.5};
@@ -23,17 +23,17 @@ int main (void)
 
 
 
-double f1 (double x)
+double f1(double x)
 {
 	return  x*x*x + x*x - x;
 }
 
-double f2 (double x)
+double f2(double x)
 {
         return x*x;
 }
 
-double f3 (double x)
+double f3(double x)
 {
         return  -x*x + x;
 }
