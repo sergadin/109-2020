@@ -31,7 +31,7 @@ RRFUN f[] = {f1, f2, f3 };
                  
 	for(int i = 0; i < 3; i++)
 	{
-		res = findmin(h, x, epsilon, f[i]);
+		res = Findmin(h, x, epsilon, f[i]);
 		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", otvet[i], res, epsilon);	
 	}
 }
