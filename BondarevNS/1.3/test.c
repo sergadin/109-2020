@@ -26,7 +26,7 @@ int main (void)
 double res, epsilon = 0.001;
 double  otvet [] = {1, 0, 0};
 double a = -2;
-double b = 0;
+double b = 1;
 RRFUN f[] = {f1, f2, f3 };
                  
 	for(int i = 0; i < 3; i++)
