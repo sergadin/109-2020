@@ -12,53 +12,53 @@ int main(void)
     FILE *file;
     if ((file = fopen(input, "r")) == NULL)
     {
-	printf("cannot open file\n");
-        return -1;
+        printf("cannot open file\n");
+        return 0;
     }
     if ((fscanf(file, "%d", &size) != 1) || (size <= 0))
     {
-	printf("cannot read size\n");
-	fclose(file);
-	return -1;
+        printf("cannot read size\n");
+        fclose(file);
+        return 0;
     } 
     matrix = (int **)malloc(size*sizeof(int*));
     if (matrix == NULL)
     {
-	printf("smth wrong with memory\n");
+        printf("smth wrong with memory\n");
         fclose(file);
-        return -1;
+        return 0;
     }
     for (int k = 0; k < size; k++)
     {
-	if ((matrix[k] = (int *)malloc(size*sizeof(int))) == NULL)
-	{
-	    printf("smth wrong with memory\n");
-            for(int j = 0; j < k-1; j++)
-            {
-                free(matrix[j]);
-            }
-            free(matrix);
-	    fclose(file);
-	    return -1;
-	}	
+        if ((matrix[k] = (int *)malloc(size*sizeof(int))) == NULL)
+        {
+            printf("smth wrong with memory\n");
+                for(int j = 0; j < k-1; j++)
+                {
+                    free(matrix[j]);
+                }
+                free(matrix);
+            fclose(file);
+            return 0;
+        }
     }
 
     for (int i = 0; i < size; i++)
     {
-	for (int j = 0; j < size; j++)
-	{
-	    if (fscanf(file, "%d", &matrix[i][j]) != 1)
+        for (int j = 0; j < size; j++)
+        {
+            if (fscanf(file, "%d", &matrix[i][j]) != 1)
             {
-	        printf("cannot read array\n");
-	        for(int k = 0; k < size; k++)
+                printf("cannot read array\n");
+                for(int k = 0; k < size; k++)
                 {
                     free(matrix[k]);
                 }
                 free(matrix);
-	        fclose(file);
-	        return -1;
-	    }
-	}
+                fclose(file);
+                return -1;
+            }
+        }
     }
 
 
