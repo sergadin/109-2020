@@ -8,7 +8,7 @@ double Findmin(double h, double x, double epsilon, RRFUN f)
 	{ 
 		x = x + 0.1;
 	}
-	while ((f(x+h)-2*f(x)+f(x-h))/(h*h)<=0)
+	while (((f(x+h)-2*f(x)+f(x-h))/(h*h)) <= 0)
 	{ 
 		x = x + 0.1;
 	}
