@@ -5,21 +5,21 @@
 #include "determinant.h"
 
 #define in "input.txt"
-#define ans "answer.txt"
+#define out "output.txt"
 #define matrix(order, i, j) matrix[(order) * (i) + (j)]
 
 int main(void) {
-	FILE *input, *answer;
+	FILE *input, *output;
 	int order;
-	char **matrix, *result, *correct;
+	char **matrix;
 
 	if ((input = fopen(in, "r")) == NULL) {
 		fprintf(stderr, "Can't read %s\n", in);
 		return -1;
 	}
 
-	if ((answer = fopen(ans, "r")) == NULL) {
-		fprintf(stderr, "Can't read %s\n", ans);
+	if ((output = fopen(out, "w")) == NULL) {
+		fprintf(stderr, "Can't read %s\n", out);
 		fclose(input);
 		return -1;
 	}
@@ -27,14 +27,14 @@ int main(void) {
 	if (fscanf(input, "%d\n", &order) != 1) {
 		fprintf(stderr, "Can't read the order of the matrix\n");
 		fclose(input);
-		fclose(answer);
+		fclose(output);
 		return -1;
 	}
 
 	if ((matrix = (char **)malloc(order * order * sizeof(char *))) == NULL) {
 		fprintf(stderr, "Malloc can't allocate enough memory\n");
 		fclose(input);
-		fclose(answer);
+		fclose(output);
 		return -1;
 	}
 
@@ -42,7 +42,7 @@ int main(void) {
 		if ((matrix[i] = read_string(input)) == NULL) {
 			fprintf(stderr, "Can't read the matrix properly\n");
 			fclose(input);
-			fclose(answer);
+			fclose(output);
 
 			for (int j = 0; j < i; j++) {
 				free(matrix[j]);
@@ -53,14 +53,6 @@ int main(void) {
 	}
 	fclose(input);
 
-	if ((correct = read_string(answer)) == NULL) {
-		fprintf(stderr, "Can't read the correct answer\n");
-		fclose(answer);
-		free_1d_matrix(matrix, order);
-		return -1;
-	}
-	fclose(answer);
-
 	for (int i = 0; i < order; i++) {
 		for (int j = 0; j < order; j++) {
 			fprintf(stdout, "%s\t", matrix(order, i, j));
@@ -68,6 +60,9 @@ int main(void) {
 		fprintf(stdout, "\n");
 	}
 
+	find_determinant(matrix, order, output);
+
 	free_1d_matrix(matrix, order);
+	fclose(output);
 	return 0;
 }

@@ -70,11 +70,15 @@ char *read_string(FILE *f) {
 		curr_len += t_len;
 
 		if ((curr_len > 1) && (result[curr_len - 2] == '\n')) {
-			result[curr_len - 2] = 0;
+			result[curr_len - 2] = '\0';
 			result = (char *)realloc(result, curr_len - 1);
 			break;
 		}
 	} while (t_len > 0);
 
+	if (curr_len == 1) {
+		free(result);
+		return NULL;
+	}
 	return result;
 }
