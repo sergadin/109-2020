@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+№include <math.h>
 #include "help.h"
 
 #define eps 1e-7
@@ -33,7 +34,7 @@ int main(){
         result(*mas_func[i], po_mas, pointers, cp);
         printf("Test for %d function:\n", i + 1);
         for (int j = 0; j < cp; j ++) {
-            if(po_mas[j] - check_mac[j][i] <= eps)
+            if(fabs(po_mas[j] - check_mac[j][i]) <= eps)
                 printf("    %d.Test completed\n", j + 1);
             else {
                 printf("    %d.Test not completed!\n", j + 1);
