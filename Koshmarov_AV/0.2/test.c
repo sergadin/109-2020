@@ -35,7 +35,7 @@ int main(){
         printf("Test for %d function:\n", i + 1);
         for (int j = 0; j < cp; j ++) {
             printf("%f", po_mas[j]);
-            if(abs(po_mas[j] - check_mac[j][i]) <= eps)
+            if(fabs(po_mas[j] - check_mac[j][i]) <= eps)
                 printf("    %d.Test completed\n", j + 1);
             else {
                 printf("    %d.Test not completed!\n", j + 1);
