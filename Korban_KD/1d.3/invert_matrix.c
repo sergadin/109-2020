@@ -5,7 +5,7 @@
 
 int invert_matrix (int n, double *a, double *b)
 {
-    
+    double norm_a = norm_matrix(a, n);
     for(int i = 0; i < n; i++)
         {
             for(int j = 0; j < n; j++)
@@ -19,7 +19,6 @@ int invert_matrix (int n, double *a, double *b)
     
     for(int i = 0; i < n; i++)
     {
-        double norm_a = norm_matrix(a, n);
         int max_i;
         if ( find_max_abs_redused_colum(n, a, i , &max_i) < 1e-16*norm_a )
         {
