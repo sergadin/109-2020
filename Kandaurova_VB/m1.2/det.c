@@ -3,6 +3,9 @@
 #include <math.h>
 #include <stdlib.h>
 
+void swap(double *data, int n, int row1, int row2);
+void plus(double *data, int n, int row1, int row2, double s);
+
 void swap(double *data, int n, int row1, int row2) {
 	double t;
 	for(int i = 0; i < n; i++) {
