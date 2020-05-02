@@ -28,10 +28,10 @@ int main(){
     pointer_on_func mas_func[al] = {zero, line, square, cube};
     double pointers[cp] = {1.15, 0, 15};
     double check_mac[cp][al] = {0, 2.15, 3.3225, 4.520875, 0, 1, 2, 3, 0, 16, 227, 3378};
-    double *po_mas = (double*) malloc(sizeof(double )*cp);
+    double *po_mas =;
 
     for (int i = 0; i < al; i++){
-        result(*mas_func[i], po_mas, pointers, cp);
+        po_mas = result(*mas_func[i], pointers, cp);
         printf("Test for %d function:\n", i + 1);
         for (int j = 0; j < cp; j ++) {
             if(fabs(po_mas[j] - check_mac[j][i]) <= eps)
