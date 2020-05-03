@@ -7,10 +7,11 @@ char *strcpy(char *t, const char *s);
 
 void zamena(FILE *input1, FILE *output) 
 {
-	int i, j, k = 1, len = 0, n = 0;
+	int i, j, k, len = 0, n = 0;
 	char *t;	
 	while ((t = read_string(input1)) != NULL) 
 	{
+		k = 1;
 		len = length(t);
 		n = len;
 		for (i = 0; i < len; i++) 
