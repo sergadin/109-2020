@@ -5,6 +5,7 @@
 #include"1.h"
 #define CHECK_NOT_NULL 1
 #define CHECK_NULL 0
+#define EPS 0.0001
 
 	void str_diff(int i, int j, int m , int n,  double *matrix){
 		//подаем i,j элемент с которого строки надо вычитать с подх коэф
@@ -41,7 +42,7 @@
 		for(j = 0; j < m; j++){ // фиксируем столбец
 			for(i = without_repeat; i < n - 1; i++){ // смотрим на разные строчки
 			// мы идем по каждому из столбцов вниз и смотрим на элементы
-				if ( matrix[i * m + j] > 0 || matrix[i * m + j] < 0 ) { 
+				if ( fabs(matrix[i * m + j]) > EPS) { 
 			//нашли первый ненулевой элемент в столбце (i-ая строка) 
 			// теперь вычитаем остальные строки из той которую нашли с нужным коэф
 //					printf("\ni =%d j = %d\n", i, j);
@@ -63,7 +64,7 @@
 		int check = 1;
 		for(int j = 0; j < m; j++){
 //			printf("\nmatrix[%d*%d+%d] = %lf\n", i0, m, j, matrix[i0 * m + j]);
-			if(matrix[i0 * m + j] > 0 || matrix[i0 * m + j] < 0) {
+			if(fabs(matrix[i0 * m + j]) > EPS) {
 				check = 1;
 				break;
 			}

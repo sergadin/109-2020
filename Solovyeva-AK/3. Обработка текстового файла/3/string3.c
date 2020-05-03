@@ -13,6 +13,7 @@ char *read_string(FILE *in) {
 		char *res = malloc(len+1);
 		while(s) {
 			strcpy(res+tmp, s);
+			if(s[strlen(s)-1] == '\n') break;
 			s = fgets(buf, 1024, in);
 			if (s) {
 				tmp = strlen(s);
@@ -41,28 +42,32 @@ int main(void){
         return -1;
     }
 
-    while(str = read_string(inp)){
-        int len = strlen(str);
-        for(int i = 0; i < len; i++) {
-            if(str[i] == ' ') {
-                while(str[i] == ' ') {
-                    i++;
-                }
-                if(flag){
-                    fprintf(out, "\n");
-                }
-                i--;
-            } else {
-                if(str[i] != '\n') {
-                    fprintf(out, "%c", str[i]);
-                    flag = 1;
-                }
-            }
-        }
-        free(str);
-    }
-    
-    fclose(inp);
-    fclose(out);
-    return 0;
+	int flag1 = 0, flag2 = 0;
+	while(str = read_string(inp)){
+		if(flag2) {
+			fprintf(out, "\n");
+		}
+		flag2 = 1;
+		int len = strlen(str);
+		for(int i = 0; i < len; i++) {
+			if(str[i] == ' ') {
+				while(str[i] == ' ') {
+					i++;
+				}
+				if(flag1){
+					fprintf(out, "\n");
+				}
+				i--;
+			} else {
+				if(str[i] != '\n') {
+					fprintf(out, "%c", str[i]);
+					flag1 = 1;
+				}
+			}
+		}
+		free(str);
+	}    
+	fclose(inp);
+	fclose(out);
+	return 0;
 }
