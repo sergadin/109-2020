@@ -1,17 +1,19 @@
-CC=gcc
-CFLAGS=-g
-
 all: do-test clean
 
-Words_Length.o: Words_Length.c Words_Length.h
+mystring.o: ../lib/mystring.h ../lib/mystring.c
+	gcc -c ../lib/mystring.c
 
-test_Words_Length.o: test_Words_Length.c Words_Length.h
+fromat.o: ../lib/mystring.h fromat.h fromat.c
+	gcc -c fromat.c
 
-a.out: test_Words_Length.o Words_Length.o
-	gcc test_Words_Length.o Words_Length.o -lm
+fromat_test.o: fromat.h fromat_test.c
+	gcc -c fromat_test.c
+
+a.out: mystring.o fromat.o fromat_test.o
+	gcc -o a.out mystring.o fromat.o fromat_test.o
 
 do-test: a.out
 	valgrind ./a.out
 
-clean: test_Words_Length.o Words_Length.o
-	rm test_Words_Length.o Words_Length.o a.out
+clean: mystring.o fromat.o fromat_test.o
+	rm mystring.o fromat.o fromat_test.o
