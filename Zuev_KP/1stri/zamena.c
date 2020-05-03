@@ -9,7 +9,7 @@ void zamena(FILE *input1, FILE *output)
 {
 	int i, j, k = 1, len = 0, n = 0;
 	char *t;	
-	while (!((t = read_string(input1)) == NULL)) 
+	while ((t = read_string(input1)) != NULL) 
 	{
 		len = length(t);
 		n = len;
