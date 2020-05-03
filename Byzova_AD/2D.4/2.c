@@ -4,7 +4,7 @@
 #include<math.h>
 
 #include"2.h"
-
+#define EPS 0.0001
 
 	void str_diff(int i, int j, int m , int n,  double **matrix){
 		//подаем i,j элемент с которого строки надо вычитать с подх коэф
@@ -50,7 +50,7 @@
 		//находим первый ненулевой столбец i - номер строчки j - номер столбца
 		for(j = 0; j < m - 1; j++){ // фиксируем столбец (последний не рассматриваем)
 			for(i = i0; i < n; i++){ // смотрим на разные строчки
-				if ( matrix[i][j] != 0 ) { 
+				if ( fabs(matrix[i][j]) > EPS ) { 
 				//нашли первый ненулевой элемент в столбце
 		// теперь вычитаем остальные строки из той которую нашли с нужным коэф
 //					printf("\ni =%d j = %d\n", i, j);
@@ -69,10 +69,10 @@
 	void gauss_up(int n, int m,double **matrix) {
 		double koef = 1;
 		for(int c = n - 1; c > 0; c--) {//c,c - угловые элементы
-			if( matrix[c][c] != 0 ) {
+			if( fabs(matrix[c][c]) > EPS ) {
 //			printf("m[c][c] = %lf\n\n", matrix[c][c]);
 				for(int i = c - 1; i >= 0; i-- ) {
-					if(matrix[i][c] != 0) {
+					if(fabs(matrix[i][c]) > EPS) {
 //			printf("m[i][c] = %lf\n", matrix[i][c]);
 						koef = matrix[i][c] / matrix[c][c];
 //			printf("k (%lf) = %lf / %lf\n",koef , matrix[i][c], matrix[c][c]);
@@ -92,7 +92,7 @@ void answers(int n, int m, double **matrix, FILE *output) {
 	gauss_down(n, m, matrix) ;
 	gauss_up(n, m, matrix);
 	for (i = 0; i < n; i++){
-		if (matrix[i][i] != 0) {
+		if (fabs(matrix[i][i]) > EPS) {
 			x_i = matrix[i][m - 1] / matrix[i][i];
 			printf("x_%d = %lf\n", i, x_i);
 			fprintf(output, "x_i = %lf\n", x_i);
