@@ -12,7 +12,7 @@ int main(void)
 	{
 		return -1;
 	}
-	if((output = fopen("output.txt", "r")) == NULL)
+	if((output = fopen("output.txt", "w")) == NULL)
 	{
 		return -1;
 	}

@@ -33,7 +33,7 @@ void zamena(FILE *input1, FILE *output)
 				k = k+1;
 			}
 		}
-		fprintf(output, "%s", f);
+		fprintf(output, "%s\n", f);
 	}
 	free(t);
 }
