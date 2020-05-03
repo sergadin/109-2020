@@ -1,0 +1,1 @@
+int slength(char *string)
