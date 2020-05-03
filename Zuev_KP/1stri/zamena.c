@@ -42,7 +42,7 @@ void zamena(FILE *input1, FILE *output)
 int length(const char *s) 
 {
 	int n = 0;
-	while (s[n] != 0) 
+	while (*s++) 
 	{
 		n++;
 	}	
