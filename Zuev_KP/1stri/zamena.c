@@ -7,13 +7,33 @@ char *strcpy(char *t, const char *s);
 
 void zamena(FILE *input1, FILE *output) 
 {
-	int len;
+	int i, j, k = 1, len = 0, n = 0;
 	char *t;	
 	while (!((t = read_string(input1)) == NULL)) 
 	{
 		len = length(t);
-		printf("%d\n", len);	
-		fprintf(output, "The string is: '%s'\n", t);
+		n = len;
+		for (i = 0; i < len; i++) 
+		{
+			if (t[i] == t[i+1])
+			{
+				n = n-1; 
+			}
+		}
+		char *f = malloc(n+1);
+		for (i = 0; i < len; i++) 
+		{		
+			f[0] = t[0];
+			if (t[i] != t[i+1])
+			{
+				for (j = k; j < n+1; j++) 
+				{
+					f[j] = t[i+1];							
+				}
+				k = k+1;
+			}
+		}
+		fprintf(output, "%s", f);
 	}
 	free(t);
 }
