@@ -28,7 +28,7 @@ int main(){
     pointer_on_func mas_func[al] = {zero, line, square, cube};
     double pointers[cp] = {1.15, 0, 15};
     double check_mac[cp][al] = {0, 2.15, 3.3225, 4.520875, 0, 1, 2, 3, 0, 16, 227, 3378};
-    double *po_mas =;
+    double *po_mas = NULL;
 
     for (int i = 0; i < al; i++){
         po_mas = result(*mas_func[i], pointers, cp);
