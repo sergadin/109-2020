@@ -12,11 +12,22 @@
 		int i0 = 0;
 		int j0 = 0;
 		double k = 1;
-		for(i0 = n - 1 ; i0 > i; i0--) { // меняем строку и идем с конца вверх
-			k = matrix[i0 * m + j] / matrix[i * m + j]; // коэф для убийства нужного элемента строки
-	//		printf("k (%lf) = %lf / %lf\n",k , matrix[i0 * m + j], matrix[i * m + j]);
-			for(j0 = 0; j0 < m; j0++){ //меняем столбец
-				matrix[i0 * m + j0] -= k * matrix[i * m + j0]; //вычитаем
+		// если строка не последняя
+		if(i < n - 1) {
+			for(i0 = n - 1 ; i0 > i; i0--) { // меняем строку и идем с конца вверх
+				k = matrix[i0 * m + j] / matrix[i * m + j]; // коэф для убийства нужного элемента строки
+	//			printf("k (%lf) = %lf / %lf\n",k , matrix[i0 * m + j], matrix[i * m + j]);
+				for(j0 = 0; j0 < m; j0++){ //меняем столбец
+					matrix[i0 * m + j0] -= k * matrix[i * m + j0]; //вычитаем
+				}
+			}
+		}
+		else {
+			for(i0 = 0; i0 < n - 1; i0++) {
+				k = matrix[i0 * m + j] / matrix[i * m + j]; // коэф для убийства нужного элемента строки
+				for(j0 = 0; j0 < m; j0++){ //меняем столбец
+					matrix[i0 * m + j0] -= k * matrix[i * m + j0]; //вычитаем
+				}
 			}
 		}
 	}
@@ -40,12 +51,12 @@
 	    int j;	
 		//находим первый ненулевой столбец i - номер строчки j - номер столбца
 		for(j = 0; j < m; j++){ // фиксируем столбец
-			for(i = without_repeat; i < n - 1; i++){ // смотрим на разные строчки
+			for(i = without_repeat; i < n; i++){ // смотрим на разные строчки
 			// мы идем по каждому из столбцов вниз и смотрим на элементы
 				if ( fabs(matrix[i * m + j]) > EPS) { 
 			//нашли первый ненулевой элемент в столбце (i-ая строка) 
 			// теперь вычитаем остальные строки из той которую нашли с нужным коэф
-//					printf("\ni =%d j = %d\n", i, j);
+					printf("\ni =%d j = %d\n", i, j);
 					str_diff(i, j, m, n, matrix);
 					print_matrix(n, m, matrix);
 		//когда мы обнулили остальные строчки в котогрых элемент в j столбце
@@ -61,11 +72,12 @@
 	}	
 	int check_null(int i, int n, int m, double *matrix){
 		int i0 = i;
-		int check = 1;
+		int check = 0;
 		for(int j = 0; j < m; j++){
 //			printf("\nmatrix[%d*%d+%d] = %lf\n", i0, m, j, matrix[i0 * m + j]);
 			if(fabs(matrix[i0 * m + j]) > EPS) {
 				check = 1;
+//			printf("find not null i %d j %d",i0,j);
 				break;
 			}
 		}
@@ -79,7 +91,7 @@
 		algorithm(n, m, matrix); // выравниваем матрицу до ступенчатого вида 
 			for(int i = 0; i < n ; i++){ // проходимся по строкам
 				res += check_null(i, n, m,matrix);
-//				printf("\nres += %d\n",check_null(i,n,m,matrix) + 2);
+//				printf("\nres += %d\n",check_null(i,n,m,matrix));
 			}
 		return res;
 	}
