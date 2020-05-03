@@ -54,13 +54,12 @@ int string_cmp(const char *s1, const char *s2) {
 
 char *read_string(FILE *f) {
 	char buf[N];
-	char *temp, *result;
+	char *temp, *result = NULL;
 	int t_len, curr_len = 1;
 
 	buf[0] = '\0';
 	temp = buf;
-	result = (char *)malloc(1);
-	
+
 	do {
 		fgets(buf, N, f);
 		t_len = string_length(temp);
