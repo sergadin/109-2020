@@ -74,6 +74,6 @@ char *read_string(FILE *f)
 		free(result);
 	}
 	free(s);
-	return NULL;
+	return 0;
 }
 
