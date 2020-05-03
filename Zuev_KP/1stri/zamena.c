@@ -77,10 +77,3 @@ char *read_string(FILE *f)
 	return NULL;
 }
 
-
-
-
-
-
-
-

@@ -19,5 +19,3 @@ int main(void)
 	fclose(output);
 	return 0;
 }
-
-
