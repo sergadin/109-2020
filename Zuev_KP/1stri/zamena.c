@@ -34,7 +34,8 @@ void zamena(FILE *input1, FILE *output)
 			}
 		}
 		fprintf(output, "%s\n", f);
-	}
+		free(f);
+	}	
 	free(t);
 }
 
@@ -70,7 +71,9 @@ char *read_string(FILE *f)
 		char *result = malloc(n + 1);
 		strcpy(result, s);
 		return result;
+		free(result);
 	}
+	free(s);
 	return NULL;
 }
 

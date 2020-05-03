@@ -5,8 +5,6 @@
 
 int main(void)
 {
-	int i, j, n;
-	double current;
 	FILE *input1, *output;
 	if((input1 = fopen("input1.txt", "r")) == NULL)
 	{
