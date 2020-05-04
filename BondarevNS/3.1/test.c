@@ -13,7 +13,7 @@ double f3(double x);
 
 double f1(double x)
 {
-	return  (x*x*x + x*x - x);
+	return  (cos(x));
 }
 
 double f2(double x)
@@ -31,7 +31,7 @@ double f3(double x)
 int main(void)
 {
 	double res, epsilon = 0.001;
-	double  otvet [] = {1, 2, 2.5};
+	double  otvet [] = {0.33333, 0, 0.5};
 	double h = 0.0001;
 	double x = 0.1;
 	RRFUN f[] = {f1, f2, f3 };
