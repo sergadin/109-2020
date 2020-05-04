@@ -34,7 +34,7 @@ int main(void)
 		res = Findmin(h, x, epsilon, f[i]);
 		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", otvet[i], res, epsilon);	
 	}
-}
+
 
 
 
