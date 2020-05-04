@@ -13,7 +13,7 @@ double f3(double x);
 
 double f1(double x)
 {
-	return  (cos(x));
+	return  (sin(x));
 }
 
 double f2(double x)
