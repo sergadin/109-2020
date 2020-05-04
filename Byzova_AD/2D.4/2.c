@@ -30,34 +30,42 @@
     	}
 	}
 
-	void str_change(int i, int j, int place, int m, double **matrix) {
+	void str_change(int i,int place,double **matrix) {
 	//i j это крайний элемент лесенки который надо поставить на место place,place  
 		// t = a a = b b = t
-		int j0;
-		double tmp;
-		for(j0 = j; j0 < m; j0++) { 
-			tmp = matrix[i][j0];
-			matrix[i][j0] = matrix[place][j0];
-			matrix[place][j0] = tmp;
+		double *tmp = matrix[i];
+	  	matrix[i] = matrix[place];
+		matrix[place] = tmp;
+	}
+	
+	void right_position(int c,int n, int m, double **matrix){
+		print_matrix(n, m, matrix);	
+		for(int i = c; i < n - 1; i++) {
+			for(int k = i + 1; k < n; k++)
+				if( fabs(matrix[i][c]) < fabs(matrix[k][c])) {
+					str_change(i, k, matrix);//меняем
+				}
 		}
+		print_matrix(n, m, matrix);	
 	}
 
 	void gauss_down(int n, int m, double **matrix) { // ступенчатый вид
 		int i = 0;
-		int i0 = 0;
+		int without_repeat = 0;
 		int c = 0; // счетчик угловых клеток
 	    int j;	
 		//находим первый ненулевой столбец i - номер строчки j - номер столбца
 		for(j = 0; j < m - 1; j++){ // фиксируем столбец (последний не рассматриваем)
-			for(i = i0; i < n; i++){ // смотрим на разные строчки
+			right_position(c, n, m, matrix);
+			for(i = without_repeat; i < n; i++){ // смотрим на разные строчки
 				if ( fabs(matrix[i][j]) > EPS ) { 
 				//нашли первый ненулевой элемент в столбце
 		// теперь вычитаем остальные строки из той которую нашли с нужным коэф
 //					printf("\ni =%d j = %d\n", i, j);
-					str_diff(i, j, m, n, matrix);
+					str_change(i,c,matrix);//ставим строку на нужное место
+					str_diff(c, c, m, n, matrix); //вычитаем остальные
 //					print_matrix(n, m, matrix);
-					str_change(i, j, c, m, matrix);
-					i0 = i + 1;
+					without_repeat = c + 1; //все ступеньки до с строки сделаны
 					break;
 				}
 			}
@@ -84,7 +92,8 @@
 			}
 		}
 		print_matrix(n, m, matrix);	
-	}		
+	}
+
 void answers(int n, int m, double **matrix, FILE *output) {
 	int error = -2;
 	double x_i;

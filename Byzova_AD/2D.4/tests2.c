@@ -68,7 +68,7 @@ int main(void) {
 			free(matrix[k]);
 	}
 
-//	free(matrix);
+	free(matrix);
 	fclose(input);
 	return 0;
 }
