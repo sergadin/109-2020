@@ -9,15 +9,16 @@ int main(void) {
 	int error = -1;
 	double **matrix;
 	int N, M;
-	FILE * input , * output ;
+	FILE *input , *output ;
 	int k, j, i;
-	
+	double current;
+
 	if (( input = fopen("input.txt" , "r")) == NULL ) {
 		printf ("Не удалось открыть файл") ;
 		return -1;
 	}
 	if (( output = fopen("output.txt" , "w")) == NULL ) {
-    	printf ("Не удалось открыть файл") ;
+    	printf ("Не удалось открыть файл\n") ;
         fclose(input);
 		return -1;
 	}  
@@ -35,40 +36,39 @@ int main(void) {
 		fclose(output);
 		return 0;
 	}
+	matrix = (double**)malloc(N * sizeof(double*));
 	
-	matrix = (double**)malloc(M * sizeof(double*));
-	
-	for(k = 0; k < M; k++) {
-		matrix[k] = (double *)malloc(N *sizeof(double));
-	}
+	for(k = 0; k < N; k++)
+		matrix[k] = (double *)malloc(M *sizeof(double));
 
 	for (i = 0; i < N; i++) {
 
         for (j = 0; j < M; j++) {
 
-            if (fscanf(input, "%lf", &matrix[i][j]) != 1) {
+            if (fscanf(input, "%lf", &current) != 1) {
                 printf("please add more elements\n");
 				fprintf(output,"%d\n error read elements",error);
-                for(k = 0; k < M; k++) {
-                    free(matrix[k]);
+                for(k = 0; k < N; k++) {
+  //              	if(matrix[k])
+                    	free(matrix[k]);
                 }
-                free(matrix);
+  //              free(matrix);
                 fclose(input);
 				fclose(output);
                 return -1;
             }
+			matrix[i][j] = current;
         }
     }
-answers(N, M, matrix, output);
-fclose(output);	
-fclose(input);
+	answers(N, M, matrix, output);
+	fclose(output);	
 
-//возникает ошибка "double free or corruption" "aborted (core dumped)" если раскомментировать ниже
-//for (k = 0; k < M; k++) {
-//	free(matrix[k]);
-//}
+	for (k = 0; k < N; k++) {
+//		if(matrix[k])
+			free(matrix[k]);
+	}
 
-free(matrix);
-return 0;
+	free(matrix);
+	fclose(input);
+	return 0;
 }
-

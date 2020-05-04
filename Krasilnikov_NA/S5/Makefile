@@ -1,17 +1,19 @@
-CC=gcc
-CFLAGS=-g
-
 all: do-test clean
 
-Words_Length.o: Words_Length.c Words_Length.h
+mystring.o: ../libs/mystring.h ../libs/mystring.c
+	gcc -c ../libs/mystring.c
 
-test_Words_Length.o: test_Words_Length.c Words_Length.h
+format.o: ../libs/mystring.h format.h format.c
+	gcc -c format.c
 
-a.out: test_Words_Length.o Words_Length.o
-	gcc test_Words_Length.o Words_Length.o -lm
+format_test.o: format.h format_test.c
+	gcc -c format_test.c
+
+a.out: mystring.o format.o format_test.o
+	gcc -o a.out mystring.o format.o format_test.o
 
 do-test: a.out
-	valgrind ./a.out
+	valgrind -v --leak-check=full ./a.out 
 
-clean: test_Words_Length.o Words_Length.o
-	rm test_Words_Length.o Words_Length.o a.out
+clean: mystring.o format.o format_test.o a.out
+	rm mystring.o format.o format_test.o a.out
