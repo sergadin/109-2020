@@ -4,24 +4,25 @@
 #include <limits.h>
 
 char *read_string(FILE *in) {
-	char buf[1024];
-	char *s = fgets(buf, 1024, in);
-	if(s) {
-		int len = strlen(s);
-		int tmp = 0;
-		char *res = malloc(len+1);
-		while(s) {
-			strcpy(res+tmp, s);
-			s = fgets(buf, 1024, in);
-			if (s) {
-				tmp = strlen(s);
-				len += tmp;
-				res = realloc(res, len+1);
-			}
-		}
-		return res;
-}
-return NULL;
+    char buf[1024];
+    char *s = fgets(buf, 1024, in);
+    if(s) {
+        int len = strlen(s);
+        int tmp = 0;
+        char *res = malloc(len+1);
+        while(s) {
+            strcpy(res+tmp, s);
+            if(s[strlen(s)-1] == '\n') break;
+            s = fgets(buf, 1024, in);
+            if (s) {
+                tmp = strlen(s);
+                len += tmp;
+                res = realloc(res, len+1);
+            }
+        } 
+        return res;
+    } 
+    return NULL;
 }
 
 
@@ -34,12 +35,11 @@ int main(int argc, char *argv[]){
         return -1;
     }
     
-    if ((out = fopen("output.txt", "w")) == NULL) {
+    if ((out = fopen("out.txt", "w")) == NULL) {
         printf("ERROR\n");
         fclose(inp);
         return -1;
     }
-
 
     if (argc == 1) {
         start = malloc(2);
@@ -62,9 +62,11 @@ int main(int argc, char *argv[]){
         return 0;
     }
     char *begin_quotes, *end_quotes, *str, tmp;
-    while(str = read_string(inp)){
+    int flag1 = 0, flag2 = 0;
+    while(str = read_string(inp)) {
         begin_quotes = strstr(str, start);
-        if (begin_quotes){
+        if (begin_quotes && !flag1) {
+            flag1 = 1;
             char k = begin_quotes[0];
             begin_quotes[0] = '\0';
             fprintf(out, "%s", str);
@@ -72,17 +74,33 @@ int main(int argc, char *argv[]){
             begin_quotes++;
             end_quotes = strstr(begin_quotes, end);
             if(end_quotes) {
+                flag2 = 1;
                 end_quotes += strlen(end);
                 fprintf(out, "%s", end_quotes);
-            } else {
-                begin_quotes--;
-                fprintf(out, "%s", begin_quotes);
             }
         } else {
-            fprintf(out, "%s", str);
+            end_quotes = strstr(str, end);
+            if(end_quotes) {
+                end_quotes += strlen(end);
+                fprintf(out, "%s", end_quotes);
+                flag2 = 1;
+            } else if (!flag1) {
+                fprintf(out, "%s", str);
+            }
         }
         free(str);
     }
+    if (!flag2) {
+        fclose(out);
+        fclose(inp);
+        out = fopen("out.txt", "w");
+        inp = fopen("input.txt", "r");
+        while(str = read_string(inp)) {
+            fprintf(out, "%s", str);
+            free(str);
+        }
+    }
+    
     if (argc == 1) {
         free(start);
         free(end);
