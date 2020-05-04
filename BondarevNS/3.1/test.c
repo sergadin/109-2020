@@ -23,17 +23,17 @@ int main(void)
 
 
 
-double f1(double x)
+double f1(double x);
 {
 	return  x*x*x + x*x - x;
 }
 
-double f2(double x)
+double f2(double x);
 {
         return x*x;
 }
 
-double f3(double x)
+double f3(double x);
 {
         return  -x*x + x;
 }
