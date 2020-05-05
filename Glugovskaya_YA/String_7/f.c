@@ -7,7 +7,7 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 	int *Count_El;
 	int count = 0, i, t, j; 
 	int Last_whitespace, Last_line_trans, FlagTBW = 0, Too_big_word = 0;
-	int count_strings, lenght;
+	int count_strings;
 		
 	count_strings = Count_Strings(fileIn);
 	
@@ -28,7 +28,6 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 			fscanf(FileIn, "%c", &buf[j]); 
 		}
 
-		lenght = strlen(buf);
 		count = 0;
 		Last_whitespace = -1;
 		Last_line_trans = 0;
