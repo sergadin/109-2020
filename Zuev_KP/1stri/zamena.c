@@ -52,9 +52,9 @@ int length(const char *s)
 
 char *strcpy(char *t, const char *s) 
 {
-	int n; 
+	int n, i; 
 	n = length(s);
-	for (int i = 0; i < n + 1; i++) 
+	for (i = 0; i < n + 1; i++) 
 	{
 		t[i] = s[i];
 	}
@@ -66,14 +66,16 @@ char *read_string(FILE *f)
 	char buf[1024];
 	buf[0] = 0;
 	char *s = fgets(buf, 1024, f);
+	char *result;
 	if(s) 
 	{
 		int n = length(s);
-		char *result = malloc(n+1* sizeof(char));
+		result = malloc(n+1* sizeof(char));
 		strcpy(result, s);
 		return result;
-		free(result);
+		
 	}
+	free(result);
 	free(s);
 	return 0;
 }

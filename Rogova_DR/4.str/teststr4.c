@@ -1,25 +1,21 @@
-#include"stdio.h"
-#include"string.h"
-#include"findstr.h"
-#include"stdlib.h"
-
-
-
+#include "stdio.h"
+#include "math.h"
+#include "stdlib.h"
+#include "findstr.h"
 
 int main(void)
 {
-	FILE * input;
-	char buf[5];
-	char * prob;
+	FILE *input, *output;
 	if((input = fopen("input.txt", "r")) == NULL)
+	
 		return -1;
-	prob = fgets(buf, 5, input);
-	if(prob == NULL)
+	
+	if((output = fopen("output.txt", "w")) == NULL)
+	
 		return -1;
-	findstr(prob, input);
+	
+	findstr(input, output, "k");
 	fclose(input);
-       	
-
-return 0;
+	fclose(output);
+	return 0;
 }
-
