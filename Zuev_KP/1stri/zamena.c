@@ -21,7 +21,7 @@ void zamena(FILE *input1, FILE *output)
 				n = n-1; 
 			}
 		}
-		char *f = malloc(n+1);
+		char *f = malloc(n+1* sizeof(char));
 		for (i = 0; i < len; i++) 
 		{		
 			f[0] = t[0];
@@ -69,7 +69,7 @@ char *read_string(FILE *f)
 	if(s) 
 	{
 		int n = length(s);
-		char *result = malloc(n + 1);
+		char *result = malloc(n+1* sizeof(char));
 		strcpy(result, s);
 		return result;
 		free(result);
