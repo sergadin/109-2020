@@ -1,1 +1,1 @@
-#define q Hello#undef
+#define Helloq Hello#undef
