@@ -9,7 +9,7 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 	int Last_whitespace, Last_line_trans, FlagTBW = 0, Too_big_word = 0;
 	int count_strings;
 		
-	count_strings = Count_Strings(fileIn);
+	count_strings = Count_Strings(fileIn) + 1;
 	
 	Count_El = (int*) malloc (count_strings * sizeof(int));
 	Count_El_InString(fileIn, Count_El, count_strings);  
@@ -22,12 +22,10 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 	
 	for (t = 0; t < count_strings; t++)
 	{
-		buf = (char*) malloc (Count_El[t] * sizeof(char));
-		for (j = 0; j < Count_El[t]; j++)
-		{
-			fscanf(FileIn, "%c", &buf[j]); 
-		}
-
+		
+		buf = (char*) malloc ((Count_El[t]+1) * sizeof(char));
+		fgets(buf, Count_El[t]+1, FileIn);
+				
 		count = 0;
 		Last_whitespace = -1;
 		Last_line_trans = 0;
@@ -56,8 +54,7 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 			}
 		}
 		
-		for (j = 0; j < Count_El[t]; j++)
-			fprintf(FileOut, "%c", buf[j]);
+		fprintf(FileOut, "%s", buf);
 		
 		free(buf);
 	}
@@ -90,9 +87,10 @@ int Count_Strings (const char *fileIn)
 		return ERROR_OPEN_A;
 	
 	while (fscanf(FileIn, "%c", &buf) == 1)
+	{
 		if (buf == '\n')
 			count_strings++;
-	
+	}
 	if(!feof(FileIn))
 	{
 		fclose(FileIn);
@@ -113,7 +111,7 @@ int Count_El_InString(const char *fileIn, int *Count_El, int count_strings)
 	if(!(FileIn = fopen(fileIn,"r")))
 		return ERROR_OPEN_A;
 	
-	for (i = 0; i < count_strings; i++)
+	for (i = 0; i < count_strings-1; i++)
 	{	
 		count = 1;
 		fscanf(FileIn, "%c", &buf);
