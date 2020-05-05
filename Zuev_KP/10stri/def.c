@@ -11,8 +11,15 @@ void def(FILE *input1, FILE *output)
 	char *t;	
 	while ((t = read_string(input1)) != NULL) 
 	{
-		k = 1;
 		len = length(t);
+		
+		
+		
+		
+		
+		
+		
+		
 	}	
 	free(t);
 }
