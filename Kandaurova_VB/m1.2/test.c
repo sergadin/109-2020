@@ -4,7 +4,7 @@
 
 int main(void) {
 	FILE *input;
-	int n = 8;
+	int n = 3;
 	double ans, el, true = 2;
 	double *matrix = (double *)malloc(n * n *  sizeof(double));
 	if((input = fopen("input.txt", "r")) == NULL) {
