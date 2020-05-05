@@ -1,0 +1,1 @@
+char *read_string(FILE *f);
