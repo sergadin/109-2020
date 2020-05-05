@@ -105,7 +105,8 @@ int main(int argc, char *argv[]){
             return -1;
     	}
     
-    while(str = read_string(inp)) {
+    
+        while(str = read_string(inp)) {
             fprintf(out, "%s", str);
             free(str);
         }
