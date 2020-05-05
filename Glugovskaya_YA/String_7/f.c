@@ -116,7 +116,7 @@ int Count_El_InString(const char *fileIn, int *Count_El, int count_strings)
 		count = 1;
 		fscanf(FileIn, "%c", &buf);
 		
-		while (buf != '\n' && count < MAX_IT)
+		while (buf != '\n')
 		{
 			fscanf(FileIn, "%c", &buf);
 			count++;
