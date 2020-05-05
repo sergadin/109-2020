@@ -93,18 +93,17 @@ int main(int argc, char *argv[]){
     if (!end_quote_found) {
         fclose(out);
         fclose(inp);
- 
-    if ((out = fopen("out.txt", "w")) == NULL) {
-        printf("ERROR\n");        
-        return -1;
-    }
+	   
+        if ((out = fopen("out.txt", "w")) == NULL) {
+     	       printf("ERROR\n");       
+            return -1;
+        }
 
-    if ((inp = fopen("input.txt", "r")) == NULL) {
-        printf("ERROR\n");
-        fclose(out);
-        return -1;
-    }
-    
+        if ((inp = fopen("input.txt", "r")) == NULL) {
+            printf("ERROR\n");
+            fclose(out);
+            return -1;
+        }
     
         while(str = read_string(inp)) {
             fprintf(out, "%s", str);
