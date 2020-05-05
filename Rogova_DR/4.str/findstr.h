@@ -1,1 +1,6 @@
-void findstr(char * smallstr, FILE * input);
+void findstr(FILE *input, FILE *output, char *w);
+
+
+
+
+
