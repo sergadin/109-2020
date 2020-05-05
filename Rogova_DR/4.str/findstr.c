@@ -1,8 +1,8 @@
 #include"stdio.h"
 #include"stdlib.h"
 #include"string.h"
-
-char *readstring(FILE *);
+#include"findstr.h"
+char *readstring(FILE * input);
 char *readstring(FILE * input)
 {
 	int l, p = 0;
@@ -43,12 +43,12 @@ void findstr(char * smallstr, FILE * input)
 		i++;
 		if(strstr(bigstr, smallstr) != NULL)
 		{
-			ind = (int)(smallstr - bigstr);
+			ind = (int)(strstr(bigstr, smallstr) - bigstr);
 			printf("str:_%d;_pos:_%d\n", i, ind);
 		}
 		bigstr = readstring(input);
 	}
-	free(bigstr);
+
 
 
 
