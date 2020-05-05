@@ -18,4 +18,5 @@ int main(void)
 	fclose(input1);
 	fclose(output);
 	return 0;
+
 }
