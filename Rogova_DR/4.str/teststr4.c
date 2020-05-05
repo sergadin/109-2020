@@ -11,16 +11,15 @@ int main(void)
 	FILE * input;
 	char buf[5];
 	char * prob;
-	if((input = fopen("input", "r")) == NULL)
+	if((input = fopen("input.txt", "r")) == NULL)
 		return -1;
 	prob = fgets(buf, 5, input);
-	if(prob = NULL)
+	if(prob == NULL)
 		return -1;
 	findstr(prob, input);
 	fclose(input);
-	free(prob);
        	
 
-
+return 0;
 }
 
