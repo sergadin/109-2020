@@ -59,7 +59,7 @@ void obr(double *matr, int n, double * edmatr)
 		}
 	}
 	
-	for(i = n - 1; i >= 0; i --)
+	for(i = n - 1; i > 0; i --)
 	{
 		for(j = 0; j < i; j++)
 		{

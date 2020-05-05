@@ -17,7 +17,6 @@ int main(void)
         FILE *input2;
         FILE *input3;
 	int n = 2;
-	double el;
 	double * nul = malloc(n * n * sizeof(double));
 	double * postmatrix = malloc(n * n * sizeof(double));
 	double * matrix = malloc(n * n  * sizeof(double ));
