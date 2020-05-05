@@ -26,7 +26,7 @@ char *readstring(FILE * input)
 		        	res = (char *) realloc(res, l);
 			}
 		
-		}	
+		}
 		return res;
 	}
 	return NULL;
@@ -41,6 +41,7 @@ void findstr(char * smallstr, FILE * input)
 	while(bigstr != NULL)
 	{
 		i++;
+		printf("%s\n%s\n", smallstr, bigstr);
 		if(strstr(bigstr, smallstr) != NULL)
 		{
 			ind = (int)(strstr(bigstr, smallstr) - bigstr);
