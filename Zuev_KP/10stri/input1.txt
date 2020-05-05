@@ -1,2 +1,3 @@
-sqqqqr wwabcccccde rrrt ts fdddds fqtrtrr
-
+#define PRIVET Hello
+q PRIVET c
+#undef
