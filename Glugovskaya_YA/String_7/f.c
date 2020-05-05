@@ -8,17 +8,17 @@ int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
 	int count = 0, i, t, j; 
 	int Last_whitespace, Last_line_trans, FlagTBW = 0, Too_big_word = 0;
 	int count_strings, lenght;
+		
+	count_strings = Count_Strings(fileIn);
+	
+	Count_El = (int*) malloc (count_strings * sizeof(int));
+	Count_El_InString(fileIn, Count_El, count_strings);  
 	
 	if(!(FileIn = fopen(fileIn,"r")))
 		return ERROR_OPEN_A;
 	
 	if(!(FileOut = fopen(fileOut,"w")))
-		return ERROR_OPEN_B ;
-	
-	count_strings = Count_Strings(fileIn);
-	
-	Count_El = (int*) malloc (count_strings * sizeof(int));
-	Count_El_InString(fileIn, Count_El, count_strings);  
+		return ERROR_OPEN_B;
 	
 	for (t = 0; t < count_strings; t++)
 	{
