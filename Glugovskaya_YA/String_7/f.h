@@ -1,4 +1,7 @@
-#define LEN 123456
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
 #define ERROR_OPEN_A -1
 #define ERROR_OPEN_B -2
 #define ERROR_READ_A -3

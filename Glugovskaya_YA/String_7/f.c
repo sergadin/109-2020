@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "f.h"
 
 int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght)
