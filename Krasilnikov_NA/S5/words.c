@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 #include "../libs/mystring/mystring.h"
-#include "format.h"
+#include "words.h"
 
 void symbols_words(FILE *fin, FILE *fout)
 {
@@ -20,7 +20,7 @@ void symbols_words(FILE *fin, FILE *fout)
 		{
 			symboltable[i].symbol = i;
 			symboltable[i].count = 0;
-		}	
+		}
 		while ((string = sread(fin)) != NULL)
 		{
 			wc++;
@@ -50,7 +50,7 @@ void symbols_words(FILE *fin, FILE *fout)
 			printf("Unknown error\n");
 		}
 		else
-		{	
+		{
 			if (wc == 0)
 			{
 				fprintf(fout, "Input file is empty\n");

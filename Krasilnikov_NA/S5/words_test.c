@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#include "format.h"
+#include "words.h"
 #include "../libs/mystring/mystring.h"
 
 int main(void)
