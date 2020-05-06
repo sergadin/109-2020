@@ -27,7 +27,6 @@ void zamena(FILE *input1, FILE *output)
 			}
 			k = k+1;
 		}
-		
 		fprintf(output, "%s\n", t);
 		free(t);
 	}	
