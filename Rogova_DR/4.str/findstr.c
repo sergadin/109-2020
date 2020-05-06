@@ -36,9 +36,10 @@ void findstr(FILE *input, FILE *output, char *w)
 			p = 0;
 			
 		}
+		free(t);
 
 	}	
-	free(t);
+	
 }
 
 int len(char *s) 
@@ -92,5 +93,6 @@ char *readstring(FILE * input)
 	free(s);
 	return NULL;
 }
+
 
 
