@@ -5,21 +5,21 @@
 #include "f.h"
 
 
-//./1.exe Start End a.txt b.txt
+//./1.exe max_len a.txt b.txt
 int main(int argc, char **argv)
 {
-	int result, Start, End;
+	int result, max_len;
 	char *File_In, *File_Out;
 	
-	if ((argc!=5) || !(Start = atoi(argv[1])) || !(End = atoi(argv[2])))
+	if ((argc!=4) || !(max_len = atoi(argv[1])))
 	{
-		printf("usage: %s.exe Start End a.txt b.txt \n Start and End - Start and end of the formatting interval \n a.txt - input file \n b.txt - output file \n", argv[0]);
+		printf("usage: %s.exe n a.txt b.txt \n n - max lenght of string \n a.txt - input file \n b.txt - output file \n", argv[0]);
 		return 1;
 	}
-	File_In = argv[3];
-	File_Out = argv[4];
+	File_In = argv[2];
+	File_Out = argv[3];
 	
-	result = Formating(File_In, File_Out, Start, End);
+	result = Formating(File_In, File_Out, max_len);
 	if(result < 0)
 	{
 		switch(result)
