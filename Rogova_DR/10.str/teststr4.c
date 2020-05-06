@@ -9,7 +9,7 @@ int main(void)
 	if((input = fopen("input.txt", "r")) == NULL)
 	
 		return -1;
-	if((input = fopen("fdef.txt", "r")) == NULL)
+	if((fdef = fopen("fdef.txt", "r")) == NULL)
 
                 return -1;
 

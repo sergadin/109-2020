@@ -100,11 +100,10 @@ void ch_fl_wth_def(FILE * input, FILE * output, FILE * f_with_def)
 	char * def;
 	char * undef;
 	int l, lw, lf;
-	def = readstring(f_with_def);
-	undef = readstring(f_with_def);
-	strnow = readstring(input);
-	while(strnow != NULL) 
-	{
+	def = "define#";
+	undef = "undef#";
+	do{
+		strnow = readstring(input);
 		if((findstr(strnow, def) == 0) && (findstr(strnow, undef) == 0))
 				pstr(output, strnow);
 		if(findstr(strnow, def) != 0)
@@ -114,6 +113,7 @@ void ch_fl_wth_def(FILE * input, FILE * output, FILE * f_with_def)
 			strnow = readstring(input);
 			while((findstr(strnow, undef) == 0) && (strnow != NULL))
 			{
+				printf("prev in main");
 				zamena(strnow, what, forwhat);
 				pstr(output, strnow);
 				free(strnow);
@@ -125,18 +125,16 @@ void ch_fl_wth_def(FILE * input, FILE * output, FILE * f_with_def)
 				strnow = readstring(input);
 				while((findstr(strnow, def) == 0) && (strnow != NULL))
 				{
+					printf("last in main");
 					pstr(output, strnow);
 					free(strnow);
 				        strnow = readstring(input);	
 				}
 			}
-	
-
 		}
+		free(strnow);
 
-	}
-
-
+	}while(strnow != NULL);
 }
 void zamena(char * str, char *s, char *forwhat)
 {
@@ -147,6 +145,7 @@ void zamena(char * str, char *s, char *forwhat)
         char * newstr;
 	while(findstr(str, s) != 0)
 	{
+		printf("za");
 		l_1 = len(str);
 		l_2 = len(s) - 1;
 		l_3 = len(forwhat) - 1;
