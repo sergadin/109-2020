@@ -7,38 +7,43 @@ char *strcpy(char *t, char *s);
 
 void findstr(FILE *input, FILE *output, char *w) 
 {
-	int i, j;
-        int k = -1;
-	int p = 0, l = 0;
-        int n1 = 0, n2 = 0;
-	char *t;	
-	while((t = readstring(input)) != NULL) 
-	{	
-		k = k + 1;
-		l = len(t);
-		n1 = len(w);
-		for(i = 0; i < l; i++) 
+	if(len(w) > 0)
+	{
+		int i, j;
+        	int k = -1;
+		int p = 0, le = 0;
+       		int n1 = 0, n2 = 0;
+		char *t;	
+		while((t = readstring(input)) != NULL) 
 		{
-			if(t[i] == w[0])
+			k = k + 1;
+			le = len(t);
+			n1 = len(w);
+			for(i = 0; i < le; i++) 
 			{
-				for(j = 0; j < n1 + 1; j++)
+				p = 0;
+				if(t[i] == w[0])
 				{
-					if(t[i + j] == w[j])
-					{
-						p = p + 1;
+					for(j = 0; j < n1; j++)
+					{	
+						if(t[i + j] == w[j])
+						{	
+							p = p + 1;
+						}
 					}
 				}
+				if(p == n1)
+				{
+					fprintf(output, "%d:%d\n", k, i);
+				}
+				
+				
 			}
-			if(p == n1)
-			{
-				fprintf(output, "%d:%d\n", k, i);
-			}
-			p = 0;
-			
+			free(t);
 		}
-		free(t);
-
-	}	
+	}
+	else
+		fprintf(output, "nenenenene");	
 	
 }
 
