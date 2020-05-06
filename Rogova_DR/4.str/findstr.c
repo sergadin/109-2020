@@ -95,7 +95,6 @@ char *readstring(FILE * input)
 		
 		return res;
 	}
-	free(s);
 	return NULL;
 }
 
