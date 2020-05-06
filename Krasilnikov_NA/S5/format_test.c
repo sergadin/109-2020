@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "format.h"
-#include "../libs/mystring.h"
+#include "../libs/mystring/mystring.h"
 
 int main(void)
 {
@@ -12,26 +13,14 @@ int main(void)
 		printf("Input file doesn't exist\n");
 		return -1;
 	}
-	if ((fout = fopen("input.txt", "w")) == NULL)
+	if ((fout = fopen("output.txt", "w")) == NULL)
 	{
 		printf("Output file doesn't exist\n");
 		fclose(fin);
 		return -1;
 	}
-	char *string = "kekekekek";
-	string = (char*)malloc(4);
-	string[0] = 'm';
-	string[0] = 'a';
-	string[0] = 'm';
-	string[0] = '\0';
-	char *kek;
-	kek = (char*)malloc(3);
-	kek[0] = 'p';
-	kek[1] = 'a';
-	kek[2] = '\0';
-	kek = scopy(string, kek);	
-	printf("\n\n%s\n\n", kek);
-	free(string);
-	free(kek);
+	symbols_words(fin, fout);
+	fclose(fin);
+	fclose(fout);
 	return 0;
 }
