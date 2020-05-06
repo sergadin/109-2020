@@ -14,7 +14,7 @@ int main(void)
 	{
 		return -1;
 	}
-	def(input1, output, "PRIVET", "Hello");
+	def(input1, output, "PRIVET", "Hello", "#define", "#undef");
 	fclose(input1);
 	fclose(output);
 	return 0;
