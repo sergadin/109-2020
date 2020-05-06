@@ -17,7 +17,6 @@ void findstr(FILE *input, FILE *output, char *w)
 		k = k + 1;
 		l = len(t);
 		n1 = len(w);
-		char *s = (char *) malloc((n1 + 1) * sizeof(char));
 		for(i = 0; i < l; i++) 
 		{
 			if(t[i] == w[0])
@@ -34,8 +33,10 @@ void findstr(FILE *input, FILE *output, char *w)
 			{
 				fprintf(output, "%d:%d\n", k, i);
 			}
-			p = 0;	
-		}		
+			p = 0;
+			
+		}
+
 	}	
 	free(t);
 }
@@ -85,7 +86,7 @@ char *readstring(FILE * input)
 			}
 		
 		}
-		free(s);
+		
 		return res;
 	}
 	free(s);
