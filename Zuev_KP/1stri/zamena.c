@@ -7,12 +7,13 @@ char *strcpy(char *t, const char *s);
 
 void zamena(FILE *input1, FILE *output) 
 {
-	int i, j, k, len = 0, n = 0;
+	int i, j, k, len;
 	char *t;	
 	while ((t = read_string(input1)) != NULL) 
 	{
-		len = length(t);
-		for (k = 0; k < len; k++) 
+		len = length(t);	
+		k = 0;
+		while (k<=len)
 		{
 			for (i = 0; i < len; i++) 
 			{	
@@ -24,10 +25,12 @@ void zamena(FILE *input1, FILE *output)
 					}						
 				}
 			}
+			k = k+1;
 		}
+		
 		fprintf(output, "%s\n", t);
 		free(t);
-	}		
+	}	
 }
 
 int length(const char *s) 
