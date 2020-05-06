@@ -36,8 +36,8 @@ void zamena(FILE *input1, FILE *output)
 		}
 		fprintf(output, "%s\n", f);
 		free(f);
-	}	
-	free(t);
+		free(t);
+	}		
 }
 
 int length(const char *s) 
@@ -63,20 +63,28 @@ char *strcpy(char *t, const char *s)
 
 char *read_string(FILE *f) 
 {
-	char buf[1024];
-	buf[0] = 0;
-	char *s = fgets(buf, 1024, f);
+	int l, l1;
 	char *result;
-	if(s) 
+	char buf[1024];
+	buf[0] = 0;	
+	char *s = fgets(buf, 1024, f);
+	if(!s)
+		return NULL;
+	else
 	{
-		int n = length(s);
-		result = malloc(n+1* sizeof(char));
+		l = length(s);
+		result = (char *) malloc((l + 1)*sizeof(char));
 		strcpy(result, s);
+		while((s) && (s[length(s) - 1] != '\n'))
+		{
+			strcpy(result, s);
+			l1 = length(s);
+			l = l+l1;
+		        result = (char *) realloc(result, l);
+			s = fgets(buf, 1024, f);
+		}
+
 		return result;
-		
 	}
-	free(result);
-	free(s);
-	return 0;
 }
 
