@@ -11,31 +11,21 @@ void zamena(FILE *input1, FILE *output)
 	char *t;	
 	while ((t = read_string(input1)) != NULL) 
 	{
-		k = 1;
 		len = length(t);
-		n = len;
-		for (i = 0; i < len; i++) 
+		for (k = 0; k < len; k++) 
 		{
-			if (t[i] == t[i+1])
-			{
-				n = n-1; 
-			}
-		}
-		char *f = malloc(n+1* sizeof(char));
-		for (i = 0; i < len; i++) 
-		{		
-			f[0] = t[0];
-			if (t[i] != t[i+1])
-			{
-				for (j = k; j < n+1; j++) 
+			for (i = 0; i < len; i++) 
+			{	
+				if (t[i] == t[i+1])
 				{
-					f[j] = t[i+1];							
+					for (j = 0; j < len-i; j++) 
+					{	
+						t[j+i] = t[j+i+1];
+					}						
 				}
-				k = k+1;
 			}
 		}
-		fprintf(output, "%s\n", f);
-		free(f);
+		fprintf(output, "%s\n", t);
 		free(t);
 	}		
 }
@@ -80,7 +70,7 @@ char *read_string(FILE *f)
 			strcpy(result, s);
 			l1 = length(s);
 			l = l+l1;
-		        result = (char *) realloc(result, l);
+			result = (char *) realloc(result, l);
 			s = fgets(buf, 1024, f);
 		}
 
@@ -88,3 +78,31 @@ char *read_string(FILE *f)
 	}
 }
 
+/*
+   k = 1;
+   len = length(t);
+   n = len;
+   for (i = 0; i < len; i++) 
+   {
+   if (t[i] == t[i+1])
+   {
+   n = n-1; 
+   }
+   }
+   char *f = malloc((n+1)* sizeof(char));
+   for (i = 0; i < len; i++) 
+   {		
+   f[0] = t[0];
+   if (t[i] != t[i+1])
+   {
+   for (j = k; j < n+1; j++) 
+   {
+   f[j] = t[i+1];							
+   }
+   k = k+1;
+   }
+   }
+   fprintf(output, "%s\n", f);
+   free(f);
+   free(t);
+   */
