@@ -7,7 +7,7 @@ char *strcpy(char *t, char *s);
 
 void findstr(FILE *input, FILE *output, char *w) 
 {
-	if(len(w) > 0)
+	if(len(w) > 1)
 	{
 		int i, j;
         	int k = -1;
