@@ -96,5 +96,6 @@ char *Read_Srt(FILE *FileIn)
 		return result;
 	}
 	free(s);
+	free(result);
 	return NULL;
 }
