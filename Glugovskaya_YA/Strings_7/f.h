@@ -9,3 +9,4 @@
 int Cut_Strings(const char *fileIn, const char *fileOut, int max_lenght);
 int Count_Strings (const char *fileIn);
 int Count_El_InString(const char *fileIn, int *Count_El, int count_strings);
+char *Read_Srt(FILE *FileIn);
