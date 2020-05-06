@@ -14,7 +14,7 @@ int main(void)
 	
 		return -1;
 	
-	findstr(input, output, "");
+	findstr(input, output, "ko");
 	fclose(input);
 	fclose(output);
 	return 0;

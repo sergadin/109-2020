@@ -19,7 +19,7 @@ void findstr(FILE *input, FILE *output, char *w)
 			k = k + 1;
 			le = len(t);
 			n1 = len(w);
-			for(i = 0; i < le; i++) 
+			for(i = 0; i < le - n1; i++) 
 			{
 				p = 0;
 				if(t[i] == w[0])

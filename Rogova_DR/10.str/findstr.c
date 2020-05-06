@@ -4,6 +4,12 @@
 int len(char *s);
 char *readstring(FILE *input);
 char *strcpy(char *t, char *s);
+void zamena(char * str, char *s, char *forwhat);
+int findstr(char * t, char *w);
+int posstr(char * str, char *s);
+void pstr(FILE * output, char * str);
+void str_of_def(char * allstr, char * what, char * forwhat, char * def);
+
 
 int findstr(char * t, char *w) 
 {
@@ -13,11 +19,11 @@ int findstr(char * t, char *w)
         int n1 = 0;	
 	l = len(t);
 	n1 = len(w);
-	for(i = 0; i < l; i++) 
+	for(i = 0; i < l - n1; i++) 
 	{
 		if(t[i] == w[0])
 		{
-			for(j = 0; j < n1 + 1; j++)
+			for(j = 0; j < n1; j++)
 			{
 				if(t[i + j] == w[j])
 				{
@@ -83,11 +89,10 @@ char *readstring(FILE * input)
 		
 		return res;
 	}
-	free(s);
 	return NULL;
 }
 
-void ch_fl_wth_def(FILE * input, FILE * f_with_def)
+void ch_fl_wth_def(FILE * input, FILE * output, FILE * f_with_def)
 {
 	char * strnow;
 	char * what;
@@ -95,30 +100,34 @@ void ch_fl_wth_def(FILE * input, FILE * f_with_def)
 	char * def;
 	char * undef;
 	int l, lw, lf;
-	def = fgets(def, 8, f_with_def);
-	undef = fgets(undef, 7, f_with_def);
+	def = readstring(f_with_def);
+	undef = readstring(f_with_def);
 	strnow = readstring(input);
 	while(strnow != NULL) 
 	{
 		if((findstr(strnow, def) == 0) && (findstr(strnow, undef) == 0))
-				rstr(output, strnow);
+				pstr(output, strnow);
 		if(findstr(strnow, def) != 0)
 		{
-			str_of_def(strnow, what, forwhat);
+			str_of_def(strnow, what, forwhat, def);
 			free(strnow);
 			strnow = readstring(input);
-			while((findstr(strnow, undef) == 0) $$ (strnow != NULL))
+			while((findstr(strnow, undef) == 0) && (strnow != NULL))
 			{
 				zamena(strnow, what, forwhat);
-				pstr(strnow, output);
+				pstr(output, strnow);
 				free(strnow);
                        	        strnow = readstring(input);
            		}
 			if(findstr(strnow, undef) != 0)
 			{
-				while((findstr(strnow, def) == 0) $$ (strnow != NULL))
+				free(strnow);
+				strnow = readstring(input);
+				while((findstr(strnow, def) == 0) && (strnow != NULL))
 				{
-					pstr(strnow, 
+					pstr(output, strnow);
+					free(strnow);
+				        strnow = readstring(input);	
 				}
 			}
 	
@@ -139,12 +148,9 @@ void zamena(char * str, char *s, char *forwhat)
 	while(findstr(str, s) != 0)
 	{
 		l_1 = len(str);
-		l_2 = len(s);
-		l_3 = len(forwhat);
-		if(l_3 > l_2)
-			newstr = malloc(l_1 + (l_3 - l_2));
-		else
-			newstr = malloc(l_1);
+		l_2 = len(s) - 1;
+		l_3 = len(forwhat) - 1;
+		newstr = malloc(l_1 + (l_3 - l_2));
 		i = posstr(str, s);
 		for(j = 0; j < i; j ++)
 		{
@@ -154,9 +160,9 @@ void zamena(char * str, char *s, char *forwhat)
 		{
 			newstr[j] = forwhat[j - i];
 		}
-		for(j = i + l_2; j <= l_1; j ++)
+		for(j = i + l_3; j <= len(newstr); j ++)
 		{
-			newstr[j + l_3 - l_2] = str[j];
+			newstr[j] = str[j - l_3 + l_2];
 		}
 		str = realloc(str, len(newstr));
 		strcpy(str, newstr);
@@ -169,7 +175,7 @@ int posstr(char * str, char *s)
 {
 	int p = 0;
 	int l1 = len(str), l2 = len(s);
-	for(int i = 0; i < l1, i++)
+	for(int i = 0; i < l1 - l2; i++)
 	{
 		if(str[i] == s[0])
 		{
@@ -194,25 +200,28 @@ void pstr(FILE * output, char * str)
 }
 
 
-void str_of_def(char * allstr, char * what, char * forwhat, const char * def)
+void str_of_def(char * allstr, char * what, char * forwhat, char * def)
 {
 	int l = len(allstr);
 	int i = 0;
-	what = malloc(l + 1);
-	forwhat = malloc(l + 1);
 	while(allstr[i] == def[i])
 		i++;
-	i++;
+	i += 2;
 	while(allstr[i] != ' ')
 	{
-		what[i] = allstr[i];
 		i++;
 	}
-	what[i] = '\0'
-	while(i <= l)
+	what = malloc(i - 7 + 1);
+	forwhat = malloc(l - i - 1);
+	for(int j = 8; j <= i; j++)
 	{
-		forwhat[i] = allstr[i];
-		i++;
+		what[j - 8] = allstr[j];
+	}
+	what[i + 1] = '\0';
+	i += 2;
+	for(int j = i; j <= l; j++)
+	{
+		forwhat[j-i] = allstr[j];
 	}
 
 }

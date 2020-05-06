@@ -1,5 +1,6 @@
-void findstr(FILE *input, FILE *output, char *w);
+void ch_fl_wth_def(FILE * input, FILE * output,  FILE * f_with_def);
 
+	
 
 
 
