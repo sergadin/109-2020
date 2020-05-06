@@ -78,31 +78,3 @@ char *read_string(FILE *f)
 	}
 }
 
-/*
-   k = 1;
-   len = length(t);
-   n = len;
-   for (i = 0; i < len; i++) 
-   {
-   if (t[i] == t[i+1])
-   {
-   n = n-1; 
-   }
-   }
-   char *f = malloc((n+1)* sizeof(char));
-   for (i = 0; i < len; i++) 
-   {		
-   f[0] = t[0];
-   if (t[i] != t[i+1])
-   {
-   for (j = k; j < n+1; j++) 
-   {
-   f[j] = t[i+1];							
-   }
-   k = k+1;
-   }
-   }
-   fprintf(output, "%s\n", f);
-   free(f);
-   free(t);
-   */
