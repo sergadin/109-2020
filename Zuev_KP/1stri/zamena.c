@@ -13,10 +13,10 @@ void zamena(FILE *input1, FILE *output)
 	while((s = read_string(input1)) != NULL)
 	{
 		len = length(s);
-		while(s[i] != '\0')
+		while((s[i] != '\0') && (i <= length(s)))
 		{
 			fprintf(output, "%c", s[i]);
-			while(s[i] == s[i+1])
+			while((s[i] == s[i+1]) && (i <= len))
 			{
 				i++;
 			}
@@ -51,14 +51,14 @@ char *read_string(FILE *f)
 {
 	int l = 0, l1 = 0;	
 	char *result;
-	char buf[1024];
-	buf[0] = 0;	
+	char buf[1024];	
 	char *s = fgets(buf, 1024, f);
 	if(!s) 
 		return NULL;
 	else
 	{
 		l = length(s);
+		l1 = 0;
 		result = (char*) malloc((l + 1)*sizeof(char));
 		while(s)
 		{
@@ -70,10 +70,9 @@ char *read_string(FILE *f)
 			{
 				l1 = length(s);
 				l = l+l1;
-				result = (char*) realloc(result, l);
+				result = (char*) realloc(result, l+1);
 			}
 		} 
 		return result;
 	} 
 }
-
