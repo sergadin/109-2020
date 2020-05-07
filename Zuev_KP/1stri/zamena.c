@@ -59,7 +59,7 @@ char *read_string(FILE *f)
 	else
 	{
 		l = length(s);
-		result = (char*) malloc((l + 1)*sizeof(char));;
+		result = (char*) malloc((l + 1)*sizeof(char));
 		while(s)
 		{
 			strcpy(result+l1, s);
