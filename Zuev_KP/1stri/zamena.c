@@ -7,37 +7,29 @@ char *strcpy(char *t, const char *s);
 
 void zamena(FILE *input1, FILE *output) 
 {
-	int i, j, k, len = 0, n = 0;
+	int i, j, k, len;
 	char *t;	
 	while ((t = read_string(input1)) != NULL) 
 	{
-		k = 1;
-		len = length(t);
-		n = len;
-		for (i = 0; i < len; i++) 
+		len = length(t);	
+		k = 0;
+		while (k<=len)
 		{
-			if (t[i] == t[i+1])
-			{
-				n = n-1; 
-			}
-		}
-		char *f = malloc(n+1* sizeof(char));
-		for (i = 0; i < len; i++) 
-		{		
-			f[0] = t[0];
-			if (t[i] != t[i+1])
-			{
-				for (j = k; j < n+1; j++) 
+			for (i = 0; i < len; i++) 
+			{	
+				if (t[i] == t[i+1])
 				{
-					f[j] = t[i+1];							
+					for (j = 0; j < len-i; j++) 
+					{	
+						t[j+i] = t[j+i+1];
+					}						
 				}
-				k = k+1;
 			}
+			k = k+1;
 		}
-		fprintf(output, "%s\n", f);
-		free(f);
+		fprintf(output, "%s\n", t);
+		free(t);
 	}	
-	free(t);
 }
 
 int length(const char *s) 
@@ -63,20 +55,28 @@ char *strcpy(char *t, const char *s)
 
 char *read_string(FILE *f) 
 {
-	char buf[1024];
-	buf[0] = 0;
-	char *s = fgets(buf, 1024, f);
+	int l, l1;
 	char *result;
-	if(s) 
+	char buf[1024];
+	buf[0] = 0;	
+	char *s = fgets(buf, 1024, f);
+	if(!s)
+		return NULL;
+	else
 	{
-		int n = length(s);
-		result = malloc(n+1* sizeof(char));
+		l = length(s);
+		result = (char *) malloc((l + 1)*sizeof(char));
 		strcpy(result, s);
+		while((s) && (s[length(s) - 1] != '\n'))
+		{
+			strcpy(result, s);
+			l1 = length(s);
+			l = l+l1;
+			result = (char *) realloc(result, l);
+			s = fgets(buf, 1024, f);
+		}
+
 		return result;
-		
 	}
-	free(result);
-	free(s);
-	return 0;
 }
 

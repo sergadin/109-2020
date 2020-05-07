@@ -1,19 +1,22 @@
+CC=gcc
+CFLAGS=-g
+
 all: do-test clean
 
-mystring.o: ../libs/mystring.h ../libs/mystring.c
-	gcc -c ../libs/mystring.c
+mystring.o: ../libs/mystring/mystring.h ../libs/mystring/mystring.c
+	gcc -c -g ../libs/mystring/mystring.c
 
-format.o: ../libs/mystring.h format.h format.c
-	gcc -c format.c
+words.o: ../libs/mystring/mystring.h words.h words.c
+	gcc -c -g words.c
 
-format_test.o: format.h format_test.c
-	gcc -c format_test.c
+words_test.o: words.h words_test.c
+	gcc -c -g words_test.c
 
-a.out: mystring.o format.o format_test.o
-	gcc -o a.out mystring.o format.o format_test.o
+a.out: mystring.o words.o words_test.o
+	gcc -o  a.out mystring.o words.o words_test.o
 
 do-test: a.out
-	valgrind -v --leak-check=full ./a.out 
+	valgrind ./a.out -g
 
-clean: mystring.o format.o format_test.o a.out
-	rm mystring.o format.o format_test.o a.out
+clean: mystring.o words.o words_test.o a.out
+	rm mystring.o words.o words_test.o a.out

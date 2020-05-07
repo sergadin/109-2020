@@ -7,37 +7,40 @@ char *strcpy(char *t, char *s);
 
 void findstr(FILE *input, FILE *output, char *w) 
 {
-	int i, j;
-        int k = -1;
-	int p = 0, l = 0;
-        int n1 = 0, n2 = 0;
-	char *t;	
-	while((t = readstring(input)) != NULL) 
-	{	
-		k = k + 1;
-		l = len(t);
-		n1 = len(w);
-		char *s = (char *) malloc((n1 + 1) * sizeof(char));
-		for(i = 0; i < l; i++) 
+	if(len(w))
+	{
+		int i, j = 0;
+        	int k = -1;
+		int p = 0, le = 0;
+       		int n1 = 0;
+		char *t;	
+		while((t = readstring(input)) != NULL) 
 		{
-			if(t[i] == w[0])
+			k = k + 1;
+			le = len(t);
+			n1 = len(w);
+			for(i = 0; i < le - n1; i++) 
 			{
-				for(j = 0; j < n1 + 1; j++)
+				p = 0;
+				j = 0;
+				while((t[i + j] == w[j]) && (j < n1))
 				{
-					if(t[i + j] == w[j])
-					{
-						p = p + 1;
-					}
+					j++;	
+					p = p + 1;
 				}
+				if(p == n1)
+				{
+					fprintf(output, "%d:%d\n", k, i);
+				}
+				
+				
 			}
-			if(p == n1)
-			{
-				fprintf(output, "%d:%d\n", k, i);
-			}
-			p = 0;	
-		}		
-	}	
-	free(t);
+			free(t);
+		}
+	}
+	else
+		fprintf(output, "nenenenene");	
+	
 }
 
 int len(char *s) 
@@ -85,11 +88,11 @@ char *readstring(FILE * input)
 			}
 		
 		}
-		free(s);
+		
 		return res;
 	}
-	free(s);
 	return NULL;
 }
+
 
 
