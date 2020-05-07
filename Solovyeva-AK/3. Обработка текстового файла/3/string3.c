@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char *read_string(FILE *in) {
     char buf[1024];
@@ -37,43 +40,31 @@ int main(void){
         return -1;
     }
     char *str, *res = NULL, *word;
-    int word_len = 0, res_len, word_memory = 1;
+    int word_len = 0, res_len = 0, word_memory = 1;
     word = malloc(word_len+1);
     word[word_len] = '\0';
-    while (str = read_string(inp)) {//while lines are being read
+    while (str = read_string(inp)) {
         if (str[0] == '\n') continue;//if it's just an empty string without words, then skip it
         int len = strlen(str);
         if (str[len-1] == '\n') {
-            str[len-1] == '\0';
+            str[len-1] = '\0';
             len--;
         }
-        int spaces_at_the_beginning_of_a_string = 1;
-        word_len = 1;
+        word_len = 0;
         int word_i = 0;
         for (int i = 0; i < len+1; i++, word_i++) { //we go along the string by symbols
             if(str[i] == ' ' || str[i] == '\t' || str[i] == '\0') { //checked at the end of the word, check on '\0' need to add the last word in the string
-                while(str[i] == ' ' || str[i] == '\t') { //check for i is not needed, because the last character is exactly '\0'
-                    i++; //skip all word separators in a row
-                }
-                if (!spaces_at_the_beginning_of_a_string) {//if it’s not spaces at the start, then go
+                if (word_len > 0) {
                     if(!res || !strstr(res, word)){ //if this word is not yet there, or there were no words at all
-                        word_len = strlen(word);
-                        if(!res) { //if there were no words, then allocate memory
-                            res = malloc(word_len+1);
-                            strcpy(res, word);
-                            res[word_len] = '\0';
-                        } else { //if the words were already, then reallocate the memory and append the word to the end
-                            res_len = strlen(res);
-                            res = realloc(res, res_len + word_len + 2);
-                            res[res_len] = '\n';
-                            strcpy(res+res_len + 1, word);
-                            res[res_len + word_len + 1] = '\0';
-                        }
+                        res = realloc(res, res_len + word_len + 2);
+                        strcpy(res+res_len, word);
+                        res[res_len + word_len] = '\n';
+                        res[res_len + word_len + 1] = '\0';
+                        res_len += word_len + 1;
                     }
                 }
-                if (str[i] != '\0') i--; //need to do i-- so as not to lose the first character of the new word
-                //check is needed so as not to go into an endless loop due to the fact that on '\0' we go into the loop to add the last word
                 word_i = -1;
+                word_len = 0;
             } else { //make up the word
                 if(word_i+1 > word_memory) {
                     word_memory *= 2;
@@ -81,7 +72,7 @@ int main(void){
                 }
                 word[word_i] = str[i];
                 word[word_i+1] = '\0';
-                spaces_at_the_beginning_of_a_string = 0;
+                word_len++;
             }
         }
         free(str);
