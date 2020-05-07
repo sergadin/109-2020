@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "words.h"
+#include "strings_words_symbols.h"
 #include "../libs/mystring/mystring.h"
 
 int main(void)
@@ -18,7 +18,7 @@ int main(void)
 		fclose(fin);
 		return -1;
 	}
-	symbols_words(fin, fout);
+	count_sws(fin, fout);
 	fclose(fin);
 	fclose(fout);
 	return 0;
