@@ -243,7 +243,7 @@ double norm_matrix(double **a, int n ,int m)
         sum = 0;
         for(int j = 0; j < m; j++)
         {
-            sum = sum + a[i][j];
+            sum = sum + fabs(a[i][j]);
         }
         if(i == 0)
         {
