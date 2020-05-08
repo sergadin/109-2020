@@ -4,60 +4,154 @@
 #include "../libs/mystring/mystring.h"
 #include "strings_words_symbols.h"
 
-void count_sws(FILE *fin, FILE *fout)
+#define N 256
+
+void sws(FILE *fin, FILE *fout)
 {
-	char *string, check;
-	int maxls, minls, cls, maxlw, minlw, clw, strc = 0 , wc = 0, symc = 0, swmf = 0, ces = 0;
-	/*maxls = MAXimum_Length_of_String, minls = MINimum_Length_of_String,
-	  cls = Current_Length_of_String, maxlw = MAXimum_Length_of_Word,
-	  minlw = MINimum_Length_of_Word, clw = Current_Length_of_Word
-	  strc = STRings_Count, wc = Words_Count, symc = SYMbols_Count,
-	  swmf = Symbol_With_Max_Frequency, ces = Count_of_Extra_Symbols*/
-	struct symbols_count *symboltable;
-	if ((symboltable = (struct symbols_count*)malloc(256 * sizeof(struct symbols_count))) == NULL)
+	int swmf, ces;
+	/* swmf = Symbol_With_Max_Frequency;
+		ces = Count_of_Extra_Symbols*/
+	struct result_of_counting answer;
+	answer = count_sws(fin);
+	switch(answer.ec)
 	{
-		fprintf(fout, "Memory allocation error");
-	}
-	else
-	{
-		for (int i = 0; i < 256; i++)
+		case -1:
 		{
-			symboltable[i].symbol = i;
-			symboltable[i].count = 0;
+			fprintf(fout, "Memory allocation error\n");
+			break;
 		}
-		while((string = sread(fin)) != NULL)
+		case -2:
 		{
-			strc++;
-			cls = slength(string);
-			if (strc == 1)
+			fprintf(fout, "Unknown reading error\n")
+			break;
+		}
+		case -3:
+		{
+			fprintf(fout, "Input file is empty\n")
+			break;
+		}
+	}
+	fprintf(fout, "Count of strings:        %d\n", answer.strc);
+	fprintf(fout, "Maximum string's length: %d\n", answer.maxls);
+	fprintf(fout, "Minimum string's length: %d\n", answe.minls);
+	fprintf(fout, "Average string's length: %lf\n", (double)answer.symc/(double)answer.strc);
+	fprintf(fout, "Count of strings:        %d\n", answer.wc);
+	fprintf(fout, "Maximum word's length:   %d\n", answer.maxlw);
+	fprintf(fout, "Minimum word's length:   %d\n", answer.minlw);
+	fprintf(fout, "Average word's length:   %lf\n", (double)(answer.symc - answer.symboltable[32].count)/(double)(answer.wc));
+	fprintf(fout, "Count of symbols:        %d\n", answer.symc);
+	for (int i = 0; i < N; i++)
+	{
+		if (answer.symboltable[i].count > swmf)
+		{
+			swmf = answer.symboltable[i].count;
+		}
+	}
+	ces = decimal_places(swmf);
+	for (int i = 0; i < N; i++)
+	{
+		if (answer.symboltable[i].count != 0)
+		{
+			fprintf(fout, "————————————————————————————————————————————————————————————————————————————————————————————————");
+			for (int j = 0; j < (ces - 1); j++)
 			{
-				minls = cls;
-				maxls = cls;
-				maxlw = 0;
-				minlw = cls;
+				fprintf(fout, "—");
 			}
-			if (cls > maxls)
+			fprintf(fout, "\n");
+			if (answer.symboltable[i].symbol < 10)
 			{
-				maxls = cls;
+				if (answer.symboltable[i].symbol == 9)
+				{
+					fprintf(fout, "| Symbol: TAB | ASCII code   9");
+				}
+				else
+				{
+					fprintf(fout, "| Symbol:  %c  | ASCII code   %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+				}
 			}
-			if (cls < minls)
+			else
 			{
-				minls = cls;
+				if (answer.symboltable[i].symbol < 100)
+				{
+					fprintf(fout, "| Symbol:  %c  | ASCII code  %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+				}
+				else
+				{
+					fprintf(fout, "| Symbol:  %c  | ASCII code %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+				}
 			}
-			check = 0;
+			fprintf(fout, " | Occur with freauency %lf | Total symbols of such type: ", (double)answer.symboltable[i].count/(double)answer.symc);
+			for (int j = 0; j < (ces - decimal_places(answer.symboltable[i].count)); j++)
+			{
+				fprintf(fout, " ");
+			}
+			fprintf(fout, "%d |\n", answer.symboltable[i].count);
+		}
+	}
+	fprintf(fout, "————————————————————————————————————————————————————————————————————————————————————————————————");
+	for (int j = 0; j < (ces - 1); j++)
+	{
+		fprintf(fout, "—");
+	}
+}
+free(answer.symboltable);
+}
+
+struct result_of_counting count_sws(FILE *fin)
+{
+	char *string;
+	int cls, clw, pcis;
+	/* cls = Current_Length_of_String,
+	  clw = Current_Length_of_Word
+		pcis = Previous_Character_Is_Space*/
+	struct result_of_counting result;
+	result.ec = 0;
+	result.strc = 0;
+	result.wc = 0;
+	result.symc = 0;
+	if ((result.symboltable = (struct symbols_count*)malloc(N * sizeof(struct symbols_count))) == NULL)
+	{
+		result.ec = -1;
+		return result;
+	}
+	for (int i = 0; i < N; i++)
+	{
+		result.symboltable[i].symbol = i;
+		result.symboltable[i].count = 0;
+	}
+	while((string = sread(fin)) != NULL)
+	{
+		result.strc++;
+		cls = slength(string);
+			if (result.strc == 1)
+			{
+				result.minls = cls;
+				result.maxls = cls;
+				result.maxlw = 0;
+				result.minlw = cls;
+			}
+			if (cls > result.maxls)
+			{
+				result.maxls = cls;
+			}
+			if (cls < result.minls)
+			{
+				result.minls = cls;
+			}
+			pcis = 0;
 			clw = 0;
 			for (int i = 0; i < cls; i++)
 			{
-				symboltable[string[i]].count++;
-				switch(check)
+				result.symboltable[string[i]].count++;
+				switch(pcis)
 				{
 					case 0:
 						{
 							if (string[i] != ' ')
 							{
-								wc++;
+								result.wc++;
 								clw++;
-								check = 1;
+								pcis = 1;
 							}
 							break;
 						}
@@ -65,29 +159,29 @@ void count_sws(FILE *fin, FILE *fout)
 						{
 							if (string[i] == ' ')
 							{
-								if (clw > maxlw)
+								if (clw > result.maxlw)
 								{
-									maxlw = clw;
+									result.maxlw = clw;
 								}
-								if (clw < minlw)
+								if (clw < result.minlw)
 								{
-									minlw = clw;
-								}													
+									result.minlw = clw;
+								}
 								clw = 0;
-								check = 0;
+								pcis = 0;
 							}
 							if (string[i] != ' ')
 							{
 								clw++;
 								if (i == (cls - 1))
 								{
-									if (clw > maxlw)
+									if (clw > result.maxlw)
 									{
-										maxlw = clw;
+										result.maxlw = clw;
 									}
-									if (clw < minlw)
+									if (clw < result.minlw)
 									{
-										minlw = clw;
+										result.minlw = clw;
 									}
 								}
 							}
@@ -95,21 +189,19 @@ void count_sws(FILE *fin, FILE *fout)
 						}
 				}
 			}
-			symc += cls;			
+			result.symc += cls;
 			free(string);
-		}
-		if (!feof(fin))
-		{
-			fprintf(fout, "Unknown error\n");
-		}
-		else
-		{
-			if(strc == 0)
-			{
-				fprintf(fout, "Input file is empty\n");
 			}
-			else
-			{
+if (!feof(fin))
+{
+	result.ec = -2;
+}
+if(strc == 0)
+{
+	result.ec = -3;
+}
+return result;
+}
 				fprintf(fout, "Count of strings:        %d\n", strc);
 				fprintf(fout, "Maximum string's length: %d\n", maxls);
 				fprintf(fout, "Minimum string's length: %d\n", minls);
@@ -119,7 +211,7 @@ void count_sws(FILE *fin, FILE *fout)
 				fprintf(fout, "Minimum word's length:   %d\n", minlw);
 				fprintf(fout, "Average word's length:   %lf\n", (double)(symc - symboltable[32].count)/(double)(wc));
 				fprintf(fout, "Count of symbols:        %d\n", symc);
-				for (int i = 0; i < 256; i++)
+				for (int i = 0; i < N; i++)
 				{
 					if (symboltable[i].count > swmf)
 					{
@@ -127,7 +219,7 @@ void count_sws(FILE *fin, FILE *fout)
 					}
 				}
 				ces = decimal_places(swmf);
-				for (int i = 0; i < 256; i++)
+				for (int i = 0; i < N; i++)
 				{
 					if (symboltable[i].count != 0)
 					{
@@ -175,7 +267,6 @@ void count_sws(FILE *fin, FILE *fout)
 			}
 		}
 		free(symboltable);
-	}
 }
 
 int decimal_places(int number)
