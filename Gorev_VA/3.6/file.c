@@ -19,7 +19,11 @@ int main(void)
 	char **s;
 	int i = 0;
 	FILE *input;
-	input = fopen("input.txt", "r");
+	if ((input = fopen("input.txt", "r")) == NULL)
+	{
+		printf("Не удалось открыть файл input.txt\n");
+		return -1;
+	}
 	
 	s = ar_of_words(input);
 	Print(s);
