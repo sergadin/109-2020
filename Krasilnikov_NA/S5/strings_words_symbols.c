@@ -23,77 +23,82 @@ void sws(FILE *fin, FILE *fout)
 		case -2:
 			{
 				fprintf(fout, "Unknown reading error\n");
+				free(answer.symboltable);
 				break;
 			}
 		case -3:
 			{
 				fprintf(fout, "Input file is empty\n");
+				free(answer.symboltable);
 				break;
 			}
-	}
-	fprintf(fout, "Count of strings:        %d\n", answer.strc);
-	fprintf(fout, "Maximum string's length: %d\n", answer.maxls);
-	fprintf(fout, "Minimum string's length: %d\n", answer.minls);
-	fprintf(fout, "Average string's length: %lf\n", (double)answer.symc/(double)answer.strc);
-	fprintf(fout, "Count of strings:        %d\n", answer.wc);
-	fprintf(fout, "Maximum word's length:   %d\n", answer.maxlw);
-	fprintf(fout, "Minimum word's length:   %d\n", answer.minlw);
-	fprintf(fout, "Average word's length:   %lf\n", (double)(answer.symc - answer.symboltable[32].count)/(double)(answer.wc));
-	fprintf(fout, "Count of symbols:        %d\n", answer.symc);
-	for (int i = 0; i < N; i++)
-	{
-		if (answer.symboltable[i].count > swmf)
-		{
-			swmf = answer.symboltable[i].count;
-		}
-	}
-	ces = decimal_places(swmf);
-	for (int i = 0; i < N; i++)
-	{
-		if (answer.symboltable[i].count != 0)
-		{
-			fprintf(fout, "————————————————————————————————————————————————————————————————————————————————————————————————");
-			for (int j = 0; j < (ces - 1); j++)
+		default:
 			{
-				fprintf(fout, "—");
-			}
-			fprintf(fout, "\n| Symbol: ");
-			if (answer.symboltable[i].symbol < 10)
-			{
-				if (answer.symboltable[i].symbol == 9)
+				fprintf(fout, "Count of strings:        %d\n", answer.strc);
+				fprintf(fout, "Maximum string's length: %d\n", answer.maxls);
+				fprintf(fout, "Minimum string's length: %d\n", answer.minls);
+				fprintf(fout, "Average string's length: %lf\n", (double)answer.symc/(double)answer.strc);
+				fprintf(fout, "Count of strings:        %d\n", answer.wc);
+				fprintf(fout, "Maximum word's length:   %d\n", answer.maxlw);
+				fprintf(fout, "Minimum word's length:   %d\n", answer.minlw);
+				fprintf(fout, "Average word's length:   %lf\n", (double)(answer.symc - answer.symboltable[32].count)/(double)(answer.wc));
+				fprintf(fout, "Count of symbols:        %d\n", answer.symc);
+				for (int i = 0; i < N; i++)
 				{
-					fprintf(fout, "TAB | ASCII code   9");
+					if (answer.symboltable[i].count > swmf)
+					{
+						swmf = answer.symboltable[i].count;
+					}
 				}
-				else
+				ces = decimal_places(swmf);
+				for (int i = 0; i < N; i++)
 				{
-					fprintf(fout, " %c | ASCII code   %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+					if (answer.symboltable[i].count != 0)
+					{
+						fprintf(fout, "————————————————————————————————————————————————————————————————————————————————————————————————");
+						for (int j = 0; j < (ces - 1); j++)
+						{
+							fprintf(fout, "—");
+						}
+						fprintf(fout, "\n| Symbol: ");
+						if (answer.symboltable[i].symbol < 10)
+						{
+							if (answer.symboltable[i].symbol == 9)
+							{
+								fprintf(fout, "TAB | ASCII code   9");
+							}
+							else
+							{
+								fprintf(fout, " %c | ASCII code   %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+							}
+						}
+						else
+						{
+							if (answer.symboltable[i].symbol < 100)
+							{
+								fprintf(fout, " %c  | ASCII code  %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+							}
+							else
+							{
+								fprintf(fout, " %c  | ASCII code %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+							}
+						}
+						fprintf(fout, " | Occur with freauency %lf | Total symbols of such type: ", (double)answer.symboltable[i].count/(double)answer.symc);
+						for (int j = 0; j < (ces - decimal_places(answer.symboltable[i].count)); j++)
+						{
+							fprintf(fout, " ");
+						}
+						fprintf(fout, "%d |\n", answer.symboltable[i].count);
+					}
 				}
-			}
-			else
-			{
-				if (answer.symboltable[i].symbol < 100)
+				fprintf(fout, "————————————————————————————————————————————————————————————————————————————————————————————————");
+				for (int j = 0; j < (ces - 1); j++)
 				{
-					fprintf(fout, " %c  | ASCII code  %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
+					fprintf(fout, "—");
 				}
-				else
-				{
-					fprintf(fout, " %c  | ASCII code %d", answer.symboltable[i].symbol, answer.symboltable[i].symbol);
-				}
+				free(answer.symboltable);
 			}
-			fprintf(fout, " | Occur with freauency %lf | Total symbols of such type: ", (double)answer.symboltable[i].count/(double)answer.symc);
-			for (int j = 0; j < (ces - decimal_places(answer.symboltable[i].count)); j++)
-			{
-				fprintf(fout, " ");
-			}
-			fprintf(fout, "%d |\n", answer.symboltable[i].count);
-		}
 	}
-	fprintf(fout, "————————————————————————————————————————————————————————————————————————————————————————————————");
-	for (int j = 0; j < (ces - 1); j++)
-	{
-		fprintf(fout, "—");
-	}
-	free(answer.symboltable);
 }
 
 struct result_of_counting count_sws(FILE *fin)
