@@ -1,10 +1,10 @@
-typedef struct symbols_count
+struct symbols_count
 {
 	char symbol;
 	int count;
 };
 
-typedef struct result_of_counting
+struct result_of_counting
 {
 	int ec;    // ec = Error_Code
 	int maxls; // maxls = MAXimum_Length_of_String

@@ -18,8 +18,9 @@ int main(void)
 		fclose(fin);
 		return -1;
 	}
-	count_sws(fin, fout);
+	sws(fin, fout);
 	fclose(fin);
 	fclose(fout);
 	return 0;
 }
+
