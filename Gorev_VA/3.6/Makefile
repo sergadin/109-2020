@@ -1,7 +1,7 @@
 all: do-test clear
 
 do-test: a.out
-	./a.out
+	valgrind ./a.out
 
 a.out: sort.o file.o
 	gcc -c sort.c
