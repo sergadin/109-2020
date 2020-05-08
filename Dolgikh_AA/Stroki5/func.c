@@ -62,9 +62,7 @@ void FUNC(FILE *input, int *words, int *minword, int *maxword, int *symbols, int
 				curr_word++; 
 			}
 		}
-		
-
+		free(s);
 	}	
-	free(s);
 }
 
