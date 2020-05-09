@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define NUM 10
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 int INCLUDE(char *progname, char *filename)
 {
 	FILE *prog;
@@ -10,11 +16,12 @@ int INCLUDE(char *progname, char *filename)
 	char c;
 	int N, i;
 	char *incl = 0;
+	int kNUM1, kNUM2;
 	
 	//open file progname
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
-		printf("Íå óäàëîñü îòêðûòü ôàéë %s\n", progname);
+		printf("Can't open file' %s\n", progname);
 		return -1;
 	}
 	
@@ -25,15 +32,20 @@ int INCLUDE(char *progname, char *filename)
 	
 	// create array of strings
 	// A[i] - string in prog or contents of the file
-	A = (char**)malloc(sizeof(char*));
-	A[0] = (char*)malloc(sizeof(char));
+	A = (char**)malloc(NUM * sizeof(char*));
+	A[0] = (char*)malloc(NUM * sizeof(char));
 	A[0][0] = 0;
+	kNUM1 = kNUM2 = NUM;
 	
 	N = 0;
 	while (fscanf(prog, "%c", &c) == 1)
 	{
 		// write char to the string
-		A[N] = (char*)realloc(A[N], (strlen(A[N]) + 2) * sizeof(char));
+		if ((strlen(A[N]) + 2) > kNUM2)
+		{
+			kNUM2 += NUM;
+			A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
+		}
 		A[N][strlen(A[N]) + 1] = 0;
 		A[N][strlen(A[N])] = c;
 		
@@ -49,32 +61,41 @@ int INCLUDE(char *progname, char *filename)
 					free(incl);
 					fclose(prog);
 					i = 0;
-					while (i <= N)
+					while (i < kNUM1)
 					{
-						printf("%s", A[i]);
+						free(A[i]);
 						i++;
 					}
 					free(A);
-					printf("Íå óäàëîñü îòêðûòü ôàéë %s\n", filename);
+					printf("Can't open file %s\n", filename);
 					return -2;
 				}
 				
 				// clear A[N] ("#include filename")
 				free(A[N]);
-				A[N] = (char*)malloc(sizeof(char));
+				A[N] = (char*)malloc(NUM * sizeof(char));
 				A[N][0] = 0;
+				kNUM2 = NUM;
 				
 				// write contents of the file to the A[N]
 				while (fscanf(file, "%c", &c) == 1)
 				{
-					A[N] = (char*)realloc(A[N], (strlen(A[N]) + 2) * sizeof(char));
+					if ((strlen(A[N]) + 2) > kNUM2)
+					{
+						kNUM2 += NUM;
+						A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
+					}
 					A[N][strlen(A[N]) + 1] = 0;
 					A[N][strlen(A[N])] = c;
 				}
 				
 				// old A[N] ended with '\n' so we must write it
 				c = '\n';
-				A[N] = (char*)realloc(A[N], (strlen(A[N]) + 2) * sizeof(char));
+				if ((strlen(A[N]) + 2) > kNUM2)
+				{
+					kNUM2 += NUM;
+					A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
+				}
 				A[N][strlen(A[N]) + 1] = 0;
 				A[N][strlen(A[N])] = c;
 				
@@ -82,7 +103,11 @@ int INCLUDE(char *progname, char *filename)
 			}
 			
 			// create new string
-			A = (char**)realloc(A, (N + 2) * sizeof(char*));
+			if ((N + 2) > kNUM1)
+			{
+				kNUM1 += NUM;
+				A = (char**)realloc(A, kNUM1 * sizeof(char*));
+			}
 			N++;
 			A[N] = (char*)malloc(sizeof(char));
 			A[N][0] = 0;
@@ -98,22 +123,27 @@ int INCLUDE(char *progname, char *filename)
 				free(incl);
 				fclose(prog);
 				i = 0;
-				while (i <= N)
+				while (i < kNUM1)
 				{
-					printf("%s", A[i]);
+					free(A[i]);
 					i++;
 				}
 				free(A);
-				printf("Íå óäàëîñü îòêðûòü ôàéë %s\n", filename);
+				printf("Can't open file %s\n", filename);
 				return -2;
 			}
 			
 			free(A[N]);
-			A[N] = (char*)malloc(sizeof(char));
+			A[N] = (char*)malloc(NUM * sizeof(char));
 			A[N][0] = 0;
+			kNUM2 = NUM;
 			while (fscanf(file, "%c", &c) == 1)
 			{
-				A[N] = (char*)realloc(A[N], (strlen(A[N]) + 2) * sizeof(char));
+				if ((strlen(A[N]) + 2) > kNUM2)
+				{
+					kNUM2 += NUM;
+					A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
+				}
 				A[N][strlen(A[N]) + 1] = 0;
 				A[N][strlen(A[N])] = c;
 			}
@@ -131,7 +161,6 @@ int INCLUDE(char *progname, char *filename)
 	}
 	
 	//fclose(prog);
-	free(incl);
 	i = 0;
 	while (i <= N)
 	{
@@ -139,6 +168,7 @@ int INCLUDE(char *progname, char *filename)
 		i++;
 	}
 	free(A);
+	free(incl);
 	return 0;
 }
 
