@@ -162,7 +162,7 @@ int INCLUDE(char *progname, char *filename)
 
 	//fclose(prog);
 	i = 0;
-	while (i < N)
+	while (i <= N)
 	{
 		free(A[i]);
 		i++;
