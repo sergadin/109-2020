@@ -50,7 +50,7 @@ int INCLUDE(char *progname, char *filename)
 		// if c == '\n' check equal to "#include filename" and create new string
 		if (c == '\n')
 		{
-			// check equal to "#include filename"
+			/*// check equal to "#include filename"
 			if (A[N] == strstr(A[N], incl))
 			{
 				// open filename
@@ -98,7 +98,7 @@ int INCLUDE(char *progname, char *filename)
 				A[N][strlen(A[N])] = c;
 
 				fclose(file);
-			}
+			}*/
 
 			// create new string
 			if ((N + 2) > kNUM1)
@@ -112,7 +112,7 @@ int INCLUDE(char *progname, char *filename)
 		}
 	}
 
-/*	// most probably last A[N] don't ended with '\n' so we must check its equal to "#include filename"
+	// most probably last A[N] don't ended with '\n' so we must check its equal to "#include filename"
 	if (A[N][strlen(A[N]) - 1] != '\n')
 		if (A[N] == strstr(A[N], incl))
 		{
@@ -146,7 +146,7 @@ int INCLUDE(char *progname, char *filename)
 				A[N][strlen(A[N])] = c;
 			}
 			fclose(file);
-		}*/
+		}
 	fclose(prog);
 
 	//write all
