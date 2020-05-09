@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM 10
+#define NUM 1
 
 #include <stdio.h>
 #include <stdlib.h>
