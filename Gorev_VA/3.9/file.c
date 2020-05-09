@@ -106,7 +106,7 @@ int INCLUDE(char *progname, char *filename)
 				A = (char**)realloc(A, kNUM1 * sizeof(char*));
 			}
 			N++;
-			A[N] = (char*)malloc(sizeof(char));
+			A[N] = (char*)malloc(NUM * sizeof(char));
 			A[N][0] = 0;
 		}
 	}
