@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM 1
+#define NUM 3
 
 // copy contents of the file filename to empty string str
 char *copy(char *filename);
@@ -103,12 +103,13 @@ int INCLUDE(char *progname, char *filename)
 		}
 	}
 	
-/*	// most probably there is not '\n' at the end of the last string
+	// most probably there is not '\n' at the end of the last string
 	if (strlen(A[N]) > 0)
-		if (A[N][strlen(A[N]) - 1] != '\n')
+		if ((A[N][strlen(A[N]) - 1] != '\n') && (A[N] == strstr(A[N], incl)))
 		{
-			
-		}*/
+			free(A[N]);
+			A[N] = copy(filename);
+		}
 
 	//write all
 	//prog = fopen(progname, "w");
@@ -140,3 +141,4 @@ int main(void)
 
 	return 0;
 }
+
