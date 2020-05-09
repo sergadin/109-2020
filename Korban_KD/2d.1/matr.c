@@ -50,7 +50,8 @@ void init_matrix(double **a, int n, int m, int k)
     {
         for( i = 0; i < n; i++ )
             for( j = 0; j < m; j++ )
-                a[i][j] = f1(n, i, j);
+                a[i][j] = f1(n ,i, j);
+            
     }
     if(k==2)
     {
@@ -70,6 +71,22 @@ void init_matrix(double **a, int n, int m, int k)
         for( i = 0; i < n; i++ )
             for( j = 0; j < m; j++ )
                 a[i][j] = f4(i, j);
+    }
+    
+    if(k==5)
+    {
+        for( i = 0; i < n; i++ )
+            for( j = 0; j < m; j++ )
+                a[i][j] = 1e-15*(i + 1);
+    a[0][0] = 1e-12;
+    }
+    
+    if(k==6)
+    {
+        for( i = 0; i < n; i++ )
+            for( j = 0; j < m; j++ )
+                a[i][j] = 1e-16*f1(n ,i, j);
+    a[0][0] = 1e-12;
     }
 }
 
@@ -96,7 +113,7 @@ void print_matrix(double **a, int n, int m)
     for( i = 0; i<n_max; i++ )
     {
         for( j = 0; j<m_max; j++ )
-            printf("\t%lf", a[i][j]);
+            printf("\t%10.3e", a[i][j]);
         printf("\n");
     }
 }
@@ -243,7 +260,7 @@ double norm_matrix(double **a, int n ,int m)
         sum = 0;
         for(int j = 0; j < m; j++)
         {
-            sum = sum + a[i][j];
+            sum = sum + fabs(a[i][j]);
         }
         if(i == 0)
         {
@@ -316,4 +333,5 @@ double find_max_abs_redused(int n, int m, double **a, int start, int  *max_i, in
     }
     return max;
 }
+
 
