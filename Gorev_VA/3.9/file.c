@@ -50,7 +50,10 @@ int INCLUDE(char *progname, char *filename)
 					fclose(prog);
 					i = 0;
 					while (i <= N)
-						free(A[i]);
+					{
+						printf("%s", A[i]);
+						i++;
+					}
 					free(A);
 					printf("Íå óäàëîñü îòêðûòü ôàéë %s\n", filename);
 					return -2;
@@ -96,7 +99,10 @@ int INCLUDE(char *progname, char *filename)
 				fclose(prog);
 				i = 0;
 				while (i <= N)
-					free(A[i]);
+				{
+					printf("%s", A[i]);
+					i++;
+				}
 				free(A);
 				printf("Íå óäàëîñü îòêðûòü ôàéë %s\n", filename);
 				return -2;
@@ -128,7 +134,10 @@ int INCLUDE(char *progname, char *filename)
 	free(incl);
 	i = 0;
 	while (i <= N)
+	{
 		free(A[i]);
+		i++;
+	}
 	free(A);
 	return 0;
 }
