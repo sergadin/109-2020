@@ -1,4 +1,4 @@
 all:
 	gcc file.c
-	valgrind ./a.out
+	valgrind -q ./a.out
 	rm a.out
