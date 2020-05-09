@@ -1,4 +1,0 @@
-#include input.txt
-12345678
-
-#include input.txt
