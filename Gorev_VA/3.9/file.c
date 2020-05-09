@@ -37,7 +37,7 @@ int INCLUDE(char *progname, char *filename)
 	N = 0;
 	while (fscanf(prog, "%c", &c) == 1)
 	{
-		printf(";%c;", c);
+		printf("\\%c/", c);
 		// write char to the string
 		if ((strlen(A[N]) + 2) > kNUM2)
 		{
@@ -137,6 +137,7 @@ int INCLUDE(char *progname, char *filename)
 			kNUM2 = NUM;
 			while (fscanf(file, "%c", &c) == 1)
 			{
+				printf("\\%c/", c);
 				if ((strlen(A[N]) + 2) > kNUM2)
 				{
 					kNUM2 += NUM;
