@@ -42,8 +42,7 @@ int INCLUDE(char *progname, char *filename)
 		printf("%s", A[i]);
 		i++;
 	}
-
-	//fclose(prog);
+	
 	i = 0;
 	while (i <= N)
 	{
@@ -52,6 +51,7 @@ int INCLUDE(char *progname, char *filename)
 	}
 	free(A);
 	free(incl);
+	fclose(prog);
 	return 0;
 }
 
