@@ -4,6 +4,35 @@
 
 #define NUM 1
 
+// copy contents of the file filename to empty string str
+char *copy(char *filename);
+char *copy(char *filename)
+{
+	FILE *file;
+	char c;
+	char *str;
+	int kNUM2 = NUM;
+	if ((file = fopen(filename, "r")) == NULL)
+	{
+		printf("Can't open file' %s\n", filename);
+		return 0;
+	}
+	str = (char*)malloc(kNUM2 * sizeof(char));
+	str[0] = 0;
+	while(fscanf(file, "%c", &c) == 1)
+	{
+		if ((strlen(str) + 2) > kNUM2)
+		{
+			kNUM2 += NUM;
+			str = (char*)realloc(str, kNUM2 * sizeof(char));
+		}
+		str[strlen(str) + 1] = 0;
+		str[strlen(str)] = c;
+	}
+	fclose(file);
+	return str;
+}
+
 int INCLUDE(char *progname, char *filename);
 int INCLUDE(char *progname, char *filename)
 {
@@ -48,6 +77,19 @@ int INCLUDE(char *progname, char *filename)
 		// if c == '\n' we must check equal to "#include filename" and create new string
 		if (c == '\n')
 		{
+			// check equal to "#include filename"
+			if (A[N] == strstr(A[N], incl))
+			{
+				free(A[N]);
+				A[N] = copy(filename);
+				if (((strlen(A[N]) + 1) % NUM) == 0)
+				{
+					A[N] = (char*)realloc(A[N], (strlen(A[N]) + 2) * sizeof(char));
+				}
+				A[N][strlen(A[N]) + 1] = 0;
+				A[N][strlen(A[N])] = '\n';
+			}
+
 			//create new string
 			if ((N + 2) > kNUM1)
 			{
@@ -60,11 +102,13 @@ int INCLUDE(char *progname, char *filename)
 			A[N][0] = 0;
 		}
 	}
-
-
-
-
-
+	
+/*	// most probably there is not '\n' at the end of the last string
+	if (strlen(A[N]) > 0)
+		if (A[N][strlen(A[N]) - 1] != '\n')
+		{
+			
+		}*/
 
 	//write all
 	//prog = fopen(progname, "w");
@@ -96,4 +140,3 @@ int main(void)
 
 	return 0;
 }
-
