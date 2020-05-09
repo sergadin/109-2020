@@ -4,10 +4,7 @@
 
 #define NUM 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+int INCLUDE(char *progname, char *filename);
 int INCLUDE(char *progname, char *filename)
 {
 	FILE *prog;
