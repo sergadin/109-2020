@@ -11,7 +11,7 @@ int INCLUDE(char *progname, char *filename)
 	FILE *file;
 	char **A;
 	char c;
-	int N, i;
+	int N = 0, i = 0;
 	char *incl = 0;
 	int kNUM1, kNUM2;
 	A = (char**)malloc(NUM * sizeof(char*));
