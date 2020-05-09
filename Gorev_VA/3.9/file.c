@@ -76,10 +76,11 @@ int INCLUDE(char *progname, char *filename)
 				A[N] = (char*)malloc(NUM * sizeof(char));
 				A[N][0] = 0;
 				kNUM2 = NUM;
-
+				printf("JuSt HaW aRe YoU? - 2\n");
 				// write contents of the file to the A[N]
 				while (fscanf(file, "%c", &c) == 1)
 				{
+					printf("<%c>", c);
 					if ((strlen(A[N]) + 2) > kNUM2)
 					{
 						kNUM2 += NUM;
