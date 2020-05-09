@@ -54,6 +54,7 @@ int INCLUDE(char *progname, char *filename)
 			// check equal to "#include filename"
 			if (A[N] == strstr(A[N], incl))
 			{
+				printf("JuSt HaW aRe YoU?\n");
 				// open filename
 				if ((file = fopen(filename, "r")) == NULL)
 				{
