@@ -78,6 +78,15 @@ int INCLUDE(char *progname, char *filename)
 				kNUM2 = NUM;
 				printf("JuSt HaW aRe YoU? - 2\n");
 				// write contents of the file to the A[N]
+				fscanf(file, "%c", &c);
+				printf("<%c>", c);
+				if ((strlen(A[N]) + 2) > kNUM2)
+				{
+					kNUM2 += NUM;
+					A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
+				}
+				A[N][strlen(A[N]) + 1] = 0;
+				A[N][strlen(A[N])] = c;
 				while (fscanf(file, "%c", &c) == 1)
 				{
 					printf("<%c>", c);
