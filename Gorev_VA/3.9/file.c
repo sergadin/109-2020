@@ -14,7 +14,7 @@ int INCLUDE(char *progname, char *filename)
 	//open file progname
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
-		printf("Не удалось открыть файл %s\n", progname);
+		printf("ГЌГҐ ГіГ¤Г Г«Г®Г±Гј Г®ГІГЄГ°Г»ГІГј ГґГ Г©Г« %s\n", progname);
 		return -1;
 	}
 	
@@ -46,8 +46,13 @@ int INCLUDE(char *progname, char *filename)
 				// open filename
 				if ((file = fopen(filename, "r")) == NULL)
 				{
+					free(incl);
 					fclose(prog);
-					printf("Не удалось открыть файл %s\n", filename);
+					i = 0;
+					while (i <= N)
+						free(A[i]);
+					free(A);
+					printf("ГЌГҐ ГіГ¤Г Г«Г®Г±Гј Г®ГІГЄГ°Г»ГІГј ГґГ Г©Г« %s\n", filename);
 					return -2;
 				}
 				
@@ -87,8 +92,13 @@ int INCLUDE(char *progname, char *filename)
 		{
 			if ((file = fopen(filename, "r")) == NULL)
 			{
+				free(incl);
 				fclose(prog);
-				printf("Не удалось открыть файл %s\n", filename);
+				i = 0;
+				while (i <= N)
+					free(A[i]);
+				free(A);
+				printf("ГЌГҐ ГіГ¤Г Г«Г®Г±Гј Г®ГІГЄГ°Г»ГІГј ГґГ Г©Г« %s\n", filename);
 				return -2;
 			}
 			
@@ -115,6 +125,10 @@ int INCLUDE(char *progname, char *filename)
 	}
 	
 	//fclose(prog);
+	free(incl);
+	i = 0;
+	while (i <= N)
+		free(A[i]);
 	free(A);
 	return 0;
 }
