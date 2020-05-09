@@ -23,9 +23,9 @@ int INCLUDE(char *progname, char *filename)
 	}
 
 	// create string "#include filename"
-	incl = (char*)malloc((strlen("#include ") + strlen(filename) + 1) * sizeof(char));
+	/*incl = (char*)malloc((strlen("#include ") + strlen(filename) + 1) * sizeof(char));
 	strcpy(incl, "#include ");
-	strcpy(incl + strlen("#include "), filename);
+	strcpy(incl + strlen("#include "), filename);*/
 
 	// create array of strings
 	// A[i] - string in prog or contents of the file
