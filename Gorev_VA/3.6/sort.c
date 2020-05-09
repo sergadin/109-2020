@@ -9,36 +9,43 @@ char **ar_of_words(FILE* input)
 	char c;
 	char *str;
 	int i = 0, j = 0, I, J;
-	A = (char**)malloc(NUM * sizeof(char*));
-	A[0] = (char*)malloc(NUM * sizeof(char));
+	A = (char**)malloc(1 * sizeof(char*));
+	A[0] = (char*)malloc(1 * sizeof(char));
 	A[0][0] = 0;
+	//i - номер строчки, в которую мы будем записывать
+	//j - номер буквы, которую мы будем записывать, в строчке
 
-	while ((fscanf(input, "%c", &c) == 1) && (i < NUM) && (j < NUM))
+	while ((fscanf(input, "%c", &c) == 1)) // считываем символ
 	{
+		// если это нормальный символ, то его надо записать в слово
 		if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) || ((c >= '0') && (c <= '9')))
 		{
+			A[i] = (char*)realloc(A[i], (j + 2) * sizeof(char));
 			A[i][j] = c;
 			j++;
 			A[i][j] = 0;
 		}
 		else
-			if (j > 0)
+			if (j > 0) // если символ ненормальный и мы еще не закончили старое слово, то его нужно закончить
 			{
+				A = (char**)realloc(A, (i + 2) * sizeof(char*));
 				i++;
 				j = 0;
-				A[i] = (char*)malloc(NUM * sizeof(char));
+				A[i] = (char*)malloc(1 * sizeof(char));
 				A[i][0] = 0;
 			}
 	}
-
+	// на всякий случай в конец нужно добавить пустую строку
 	if (j > 0)
 	{
+		A = (char**)realloc(A, (i + 2) * sizeof(char*));
 		i++;
 		j = 0;
-		A[i] = (char*)malloc(NUM * sizeof(char));
+		A[i] = (char*)malloc(1 * sizeof(char));
 		A[i][0] = 0;
 	}
 
+	// сортировка
 	I = i - 1;
 	while (I > 0)
 	{

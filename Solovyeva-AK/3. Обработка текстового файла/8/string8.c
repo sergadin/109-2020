@@ -9,13 +9,15 @@ char *read_string(FILE *in) {
     if(s) {
         int len = strlen(s);
         int tmp = 0;
+		int past_len = 0;
         char *res = malloc(len+1);
         while(s) {
-            strcpy(res+tmp, s);
+            strcpy(res+past_len, s);
             if(s[strlen(s)-1] == '\n') break;
             s = fgets(buf, 1024, in);
             if (s) {
                 tmp = strlen(s);
+			past_len = len;
                 len += tmp;
                 res = realloc(res, len+1);
             }

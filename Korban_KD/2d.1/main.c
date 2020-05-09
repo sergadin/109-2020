@@ -91,7 +91,7 @@ int main(int argc, char **argv)
     } 
     else
     {
-        for(k = 1; k <= 4; k++)
+        for(k = 1; k <= 6; k++)
         {
             init_matrix(a, n , m , k);
             printf("ROWS AND COLUMS ARE COUNTED FORM 0\nk==%d\n\n",k);

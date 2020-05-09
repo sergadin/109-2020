@@ -4,9 +4,23 @@
 #include "rank.h"
 
 int rank_matrix (double **a ,int n, int m)
-{
-    double norm_a = norm_matrix(a, n, m);
-    int h = fmin(n,m);
+{    
+    double norm_a = norm_matrix(a, n , m);
+    int h = fmin(n, m);
+    if(norm_a < 1)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            for(int j  = 0; j < m; j++)
+            {
+                if(fabs(a[i][j]) < norm_a*1e-12)
+                {
+                    a[i][j] = 0;
+                }
+            }
+        }
+    }
+    
     for(int i = 0; i < h; i++)
     {
         
@@ -34,14 +48,16 @@ int rank_matrix (double **a ,int n, int m)
             }
         }
         
-        //print_matrix(a, n, n);
-        //printf("\n");
+        
         
         for(int j = i + 1 ; j < m ; j++)
         {
             a[i][j] /= a[i][i];;
         }
         a[i][i] = 1;
+        
+        //print_matrix(a, n, n);
+        //printf("\n");
         
         for(int j = i+1 ; j < n; j++)
         {
