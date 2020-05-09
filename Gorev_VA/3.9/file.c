@@ -15,13 +15,6 @@ int INCLUDE(char *progname, char *filename)
 	char *incl = 0;
 	int kNUM1, kNUM2;
 
-	//open file progname
-	if ((prog = fopen(progname, "r")) == NULL)
-	{
-		printf("Can't open file' %s\n", progname);
-		return -1;
-	}
-
 	// create string "#include filename"
 	/*incl = (char*)malloc((strlen("#include ") + strlen(filename) + 1) * sizeof(char));
 	strcpy(incl, "#include ");
@@ -50,8 +43,6 @@ int INCLUDE(char *progname, char *filename)
 		i++;
 	}
 	free(A);
-	free(incl);
-	fclose(prog);
 	return 0;
 }
 
