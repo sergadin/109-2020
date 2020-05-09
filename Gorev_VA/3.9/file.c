@@ -50,6 +50,7 @@ int INCLUDE(char *progname, char *filename)
 		// if c == '\n' check equal to "#include filename" and create new string
 		if (c == '\n')
 		{
+			printf("JuSt HaLlOw\n");
 			// check equal to "#include filename"
 			if (A[N] == strstr(A[N], incl))
 			{
