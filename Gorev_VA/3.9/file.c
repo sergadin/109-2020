@@ -28,11 +28,43 @@ int INCLUDE(char *progname, char *filename)
 	strcpy(incl + strlen("#include "), filename);
 
 	// create array of strings
-	// A[i] - string in prog or contents of the file
-	A = (char**)malloc(NUM * sizeof(char*));
-	A[0] = (char*)malloc(NUM * sizeof(char));
-	A[0][0] = 0;
+	// A[i] - string in prog or contents of the file filename
 	kNUM1 = kNUM2 = NUM;
+	A = (char**)malloc(kNUM1 * sizeof(char*));
+	A[0] = (char*)malloc(kNUM2 * sizeof(char));
+	A[0][0] = 0;
+	N = 0;
+	while (fscanf(prog, "%c", &c) == 1)
+	{
+		// put char in string
+		if ((strlen(A[N]) + 2) > kNUM2)
+		{
+			kNUM2 += NUM;
+			A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
+		}
+		A[N][strlen(A[N]) + 1] = 0;
+		A[N][strlen(A[N])] = c;
+
+		// if c == '\n' we must check equal to "#include filename" and create new string
+		if (c == '\n')
+		{
+			//create new string
+			if ((N + 2) > kNUM1)
+			{
+				kNUM1 += NUM;
+				A = (char**)realloc(A, kNUM1 * sizeof(char*));
+			}
+			N++;
+			kNUM2 = NUM;
+			A[N] = (char*)malloc(kNUM2 * sizeof(char));
+			A[N][0] = 0;
+		}
+	}
+
+
+
+
+
 
 	//write all
 	//prog = fopen(progname, "w");
@@ -64,3 +96,4 @@ int main(void)
 
 	return 0;
 }
+
