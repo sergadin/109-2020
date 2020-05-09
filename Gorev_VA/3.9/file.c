@@ -37,6 +37,7 @@ int INCLUDE(char *progname, char *filename)
 	N = 0;
 	while (fscanf(prog, "%c", &c) == 1)
 	{
+		printf("Just hallo, just how are you?\nJust hallo, just how are you?\nJust hallo, just how are you?\n");
 		// write char to the string
 		if ((strlen(A[N]) + 2) > kNUM2)
 		{
