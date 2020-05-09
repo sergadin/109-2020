@@ -106,11 +106,11 @@ int INCLUDE(char *progname, char *filename)
 	fclose(prog);
 	
 	//write all
-	prog = fopen(progname, "w");
+	//prog = fopen(progname, "w");
 	i = 0;
 	while (i <= N)
 	{
-		fprintf(prog, "%s", A[i]);
+		printf("%s", A[i]);
 		i++;
 	}
 	

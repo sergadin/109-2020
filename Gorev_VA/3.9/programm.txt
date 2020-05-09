@@ -1,12 +1,4 @@
-if (1 != 2)
-{
-	printf("hello world");
-
-}
+#include input.txt
 12345678
 
-if (1 != 2)
-{
-	printf("hello world");
-
-}
+#include input.txt
