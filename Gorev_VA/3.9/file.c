@@ -113,8 +113,8 @@ int INCLUDE(char *progname, char *filename)
 	}
 
 	// most probably last A[N] don't ended with '\n' so we must check its equal to "#include filename"
-	if (A[N][strlen(A[N]) - 1] != '\n')
-		if (A[N] == strstr(A[N], incl))
+	if ((strlen(A[N]) != 0))
+		if (A[N] == strstr(A[N], incl) && (A[N][strlen(A[N]) - 1] != '\n'))
 		{
 			if ((file = fopen(filename, "r")) == NULL)
 			{
