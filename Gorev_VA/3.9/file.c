@@ -14,16 +14,35 @@ int INCLUDE(char *progname, char *filename)
 	int N = 0, i = 0;
 	char *incl = 0;
 	int kNUM1, kNUM2;
+
+	//open file progname
+	if ((prog = fopen(progname, "r")) == NULL)
+	{
+		printf("Can't open file' %s\n", progname);
+		return -1;
+	}
+
+	// create string "#include filename"
+	incl = (char*)malloc((strlen("#include ") + strlen(filename) + 1) * sizeof(char));
+	strcpy(incl, "#include ");
+	strcpy(incl + strlen("#include "), filename);
+
+	// create array of strings
+	// A[i] - string in prog or contents of the file
 	A = (char**)malloc(NUM * sizeof(char*));
 	A[0] = (char*)malloc(NUM * sizeof(char));
 	A[0][0] = 0;
 	kNUM1 = kNUM2 = NUM;
+
+	//write all
+	//prog = fopen(progname, "w");
 	i = 0;
 	while (i <= N)
 	{
 		printf("%s", A[i]);
 		i++;
 	}
+	
 	i = 0;
 	while (i <= N)
 	{
@@ -31,7 +50,9 @@ int INCLUDE(char *progname, char *filename)
 		i++;
 	}
 	free(A);
-	return 0;	
+	free(incl);
+	fclose(prog);
+	return 0;
 }
 
 int main(void)
