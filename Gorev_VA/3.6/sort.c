@@ -22,7 +22,11 @@ char **ar_of_words(FILE* input)
 		// если это нормальный символ, то его надо записать в слово
 		if ((c != ' ') && (c != '\n') && (c != '	'))
 		{
-			A[i] = (char*)realloc(A[i], (j + 2) * sizeof(char));
+			if ((j + 2) > kNUM2)
+			{
+				kNUM2 += NUM;
+				A[i] = (char*)realloc(A[i], (j + 2) * sizeof(char));
+			}
 			A[i][j] = c;
 			j++;
 			A[i][j] = 0;
