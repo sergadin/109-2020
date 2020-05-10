@@ -29,39 +29,39 @@ void FUNC(FILE *input, int *words, int *minword, int *maxword, int *symbols, int
 	*maxword = 0; //это максимальная длина слова
 	*symbols = 0; //это счётчик символов
 	long int len;
-	while((s = read_long_string(input)) != NULL)
+	while((s = read_long_string(input)) != NULL) //считываем строчки из файла, пока тот не кончится
 	{
-		fprintf(stdout,"%s",s);
-		len = strlen(s);
+		fprintf(stdout,"%s",s); //выводим строчку
+		len = strlen(s); //считаем её длину
 
-		for(i = 0; i < len - 1; i++)
+		for(i = 0; i < len - 1; i++) //проходим строку посимвольно
 		{
 			symbol = s[i];
-			if(symbol != 32) //Каждый символ кроме пробела заносим в табличку
+			if(symbol != 32) //Если символ не пробел, то...
 			{
-				(*symbols)++;
-				symbolstable[symbol]++;
+				(*symbols)++; //Увеличиваем счётчик символов
+				symbolstable[symbol]++; //Каждый символ кроме пробела заносим в табличку
 				if(spaceind)
-					(*words)++;
+					(*words)++; //Если предыдущий символ был пробелом, то засчитываем новое слово
 			}
-			if(i == len - 2 && symbol != 32) //Если строка кончилась не пробелом
-				curr_word++;
-			if(symbol == 32 || i == len - 2) //Если попался пробел или кончилась строка
+			if(i == len - 2 && symbol != 32) //Если строка кончилась не пробелом, то...
+				curr_word++; //увеличиваем длину текущего слова
+			if(symbol == 32 || i == len - 2) //Если попался пробел или последний символ в строке
 			{
 				if(curr_word > *maxword)
-					*maxword = curr_word;
+					*maxword = curr_word; //при надобности обновляем рекорд максимальной длины слова
 				if((*minword == 0) || (curr_word < *minword && curr_word > 0))
-					*minword = curr_word;
-				spaceind = 1; 
-				curr_word = 0; 
+					*minword = curr_word; //и минимальной длины слова
+				spaceind = 1; //включаем индикатор пробела
+				curr_word = 0; //ставим длину текущего слова на 0
 			}
-			else
+			else //если же попался непоследний символ и не пробел, то...
 			{
-				spaceind = 0; 
-				curr_word++; 
+				spaceind = 0; //выключаем индикатор пробела
+				curr_word++; //увеличиваем длину текущего слова
 			}
 		}
-		free(s);
+		free(s); //освобождаем строчку s
 	}	
 }
 
