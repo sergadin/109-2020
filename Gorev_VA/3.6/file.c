@@ -3,65 +3,38 @@
 #include <string.h>
 #include "sort.h"
 
-char **ar_of_words(FILE* input)
+void Print(char **A);
+void Print(char **A)
 {
-	char **A;
-	char c;
-	char *str;
-	int i = 0, j = 0, I, J;
-	A = (char**)malloc(1 * sizeof(char*));
-	A[0] = (char*)malloc(1 * sizeof(char));
-	A[0][0] = 0;
-	//i - номер строчки, в которую мы будем записывать
-	//j - номер буквы, которую мы будем записывать, в строчке
-
-	while ((fscanf(input, "%c", &c) == 1)) // считываем символ
+	int i = 0;
+	while(strlen(A[i]) > 0)
 	{
-		// если это нормальный символ, то его надо записать в слово
-		if (((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) || ((c >= '0') && (c <= '9')))
-		{
-			A[i] = (char*)realloc(A[i], (j + 2) * sizeof(char));
-			A[i][j] = c;
-			j++;
-			A[i][j] = 0;
-		}
-		else
-			if (j > 0) // если символ ненормальный и мы еще не закончили старое слово, то его нужно закончить
-			{
-				A = (char**)realloc(A, (i + 2) * sizeof(char*));
-				i++;
-				j = 0;
-				A[i] = (char*)malloc(1 * sizeof(char));
-				A[i][0] = 0;
-			}
-	}
-	// на всякий случай в конец нужно добавить пустую строку
-	if (j > 0)
-	{
-		A = (char**)realloc(A, (i + 2) * sizeof(char*));
+		printf("%s\n", A[i]);
 		i++;
-		j = 0;
-		A[i] = (char*)malloc(1 * sizeof(char));
-		A[i][0] = 0;
 	}
+}
 
-	// сортировка
-	I = i - 1;
-	while (I > 0)
+int main(void)
+{
+	char **s;
+	int i = 0;
+	FILE *input;
+	if ((input = fopen("input.txt", "r")) == NULL)
 	{
-		J = 0;
-		while (J < I)
-		{
-			if (strcmp(A[J], A[J + 1]) > 0)
-			{
-				str = A[J];
-				A[J] = A[J + 1];
-				A[J + 1] = str;
-			}
-			J++;
-		}
-		I--;
+		printf("�� ������� ������� ���� input.txt\n");
+		return -1;
 	}
+	
+	s = ar_of_words(input);
+	Print(s);
 
-	return A;
+	while (strlen(s[i]) > 0)
+	{
+		free(s[i]);
+		i++;
+	}
+	free(s[i]);
+	free(s);
+	fclose(input);
+	return 0;
 }
