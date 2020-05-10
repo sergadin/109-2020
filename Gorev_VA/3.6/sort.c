@@ -37,6 +37,7 @@ char **ar_of_words(FILE* input)
 			{
 				A = (char**)realloc(A, (i + 2) * sizeof(char*));
 				i++;
+				kNUM2 = NUM;
 				j = 0;
 				A[i] = (char*)malloc(1 * sizeof(char));
 				A[i][0] = 0;
