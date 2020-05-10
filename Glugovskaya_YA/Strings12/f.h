@@ -9,4 +9,3 @@
 
 int Formating(const char *fileIn, const char *fileOut, int max_len);
 char *Read_Srt(FILE *FileIn);
-int Delete_whitespaces(char *buf);
