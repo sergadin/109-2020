@@ -10,7 +10,8 @@ char **ar_of_words(FILE* input)
 	char *str;
 	int i = 0, j = 0, I, J;
 	int kNUM1, kNUM2;
-	kNUM1 = kNUM2 = NUM;
+	kNUM1 = NUM;
+	kNUM2 = NUM;
 	A = (char**)malloc(kNUM1 * sizeof(char*));
 	A[0] = (char*)malloc(kNUM2 * sizeof(char));
 	A[0][0] = 0;
