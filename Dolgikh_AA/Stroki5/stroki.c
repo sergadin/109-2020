@@ -13,8 +13,6 @@ int main(void)
 	double average;
 	
 	symbolstable = (int *)malloc(256 * sizeof(int));
-	for(i = 0; i < 256; i++)
-		symbolstable[i] = 0;
 
 	input = fopen("input.txt","r");
 	

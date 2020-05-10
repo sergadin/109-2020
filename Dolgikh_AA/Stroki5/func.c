@@ -30,13 +30,21 @@ void FUNC(FILE *input, int *words, int *minword, int *maxword, int *symbols, int
 	*minword = 0; //это минимальная длина слова
 	*maxword = 0; //это максимальная длина слова
 	*symbols = 0; //это счётчик символов
+	int ks = 0; //это число показыает, есть ли в конце строки символ конца строки
+
+	for(i = 0; i < 256; i++)
+		symbolstable[i] = 0;
 	long int len;
 	while((s = read_long_string(input)) != NULL) //считываем строчки из файла, пока тот не кончится
 	{
 		fprintf(stdout,"%s",s); //выводим строчку
 		len = strlen(s); //считаем её длину
+		if(s[len - 1] == 10)
+			ks = 1;
+		else
+			ks = 0; //смотрим, есть ли в конце строки конец строки
 
-		for(i = 0; i < len - 1; i++) //проходим строку посимвольно
+		for(i = 0; i < len - ks; i++) //проходим строку посимвольно
 		{
 			symbol = s[i];
 			if(symbol != 32) //Если символ не пробел, то...
@@ -46,9 +54,9 @@ void FUNC(FILE *input, int *words, int *minword, int *maxword, int *symbols, int
 				if(spaceind)
 					(*words)++; //Если предыдущий символ был пробелом, то засчитываем новое слово
 			}
-			if(i == len - 2 && symbol != 32) //Если строка кончилась не пробелом, то...
+			if(i == len - ks - 1 && symbol != 32) //Если строка кончилась не пробелом, то...
 				curr_word++; //увеличиваем длину текущего слова
-			if(symbol == 32 || i == len - 2) //Если попался пробел или последний символ в строке
+			if(symbol == 32 || i == len - ks - 1) //Если попался пробел или последний символ в строке
 			{
 				if(curr_word > *maxword)
 					*maxword = curr_word; //при надобности обновляем рекорд максимальной длины слова
