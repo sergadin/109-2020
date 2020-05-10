@@ -26,7 +26,7 @@ char **ar_of_words(FILE* input)
 			if ((j + 2) > kNUM2)
 			{
 				kNUM2 += NUM;
-				A[i] = (char*)realloc(A[i], (j + 2) * sizeof(char));
+				A[i] = (char*)realloc(A[i], kNUM2 * sizeof(char));
 			}
 			A[i][j] = c;
 			j++;
@@ -35,11 +35,15 @@ char **ar_of_words(FILE* input)
 		else
 			if (j > 0) // если символ ненормальный и мы еще не закончили старое слово, то его нужно закончить
 			{
-				A = (char**)realloc(A, (i + 2) * sizeof(char*));
+				if ((i + 2) > kNUM1)
+				{
+					kNUM1 += NUM;
+					A = (char**)realloc(A, kNUM1 * sizeof(char*));
+				}
 				i++;
 				kNUM2 = NUM;
 				j = 0;
-				A[i] = (char*)malloc(1 * sizeof(char));
+				A[i] = (char*)malloc(kNUM2 * sizeof(char));
 				A[i][0] = 0;
 			}
 	}
