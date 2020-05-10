@@ -10,7 +10,7 @@ a.out: stroki.o func.o
 	gcc stroki.o func.o
 
 do-test: a.out
-	./a.out
+	valgrind -v ./a.out
 
 clean: stroki.o func.o
 	rm stroki.o func.o
