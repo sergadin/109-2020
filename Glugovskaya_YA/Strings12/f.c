@@ -28,8 +28,9 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 			{
 				fprintf(FileOut, "\n	");
 				Flag_paragraph = 0;
+				count_el = 4;
 			}
-			
+		
 			for (int i = 0; buf[i]; i++)
 			{
 				Start_w = i;
@@ -51,7 +52,6 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 				else 
 				{
 					fprintf(FileOut, "\n");
-					fprintf(FileOut, 0);
 					i = Start_w - 1;
 					count_el = 0;
 				}
@@ -64,12 +64,13 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 	{
 		fclose(FileIn);
 		fclose(FileOut);
+		free(buf);
 		return ERROR_READ_A;
 	}
 
 	fclose(FileIn);
 	fclose(FileOut);
-	
+	free(buf);
 	return 0;
 }
 
@@ -77,7 +78,8 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 char *Read_Srt(FILE *FileIn)
 {
 	char buf[1024];
-	char *s, *result = (char*) malloc (1 * sizeof(char));
+	char *result = (char*) malloc (1 * sizeof(char));
+	char *s = (char*) malloc (1025 * sizeof(char));
 	int len;
 	buf[0] = 0;
 	
@@ -98,6 +100,7 @@ char *Read_Srt(FILE *FileIn)
         	result = (char *) realloc(result, len);
 			strcat(result, s);		
 		}
+		free(s);
 		return result;
 	}
 	free(s);
