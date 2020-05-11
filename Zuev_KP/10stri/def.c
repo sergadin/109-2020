@@ -10,7 +10,7 @@ int poisk(char * t, const char *w);
 char *pisk(char *t, char *w, int n, int p);
 int dlina(char *t, int k);
 
-void def(FILE *input1, FILE *output, const char *def, const char *und)
+void def(FILE *input1, FILE *output, const char *def, const char *und) 
 {
 	char *s;
 	char *t;
@@ -42,8 +42,6 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			s = read_string(input1);
 			l = length(s); 
 			t = (char*) malloc((l + 1)*sizeof(char));
-			l1 = length(hello); 
-			l2 = length(privet);
 			while(s)
 			{
 
@@ -54,7 +52,7 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 				strcpy(t, s);
 				while (strst(t, hello) != 0)
 				{
-					l = l+l1;
+					l = l+l2;
 					t = (char*) realloc(t, l);
 					i = poisk(t, hello);
 					zamena(t, hello, privet, i);		
@@ -116,11 +114,12 @@ char *zamena(char *t, const char *hello, const char *privet, int k) //замен
 	{
 		if(i == k)
 		{
-			for(i = l-(l2-l1)-1; i >= k+l1; i--)
+			for(i = l-(l2-l1)+1; i >= k+l1; i--)
 			{
 				t[i+(l2-l1)] = t[i];
 				
 			}
+			
 			for(i = k; i < k+l2; i++)
 			{
 				t[i] = privet[i-k];
