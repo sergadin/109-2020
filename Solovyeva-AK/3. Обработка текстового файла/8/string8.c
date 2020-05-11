@@ -9,13 +9,15 @@ char *read_string(FILE *in) {
     if(s) {
         int len = strlen(s);
         int tmp = 0;
+		int past_len = 0;
         char *res = malloc(len+1);
         while(s) {
-            strcpy(res+tmp, s);
+            strcpy(res+past_len, s);
             if(s[strlen(s)-1] == '\n') break;
             s = fgets(buf, 1024, in);
             if (s) {
                 tmp = strlen(s);
+			past_len = len;
                 len += tmp;
                 res = realloc(res, len+1);
             }
@@ -62,11 +64,11 @@ int main(int argc, char *argv[]){
         return 0;
     }
     char *begin_quotes, *end_quotes, *str, tmp;
-    int flag1 = 0, flag2 = 0;
+    int start_quote_found = 0, end_quote_found = 0;
     while(str = read_string(inp)) {
         begin_quotes = strstr(str, start);
-        if (begin_quotes && !flag1) {
-            flag1 = 1;
+        if (begin_quotes && !start_quote_found) {
+            start_quote_found = 1;
             char k = begin_quotes[0];
             begin_quotes[0] = '\0';
             fprintf(out, "%s", str);
@@ -74,27 +76,38 @@ int main(int argc, char *argv[]){
             begin_quotes++;
             end_quotes = strstr(begin_quotes, end);
             if(end_quotes) {
-                flag2 = 1;
+                end_quote_found = 1;
                 end_quotes += strlen(end);
                 fprintf(out, "%s", end_quotes);
             }
         } else {
             end_quotes = strstr(str, end);
-            if(end_quotes) {
+            if(end_quotes && !end_quote_found) {
                 end_quotes += strlen(end);
                 fprintf(out, "%s", end_quotes);
-                flag2 = 1;
-            } else if (!flag1) {
+                end_quote_found = 1;
+            } else if (!start_quote_found || end_quote_found) {
                 fprintf(out, "%s", str);
             }
         }
         free(str);
     }
-    if (!flag2) {
+    if (!end_quote_found) {
         fclose(out);
         fclose(inp);
-        out = fopen("out.txt", "w");
-        inp = fopen("input.txt", "r");
+ 
+    	if ((out = fopen("out.txt", "w")) == NULL) {
+            printf("ERROR\n");        
+            return -1;
+    	}
+
+    	if ((inp = fopen("input.txt", "r")) == NULL) {
+	    printf("ERROR\n");
+            fclose(out);
+            return -1;
+    	}
+    
+    
         while(str = read_string(inp)) {
             fprintf(out, "%s", str);
             free(str);

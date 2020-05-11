@@ -1,19 +1,22 @@
+CC=gcc
+CFLAGS=-g
+
 all: do-test clean
 
-mystring.o: ../libs/mystring.h ../libs/mystring.c
-	gcc -c ../libs/mystring.c
+mystring.o: ../libs/mystring/mystring.h ../libs/mystring/mystring.c
+	gcc -c -g ../libs/mystring/mystring.c
 
-format.o: ../libs/mystring.h format.h format.c
-	gcc -c format.c
+strings_words_symbols.o: ../libs/mystring/mystring.h strings_words_symbols.h strings_words_symbols.c
+	gcc -c -g strings_words_symbols.c
 
-format_test.o: format.h format_test.c
-	gcc -c format_test.c
+strings_words_symbols_test.o: strings_words_symbols.h strings_words_symbols_test.c
+	gcc -c -g strings_words_symbols_test.c
 
-a.out: mystring.o format.o format_test.o
-	gcc -o a.out mystring.o format.o format_test.o
+a.out: mystring.o strings_words_symbols.o strings_words_symbols_test.o
+	gcc -o  a.out mystring.o strings_words_symbols.o strings_words_symbols_test.o
 
 do-test: a.out
-	valgrind -v --leak-check=full ./a.out 
+	valgrind ./a.out -g
 
-clean: mystring.o format.o format_test.o a.out
-	rm mystring.o format.o format_test.o a.out
+clean: mystring.o strings_words_symbols.o strings_words_symbols_test.o a.out
+	rm mystring.o strings_words_symbols.o strings_words_symbols_test.o a.out

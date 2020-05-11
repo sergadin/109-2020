@@ -1,3 +1,3 @@
-#define NUM 1024
+#define NUM 1;
 
 char **ar_of_words(FILE* input);
