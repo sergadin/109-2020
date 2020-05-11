@@ -4,97 +4,151 @@
 int length(const char *s);
 char *read_string(FILE *f);
 char *strcpy(char *t, const char *s);
+char *zamena(char *t, const char *hello, const char *privet, int k); 
+int strst(char *t, const char *w);
+int poisk(char * t, const char *w);
+char *pisk(char *t, char *w, int n, int p);
+int dlina(char *t, int k);
 
-void def(FILE *input1, FILE *output, const char *w1, const char *w2, const char *define, const char *undef) 
+void def(FILE *input1, FILE *output, const char *def, const char *und)
 {
-	int i, j, k = -1, p = 0, len = 0, n1 = 0, n2 = 0;
+	char *s;
 	char *t;
-	char *s;	
-	while ((t = read_string(input1)) != 0) 
-	{
-		len = length(t);
-		n1 = length(w1);
-		n2 = length(w2);
-		for (i = 0; i < len; i++) //замена privet на hello 
-		{
-			if (t[i] == w1[0])
-			{
-				for (j = 0; j < n1+1; j++)
-				{
-					if (t[i+j] == w1[j])
-					{
-						p = p+1;
-					}
-				}
-			}
-			if (p == n1)
-			{
-				if (n1>=n2)
-				{
-					for (j = 0; j < n2; j++)
-					{
-						t[i+j] = w2[j];
-					}
-					for (j = n2; j < n1; j++)
-					{
-						t[i+j] = 32;
-					}
-				}
-			}
-			p = 0;	
+	char *hello; 
+	char *privet; 
+	int l, l1, l2, i;
+	while((s = read_string(input1)) != NULL)
+	{ 
+		while((s) && (strst(s, def) == 0))
+		{			
+			l = length(s);
+			t = (char*) malloc((l + 1)*sizeof(char));
+			strcpy(t, s);
+			fprintf(output, "%s\n", t);
+			free(s);
+			s = read_string(input1);
+			free(t);
 		}
-		len = length(t);
-		n1 = length(define);
-		for (i = 0; i < len; i++) //удаление define
+		if(s)
 		{
-			p = 0;
-			if (t[i] == define[0])
+			l1 = dlina(s, 0);
+			hello = (char*) malloc((l1)*sizeof(char));		
+			l2 = dlina(s, l1+length(def)+1);
+			l2 = l2-2;
+			privet = (char*) malloc((l2)*sizeof(char));
+			pisk(s, hello, l1, 0);
+			pisk(s, privet, l2, l1+length(def)+1);
+			s = read_string(input1);
+			l = length(s); 
+			t = (char*) malloc((l + 1)*sizeof(char));
+			l1 = length(hello); 
+			l2 = length(privet);
+			while(s)
 			{
-				for (j = 0; j < n1+1; j++)
-				{
-					if (t[i+j] == define[j])
-					{
-						p = p+1;
-					}
-				}
-			}
-			if (p == n1)
-			{
-					for (j = 0; j < n1; j++)
-					{
-						t[i+j] = 32;
-					}	
-			}
-				
-		}
-		len = length(t);
-		n2 = length(undef);
-		for (i = 0; i < len; i++) //удаление undef
-		{
-			p = 0;
-			if (t[i] == undef[0])
-			{
-				for (j = 0; j < n2+1; j++)
-				{
-					if (t[i+j] == undef[j])
-					{
-						p = p+1;
-					}
-				}
-			}
-			if (p == n2)
-			{
-					for (j = 0; j < n2; j++)
-					{
-						t[i+j] = 32;
-					}	
-			}
-				
-		}
-		fprintf(output, "%s", t);
-		free(t);					
-	}	
 
+				if (strst(s, und) != 0)
+				{
+					break;
+				}
+				strcpy(t, s);
+				while (strst(t, hello) != 0)
+				{
+					l = l+l1;
+					t = (char*) realloc(t, l);
+					i = poisk(t, hello);
+					zamena(t, hello, privet, i);		
+				}
+				fprintf(output, "%s\n", t);	
+				free(s);
+				s = read_string(input1);
+				free(t);
+			}
+		}
+	}
+}
+
+int dlina(char *t, int k) //ищет длину hello и privet
+{
+	int i = k, l = 0, n = 0;
+	l = length(t);
+	while((t[i] != ' ') && (i <= l))
+	{
+		i++;
+	}
+	i++;
+	k = i;	
+	while((t[i] != ' ') && (i <= l))
+	{
+		n++;
+		i++;
+	}
+	return n;	
+}
+
+char *pisk(char *t, char *w, int n, int p) //ищет что заменять и на что заменять
+{
+	int i = p, k = 0, l = 0;
+	l = length(t);
+	while((t[i] != ' ') && (i <= l))
+	{
+		i++;
+	}
+	i++;
+	k = i;	
+	for(i = k; i < k+n; i++)
+	{
+		w[i-k] = t[i];
+	}
+	return w;
+}
+
+char *zamena(char *t, const char *hello, const char *privet, int k) //заменяет hello на privet
+{
+	int i = 0, l = 0, l1 = 0, l2 = 0;	
+	l = length(t);
+	l1 = length(hello);
+	l2 = length(privet);
+	while((t[i] != '\0') && (i <= length(t)))
+	{
+		if(i == k)
+		{
+			for(i = l-(l2-l1)-1; i >= k+l1; i--)
+			{
+				t[i+(l2-l1)] = t[i];
+				
+			}
+			for(i = k; i < k+l2; i++)
+			{
+				t[i] = privet[i-k];
+			}
+		}
+		i++;
+	}
+	return t;	
+}
+
+int poisk(char *t, const char *w) //ищет столбец в котором находится hello
+{
+	int i, j = 0;
+	int p = 0;
+	int n1 = 0;
+	int le = length(t);
+	n1 = length(w);
+	for(i = 0; i < le - n1; i++)
+	{
+		p = 0;
+		j = 0;
+		while((t[i + j] == w[j]) && (j < n1))
+		{
+			j++;
+			p = p + 1;
+		}
+		if(p == n1)
+		{
+			return i;
+		}
+
+	}
 }
 
 int length(const char *s) 
@@ -109,9 +163,9 @@ int length(const char *s)
 
 char *strcpy(char *t, const char *s) 
 {
-	int n; 
+	int n, i; 
 	n = length(s);
-	for (int i = 0; i < n + 1; i++) 
+	for (i = 0; i < n+1; i++) 
 	{
 		t[i] = s[i];
 	}
@@ -120,111 +174,58 @@ char *strcpy(char *t, const char *s)
 
 char *read_string(FILE *f) 
 {
-	int l, l1;
+	int l = 0, l1 = 0;	
 	char *result;
-	char buf[1024];
-	buf[0] = 0;	
+	char buf[1024];	
 	char *s = fgets(buf, 1024, f);
-	if(!s)
+	if(!s) 
 		return NULL;
 	else
 	{
 		l = length(s);
-		result = (char *) malloc((l + 1)*sizeof(char));
-		strcpy(result, s);
-		while((s) && (s[length(s) - 1] != '\n'))
+		l1 = 0;
+		result = (char*) malloc((l + 1)*sizeof(char));
+		while(s)
 		{
-			strcpy(result, s);
-			l1 = length(s);
-			l = l+l1;
-		        result = (char *) realloc(result, l);
+			strcpy(result+l1, s);
+			if(s[length(s)-1] == '\n') 
+				break;
 			s = fgets(buf, 1024, f);
-		}
-
+			if (s) 
+			{
+				l1 = length(s);
+				l = l+l1;
+				result = (char*) realloc(result, l+1);
+			}
+		} 
 		return result;
-	}
+	} 
 }
 
-
-
-
-/*
-while ((s = read_string(input2)) != 0) 	
+int strst(char * t, const char *w) //ищет подстроку в строке
+{
+	if(length(w) > length(t))
+		return 0;
+	int i, j = 0;
+	int p = 0, l = 0;
+	int n = 0;
+	l = length(t);
+	n = length(w);
+	for(i = 0; i < l - n; i++) 
 	{
-		len = length(s);
-		n1 = length(define);
-		for (i = 0; i < len; i++) //удаление define
+		p = 0;
+		j = 0;
+		while((t[i + j] == w[j]) && (j < n))
 		{
-			p = 0;
-			if (s[i] == define[0])
-			{
-				for (j = 0; j < n1+1; j++)
-				{
-					if (s[i+j] == define[j])
-					{
-						p = p+1;
-					}
-				}
-			}
-			if (p == n1)
-			{
-					for (j = 0; j < n1; j++)
-					{
-						s[i+j] = 32;
-					}	
-			}
-				
+			j++;	
+			p = p + 1;
 		}
-		len = length(t);
-		n2 = length(undef);
-		for (i = 0; i < len; i++) //удаление undef
+		if(p == n)
 		{
-			p = 0;
-			if (s[i] == undef[0])
-			{
-				for (j = 0; j < n2+1; j++)
-				{
-					if (s[i+j] == undef[j])
-					{
-						p = p+1;
-					}
-				}
-			}
-			if (p == n2)
-			{
-					for (j = 0; j < n2; j++)
-					{
-						s[i+j] = 32;
-					}	
-			}
-				
+			return 1;
 		}
-		fprintf(output, "%s", s);
-		free(s);					
+
 	}
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	return 0;	
+}
 
