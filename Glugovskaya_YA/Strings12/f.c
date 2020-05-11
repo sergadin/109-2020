@@ -31,7 +31,7 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 				count_el = 4;
 			}
 		
-			for (int i = 0; buf[i]; i++)
+			for (int i = 0; i < (int)(strlen(buf)); i++)
 			{
 				Start_w = i;
 				count_el++;
