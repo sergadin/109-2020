@@ -4,32 +4,27 @@
 int length(const char *s);
 char *read_string(FILE *f);
 char *strcpy(char *t, const char *s);
-char *zamena(char *t, const char *hello, const char *privet, int k); 
-int strst(char *t, const char *w);
-int poisk(char * t, const char *w);
+char *zamena(char *t, const char *hello, const char *privet, int k, int l1, int l2); 
+int strst(char *t, const char *w, int n);
+int poisk(char * t, const char *w, int n);
 char *pisk(char *t, char *w, int n, int p);
 int dlina(char *t, int k);
 
-void def(FILE *input1, FILE *output) 
+void def(FILE *input1, FILE *output, const char *def, const char *und) 
 {
 	char *s;
 	char *t;
 	char *hello; 
 	char *privet;
-	char *def = "#define";
-	char *und = "#undef"; 
 	int l, l1, l2, i;
 	while((s = read_string(input1)) != NULL)
 	{ 
-		while((s) && (strst(s, def) == 0))
+		while((s) && (strst(s, def, 7) == 0))
 		{			
 			l = length(s);
-			t = (char*) malloc((l + 1)*sizeof(char));
-			strcpy(t, s);
-			fprintf(output, "%s\n", t);
+			fprintf(output, "%s\n", s);
 			free(s);
 			s = read_string(input1);
-			free(t);
 		}
 		if(s)
 		{
@@ -43,30 +38,28 @@ void def(FILE *input1, FILE *output)
 			free(s);
 			s = read_string(input1);
 			l = length(s); 
-			t = (char*) malloc((l + 1)*sizeof(char));
 			while(s)
 			{
 
-				if (strst(s, und) != 0)
+				if (strst(s, und, 6) != 0)
 				{
 					break;
 				}
-				strcpy(t, s);
-				while (strst(t, hello) != 0)
+				while (strst(s, hello, l1) != 0)
 				{
 					l = l+l2;
-					t = (char*) realloc(t, l);
-					i = poisk(t, hello);
-					zamena(t, hello, privet, i);		
+					s = (char*) realloc(s, l);
+					i = poisk(s, hello, l1);
+					zamena(s, hello, privet, i, l1, l2);		
 				}
-				fprintf(output, "%s\n", t);	
+				fprintf(output, "%s\n", s);	
 				free(s);
 				s = read_string(input1);
-				free(t);
 			}
 			free(hello);
 			free(privet);
 		}
+		free(s);
 	}
 }
 
@@ -105,12 +98,10 @@ char *pisk(char *t, char *w, int n, int p) //ищет что заменять и
 	return w;
 }
 
-char *zamena(char *t, const char *hello, const char *privet, int k) //заменяет hello на privet
+char *zamena(char *t, const char *hello, const char *privet, int k, int l1, int l2) //заменяет hello на privet
 {
-	int i = 0, l = 0, l1 = 0, l2 = 0;	
+	int i = 0, l = 0;	
 	l = length(t);
-	l1 = length(hello);
-	l2 = length(privet);
 	while((t[i] != '\0') && (i <= length(t)))
 	{
 		if(i == k)
@@ -118,9 +109,7 @@ char *zamena(char *t, const char *hello, const char *privet, int k) //замен
 			for(i = l-(l2-l1)+1; i >= k+l1; i--)
 			{
 				t[i+(l2-l1)] = t[i];
-				
 			}
-			
 			for(i = k; i < k+l2; i++)
 			{
 				t[i] = privet[i-k];
@@ -131,34 +120,31 @@ char *zamena(char *t, const char *hello, const char *privet, int k) //замен
 	return t;	
 }
 
-int poisk(char *t, const char *w) //ищет столбец в котором находится hello
+int poisk(char *t, const char *w, int n) //ищет столбец в котором находится hello
 {
 	int i, j = 0;
 	int p = 0;
-	int n1 = 0;
-	int le = length(t);
-	n1 = length(w);
-	for(i = 0; i < le - n1; i++)
+	int l = length(t);
+	for(i = 0; i < l - n; i++)
 	{
 		p = 0;
 		j = 0;
-		while((t[i + j] == w[j]) && (j < n1))
+		while((t[i + j] == w[j]) && (j < n-1))
 		{
 			j++;
 			p = p + 1;
 		}
-		if(p == n1)
+		if(p+1 == n)
 		{
 			return i;
 		}
-
 	}
 }
 
 int length(const char *s) 
 {
 	int n = 0;
-	while (*s++) 
+	while (s[n] != '\0') 
 	{
 		n++;
 	}	
@@ -206,29 +192,26 @@ char *read_string(FILE *f)
 	} 
 }
 
-int strst(char * t, const char *w) //ищет подстроку в строке
+int strst(char * t, const char *w, int n) //ищет подстроку в строке
 {
-	if(length(w) > length(t))
+	if(n > length(t))
 		return 0;
 	int i, j = 0;
 	int p = 0, l = 0;
-	int n = 0;
 	l = length(t);
-	n = length(w);
 	for(i = 0; i < l - n; i++) 
 	{
 		p = 0;
 		j = 0;
-		while((t[i + j] == w[j]) && (j < n))
+		while((t[i + j] == w[j]) && (j < n-1))
 		{
 			j++;	
 			p = p + 1;
 		}
-		if(p == n)
+		if(p+1 == n)
 		{
 			return 1;
 		}
-
 	}
 	return 0;	
 }
