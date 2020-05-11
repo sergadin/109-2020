@@ -72,7 +72,7 @@ int dlina(char *t, int k) //ищет длину hello и privet
 		i++;
 	}
 	i++;
-	k = i;	
+	k = i;
 	while((t[i] != ' ') && (i < l))
 	{
 		n++;
