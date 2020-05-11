@@ -38,6 +38,7 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			privet = (char*) malloc((l2)*sizeof(char));
 			pisk(s, hello, l1, 0);
 			pisk(s, privet, l2, l1+length(def)+1);
+			free(s);
 			s = read_string(input1);
 			l = length(s); 
 			t = (char*) malloc((l + 1)*sizeof(char));
@@ -63,6 +64,9 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 				s = read_string(input1);
 				free(t);
 			}
+			free(hello);
+			free(privet);
+			free(t);
 		}
 	}
 }
