@@ -19,7 +19,7 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 	int l, l1, l2, i;
 	while((s = read_string(input1)) != NULL)
 	{ 
-		while((s) && (strst(s, def, 7) == 0))
+		while((s) && (strst(s, def, length(def)) == 0))
 		{			
 			l = length(s);
 			fprintf(output, "%s\n", s);
@@ -41,7 +41,7 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			while(s)
 			{
 
-				if (strst(s, und, 6) != 0)
+				if (strst(s, und, length(und)) != 0)
 				{
 					break;
 				}
