@@ -10,12 +10,14 @@ int poisk(char * t, const char *w);
 char *pisk(char *t, char *w, int n, int p);
 int dlina(char *t, int k);
 
-void def(FILE *input1, FILE *output, const char *def, const char *und) 
+void def(FILE *input1, FILE *output) 
 {
 	char *s;
 	char *t;
 	char *hello; 
-	char *privet; 
+	char *privet;
+	char *def = "#define";
+	char *und = "#undef"; 
 	int l, l1, l2, i;
 	while((s = read_string(input1)) != NULL)
 	{ 
@@ -34,7 +36,7 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			l1 = dlina(s, 0);
 			hello = (char*) malloc((l1)*sizeof(char));		
 			l2 = dlina(s, l1+length(def)+1);
-			l2 = l2-2;
+			l2 = l2-1;
 			privet = (char*) malloc((l2)*sizeof(char));
 			pisk(s, hello, l1, 0);
 			pisk(s, privet, l2, l1+length(def)+1);
@@ -64,7 +66,6 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			}
 			free(hello);
 			free(privet);
-			free(t);
 		}
 	}
 }
@@ -79,7 +80,7 @@ int dlina(char *t, int k) //ищет длину hello и privet
 	}
 	i++;
 	k = i;	
-	while((t[i] != ' ') && (i <= l))
+	while((t[i] != ' ') && (i < l))
 	{
 		n++;
 		i++;
