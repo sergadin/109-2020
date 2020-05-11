@@ -7,7 +7,8 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 	FILE *FileIn, *FileOut;
 	char *buf;
 	int Flag_paragraph = 0, Start_w;
-	int count_el = 0; 
+	int count_el = 0;
+	int	Buf_len; 	
 	
 	
 	if(!(FileIn = fopen(fileIn,"r")))
@@ -30,8 +31,8 @@ int Formating(const char *fileIn, const char *fileOut, int max_len)
 				Flag_paragraph = 0;
 				count_el = 4;
 			}
-		
-			for (int i = 0; i < (int)(strlen(buf)); i++)
+			Buf_len = (int)(strlen(buf));
+			for (int i = 0; i < Buf_len; i++)
 			{
 				Start_w = i;
 				count_el++;
