@@ -1,4 +1,13 @@
 //I am so sorry :(
+/*
+ * input:
+ * ok:
+ *     #include namefile
+ * not ok:
+ *     blabla #include namefile
+ *                 #include namefile
+ *     #include namefile blabla
+ * */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
