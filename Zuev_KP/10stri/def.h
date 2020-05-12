@@ -1,4 +1,4 @@
-void def(FILE *input1, FILE *output, const char *w1, const char *w2, const char *define, const char *undef);
+void def(FILE *input, FILE *output, const char *def, const char *und);
 
 
 

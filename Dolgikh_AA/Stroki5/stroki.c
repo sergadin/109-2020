@@ -13,21 +13,22 @@ int main(void)
 	double average;
 	
 	symbolstable = (int *)malloc(256 * sizeof(int));
-	for(i = 0; i < 256; i++)
-		symbolstable[i] = 0;
 
 	input = fopen("input.txt","r");
 	
-
 	FUNC(input, &words, &minword, &maxword, &symbols, symbolstable);
-	average = (double)(symbols)/(double)(words);
-	fprintf(stderr, "max: %d min: %d average: %g symbols/word\n", maxword, minword, average);
-	for(i = 0; i < 256; i++)
+	if(words != 0)
 	{
-		if(symbolstable[i] != 0)
-			fprintf(stdout, "symbol %c: %d times = %g percents\n", i, symbolstable[i], (double)symbolstable[i]/(double)symbols*100);
+		average = (double)(symbols)/(double)(words);
+		printf("max: %d min: %d average: %g symbols/word\n", maxword, minword, average);
+		for(i = 0; i < 256; i++)
+		{
+			if(symbolstable[i] != 0)
+				printf("symbol %c: %d times = %g percents\n", i, symbolstable[i], (double)symbolstable[i]/(double)symbols*100);
+		}
 	}
-
+	else
+		printf("file is empty :(\n");
 
 	fclose(input);
 	free(symbolstable);

@@ -17,7 +17,8 @@ char *read_long_string(FILE *f)
 	}
 	return NULL;
 }
-
+/*следующая функция получает на вход указатель на файл с текстом, указатель на число слов в тексте, указатель на минимальную и максимальную длины слова, указатель на 
+ число символов в тексте, и массив, где хранятся сведения о том, какой символ сколько раз в тексте встречается. В результате работы функции все входные параметры (кроме первого) получают нужные значения (в words записывается число слов в тексте, в minword - минимальная длина слова и т.д.)*/
 void FUNC(FILE *input, int *words, int *minword, int *maxword, int *symbols, int *symbolstable)
 {
 	char *s;
@@ -29,42 +30,48 @@ void FUNC(FILE *input, int *words, int *minword, int *maxword, int *symbols, int
 	*minword = 0; //это минимальная длина слова
 	*maxword = 0; //это максимальная длина слова
 	*symbols = 0; //это счётчик символов
-	long int len;
-	while((s = read_long_string(input)) != NULL)
-	{
-		fprintf(stdout,"%s",s);
-		len = strlen(s);
+	int ks = 0; //это число показыает, есть ли в конце строки символ конца строки
 
-		for(i = 0; i < len - 1; i++)
+	for(i = 0; i < 256; i++)
+		symbolstable[i] = 0;
+	long int len;
+	while((s = read_long_string(input)) != NULL) //считываем строчки из файла, пока тот не кончится
+	{
+		fprintf(stdout,"%s",s); //выводим строчку
+		len = strlen(s); //считаем её длину
+		if(s[len - 1] == 10)
+			ks = 1;
+		else
+			ks = 0; //смотрим, есть ли в конце строки конец строки
+
+		for(i = 0; i < len - ks; i++) //проходим строку посимвольно
 		{
 			symbol = s[i];
-			if(symbol != 32) //Каждый символ кроме пробела заносим в табличку
+			if(symbol != 32) //Если символ не пробел, то...
 			{
-				(*symbols)++;
-				symbolstable[symbol]++;
+				(*symbols)++; //Увеличиваем счётчик символов
+				symbolstable[symbol]++; //Каждый символ кроме пробела заносим в табличку
 				if(spaceind)
-					(*words)++;
+					(*words)++; //Если предыдущий символ был пробелом, то засчитываем новое слово
 			}
-			if(i == len - 2 && symbol != 32) //Если строка кончилась не пробелом
-				curr_word++;
-			if(symbol == 32 || i == len - 2) //Если попался пробел или кончилась строка
+			if(i == len - ks - 1 && symbol != 32) //Если строка кончилась не пробелом, то...
+				curr_word++; //увеличиваем длину текущего слова
+			if(symbol == 32 || i == len - ks - 1) //Если попался пробел или последний символ в строке
 			{
 				if(curr_word > *maxword)
-					*maxword = curr_word;
+					*maxword = curr_word; //при надобности обновляем рекорд максимальной длины слова
 				if((*minword == 0) || (curr_word < *minword && curr_word > 0))
-					*minword = curr_word;
-				spaceind = 1; 
-				curr_word = 0; 
+					*minword = curr_word; //и минимальной длины слова
+				spaceind = 1; //включаем индикатор пробела
+				curr_word = 0; //ставим длину текущего слова на 0
 			}
-			else
+			else //если же попался непоследний символ и не пробел, то...
 			{
-				spaceind = 0; 
-				curr_word++; 
+				spaceind = 0; //выключаем индикатор пробела
+				curr_word++; //увеличиваем длину текущего слова
 			}
 		}
-		
-
+		free(s); //освобождаем строчку s
 	}	
-	free(s);
 }
 
