@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "sum.h"
+#include "13.h"
 
 
 
@@ -22,7 +22,7 @@ double  sum (double prev,double curr,double e,RRFUN f)
         prev = curr;
         curr = tmp;
     } while (abs(next - curr) > e);
- 
+   if ((*f)(prev) == (*f)(curr)) {return f(prev);} 
     return next;
 }
 
