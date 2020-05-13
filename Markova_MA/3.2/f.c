@@ -67,7 +67,7 @@ double gold(double (*f)(double), double a, double b , ErrorCode *perr, double ep
 		*perr  = ER;
 		return 0;
 	}
-	printf("%e\n", (a + b)/2);
+	//printf("%e\n", (a + b)/2);
 	x2 = (a + b)/2;
     double f1, f2, f3, u;
 	if(*perr)
