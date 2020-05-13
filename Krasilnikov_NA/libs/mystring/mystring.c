@@ -72,3 +72,32 @@ char *sread(FILE *fin)
 	return string;
 }
 
+int swc(char *string)
+{
+	int length, wc = 0, pcis = 1; //psis = Previous_Character_Is_Space
+	length = slength(string);
+	for (int i = 0; i < length; i++)
+	{
+		switch(pcis)
+		{
+			case 1:
+				{
+					if (string[i] != ' ')
+					{
+						wc++;
+						pcis = 0;
+					}
+					break;
+				}
+			case 0:
+				{
+					if (string[i] == ' ')
+					{
+						pcis = 1;
+					}
+					break;
+				}
+		}
+	}
+	return wc;
+}

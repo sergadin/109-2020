@@ -16,7 +16,7 @@ a.out: mystring.o format.o format_test.o
 	gcc -o  a.out mystring.o format.o format_test.o
 
 do-test: a.out
-	valgrind ./a.out -g
+	valgrind ./a.out input.txt 12
 
 clean: mystring.o format.o format_test.o a.out
 	rm mystring.o format.o format_test.o a.out

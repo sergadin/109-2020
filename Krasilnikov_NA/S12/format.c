@@ -4,52 +4,154 @@
 #include "format.h"
 #include "../libs/mystring/mystring.h"
 
-void formatting(FILE *fin, FILE *fout)
+#define TAB 8
+
+void formatting(FILE *fin, FILE *fout, int mls)
 {
-	char *string, pshlz = 0;
-	int sc = 0;
-	/*pshlz = Previous_String_Has_Length_Zero
-	  sc = String_Count*/
-	while ((string = sread(fin)) != NULL)
+	char *string;
+	int ls, cls = 0, sc = 0, clw,  wc, wbi, wei, pcis, ec = 0, pshlz = 0;
+	while((string = sread(fin)) != NULL)
 	{
 		sc++;
-		switch(pshlz)
+		ls = slength(string);
+		wc = swc(string);
+		if ((pshlz == 0) && (wc != 0))
 		{
-			case 0:
-
-				if ((slength(string)) > 0)
+			cls = TAB;
+			if (sc != 1)
+			{
+				fprintf(fout, "\n");
+			}
+			fprintf(fout, "\t");
+		}
+		pcis = 0;
+		wbi = 0;
+		wei = -1;
+		for (int i = 0; i < wc; i++)
+		{
+			if (ec == -1)
+			{
+				break;
+			}
+			for (int j = (wei + 1); j < ls; j++)
+			{
+				switch(pcis)
 				{
-					if (sc != 1)
+					case 0:
+						if (string[j] != ' ')
+						{
+							wbi = j;
+							pcis = 1;
+							if (j == (ls - 1))
+							{
+								wei = j;
+							}
+						}
+						break;
+					case 1:
+						if (string[j] == ' ')
+						{
+							wei = (j - 1);
+							pcis = 0;
+						}
+						if ((string[j] != ' ') && (j == (ls - 1)))
+						{
+							wei = j;
+						}
+						break;
+				}
+				if (wei >= wbi)
+				{
+					break;
+				}
+			}
+			clw = wei - wbi + 1;
+			if ((clw > mls) || ((pshlz == 0) && (i == 0) && ((clw + cls) > mls)))
+			{
+				ec = -1;
+			}
+			else
+			{
+				if ((clw + 1) <= (mls - cls))
+				{
+					spw(wbi, wei, string, fout);
+					fprintf(fout, " ");
+					cls += (clw + 1);
+				}
+				else
+				{
+					if (clw == (mls - cls))
+					{
+						spw(wbi, wei, string, fout);
+						if (i != wc)
+						{
+							fprintf(fout, "\n");
+						}
+						cls = 0;
+					}
+					else
 					{
 						fprintf(fout, "\n");
+						spw(wbi, wei, string, fout);	
+						if (clw == mls)
+						{
+							if (i != wc)
+							{
+								fprintf(fout, "\n");
+							}
+							cls = 0;
+						}
+						else
+						{
+							fprintf(fout, " ");
+							cls = clw + 1;
+						}
 					}
-					fprintf(fout, "\t%s", string);
-					pshlz = 1;
 				}
-				else
-				{
-					sc--;
-				}
-				break;
-
-			case 1:
-
-				if ((slength(string)) > 0)
-				{
-					fprintf(fout, " %s", string);
-				}
-				else
-				{
-					sc--;
-					pshlz = 0;
-				}
-				break;
-
+			}
+			wbi = ls;
 		}
 		free(string);
+		if (wc != 0)
+		{
+			pshlz = 1;
+		}
+		else
+		{
+			pshlz = 0;
+		}
+		if (ec == -1)
+		{
+			break;
+		}
 	}
-	if (sc == 0)
+	if (ec == -1)
 	{
-		fprintf(fout, "Input file is empty");
+		fclose(fout);
+		if ((fout = fopen("output.txt", "w")) == NULL)
+		{	
+			printf("Something went wrong\n");
+		}
+		else
+		{
+			fprintf(fout, "N is too short. Chenge input file or change N\n");
+			fclose(fout);
+		}
+		fclose(fin);
+
+	}
+	else
+	{
+		fclose(fin);
+		fclose(fout);
+	}
+}
+
+
+void spw(int wbi, int wei, char *string, FILE *fout)
+{
+	for (int i = wbi; i <= wei; i++)
+	{
+		fprintf(fout, "%c", string[i]);
 	}
 }
