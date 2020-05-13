@@ -31,7 +31,7 @@ static void print_difference(FILE *output,
 			continue;
 		}
 
-		for (int j = 0; (j < dir2_len) /*&& (strcmp(dir1[i], dir2[j]) < 0)*/; j++) {
+		for (int j = 0; (j < dir2_len) && (strcmp(dir1[i], dir2[j]) < 0); j++) {
 			if (strcmp(dir1[i], dir2[j]) == 0) {
 				flag = 1;
 				break;
