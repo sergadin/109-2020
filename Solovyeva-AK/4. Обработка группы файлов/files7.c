@@ -33,7 +33,7 @@
 #include <string.h>
 #include <stdint.h>
 
-char *type;
+static const char *type;
 
 /**
 	** "callback function" check - функция, вызымаемая для каждого элемента дерева файлов.
