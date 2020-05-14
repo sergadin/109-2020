@@ -66,6 +66,12 @@ static int fn(const char *fpath, const struct stat *sb, int typeflag) {
 	return 0;
 }
 
+static void print_usage(char *program_name) {
+	fprintf(stderr, "usage: %s dir1 dir2 output\n", program_name);
+	fprintf(stderr, "dir1, dir2: directories to compare\n");
+	fprintf(stderr, "output: file to print out results\n");
+}
+
 /*
  * Программу следует вызывать не менее чем с тремя дополнительными параметрами:
  * argv[1]: имя первого каталога;
@@ -74,19 +80,21 @@ static int fn(const char *fpath, const struct stat *sb, int typeflag) {
  *
  * В случае, если передано меньше параметров, или если они некорректны 
  * (выходной файл невозможно открыть на запись или какой-либо каталог не находится), 
- * показывается сообщение об ошибке.
+ * показывается сообщение об ошибке и выводится информация о корректном синтаксисе 
+ * команды запуска программы.
  */
 
 int main(int argc, char **argv) {
 	FILE *output;
 
-	if (argc < 4) {
-		fprintf(stderr, "The program hasn't got all the parameters\n");
+	if ((argc < 4) || (argv[1] == "--help")) {
+		print_usage(argv[0]);
 		return -1;
 	}
 
 	if ((output = fopen(argv[3], "w")) == NULL) {
 		fprintf(stderr, "Can't open %s\n", argv[3]);
+		print_usage(argv[0]);
 		return -1;
 	}
 
@@ -96,6 +104,7 @@ int main(int argc, char **argv) {
 
 	if (ftw(argv[1], fn, NOPENFD) != 0) {
 		fprintf(stderr, "Something went wrong...\n");
+		print_usage(argv[0]);
 		fclose(output);
 		return -1;
 	}
@@ -110,9 +119,12 @@ int main(int argc, char **argv) {
 
 	if (ftw(argv[2], fn, NOPENFD) != 0) {
 		fprintf(stderr, "Something went wrong...\n");
+		print_usage(argv[0]);
+
 		for (int i = 0; i < actual_len1; i++) {
 			free(files1[i]);
 		}
+
 		fclose(output);
 		return -1;
 	}
