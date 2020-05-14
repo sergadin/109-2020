@@ -20,13 +20,10 @@ int main(void)
 	double tran[] = {-1, 0, -19.9};
 	RRF funcs[] = {cosin, cube, somef};
 	double a = 0;
-	double b = 4;
-	while(eps < 3)
-	{
-		eps = eps*3;
-		res = mini(a, b, eps, funcs[2]);
-		printf("eps:\n%lf\nmy:\n%lf\n", eps, res);
-	}
+	double b = 2;
+	res = mini(a, b, eps, funcs[2]);
+	printf("eps:\n%lf\nmy:\n%lf\n", eps, res);
+	
 }
 
 
@@ -46,5 +43,5 @@ double cube(double x)
 
 double somef(double x)
 {
-	return (x*x*x*x*x - 3*x*x*x*x);
+	return (x*x*x - x);
 }

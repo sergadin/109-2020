@@ -1,0 +1,10 @@
+#define MY_NAME Dasha Rogova
+Hello, MY_NAME!
+This is an example for problem 10.
+#undef MY_NAME
+Note that MY_NAME is substituted by your name.
+#define MY_NAME Afonin S.A.
+
+Best regards,
+MY_NAME
+

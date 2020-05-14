@@ -24,20 +24,21 @@ double f3(double x)
 
 double f4(double x)
 {
-    return -x*(x - 2)*(x - 3);
+    return x;
 }
 
+#define PRECITION 1e-16
 
 int main (void)
 {
-    double x, eps = 1e-16;
+    double x, eps = 1e-7;
     dndFUNC foo[] = {f1, f2, f3, f4};
     double a[] = {-1, 1, -0.1, 0};
     double b[] = {2, 3, 0.1,1};
-    double answers[] = {-0.57079633, 2.54858378, 0, 0.7847000000000001};
+    double answers[] = {-0.57079632625, 2.5485837700000000, 0, 0};
     int iter, correct = 0;
     
-    printf("eps=%0.16lf\n\n", eps);
+    printf("eps=%e\n\n", eps);
     
     for(int i = 0; i < 4; i++)
     {
@@ -46,15 +47,22 @@ int main (void)
         {
             switch(iter)
             {
+                case NOT_UNIMODAL:
+                    printf("function $%d: is not unimodal\n",i + 1);
+                    break;
+                
                 case NOT_FOUND:
                     printf("function #%d: iteration count is too hight\n", i+1);
                     break;
+                case DIVISION_BY_ZERO:
+                    printf("function #%d: DIVISION_BY_ZERO while finding porabola\n", i+1);
+                    break;
                 default:
-                    printf("function #%d: unknown error", i+1);
+                    printf("function #%d: unknown error\n", i+1);
             }
             
         }
-        if(fabs(x - answers[i]) <= PRECITION*f_max(1, x, answers[i]))
+        if(fabs(x - answers[i]) <= eps)
         {
             printf("function #%d x=%lf answer is correct\niterations: %d\n", i+1, x, iter);
             correct++;
