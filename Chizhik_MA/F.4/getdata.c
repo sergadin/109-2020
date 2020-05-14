@@ -67,12 +67,41 @@ static int fn(const char *fpath, const struct stat *sb, int typeflag) {
 	return 0;
 }
 
+/* 
+ * Освобождение памяти, выделенной под массив имен
+ *
+ * Параметры:
+ * arr: массив имен
+ * len: длина массива
+ *
+ * Функция освобождает память, выделенную для строк в массиве и для самого массива.
+ */
+
+static void free_catalog_array(char **arr, int len) {
+	for (int i = 0; i < len; i++) {
+		free(arr[i]);
+	}
+	free(arr);
+}
+
+/*
+ * Освобождение всех ресурсов, динамически выделяемых в данном блоке программы
+ *
+ * Функция освобождает ресурсы, выделенные под массивы имен, существующих в двух сравниваемых директориях.
+ */
+
+static void free_allocated_resources() {
+	free_catalog_array(files1, actual_len1);
+	free_catalog_array(files2, actual_len2);
+}
+
 int get_data(FILE *output, char *dir1_name, char *dir2_name) {
 	curr_catalog = &files1;
 	curr_len = &len1;
 	curr_actual_len = &actual_len1;
 
 	if (ftw(dir1_name, fn, NOPENFD) != 0) {
+		free_catalog_array(files1, actual_len1);
 		return -1;
 	}
 
@@ -81,24 +110,11 @@ int get_data(FILE *output, char *dir1_name, char *dir2_name) {
 	curr_actual_len = &actual_len2;
 
 	if (ftw(dir2_name, fn, NOPENFD) != 0) {
-		for (int i = 0; i < actual_len1; i++) {
-			free(files1[i]);
-		}
-
+		free_allocated_resources();
 		return -1;
 	}
 
 	print_sym_difference(output, files1, dir1_name, actual_len1, files2, dir2_name, actual_len2);
-
-	for (int i = 0; i < actual_len1; i++) {
-		free(files1[i]);
-	}
-
-	for (int i = 0; i < actual_len2; i++) {
-		free(files2[i]);
-	}
-	free(files1);
-	free(files2);
-
+	free_allocated_resources();
 	return 0;
 }
