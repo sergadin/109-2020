@@ -27,7 +27,7 @@ char *scopy(const char *from, char *to)
 
 char *sread(FILE *fin)
 {
-	int N = 1024, cl = 1, bl; //cl = current_length, bl = buf_length 
+	int N = 1024, cl = 1, bl; //cl = current_length, bl = buf_length
 	char *string, *buf;
 	if ((buf = (char*)malloc(N)) == NULL)
 	{
@@ -53,7 +53,7 @@ char *sread(FILE *fin)
 			free(string);
 			return NULL;
 		}
-		scopy(buf, &string[cl - 1]);			
+		scopy(buf, &string[cl - 1]);
 		cl += bl;
 		if ((cl > 1) && (string[cl - 2] == '\n'))
 		{
@@ -65,10 +65,56 @@ char *sread(FILE *fin)
 				return NULL;
 			}
 			break;
-		}	
+		}
 	}
 	while (slength(buf) > 0);
 	free(buf);
 	return string;
 }
 
+int swc(char *string)
+{
+	int length, wc = 0, pcis = 1; //psis = Previous_Character_Is_Space
+	length = slength(string);
+	for (int i = 0; i < length; i++)
+	{
+		switch(pcis)
+		{
+			case 1:
+				{
+					if (string[i] != ' ')
+					{
+						wc++;
+						pcis = 0;
+					}
+					break;
+				}
+			case 0:
+				{
+					if (string[i] == ' ')
+					{
+						pcis = 1;
+					}
+					break;
+				}
+		}
+	}
+	return wc;
+}
+
+void sct(char *string)
+{
+	int length;
+	length = slength(string);
+	for (int i = 0; i <= length; i++)
+	{
+		if (string[i] == '\t')
+		{
+			for (int j = i + 1; j <= length; j++)
+			{
+				string[j] = string[j + 1];
+				length--;
+			}
+		}
+	}
+}

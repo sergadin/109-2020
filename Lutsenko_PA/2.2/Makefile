@@ -1,14 +1,14 @@
 all: do-test clean 
 
 
-sum.o: sum.c sum.h
-#     gcc -c sum.c
+22.o: 22.c 22.h
+#     gcc -c 22.c
 
-sum_test.o: test_sum.c sum.h
-#     gcc -c test_sum.c
+22test.o: 22test.c 22.h
+#     gcc -c 22test.c
 
-a.out: test_sum.o sum.o
-	gcc test_sum.o sum.o
+a.out: 22test.o 22.o
+	gcc 22test.o 22.o
 
 do-test: a.out
 	./a.out
