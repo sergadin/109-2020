@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ftw.h>
 
-#include "getdata.h"
+#include "getnames.h"
 #include "printdiff.h"
 
 #define NOPENFD 10
@@ -95,7 +95,7 @@ static void free_allocated_resources() {
 	free_catalog_array(files2, actual_len2);
 }
 
-int get_data(FILE *output, char *dir1_name, char *dir2_name) {
+int get_names(FILE *output, char *dir1_name, char *dir2_name) {
 	curr_catalog = &files1;
 	curr_len = &len1;
 	curr_actual_len = &actual_len1;

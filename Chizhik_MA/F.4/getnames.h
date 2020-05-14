@@ -14,4 +14,4 @@
  * в случае ошибки - некоторое отрицательное значение.
  */
 
-int get_data(FILE *output, char *dir1_name, char *dir2_name);
+int get_names(FILE *output, char *dir1_name, char *dir2_name);

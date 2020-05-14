@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "getdata.h"
+#include "getnames.h"
 
 static void print_usage(char *program_name) {
 	fprintf(stderr, "usage: %s dir1 dir2 output\n", program_name);
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	flag = get_data(output, argv[1], argv[2]);
+	flag = get_names(output, argv[1], argv[2]);
 	fclose(output);
 
 	if (flag != 0) {
