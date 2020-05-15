@@ -52,8 +52,11 @@ static const char *type;
 
 static int check(const char *fpath, const struct stat *sb, int tflag) {
     if (tflag == FTW_F) {
-        if(strstr(fpath, type)) {
-            printf("%s\n", fpath);
+		char  *tmp;
+		if (tmp = strstr(fpath, type)) {
+			if (strlen(tmp) == strlen(type)) {
+				printf("%s\n", fpath);
+			}
         }
     }
     return 0;         
