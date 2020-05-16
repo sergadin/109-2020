@@ -11,17 +11,27 @@ int main()
 	FILE *include_file;
 	char **strings_of_original_file;
 	char **strings_of_include_file;
-	int j, i = 0;
+	int j, i = 0, k;
 	char shablon[8] = "#include";
 	char *include_file_name;
 	int include_not_found;
+	char *s;
 
 	strings_of_original_file = malloc(MAX_SIZE * sizeof(char *));
 	strings_of_include_file = malloc(MAX_SIZE * sizeof(char *));
+	for(k = 0; k < MAX_SIZE; k++)
+	{
+		strings_of_original_file[k] = malloc(MAX_SIZE * sizeof(char));
+		strings_of_include_file[k] = malloc(MAX_SIZE * sizeof(char));
+	}
 
 	original_file  = fopen("input.txt","r");
-	while((strings_of_original_file[i] = read_long_string(original_file)) != NULL)
+	while((s = read_long_string(original_file)) != NULL)
 	{
+		for(k = 0; k < strlen(s); k++)
+			strings_of_original_file[i][k] = s[k];
+		free(s);
+		
 		include_not_found = strncmp(strings_of_original_file[i],shablon,8); //эта переменная показывает, нашли ли мы строку, начинающуюся с #include
 		if(!include_not_found) //если нашли, то...
 		{
@@ -32,8 +42,12 @@ int main()
 			}
 			include_file = fopen(include_file_name,"r");
 			j = 0;
-			while((strings_of_include_file[j] = read_long_string(include_file)) != NULL)
+			while((s = read_long_string(include_file)) != NULL)
 			{
+				for(k = 0; k < strlen(s); k++)
+					strings_of_include_file[j][k] = s[k];
+				free(s);
+
 				strings_of_original_file[i] = strings_of_include_file[j]; //записываем строки включаемого файла в исходный файл
 				i++;
 				j++;
