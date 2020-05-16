@@ -110,11 +110,12 @@ void sct(char *string)
 	{
 		if (string[i] == '\t')
 		{
-			for (int j = i + 1; j <= length; j++)
+			for (int j = i; j < length; j++)
 			{
 				string[j] = string[j + 1];
-				length--;
 			}
+			length--;
+			i--;
 		}
 	}
 }
