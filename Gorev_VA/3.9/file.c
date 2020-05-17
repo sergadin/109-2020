@@ -14,13 +14,13 @@ int INCLUDE(char *progname)
 	
 	if ((progchar = fopen(progname, "r")) == NULL)
 	{
-	//	printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
+		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
 	if ((proglen = fopen(progname, "r")) == NULL)
 	{
 		fclose(progchar);
-	//	printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
+		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
 	len = 0;
@@ -48,7 +48,7 @@ int INCLUDE(char *progname)
 				if (strcmp(A + strlen("#include "), progname) == 0)
 				{
 					printf("qwertyuiop[]\n");
-					//printf("~~~INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
+					//printf("INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
 					fclose(proglen);
 					fclose(progchar);
 					free(A);
@@ -78,6 +78,6 @@ int main(void)
 {
 	char *progname = "programm.txt";
 	if (INCLUDE(progname))
-		printf("~~~ERROR\n");
+		printf("ERROR\n");
 	return 0;
 }
