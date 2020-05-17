@@ -45,6 +45,7 @@ int INCLUDE(char *progname)
 				}
 				else
 					Ind = 0;
+				printf("%s %s\n", A + strlen("#include "), progname);
 				if (strcmp(A + strlen("#include "), progname) == 0)
 				{
 					printf("~~~INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
@@ -70,7 +71,6 @@ int INCLUDE(char *progname)
 	
 	fclose(progchar);
 	fclose(proglen);
-	//fclose(progchar);
 	return 0;
 }
 
@@ -81,4 +81,3 @@ int main(void)
 		printf("~~~ERROR\n");
 	return 0;
 }
-
