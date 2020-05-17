@@ -11,7 +11,7 @@ int INCLUDE(char *progname)
 	char *A;
 	int len;
 	int Eof = 0, Ind = 0;
-	
+	printf("1%s2", progname);
 	if ((progchar = fopen(progname, "r")) == NULL)
 	{
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
@@ -23,6 +23,7 @@ int INCLUDE(char *progname)
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
+	printf("1%s2", progname);
 	len = 0;
 	while(!Eof)
 	{
