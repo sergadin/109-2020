@@ -11,7 +11,7 @@ int INCLUDE(char *progname)
 	char *A;
 	int len;
 	int Eof = 0, Ind = 0;
-	printf("1%s2", progname);
+	//printf("1%s2", progname);
 	if ((progchar = fopen(progname, "r")) == NULL)
 	{
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
@@ -23,7 +23,7 @@ int INCLUDE(char *progname)
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
-	printf("1%s2", progname);
+	//printf("1%s2", progname);
 	len = 0;
 	while(!Eof)
 	{
@@ -31,11 +31,18 @@ int INCLUDE(char *progname)
 			Eof = 1;
 		else
 			len++;
-		//printf("%c", c);
 		if ((c == '\n') || Eof)
 		{
+			int i = 0;
 			A = (char*)malloc((len + 1) * sizeof(char));
-			fgets(A, len + 1, progchar);
+			while (i < len)
+			{
+				fscanf(progchar,"%c", A + i);
+				i++;
+			}
+			A[len] = 0;
+			
+			//fgets(A, len + 1, progchar);
 			if (strstr(A, "#include ") == A)
 			{
 				if (A[len - 1] == '\n')
@@ -45,7 +52,7 @@ int INCLUDE(char *progname)
 				}
 				else
 					Ind = 0;
-				printf("%s %s\n", A + strlen("#include "), progname);
+				//printf("%s %s\n", A + strlen("#include "), progname);
 				if (strcmp(A + strlen("#include "), progname) == 0)
 				{
 					printf("qwertyuiop[]\n");
