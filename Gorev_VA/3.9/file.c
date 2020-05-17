@@ -42,7 +42,7 @@ int INCLUDE(char *progname)
 			A = (char*)malloc((len + 1) * sizeof(char));
 			while (i < len)
 			{
-				fscanf(progchar,"%c", c);
+				fscanf(progchar,"%c", &c);
 				if (c != '\r')
 				{
 					A[i] = c;
