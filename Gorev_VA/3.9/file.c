@@ -32,12 +32,8 @@ int INCLUDE(char *progname)
 		else
 			if (c != '\r')
 				len++;
-		printf("%d\n", len);
-		printf("%d\n", c);
 		if ((c == '\n') || Eof)
 		{
-			printf("%d", '\n');
-			printf("%d", ' ');
 			int i = 0;
 			A = (char*)malloc((len + 1) * sizeof(char));
 			while (i < len)
@@ -50,7 +46,6 @@ int INCLUDE(char *progname)
 				}
 			}
 			A[len] = 0;
-			printf("%ld %d %s", strlen(A), len, A);
 			//fgets(A, len + 1, progchar);
 			if (strstr(A, "include ") == A)
 			{
