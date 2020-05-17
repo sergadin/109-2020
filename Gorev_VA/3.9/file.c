@@ -2,53 +2,56 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define N 6
+
 int INCLUDE(char *progname);
 int INCLUDE(char *progname)
 {
-	FILE *proglen;
-	FILE *progchar;
-	char c = 'A';
+	FILE *prog;
+	char c = 0;
 	char *A;
-	int len;
-	int Eof = 0, Ind = 0;
-	if ((progchar = fopen(progname, "r")) == NULL)
+	char buf[N];
+	int i, Ind, Eof = 0;
+	if ((prog = fopen(progname, "r")) == NULL)
 	{
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
-	if ((proglen = fopen(progname, "r")) == NULL)
-	{
-		fclose(progchar);
-		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
-		return -1;
-	}
-	len = 0;
+	
+	i = 0;
+	A = malloc(sizeof(char));
+	A[0] = 0;
 	while(!Eof)
 	{
-		if (fscanf(proglen, "%c", &c) != 1)
+		if (fscanf(prog, "%c", &c) != 1)
 			Eof = 1;
 		else
-			if (c != '\r')
-				len++;
+		{
+			if (c == '\r')
+				continue;
+			buf[i] = c;
+			i++;
+		}
+		
+		if ((i == N) || (c == '\n') || Eof)
+		{
+			int j = 0;
+			A = (char*)realloc(A, (strlen(A) + 1 + N) * sizeof(char));
+			while(j < i)
+			{
+				A[strlen(A) + 1] = 0;
+				A[strlen(A)] = buf[j];
+				j++;
+			}
+			i = 0;
+		}
 		if ((c == '\n') || Eof)
 		{
-			int i = 0;
-			A = (char*)malloc((len + 1) * sizeof(char));
-			while (i < len)
-			{
-				fscanf(progchar,"%c", &c);
-				if (c != '\r')
-				{
-					A[i] = c;
-					i++;
-				}
-			}
-			A[len] = 0;
 			if (strstr(A, "#include ") == A)
 			{
-				if (A[len - 1] == '\n')
+				if (A[strlen(A) - 1] == '\n')
 				{
-					A[len - 1] = 0;
+					A[strlen(A) - 1] = 0;
 					Ind = 1;
 				}
 				else
@@ -56,8 +59,7 @@ int INCLUDE(char *progname)
 				if (strcmp(A + strlen("#include "), progname) == 0)
 				{
 					printf("INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
-					fclose(proglen);
-					fclose(progchar);
+					fclose(prog);
 					free(A);
 					return -2;
 				}
@@ -72,12 +74,13 @@ int INCLUDE(char *progname)
 			else
 				printf("%s", A);
 			free(A);
-			len = 0;
+			A = (char*)malloc(sizeof(char));
+			A[0] = 0;
 		}
 	}
 	
-	fclose(progchar);
-	fclose(proglen);
+	free(A);
+	fclose(prog);
 	return 0;
 }
 
