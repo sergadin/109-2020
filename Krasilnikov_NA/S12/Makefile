@@ -1,4 +1,3 @@
-CC=gcc
 CFLAGS=-g
 
 all: do-test clean
@@ -16,7 +15,8 @@ a.out: mystring.o format.o format_test.o
 	gcc -o  a.out mystring.o format.o format_test.o
 
 do-test: a.out
-	valgrind ./a.out input.txt 12
+	valgrind ./a.out input.txt 100
 
 clean: mystring.o format.o format_test.o a.out
 	rm mystring.o format.o format_test.o a.out
+

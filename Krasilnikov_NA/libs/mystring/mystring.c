@@ -81,22 +81,22 @@ int swc(char *string)
 		switch(pcis)
 		{
 			case 1:
+
+				if (string[i] != ' ')
 				{
-					if (string[i] != ' ')
-					{
-						wc++;
-						pcis = 0;
-					}
-					break;
+					wc++;
+					pcis = 0;
 				}
+				break;
+
 			case 0:
+
+				if (string[i] == ' ')
 				{
-					if (string[i] == ' ')
-					{
-						pcis = 1;
-					}
-					break;
+					pcis = 1;
 				}
+				break;
+
 		}
 	}
 	return wc;
@@ -110,11 +110,12 @@ void sct(char *string)
 	{
 		if (string[i] == '\t')
 		{
-			for (int j = i + 1; j <= length; j++)
+			for (int j = i; j < length; j++)
 			{
 				string[j] = string[j + 1];
-				length--;
 			}
+			length--;
+			i--;
 		}
 	}
 }
