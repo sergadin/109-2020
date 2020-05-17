@@ -41,7 +41,7 @@ int INCLUDE(char *progname)
 				i++;
 			}
 			A[len] = 0;
-			
+			printf("%s", A);
 			//fgets(A, len + 1, progchar);
 			if (strstr(A, "#include ") == A)
 			{
