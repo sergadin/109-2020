@@ -12,7 +12,6 @@ int INCLUDE(char *progname)
 	int len;
 	int Eof = 0, Ind = 0;
 	
-	// open progname
 	if ((progchar = fopen(progname, "r")) == NULL)
 	{
 		printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
@@ -48,7 +47,8 @@ int INCLUDE(char *progname)
 				printf("%s %s\n", A + strlen("#include "), progname);
 				if (strcmp(A + strlen("#include "), progname) == 0)
 				{
-					printf("~~~INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
+					printf("qwertyuiop[]\n");
+					//printf("~~~INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
 					fclose(proglen);
 					fclose(progchar);
 					free(A);
