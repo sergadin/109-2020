@@ -14,13 +14,13 @@ int INCLUDE(char *progname)
 	
 	if ((progchar = fopen(progname, "r")) == NULL)
 	{
-		printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
+	//	printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
 	if ((proglen = fopen(progname, "r")) == NULL)
 	{
 		fclose(progchar);
-		printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
+	//	printf("~~~INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
 	len = 0;
