@@ -44,7 +44,7 @@ int INCLUDE(char *progname)
 			A[len] = 0;
 			printf("%ld %d %s", strlen(A), len, A);
 			//fgets(A, len + 1, progchar);
-			if (strstr(A, "#include ") == A)
+			if (strstr(A, "include ") == A)
 			{
 				if (A[len - 1] == '\n')
 				{
@@ -53,11 +53,11 @@ int INCLUDE(char *progname)
 				}
 				else
 					Ind = 0;
-				//printf("%s %s\n", A + strlen("#include "), progname);
-				if (strcmp(A + strlen("#include "), progname) == 0)
+				//printf("%s %s\n", A + strlen("include "), progname);
+				if (strcmp(A + strlen("include "), progname) == 0)
 				{
 					printf("qwertyuiop[]\n");
-					//printf("INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
+					//printf("INCLUDE(%s): Loop output: \"include %s\" in the file \"%s\"\n", progname, progname, progname);
 					fclose(proglen);
 					fclose(progchar);
 					free(A);
@@ -65,7 +65,7 @@ int INCLUDE(char *progname)
 				}
 				else
 				{
-					if (INCLUDE(A + strlen("#include ")))
+					if (INCLUDE(A + strlen("include ")))
 						return -3;
 					if (Ind)
 						printf("\n");
