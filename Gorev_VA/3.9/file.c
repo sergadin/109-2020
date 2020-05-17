@@ -30,7 +30,8 @@ int INCLUDE(char *progname)
 		if (fscanf(proglen, "%c", &c) != 1)
 			Eof = 1;
 		else
-			len++;
+			if (c != '\r')
+				len++;
 		printf("%d\n", len);
 		printf("%d\n", c);
 		if ((c == '\n') || Eof)
@@ -41,8 +42,12 @@ int INCLUDE(char *progname)
 			A = (char*)malloc((len + 1) * sizeof(char));
 			while (i < len)
 			{
-				fscanf(progchar,"%c", A + i);
-				i++;
+				fscanf(progchar,"%c", c);
+				if (c != '\r')
+				{
+					A[i] = c;
+					i++;
+				}
 			}
 			A[len] = 0;
 			printf("%ld %d %s", strlen(A), len, A);
