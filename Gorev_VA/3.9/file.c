@@ -32,9 +32,11 @@ int INCLUDE(char *progname)
 		else
 			len++;
 		printf("%d\n", len);
-		printf("%c\n", c);
+		printf("%d\n", c);
 		if ((c == '\n') || Eof)
 		{
+			printf("%d", '\n');
+			printf("%d", ' ');
 			int i = 0;
 			A = (char*)malloc((len + 1) * sizeof(char));
 			while (i < len)
