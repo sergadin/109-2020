@@ -31,7 +31,7 @@ int INCLUDE(char *progname)
 			Eof = 1;
 		else
 			len++;
-		printf("%c", c);
+		printf("1%c2", c);
 		if ((c == '\n') || Eof)
 		{
 			int i = 0;
