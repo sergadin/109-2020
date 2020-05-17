@@ -77,7 +77,7 @@ int INCLUDE(char *progname)
 int main(void)
 {
 	char *progname = "programm.txt";
-	if (INCLUDE(progname))
+	//if (INCLUDE(progname))
 		printf("~~~ERROR\n");
 	return 0;
 }
