@@ -7,8 +7,7 @@ void change(const char *s, const char *old, const char *curr)
 {
 	char *result = NULL;
 	int i, calc = 0, currlen = strlen(curr), oldlen = strlen(old);
-	while(s != NULL)
-	{
+	
 		for (i = 0; s[i] != '\0'; i++)
 		{
 			if (strstr(&s[i], old) == &s[i])
@@ -17,7 +16,7 @@ void change(const char *s, const char *old, const char *curr)
 				calc++;
 			}
 		}
-	}
+	
 	result = (char*) malloc(i + 1 + calc*(currlen-oldlen));
 	i = 0;
 

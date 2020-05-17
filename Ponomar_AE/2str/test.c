@@ -17,9 +17,12 @@ int main(void)
 	}
 	read_file(input, data, &size_array, size_buffer);
 	
+	while(curr != NULL)
+	{
 	for (int i = 0; i < size_array; i++)
 	{
 		change(data[i], old, curr);
+	}
 	}
 	printf("\n");
 
