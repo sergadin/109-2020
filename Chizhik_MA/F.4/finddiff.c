@@ -163,6 +163,10 @@ static void print_sym_difference(FILE *output,
 }
 
 int find_dir_diff(FILE *output, const char *dir1_name, const char *dir2_name) {
+	if (output == NULL) {
+		return -1;
+	}
+
 	curr_catalog = &files1;
 	curr_len = &len1;
 	curr_actual_len = &actual_len1;
