@@ -1,8 +1,7 @@
 #include <stdio.h>
+#include "finddiff.h"
 
-#include "getnames.h"
-
-static void print_usage(char *program_name) {
+static void print_usage(const char *program_name) {
 	fprintf(stderr, "usage: %s dir1 dir2 output\n", program_name);
 	fprintf(stderr, "dir1, dir2: directories to compare\n");
 	fprintf(stderr, "output: file to print out results\n");
@@ -35,7 +34,7 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	flag = get_names(output, argv[1], argv[2]);
+	flag = find_dir_diff(output, argv[1], argv[2]);
 	fclose(output);
 
 	if (flag != 0) {
