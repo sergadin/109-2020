@@ -1,10 +1,18 @@
-#define MY_NAME Dasha Rogova
-Hello, MY_NAME!
-This is an example for problem 10.
-#undef MY_NAME
-Note that MY_NAME is substituted by your name.
-#define MY_NAME Afonin S.A.
-
-Best regards,
-MY_NAME
+sefefsefwefe
+#define hello privet
+qwfwefw hello cwfwewef
+#undef hello
+wefwefwefef
+#define hello privet
+ffffff hello fffffff hello hello ooooooortyui
+#undef hello
+uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+#define privet Hello
+#define privet Hello!
+#define privet4 Hello!!!!!
+q privet c
+#undef privet
+#undef privet
+#undef privet2
+q PRIVET c
 
