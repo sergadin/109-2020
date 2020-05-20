@@ -116,21 +116,23 @@ static void print_difference(FILE *output,
 		char **dir1, const char *dir1_name, int dir1_len, 
 		char **dir2, int dir2_len) {
 	fprintf(output, "%s: ", dir1_name);
+	int j = 0;
 	for (int i = 0; i < dir1_len; i++) {
-		unsigned int flag = 0;
+		unsigned int belongs = 0;
 
 		if ((i > 0) && (strcmp(dir1[i], dir1[i-1]) == 0)) {
 			continue;
 		}
 
-		for (int j = 0; (j < dir2_len) && !(strcmp(dir1[i], dir2[j]) < 0); j++) {
+		while ((j < dir2_len) && !(strcmp(dir1[i], dir2[j]) < 0)) {
 			if (strcmp(dir1[i], dir2[j]) == 0) {
-				flag = 1;
+				belongs = 1;
 				break;
 			}
+			j++;
 		}
 
-		if (flag == 0) {
+		if (belongs == 0) {
 			fprintf(output, "%s ", dir1[i]);
 		}
 	}

@@ -21,7 +21,7 @@ static void print_usage(const char *program_name) {
 
 int main(int argc, char **argv) {
 	FILE *output;
-	int flag = 0;
+	int err_flag = 0;
 
 	if ((argc < 4) || (argv[1] == "--help")) {
 		print_usage(argv[0]);
@@ -34,10 +34,10 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	flag = find_dir_diff(output, argv[1], argv[2]);
+	err_flag = find_dir_diff(output, argv[1], argv[2]);
 	fclose(output);
 
-	if (flag != 0) {
+	if (err_flag != 0) {
 		fprintf(stderr, "Something went wrong\n");
 		print_usage(argv[0]);
 		return -1;
