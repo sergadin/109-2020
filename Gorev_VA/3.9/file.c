@@ -62,7 +62,7 @@ int INCLUDE(char *progname)
 		{
 			break;
 		}
-		printf("~~%ld %ld %d %d %s", strlen(A), strlen(A) - 1, A[strlen(A) - 1], A[strlen(A) - 1], A);
+		printf("~~%ld %ld %d %d %s", strlen(A), strlen(A) - 1, A[strlen(A) - 1], A[strlen(A)], A);
 		free(A);
 		A = read_str(prog);
 		if (strstr(A, "#include ") == A)
