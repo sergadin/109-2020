@@ -28,6 +28,7 @@ char *read_str(FILE *prog)
 		if ((i == N) || (c == '\n') || Eof)
 		{
 			int j = 0;
+			if (Eof && (c == '\n');
 			A = (char*)realloc(A, (strlen(A) + 1 + i) * sizeof(char));
 			while(j < i)
 			{
@@ -66,7 +67,7 @@ int INCLUDE(char *progname)
 			{
 				A[strlen(A) - 1] = 0;
 				Ind = 1;
-				printf("%ld %s", strlen(A), A);
+				printf("%ld %d %d %s", strlen(A), , A[strlen(A) - 1], '\n', A);
 			}
 			else
 				Ind = 0;
