@@ -66,6 +66,7 @@ int INCLUDE(char *progname)
 			{
 				A[strlen(A) - 1] = 0;
 				Ind = 1;
+				printf("%ld %s", strlen(A), A);
 			}
 			else
 				Ind = 0;
@@ -80,7 +81,7 @@ int INCLUDE(char *progname)
 			{
 				if (INCLUDE(A + strlen("#include ")))
 					return -3;
-				if (Ind == 1)
+				if (Ind)
 				{
 					A[strlen(A) + 1] = 0;
 					A[strlen(A)] = '\n';
