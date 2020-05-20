@@ -28,7 +28,6 @@ char *read_str(FILE *prog)
 		if ((i == N) || (c == '\n') || Eof)
 		{
 			int j = 0;
-			if (Eof && (c == '\n');
 			A = (char*)realloc(A, (strlen(A) + 1 + i) * sizeof(char));
 			while(j < i)
 			{
