@@ -62,7 +62,7 @@ int INCLUDE(char *progname)
 		{
 			break;
 		}
-		printf("~~%ld %ld %s", strlen(A), strlen(A) - 1, A);
+		printf("~~%ld %ld %d %s", strlen(A), strlen(A) - 1, A[strlen(A) - 1], A);
 		free(A);
 		A = read_str(prog);
 		if (strstr(A, "#include ") == A)
@@ -105,8 +105,6 @@ int main(void)
 {
 	char *progname = "programm.txt";
 	if (INCLUDE(progname))
-		printf("ERROR\n");
-		if (INCLUDE(progname))
 		printf("ERROR\n");
 	return 0;
 }
