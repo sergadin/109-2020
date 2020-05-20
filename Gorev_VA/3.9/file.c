@@ -80,7 +80,7 @@ int INCLUDE(char *progname)
 			{
 				if (INCLUDE(A + strlen("#include ")))
 					return -3;
-				if (Ind)
+				if (Ind == 1)
 				{
 					A[strlen(A) + 1] = 0;
 					A[strlen(A)] = '\n';
