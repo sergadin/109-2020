@@ -58,13 +58,8 @@ int INCLUDE(char *progname)
 	A[1] = 0;
 	while(A[strlen(A) - 1] == '\n')
 	{
-		/*while(A[strlen(A) - 1] == '\n')
-		{
-			break;
-		}
-		printf("~~%ld %ld %d %d %s", strlen(A), strlen(A) - 1, A[strlen(A) - 1], A[strlen(A)], A);
 		free(A);
-		A = read_str(prog);
+		A = read_str(prog);/*
 		if (strstr(A, "#include ") == A)
 		{
 			if (A[strlen(A) - 1] == '\n')
