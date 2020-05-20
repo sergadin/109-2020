@@ -97,6 +97,7 @@ int INCLUDE(char *progname, struct chain *Prev)
 				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
 				fclose(prog);
 				free(A);
+				free(Eof);
 				return -2;
 			}
 			else
@@ -109,6 +110,8 @@ int INCLUDE(char *progname, struct chain *Prev)
 				{
 					free(A);
 					free(P);
+					free(Eof);
+					fclose(prog);
 					return -3;
 				}
 				free(P);
