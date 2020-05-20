@@ -59,7 +59,7 @@ int INCLUDE(char *progname)
 	while(A[strlen(A) - 1] == '\n')
 	{
 		free(A);
-		A = read_str(prog);/*
+		A = read_str(prog);
 		if (strstr(A, "#include ") == A)
 		{
 			if (A[strlen(A) - 1] == '\n')
@@ -69,7 +69,7 @@ int INCLUDE(char *progname)
 			}
 			else
 				Ind = 0;
-			if (strcmp(A + strlen("#include "), progname) == 0)
+			/*if (strcmp(A + strlen("#include "), progname) == 0)
 			{
 				printf("INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
 				fclose(prog);
@@ -86,10 +86,10 @@ int INCLUDE(char *progname)
 					A[strlen(A)] = '\n';
 					printf("\n");
 				}
-			}
+			}*/
 		}
 		else
-			printf("%s", A);*/
+			printf("%s", A);
 		break;
 	}
 	free(A);
