@@ -1,4 +1,3 @@
-sefefsefwefe
 #define hello privet
 qwfwefw hello cwfwewef
 #undef hello
