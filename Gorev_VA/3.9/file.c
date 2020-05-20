@@ -40,6 +40,39 @@ char *read_str(FILE *prog, int *Eof)
 	return A;
 }
 
+int check(char *A, char *progname);
+int check(char *A, char *progname)
+{
+	FILE *prog;
+	int Ind;
+	if (A[strlen(A) - 1] == '\n')
+			{
+				A[strlen(A) - 1] = 0;
+				Ind = 1;
+			}
+			else
+				Ind = 0;
+			if (strcmp(A + strlen("#include "), progname) == 0)
+			{
+				printf("INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
+				fclose(prog);
+				free(A);
+				return -2;
+			}
+			else
+			{
+				if (INCLUDE(A + strlen("#include ")))
+					return -3;
+				if (Ind)
+				{
+					A[strlen(A) + 1] = 0;
+					A[strlen(A)] = '\n';
+					printf("\n");
+				}
+			}
+	return 0;
+}
+
 int INCLUDE(char *progname);
 int INCLUDE(char *progname)
 {
@@ -87,7 +120,6 @@ int INCLUDE(char *progname)
 					A[strlen(A) + 1] = 0;
 					A[strlen(A)] = '\n';
 					printf("\n");
-					printf("123");
 				}
 			}
 		}
