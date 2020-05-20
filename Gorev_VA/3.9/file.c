@@ -66,7 +66,6 @@ int INCLUDE(char *progname)
 		{
 			if (A[strlen(A) - 1] == '\n')
 			{
-				printf("%ld %d %d %s", strlen(A), A[strlen(A) - 1], '\n', A);
 				A[strlen(A) - 1] = 0;
 				Ind = 1;
 			}
@@ -94,7 +93,6 @@ int INCLUDE(char *progname)
 		}
 		else
 			printf("%s", A);
-		break;
 	}
 	free(A);
 	free(Eof);
