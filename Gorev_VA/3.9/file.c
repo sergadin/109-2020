@@ -76,7 +76,7 @@ int INCLUDE(char *progname)
 				free(A);
 				return -2;
 			}
-			/*else
+			else
 			{
 				if (INCLUDE(A + strlen("#include ")))
 					return -3;
@@ -86,7 +86,7 @@ int INCLUDE(char *progname)
 					A[strlen(A)] = '\n';
 					printf("\n");
 				}
-			}*/
+			}
 		}
 		else
 			printf("%s", A);
