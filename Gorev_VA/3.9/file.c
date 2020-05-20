@@ -25,7 +25,6 @@ char *read_str(FILE *prog)
 			buf[i] = c;
 			i++;
 		}
-		
 		if ((i == N) || (c == '\n') || Eof)
 		{
 			int j = 0;
@@ -54,8 +53,12 @@ int INCLUDE(char *progname)
 		return -1;
 	}
 	
-	do
+	A = (char*)malloc(2 * sizeof(char));
+	A[0] = '\n';
+	A[1] = 0;
+	while(A[strlen(A) - 1] == '\n')
 	{
+		free(A);
 		A = read_str(prog);
 		//printf("~~%s", A);
 		if (strstr(A, "#include ") == A)
@@ -88,11 +91,8 @@ int INCLUDE(char *progname)
 		}
 		else
 			printf("%s", A);
-		free(A);
 	}
-	while(A[strlen(A) - 1] == '\n');
 	
-	free(A);
 	fclose(prog);
 	return 0;
 }
