@@ -165,7 +165,7 @@ static void print_sym_difference(FILE *output,
 }
 
 int find_dir_diff(FILE *output, const char *dir1_name, const char *dir2_name) {
-	if (output == NULL) {
+	if ((output == NULL) || (dir1_name == NULL) || (dir2_name == NULL)) {
 		return -1;
 	}
 
