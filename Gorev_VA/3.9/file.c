@@ -58,6 +58,7 @@ int INCLUDE(char *progname)
 	A[1] = 0;
 	while(A[strlen(A) - 1] == '\n')
 	{
+		A[strlen(A) - 1];
 		printf("%ld %d\n", strlen(A), strlen(A) - 1);
 		free(A);
 		A = read_str(prog);
