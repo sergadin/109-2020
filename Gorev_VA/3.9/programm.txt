@@ -1,1 +1,1 @@
-include input.txt
+#include input.txt
