@@ -66,7 +66,7 @@ int INCLUDE(char *progname)
 			{
 				A[strlen(A) - 1] = 0;
 				Ind = 1;
-				printf("%ld %d %d %s", strlen(A), , A[strlen(A) - 1], '\n', A);
+				printf("%ld %d %d %s", strlen(A), A[strlen(A) - 1], '\n', A);
 			}
 			else
 				Ind = 0;
