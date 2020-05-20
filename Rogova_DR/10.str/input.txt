@@ -3,7 +3,7 @@ qwfwefw hello cwfwewef
 #undef hello
 wefwefwefef
 #define hello privet
-ffffff hello fffffff hello hello ooooooortyui
+ffffff hello fffffff hello hello hello ooooooortyui
 #undef hello
 uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
 #define privet Hello
