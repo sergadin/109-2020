@@ -85,6 +85,7 @@ int INCLUDE(char *progname)
 					A[strlen(A) + 1] = 0;
 					A[strlen(A)] = '\n';
 					printf("\n");
+					printf("123");
 				}
 			}
 		}
