@@ -58,7 +58,7 @@ int INCLUDE(char *progname)
 	A[1] = 0;
 	while(A[strlen(A) - 1] == '\n')
 	{
-		while(A[strlen(A) - 1] == '\n')
+		/*while(A[strlen(A) - 1] == '\n')
 		{
 			break;
 		}
@@ -94,7 +94,8 @@ int INCLUDE(char *progname)
 			}
 		}
 		else
-			printf("%s", A);
+			printf("%s", A);*/
+		break;
 	}
 	free(A);
 	fclose(prog);
