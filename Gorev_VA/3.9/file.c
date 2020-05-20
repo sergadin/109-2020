@@ -92,7 +92,7 @@ int INCLUDE(char *progname)
 		else
 			printf("%s", A);
 	}
-	
+	free(A);
 	fclose(prog);
 	return 0;
 }
