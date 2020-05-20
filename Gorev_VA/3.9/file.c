@@ -4,6 +4,12 @@
 
 #define N 6
 
+struct chain
+{
+	char *filename;
+	struct chain *prev;
+};
+
 char *read_str(FILE *prog, int *Eof);
 char *read_str(FILE *prog, int *Eof)
 {
@@ -38,6 +44,21 @@ char *read_str(FILE *prog, int *Eof)
 		}
 	}
 	return A;
+}
+
+int check(char *filename, struct chain *Prev)
+{
+	struct chain *P = Prev;
+	while(1)
+	{
+		if (strcmp(filename, P->filename) == 0)
+		{
+			return -2;
+		}
+		if (P->prev == 0)
+			return 0;
+		P = P->prev;
+	}
 }
 
 int INCLUDE(char *progname);
