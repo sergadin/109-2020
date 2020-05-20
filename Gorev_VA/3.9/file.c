@@ -4,20 +4,19 @@
 
 #define N 6
 
-char *read_str(FILE *prog);
-char *read_str(FILE *prog)
+char *read_str(FILE *prog, int *Eof);
+char *read_str(FILE *prog, int *Eof)
 {
 	char *A;
 	char c = 0;
 	char buf[N];
-	int Eof = 0;
 	int i = 0;
 	A = malloc(sizeof(char));
 	A[0] = 0;
-	while((c != '\n') && !Eof)
+	while((c != '\n') && !(*Eof))
 	{
 		if (fscanf(prog, "%c", &c) != 1)
-			Eof = 1;
+			*Eof = 1;
 		else
 		{
 			if (c == '\r')
@@ -25,7 +24,7 @@ char *read_str(FILE *prog)
 			buf[i] = c;
 			i++;
 		}
-		if ((i == N) || (c == '\n') || Eof)
+		if ((i == N) || (c == '\n') || (*Eof))
 		{
 			int j = 0;
 			A = (char*)realloc(A, (strlen(A) + 1 + i) * sizeof(char));
@@ -47,6 +46,7 @@ int INCLUDE(char *progname)
 	FILE *prog;
 	char *A;
 	int Ind;
+	int *Eof;
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
@@ -56,10 +56,12 @@ int INCLUDE(char *progname)
 	A = (char*)malloc(2 * sizeof(char));
 	A[0] = '\n';
 	A[1] = 0;
-	while(A[strlen(A) - 1] == '\n')
+	Eof = (int*)malloc(sizeof(int));
+	*Eof = 0;
+	while(!(*Eof))
 	{
 		free(A);
-		A = read_str(prog);
+		A = read_str(prog, Eof);
 		if (strstr(A, "#include ") == A)
 		{
 			if (A[strlen(A) - 1] == '\n')
@@ -95,6 +97,7 @@ int INCLUDE(char *progname)
 		break;
 	}
 	free(A);
+	free(Eof);
 	fclose(prog);
 	return 0;
 }
