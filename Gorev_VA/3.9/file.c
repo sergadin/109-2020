@@ -56,9 +56,9 @@ int INCLUDE(char *progname)
 	A = (char*)malloc(2 * sizeof(char));
 	A[0] = '\n';
 	A[1] = 0;
-	printf("%d\n", strlen(A));
 	while(A[strlen(A) - 1] == '\n')
 	{
+		printf("%ld %d\n", strlen(A), strlen(A) - 1);
 		free(A);
 		A = read_str(prog);
 		if (strstr(A, "#include ") == A)
