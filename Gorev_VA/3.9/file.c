@@ -49,20 +49,19 @@ char *read_str(FILE *prog, int *Eof)
 int check(char *filename, struct chain *Prev)
 {
 	struct chain *P = Prev;
-	while(1)
+	while(P != 0)
 	{
 		if (strcmp(filename, P->filename) == 0)
 		{
 			return -2;
 		}
-		if (P->prev == 0)
-			return 0;
 		P = P->prev;
 	}
+	return 0;
 }
 
-int INCLUDE(char *progname);
-int INCLUDE(char *progname)
+int INCLUDE(char *progname, struct chain *Prev);
+int INCLUDE(char *progname, struct chain *Prev)
 {
 	FILE *prog;
 	char *A;
@@ -92,17 +91,23 @@ int INCLUDE(char *progname)
 			}
 			else
 				Ind = 0;
-			if (strcmp(A + strlen("#include "), progname) == 0)
+			//printf("~~%s", A);
+			if (check(A + strlen("#include "), Prev))
 			{
-				printf("INCLUDE(%s): Loop output: \"#include %s\" in the file \"%s\"\n", progname, progname, progname);
+				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
 				fclose(prog);
 				free(A);
 				return -2;
 			}
 			else
 			{
-				if (INCLUDE(A + strlen("#include ")))
+				struct chain *P;
+				P = (struct chain*)malloc(sizeof(struct chain));
+				P->filename = A + strlen("#include ");
+				P->prev = Prev;
+				if (INCLUDE(A + strlen("#include "), P))
 					return -3;
+				free(P);
 				if (Ind)
 				{
 					A[strlen(A) + 1] = 0;
@@ -123,7 +128,12 @@ int INCLUDE(char *progname)
 int main(void)
 {
 	char *progname = "programm.txt";
-	if (INCLUDE(progname))
+	struct chain *Prev;
+	Prev = (struct chain*)malloc(sizeof(struct chain));
+	Prev->filename = progname;
+	Prev->prev = 0;
+	if (INCLUDE(progname, Prev))
 		printf("ERROR\n");
+	free(Prev);
 	return 0;
 }
