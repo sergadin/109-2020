@@ -107,6 +107,7 @@ int INCLUDE(char *progname, struct chain *Prev)
 				P->prev = Prev;
 				if (INCLUDE(A + strlen("#include "), P))
 				{
+					free(A);
 					free(P);
 					return -3;
 				}
