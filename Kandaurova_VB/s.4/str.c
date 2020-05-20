@@ -10,10 +10,9 @@ void findstr(FILE *input, FILE *output, char *w)  {
 	char *s, *now, *str;
 	wlen = strlen(w);
 	while ((s = readstring(input)) != NULL) {
-		int nowlen, slen = strlen(s);
+		int nowlen = strlen(s);
 		N++;
 		now = s;    
-        nowlen = slen;
 		while (nowlen > 0) {
             for (i = 0; i <= nowlen - wlen; i++) {
                 id = 1;
