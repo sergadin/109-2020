@@ -11,7 +11,6 @@ struct chain // реализация списка файлов
 	struct chain *prev; // указатель на предыдущий файл в списке
 	                    // если предыдущего нет, то 0
 };
-// первый элемент списка имеет вид List = {"название директории", 0, *}
 
 struct chain *List1;
 struct chain *List2;
@@ -46,29 +45,19 @@ char *file_name(const char *filename)
 }
 
 /*
-** Запись имени файла в последней директории в список файлов
-** filename - полное имя записываемого файла
-** filelist - указатель на начало списка
-** Если в списке filelist нет элемента с именем file_name(filename), происходит запись в конец списка
-** Если в списке filelist есть элемент с именем file_name(filename), не происходит ничего
+** Запись файла в список файлов
+** filename - имя записываемого файла
+** filelist - указатель на какой-то элемент списка
+** filename, filelist и filelist->next должны быть определены
+** создается элемент chain между filelist и filelist->next
 */
-int write_in_filelist(const char *filename, struct chain *filelist);
-int write_in_filelist(const char *filename, struct chain *filelist)
+void write_in_filelist(const char *filename, struct chain *filelist);
+void write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	char *new_filename;
-	new_filename = (char*)malloc((strlen(filename) + 1) * sizeof(char));
-	new_filename = filename;
-	new_file = filelist->next;
-	while(new_file != 0)
-	{
-		if (new_file->name == new_filename)
-		{
-			free(new_filename);
-			return 0;
-		}
-		new_file = new_file->next;
-	}
+	new_filename = file_name(filename);
+	
 	new_file = (struct chain*)malloc(sizeof(struct chain));
 	new_file->name = new_filename;
 	new_file->next = filelist->next;
@@ -95,10 +84,16 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 	{
 		if (strlen(fpath) >= strlen(dir1))
 			if (strncmp(fpath, dir1, strlen(dir1)) == 0)
+			{
 				write_in_filelist(fpath, List1);
+				List1 = List1->next;
+			}
 		if (strlen(fpath) >= strlen(dir2))
 			if (strncmp(fpath, dir2, strlen(dir2)) == 0)
+			{
 				write_in_filelist(fpath, List2);
+				List2 = List2->next;
+			}
 	}
 	return 0;
 }
@@ -125,10 +120,10 @@ int main(void)
 	{
 		printf("%s\n", List1->name);
 		free(List1->name);
-		if (List1->next != 0)
+		if (List1->prev != 0)
 		{
-			List1 = List1->next;
-			free(List1->prev);
+			List1 = List1->prev;
+			free(List1->next);
 		}
 		else
 		{
@@ -142,10 +137,10 @@ int main(void)
 	{
 		printf("%s\n", List2->name);
 		free(List2->name);
-		if (List2->next != 0)
+		if (List2->prev != 0)
 		{
-			List2 = List2->next;
-			free(List2->prev);
+			List2 = List2->prev;
+			free(List2->next);
 		}
 		else
 		{
