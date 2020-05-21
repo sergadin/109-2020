@@ -26,12 +26,12 @@ char *file_name(char *filename)
 	int i = 0;
 	if (strlen(filename) == 0)
 		return 0;
-	if (strlen(filename[0]) == '/')
+	if (filename[0] == '/')
 		return 0;
 	while (i < strlen(filename))
 	{
 		if (filename[i] == '/')
-			return file_name(filename + i + 1)
+			return file_name(filename + i + 1);
 	}
 	if (i == strlen(filename))
 		return filename;
