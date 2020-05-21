@@ -26,6 +26,7 @@ char *file_name(char *filename);
 char *file_name(char *filename)
 {
 	int i = 0;
+	char *new_filename;
 	if (strlen(filename) == 0)
 		return 0;
 	if (filename[0] == '/')
@@ -37,32 +38,47 @@ char *file_name(char *filename)
 		i++;
 	}
 	if (i == strlen(filename))
-		return filename;
+	{
+		new_filename = (char*)malloc((strlen(filename) + 1) * sizeof(char));
+		return strcpy(new_filename, filename);
+	}
 }
 
 /*
 ** Запись файла в список файлов
 ** filename - имя записываемого файла
 ** filelist - указатель на какой-то элемент списка
+** filename, filelist и filelist->next должны быть определены
 ** создается элемент chain между filelist и filelist->next
 */
 void write_in_filelist(const char *filename, struct chain *filelist);
 void write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
+	char *new_filename;
+	new_filename = file_name(filename);
+	
 	new_file = (struct chain*)malloc(sizeof(struct chain));
-	new_file->name = (char*)malloc((strlen(filename) + 1) * sizeof(char));
-	strcpy(new_file->name, filename);
+	new_file->name = new_filename;
 	new_file->next = filelist->next;
 	new_file->prev = filelist;
 	filelist->next = new_file;
 }
 
-/*
-**
-*/
-int create_list(const char *fpath, const struct stat *sb, int flag);
-int create_list(const char *fpath, const struct stat *sb, int flag)
+
+
+int find_file_in_list(char *filename, struct chain *filelist)
+{
+	struct chain *FL;
+	FL = filelist;
+	while(FL != 0)
+	{
+		
+	}
+}
+
+int func_for_ftw(const char *fpath, const struct stat *sb, int flag);
+int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 {
 	if (flag == FTW_F)
 	{
@@ -99,7 +115,7 @@ int main(void)
 	strcpy(List2->name, dir2);
 	List2->next = List2->prev = 0;
 	
-	ftw(dir1, create_list, 20);
+	ftw(dir1, func_for_ftw, 20);
 	while (1)
 	{
 		printf("%s\n", List1->name);
