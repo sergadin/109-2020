@@ -92,6 +92,7 @@ int find_file_in_list(char *short_filename, struct chain *filelist)
 	{
 		if (strcmp(FL->name, short_filename) == 0)
 			return 1;
+		FL = FL->next;
 	}
 	return 0;
 }
