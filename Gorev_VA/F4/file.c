@@ -14,6 +14,8 @@ struct chain // реализация списка файлов
 
 struct chain *List1;
 struct chain *List2;
+struct chain *dir1;
+struct chain *dir2;
 
 /*
 ** Строит по полному адресу файла его название в последней директории:
@@ -64,19 +66,40 @@ int create_list(const char *fpath, const struct stat *sb, int flag)
 {
 	if (flag == FTW_F)
 	{
-		write_in_filelist(fpath, List1);
-		List1 = List1->next;
+		if (strlen(fpath) >= strlen(dir1))
+			if (strncmp(fpath, dir1, strlen(dir1)) == 0)
+			{
+				write_in_filelist(fpath, List1);
+				List1 = List1->next;
+			}
+		if (strlen(fpath) >= strlen(dir2))
+			if (strncmp(fpath, dir2, strlen(dir2)) == 0)
+			{
+				write_in_filelist(fpath, List2);
+				List2 = List2->next;
+			}
 	}
 	return 0;
 }
 
 int main(void)
 {
+	dir1 = (char*)malloc((strlen("dir1") + 1) * sizeof(char));
+	strcpy(dir1, "dir1");
+	dir2 = (char*)malloc((strlen("dir2") + 1) * sizeof(char));
+	strcpy(dir2, "dir2");
+	
 	List1 = (struct chain*)malloc(sizeof(struct chain));
-	List1->name = (char*)malloc((strlen("dir2") + 1) * sizeof(char));
-	strcpy(List1->name, "dir2");
+	List1->name = (char*)malloc((strlen(dir1) + 1) * sizeof(char));
+	strcpy(List1->name, dir1);
 	List1->next = List1->prev = 0;
-	ftw("dir2", create_list, 20);
+	
+	List2 = (struct chain*)malloc(sizeof(struct chain));
+	List2->name = (char*)malloc((strlen(dir2) + 1) * sizeof(char));
+	strcpy(List1->name, dir2);
+	List2->next = List1->prev = 0;
+	
+	ftw(dir2, create_list, 20);
 	while (1)
 	{
 		printf("%s\n", List1->name);
@@ -92,5 +115,7 @@ int main(void)
 			break;
 		}
 	}
+	free(dir1);
+	free(dir2);
 	return 0;
 }
