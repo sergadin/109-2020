@@ -61,7 +61,7 @@ int write_in_filelist(const char *filename, struct chain *filelist)
 	last_file = filelist;
 	while(last_file->next != 0)
 	{
-		if (last_file->next->name == new_filename)
+		if (strcmp(last_file->next->name, new_filename) == 0)
 		{
 			free(new_filename);
 			return 0;
