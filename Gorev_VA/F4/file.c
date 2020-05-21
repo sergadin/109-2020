@@ -83,6 +83,7 @@ int main(void)
 		free(List1->name);
 		if (List1->prev != 0)
 			List1->prev->next = 0;
+		free(List1);
 	}
 	return 0;
 }
