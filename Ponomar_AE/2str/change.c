@@ -5,30 +5,31 @@
 
 void change(const char *s, const char *old, const char *curr)
 {
-	char *result = NULL;
+	char *result = NULL, *temp;
 	int i, calc = 0, currlen = strlen(curr), oldlen = strlen(old);
-	
-		for (i = 0; s[i] != '\0'; i++)
+
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		if (strstr(&s[i], old) == &s[i])
 		{
-			if (strstr(&s[i], old) == &s[i])
-			{
-				i += oldlen - 1;
-				calc++;
-			}
+			i += oldlen - 1;
+			calc++;
 		}
-	
+	}
+
 	result = (char*) malloc(i + 1 + calc*(currlen-oldlen));
 	i = 0;
-
+	temp = strstr(s, old);
+	
 	while (*s)
 	{
-		if (strstr(s, old) == s)
+		if (temp == s)
 		{
 			strcpy(&result[i], curr);
 			s+=oldlen;
 			i+=currlen;
+			temp = strstr(s, old);
 		}
-
 		else
 		{
 			result[i++] = *s;
