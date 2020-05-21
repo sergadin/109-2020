@@ -61,17 +61,21 @@ void write_in_filelist(char *filename, struct chain *filelist)
 int create_list(const char *fpath, const struct stat *sb, int flag);
 int create_list(const char *fpath, const struct stat *sb, int flag)
 {
-	printf("%s\n", fpath);
+	if (flag == FTW_F)
+	{
+		write_in_filelist(fpath, List1);
+		List1 = List1->next;
+	}
 	return 0;
 }
 
 int main(void)
 {
-	//ftw("dir2", create_list, 20);
 	List1 = (struct chain*)malloc(sizeof(struct chain));
-	List1->name = "dir";
+	List1->name = "dir2";
 	List1->next = List1->prev = 0;
-	write_in_filelist("input.txt", List1);
-	printf("%s\n", List1->next->name);
+	ftw("dir2", create_list, 20);
+	for (; List != 0; List1 = List->prev)
+		printf("%s", List1->name);
 	return 0;
 }
