@@ -77,13 +77,20 @@ int main(void)
 	strcpy(List1->name, "dir2");
 	List1->next = List1->prev = 0;
 	ftw("dir2", create_list, 20);
-	for (; List1 != 0; List1 = List1->prev)
+	while (1)
 	{
 		printf("%s\n", List1->name);
 		free(List1->name);
 		if (List1->prev != 0)
-			List1->prev->next = 0;
-		free(List1);
+		{
+			List1 = List1->prev;
+			free(List1->next);
+		}
+		else
+		{
+			free(List1);
+			break;
+		}
 	}
 	return 0;
 }
