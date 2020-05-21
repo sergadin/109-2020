@@ -49,6 +49,7 @@ void write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	new_file = (struct chain*)malloc(sizeof(struct chain));
+	new_file->name = (char*)malloc((strlen(filename) + 1) * sizeof(char));
 	strcpy(new_file->name, filename);
 	new_file->next = filelist->next;
 	new_file->prev = filelist;
