@@ -22,8 +22,8 @@ char *dir2;
 ** dir1/dir2/.../dirn/file -> file
 ** если имя файла или имя какой-то промежуточной директории оказалось пустым, возвращает 0
 */
-char *file_name(char *filename);
-char *file_name(char *filename)
+char *file_name(const char *filename);
+char *file_name(const char *filename)
 {
 	int i = 0;
 	char *new_filename;
@@ -67,7 +67,7 @@ void write_in_filelist(const char *filename, struct chain *filelist)
 
 
 
-int find_file_in_list(char *filename, struct chain *filelist)
+/*int find_file_in_list(char *filename, struct chain *filelist)
 {
 	struct chain *FL;
 	FL = filelist;
@@ -75,7 +75,7 @@ int find_file_in_list(char *filename, struct chain *filelist)
 	{
 		
 	}
-}
+}*/
 
 int func_for_ftw(const char *fpath, const struct stat *sb, int flag);
 int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
@@ -132,7 +132,7 @@ int main(void)
 		}
 	}
 	
-	ftw(dir2, create_list, 20);
+	ftw(dir2, func_for_ftw, 20);
 	while (1)
 	{
 		printf("%s\n", List2->name);
