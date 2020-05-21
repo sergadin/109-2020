@@ -75,7 +75,7 @@ int main(void)
 	List1->name = "dir2";
 	List1->next = List1->prev = 0;
 	ftw("dir2", create_list, 20);
-	for (; List != 0; List1 = List->prev)
+	for (; List1 != 0; List1 = List1->prev)
 		printf("%s", List1->name);
 	return 0;
 }
