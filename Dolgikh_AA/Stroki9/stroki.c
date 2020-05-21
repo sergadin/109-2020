@@ -11,10 +11,11 @@ int main()
 	FILE *include_file; //это наш файл, который мы инклюдим
 	char **output_strings; //это массив строк, которые мы будем выводить
 	int i = 0, j;
-	char shablon[10] = "#include ";
+	const char *shablon = "#include ";
 	char *include_file_name; //это строчка, куда будет записываться имя файла, который нужно заинклюдить
 	int include_found;
 	char *s;
+	printf("length of shablon = %ld\n",strlen(shablon));
 
 	output_strings = malloc(MAX_SIZE * sizeof(char *));
 
@@ -22,16 +23,16 @@ int main()
 	
 	while((s = read_long_string(original_file)) != NULL) //пока читаются строки из файла
 	{
-		include_found = !strncmp(s,shablon,9); //эта переменная показывает, нашли ли мы строку, начинающуюся с #include
+		include_found = !strncmp(s,shablon,strlen(shablon)); //эта переменная показывает, нашли ли мы строку, начинающуюся с #include
 		if(include_found) //если нашли, то...
 		{
 			printf("include found\n");
-			include_file_name = malloc((strlen(s) - 9) * sizeof(char)); //выделяем память под имя инклюдируемого файла
-			for(j = 0; j < strlen(s) - 10; j++)
+			include_file_name = malloc((strlen(s) - strlen(shablon)) * sizeof(char)); //выделяем память под имя инклюдируемого файла
+			for(j = 0; j < strlen(s) - strlen(shablon) - 1; j++)
 			{
-				include_file_name[j] = s[j+9]; //записываем в специальную строку имя файла, который нужно заинклюдить
+				include_file_name[j] = s[j + strlen(shablon)]; //записываем в специальную строку имя файла, который нужно заинклюдить
 			}
-			include_file_name[strlen(s)-10] = 0;
+			include_file_name[strlen(s) - strlen(shablon) - 1] = 0;
 			printf("include file name = %s\n",include_file_name);
 			include_file = fopen(include_file_name,"r"); //открываем инклюдируемый файл
 			free(s);
