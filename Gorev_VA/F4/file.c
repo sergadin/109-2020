@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ftw.h>
 
 struct chain // реализация списка файлов
@@ -13,6 +14,28 @@ struct chain // реализация списка файлов
 
 struct chain List1;
 struct chain List2;
+
+/*
+** Строит по полному адресу файла его название в последней директории:
+** dir1/dir2/.../dirn/file -> file
+** если имя файла или имя какой-то промежуточной директории оказалось пустым, возвращает 0
+*/
+char *file_name(char *filename);
+char *file_name(char *filename)
+{
+	int i = 0;
+	if (strlen(filename) == 0)
+		return 0;
+	if (strlen(filename[0]) == '/')
+		return 0;
+	while (i < strlen(filename))
+	{
+		if (filename[i] == '/')
+			return file_name(filename + i + 1)
+	}
+	if (i == strlen(filename))
+		return filename;
+}
 
 /*
 ** Запись файла в список файлов
@@ -45,6 +68,6 @@ int create_list(const char *fpath, const struct stat *sb, int flag)
 
 int main(void)
 {
-	ftw("dir1", create_list, 20);
+	ftw("dir2", create_list, 20);
 	return 0;
 }
