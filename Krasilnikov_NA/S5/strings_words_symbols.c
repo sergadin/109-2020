@@ -38,7 +38,7 @@ void sws(FILE *fin, FILE *fout)
 				fprintf(fout, "Maximum string's length: %d\n", answer.maxls);
 				fprintf(fout, "Minimum string's length: %d\n", answer.minls);
 				fprintf(fout, "Average string's length: %lf\n", (double)answer.symc/(double)answer.strc);
-				fprintf(fout, "Count of strings:        %d\n", answer.wc);
+				fprintf(fout, "Count of words:        %d\n", answer.wc);
 				fprintf(fout, "Maximum word's length:   %d\n", answer.maxlw);
 				fprintf(fout, "Minimum word's length:   %d\n", answer.minlw);
 				fprintf(fout, "Average word's length:   %lf\n", (double)(answer.symc - answer.symboltable[32].count)/(double)(answer.wc));

@@ -1,1 +1,1 @@
-int back(double **matr, double **newmatr, int n, double eps);
+int obr(double **matr, double **newmatr, double **matrix, int n, double eps);

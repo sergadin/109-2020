@@ -8,7 +8,7 @@ int main(void)
 	FILE *input;
 	size_t size_buffer = 32;
 	char **data = malloc(size_buffer * sizeof(char *)), old[] = "ot", curr[] = "ooooot";
-        int size_array = 0;
+	int size_array = 0;
 
 	if ((input = fopen("input.txt", "r")) == NULL) 
 	{
@@ -16,10 +16,13 @@ int main(void)
 		return -1;
 	}
 	read_file(input, data, &size_array, size_buffer);
-	
-	for (int i = 0; i < size_array; i++)
+
+	if(curr != NULL)
 	{
-		change(data[i], old, curr);
+		for (int i = 0; i < size_array; i++)
+		{
+			change(data[i], old, curr);
+		}
 	}
 	printf("\n");
 

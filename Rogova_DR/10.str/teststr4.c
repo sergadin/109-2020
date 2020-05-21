@@ -1,7 +1,7 @@
 #include "stdio.h"
 #include "math.h"
 #include "stdlib.h"
-#include "findstr.h"
+#include "findstr1.h"
 
 int main(void)
 {
@@ -18,7 +18,7 @@ int main(void)
 	
 		return -1;
 	
-	ch_fl_wth_def(input, output, fdef);
+	mainstrd(input, output, fdef);
 	fclose(input);
 	fclose(output);
 	return 0;

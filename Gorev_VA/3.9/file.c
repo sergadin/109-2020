@@ -2,143 +2,145 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM 3
+#define N 6
 
-// copy contents of the file filename to empty string str
-char *copy(char *filename);
-char *copy(char *filename)
+struct chain
 {
-	FILE *file;
-	char c;
-	char *str;
-	int kNUM2 = NUM;
-	if ((file = fopen(filename, "r")) == NULL)
+	char *filename;
+	struct chain *prev;
+};
+
+char *read_str(FILE *prog, int *Eof);
+char *read_str(FILE *prog, int *Eof)
+{
+	char *A;
+	char c = 0;
+	char buf[N];
+	int i = 0;
+	A = malloc(sizeof(char));
+	A[0] = 0;
+	while((c != '\n') && !(*Eof))
 	{
-		printf("Can't open file' %s\n", filename);
-		return 0;
-	}
-	str = (char*)malloc(kNUM2 * sizeof(char));
-	str[0] = 0;
-	while(fscanf(file, "%c", &c) == 1)
-	{
-		if ((strlen(str) + 2) > kNUM2)
+		if (fscanf(prog, "%c", &c) != 1)
+			*Eof = 1;
+		else
 		{
-			kNUM2 += NUM;
-			str = (char*)realloc(str, kNUM2 * sizeof(char));
+			if (c == '\r')
+				continue;
+			buf[i] = c;
+			i++;
 		}
-		str[strlen(str) + 1] = 0;
-		str[strlen(str)] = c;
+		if ((i == N) || (c == '\n') || (*Eof))
+		{
+			int j = 0;
+			A = (char*)realloc(A, (strlen(A) + 1 + i) * sizeof(char));
+			while(j < i)
+			{
+				A[strlen(A) + 1] = 0;
+				A[strlen(A)] = buf[j];
+				j++;
+			}
+			i = 0;
+		}
 	}
-	fclose(file);
-	return str;
+	return A;
 }
 
-int INCLUDE(char *progname, char *filename);
-int INCLUDE(char *progname, char *filename)
+int check(char *filename, struct chain *Prev)
+{
+	struct chain *P = Prev;
+	while(P != 0)
+	{
+		if (strcmp(filename, P->filename) == 0)
+		{
+			return -2;
+		}
+		P = P->prev;
+	}
+	return 0;
+}
+
+int INCLUDE(char *progname, struct chain *Prev);
+int INCLUDE(char *progname, struct chain *Prev)
 {
 	FILE *prog;
-	FILE *file;
-	char **A;
-	char c;
-	int N = 0, i = 0;
-	char *incl = 0;
-	int kNUM1, kNUM2;
-
-	//open file progname
+	char *A;
+	int Ind;
+	int *Eof;
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
-		printf("Can't open file' %s\n", progname);
+		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
-
-	// create string "#include filename"
-	incl = (char*)malloc((strlen("#include ") + strlen(filename) + 1) * sizeof(char));
-	strcpy(incl, "#include ");
-	strcpy(incl + strlen("#include "), filename);
-
-	// create array of strings
-	// A[i] - string in prog or contents of the file filename
-	kNUM1 = kNUM2 = NUM;
-	A = (char**)malloc(kNUM1 * sizeof(char*));
-	A[0] = (char*)malloc(kNUM2 * sizeof(char));
-	A[0][0] = 0;
-	N = 0;
-	while (fscanf(prog, "%c", &c) == 1)
+	
+	A = (char*)malloc(2 * sizeof(char));
+	A[0] = '\n';
+	A[1] = 0;
+	Eof = (int*)malloc(sizeof(int));
+	*Eof = 0;
+	while(!(*Eof))
 	{
-		// put char in string
-		if ((strlen(A[N]) + 2) > kNUM2)
+		free(A);
+		A = read_str(prog, Eof);
+		if (strstr(A, "#include ") == A)
 		{
-			kNUM2 += NUM;
-			A[N] = (char*)realloc(A[N], kNUM2 * sizeof(char));
-		}
-		A[N][strlen(A[N]) + 1] = 0;
-		A[N][strlen(A[N])] = c;
-
-		// if c == '\n' we must check equal to "#include filename" and create new string
-		if (c == '\n')
-		{
-			// check equal to "#include filename"
-			if (A[N] == strstr(A[N], incl))
+			if (A[strlen(A) - 1] == '\n')
 			{
-				free(A[N]);
-				A[N] = copy(filename);
-				if (((strlen(A[N]) + 1) % NUM) == 0)
+				A[strlen(A) - 1] = 0;
+				Ind = 1;
+			}
+			else
+				Ind = 0;
+			//printf("~~%s", A);
+			if (check(A + strlen("#include "), Prev))
+			{
+				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
+				fclose(prog);
+				free(A);
+				free(Eof);
+				return -2;
+			}
+			else
+			{
+				struct chain *P;
+				P = (struct chain*)malloc(sizeof(struct chain));
+				P->filename = A + strlen("#include ");
+				P->prev = Prev;
+				if (INCLUDE(A + strlen("#include "), P))
 				{
-					A[N] = (char*)realloc(A[N], (strlen(A[N]) + 2) * sizeof(char));
+					free(A);
+					free(P);
+					free(Eof);
+					fclose(prog);
+					return -3;
 				}
-				A[N][strlen(A[N]) + 1] = 0;
-				A[N][strlen(A[N])] = '\n';
+				free(P);
+				if (Ind)
+				{
+					A[strlen(A) + 1] = 0;
+					A[strlen(A)] = '\n';
+					printf("\n");
+				}
 			}
-
-			//create new string
-			if ((N + 2) > kNUM1)
-			{
-				kNUM1 += NUM;
-				A = (char**)realloc(A, kNUM1 * sizeof(char*));
-			}
-			N++;
-			kNUM2 = NUM;
-			A[N] = (char*)malloc(kNUM2 * sizeof(char));
-			A[N][0] = 0;
 		}
-	}
-	
-	// most probably there is not '\n' at the end of the last string
-	if (strlen(A[N]) > 0)
-		if ((A[N][strlen(A[N]) - 1] != '\n') && (A[N] == strstr(A[N], incl)))
-		{
-			free(A[N]);
-			A[N] = copy(filename);
-		}
-
-	//write all
-	//prog = fopen(progname, "w");
-	i = 0;
-	while (i <= N)
-	{
-		printf("%s", A[i]);
-		i++;
-	}
-	
-	i = 0;
-	while (i <= N)
-	{
-		free(A[i]);
-		i++;
+		else
+			printf("%s", A);
 	}
 	free(A);
-	free(incl);
+	free(Eof);
 	fclose(prog);
 	return 0;
 }
 
 int main(void)
 {
-	char *filename = "input.txt";
 	char *progname = "programm.txt";
-
-	INCLUDE(progname, filename);
-
+	struct chain *Prev;
+	Prev = (struct chain*)malloc(sizeof(struct chain));
+	Prev->filename = progname;
+	Prev->prev = 0;
+	if (INCLUDE(progname, Prev))
+		printf("ERROR\n");
+	free(Prev);
 	return 0;
 }
-
