@@ -1,7 +1,7 @@
 all: do_include clean
 
 do_include: a.out
-	./a.out
+	valgrind ./a.out
 
 a.out: stroki.o func.o
 	gcc stroki.o func.o

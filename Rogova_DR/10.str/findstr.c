@@ -4,7 +4,7 @@
 int len(char *s);
 char *readstring(FILE *input);
 char *strcpy(char *t, char *s);
-void zamena(char * str, char *s, char *forwhat);
+void zamena(char * str, char *s, char *forwhat, FILE *output);
 int findstr(char * t, char *w);
 int posstr(char * str, char *s);
 void pstr(FILE * output, char * str);
@@ -13,34 +13,35 @@ void str_of_def(char * allstr, char * what, char * forwhat, char * def);
 
 int findstr(char * t, char *w) 
 {
-	int i, j;
-	int result = 0;
-	int p = 0, l = 0;
-        int n1 = 0;	
-	l = len(t);
-	n1 = len(w);
-	for(i = 0; i < l - n1; i++) 
-	{
-		if(t[i] == w[0])
+		int i, j = 0;
+		int p = 0, le = 0;
+       		int n1 = 0;	
+		le = len(t);
+		n1 = len(w);
+		if(le < n1)
+			return 0;
+		for(i = 0; i < le - n1; i++) 
 		{
-			for(j = 0; j < n1; j++)
+			p = 0;
+			j = 0;
+			while((t[i + j] == w[j]) && (j < n1))
 			{
-				if(t[i + j] == w[j])
-				{
-					p = p + 1;
-				}
+				j++;	
+				p = p + 1;
 			}
+			if(p == n1)
+			{
+				return 1;
+			}
+				
+				
 		}
-		if(p == n1)
-		{
-			result ++;
-		}
-		p = 0;
-	
-	}
-	return result;
+			
 		
+	
+	
 }
+
 int len(char *s) 
 {
 	int n = 0;
@@ -100,30 +101,32 @@ void ch_fl_wth_def(FILE * input, FILE * output, FILE * f_with_def)
 	char * def;
 	char * undef;
 	int l, lw, lf;
-	def = "define#";
-	undef = "undef#";
+	def = readstring(f_with_def);
+	printf("%s", def);
+	undef = readstring(f_with_def);
+	printf("%s", undef);
 	do{
 		strnow = readstring(input);
+		printf("%s", strnow);
 		if((findstr(strnow, def) == 0) && (findstr(strnow, undef) == 0))
 				pstr(output, strnow);
 		if(findstr(strnow, def) != 0)
-		{
+		{       
+			printf("%s", strnow);
 			str_of_def(strnow, what, forwhat, def);
 			free(strnow);
 			strnow = readstring(input);
-			while((findstr(strnow, undef) == 0) && (strnow != NULL))
+			while((strnow != NULL) && (findstr(strnow, undef) == 0))
 			{
-				printf("prev in main");
-				zamena(strnow, what, forwhat);
-				pstr(output, strnow);
+				zamena(strnow, what, forwhat, output);
 				free(strnow);
                        	        strnow = readstring(input);
            		}
-			if(findstr(strnow, undef) != 0)
+			if(strnow)
 			{
 				free(strnow);
 				strnow = readstring(input);
-				while((findstr(strnow, def) == 0) && (strnow != NULL))
+				while(strnow && (findstr(strnow, def) == 0))
 				{
 					printf("last in main");
 					pstr(output, strnow);
@@ -136,38 +139,31 @@ void ch_fl_wth_def(FILE * input, FILE * output, FILE * f_with_def)
 
 	}while(strnow != NULL);
 }
-void zamena(char * str, char *s, char *forwhat)
+void zamena(char * str, char *s, char *forwhat, FILE *output)
 {
-	int i, j;
+	int j = 0;
+	int p = 0;
         int l_1 = len(str);
         int l_2 = len(s);
         int l_3 = len(forwhat);
-        char * newstr;
 	while(findstr(str, s) != 0)
 	{
-		printf("za");
-		l_1 = len(str);
-		l_2 = len(s) - 1;
-		l_3 = len(forwhat) - 1;
-		newstr = malloc(l_1 + (l_3 - l_2));
-		i = posstr(str, s);
-		for(j = 0; j < i; j ++)
+		p = posstr(str, s);
+		for(j = 0; j < p; j ++)
 		{
-			newstr[j] = str[j];
+			fprintf(output, "%c", str[j]);
 		}
-		for(j = i; j < i + l_3; j++)
+		for(j = 0; j < l_3; j ++)
 		{
-			newstr[j] = forwhat[j - i];
+			fprintf(output, "%c", forwhat[j]);
 		}
-		for(j = i + l_3; j <= len(newstr); j ++)
+		for(j = p + l_2; j < l_1; j ++)
 		{
-			newstr[j] = str[j - l_3 + l_2];
+			fprintf(output, "%c", str[j]);
 		}
-		str = realloc(str, len(newstr));
-		strcpy(str, newstr);
-		free(newstr);	
 
 	}
+	
 	
 }
 int posstr(char * str, char *s)

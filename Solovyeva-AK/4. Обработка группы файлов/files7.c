@@ -33,7 +33,7 @@
 #include <string.h>
 #include <stdint.h>
 
-char *type;
+static const char *type;
 
 /**
 	** "callback function" check - функция, вызымаемая для каждого элемента дерева файлов.
@@ -46,15 +46,27 @@ char *type;
 	** Для обычного файла, при условии соответствия его типа заданному, на стандартный поток вывода печатается путь до этого файла.
 	**
 	** Метод:
-	**     для проверки на соответствие типов используется функция strstr из библиотеки <string.h>. 
+	**     Сначала функция пропускает все точки в названиях директорий, кроме последней в имени файла с помощью функции strchr из библиотеки <string.h>
+	**     Затем для проверки на соответствие типов используется функция strstr из библиотеки <string.h>.
 */
 
 
 static int check(const char *fpath, const struct stat *sb, int tflag) {
     if (tflag == FTW_F) {
-        if(strstr(fpath, type)) {
-            printf("%s\n", fpath);
-        }
+        char *tmp, *last_point;
+        if (tmp = strchr(fpath, '.')){
+            last_point = tmp;
+            tmp++;
+            while (tmp = strchr(tmp, '.')) {
+                last_point = tmp;
+                tmp++;
+            }
+            if(tmp = strstr(last_point, type)) {
+                if (strlen(tmp) == strlen(type)) {
+                    printf("%s\n", fpath);
+                }
+            }
+        } 
     }
     return 0;         
 }
