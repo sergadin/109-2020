@@ -61,13 +61,11 @@ void write_in_filelist(const char *filename, struct chain *filelist)
 int create_list(const char *fpath, const struct stat *sb, int flag);
 int create_list(const char *fpath, const struct stat *sb, int flag)
 {
-	char *A;
-	A = fpath;
-	printf("~~%s~~\n", A);
 	if (flag == FTW_F)
 	{
 		write_in_filelist(fpath, List1);
 		List1 = List1->next;
+		printf("~~%s~~\n", List1->name);
 	}
 	return 0;
 }
