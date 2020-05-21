@@ -133,7 +133,9 @@ int main(void)
 	List2->next = List2->prev = 0;
 	
 	ftw(dir1, func_for_ftw, 20);
-	while (1)
+	ftw(dir2, func_for_ftw, 20);
+	
+	/*while (1)
 	{
 		printf("%s\n", List1->name);
 		free(List1->name);
@@ -148,8 +150,6 @@ int main(void)
 			break;
 		}
 	}
-	
-	ftw(dir2, func_for_ftw, 20);
 	while (1)
 	{
 		printf("%s\n", List2->name);
@@ -164,6 +164,20 @@ int main(void)
 			free(List2);
 			break;
 		}
+	}*/
+	
+	printf("Файлы, присутствующие в %s, но отсутсвующие в %s:\n", dir1, dir2);
+	for (struct chain *FL = List1->next; FL != 0; FL = FL->next)
+	{
+		if (find_file_in_list(FL->name, List2) == 0)
+		    printf("%s\n", FL->name);
+	}
+	
+	printf("Файлы, присутствующие в %s, но отсутсвующие в %s:\n", dir2, dir1);
+	for (struct chain *FL = List2->next; FL != 0; FL = FL->next)
+	{
+		if (find_file_in_list(FL->name, List1) == 0)
+		    printf("%s\n", FL->name);
 	}
 	free(dir1);
 	free(dir2);
