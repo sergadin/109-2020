@@ -77,15 +77,24 @@ int write_in_filelist(const char *filename, struct chain *filelist)
 	return 0;
 }
 
-/*int find_file_in_list(char *filename, struct chain *filelist)
+/*
+** Находит файл filename в списке filelist
+** short_filename - имя искомого файла
+** filelist - указатель на первый элемент списка
+** функция возвращает 1, если файл есть в списке и 0 иначе
+*/
+int find_file_in_list(char *short_filename, struct chain *filelist);
+int find_file_in_list(char *short_filename, struct chain *filelist)
 {
 	struct chain *FL;
 	FL = filelist;
 	while(FL != 0)
 	{
-		
+		if (strcmp(FL->name, short_filename) == 0)
+			return 1;
 	}
-}*/
+	return 0;
+}
 
 int func_for_ftw(const char *fpath, const struct stat *sb, int flag);
 int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
