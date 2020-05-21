@@ -43,21 +43,16 @@ char *file_name(char *filename)
 ** filename - имя записываемого файла
 ** filelist - указатель на какой-то элемент списка
 ** создается элемент chain между filelist и filelist->next
-** возвращается 0, если запись прошла успешно и -1 иначе
 */
-int write_in_filelist(char *filename, struct chain *filelist);
-int write_in_filelist(char *filename, struct chain *filelist)
+void write_in_filelist(char *filename, struct chain *filelist);
+void write_in_filelist(char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	new_file = (struct chain*)malloc(sizeof(struct chain));
 	new_file->name = filename;
-	if ((new_file->next = filelist->next) == NULL)
-		return -1;
-	if ((new_file->prev = filelist) == NULL)
-		return -1;
-	if ((filelist->next = new_file) == NULL)
-		return -1;
-	return 0;
+	new_file->next = filelist->next;
+	new_file->prev = filelist;
+	filelist->next = new_file;
 }
 
 /*
@@ -76,8 +71,7 @@ int main(void)
 	List1 = (struct chain*)malloc(sizeof(struct chain));
 	List1->name = "dir";
 	List1->next = List1->prev = 0;
-	printf("%s\n", List1->next);
 	write_in_filelist("input.txt", List1);
-	printf("%s\n", List1->next);
+	printf("%s\n", List1->next->name);
 	return 0;
 }
