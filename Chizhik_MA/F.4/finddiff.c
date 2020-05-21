@@ -8,15 +8,15 @@
 #define NOPENFD 10
 #define ARR_EXTENSION 10
 
-char **files1 = NULL;
-char **files2 = NULL;
+static char **files1 = NULL;
+static char **files2 = NULL;
 
-int len1 = 0, len2 = 0;
-int actual_len1 = 0, actual_len2 = 0;
+static int len1 = 0, len2 = 0;
+static int actual_len1 = 0, actual_len2 = 0;
 
-char ***curr_catalog;
-int *curr_len;
-int *curr_actual_len;
+static char ***curr_catalog;
+static int *curr_len;
+static int *curr_actual_len;
 
 /*
  * fn - колбэк-функция для ftw
