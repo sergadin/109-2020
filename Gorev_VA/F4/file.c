@@ -47,25 +47,35 @@ char *file_name(const char *filename)
 /*
 ** Запись файла в список файлов
 ** filename - имя записываемого файла
-** filelist - указатель на какой-то элемент списка
-** filename, filelist и filelist->next должны быть определены
-** создается элемент chain между filelist и filelist->next
+** filelist - указатель на первый элемент списка
+** Если в списке filelist нет элемента с именем file_name(filename), то такой элемент добавляется в конец списка
+** Если в списке filelist есть элемент с именем file_name(filename), то не происходит ничего
 */
 void write_in_filelist(const char *filename, struct chain *filelist);
 void write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	char *new_filename;
+	char *last_file;
 	new_filename = file_name(filename);
+	last_file = filelist;
+	while(last_file->next != 0)
+	{
+		if (last_file->next->name == new_filename)
+		{
+			free(new_filename);
+			return 0;
+		}
+		last_file = last_file->next;
+	}
 	
 	new_file = (struct chain*)malloc(sizeof(struct chain));
 	new_file->name = new_filename;
-	new_file->next = filelist->next;
-	new_file->prev = filelist;
-	filelist->next = new_file;
+	new_file->next = 0;
+	new_file->prev = last_file;
+	last_file->next = new_file;
+	return 0;
 }
-
-
 
 /*int find_file_in_list(char *filename, struct chain *filelist)
 {
@@ -86,13 +96,11 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 			if (strncmp(fpath, dir1, strlen(dir1)) == 0)
 			{
 				write_in_filelist(fpath, List1);
-				List1 = List1->next;
 			}
 		if (strlen(fpath) >= strlen(dir2))
 			if (strncmp(fpath, dir2, strlen(dir2)) == 0)
 			{
 				write_in_filelist(fpath, List2);
-				List2 = List2->next;
 			}
 	}
 	return 0;
@@ -120,10 +128,10 @@ int main(void)
 	{
 		printf("%s\n", List1->name);
 		free(List1->name);
-		if (List1->prev != 0)
+		if (List1->next != 0)
 		{
-			List1 = List1->prev;
-			free(List1->next);
+			List1 = List1->next;
+			free(List1->prev);
 		}
 		else
 		{
@@ -137,10 +145,10 @@ int main(void)
 	{
 		printf("%s\n", List2->name);
 		free(List2->name);
-		if (List2->prev != 0)
+		if (List2->next != 0)
 		{
-			List2 = List2->prev;
-			free(List2->next);
+			List2 = List2->next;
+			free(List2->prev);
 		}
 		else
 		{
