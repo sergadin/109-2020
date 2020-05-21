@@ -180,6 +180,35 @@ int main(void)
 		if (find_file_in_list(FL->name, List1) == 0)
 		    printf("%s\n", FL->name);
 	}
+	
+	while (1)
+	{
+		free(List1->name);
+		if (List1->next != 0)
+		{
+			List1 = List1->next;
+			free(List1->prev);
+		}
+		else
+		{
+			free(List1);
+			break;
+		}
+	}
+	while (1)
+	{
+		free(List2->name);
+		if (List2->next != 0)
+		{
+			List2 = List2->next;
+			free(List2->prev);
+		}
+		else
+		{
+			free(List2);
+			break;
+		}
+	}
 	free(dir1);
 	free(dir2);
 	return 0;
