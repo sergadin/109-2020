@@ -79,16 +79,6 @@ int main(void)
 	for (; List1 != 0; List1 = List1->prev)
 	{
 		printf("%s\n", List1->name);
-		if (List1->prev != 0)
-		{
-			free(List1->prev->name);
-			free(List1->prev);
-		}
-	}
-	if (List1->prev != 0)
-	{
-		free(List1->prev->name);
-		free(List1->prev);
 	}
 	return 0;
 }
