@@ -44,8 +44,8 @@ char *file_name(char *filename)
 ** filelist - указатель на какой-то элемент списка
 ** создается элемент chain между filelist и filelist->next
 */
-void write_in_filelist(char *filename, struct chain *filelist);
-void write_in_filelist(char *filename, struct chain *filelist)
+void write_in_filelist(const char *filename, struct chain *filelist);
+void write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	new_file = (struct chain*)malloc(sizeof(struct chain));
