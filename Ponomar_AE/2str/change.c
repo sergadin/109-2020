@@ -52,4 +52,3 @@ void read_file(FILE *file, char **data, int *size_array, size_t size_buffer)
 	}
 	*size_array = i;
 }
-
