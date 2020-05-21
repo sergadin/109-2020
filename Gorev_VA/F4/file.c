@@ -80,7 +80,8 @@ int main(void)
 	{
 		printf("%s\n", List1->name);
 		free(List1->name);
-		List1->prev->next = 0;
+		if (List->prev != 0)
+			List1->prev->next = 0;
 	}
 	return 0;
 }
