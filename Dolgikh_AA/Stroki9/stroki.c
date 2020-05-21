@@ -7,74 +7,69 @@
 
 int main() 
 {
-	FILE *original_file;
-	FILE *include_file;
-	char **strings_of_original_file;
-	char **strings_of_include_file;
-	int j, i = 0, k;
-	char shablon[8] = "#include";
-	char *include_file_name;
+	FILE *original_file; //это наш главный файл
+	FILE *include_file; //это наш файл, который мы инклюдим
+	char **strings_of_original_file; //это массив строк главного файла
+	char **output_strings; //это массив строк, которые мы будем выводить
+	int i = 0, j;
+	char shablon[8] = "#include"; 
+	char *include_file_name; //это строчка, куда будет записываться имя файла, который нужно заинклюдить
 	int include_not_found;
 	char *s;
 
 	strings_of_original_file = malloc(MAX_SIZE * sizeof(char *));
-	strings_of_include_file = malloc(MAX_SIZE * sizeof(char *));
-	for(k = 0; k < MAX_SIZE; k++)
-	{
-		strings_of_original_file[k] = malloc(MAX_SIZE * sizeof(char));
-		strings_of_include_file[k] = malloc(MAX_SIZE * sizeof(char));
-	}
+	output_strings = malloc(MAX_SIZE * sizeof(char *));
 
-	original_file  = fopen("input.txt","r");
-	while((s = read_long_string(original_file)) != NULL)
+	original_file  = fopen("input.txt","r"); //открываем главный файл
+	while((s = read_long_string(original_file)) != NULL) //пока читаются строки из файла
 	{
-		for(k = 0; k < strlen(s); k++)
-			strings_of_original_file[i][k] = s[k];
+		strings_of_original_file[i] = malloc((strlen(s)+1) * sizeof(char));
+		strings_of_original_file[i] = strcpy(strings_of_original_file[i],s); //считавшуюся строку записываем в массив
 		free(s);
-		
+
 		include_not_found = strncmp(strings_of_original_file[i],shablon,8); //эта переменная показывает, нашли ли мы строку, начинающуюся с #include
 		if(!include_not_found) //если нашли, то...
 		{
-			include_file_name = malloc(MAX_SIZE * sizeof(char));
+			include_file_name = malloc((strlen(strings_of_original_file[i]) - 9) * sizeof(char)); //выделяем память под имя инклюдируемого файла
 			for(j = 0; j < strlen(strings_of_original_file[i]) - 10; j++)
 			{
-				include_file_name[j] = strings_of_original_file[i][j+9]; //записываем в специальную строку имя файла, которую нужно заинклюдить
+				include_file_name[j] = strings_of_original_file[i][j+9]; //записываем в специальную строку имя файла, который нужно заинклюдить
 			}
-			include_file = fopen(include_file_name,"r");
-			j = 0;
-			while((s = read_long_string(include_file)) != NULL)
+			include_file_name[strlen(strings_of_original_file[i])-10] = 0;
+			include_file = fopen(include_file_name,"r"); //открываем инклюдируемый файл
+			free(strings_of_original_file[i]); //освобождаем строчку главного файла 
+			free(include_file_name); //освобождаем место под имя файла
+			while((s = read_long_string(include_file)) != NULL) //пока читаются строки из инклюдируемого файла
 			{
-				for(k = 0; k < strlen(s); k++)
-					strings_of_include_file[j][k] = s[k];
+				output_strings[i] = malloc((strlen(s)+1) * sizeof(char)); 
+				output_strings[i] = strcpy(output_strings[i], s); //записываем их в массив
 				free(s);
-
-				strings_of_original_file[i] = strings_of_include_file[j]; //записываем строки включаемого файла в исходный файл
-				i++;
-				j++;
+				i++; //увеличиваем счётчик строк
 			}
-			fclose(include_file);
-			free(include_file_name);
+			fclose(include_file); //закрываем инклюдируемый файл
 		}
 		else
 		{
-			i++;
+			output_strings[i] = malloc((strlen(strings_of_original_file[i])+1) * sizeof(char));
+			output_strings[i] = strcpy(output_strings[i], strings_of_original_file[i]); //строку из массива строк главного файла записываем в массив выводимых строк
+			free(strings_of_original_file[i]); //освобождаем строчку главного файла
+			i++; //увеличиваем счётчик строк
 		}
 	}
-	fclose(original_file);
+	fclose(original_file); //закрываем главный файл
 
-	original_file = fopen("input.txt","w");
+	original_file = fopen("input.txt","w"); //снова открываем, теперь уже для записи в него
 	for(j = 0; j < i; j++) //перезаписываем исходный файл
 	{
-		fprintf(original_file,"%s",strings_of_original_file[j]);
+		fprintf(original_file,"%s",output_strings[j]);
 	}
 	fclose(original_file);
 
-	for(i = 0; i < MAX_SIZE; i++)
+	for(j = 0; j < i; j++)
 	{
-		free(strings_of_original_file[i]);
-		free(strings_of_include_file[i]);
+		free(output_strings[j]);
 	}
 	free(strings_of_original_file);
-	free(strings_of_include_file);
+	free(output_strings); //всех освобождаем
 	return 0;
 }
