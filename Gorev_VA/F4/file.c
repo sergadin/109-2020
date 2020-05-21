@@ -79,16 +79,16 @@ int main(void)
 	for (; List1 != 0; List1 = List1->prev)
 	{
 		printf("%s\n", List1->name);
-		if (List->prev != 0)
+		if (List1->prev != 0)
 		{
-			free(List->prev->name);
-			free(List->prev);
+			free(List1->prev->name);
+			free(List1->prev);
 		}
 	}
-	if (List->prev != 0)
+	if (List1->prev != 0)
 	{
-		free(List->prev->name);
-		free(List->prev);
+		free(List1->prev->name);
+		free(List1->prev);
 	}
 	return 0;
 }
