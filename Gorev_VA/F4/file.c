@@ -66,7 +66,6 @@ int create_list(const char *fpath, const struct stat *sb, int flag)
 	{
 		write_in_filelist(fpath, List1);
 		List1 = List1->next;
-		printf("~~%s~~\n", List1->name);
 	}
 	return 0;
 }
@@ -78,6 +77,18 @@ int main(void)
 	List1->next = List1->prev = 0;
 	ftw("dir2", create_list, 20);
 	for (; List1 != 0; List1 = List1->prev)
+	{
 		printf("%s\n", List1->name);
+		if (List->prev != 0)
+		{
+			free(List->prev->name);
+			free(List->prev);
+		}
+	}
+	if (List->prev != 0)
+	{
+		free(List->prev->name);
+		free(List->prev);
+	}
 	return 0;
 }
