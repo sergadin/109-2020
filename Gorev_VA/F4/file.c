@@ -73,7 +73,8 @@ int create_list(const char *fpath, const struct stat *sb, int flag)
 int main(void)
 {
 	List1 = (struct chain*)malloc(sizeof(struct chain));
-	List1->name = "dir2";
+	List1->name = (char*)malloc((strlen("dir2") + 1) * sizeof(char));
+	strcpy(List1->name, "dir2");
 	List1->next = List1->prev = 0;
 	ftw("dir2", create_list, 20);
 	for (; List1 != 0; List1 = List1->prev)
