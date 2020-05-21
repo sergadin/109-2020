@@ -96,10 +96,10 @@ int main(void)
 	
 	List2 = (struct chain*)malloc(sizeof(struct chain));
 	List2->name = (char*)malloc((strlen(dir2) + 1) * sizeof(char));
-	strcpy(List1->name, dir2);
-	List2->next = List1->prev = 0;
+	strcpy(List2->name, dir2);
+	List2->next = List2->prev = 0;
 	
-	ftw(dir2, create_list, 20);
+	ftw(dir1, create_list, 20);
 	while (1)
 	{
 		printf("%s\n", List1->name);
@@ -112,6 +112,23 @@ int main(void)
 		else
 		{
 			free(List1);
+			break;
+		}
+	}
+	
+	ftw(dir2, create_list, 20);
+	while (1)
+	{
+		printf("%s\n", List2->name);
+		free(List2->name);
+		if (List2->prev != 0)
+		{
+			List2 = List2->prev;
+			free(List2->next);
+		}
+		else
+		{
+			free(List2);
 			break;
 		}
 	}
