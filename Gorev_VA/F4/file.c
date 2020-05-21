@@ -12,8 +12,8 @@ struct chain // реализация списка файлов
 	                    // если предыдущего нет, то 0
 };
 
-struct chain List1;
-struct chain List2;
+struct chain *List1;
+struct chain *List2;
 
 /*
 ** Строит по полному адресу файла его название в последней директории:
@@ -32,6 +32,7 @@ char *file_name(char *filename)
 	{
 		if (filename[i] == '/')
 			return file_name(filename + i + 1);
+		i++;
 	}
 	if (i == strlen(filename))
 		return filename;
@@ -47,11 +48,14 @@ char *file_name(char *filename)
 int write_in_filelist(char *filename, struct chain *filelist);
 int write_in_filelist(char *filename, struct chain *filelist)
 {
-	struct chain *new_file = malloc(sizeof(struct chain));
+	struct chain *new_file;
+	new_file = (struct chain*)malloc(sizeof(struct chain));
 	new_file->name = filename;
 	if ((new_file->next = filelist->next) == NULL)
 		return -1;
 	if ((new_file->prev = filelist) == NULL)
+		return -1;
+	if ((filelist->next = new_file) == NULL)
 		return -1;
 	return 0;
 }
@@ -68,6 +72,12 @@ int create_list(const char *fpath, const struct stat *sb, int flag)
 
 int main(void)
 {
-	ftw("dir2", create_list, 20);
+	//ftw("dir2", create_list, 20);
+	List1 = (struct chain*)malloc(sizeof(struct chain));
+	List1->name = "dir";
+	List1->next = List->prev = 0;
+	printf("%s\n", List1->next);
+	while_in_filelist("input.txt", List1);
+	printf("%s\n", List1->next);
 	return 0;
 }
