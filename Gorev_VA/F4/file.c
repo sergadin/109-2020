@@ -56,7 +56,7 @@ void write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	char *new_filename;
-	char *last_file;
+	struct chain *last_file;
 	new_filename = file_name(filename);
 	last_file = filelist;
 	while(last_file->next != 0)
