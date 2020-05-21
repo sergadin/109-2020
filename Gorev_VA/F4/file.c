@@ -75,9 +75,9 @@ int main(void)
 	//ftw("dir2", create_list, 20);
 	List1 = (struct chain*)malloc(sizeof(struct chain));
 	List1->name = "dir";
-	List1->next = List->prev = 0;
+	List1->next = List1->prev = 0;
 	printf("%s\n", List1->next);
-	while_in_filelist("input.txt", List1);
+	write_in_filelist("input.txt", List1);
 	printf("%s\n", List1->next);
 	return 0;
 }
