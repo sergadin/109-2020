@@ -51,8 +51,8 @@ char *file_name(const char *filename)
 ** Если в списке filelist нет элемента с именем file_name(filename), то такой элемент добавляется в конец списка
 ** Если в списке filelist есть элемент с именем file_name(filename), то не происходит ничего
 */
-void write_in_filelist(const char *filename, struct chain *filelist);
-void write_in_filelist(const char *filename, struct chain *filelist)
+int write_in_filelist(const char *filename, struct chain *filelist);
+int write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
 	char *new_filename;
