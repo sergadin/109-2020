@@ -10,6 +10,29 @@ struct chain
 	struct chain *prev;
 };
 
+char *file_name(char *filename);
+char *file_name(char *filename)
+{
+	char *new_name;
+	if (strlen(filename) < strlen("#include "))
+		return 0;
+	if (strncmp(filename, "#include ", strlen("#include ")) != 0)
+		return 0;
+	
+	if (filename[strlen(filename) - 1] == '\n')
+	{
+		new_name = (char*)malloc((strlen(filename) - strlen("#include ")) * sizeof(char));
+		strncpy(new_name, filename + strlen("#include "), strlen(filename) - strlen("#include ") - 1);
+		new_name[strlen(filename) - strlen("#include ") - 1] = 0;
+	}
+	else
+	{
+		new_name = (char*)malloc((strlen(filename) + 1 - strlen("#include ")) * sizeof(char));
+		strcpy(new_name, filename + strlen("#include "));
+	}
+	return new_name;
+}
+
 char *read_str(FILE *prog, int *Eof);
 char *read_str(FILE *prog, int *Eof)
 {
@@ -46,6 +69,7 @@ char *read_str(FILE *prog, int *Eof)
 	return A;
 }
 
+int check(char *filename, struct chain *Prev);
 int check(char *filename, struct chain *Prev)
 {
 	struct chain *P = Prev;
