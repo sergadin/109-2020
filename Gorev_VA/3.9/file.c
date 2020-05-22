@@ -1,158 +1,215 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ftw.h>
 
-#define N 6
-
-struct chain
+struct chain // реализация списка файлов
 {
-	char *filename;
-	struct chain *prev;
+	char *name;         // имя файла 
+	struct chain *next; // указатель на следующий файл в списке
+	                    // если следующего нет, то 0
+	struct chain *prev; // указатель на предыдущий файл в списке
+	                    // если предыдущего нет, то 0
 };
 
-char *file_name(char *filename);
-char *file_name(char *filename)
-{
-	char *new_name;
-	if (strlen(filename) < strlen("#include "))
-		return 0;
-	if (strncmp(filename, "#include ", strlen("#include ")) != 0)
-		return 0;
-	
-	if (filename[strlen(filename) - 1] == '\n')
-	{
-		new_name = (char*)malloc((strlen(filename) - strlen("#include ")) * sizeof(char));
-		strncpy(new_name, filename + strlen("#include "), strlen(filename) - strlen("#include ") - 1);
-		new_name[strlen(filename) - strlen("#include ") - 1] = 0;
-	}
-	else
-	{
-		new_name = (char*)malloc((strlen(filename) + 1 - strlen("#include ")) * sizeof(char));
-		strcpy(new_name, filename + strlen("#include "));
-	}
-	return new_name;
-}
+struct chain *List1;
+struct chain *List2;
+char *dir1;
+char *dir2;
 
-char *read_str(FILE *prog, int *Eof);
-char *read_str(FILE *prog, int *Eof)
+/*
+** Строит по полному адресу файла его название в последней директории:
+** dir1/dir2/.../dirn/file -> file
+** если имя файла или имя какой-то промежуточной директории оказалось пустым, возвращает 0
+*/
+char *file_name(const char *filename);
+char *file_name(const char *filename)
 {
-	char *A;
-	char c = 0;
-	char buf[N];
 	int i = 0;
-	A = malloc(sizeof(char));
-	A[0] = 0;
-	while((c != '\n') && !(*Eof))
+	char *new_filename;
+	if (strlen(filename) == 0)
+		return 0;
+	if (filename[0] == '/')
+		return 0;
+	while (i < strlen(filename))
 	{
-		if (fscanf(prog, "%c", &c) != 1)
-			*Eof = 1;
-		else
-		{
-			if (c == '\r')
-				continue;
-			buf[i] = c;
-			i++;
-		}
-		if ((i == N) || (c == '\n') || (*Eof))
-		{
-			int j = 0;
-			A = (char*)realloc(A, (strlen(A) + 1 + i) * sizeof(char));
-			while(j < i)
-			{
-				A[strlen(A) + 1] = 0;
-				A[strlen(A)] = buf[j];
-				j++;
-			}
-			i = 0;
-		}
+		if (filename[i] == '/')
+			return file_name(filename + i + 1);
+		i++;
 	}
-	return A;
+	if (i == strlen(filename))
+	{
+		new_filename = (char*)malloc((strlen(filename) + 1) * sizeof(char));
+		return strcpy(new_filename, filename);
+	}
 }
 
-int check(char *filename, struct chain *Prev);
-int check(char *filename, struct chain *Prev)
+/*
+** Запись файла в список файлов
+** filename - имя записываемого файла
+** filelist - указатель на первый элемент списка
+** Если в списке filelist нет элемента с именем file_name(filename), то такой элемент добавляется в конец списка
+** Если в списке filelist есть элемент с именем file_name(filename), то не происходит ничего
+*/
+int write_in_filelist(const char *filename, struct chain *filelist);
+int write_in_filelist(const char *filename, struct chain *filelist)
 {
-	struct chain *P = Prev;
-	while(P != 0)
+	struct chain *new_file;
+	char *new_filename;
+	struct chain *last_file;
+	new_filename = file_name(filename);
+	last_file = filelist;
+	while(last_file->next != 0)
 	{
-		if (strcmp(filename, P->filename) == 0)
+		if (strcmp(last_file->next->name, new_filename) == 0)
 		{
-			return -2;
+			free(new_filename);
+			return 0;
 		}
-		P = P->prev;
+		last_file = last_file->next;
+	}
+	
+	new_file = (struct chain*)malloc(sizeof(struct chain));
+	new_file->name = new_filename;
+	new_file->next = 0;
+	new_file->prev = last_file;
+	last_file->next = new_file;
+	return 0;
+}
+
+/*
+** Находит файл filename в списке filelist
+** short_filename - имя искомого файла
+** filelist - указатель на первый элемент списка
+** функция возвращает 1, если файл есть в списке и 0 иначе
+*/
+int find_file_in_list(char *short_filename, struct chain *filelist);
+int find_file_in_list(char *short_filename, struct chain *filelist)
+{
+	struct chain *FL;
+	FL = filelist;
+	while(FL != 0)
+	{
+		if (strcmp(FL->name, short_filename) == 0)
+			return 1;
+		FL = FL->next;
 	}
 	return 0;
 }
 
-int INCLUDE(char *progname, struct chain *Prev);
-int INCLUDE(char *progname, struct chain *Prev)
+int func_for_ftw(const char *fpath, const struct stat *sb, int flag);
+int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 {
-	FILE *prog;
-	char *A;
-	char *filename;
-	int Eof;
-	if ((prog = fopen(progname, "r")) == NULL)
+	if (flag == FTW_F)
 	{
-		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
-		return -1;
-	}
-	
-	A = (char*)malloc(2 * sizeof(char));
-	A[0] = '\n';
-	A[1] = 0;
-	Eof = 0;
-	while(!Eof)
-	{
-		free(A);
-		A = read_str(prog, &Eof);
-		filename = file_name(A);
-		if (filename != 0)
-		{
-			if (check(filename, Prev))
+		if (strlen(fpath) >= strlen(dir1))
+			if (strncmp(fpath, dir1, strlen(dir1)) == 0)
 			{
-				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
-				fclose(prog);
-				free(A);
-				free(filename);
-				return -2;
+				write_in_filelist(fpath, List1);
 			}
-			else
+		if (strlen(fpath) >= strlen(dir2))
+			if (strncmp(fpath, dir2, strlen(dir2)) == 0)
 			{
-				struct chain *P;
-				P = (struct chain*)malloc(sizeof(struct chain));
-				P->filename = filename;
-				P->prev = Prev;
-				if (INCLUDE(filename, P))
-				{
-					free(A);
-					free(filename);
-					free(P);
-					fclose(prog);
-					return -3;
-				}
-				free(P);
-				if (A[strlen(A) - 1] == '\n')
-					printf("\n");
+				write_in_filelist(fpath, List2);
 			}
-		}
-		else
-			printf("%s", A);
-		if (filename != 0)
-			free(filename);
 	}
-	free(A);
-	fclose(prog);
 	return 0;
 }
 
 int main(void)
 {
-	char *progname = "programm.txt";
-	struct chain *Prev;
-	Prev = (struct chain*)malloc(sizeof(struct chain));
-	Prev->filename = progname;
-	Prev->prev = 0;
-	if (INCLUDE(progname, Prev))
-		printf("ERROR\n");
-	free(Prev);
+	dir1 = (char*)malloc((strlen("dir1") + 1) * sizeof(char));
+	strcpy(dir1, "dir1");
+	dir2 = (char*)malloc((strlen("dir2") + 1) * sizeof(char));
+	strcpy(dir2, "dir2");
+	
+	List1 = (struct chain*)malloc(sizeof(struct chain));
+	List1->name = (char*)malloc((strlen(dir1) + 1) * sizeof(char));
+	strcpy(List1->name, dir1);
+	List1->next = List1->prev = 0;
+	
+	List2 = (struct chain*)malloc(sizeof(struct chain));
+	List2->name = (char*)malloc((strlen(dir2) + 1) * sizeof(char));
+	strcpy(List2->name, dir2);
+	List2->next = List2->prev = 0;
+	
+	ftw(dir1, func_for_ftw, 20);
+	ftw(dir2, func_for_ftw, 20);
+	
+	/*while (1)
+	{
+		printf("%s\n", List1->name);
+		free(List1->name);
+		if (List1->next != 0)
+		{
+			List1 = List1->next;
+			free(List1->prev);
+		}
+		else
+		{
+			free(List1);
+			break;
+		}
+	}
+	while (1)
+	{
+		printf("%s\n", List2->name);
+		free(List2->name);
+		if (List2->next != 0)
+		{
+			List2 = List2->next;
+			free(List2->prev);
+		}
+		else
+		{
+			free(List2);
+			break;
+		}
+	}*/
+	
+	printf("Файлы, присутствующие в %s, но отсутсвующие в %s:\n", dir1, dir2);
+	for (struct chain *FL = List1->next; FL != 0; FL = FL->next)
+	{
+		if (find_file_in_list(FL->name, List2) == 0)
+		    printf("%s\n", FL->name);
+	}
+	
+	printf("Файлы, присутствующие в %s, но отсутсвующие в %s:\n", dir2, dir1);
+	for (struct chain *FL = List2->next; FL != 0; FL = FL->next)
+	{
+		if (find_file_in_list(FL->name, List1) == 0)
+		    printf("%s\n", FL->name);
+	}
+	
+	while (1)
+	{
+		free(List1->name);
+		if (List1->next != 0)
+		{
+			List1 = List1->next;
+			free(List1->prev);
+		}
+		else
+		{
+			free(List1);
+			break;
+		}
+	}
+	while (1)
+	{
+		free(List2->name);
+		if (List2->next != 0)
+		{
+			List2 = List2->next;
+			free(List2->prev);
+		}
+		else
+		{
+			free(List2);
+			break;
+		}
+	}
+	free(dir1);
+	free(dir2);
+	return 0;
 }
