@@ -184,19 +184,13 @@ int main(void)
 			break;
 		}
 	}
-	while (1)
+	while (List2 != 0)
 	{
+		struct chain *next;
+		next = List2->next;
 		free(List2->name);
-		if (List2->next != 0)
-		{
-			List2 = List2->next;
-			free(List2->prev);
-		}
-		else
-		{
-			free(List2);
-			break;
-		}
+		free(List2);
+		List2 = next;
 	}
 	free(dir1);
 	free(dir2);
