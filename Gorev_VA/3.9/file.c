@@ -136,7 +136,6 @@ int INCLUDE(char *progname, struct chain *Prev)
 			free(filename);
 		free(A);
 	}
-	free(A);
 	fclose(prog);
 	return 0;
 }
