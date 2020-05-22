@@ -104,6 +104,10 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 	return 0;
 }
 
+/*
+** Для двух заданных каталогов dir1 и dir2 печатает два списка файлов:
+** присутствующих в одном каталоге и отсутствующих в другом
+*/
 int dif(char *dir1, char *dir2);
 int dif(char *dir1, char *dir2)
 {
