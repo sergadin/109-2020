@@ -134,6 +134,7 @@ int INCLUDE(char *progname, struct chain *Prev)
 			printf("%s", A);
 		if (filename != 0)
 			free(filename);
+		free(A);
 	}
 	free(A);
 	fclose(prog);
