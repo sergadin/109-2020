@@ -20,28 +20,17 @@ char *dir2;
 /*
 ** Строит по полному адресу файла его название в последней директории:
 ** dir1/dir2/.../dirn/file -> file
-** если имя файла или имя какой-то промежуточной директории оказалось пустым, возвращает 0
 */
 char *file_name(const char *filename);
 char *file_name(const char *filename)
 {
-	int i = 0;
+	int i = strlen(filename);
 	char *new_filename;
-	if (strlen(filename) == 0)
-		return 0;
-	if (filename[0] == '/')
-		return 0;
-	while (i < strlen(filename))
-	{
-		if (filename[i] == '/')
-			return file_name(filename + i + 1);
-		i++;
-	}
-	if (i == strlen(filename))
-	{
-		new_filename = (char*)malloc((strlen(filename) + 1) * sizeof(char));
-		return strcpy(new_filename, filename);
-	}
+	while((i >= 0) && (filename[i] != '/'))
+		i--;
+	new_filename = (char*)malloc((strlen(filename) - i) * sizeof(char));
+	strcpy(new_filename, filename + i + 1);
+	return new_filename;
 }
 
 /*
