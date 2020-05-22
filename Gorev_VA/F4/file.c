@@ -5,6 +5,8 @@
 
 int main (int argc, const char **argv)
 {
+	char *dir1;
+	char *dir2;
 	if (argc != 3)
 		return -1;
 	dir1 = (char*)malloc((strlen("dir1") + 1) * sizeof(char));
