@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ftw.h>
+#include "prog.h"
 
 struct chain // реализация списка файлов
 {
@@ -14,8 +15,6 @@ struct chain // реализация списка файлов
 
 struct chain *List1;
 struct chain *List2;
-char *dir1;
-char *dir2;
 
 /*
 ** Строит по полному адресу файла его название в последней директории:
