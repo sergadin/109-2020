@@ -5,10 +5,18 @@
 
 void swap(double *a, double *b);
 void swap(double *a, double *b) {
-    double *c;
-    *c = *a;
+    double c;
+    c = *a;
     *a = *b;
-    *b = *c;
+    *b = c;
+}
+
+void print(double **matr, int n) {
+    for(int j = 0; j < n; j++)	{
+	    for(int k = 0; k < n; k++)
+		    printf("%lf ", matr[k][j]);
+        printf("\n");
+	}
 }
 
 double **obr(double **matrix, int n, double eps, int *flag) {
@@ -42,20 +50,29 @@ double **obr(double **matrix, int n, double eps, int *flag) {
             if(k == -1) {
                     *flag = 0;
                     return matr;
-                }
-            if(k != i) {
+            }
+            //printf("%d %d\n", k, j);
+            if(k != j) {
                 for(i = 0; i < n; i++) {
+                    //printf("HI\n");
                     swap(&matr[j][i], &matr[k][i]);
                     swap(&newmatr[j][i], &newmatr[k][i]);
                 }
             }
+            //printf("hi\n");
+            //print(matr, n);
+            //printf("\n");
+            //print(newmatr, n);
             for(i = j + 1; i < n; i++) {
                     c = matr[i][j] / matr[j][j];
                     for(int t = 0; t < n; t++) {
                         matr[i][t] -= matr[j][t] * c;
                         newmatr[i][t] -= newmatr[j][t] * c;
                     }        
-            }   
+            }
+            //print(matr, n);
+            //printf("\n");
+            //print(newmatr, n);   
     }
     for(i = 0; i < n; i++) {
         c = matr[i][i];

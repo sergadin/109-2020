@@ -20,12 +20,7 @@ int main(void) {
 				fscanf(input, "%lf", &matrix[j][i]);
 		newmatr = obr(matrix, n, eps, &flag);
         if(flag == 1) {
-	        for(j = 0; j < n; j++)	{
-		        for(k = 0; k < n; k++) {
-			        printf("%lf ", newmatr[k][j]);
-				}
-                printf("\n");
-		    }
+	        print(newmatr, n);
         }	
         else
             printf("Sorry\n");
