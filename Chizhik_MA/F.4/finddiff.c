@@ -11,8 +11,8 @@
 static char **files1 = NULL;
 static char **files2 = NULL;
 
-static int len1 = 0, len2 = 0;
-static int actual_len1 = 0, actual_len2 = 0;
+static int len1, len2;
+static int actual_len1, actual_len2;
 
 static char ***curr_catalog;
 static int *curr_len;
@@ -96,12 +96,24 @@ static void free_catalog_array(char **arr, int len) {
 /*
  * Освобождение всех ресурсов, динамически выделяемых в данном блоке программы
  *
- * Функция освобождает ресурсы, выделенные под массивы имен, существующих в двух сравниваемых директориях.
+ * Функция освобождает ресурсы, выделенные под массивы имен, существующих 
+ * в двух сравниваемых директориях.
  */
 
 static void free_allocated_resources() {
 	free_catalog_array(files1, actual_len1);
 	free_catalog_array(files2, actual_len2);
+}
+
+/*
+ * Обнуление счетчиков длин
+ *
+ * Функция присваивает переменным, отвечающим за длину текущего массива имен, нулевое значение.
+ */
+
+static void set_lens_to_zero() {
+	*curr_len = 0;
+	*curr_actual_len = 0;
 }
 
 /* 
@@ -172,22 +184,29 @@ int find_dir_diff(FILE *output, const char *dir1_name, const char *dir2_name) {
 	curr_catalog = &files1;
 	curr_len = &len1;
 	curr_actual_len = &actual_len1;
+	set_lens_to_zero();	
 
 	if (ftw(dir1_name, fn, NOPENFD) != 0) {
 		free_catalog_array(files1, actual_len1);
+		files1 = NULL;
 		return -1;
 	}
 
 	curr_catalog = &files2;
 	curr_len = &len2;
 	curr_actual_len = &actual_len2;
+	set_lens_to_zero();
 
 	if (ftw(dir2_name, fn, NOPENFD) != 0) {
 		free_allocated_resources();
+		files1 = files2 = NULL;
 		return -1;
 	}
 
 	print_sym_difference(output, files1, dir1_name, actual_len1, files2, dir2_name, actual_len2);
+
 	free_allocated_resources();
+	actual_len1 = actual_len2 = len1 = len2 = 0;
+	files1 = files2 = NULL;
 	return 0;
 }

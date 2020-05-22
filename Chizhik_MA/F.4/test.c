@@ -34,7 +34,9 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	err_flag = find_dir_diff(output, argv[1], argv[2]);
+	err_flag += find_dir_diff(output, argv[1], argv[2]);
+	fprintf(output, "\n");	
+	err_flag += find_dir_diff(output, "..", "../..");
 	fclose(output);
 
 	if (err_flag != 0) {
