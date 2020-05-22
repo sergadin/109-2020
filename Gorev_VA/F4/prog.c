@@ -108,8 +108,8 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 ** Для двух заданных каталогов dir1 и dir2 печатает два списка файлов:
 ** присутствующих в одном каталоге и отсутствующих в другом
 */
-int dif(char *dir1, char *dir2);
-int dif(char *dir1, char *dir2)
+int dif();
+int dif()
 {
 	List1 = (struct chain*)malloc(sizeof(struct chain));
 	List1->name = (char*)malloc((strlen(dir1) + 1) * sizeof(char));
