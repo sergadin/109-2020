@@ -91,16 +91,14 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 {
 	if (flag == FTW_F)
 	{
-		if (strlen(fpath) >= strlen(dir1))
-			if (strncmp(fpath, dir1, strlen(dir1)) == 0)
-			{
-				write_in_filelist(fpath, List1);
-			}
-		if (strlen(fpath) >= strlen(dir2))
-			if (strncmp(fpath, dir2, strlen(dir2)) == 0)
-			{
-				write_in_filelist(fpath, List2);
-			}
+		if (strncmp(fpath, dir1, strlen(dir1)) == 0)
+		{
+			write_in_filelist(fpath, List1);
+		}
+		if (strncmp(fpath, dir2, strlen(dir2)) == 0)
+		{
+			write_in_filelist(fpath, List2);
+		}
 	}
 	return 0;
 }
@@ -124,37 +122,6 @@ int main(void)
 	
 	ftw(dir1, func_for_ftw, 20);
 	ftw(dir2, func_for_ftw, 20);
-	
-	/*while (1)
-	{
-		printf("%s\n", List1->name);
-		free(List1->name);
-		if (List1->next != 0)
-		{
-			List1 = List1->next;
-			free(List1->prev);
-		}
-		else
-		{
-			free(List1);
-			break;
-		}
-	}
-	while (1)
-	{
-		printf("%s\n", List2->name);
-		free(List2->name);
-		if (List2->next != 0)
-		{
-			List2 = List2->next;
-			free(List2->prev);
-		}
-		else
-		{
-			free(List2);
-			break;
-		}
-	}*/
 	
 	printf("Файлы, присутствующие в %s, но отсутсвующие в %s:\n", dir1, dir2);
 	for (struct chain *FL = List1->next; FL != 0; FL = FL->next)
@@ -186,6 +153,7 @@ int main(void)
 		free(List2);
 		List2 = next;
 	}
+
 	free(dir1);
 	free(dir2);
 	return 0;
