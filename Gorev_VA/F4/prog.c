@@ -4,24 +4,11 @@
 #include <ftw.h>
 #include "prog.h"
 
-struct chain // реализация списка файлов
-{
-	char *name;         // имя файла 
-	struct chain *next; // указатель на следующий файл в списке
-	                    // если следующего нет, то 0
-	struct chain *prev; // указатель на предыдущий файл в списке
-	                    // если предыдущего нет, то 0
-};
-
-struct chain *List1;
-struct chain *List2;
-
 /*
 ** Строит по полному адресу файла его название в последней директории:
 ** dir1/dir2/.../dirn/file -> file
 ** Создает и возвращает новую строку с содержимым file
 */
-char *file_name(const char *filename);
 char *file_name(const char *filename)
 {
 	int i = strlen(filename);
@@ -40,7 +27,6 @@ char *file_name(const char *filename)
 ** Если в списке filelist нет элемента с именем file_name(filename), то такой элемент добавляется в конец списка
 ** Если в списке filelist есть элемент с именем file_name(filename), то не происходит ничего
 */
-int write_in_filelist(const char *filename, struct chain *filelist);
 int write_in_filelist(const char *filename, struct chain *filelist)
 {
 	struct chain *new_file;
@@ -72,7 +58,6 @@ int write_in_filelist(const char *filename, struct chain *filelist)
 ** filelist - указатель на первый элемент списка
 ** функция возвращает 1, если файл есть в списке и 0 иначе
 */
-int find_file_in_list(char *short_filename, struct chain *filelist);
 int find_file_in_list(char *short_filename, struct chain *filelist)
 {
 	struct chain *FL;
@@ -86,7 +71,6 @@ int find_file_in_list(char *short_filename, struct chain *filelist)
 	return 0;
 }
 
-int func_for_ftw(const char *fpath, const struct stat *sb, int flag);
 int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 {
 	if (flag == FTW_F)
@@ -107,7 +91,6 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 ** Для двух заданных каталогов dir1 и dir2 печатает два списка файлов:
 ** присутствующих в одном каталоге и отсутствующих в другом
 */
-int dif();
 int dif()
 {
 	List1 = (struct chain*)malloc(sizeof(struct chain));
