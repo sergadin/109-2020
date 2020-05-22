@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ftw.h>
-#include "prog.h"
 
 int main (int argc, const char **argv)
 {
