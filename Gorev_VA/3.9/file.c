@@ -89,6 +89,7 @@ int INCLUDE(char *progname, struct chain *Prev)
 {
 	FILE *prog;
 	char *A;
+	char *filename;
 	int Ind;
 	int Eof;
 	if ((prog = fopen(progname, "r")) == NULL)
@@ -105,7 +106,8 @@ int INCLUDE(char *progname, struct chain *Prev)
 	{
 		free(A);
 		A = read_str(prog, &Eof);
-		if (strstr(A, "#include ") == A)
+		filename = file_name(A);
+		if (filename != 0)
 		{
 			if (A[strlen(A) - 1] == '\n')
 			{
@@ -146,6 +148,8 @@ int INCLUDE(char *progname, struct chain *Prev)
 		}
 		else
 			printf("%s", A);
+		if (filename != 0)
+			free(filename);
 	}
 	free(A);
 	fclose(prog);
