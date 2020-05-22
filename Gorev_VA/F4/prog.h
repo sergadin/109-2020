@@ -150,8 +150,6 @@ int dif(char *dir1, char *dir2)
 		free(List2);
 		List2 = next;
 	}
-
-	free(dir1);
-	free(dir2);
+	
 	return 0;
 }
