@@ -8,14 +8,6 @@ int main (int argc, const char **argv)
 {
 	if (argc != 3)
 		return -1;
-	dir1 = (char*)malloc((strlen("dir1") + 1) * sizeof(char));
-	strcpy(dir1, argv[1]);
-	dir2 = (char*)malloc((strlen("dir2") + 1) * sizeof(char));
-	strcpy(dir2, argv[2]);
-	
-	dif(dir1, dir2);
-
-	free(dir1);
-	free(dir2);
+	dif(argv[1], argv[2]);
 	return 0;
 }
