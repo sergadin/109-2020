@@ -90,7 +90,7 @@ int INCLUDE(char *progname, struct chain *Prev)
 	FILE *prog;
 	char *A;
 	int Ind;
-	int *Eof;
+	int Eof;
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
@@ -100,12 +100,11 @@ int INCLUDE(char *progname, struct chain *Prev)
 	A = (char*)malloc(2 * sizeof(char));
 	A[0] = '\n';
 	A[1] = 0;
-	Eof = (int*)malloc(sizeof(int));
-	*Eof = 0;
-	while(!(*Eof))
+	Eof = 0;
+	while(!Eof)
 	{
 		free(A);
-		A = read_str(prog, Eof);
+		A = read_str(prog, &Eof);
 		if (strstr(A, "#include ") == A)
 		{
 			if (A[strlen(A) - 1] == '\n')
@@ -121,7 +120,6 @@ int INCLUDE(char *progname, struct chain *Prev)
 				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
 				fclose(prog);
 				free(A);
-				free(Eof);
 				return -2;
 			}
 			else
@@ -134,7 +132,6 @@ int INCLUDE(char *progname, struct chain *Prev)
 				{
 					free(A);
 					free(P);
-					free(Eof);
 					fclose(prog);
 					return -3;
 				}
@@ -151,7 +148,6 @@ int INCLUDE(char *progname, struct chain *Prev)
 			printf("%s", A);
 	}
 	free(A);
-	free(Eof);
 	fclose(prog);
 	return 0;
 }
