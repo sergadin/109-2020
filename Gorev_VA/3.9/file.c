@@ -90,7 +90,6 @@ int INCLUDE(char *progname, struct chain *Prev)
 	FILE *prog;
 	char *A;
 	char *filename;
-	int Ind;
 	int Eof;
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
@@ -109,46 +108,36 @@ int INCLUDE(char *progname, struct chain *Prev)
 		filename = file_name(A);
 		if (filename != 0)
 		{
-			if (A[strlen(A) - 1] == '\n')
-			{
-				A[strlen(A) - 1] = 0;
-				Ind = 1;
-			}
-			else
-				Ind = 0;
-			//printf("~~%s", A);
-			if (check(A + strlen("#include "), Prev))
+			if (check(filename, Prev))
 			{
 				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
 				fclose(prog);
 				free(A);
+				free(filename);
 				return -2;
 			}
 			else
 			{
 				struct chain *P;
 				P = (struct chain*)malloc(sizeof(struct chain));
-				P->filename = A + strlen("#include ");
+				P->filename = filename;
 				P->prev = Prev;
-				if (INCLUDE(A + strlen("#include "), P))
+				if (INCLUDE(filename, P))
 				{
 					free(A);
+					free(filename);
 					free(P);
 					fclose(prog);
 					return -3;
 				}
 				free(P);
-				if (Ind)
-				{
-					A[strlen(A) + 1] = 0;
-					A[strlen(A)] = '\n';
+				if (A[strlen(A) - 1] == '\n')
 					printf("\n");
-				}
 			}
 		}
 		else
 			printf("%s", A);
-		//if (filename != 0)
+		if (filename != 0)
 			free(filename);
 	}
 	free(A);
@@ -166,5 +155,4 @@ int main(void)
 	if (INCLUDE(progname, Prev))
 		printf("ERROR\n");
 	free(Prev);
-	return 0;
 }
