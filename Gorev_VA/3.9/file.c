@@ -10,6 +10,29 @@ struct chain
 	struct chain *prev;
 };
 
+char *file_name(char *filename);
+char *file_name(char *filename)
+{
+	char *new_name;
+	if (strlen(filename) < strlen("#include "))
+		return 0;
+	if (strncmp(filename, "#include ", strlen("#include ")) != 0)
+		return 0;
+	
+	if (filename[strlen(filename) - 1] == '\n')
+	{
+		new_name = (char*)malloc((strlen(filename) - strlen("#include ")) * sizeof(char));
+		strncpy(new_name, filename + strlen("#include "), strlen(filename) - strlen("#include ") - 1);
+		new_name[strlen(filename) - strlen("#include ") - 1] = 0;
+	}
+	else
+	{
+		new_name = (char*)malloc((strlen(filename) + 1 - strlen("#include ")) * sizeof(char));
+		strcpy(new_name, filename + strlen("#include "));
+	}
+	return new_name;
+}
+
 char *read_str(FILE *prog, int *Eof);
 char *read_str(FILE *prog, int *Eof)
 {
@@ -46,6 +69,7 @@ char *read_str(FILE *prog, int *Eof)
 	return A;
 }
 
+int check(char *filename, struct chain *Prev);
 int check(char *filename, struct chain *Prev)
 {
 	struct chain *P = Prev;
@@ -53,11 +77,11 @@ int check(char *filename, struct chain *Prev)
 	{
 		if (strcmp(filename, P->filename) == 0)
 		{
-			return -2;
+			return 0;
 		}
 		P = P->prev;
 	}
-	return 0;
+	return 1;
 }
 
 int INCLUDE(char *progname, struct chain *Prev);
@@ -65,69 +89,53 @@ int INCLUDE(char *progname, struct chain *Prev)
 {
 	FILE *prog;
 	char *A;
-	int Ind;
-	int *Eof;
+	char *filename;
+	int Eof;
 	if ((prog = fopen(progname, "r")) == NULL)
 	{
 		printf("INCLUDE(%s): Can't open file \"%s\"\n", progname, progname);
 		return -1;
 	}
-	
-	A = (char*)malloc(2 * sizeof(char));
-	A[0] = '\n';
-	A[1] = 0;
-	Eof = (int*)malloc(sizeof(int));
-	*Eof = 0;
-	while(!(*Eof))
+	Eof = 0;
+	while(!Eof)
 	{
-		free(A);
-		A = read_str(prog, Eof);
-		if (strstr(A, "#include ") == A)
+		A = read_str(prog, &Eof);
+		filename = file_name(A);
+		if (filename != 0)
 		{
-			if (A[strlen(A) - 1] == '\n')
-			{
-				A[strlen(A) - 1] = 0;
-				Ind = 1;
-			}
-			else
-				Ind = 0;
-			//printf("~~%s", A);
-			if (check(A + strlen("#include "), Prev))
+			if (check(filename, Prev) == 0)
 			{
 				printf("INCLUDE(%s): Loop output: \"#include %s\"\n", progname, A + strlen("#include "));
 				fclose(prog);
 				free(A);
-				free(Eof);
+				free(filename);
 				return -2;
 			}
 			else
 			{
 				struct chain *P;
 				P = (struct chain*)malloc(sizeof(struct chain));
-				P->filename = A + strlen("#include ");
+				P->filename = filename;
 				P->prev = Prev;
-				if (INCLUDE(A + strlen("#include "), P))
+				if (INCLUDE(filename, P))
 				{
 					free(A);
+					free(filename);
 					free(P);
-					free(Eof);
 					fclose(prog);
 					return -3;
 				}
 				free(P);
-				if (Ind)
-				{
-					A[strlen(A) + 1] = 0;
-					A[strlen(A)] = '\n';
+				if (A[strlen(A) - 1] == '\n')
 					printf("\n");
-				}
 			}
 		}
 		else
 			printf("%s", A);
+		if (filename != 0)
+			free(filename);
 	}
 	free(A);
-	free(Eof);
 	fclose(prog);
 	return 0;
 }
