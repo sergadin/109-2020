@@ -20,6 +20,7 @@ char *dir2;
 /*
 ** Строит по полному адресу файла его название в последней директории:
 ** dir1/dir2/.../dirn/file -> file
+** Создает и возвращает новую строку с содержимым file
 */
 char *file_name(const char *filename);
 char *file_name(const char *filename)
@@ -103,15 +104,9 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 	return 0;
 }
 
-int main (int argc, const char **argv)
+int dif(char *dir1, char *dir2);
+int dif(char *dir1, char *dir2)
 {
-	if (argc != 3)
-		return -1;
-	dir1 = (char*)malloc((strlen("dir1") + 1) * sizeof(char));
-	strcpy(dir1, argv[1]);
-	dir2 = (char*)malloc((strlen("dir2") + 1) * sizeof(char));
-	strcpy(dir2, argv[2]);
-	
 	List1 = (struct chain*)malloc(sizeof(struct chain));
 	List1->name = (char*)malloc((strlen(dir1) + 1) * sizeof(char));
 	strcpy(List1->name, dir1);
