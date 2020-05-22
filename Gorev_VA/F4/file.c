@@ -170,19 +170,13 @@ int main(void)
 		    printf("%s\n", FL->name);
 	}
 	
-	while (1)
+	while (List1 != 0)
 	{
+		struct chain *next;
+		next = List1->next;
 		free(List1->name);
-		if (List1->next != 0)
-		{
-			List1 = List1->next;
-			free(List1->prev);
-		}
-		else
-		{
-			free(List1);
-			break;
-		}
+		free(List1);
+		List1 = next;
 	}
 	while (List2 != 0)
 	{
