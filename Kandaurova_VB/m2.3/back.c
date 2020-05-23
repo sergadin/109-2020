@@ -3,9 +3,9 @@
 #include <math.h>
 #include <stdlib.h>
 
-void swap(double *a, double *b);
-void swap(double *a, double *b) {
-    double c;
+void swap(double **a, double **b);
+void swap(double **a, double **b) {
+    double *c;
     c = *a;
     *a = *b;
     *b = c;
@@ -19,11 +19,12 @@ void print(double **matr, int n) {
 	}
 }
 
-double **obr(double **matrix, int n, double eps, int *flag) {
+double **obr(double **matrix, int n, double eps, int *indicator) {
+    // indicator = 1, если матрица обращается, а 0 если матрица вырождена
     int k, j, i;
 	double c;
     double **matr, **newmatr;
-    *flag = 1;
+    *indicator = 1;
     matr = malloc(n * sizeof(double *));
     newmatr = malloc(n * sizeof(double *));
     for(j = 0; j < n; j++) {
@@ -48,31 +49,20 @@ double **obr(double **matrix, int n, double eps, int *flag) {
                 }         
             }
             if(k == -1) {
-                    *flag = 0;
+                    *indicator = 0;
                     return matr;
             }
-            //printf("%d %d\n", k, j);
             if(k != j) {
-                for(i = 0; i < n; i++) {
-                    //printf("HI\n");
-                    swap(&matr[j][i], &matr[k][i]);
-                    swap(&newmatr[j][i], &newmatr[k][i]);
-                }
+                swap(&matr[j], &matr[k]);
+                swap(&newmatr[j], &newmatr[k]);
             }
-            //printf("hi\n");
-            //print(matr, n);
-            //printf("\n");
-            //print(newmatr, n);
             for(i = j + 1; i < n; i++) {
                     c = matr[i][j] / matr[j][j];
                     for(int t = 0; t < n; t++) {
                         matr[i][t] -= matr[j][t] * c;
                         newmatr[i][t] -= newmatr[j][t] * c;
                     }        
-            }
-            //print(matr, n);
-            //printf("\n");
-            //print(newmatr, n);   
+            }   
     }
     for(i = 0; i < n; i++) {
         c = matr[i][i];

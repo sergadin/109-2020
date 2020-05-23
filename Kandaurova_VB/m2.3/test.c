@@ -4,7 +4,7 @@
 #include "back.h"
 
 int main(void) {
-	int n = 3, i, j, k, corr, flag;
+	int n = 3, i, j, k, corr, indicator;
 	FILE *input;
 	double **matrix, **newmatr;
     double eps = 0.0001, ans;
@@ -18,8 +18,8 @@ int main(void) {
 		for(j = 0; j < n; j++)
 			for(i = 0; i < n; i++)
 				fscanf(input, "%lf", &matrix[j][i]);
-		newmatr = obr(matrix, n, eps, &flag);
-        if(flag == 1) {
+		newmatr = obr(matrix, n, eps, &indicator);
+        if(indicator == 1) {
 	        print(newmatr, n);
         }	
         else
