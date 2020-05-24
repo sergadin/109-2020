@@ -22,7 +22,7 @@ static void display_amount_of_iterations(int a) {
 double find_root(dFUNC fn, double a, double b, double precision, RootStatus *s) {
 	int counter = 0;
 	double tmp, swap;
-	*s = OK;
+	*s = OK_ROOT;
 
 	unsigned int a_zero;
 	unsigned int b_zero;

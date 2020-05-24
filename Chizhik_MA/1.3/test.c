@@ -51,7 +51,7 @@ int main(void) {
 		for (int j = 0; j < l; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
 			root = find_root(fnArr[i], left[j], right[j], EPS, &status);
-			if (status != OK) {
+			if (status != OK_ROOT) {
                                 fprintf(stdout, "The program is unable to find a root here:\n");
 				fprintf(stdout, "%s\n", statusText[status]);
 				if ((preciseAnswers[j][i] - left[j]) * (right[j] - preciseAnswers[j][i]) < 0) {

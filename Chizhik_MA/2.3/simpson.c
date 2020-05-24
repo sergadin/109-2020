@@ -39,7 +39,7 @@ double simpson_integral(dFUNC f, double a, double b, double precision, IntStatus
 	double current_i, prev_i;
 	double swap;
 	int n, sign = 1;
-	*s = OK;
+	*s = OK_INT;
 
 	if (a > b) {
 		swap = a;

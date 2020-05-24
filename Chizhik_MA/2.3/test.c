@@ -64,7 +64,7 @@ int main(void) {
 		for (j = 0; j < l; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
 			integral = simpson_integral(funcs[i], left[j], right[j], EPS, &s);
-			if (s != OK) {
+			if (s != OK_INT) {
 				fprintf(stdout, "The program can't integrate the given function:\n");
 				fprintf(stdout, "%s\n", statusText[s]);
 				if (s == METHOD_DOES_NOT_CONVERGE) {

@@ -1,6 +1,6 @@
 typedef double (*dFUNC)(double x);
 typedef enum {
-        OK,
+        OK_ROOT,
         NO_ROOTS,
         SAME_SIGN_AT_THE_ENDPOINTS
 } RootStatus;
