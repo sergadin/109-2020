@@ -7,27 +7,32 @@
 
 
 
-char **sort_words_file(FILE *file , int *error)
+struct dictionary sort_words_file(FILE *file , int *error)
 {
     char c;
-    int len_b = 0, len_w = 0, len_d = 1;
+    int len_b = 0, len_w = 0;
     char buf[NUM + 1],  *word = NULL;
-    char **dictionary;
+    struct dictionary dict;
     
     
-    if( !(dictionary = (char**)malloc(1*sizeof(char*))) )
+    if( !(dict.words = (char**)malloc(10*sizeof(char*))) )
     {
         *error = 3;
-        return NULL;
+        dict.words = NULL;
+        return dict;
     }
     
-    if( !(dictionary[0] = (char*)malloc(1*sizeof(char))) )
+    dict.size = 10;
+    
+    if( !(dict.words[0] = (char*)malloc(1*sizeof(char))) )
     {
         *error = 3;
-        return NULL;
+        dict.words = NULL;
+        return dict;
     }
     
-    dictionary[0][0] = 0;
+    dict.words[0][0] = 0; // after each word dict.words[ dict.len_d ] is always '\0'
+    dict.len_d = 0; // number of words 
     
     buf[0] = 0;
     
@@ -56,7 +61,6 @@ char **sort_words_file(FILE *file , int *error)
             if( (len_w > 0) || (len_b > 0) ) //word ended
             {
                 int temp;
-                printf("%d\n", len_b);
                 
                 if(len_b != 0)
                 {
@@ -66,106 +70,153 @@ char **sort_words_file(FILE *file , int *error)
                 }
                 
                 len_w += len_b;
-                printf("%s\n", dictionary[0]);
-                temp = str_put_in_dictionary(dictionary, len_d, word, len_w);
-                if(!temp)
+                
+                if( dict.len_d + 1 >= dict.size )
                 {
-                    *error = 3;
-                    return NULL;
+                    dict.words = realloc(dict.words, ( dict.size + 10)*sizeof(char*) );
+                    dict.size += 10;
                 }
-                if(temp == 1)
-                    len_d++;
+                
+                temp = str_put_in_dictionary(&dict, word, len_w);
+                
+                if(temp < 0)
+                {
+                    switch(temp)
+                    {
+                        case -1:
+                            printf("Memory cheack was not done (dict.len_d + 1) should be  < (dict.size)\n");
+                            *error = 3;
+                            dict.words = NULL;
+                            return dict;
+                        case -2:
+                            *error = 3;
+                            dict.words = NULL;
+                            return dict;
+                    }
+                }
+                
                 len_w = 0;
                 len_b = 0;
+                free(word);
                 word = NULL;
+                
                 
             }
         }
     }
     
-    // file may end before word 
-    if( (len_w > 0) || (len_b > 0) ) //
+    // word may be last in file [e.g 'word''eof' ]
+    if( (len_w > 0) || (len_b > 0) )
     {
         int temp;
+                
         if(len_b != 0)
         {
-            word = realloc(word, (len_w + NUM + 1)*sizeof(char));
+            word = realloc(word, (len_w + strlen(buf) + 1)*sizeof(char));
             strcpy(&word[len_w], buf);
+            buf[0] = 0;
         }
                 
         len_w += len_b;
                 
-        temp = str_put_in_dictionary(dictionary, len_d, word, len_w);
-        if(!temp)
+        if( dict.len_d + 1 >= dict.size )
         {
-            *error = 3;
-            return NULL;
+            dict.words = realloc(dict.words, ( dict.size + 1)*sizeof(char*) );
+            dict.size += 1;
         }
-        if(temp == 1)
-            len_d++;
+                
+        temp = str_put_in_dictionary(&dict, word, len_w);
+                
+        if(temp < 0)
+        {
+            switch(temp)
+            {
+                case -1:
+                    printf("Memory cheack was not done (dict.len_d + 1) should be  < (dict.size)\n");
+                    *error = 3;
+                    dict.words = NULL;
+                    return dict;
+                case -2:
+                    *error = 3;
+                    dict.words = NULL;
+                    return dict;
+            }
+        }
     }
     
     if(!feof(file))
     {
         *error = 2;
-        return NULL;
+        dict.words = NULL;
+        return dict;
     }
-    printf("ok\n");
+    
+    
+    
+    dict.words = realloc(dict.words, ( dict.len_d + 1)*sizeof(char*) );
+    
     error = 0;
+    
     free(word);
     fclose(file);
-    return dictionary;
-    
+    return dict;
 }
 
 
 
 
-int str_put_in_dictionary(char **dictionary,int len_d, char *word, int len_w)
+
+
+
+int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
 {
-    for(int i = 0; i < len_d; i++)// putting word in dictionary
+    
+    if( dict->len_d + 1 >= dict->size )
     {
-        int val = strcmp(dictionary[i], word);
+        return -1;
+    }
+    
+    for(int i = 0; i < dict->len_d + 1; i++)// putting word in dictionary
+    {
+        int val = strcmp(dict->words[i], word);
         if(val > 0) // find place where to put word
         {
-            dictionary = realloc(dictionary, (len_d + 1)*sizeof(char*) );
-                        
-            if( !(dictionary[len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
+            
+            if( !(dict->words[dict->len_d + 1] = (char*)malloc( (len_w + 1)*sizeof(char))) )
             {
-                return -1;
+                return -2;
             }
             
-            strcpy(dictionary[len_d], word);
+            strcpy(dict->words[dict->len_d + 1], word);
 
-            for(int j = len_d ; j > i; j--)// puts dictionary[len_d] in correct position
+            for(int j = dict->len_d + 1 ; j > i; j--)// puts dict.words[dict.len_d + 1] in correct position
             {
-                char *temp = dictionary[j];
-                dictionary[j] = dictionary[j - 1];
-                dictionary[j - 1] = temp;
+                char *temp = dict->words[j];
+                dict->words[j] = dict->words[j - 1];
+                dict->words[j - 1] = temp;
             }
+            
+            dict->len_d++;
             break;
         }
-        if(i == len_d - 1) // if end of dictionary if reached than varible word is bigger than every word in dictionary
+        if(i == dict->len_d) // if end of dictionary if reached than varible word is bigger than every word in dictionary
         {
             char *temp;
             
-            printf("ok2\n");
-            dictionary = realloc(dictionary, (len_d + 1)*sizeof(char*) );
-            
-            if( !(dictionary[len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
+            if( !(dict->words[dict->len_d + 1] = (char*)malloc( (len_w + 1)*sizeof(char))) )
             {
-                return -1;
+                return -2;
             }
-                        
-            strcpy(dictionary[len_d], word);
             
-            // puts '\0' in last dictionary[i]
-                        
-            temp = dictionary[len_d];
-            dictionary[len_d] = dictionary[len_d - 1];
-            dictionary[len_d - 1] = temp;
+            strcpy(dict->words[dict->len_d + 1], word);
             
-            printf("%s\n",dictionary[0]);
+            // puts '\0' in dict.words[ dict.len_d ]
+                        
+            temp = dict->words[dict->len_d + 1];
+            dict->words[dict->len_d + 1] = dict->words[dict->len_d];
+            dict->words[dict->len_d] = temp;
+            
+            dict->len_d++;
             break; 
         }
         if(val == 0) // found same word in dictionary

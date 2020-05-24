@@ -1,4 +1,12 @@
-char **sort_words_file(FILE *file , int *error); 
+
+struct dictionary {
+    char **words;
+    int len_d; // number of words in dictionary
+    int size; // size of char **words
+};
+
+
+struct dictionary sort_words_file(FILE *file , int *error); 
 /* cheates array of strings (E.g  char **dictionary)
  * puts every word (in non emply file) as elemen of array (E.g dictionary[1] == {first word} ) 
  * end of array is string == "'\0'" (E.g dictionary[i][0] == 0 )
@@ -10,4 +18,8 @@ char **sort_words_file(FILE *file , int *error);
 */
 
 
-int str_put_in_dictionary(char **dictionary,int len_d, char *word,int len_w);
+int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w);
+/* pust *word in dict
+ *(dict.len_d + 1) should be  < (dict.size)
+ *this function allocates memory for word in dict.words[ dict.len_d + 1]
+*/

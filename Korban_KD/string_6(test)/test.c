@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
     FILE *file;
     char *name;
-    char **dictionary;
+    struct dictionary dict;
     int  error;
     int i = 0;
     
@@ -32,9 +32,9 @@ int main(int argc, char **argv)
         return INPUT_ERROR;
     }
     
-    dictionary = sort_words_file(file, &error);
+    dict = sort_words_file(file, &error);
     
-    if(!dictionary)
+    if(!dict.words)
     {
         switch(error)
         {
@@ -47,17 +47,16 @@ int main(int argc, char **argv)
         }
     }
     
-    while( strlen(dictionary[i])  != 0)
+    while( strlen(dict.words[i])  != 0)
     {
-        printf("%s\n", dictionary[i]);
-        free(dictionary[i]);
+        printf("%s\n", dict.words[i]);
+        free(dict.words[i]);
         i++;
     }
-    free(dictionary[i]);
+    free(dict.words[i]);
     
-    //i++;
-    //printf("%s\n", dictionary[1]);
-    free(dictionary);
+
+    free(dict.words);
     
 
     return 0;
