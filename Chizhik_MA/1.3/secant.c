@@ -4,11 +4,22 @@
 #include "../lib/umath.h"
 #include "secant.h"
 
-void display_amount_of_iterations(int a) {
+/* 
+ * Вывод количества итераций алгоритма, выполненных для нахождения корня
+ *
+ * Параметры:
+ * a: число итераций
+ *
+ * При вызове функции в стандартный поток вывода печатается сообщение
+ * о количестве итераций, совершенных алгоритмом для поиска корня.
+ *
+ */
+
+static void display_amount_of_iterations(int a) {
 	fprintf(stdout, "Amount of iterations: %d\n", a);
 }
 
-double find_root(dFUNC fn, double a, double b, double precision, Status *s) {
+double find_root(dFUNC fn, double a, double b, double precision, RootStatus *s) {
 	int counter = 0;
 	double tmp, swap;
 	*s = OK;

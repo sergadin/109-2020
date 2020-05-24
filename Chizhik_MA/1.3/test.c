@@ -27,7 +27,7 @@ int main(void) {
 	double left[] = {-1, 0, 6, 0};
 	double right[] = {-1, 5, 3, 1};
 	double root;
-	Status status;
+	RootStatus status;
 
 	dFUNC fnArr[N] = {zero, three, linear, quadratic};
 	double preciseAnswers[][N] = {
