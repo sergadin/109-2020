@@ -37,6 +37,9 @@ int main(int argc, char **argv)
     {
         switch(error)
         {
+            case 1:
+                fprintf(stderr, "file: %s is empty\n", name);
+                return READ_ERROR;
             case 2:
                 fprintf(stderr, "ERROR can't read element from %s\n", name);
                 return READ_ERROR;
