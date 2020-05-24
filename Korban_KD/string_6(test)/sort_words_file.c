@@ -116,7 +116,7 @@ struct dictionary sort_words_file(FILE *file , int *error)
 
 int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
 {
-    int i;
+    int i = 0;
     
     if( dict->len_d >= dict->size )
     {
@@ -127,44 +127,28 @@ int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
     for(i = 0; i < dict->len_d; i++)// putting word in dictionary
     {
         int val = strcmp(dict->words[i], word);
-        if(val > 0) // find place where to put word
-        {
-            
-            if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
-            {
-                return -1;
-            }
-            
-            strcpy(dict->words[dict->len_d], word);
-
-            for(int j = dict->len_d ; j > i; j--)// puts dict.words[dict.len_d] in correct position
-            {
-                char *temp = dict->words[j];
-                dict->words[j] = dict->words[j - 1];
-                dict->words[j - 1] = temp;
-            }
-            
-            dict->len_d++;
-            return 1;
-        }
+        if(val > 0) // found place where to put word
+            break;
         if(val == 0) // found same word in dictionary
         {
             return 0;
         }
     }
     
-    if(i == dict->len_d) // if end of dictionary if reached than varible word is bigger than every word in dictionary
+    if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
     {
-            
-        if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
-        {
-            return -1;
-        }
-        strcpy(dict->words[dict->len_d], word);
-            
-        dict->len_d++;
+        return -1;
     }
     
+    strcpy(dict->words[dict->len_d], word);
+    
+    for(int j = dict->len_d ; j > i; j--)// puts dict.words[dict.len_d] in correct position
+    {
+        char *temp = dict->words[j];
+        dict->words[j] = dict->words[j - 1];
+        dict->words[j - 1] = temp;
+    }
+    dict->len_d++;
     return 1;
 }
 
