@@ -6,26 +6,27 @@
 
 
 char *data;
-char *filename;
+//char *filename;
 int len = 1;
 
 static int get_filenames(const char *fpath, const struct stat *status, int tflag)
 {
     if (tflag == FTW_F)
     {
-//printf("3");
+printf("3\n");
         char *temp;
-        if (temp = strrchr(fpath, '/'))
+        if (strrchr(fpath, '/') != NULL)
         {
+            temp = strrchr(fpath, '/');
 	    //printf("%ld\n", strlen(temp));
-            data = realloc(data, len + strlen(temp) + 1);
+            data = realloc(data, len + strlen(temp)+1);
             //printf("%ld\n", len + strlen(temp) + 1); 
-//printf("2");
+printf("2\n");
 	    strcpy(data + len, temp); 
             data[len + strlen(temp)] = ' ';
-            len += (strlen(temp));          
+            len += (strlen(temp)+1);          
         }
-        //printf("1");
+printf("1\n");
         
     }
     return 0;
@@ -75,7 +76,7 @@ int main(int argc, char *argv[])
         printf("%s \n", data); 
         //ftw(argv[2], compare_filenames, 10);
     }
-    free(filename);
+    //free(filename);
     free(data);
     return 0;
 }
