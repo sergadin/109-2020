@@ -1,4 +1,4 @@
-#include "typedef.h"
+#include "f.h"
 
 
 /*void print_matrix(double *a, int n, int m) {

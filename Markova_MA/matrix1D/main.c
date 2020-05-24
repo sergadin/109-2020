@@ -1,5 +1,5 @@
-#include <time.h>
-#include "typedef.h"
+
+#include "f.h"
 
 int main() {
 	int n, m, res, i,  err = SUCCESS;
