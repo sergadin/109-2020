@@ -124,19 +124,6 @@ int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
         dict->size += 10;
     }
     
-    
-    if(dict->len_d == 0)
-    {
-        if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
-        {
-            return -1;
-        }
-            
-        strcpy(dict->words[dict->len_d], word);
-        dict->len_d++;
-        return 1;
-    }
-    
     for(i = 0; i < dict->len_d; i++)// putting word in dictionary
     {
         int val = strcmp(dict->words[i], word);
