@@ -116,6 +116,7 @@ struct dictionary sort_words_file(FILE *file , int *error)
 
 int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
 {
+    int i;
     
     if( dict->len_d >= dict->size )
     {
@@ -136,7 +137,7 @@ int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
         return 1;
     }
     
-    for(int i = 0; i < dict->len_d; i++)// putting word in dictionary
+    for(i = 0; i < dict->len_d; i++)// putting word in dictionary
     {
         int val = strcmp(dict->words[i], word);
         if(val > 0) // find place where to put word
@@ -157,25 +158,26 @@ int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
             }
             
             dict->len_d++;
-            break;
-        }
-        if(i == dict->len_d - 1) // if end of dictionary if reached than varible word is bigger than every word in dictionary
-        {
-            
-            if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
-            {
-                return -1;
-            }
-            strcpy(dict->words[dict->len_d], word);
-            
-            dict->len_d++;
-            break; 
+            return 1;
         }
         if(val == 0) // found same word in dictionary
         {
             return 0;
         }
     }
+    
+    if(i == dict->len_d) // if end of dictionary if reached than varible word is bigger than every word in dictionary
+    {
+            
+        if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
+        {
+            return -1;
+        }
+        strcpy(dict->words[dict->len_d], word);
+            
+        dict->len_d++;
+    }
+    
     return 1;
 }
 
