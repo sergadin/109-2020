@@ -101,7 +101,7 @@ static int compare_filenames(const char *fpath, const struct stat *status, int t
                 //filename[strlen(temp) - strlen(strchr(temp, '.')) + 1] = ' ';
 		filename[strlen(temp) - strlen(strchr(temp, '.')) + 1] = '\0';
                 if (strstr(data, filename))
-		     printf("11%s \n", filename); 
+		     printf("%s \n", filename);
              }
         }
         free(filename);
@@ -119,11 +119,11 @@ int main(int argc, char *argv[])
 	ftw(argv[1], get_filenames, 10);
         data = realloc(data, len+1);
         data[len] = '\0';
-        printf("%s \n", data); 
+        //printf("%s \n", data);
         ftw(argv[2], compare_filenames, 10);
     }
     else
-	printf("smth wrong");
+	printf("try to use this marvelous prog with args containing dir1 and dir2 \n");
     free(data);
     return 0;
 }
