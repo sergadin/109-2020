@@ -32,7 +32,7 @@ int main() {
 	}
 	//printf("Данная матрица:\n");
 	//print_matrix(a, n, m);
-	res = rank(a, n, m);
+	res = rank(a, n, m, eps);
 	//printf("Полученная матрица:\n");//
 	//print_matrix(a, n, m);//
 	printf("Rank = %d\n", res);
