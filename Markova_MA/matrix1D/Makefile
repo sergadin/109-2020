@@ -1,19 +1,13 @@
-CFLAGS = -c -g -Wall -O3
+all: do-test
 
-start: a.out
+f.o: f.c f.h
+	gcc -c f.c
 
-f.o: typedef.h
-	gcc $(CFLAGS) f.c -o f.o
+test.o: test.c f.h
+	gcc -c test.c
 
-main.o: typedef.h f.o
-	gcc $(CFLAGS) main.c -o main.o
+a.out: test.o f.o
+	gcc test.o f.o -lm
 
-a.out: f.o main.o e1.o
-	gcc f.o main.o e1.o -o a.out
-
-e1.o: typedef.h f.o
-	gcc $(CFLAGS) e1.c -o e1.o
-
-cl:
-	rm -f *.o
-	rm -f *.out
+do-test: a.out
+	./a.out
