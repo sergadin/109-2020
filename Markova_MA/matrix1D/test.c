@@ -3,9 +3,8 @@
 
 int main() {
 	int n, m, res, i,  err = SUCCESS;
-	double *a;
+	double *a, eps = 1e-16;
 	FILE *fp;
-	double eps = 1e-16;
 	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
 		printf("Not enough memory\n");
 		return -1;
