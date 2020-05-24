@@ -101,7 +101,7 @@ struct dictionary sort_words_file(FILE *file , int *error)
     
     dict.words = realloc(dict.words, ( dict.len_d )*sizeof(char*) );
     
-    error = 0;
+    *error = 0;
     
     free(word);
     fclose(file);
@@ -124,7 +124,7 @@ int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
         dict->size += 10;
     }
     
-    for(i = 0; i < dict->len_d; i++)// putting word in dictionary
+    for(i = 0; i < dict->len_d; i++)// finding place for word
     {
         int val = strcmp(dict->words[i], word);
         if(val > 0) // found place where to put word
@@ -135,19 +135,18 @@ int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
         }
     }
     
-    if( !(dict->words[dict->len_d] = (char*)malloc( (len_w + 1)*sizeof(char))) )
+    for(int j = dict->len_d - 1 ; j >= i; j--)// puts dict.words[dict.len_d] in correct position
+    {
+        dict->words[j + 1] = dict->words[j];
+    }
+    
+    if( !(dict->words[i] = (char*)malloc( (len_w + 1)*sizeof(char))) )
     {
         return -1;
     }
     
-    strcpy(dict->words[dict->len_d], word);
+    strcpy(dict->words[i], word);
     
-    for(int j = dict->len_d ; j > i; j--)// puts dict.words[dict.len_d] in correct position
-    {
-        char *temp = dict->words[j];
-        dict->words[j] = dict->words[j - 1];
-        dict->words[j - 1] = temp;
-    }
     dict->len_d++;
     return 1;
 }

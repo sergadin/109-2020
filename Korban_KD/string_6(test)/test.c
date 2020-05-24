@@ -28,6 +28,11 @@ int main(int argc, char **argv)
     
     if(error != 0)
     {
+        for(int i = 0; i < dict.len_d; i++)
+        {
+            printf("%s\n", dict.words[i]);
+            free(dict.words[i]);
+        }
         switch(error)
         {
             case INPUT_ERROR:
