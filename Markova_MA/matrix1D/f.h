@@ -18,4 +18,4 @@ double eps = 1e-16;
 //void print_matrix(double *a, int m, int n);
 void ERROR_RE(int ret);
 
-int rank(double *a, int n, int m);
+int rank(double *a, int n, int m, double eps);

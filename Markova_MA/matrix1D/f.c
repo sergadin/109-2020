@@ -15,11 +15,9 @@ void ERROR_RE(int ret) {
 	switch (ret)
 	{
 		case ERROR_OPEN:
-			printf("Cannot open %s\n");
+			printf("Cannot open \n");
 		case ERROR_READ:
-			printf("Cannot read %s\n");
-		default:
-			printf("Unknown error %d in file %s\n");
+			printf("Cannot read \n");
 	}
 }
 
@@ -39,7 +37,7 @@ void change_column(double *a, int n, int m, int i, int j) {
 	}
 }
 
-int rank(double *a, int n, int m) {
+int rank(double *a, int n, int m, double eps) {
 	int i, j, pos, res = n;
 	double max, help;
 	for(i = 0; i < n - 1; ++i) {
