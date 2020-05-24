@@ -2,10 +2,10 @@
 #include "typedef.h"
 
 int main() {
-	int n, m, res, i;
+	int n, m, res, i,  err = SUCCESS;
 	double *a;
 	FILE *fp;
-	ErrorCode err = SUCCESS;
+	
 	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
 		printf("Not enough memory\n");
 		return -1;
