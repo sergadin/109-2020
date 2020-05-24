@@ -86,7 +86,7 @@ static int compare_filenames(const char *fpath, const struct stat *status, int t
     {   
         char *temp;
         char *filename;
-        filename = malloc(2 * sizeof(char));
+        filename = malloc(1 * sizeof(char));
         filename[0] = ' ';
         if (temp = strrchr(fpath, '/'))
         { 
@@ -112,7 +112,7 @@ static int compare_filenames(const char *fpath, const struct stat *status, int t
 
 int main(int argc, char *argv[])
 {
-    data = malloc(2 * sizeof(char));
+    data = malloc(1 * sizeof(char));
     data[0] = ' ';
     if (argc == 3)
     {
