@@ -24,12 +24,12 @@ struct dictionary sort_words_file(FILE *file , int *error)
     {
         if(feof(file))
         {
-            *error = 1;
+            *error = INPUT_ERROR;
             return dict;
         }
         else
         {   
-            *error = 2;
+            *error = READ_ERROR;
             return dict;
         }
     }
@@ -77,7 +77,7 @@ struct dictionary sort_words_file(FILE *file , int *error)
                     switch(temp)
                     {
                         case -1:
-                            *error = 3;
+                            *error = MEMORY_ERROR;
                             return dict;
                     }
                 }
@@ -95,7 +95,7 @@ struct dictionary sort_words_file(FILE *file , int *error)
     
     if(!feof(file))
     {
-        *error = 2;
+        *error = READ_ERROR;
         return dict;
     }
     

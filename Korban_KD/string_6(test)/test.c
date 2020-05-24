@@ -3,13 +3,6 @@
 #include "sort_words_file.h"
 #include <string.h>
 
-enum RETURN_CODES
-{
-    INPUT_ERROR = -3,
-    MEMORY_ERROR,
-    READ_ERROR,
-};
-
 int main(int argc, char **argv)
 {
     FILE *file;
@@ -37,13 +30,13 @@ int main(int argc, char **argv)
     {
         switch(error)
         {
-            case 1:
+            case INPUT_ERROR:
                 fprintf(stderr, "file: %s is empty\n", name);
-                return READ_ERROR;
-            case 2:
+                return INPUT_ERROR;
+            case READ_ERROR:
                 fprintf(stderr, "ERROR can't read element from %s\n", name);
                 return READ_ERROR;
-            case 3:
+            case MEMORY_ERROR:
                 fprintf(stderr, "Memory ERROR!\n");
                 return MEMORY_ERROR;
         }
