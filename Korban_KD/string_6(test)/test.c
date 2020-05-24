@@ -3,20 +3,12 @@
 #include "sort_words_file.h"
 #include <string.h>
 
-enum RETURN_CODES
-{
-    INPUT_ERROR = -3,
-    MEMORY_ERROR,
-    READ_ERROR,
-};
-
 int main(int argc, char **argv)
 {
     FILE *file;
     char *name;
-    char **dictionary;
+    struct dictionary dict;
     int  error;
-    int i = 0;
     
     if( (argc != 2) )
     {
@@ -32,32 +24,37 @@ int main(int argc, char **argv)
         return INPUT_ERROR;
     }
     
-    dictionary = sort_words_file(file, &error);
+    dict = sort_words_file(file, &error);
     
-    if(!dictionary)
+    if(error != 0)
     {
+        for(int i = 0; i < dict.len_d; i++)
+        {
+            printf("%s\n", dict.words[i]);
+            free(dict.words[i]);
+        }
         switch(error)
         {
-            case 2:
+            case INPUT_ERROR:
+                fprintf(stderr, "file: %s is empty\n", name);
+                return INPUT_ERROR;
+            case READ_ERROR:
                 fprintf(stderr, "ERROR can't read element from %s\n", name);
                 return READ_ERROR;
-            case 3:
+            case MEMORY_ERROR:
                 fprintf(stderr, "Memory ERROR!\n");
                 return MEMORY_ERROR;
         }
     }
     
-    while( strlen(dictionary[i])  != 0)
+    for(int i = 0; i < dict.len_d; i++)
     {
-        printf("%s\n", dictionary[i]);
-        free(dictionary[i]);
-        i++;
+        printf("%s\n", dict.words[i]);
+        free(dict.words[i]);
     }
-    free(dictionary[i]);
     
-    //i++;
-    //printf("%s\n", dictionary[1]);
-    free(dictionary);
+
+    free(dict.words);
     
 
     return 0;

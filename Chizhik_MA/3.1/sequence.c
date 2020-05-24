@@ -4,13 +4,32 @@
 #include "sequence.h"
 #include "../lib/umath.h"
 
-double find_minimum(dFUNC f, double a, double b, double precision, Status *s) {
+/*
+ * Нахождение вершины параболы по трем ее точкам
+ *
+ * Параметры:
+ * x: массив абсцисс точек параболы
+ * y: массив ординат точек параболы
+ *
+ * Функция находит абсциссу вершины параболы по трем точкам, лежащим на этой параболе.
+ *
+ */
+
+static double find_parabola_vertex(double *x, double *y) {
+	double vertex_value = x[1] - ((x[1] - x[0]) * (x[1] - x[0]) * (y[1] - y[2]) - 
+			(x[1] - x[2]) * (x[1] - x[2]) * (y[1] - y[0])) / 
+			(2 * ((x[1] - x[0]) * (y[1] - y[2]) - (x[1] - x[2]) * (y[1] - y[0])));
+
+	return vertex_value;
+}
+
+double find_minimum(dFUNC f, double a, double b, double precision, MinStatus *s) {
 	double step, swap;
 	double left, right;
 	double prev_x, curr_x, next_x;
 	int n = 4;
 	double x[3], y[3];
-	*s = OK;
+	*s = OK_MIN;
 	
 	if (compareDoubles(a, b, precision) == 0) {
                 return a;
@@ -44,6 +63,7 @@ double find_minimum(dFUNC f, double a, double b, double precision, Status *s) {
 			next_x += step;
 		}
 		n *= 2;
+		fprintf(stdout, "n = %d\n", n);
 		step = (b - a) / n;
 	}
 
@@ -58,12 +78,4 @@ double find_minimum(dFUNC f, double a, double b, double precision, Status *s) {
 	}
 
 	return find_parabola_vertex(x, y);
-}
-
-double find_parabola_vertex(double *x, double *y) {
-	double vertex_value = x[1] - ((x[1] - x[0]) * (x[1] - x[0]) * (y[1] - y[2]) - 
-			(x[1] - x[2]) * (x[1] - x[2]) * (y[1] - y[0])) / 
-			(2 * ((x[1] - x[0]) * (y[1] - y[2]) - (x[1] - x[2]) * (y[1] - y[0])));
-
-	return vertex_value;
 }

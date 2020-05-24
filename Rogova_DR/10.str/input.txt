@@ -1,17 +1,31 @@
-#define hello privet
+#define hello prive gdhfhjfnhjmghjkmt
 qwfwefw hello cwfwewef
 #undef hello
 wefwefwefef
 #define hello privet
-ffffff hello fffffff hello hello hello ooooooortyui
+privet gvhvkkjbjk,b
+#define hello pokkkka
+#define hello aya
+ffffff hello fffffff hello hello hello ooooooortyui hello
 #undef hello
 uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
 #define privet Hello
+privet
 #define privet Hello!
 #define privet4 Hello!!!!!
 q privet c
+q privet c privet4
 #undef privet
-#undef privet
-#undef privet2
-q PRIVET c
+q privet 4 privet4
+
+
+q Hello! c
+
+q Hello! c privet4
+
+q privet 4 privet4
+
+
+
+
 

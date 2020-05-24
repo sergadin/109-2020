@@ -133,8 +133,9 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 	char *what;
 	char *forwhat;
 	char *strnow;
-	char ** maswhat = malloc(1*sizeof(char *));
-	char ** masforwhat = malloc(1*sizeof(char*));
+	char * news;
+	char ** maswhat = NULL;
+	char ** masforwhat = NULL;
 	int lenmas = 0;
 	int num = 0;
 	int ind = 0;
@@ -144,27 +145,28 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 	undef = strcpy(undef, "#undef");
 	def[7] = '\0';
 	undef[6] = '\0';
+	int indec = 0;
+	char* whatu;
 	while((strnow = readstring(input)) != NULL)
 	{
 		if(findstr(strnow, def) != 0)
 		{
-			printf("%s_s_\n", strnow);
 			what = makewhat(strnow, def);
 			forwhat = makeforwhat(strnow, def);
 			for(int i = 0; i < num; i++)
 			{
-				if((findstr(maswhat[i], what) != 0) && (len(maswhat[i]) == len(what)))
+				if((poisk(maswhat[i], what) != 0) && (len(maswhat[i]) == len(what)))
 				{
 					free(masforwhat[i]);
-					masforwhat[i] = malloc(len(forwhat));
+					masforwhat[i] = malloc(len(forwhat) + 1);
 					for(int j = 0; j <= len(forwhat); j++)
 					{
 						masforwhat[i][j] = forwhat[j];
 
 					}
+					ind = 1;
 
 				}
-				ind = 1;
 			}
 		
 			if(ind == 0)
@@ -172,6 +174,8 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 				maswhat = realloc(maswhat, (num + 1)* sizeof(char *));
 				masforwhat = realloc(masforwhat, (num + 1) * sizeof(char *));
 				num ++;
+				maswhat[num - 1] = NULL;
+				masforwhat[num - 1] = NULL;
 				maswhat[num - 1] = realloc(maswhat[num - 1], len(what) + 1);
 				masforwhat[num - 1] = realloc(masforwhat[num - 1], len(forwhat) + 1);
 				for(int i = 0; i <= len(what); i++)
@@ -188,12 +192,13 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 			}
 			ind = 0;
 		}
+		ind = 0;
 		if(findstr(strnow, undef) != 0)
 		{
-			what = makeundef(strnow);
+			whatu = makeundef(strnow);
 			for(int j = 0; j < num; j++)
 			{
-				if((findstr(maswhat[j], what) != 0) && (len(maswhat[j]) == len(what)))
+				if((poisk(maswhat[j], whatu) != 0) && (len(maswhat[j]) == len(whatu)))
 				{
 					deleteel(j, maswhat, num); 
 					deleteel(j, masforwhat, num);
@@ -205,38 +210,63 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 		{
 			for(int i = 0; i < num; i ++)
 			{
-				printf("poisk:%d\n", poisk(strnow, maswhat[i]));
 				if(poisk(strnow, maswhat[i]) != 0)
 				{
-					zamena(strnow, maswhat[i], masforwhat[i]);
-					fprintf(output, "%s\n", strnow);
+					news = zamena(strnow, maswhat[i], masforwhat[i]);
+					indec = 1;
 				}
 			}
-		}
-	
-	}						
+			if(indec == 1)
+			{
+				fprintf(output, "%s\n", news);
+                                free(news);
+			}            
+			if(indec == 0)
+			{
+				fprintf(output, "%s\n", strnow);
+			}
+			indec = 0;
 
-}
-char* zamena(char * strnow, char * what, char * forwhat)
+
+
+		}
+		
+	}	
+free(strnow);	
+free(def);
+free(undef);
+for(int i = 0; i < num; i ++)
 {
-	char * newstr = malloc(1);
+	free(maswhat[i]);
+	free(masforwhat[i]);
+}
+free(maswhat);
+free(masforwhat);
+}
+char* zamena(char * str, char * what, char * forwhat)
+{
+	char * newstr;
+	char * strnow = malloc(len(str) + 1);
+	strnow = strcpy(strnow, str);
 	int lenn = 1;
 	int pos;
 	int j;
 	while(poisk(strnow, what) != 0)
 	{
-		printf("\n%s\n", strnow);
-		printf("\n%s\n", what);
+		newstr = malloc(2);
+		newstr[0] = '0';
+		newstr[1] = '\0'; 
 		pos = pospoisk(strnow, what);
-		printf("pos:\n%d\n", pos);
 		for(int i = 0; i < pos; i++)
 		{
-			newstr = realloc(newstr, lenn + 1);
+			newstr = realloc(newstr, len(newstr) + 1);
+			lenn ++;
 			newstr[i] = strnow[i];
 		}
 		for(int i = 0; i < len(forwhat); i ++)
 		{
 			newstr = realloc(newstr, len(newstr) + 1);
+			lenn ++;
 			newstr[pos + i] = forwhat[i];
 			j = pos + i + 1;
 		}
@@ -244,8 +274,10 @@ char* zamena(char * strnow, char * what, char * forwhat)
 		for(int i = pos + len(what); i <= len(strnow); i ++)
 		{
 			newstr = realloc(newstr, len(newstr) + 1);
+			lenn ++;
 		       	newstr[len(forwhat) - len(what) + i] = strnow[i];
 		}
+		newstr[len(newstr)] = '\0';
 		strnow = realloc(strnow, len(newstr) + 1);
 		strcpy(strnow, newstr);
 		free(newstr);	
@@ -268,12 +300,12 @@ char *  makewhat(char *strnow,  const char* def)
 	}
 	i++;
 	while(strnow[i] != ' ')
-	{
-		d1 += 1;
+	{	
 		what = realloc(what, d1);
 		what[j] = strnow[i];
 		i++;
 		j++;
+		d1 += 1;
 	}
 	i++;
 	return what;
@@ -301,12 +333,13 @@ char *  makeforwhat(char *strnow,  const char* def)
         j = 0;
 	while(strnow[i] != '\n')
         {
-                d2 += 1;
                 forwhat = realloc(forwhat, d2);
+		d2 += 1;
                 forwhat[j] = strnow[i];
                 i++;
                 j++;
         }
+	forwhat = realloc(forwhat, d2);
 	forwhat[len(forwhat)] = '\0';
 	return forwhat;
 }
@@ -317,13 +350,12 @@ void deleteel(int i, char ** mas, int num)
 	{
 	 	free(mas[j]);
 		mas[j] = malloc(len(mas[j + 1]) + 1);
-		for(int k = 0; k <= len(mas[j]); k++)
+		for(int k = 0; k <= len(mas[j + 1]); k++)
 		{
 			mas[j][k] = mas[j + 1][k];
 		}
-	}
-	mas = realloc(mas, (num - 1)*sizeof(char*));
 
+	}
 }
 int poisk(char * t, char * w)
 {
@@ -333,8 +365,6 @@ int poisk(char * t, char * w)
         int p = 0, le = 0;
         int n1 = 0;
         le = len(t);
-	printf("%d\n", len(t));
-	printf("%d\n", len(w));
         n1 = len(w);
         for(i = 0; i <= le - n1; i++)
         {
@@ -349,8 +379,7 @@ int poisk(char * t, char * w)
                 {
 			if((i == 0) || (t[i - 1] == ' '))
 			{
-				printf("korablik");
-				if((t[i + len(w)] == ' ') || (t[i + len(w)] == '\0'))
+				if((t[i + len(w)] == ' ') || (t[i + len(w) + 1] == '\0'))
 				{
 					return 1;
 				}
@@ -359,18 +388,16 @@ int poisk(char * t, char * w)
 
         }
         return 0;
-
-
 }
 char * makeundef(char * str)
 {
 	char * w = NULL;
 	int le = 1;
-	for(int i = 6; i < len(str); i++)
+	for(int i = 7; i < (len(str) - 1); i++)
 	{
-		le ++;
 		w = realloc(w, le);
-		w[i - 6] = str[i];
+		w[i - 7] = str[i];
+		le ++;
 	}
 	w[le] = '\0';
 	return w;
@@ -382,8 +409,6 @@ int pospoisk(char * t, char * w)
         int p = 0, le = 0;
         int n1 = 0;
         le = len(t);
-        printf("%d\n", len(t));
-        printf("%d\n", len(w));
         n1 = len(w);
         for(i = 0; i <= le - n1; i++)
         {
@@ -398,8 +423,7 @@ int pospoisk(char * t, char * w)
                 {
                         if((i == 0) || (t[i - 1] == ' '))
                         {
-                                printf("korablik");
-                                if((t[i + len(w)] == ' ') || (t[i + len(w)] == '\0'))
+                                if((t[i + len(w)] == ' ') || (t[i + len(w) + 1] == '\0'))
                                 {
                                         return i;
                                 }                          
