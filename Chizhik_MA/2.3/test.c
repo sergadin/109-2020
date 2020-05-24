@@ -40,7 +40,7 @@ int main(void) {
 
 	int i, j, l, r;
 	double integral;
-	Status s;
+	IntStatus s;
 
 	dFUNC funcs[N] = {fourty_five, id, sq, cube, evil};
 	double preciseAnswers[][N] = {
