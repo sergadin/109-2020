@@ -22,9 +22,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#define Max_len 30
+
+char **s, **s_value = NULL;
+intmax_t *size, *size_value = NULL;
+int n = 0, max_len = 0;
 
 static int fn(const char *fpath, const struct stat *sb, int flag);
-
 
 /*
     * fn - колбэк-функция для ftw, вызываемая для всех файлов
@@ -34,13 +38,34 @@ static int fn(const char *fpath, const struct stat *sb, int flag);
     *   const struct *sb: указатель на структуру stat, содержащую основную информацию о файле
     *   int flag: целочисленное значение, обозначающее тип fpath
     *
-    * Функция выводит название файла и его размер на стандартный поток вывода
+    * Функция копирует в массив s название файла, а в массив size его размер
  */
 
+void print(int k, int max);
+
+/*
+    * Функция выводит (max - k + 5)  пробелов на стандартный поток вывода
+*/
+
 static int fn(const char *fpath, const struct stat *sb, int flag) {
-    if(flag == FTW_F)
-        printf("%s  %7jd\n", fpath, (intmax_t) sb->st_size);
+    if(flag == FTW_F) {
+        n++;
+        s = (char **) realloc (s_value, n * sizeof(char *));
+        size = (intmax_t *) realloc (size_value, n * sizeof(intmax_t));
+        s[n - 1] = malloc((strlen(fpath) + 1) * sizeof(char));
+        strcpy(s[n - 1], fpath);
+        size[n - 1] = (intmax_t) sb->st_size;
+        s_value = s;
+        size_value = size;
+        if(strlen(s[n - 1]) > max_len)
+            max_len = strlen(s[n - 1]);
+    }
     return 0;
+}
+
+void print(int k, int max) {
+    for(int i = 0; i < max - k + 4; i++)
+        printf(" ");
 }
 
 int main(int argc, char *argv[]) {
@@ -56,5 +81,28 @@ int main(int argc, char *argv[]) {
             return -1;
         }
     }
+    if(max_len > Max_len) {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < strlen(s[i]); j++) {
+                printf("%c", s[i][j]);
+                if (j == Max_len - 1)
+                    printf("     %jd", size[i]);
+                if((j % Max_len == Max_len - 1) || (j == strlen(s[i]) - 1))
+                    printf("\n");
+            }
+        }
+    }
+    else {
+        for(int i = 0; i < n; i++) {
+            printf("%s", s[i]);
+            print(strlen(s[i]), max_len);
+            printf("%jd\n", size[i]);
+        }
+    }
+    for(int i = 0; i < n; i++) {
+        free(s[i]);
+    }
+    free(s);
+    free(size);
     return 0;
 }
