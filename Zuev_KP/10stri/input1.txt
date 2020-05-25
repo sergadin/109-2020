@@ -20,5 +20,13 @@ q PRIVET c
 #define hello privet
 qwfwefw hello cwfwewef
 #undef hello
-
+wewerwer
+wfwefffw
+wfwefwfr
+#define privet Hello
+#define privet Hello!
+#define prive4t Hello!!!!!
+#undef prive4t
+gfgfyg prive4t privet sxgXU
+#undef privet
 

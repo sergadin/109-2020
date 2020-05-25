@@ -6,7 +6,7 @@ int posstr(char * t, char *w);
 int dlina(char *t, int k);
 int poisk(char * t, char * w, int n1);
 int pospoisk(char * t, char * w, int n1);
-char *poisku(char * str);
+char *poisku(char * str, char *w);
 char *zamena(char * t, char * what, char * forwhat, int n1, int n2);
 void delete(int i, char **mas, int n);
 int length(const char *s);
@@ -18,8 +18,9 @@ int dlina(char *t, int k);
                    
 void def(FILE *input1, FILE *output, const char *def, const char *und) 
 {
-	char *what;
-	char *forwhat;
+	char *hello;
+	char *privet;
+	char *undef;
 	char *strnow;
 	char **maswhat = NULL;
 	char **masforwhat = NULL;
@@ -35,22 +36,22 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 		{
 			l = length(strnow);
 			l1 = dlina(strnow, 0);
-			what = (char*) malloc((l1)*sizeof(char));
+			hello = (char*) malloc((l1)*sizeof(char));
 			l2 = l-length(def)-l1-3;
-			forwhat = (char*) malloc((l2)*sizeof(char));
-			what = (char*) realloc(what, l1+1);
-			forwhat = (char*) realloc(forwhat, l2+1);
-			pisk(strnow, what, l1, 0);
-			pisk(strnow, forwhat, l2, l1+length(def)-1);
+			privet = (char*) malloc((l2)*sizeof(char));
+			hello = (char*) realloc(hello, l1+1);
+			privet = (char*) realloc(privet, l2+1);
+			pisk(strnow, hello, l1, 0);
+			pisk(strnow, privet, l2, l1+length(def)-1);
 			for(i = 0; i < num; i++)
 			{
-				if((poisk(maswhat[i], what, length(what)) != 0) && (length(maswhat[i]) == length(what)))
+				if((poisk(maswhat[i], hello, length(hello)) != 0) && (length(maswhat[i]) == length(hello)))
 				{
 					free(masforwhat[i]);
-					masforwhat[i] = malloc(length(forwhat) + 1);
-					for(j = 0; j <= length(forwhat); j++)
+					masforwhat[i] = malloc(length(privet) + 1);
+					for(j = 0; j <= length(privet); j++)
 					{
-						masforwhat[i][j] = forwhat[j];
+						masforwhat[i][j] = privet[j];
 					}
 					ind = 1;
 				}
@@ -62,35 +63,36 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 				num++;
 				maswhat[num - 1] = NULL;
 				masforwhat[num - 1] = NULL;
-				maswhat[num - 1] = realloc(maswhat[num - 1], length(what) + 1);
-				masforwhat[num - 1] = realloc(masforwhat[num - 1], length(forwhat) + 1);
-				for(i = 0; i <= length(what); i++)
+				maswhat[num - 1] = realloc(maswhat[num - 1], length(hello) + 1);
+				masforwhat[num - 1] = realloc(masforwhat[num - 1], length(privet) + 1);
+				for(i = 0; i <= length(hello); i++)
 				{
-					maswhat[num - 1][i] = what[i];
+					maswhat[num - 1][i] = hello[i];
 				}
-				for(i = 0; i <= length(forwhat); i++)
+				for(i = 0; i <= length(privet); i++)
 				{
-					masforwhat[num - 1][i] = forwhat[i];
-
+					masforwhat[num - 1][i] = privet[i];
 				}
-				free(what);
-				free(forwhat);
 			}
+			free(hello);
+			free(privet);
 			ind = 0;
 		}
 		ind = 0;
 		if(strst(strnow, und, length(und)) != 0)
 		{
-			what = poisku(strnow);
+			undef = (char*) malloc((length(strnow)-length(und)-1)*sizeof(char));
+			undef = poisku(strnow, undef);
 			for(j = 0; j < num; j++)
 			{
-				if((poisk(maswhat[j], what, length(what)) != 0) && (length(maswhat[j]) == length(what)))
+				if((poisk(maswhat[j], undef, length(undef)) != 0) && (length(maswhat[j]) == length(undef)))
 				{
 					delete(j, maswhat, num); 
 					delete(j, masforwhat, num);
 					num -= 1;
 				}
 			}
+			free(undef);
 		}
 		if((strst(strnow, def, length(def)) == 0) && (strst(strnow, und, length(und)) == 0))
 		{
@@ -98,6 +100,8 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			{
 				if(poisk(strnow, maswhat[i], length(maswhat[i])) != 0)
 				{
+					//printf("%s\n", maswhat[i]);
+					//printf("%d\n", length(maswhat[i]));
 					strnow = zamena(strnow, maswhat[i], masforwhat[i], length(maswhat[i]), length(masforwhat[i]));
 					indec = 1;
 				}
@@ -105,7 +109,6 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			if(indec == 1)
 			{
 				fprintf(output, "%s\n", strnow);
-                                free(strnow);
 			}            
 			if(indec == 0)
 			{
@@ -113,9 +116,15 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			}
 			indec = 0;
 		}
-	
+		free(strnow);
 	}						
-
+	for(int i = 0; i < num; i ++)
+	{
+		free(maswhat[i]);
+		free(masforwhat[i]);
+	}
+  	free(maswhat);
+	free(masforwhat);
 }
 
 int dlina(char *t, int k) //ищет длину hello и privet
@@ -174,21 +183,17 @@ int posstr(char * t, char *w) //ищет позицию слова(любого)
                 {
                         return i;
                 }
-
         }
 }
 
 char* zamena(char * strnow, char * what, char * forwhat, int n1, int n2) //заменяет
 {
 	char * newstr;
-	int pos;
-	int i;
-	int l = 0;
+	int pos, i, l = 0;
 	while(poisk(strnow, what, n1) != 0)
 	{
-		newstr = malloc(0);
 		pos = pospoisk(strnow, what, n1);
-		newstr = realloc(newstr, pos+n2+1+length(strnow));
+		newstr = (char*) malloc((pos+n2+1+length(strnow))*sizeof(char));
 		for(i = 0; i < pos; i++)
 		{
 			newstr[i] = strnow[i];
@@ -221,12 +226,12 @@ int poisk(char * t, char * w, int n1) //ищет слово между проб�
         {
                 p = 0;
                 j = 0;
-                while((t[i + j] == w[j]) && (j < n1))
+                while((t[i + j] == w[j]) && (j < n1-1))
 		{
                         j++;
                         p = p + 1;
                 }
-                if(p == n1)
+                if(p == n1-1)
                 {
 			if((i == 0) || (t[i - 1] == ' '))
 			{
@@ -242,19 +247,17 @@ int poisk(char * t, char * w, int n1) //ищет слово между проб�
 
 
 }
-char *poisku(char *str) //#undef
-{
-	char *w = NULL;
-	int le = 1;
-	for(int i = 7; i < (length(str) - 1); i++)
-	{
-		w = realloc(w, le);
-		w[i - 7] = str[i];
-		le ++;
-	}
-	w[le] = '\0';
-	return w;
 
+char *poisku(char *str, char *w) //#undef
+{
+	int j = 0;
+	for(int i = 7; i < (length(str)-1); i++)
+	{
+		w[i - 7] = str[i];
+		j = j+1;
+	}
+	w[j] = '\0';
+	return w;
 }
 
 int pospoisk(char * t, char * w, int n1) //ищет позицию слова между пробелами
@@ -266,12 +269,12 @@ int pospoisk(char * t, char * w, int n1) //ищет позицию слова м
         {
                 p = 0;
                 j = 0;
-                while((t[i + j] == w[j]) && (j < n1))
+                while((t[i + j] == w[j]) && (j < n1-1))
                 {
                         j++;
                         p = p + 1;
                 }
-                if(p == n1)
+                if(p == n1-1)
                 {
                         if((i == 0) || (t[i - 1] == ' '))
                         {
@@ -290,15 +293,17 @@ int pospoisk(char * t, char * w, int n1) //ищет позицию слова м
 
 void delete(int i, char **mas, int n) //удаляет
 {
-	for(int j = i; j < n - 1; j++)
+	int j, k;
+	for(j = i; j < n - 1; j++)
 	{
 		free(mas[j]);
 		mas[j] = malloc(length(mas[j+1]));
-		for(int k = 0; k < length(mas[j+1]); k++)
+		for(k = 0; k < length(mas[j+1]); k++)
 		{
 			mas[j][k] = mas[j + 1][k];
 		}
 	}
+	free(mas[n - 1]);
 }
 
 int length(const char *s) 
