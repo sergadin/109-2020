@@ -21,5 +21,6 @@ int main(void)
 	mainstrd(input, output, fdef);
 	fclose(input);
 	fclose(output);
+	fclose(fdef);
 	return 0;
 }
