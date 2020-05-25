@@ -152,7 +152,10 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 		if(findstr(strnow, def) != 0)
 		{
 			what = makewhat(strnow, def);
+			printf("what:%s\n", what);
+			printf("%s\n_____stroka", what);
 			forwhat = makeforwhat(strnow, def);
+			printf("%s\n____forwhat", forwhat);
 			for(int i = 0; i < num; i++)
 			{
 				if((poisk(maswhat[i], what) != 0) && (len(maswhat[i]) == len(what)))
@@ -187,10 +190,10 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 					masforwhat[num - 1][i] = forwhat[i];
 
 				}
-				free(what);
-				free(forwhat);
 			}
 			ind = 0;
+		free(what);
+		free(forwhat);
 		}
 		ind = 0;
 		if(findstr(strnow, undef) != 0)
@@ -208,18 +211,20 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 		}
 		if((findstr(strnow, def) == 0) && (findstr(strnow, undef) == 0))
 		{
+			printf("%d\nNUMMM:", num);
 			for(int i = 0; i < num; i ++)
 			{
+				printf("%d_%s_%s__%s\n", poisk(strnow, maswhat[i]), strnow, maswhat[i], masforwhat[i]);
 				if(poisk(strnow, maswhat[i]) != 0)
 				{
-					news = zamena(strnow, maswhat[i], masforwhat[i]);
+					strnow = zamena(strnow, maswhat[i], masforwhat[i]);
+					printf("%s\n!!!!!!!!!!!", strnow);
 					indec = 1;
 				}
 			}
 			if(indec == 1)
 			{
-				fprintf(output, "%s\n", news);
-                                free(news);
+				fprintf(output, "%s\n", strnow);
 			}            
 			if(indec == 0)
 			{
@@ -253,19 +258,18 @@ char* zamena(char * str, char * what, char * forwhat)
 	int j;
 	while(poisk(strnow, what) != 0)
 	{
-		newstr = malloc(2);
-		newstr[0] = '0';
-		newstr[1] = '\0'; 
+		newstr = malloc(1);
+		lenn = 1;
 		pos = pospoisk(strnow, what);
 		for(int i = 0; i < pos; i++)
 		{
-			newstr = realloc(newstr, len(newstr) + 1);
+			newstr = realloc(newstr, lenn);
 			lenn ++;
 			newstr[i] = strnow[i];
 		}
 		for(int i = 0; i < len(forwhat); i ++)
 		{
-			newstr = realloc(newstr, len(newstr) + 1);
+			newstr = realloc(newstr, lenn);
 			lenn ++;
 			newstr[pos + i] = forwhat[i];
 			j = pos + i + 1;
@@ -273,17 +277,16 @@ char* zamena(char * str, char * what, char * forwhat)
 		
 		for(int i = pos + len(what); i <= len(strnow); i ++)
 		{
-			newstr = realloc(newstr, len(newstr) + 1);
+			newstr = realloc(newstr, lenn + 1);
 			lenn ++;
 		       	newstr[len(forwhat) - len(what) + i] = strnow[i];
 		}
-		newstr[len(newstr)] = '\0';
+		newstr[lenn - 1] = '\0';
 		strnow = realloc(strnow, len(newstr) + 1);
 		strcpy(strnow, newstr);
 		free(newstr);	
 	}
 	return(strnow);
-	
 }
 
 
@@ -292,22 +295,21 @@ char *  makewhat(char *strnow,  const char* def)
 	char* what;
 	int d = len(strnow);
 	int d1 = 1;
-	int i = 0, j = 0;
+	int i = 8, j = 0;
 	what = malloc(1);
 	while(strnow[i] != ' ')
-	{
-		i++;
-	}
-	i++;
-	while(strnow[i] != ' ')
 	{	
+		d1 += 1;
 		what = realloc(what, d1);
 		what[j] = strnow[i];
+		printf("%c\n", what[j]);
 		i++;
 		j++;
-		d1 += 1;
 	}
+	what[d1 - 1] = '\0';
 	i++;
+	printf("%s\nWHAT", what);
+	printf("%d\n", len(what));
 	return what;
 
 }
@@ -333,14 +335,13 @@ char *  makeforwhat(char *strnow,  const char* def)
         j = 0;
 	while(strnow[i] != '\n')
         {
-                forwhat = realloc(forwhat, d2);
 		d2 += 1;
+                forwhat = realloc(forwhat, d2);
                 forwhat[j] = strnow[i];
                 i++;
                 j++;
         }
-	forwhat = realloc(forwhat, d2);
-	forwhat[len(forwhat)] = '\0';
+	forwhat[d2 - 1] = '\0';
 	return forwhat;
 }
 
@@ -379,7 +380,7 @@ int poisk(char * t, char * w)
                 {
 			if((i == 0) || (t[i - 1] == ' '))
 			{
-				if((t[i + len(w)] == ' ') || (t[i + len(w) + 1] == '\0'))
+				if(((i + len(w)) == len(t)) || (t[i + len(w)] == ' ') || (t[i + len(w) + 1] == '\0'))
 				{
 					return 1;
 				}
@@ -393,13 +394,13 @@ char * makeundef(char * str)
 {
 	char * w = NULL;
 	int le = 1;
-	for(int i = 7; i < (len(str) - 1); i++)
+	for(int i = 7; i < len(str) - 1; i++)
 	{
 		w = realloc(w, le);
 		w[i - 7] = str[i];
 		le ++;
 	}
-	w[le] = '\0';
+	w[le - 1] = '\0';
 	return w;
 
 }
