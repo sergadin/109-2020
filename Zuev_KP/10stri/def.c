@@ -207,7 +207,7 @@ char* zamena(char * strnow, char * what, char * forwhat, int n1, int n2) //за�
 
 int poisk(char * t, char * w, int n1) //ищет слово между пробелами
 {
-	if(length(t) < n1)
+if(length(t) < n1)
 		return 0;
 	int i, j = 0;
         int p = 0, le = 0;
@@ -218,24 +218,50 @@ int poisk(char * t, char * w, int n1) //ищет слово между проб�
                 j = 0;
                 while((t[i + j] == w[j]) && (j < n1-1))
 		{
-                        j = j+1;
+                        j++;
                         p = p + 1;
                 }
                 if(p == n1-1)
                 {
-			if((i == 0) || (t[i - 1] == ' '))
+			if(i == 0)
 			{
-				if((t[i + n1] == ' ') || (t[i + n1 + 1] == '\0'))
+				if(((i + n1) == length(t)))
+                                {
+                                        return 1;
+                                }
+				if((t[i + n1] == ' '))
 				{
 					return 1;
 				}
+				if((t[i + n1 + 1] == '\0'))
+				{
+					return 1;
+				}
+
+			}
+			else
+			{
+			if((t[i - 1] == ' '))
+			{
+				if(((i + n1) == length(t)))
+                                {
+                                        return 1;
+                                }
+                                if((t[i + n1] == ' '))
+                                {
+                                        return 1;
+                                }
+                                if((t[i + n1 + 1] == '\0'))
+                                {
+                                        return 1;
+                                }
+
+			}
 			}
                 }
 
         }
         return 0;
-
-
 }
 
 char *poisku(char *str, char *w) //#undef
@@ -287,8 +313,8 @@ void delete(int i, char **mas, int n) //удаляет
 	for(j = i; j < n - 1; j++)
 	{
 		free(mas[j]);
-		mas[j] = malloc(length(mas[j+1]));
-		for(k = 0; k < length(mas[j+1]); k++)
+		mas[j] = malloc(length(mas[j+1])+1);
+		for(k = 0; k <= length(mas[j+1]); k++)
 		{
 			mas[j][k] = mas[j + 1][k];
 		}
