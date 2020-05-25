@@ -141,6 +141,7 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 	int ind = 0;
 	def = malloc(8);
 	undef = malloc(7);
+	char * newstr;
 	def = strcpy(def, "#define");
 	undef = strcpy(undef, "#undef");
 	def[7] = '\0';
@@ -216,7 +217,11 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 			{
 				if(poisk(strnow, maswhat[i]) != 0)
 				{
-					strnow = zamena(strnow, maswhat[i], masforwhat[i]);
+					newstr = zamena(strnow, maswhat[i], masforwhat[i]);
+					strnow = realloc(strnow, len(newstr) + 1);
+					strnow = strcpy(strnow, newstr);
+					free(newstr);
+
 				}
 			}
 			fprintf(output, "%s\n", strnow);
