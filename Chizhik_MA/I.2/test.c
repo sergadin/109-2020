@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
 		fprintf(stdout, "Computed root: %lf\n", tan(root));
 		fprintf(stdout, "Integral from 0 to %lf: %lf\n", tan(root), integral);
 		fprintf(stdout, "1 + 0.1 * alpha = %lf\n", c);
-		if (compareDoubles(c, integral, EPS) == 0) {
+		if (compareDoubles(c, integral, EPS * 3) == 0) {
 			fprintf(stdout, "The difference's almost unnoticeable\n");
 		} else {
 			fprintf(stderr, "We're sorry, something went wrong\n");
