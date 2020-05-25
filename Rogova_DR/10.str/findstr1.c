@@ -133,7 +133,6 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 	char *what;
 	char *forwhat;
 	char *strnow;
-	char * news;
 	char ** maswhat = NULL;
 	char ** masforwhat = NULL;
 	int lenmas = 0;
@@ -224,9 +223,9 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 			
 
 		}
+		free(strnow);
 		
-	}	
-free(strnow);	
+	}		
 free(def);
 free(undef);
 for(int i = 0; i < num; i ++)
@@ -343,6 +342,7 @@ void deleteel(int i, char ** mas, int num)
 		}
 
 	}
+	free(mas[num - 1]);
 }
 int poisk(char * t, char * w)
 {
