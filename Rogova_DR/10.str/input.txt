@@ -1,15 +1,25 @@
-sgrhdjfjglhkhjgfkfyukijghfchj
-#define privet4t ttttttt
-#define privet hhhhhhh
-#define privet gggggg
-q privet privet4t c
-#define gggggg sasasasa sasasasasadaa
-fdkghfkjghkjgvfjhfmgvj,kjhkb
-gggggg privet gggggg
+sefefsefwefe
+#define hello privet
+xxxxx hello yyyyyyy
+#undef hello
+wefwefwefef
+#define hellooooooooooooooooooooo privet
+ffffff hellooooooooooooooooooooo fffffff hello hello ooodhdrhdoooortyui
+#undef hellooooooooooooooooooooo
+uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+#define privet Hello
+#define privet Hello!
+#define prive4t Hello!!!!!
+q privet prive4t c
+q privet prive4t c
+q privetprive4t c
 #undef privet
-privet
-privet4t
-#undef privet4t
-privet4t
+gfgfyg prive4t privet sxgXU
+#undef prive4t
+q PRIVET c
+#define hello privet
+qwfwefw hello cwfwewef
+#undef hello
+hello
 #define a b
 a a aaaaaa b
