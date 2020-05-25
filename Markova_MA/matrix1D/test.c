@@ -2,7 +2,7 @@
 #include "f.h"
 
 int main() {
-	int n, m, res, i,  err = SUCCESS;
+	int n = 3, m = 4, res, i,  err = SUCCESS;
 	double *a, eps = 1e-16;
 	FILE *fp;
 	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
