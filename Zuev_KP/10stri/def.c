@@ -1,66 +1,121 @@
 #include"stdio.h"
 #include"stdlib.h"
 #include"def.h"
+
+int posstr(char * t, char *w);
+int dlina(char *t, int k);
+int poisk(char * t, char * w, int n1);
+int pospoisk(char * t, char * w, int n1);
+char *poisku(char * str);
+char *zamena(char * t, char * what, char * forwhat, int n1, int n2);
+void delete(int i, char **mas, int n);
 int length(const char *s);
 char *read_string(FILE *f);
 char *strcpy(char *t, const char *s);
-char *zamena(char *t, const char *hello, const char *privet, int k, int l1, int l2); 
 int strst(char *t, const char *w, int n);
-int poisk(char * t, const char *w, int n);
 char *pisk(char *t, char *w, int n, int p);
 int dlina(char *t, int k);
-
+                   
 void def(FILE *input1, FILE *output, const char *def, const char *und) 
 {
-	char *s;
-	char *t;
-	char *hello; 
-	char *privet;
-	int l, l1, l2, i;
-	while((s = read_string(input1)) != NULL)
-	{ 
-		while((s) && (strst(s, def, length(def)) == 0))
-		{			
-			l = length(s);
-			fprintf(output, "%s\n", s);
-			free(s);
-			s = read_string(input1);
-		}
-		if(s)
+	char *what;
+	char *forwhat;
+	char *strnow;
+	char **maswhat = NULL;
+	char **masforwhat = NULL;
+	int lenmas = 0;
+	int num = 0;
+	int ind = 0;
+	int indec = 0;
+	int i, j;
+	int l, l1, l2;
+	while((strnow = read_string(input1)) != NULL)
+	{
+		if(strst(strnow, def, length(def)) != 0)
 		{
-			l1 = dlina(s, 0);
-			hello = (char*) malloc((l1)*sizeof(char));		
-			l2 = dlina(s, l1+length(def)+1);
-			l2 = l2-1;
-			privet = (char*) malloc((l2)*sizeof(char));
-			pisk(s, hello, l1, 0);
-			pisk(s, privet, l2, l1+length(def)+1);
-			free(s);
-			s = read_string(input1);
-			l = length(s); 
-			while(s)
+			l = length(strnow);
+			l1 = dlina(strnow, 0);
+			what = (char*) malloc((l1)*sizeof(char));
+			l2 = l-length(def)-l1-3;
+			forwhat = (char*) malloc((l2)*sizeof(char));
+			what = (char*) realloc(what, l1+1);
+			forwhat = (char*) realloc(forwhat, l2+1);
+			pisk(strnow, what, l1, 0);
+			pisk(strnow, forwhat, l2, l1+length(def)-1);
+			for(i = 0; i < num; i++)
 			{
-
-				if (strst(s, und, length(und)) != 0)
+				if((poisk(maswhat[i], what, length(what)) != 0) && (length(maswhat[i]) == length(what)))
 				{
-					break;
+					free(masforwhat[i]);
+					masforwhat[i] = malloc(length(forwhat) + 1);
+					for(j = 0; j <= length(forwhat); j++)
+					{
+						masforwhat[i][j] = forwhat[j];
+					}
+					ind = 1;
 				}
-				while (strst(s, hello, l1) != 0)
-				{
-					l = l+l2;
-					s = (char*) realloc(s, l);
-					i = poisk(s, hello, l1);
-					zamena(s, hello, privet, i, l1, l2);		
-				}
-				fprintf(output, "%s\n", s);	
-				free(s);
-				s = read_string(input1);
 			}
-			free(hello);
-			free(privet);
+			if(ind == 0)
+			{
+				maswhat = realloc(maswhat, (num + 1)* sizeof(char *));
+				masforwhat = realloc(masforwhat, (num + 1) * sizeof(char *));
+				num++;
+				maswhat[num - 1] = NULL;
+				masforwhat[num - 1] = NULL;
+				maswhat[num - 1] = realloc(maswhat[num - 1], length(what) + 1);
+				masforwhat[num - 1] = realloc(masforwhat[num - 1], length(forwhat) + 1);
+				for(i = 0; i <= length(what); i++)
+				{
+					maswhat[num - 1][i] = what[i];
+				}
+				for(i = 0; i <= length(forwhat); i++)
+				{
+					masforwhat[num - 1][i] = forwhat[i];
+
+				}
+				free(what);
+				free(forwhat);
+			}
+			ind = 0;
 		}
-		free(s);
-	}
+		ind = 0;
+		if(strst(strnow, und, length(und)) != 0)
+		{
+			what = poisku(strnow);
+			for(j = 0; j < num; j++)
+			{
+				if((poisk(maswhat[j], what, length(what)) != 0) && (length(maswhat[j]) == length(what)))
+				{
+					delete(j, maswhat, num); 
+					delete(j, masforwhat, num);
+					num -= 1;
+				}
+			}
+		}
+		if((strst(strnow, def, length(def)) == 0) && (strst(strnow, und, length(und)) == 0))
+		{
+			for(i = 0; i < num; i ++)
+			{
+				if(poisk(strnow, maswhat[i], length(maswhat[i])) != 0)
+				{
+					strnow = zamena(strnow, maswhat[i], masforwhat[i], length(maswhat[i]), length(masforwhat[i]));
+					indec = 1;
+				}
+			}
+			if(indec == 1)
+			{
+				fprintf(output, "%s\n", strnow);
+                                free(strnow);
+			}            
+			if(indec == 0)
+			{
+				fprintf(output, "%s\n", strnow);
+			}
+			indec = 0;
+		}
+	
+	}						
+
 }
 
 int dlina(char *t, int k) //ищет длину hello и privet
@@ -95,48 +150,153 @@ char *pisk(char *t, char *w, int n, int p) //ищет что заменять и
 	{
 		w[i-k] = t[i];
 	}
+	w[n] = '\0';
 	return w;
 }
 
-char *zamena(char *t, const char *hello, const char *privet, int k, int l1, int l2) //заменяет hello на privet
+int posstr(char * t, char *w) //ищет позицию слова(любого)
 {
-	int i = 0, l = 0;	
-	l = length(t);
-	while((t[i] != '\0') && (i <= length(t)))
-	{
-		if(i == k)
-		{
-			for(i = l-(l2-l1)+1; i >= k+l1; i--)
-			{
-				t[i+(l2-l1)] = t[i];
-			}
-			for(i = k; i < k+l2; i++)
-			{
-				t[i] = privet[i-k];
-			}
-		}
-		i++;
-	}
-	return t;	
+        int i, j = 0;
+        int p = 0;
+        int n1 = 0;
+        int le = length(t);
+        n1 = length(w);
+        for(i = 0; i < le - n1; i++)
+        {
+                p = 0;
+                j = 0;
+                while((t[i + j] == w[j]) && (j < n1))
+                {
+                        j++;
+                        p = p + 1;
+                }
+                if(p == n1)
+                {
+                        return i;
+                }
+
+        }
 }
 
-int poisk(char *t, const char *w, int n) //ищет столбец в котором находится hello
+char* zamena(char * strnow, char * what, char * forwhat, int n1, int n2) //заменяет
 {
-	int i, j = 0;
-	int p = 0;
-	int l = length(t);
-	for(i = 0; i < l - n; i++)
+	char * newstr;
+	int pos;
+	int i;
+	int l = 0;
+	while(poisk(strnow, what, n1) != 0)
 	{
-		p = 0;
-		j = 0;
-		while((t[i + j] == w[j]) && (j < n-1))
+		newstr = malloc(0);
+		pos = pospoisk(strnow, what, n1);
+		newstr = realloc(newstr, pos+n2+1+length(strnow));
+		for(i = 0; i < pos; i++)
 		{
-			j++;
-			p = p + 1;
+			newstr[i] = strnow[i];
 		}
-		if(p+1 == n)
+		for(i = 0; i < n2; i ++)
 		{
-			return i;
+			newstr[pos + i] = forwhat[i];
+		}
+		for(i = pos + n1; i <= length(strnow); i ++)
+		{
+		       	newstr[n2 - n1 + i] = strnow[i];
+		}
+		newstr[length(newstr)] = '\0';
+		strnow = realloc(strnow, length(newstr) + 1);
+		strcpy(strnow, newstr);
+		free(newstr);	
+	}
+	return(strnow);
+	
+}
+
+int poisk(char * t, char * w, int n1) //ищет слово между пробелами
+{
+	if(length(t) < n1)
+		return 0;
+	int i, j = 0;
+        int p = 0, le = 0;
+        le = length(t);
+        for(i = 0; i <= le - n1; i++)
+        {
+                p = 0;
+                j = 0;
+                while((t[i + j] == w[j]) && (j < n1))
+		{
+                        j++;
+                        p = p + 1;
+                }
+                if(p == n1)
+                {
+			if((i == 0) || (t[i - 1] == ' '))
+			{
+				if((t[i + n1] == ' ') || (t[i + n1 + 1] == '\0'))
+				{
+					return 1;
+				}
+			}
+                }
+
+        }
+        return 0;
+
+
+}
+char *poisku(char *str) //#undef
+{
+	char *w = NULL;
+	int le = 1;
+	for(int i = 7; i < (length(str) - 1); i++)
+	{
+		w = realloc(w, le);
+		w[i - 7] = str[i];
+		le ++;
+	}
+	w[le] = '\0';
+	return w;
+
+}
+
+int pospoisk(char * t, char * w, int n1) //ищет позицию слова между пробелами
+{
+        int i, j = 0;
+        int p = 0, le = 0;
+        le = length(t);
+        for(i = 0; i <= le - n1; i++)
+        {
+                p = 0;
+                j = 0;
+                while((t[i + j] == w[j]) && (j < n1))
+                {
+                        j++;
+                        p = p + 1;
+                }
+                if(p == n1)
+                {
+                        if((i == 0) || (t[i - 1] == ' '))
+                        {
+                                if((t[i + n1] == ' ') || (t[i + n1 + 1] == '\0'))
+                                {
+                                        return i;
+                                }                          
+                        }
+                }
+
+        }
+        return 0;
+
+
+}
+
+void delete(int i, char **mas, int n) //удаляет
+{
+	for(int j = i; j < n - 1; j++)
+	{
+		free(mas[j]);
+		mas[j] = malloc(length(mas[j+1]));
+		for(int k = 0; k < length(mas[j+1]); k++)
+		{
+			mas[j][k] = mas[j + 1][k];
 		}
 	}
 }
