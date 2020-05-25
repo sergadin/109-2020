@@ -25,5 +25,5 @@ double find_root(double a, double eps) {
         }
         n *= 2;
     }
-    return 1 + (double)k/n;
+    return 1 + 2 * (double)k/n;
 }
