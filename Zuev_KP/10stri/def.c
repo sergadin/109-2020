@@ -20,22 +20,22 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 	char *hello;
 	char *privet;
 	char *undef;
-	char *strnow;
+	char *s;
 	char **mashello = NULL;
 	char **masprivet = NULL;
-	int lenmas = 0, n = 0, ind = 0, indec = 0, i, j, l1, l2;
-	while((strnow = read_string(input1)) != NULL)
+	int n = 0, ind = 0, ind1 = 0, i, j, l1, l2;
+	while((s = read_string(input1)) != NULL)
 	{
-		if(strst(strnow, def, length(def)) != 0)
+		if(strst(s, def, length(def)) != 0)
 		{
-			l1 = dlina(strnow, 0);
+			l1 = dlina(s, 0);
 			hello = (char*) malloc((l1)*sizeof(char));
-			l2 = length(strnow)-length(def)-l1-3;
+			l2 = length(s)-length(def)-l1-3;
 			privet = (char*) malloc((l2)*sizeof(char));
 			hello = (char*) realloc(hello, l1+1);
 			privet = (char*) realloc(privet, l2+1);
-			pisk(strnow, hello, l1, 0);
-			pisk(strnow, privet, l2, l1+length(def)-1);
+			pisk(s, hello, l1, 0);
+			pisk(s, privet, l2, l1+length(def)-1);
 			for(i = 0; i < n; i++)
 			{
 				if((poisk(mashello[i], hello, length(hello)) != 0) && (length(mashello[i]) == length(hello)))
@@ -69,13 +69,12 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			}
 			free(hello);
 			free(privet);
-			ind = 0;
 		}
 		ind = 0;
-		if(strst(strnow, und, length(und)) != 0)
+		if(strst(s, und, length(und)) != 0)
 		{
-			undef = (char*) malloc((length(strnow)-length(und)-1)*sizeof(char));
-			undef = poisku(strnow, undef);
+			undef = (char*) malloc((length(s)-length(und)-1)*sizeof(char));
+			undef = poisku(s, undef);
 			for(j = 0; j < n; j++)
 			{
 				if((poisk(mashello[j], undef, length(undef)) != 0) && (length(mashello[j]) == length(undef)))
@@ -87,29 +86,29 @@ void def(FILE *input1, FILE *output, const char *def, const char *und)
 			}
 			free(undef);
 		}
-		if((strst(strnow, def, length(def)) == 0) && (strst(strnow, und, length(und)) == 0))
+		if((strst(s, def, length(def)) == 0) && (strst(s, und, length(und)) == 0))
 		{
 			for(i = 0; i < n; i ++)
 			{
-				if(poisk(strnow, mashello[i], length(mashello[i])) != 0)
+				if(poisk(s, mashello[i], length(mashello[i])) != 0)
 				{
-					strnow = zamena(strnow, mashello[i], masprivet[i], length(mashello[i]), length(masprivet[i]));
-					indec = 1;
+					s = zamena(s, mashello[i], masprivet[i], length(mashello[i]), length(masprivet[i]));
+					ind1 = 1;
 				}
 			}
-			if(indec == 1)
+			if(ind1 == 1)
 			{
-				fprintf(output, "%s\n", strnow);
+				fprintf(output, "%s\n", s);
 			}            
-			if(indec == 0)
+			if(ind1 == 0)
 			{
-				fprintf(output, "%s\n", strnow);
+				fprintf(output, "%s\n", s);
 			}
-			indec = 0;
+			ind1 = 0;
 		}
-		free(strnow);
+		free(s);
 	}						
-	for(int i = 0; i < n; i ++)
+	for(i = 0; i < n; i ++)
 	{
 		free(mashello[i]);
 		free(masprivet[i]);
