@@ -130,8 +130,8 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 {
 	char * def;
 	char * undef;
-	char *what;
-	char *forwhat;
+	char * what;
+	char * forwhat;
 	char *strnow;
 	char ** maswhat = NULL;
 	char ** masforwhat = NULL;
@@ -148,7 +148,8 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 	undef[6] = '\0';
 	int indec = 0;
 	char* whatu;
-	while((strnow = readstring(input)) != NULL)
+	strnow = readstring(input);
+	while(strnow != NULL)
 	{
 		if(findstr(strnow, def) != 0)
 		{
@@ -229,6 +230,7 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 
 		}
 		free(strnow);
+		strnow = readstring(input);
 		
 	}		
 free(def);
