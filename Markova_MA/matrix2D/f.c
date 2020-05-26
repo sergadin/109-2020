@@ -65,7 +65,7 @@ int matr(double *a, int n, int m, double eps) {
 		}
 		}
 		
-		printf("%d ", pos);
+		//printf("%d ", pos);
 		
  		if(fabs(max) <= eps) {
 			res = 0;
@@ -75,10 +75,10 @@ int matr(double *a, int n, int m, double eps) {
 		if(i != pos)
 			change_str(a, n, m, i, pos);
 		max = a[i*m + i];
-		print_matrix(a, n, m);
+		//print_matrix(a, n, m);
 		for(j = i + 1; j < n; ++j)
 		{
-			printf("ya");
+			//printf("ya");
 			ved_null(a, n, m, i, j, max);
 		}
 	}
