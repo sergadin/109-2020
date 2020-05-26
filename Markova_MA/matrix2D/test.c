@@ -26,11 +26,14 @@ int main() {
 						t = 0;
 					a[i*m + j] = t;
 				}
-				else (fscanf(fp, "%lf", &a[i*m + j]) != 1);
+				else
 				{
-					fclose(fp);
-					err = ERROR_READ;
-					break;
+					if((fscanf(fp, "%lf", &a[i*m + j]) != 1))
+					{
+						fclose(fp);
+						err = ERROR_READ;
+						break;
+					}
 				}
 			}
 		}

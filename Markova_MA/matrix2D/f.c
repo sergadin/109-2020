@@ -41,7 +41,9 @@ int matr(double *a, int n, int m, double eps) {
 	int i, j, pos, res = n;
 	double max, help;
 	for(i = 0; i < n; ++i) {
-		for(j = i + 1; max = a[j*m + i];j < n; j++)
+		max = a[j*m + i];
+		pos = i;
+		for(j = i + 1;j < n; j++)
 		{
 			help = a[j*m + i];
 			if(help > max)
