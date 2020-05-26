@@ -2,11 +2,11 @@ FLAGS =-fsanitize=address -mfpmath=sse -fstack-protector-all -W -Wall -Wextra -W
 
 
 
-prog: test.o sort_words_file.o 
-	gcc  $(FLAGS) -o prog  test.o sort_words_file.o 
-test.o: test.c sort_words_file.h
+prog: test.o sort_files_by_size.o 
+	gcc  $(FLAGS) -o prog  test.o sort_files_by_size.o 
+test.o: test.c sort_files_by_size.h
 	gcc $(FLAGS)  -c test.c 
-sort_words_file.o:  sort_words_file.h sort_words_file.c
-	gcc $(FLAGS)  -c sort_words_file.c 
+sort_files_by_size.o:  sort_files_by_size.h sort_files_by_size.c
+	gcc $(FLAGS)  -c sort_files_by_size.c 
 clean:
 	rm -rf *.o 

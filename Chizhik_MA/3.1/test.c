@@ -37,7 +37,7 @@ int main(void) {
 		"Function is not unimodal here",
 	};
 	double min;
-	Status s;
+	MinStatus s;
 
 	dFUNC fn[N] = {constant, linear, linear_neg, parabola, piecewise};
 	double segments[M][2] = {
@@ -57,7 +57,7 @@ int main(void) {
 		for (int j = 0; j < M; j++) {
 			fprintf(stdout, "Test %d.%d\n", i + 1, j + 1);
 			min = find_minimum(fn[i], segments[j][0], segments[j][1], EPS, &s);
-			if (s != OK) {
+			if (s != OK_MIN) {
 				fprintf(stdout, "%s\n", statusText[s]);
 				fprintf(stdout, "But the minimum value is %lf\n", (*fn[i])(min));
 				fprintf(stdout, "Expected result: %lf\n", preciseAnswers[i][j]);

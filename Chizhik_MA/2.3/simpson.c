@@ -4,7 +4,21 @@
 #include "simpson.h"
 #include "../lib/umath.h"
 
-double integration_with_fixed_step(dFUNC f, double a, double b, int n) {
+/*
+ * Подсчет интегральной суммы для фиксироанного разбиения
+ *
+ * Параметры:
+ * f: вещественнозначная функция от одной переменной, от которой считается интеграл
+ * a: левый конец отрезка
+ * b: правый конец отрезка
+ * n: количество подотрезков равной длины, на которые разбит исходный отрезок [a, b]
+ *
+ * Функция считает интегральную сумму для f по формуле Симпсона с заданным 
+ * равномерным разбиением отрезка [a, b] на n подотрезков.
+ *
+ */
+
+static double integration_with_fixed_step(dFUNC f, double a, double b, int n) {
 	double step, x, sum;
 	int i, coefficient;
 
@@ -21,11 +35,11 @@ double integration_with_fixed_step(dFUNC f, double a, double b, int n) {
 	return step * sum / 3;
 }
 
-double simpson_integral(dFUNC f, double a, double b, double precision, Status *s) {
+double simpson_integral(dFUNC f, double a, double b, double precision, IntStatus *s) {
 	double current_i, prev_i;
 	double swap;
 	int n, sign = 1;
-	*s = OK;
+	*s = OK_INT;
 
 	if (a > b) {
 		swap = a;
@@ -45,5 +59,5 @@ double simpson_integral(dFUNC f, double a, double b, double precision, Status *s
 	}
 
 	*s = METHOD_DOES_NOT_CONVERGE;
-	return current_i;
+	return current_i * sign;
 }
