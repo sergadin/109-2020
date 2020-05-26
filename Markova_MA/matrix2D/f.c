@@ -66,6 +66,9 @@ int matr(double *a, int n, int m, double eps) {
 		for(j = i + 1; j < n; ++j)
 			ved_null(a, n, m, i, j, max);
 	}
+	
+	print_matrix(a, n, m);
+	
 	if(fabs(a[(n - 1)*m + n - 1]) <= eps)
 	{
 		res = 0;
