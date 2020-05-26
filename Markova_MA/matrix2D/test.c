@@ -5,10 +5,25 @@ int main() {
 	int n = 4, m = 2*n, res, i,j, t,  err = SUCCESS;
 	double *a, eps = 1e-16;
 	FILE *fp;
-	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
+	if (!(a = (int **)malloc(n*sizeof(int*))) )) {
 		printf("Not enough memory\n");
 		return 0;
 	}
+
+    for (int k = 0; k < n; k++)
+    {
+        if ((a[k] = (int *)malloc(m*sizeof(int))) == NULL)
+        {
+            printf("Not enough memory\n");
+                for(int j = 0; j < k-1; j++)
+                {
+                    free(a[j]);
+                }
+                free(a);
+            fclose(fp);
+            return 0;
+        }
+    }
 	if (!(fp = fopen("a.txt","r")) ){
 		err = ERROR_OPEN;
 	}
@@ -18,7 +33,7 @@ int main() {
 		{
 			for(j = 0; j < n; j++)
 			{			
-				if((fscanf(fp, "%lf", &a[i*m + j]) != 1))
+				if((fscanf(fp, "%lf", &a[i][j]) != 1))
 				{
 					printf("%d\n %d\n", i, j);
 					fclose(fp);
@@ -32,7 +47,7 @@ int main() {
 					t = 1;
 				else
 					t = 0;
-				a[i*m + j] = t;
+				a[i][j] = t;
 			}
 		}
 		fclose(fp);
