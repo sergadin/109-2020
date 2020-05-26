@@ -44,14 +44,16 @@ int matr(double *a, int n, int m, double eps) {
 		j = i + 1;
 		max = a[j*m + i];
 		pos = i;
+		if(fabs(max) < eps){
 		for( ;j < n; j++)
 		{
 			help = a[j*m + i];
-			if(help > max)
+			if(fabs(help) > eps)
 			{
 				pos = j;
 				max = help;
 			}
+		}
 		}
  		/*if(fabs(max) <= eps) {
 			res = 0;
