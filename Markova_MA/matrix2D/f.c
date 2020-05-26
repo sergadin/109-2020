@@ -67,7 +67,10 @@ int matr(double *a, int n, int m, double eps) {
 			change_str(a, n, m, i, pos);
 		max = a[i*m + i];
 		for(j = i + 1; j < n; ++j)
+		{
+			printf("ya");
 			ved_null(a, n, m, i, j, max);
+		}
 	}
 	
 	print_matrix(a, n, m);
