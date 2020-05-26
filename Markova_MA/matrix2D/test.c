@@ -49,7 +49,7 @@ int main() {
 	res = matr(a, n, m, eps);
 	if(res == 0)
 	{
-		printf("У матрицы нет обратной");
+		printf("puk");
 	}
 	else
 	{
