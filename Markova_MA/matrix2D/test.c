@@ -49,12 +49,12 @@ int main() {
 	{
 		printf("puk");
 	}
-	else
+	/*else
 	{
 		print_matrix(a, n, m);
-	}
+	}*/
 	//printf("Полученная матрица:\n");//
-	//print_matrix(a, n, m);//
+	print_matrix(a, n, m);//
 	//printf("Rank = %d\n", res);
 	free(a);
 	return 0;
