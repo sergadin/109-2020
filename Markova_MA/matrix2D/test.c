@@ -3,7 +3,7 @@
 
 int main() {
 	int n = 4, m = 2*n, res, i,j, t,  err = SUCCESS;
-	double *a, eps = 1e-16;
+	double **a, eps = 1e-16;
 	FILE *fp;
 	if (!(a = (double **)malloc(n*sizeof(double*))) )) {
 		printf("Not enough memory\n");
@@ -33,7 +33,7 @@ int main() {
 		{
 			for(j = 0; j < n; j++)
 			{			
-				if((fscanf(fp, "%lf", a[i][j]) != 1))
+				if((fscanf(fp, "%lf", &a[i][j]) != 1))
 				{
 					//printf("%d\n %d\n", i, j);
 					fclose(fp);
