@@ -67,11 +67,11 @@ int matr(double *a, int n, int m, double eps) {
 		
 		printf("%d ", pos);
 		
- 		/*if(fabs(max) <= eps) {
+ 		if(fabs(max) <= eps) {
 			res = 0;
 			return res;
  		}
-*/
+		
 		if(i != pos)
 			change_str(a, n, m, i, pos);
 		max = a[i*m + i];
@@ -83,7 +83,7 @@ int matr(double *a, int n, int m, double eps) {
 		}
 	}
 	
-	print_matrix(a, n, m);
+	//print_matrix(a, n, m);
 	
 	if(fabs(a[(n - 1)*m + n - 1]) <= eps)
 	{
