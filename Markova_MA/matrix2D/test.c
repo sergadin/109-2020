@@ -7,7 +7,7 @@ int main() {
 	FILE *fp;
 	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
 		printf("Not enough memory\n");
-		return -1;
+		return 0;
 	}
 	if (!(fp = fopen("a.txt","r")) ){
 		err = ERROR_OPEN;
@@ -42,7 +42,7 @@ int main() {
 	if (err != SUCCESS) {
 		ERROR_RE(err);
 		free(a);
-		return -1; 
+		return 0; 
 	}
 	//printf("Данная матрица:\n");
 	//print_matrix(a, n, m);
