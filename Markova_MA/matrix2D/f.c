@@ -28,7 +28,7 @@ void ved_null(double *a, int n, int m, int ii, int jj, double max) {
 		a[jj*m + i] -= (a[ii*m +i] / max) * ved;
 }
 
-void share (double *a, int n, int m, int ii, double max)
+void share (double *a, int n, int m, int i, double max)
 {
 	for(int t = n, t < m; t++)
 	{
