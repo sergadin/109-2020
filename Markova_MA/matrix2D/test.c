@@ -20,8 +20,10 @@ int main() {
 			{				
 				if(j > n - 1)
 				{
-					if(i == j) t = 1;
-					else t = 0;
+					if(i == j)
+						t = 1;
+					else
+						t = 0;
 					a[i*m + j] = t;
 				}
 				else (fscanf(fp, "%lf", &a[i*m + j]) != 1) 
