@@ -2,7 +2,7 @@
 #include "f.h"
 
 int main() {
-	int n = 3, m = 2*n, res, i,j, t,  err = SUCCESS;
+	int n = 4, m = 2*n, res, i,j, t,  err = SUCCESS;
 	double *a, eps = 1e-16;
 	FILE *fp;
 	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
@@ -55,7 +55,7 @@ int main() {
 	}
 	//printf("Полученная матрица:\n");//
 	//print_matrix(a, n, m);//
-	printf("Rank = %d\n", res);
+	\\\printf("Rank = %d\n", res);
 	free(a);
 	return 0;
 }
