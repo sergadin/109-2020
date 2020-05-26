@@ -16,26 +16,23 @@ int main() {
 	{
 		for (i = 0; i < n; ++i)
 		{
-			for(j = 0; j < m; j++)
-			{				
-				if(j > n - 1)
+			for(j = 0; j < n; j++)
+			{			
+				if((fscanf(fp, "%lf", &a[i*m + j]) != 1))
 				{
-					if(i == (j - n))
-						t = 1;
-					else
-						t = 0;
-					a[i*m + j] = t;
+					printf("%d\n %d\n", i, j);
+					fclose(fp);
+					err = ERROR_READ;
+					break;
 				}
+			}
+			for(j = n; j < m; j++)
+			{
+				if(i == (j - n))
+					t = 1;
 				else
-				{
-					if((fscanf(fp, "%lf", &a[i*m + j]) != 1))
-					{
-						printf("%d\n %d\n", i, j);
-						fclose(fp);
-						err = ERROR_READ;
-						break;
-					}
-				}
+					t = 0;
+				a[i*m + j] = t;
 			}
 		}
 		fclose(fp);
