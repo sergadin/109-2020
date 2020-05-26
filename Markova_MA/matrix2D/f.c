@@ -28,6 +28,15 @@ void ved_null(double *a, int n, int m, int ii, int jj, double max) {
 		a[jj*m + i] -= (a[ii*m +i] / max) * ved;
 }
 
+void share (double *a, int n, int m, int ii, double max)
+{
+	for(int t = n, t < m; t++)
+	{
+		a[i*m + t] /= max;
+	}
+}
+
+
 void change_str(double *a, int n, int m, int i, int j) {
 	int k; double tmp;
 	for(k = 0; k < m; ++k) {
@@ -90,6 +99,12 @@ int matr(double *a, int n, int m, double eps) {
 		{
 			ved_null(a, n, m, i, j, max);
 		}
+	}
+	for(i = 0;i < n;i++)
+	{
+		max = a[i*m + i];
+		share(a, n, m, i, max);
+		a[i*m + i] = 1;
 	}
 	return 1;
 }
