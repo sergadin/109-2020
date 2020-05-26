@@ -1,6 +1,6 @@
 #include"stdio.h"
 #include"stdlib.h"
-#include"findstr.h"
+#include"findstr1.h"
 #include"string.h"
 
 
@@ -9,7 +9,6 @@ int posstr(char * t, char *w);
 char *readstring(FILE *input);
 char *strcpy(char *t, const char *s);
 int findstr(char * t, const char *w);
-int dlina(char *t, int k);
 char* zamena(char * t, char * what, char * forwhat);
 char * makewhat(char *strnow, const char* def);
 char * makeforwhat(char *strnow, const char* def);
@@ -126,12 +125,12 @@ int posstr(char * t, char *w)
 
 
                       
-void mainstrd(FILE * input, FILE * output, FILE * deffile)
+void mainstrd(FILE * input, FILE * output)
 {
 	char * def;
 	char * undef;
-	char *what;
-	char *forwhat;
+	char * what;
+	char * forwhat;
 	char *strnow;
 	char ** maswhat = NULL;
 	char ** masforwhat = NULL;
@@ -148,7 +147,8 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 	undef[6] = '\0';
 	int indec = 0;
 	char* whatu;
-	while((strnow = readstring(input)) != NULL)
+	strnow = readstring(input);
+	while(strnow != NULL)
 	{
 		if(findstr(strnow, def) != 0)
 		{
@@ -229,6 +229,7 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 
 		}
 		free(strnow);
+		strnow = readstring(input);
 		
 	}		
 free(def);

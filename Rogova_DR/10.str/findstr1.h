@@ -1,2 +1,2 @@
-void mainstrd(FILE * input, FILE * output, FILE * deffile);
+void mainstrd(FILE * input, FILE * output);
 

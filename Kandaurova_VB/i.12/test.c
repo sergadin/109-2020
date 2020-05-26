@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "find.h"
-#define eps 0.0001
+#define eps 0.00001
 
 int main(void) {
     double a, integral;
