@@ -85,7 +85,7 @@ int matr(double **a, int n, int m, double eps) {
 	
 	//print_matrix(a, n, m);
 	
-	if(fabs(a[(n - 1)*m + n - 1]) <= eps)
+	if(fabs(a[n - 1][n - 1]) <= eps)
 	{
 		res = 0;
 		return res;
