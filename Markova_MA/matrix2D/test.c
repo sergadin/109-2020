@@ -20,7 +20,7 @@ int main() {
 			{				
 				if(j > n - 1)
 				{
-					if(i == j)
+					if(i == (j - n))
 						t = 1;
 					else
 						t = 0;
