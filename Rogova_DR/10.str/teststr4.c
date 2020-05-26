@@ -5,22 +5,17 @@
 
 int main(void)
 {
-	FILE *input, *output, *fdef;
+	FILE *input, *output;
 	if((input = fopen("input.txt", "r")) == NULL)
 	
 		return -1;
-	if((fdef = fopen("fdef.txt", "r")) == NULL)
-
-                return -1;
-
 	
 	if((output = fopen("output.txt", "w")) == NULL)
 	
 		return -1;
 	
-	mainstrd(input, output, fdef);
+	mainstrd(input, output);
 	fclose(input);
 	fclose(output);
-	fclose(fdef);
 	return 0;
 }
