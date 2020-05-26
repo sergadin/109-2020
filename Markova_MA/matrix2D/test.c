@@ -5,7 +5,7 @@ int main() {
 	int n = 4, m = 2*n, res, i,j, t,  err = SUCCESS;
 	double **a, eps = 1e-16;
 	FILE *fp;
-	if (!(a = (double **)malloc(n*sizeof(double*))) )) {
+	if (!(a = (double **)malloc(n*sizeof(double*))) ) {
 		printf("Not enough memory\n");
 		return 0;
 	}
