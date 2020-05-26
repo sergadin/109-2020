@@ -42,7 +42,7 @@ int matr(double *a, int n, int m, double eps) {
 	double max, help;
 	for(i = 0; i < n; ++i) {
 		j = i + 1;
-		max = a[j*m + i];
+		max = a[i*m + i];
 		pos = i;
 		if(fabs(max) < eps){
 		for( ;j < n; j++)
