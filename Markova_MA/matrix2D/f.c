@@ -30,7 +30,7 @@ void ved_null(double *a, int n, int m, int ii, int jj, double max) {
 
 void share (double *a, int n, int m, int i, double max)
 {
-	for(int t = n, t < m; t++)
+	for(int t = n; t < m; t++)
 	{
 		a[i*m + t] /= max;
 	}
