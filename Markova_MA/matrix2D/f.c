@@ -1,7 +1,7 @@
 #include "f.h"
 
 
-void print_matrix(double *a, int n, int m) {
+void print_matrix(double **a, int n, int m) {
 	int i, j;
 	for (i = 0; i < n; ++i) {
 		for (j = n; j < m; ++j)
@@ -21,14 +21,14 @@ void ERROR_RE(int ret) {
 	}
 }
 
-void ved_null(double *a, int n, int m, int ii, int jj, double max) {
+void ved_null(double **a, int n, int m, int ii, int jj, double max) {
 	int i;
 	double ved = a[jj][ii];
 	for(i = ii; i < m; ++i)
 		a[jj][i] -= (a[ii][i] / max) * ved;
 }
 
-void share (double *a, int n, int m, int i, double max)
+void share (double **a, int n, int m, int i, double max)
 {
 	for(int t = n; t < m; t++)
 	{
@@ -37,7 +37,7 @@ void share (double *a, int n, int m, int i, double max)
 }
 
 
-void change_str(double *a, int n, int m, int i, int j) {
+void change_str(double **a, int n, int m, int i, int j) {
 	int k; double tmp;
 	for(k = 0; k < m; ++k) {
 		tmp = a[i][k]; 
@@ -46,7 +46,7 @@ void change_str(double *a, int n, int m, int i, int j) {
 	}
 }
 
-int matr(double *a, int n, int m, double eps) {
+int matr(double **a, int n, int m, double eps) {
 	int i, j, pos, res = n;
 	double max, help;
 	for(i = 0; i < n; ++i) {
