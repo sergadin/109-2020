@@ -33,9 +33,9 @@ int main() {
 		{
 			for(j = 0; j < n; j++)
 			{			
-				if((fscanf(fp, "%lf", &a[i][j]) != 1))
+				if((fscanf(fp, "%lf", a[i][j]) != 1))
 				{
-					printf("%d\n %d\n", i, j);
+					//printf("%d\n %d\n", i, j);
 					fclose(fp);
 					err = ERROR_READ;
 					break;
