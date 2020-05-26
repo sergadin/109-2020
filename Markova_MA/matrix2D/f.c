@@ -52,11 +52,11 @@ int matr(double *a, int n, int m, double eps) {
 				max = help;
 			}
 		}
- 		if(fabs(max) <= eps) {
+ 		/*if(fabs(max) <= eps) {
 			res = 0;
 			return res;
  		}
-
+*/
 		if(i != pos)
 			change_str(a, n, m, i, pos);
 		max = a[i*m + i];
