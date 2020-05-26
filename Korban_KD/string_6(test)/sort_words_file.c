@@ -114,7 +114,7 @@ struct dictionary sort_words_file(FILE *file , int *error)
 
 
 
-int str_put_in_dictionary(struct dictionary *dict, char *word, int len_w)
+int str_put_in_dictionary(struct dictionary *dict, char *word, int unsigned len_w)
 {
     int i = 0;
     
