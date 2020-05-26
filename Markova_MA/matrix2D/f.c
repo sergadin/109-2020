@@ -24,7 +24,7 @@ void ERROR_RE(int ret) {
 void ved_null(double *a, int n, int m, int ii, int jj, double max) {
 	int i;
 	double ved = a[jj * m + ii];
-	for(i = ii + 1; i < m; ++i)
+	for(i = ii; i < m; ++i)
 		a[jj*m + i] -= (a[ii*m +i] / max) * ved;
 }
 
