@@ -30,7 +30,7 @@ int main() {
 				{
 					if((fscanf(fp, "%lf", &a[i*m + j]) != 1))
 					{
-						printf("p");
+						printf("%d\n %d\n", i, j);
 						fclose(fp);
 						err = ERROR_READ;
 						break;
