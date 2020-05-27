@@ -129,10 +129,10 @@ int main(void)
 		{
 			if(ii != i && j == jj && slen(a[ii][jj]) != 0)
 			{
-				fprintf(outp, "%s%s\n", a[i][j], a[ii][jj]);
+				printf( "%s%s\n", a[i][j], a[ii][jj]);
 			}
 			else
-				fprintf(outp, "%s\n", a[i][j]);
+				printf( "%s\n", a[i][j]);
 		}
 	}
     //cleaning of memory
