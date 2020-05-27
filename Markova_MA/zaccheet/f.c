@@ -105,7 +105,7 @@ char *str_r(FILE *inp)
 			return NULL;
 		}
 		bl = slen(buf);
-		if ((str = (char*)realloc(str, cl + bl)) != 1)
+		if ((str = (char*)realloc(str, cl + bl)) != NULL)
 		{
 			free(buf);
 			free(str);
@@ -116,7 +116,7 @@ char *str_r(FILE *inp)
 		if ((cl > 1) && (str[cl - 2] == '\n'))
 		{
 			str[cl - 2] = '\0';
-			if ((str = (char*)realloc(str, cl - 1)) != 1)
+			if ((str = (char*)realloc(str, cl - 1)) != NULL)
 			{
 				free(buf);
 				free(str);
