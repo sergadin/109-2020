@@ -4,7 +4,7 @@
 #include "file.h"
 
 int main(void) {
-    int n, m, k;
+    int n, m, k, a;
     FILE *input, *output;
     char **matrix;
     if((input = fopen("input.txt", "r")) == NULL) {
@@ -24,17 +24,29 @@ int main(void) {
     }
     //printf("%s", matrix[3]);
     k = find(matrix, n, m);
-    printf("%d\n", k);
-    /*for(int i = 0; i < n; i++) {
-        int b = 1;
-        for(int j = 0; j < m; j++)
-            b += strlen(matrix[i * m + j]) - 1;
-        matr[i] = (char *)malloc(b * sizeof(char *));
-        if(int j = 0; j < m; j++) 
-            strcat(matr[i], matrix[i * m + j]);
-    }*/
-    //printf("%s%s", matrix[0], matrix[1]);
-    //printf("%d\n", strlen(matrix[0]));
+    //printf("%d\n", k);
+    
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+            for(int t = 0; t < strlen(matrix[i * m + j]) - 1; t++) {
+                a = 0;       
+                for(int s = 0; s < strlen(matrix[k * m + j]); s++) {
+                    if(matrix[i * m + j][t] == matrix[k * m + j][s]) {
+                        a = 1;
+                        break;
+                    }                
+                }
+                if(a == 0) 
+                    printf("%c", matrix[i * m + j][t]);
+                /*if(strpbrk(&matrix[i * m + j][t], matrix[k * m + j]) != NULL) {
+                    //printf("%c %s", matrix[i * m + j][t], matrix[k * m + j]);
+                    printf("%c", matrix[i * m + j][t]);
+                }*/
+            }
+            printf(" ");
+        }
+        printf("\n");
+    }
     free(matrix);
     return 0;
 }

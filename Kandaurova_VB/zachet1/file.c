@@ -56,4 +56,46 @@ int find(char **matrix, int n, int m) {
     }
     return k;
 }
+/*
+Функция вычеркиванет из слова A_pq букв слова A_kq.
+*/
+/*void fun(char **matrix, int n, int m, int k){
+    int a, s;
+    char *q;
+    for(int j = 0; j < m; j++) {
+        for(int i = 0; i < n; i++) {
+            a = 0;
+            if(i == k) 
+            matrix[i * m + j][0] = '\n';
+            else {
+                s = 0;
+                while(s < strlen(matrix[k * m + j])) {
+                    if(q = (strpbrk(matrix[i * m + j] + (char *)s, matrix[k * m + j])) != NULL) {
+                        for(int t = 0; t < strlen(matrix[k * m + j] + s)) {
+                            matrix[i * m + j][s] = matrix[i * m + j][s + 1];
+                        }
+                    }
+                    else s++;    
+                }
+            }
+        }
+    }
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
