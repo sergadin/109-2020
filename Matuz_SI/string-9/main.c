@@ -1,4 +1,3 @@
-//I am so sorry :(
 /*
  * input:
  * ok:
