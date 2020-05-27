@@ -17,9 +17,6 @@ char ***read_matr(FILE *input)
 			i++;
 		}
 	i = 0;
-	char *Q;
-	Q = (char*)malloc(100 * sizeof(char));
-	fgets(Q, 100, input);
 	while (i < M)
 	{
 		j = 0;
