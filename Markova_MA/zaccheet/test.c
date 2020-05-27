@@ -33,8 +33,6 @@ int main(void)
     		return -1;
     	}
     }
-
-
     //input
     for (i = 0; i < m; i++)
     {
@@ -64,14 +62,45 @@ int main(void)
                 a[i][j][p] = buf[p];
     	}
     }
-    //output
-    for (i = 0; i < m; i++)
-    {
-    	for (j = 0; j < n; j++)
-    	{
-    		printf("%s\n", a[i][j]);
-    	}
-    }
+	
+	//здесь кончаетя считывание
+	
+	for(i = 0;i < m; i++)
+	{
+		for(j = 0;j < n;j++)
+		{
+			if(slen(a[i][j]) == 0)
+			{
+				check = 1;
+				break;
+			}
+			//str = cop(pol(a[i][j]), str);
+			for(int k = j + 1;k < m - 1;k++)
+			{
+				if(eq(pol(a[i][j]), a[i][k]))
+				{
+					ii = i;
+					jj = j;
+					check = 1;
+					break;
+				}
+			}
+			if(check)
+				break;
+		}
+	}
+	for(i = 0;i < m;i++)
+	{
+		for(j = 0; j < n; j++)
+		{
+			if(ii != i && j == jj && strlen(a[ii][jj]) != 0)
+			{
+				fprintf(outp, "%s%s\n", a[i][j], a[ii][jj]);
+			}
+			else
+				fprintf(outp, "%s\n", a[i][j]);
+		}
+	}
     //cleaning of memory
 
     for (i = 0; i < m; i++)

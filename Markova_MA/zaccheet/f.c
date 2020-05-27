@@ -21,7 +21,7 @@ int read_file(FILE *file, char ***a, int N, int M)
 }
 
     return 0;
-}
+}*/
 int slen(const char *str)
 {
 	int len = 0;
@@ -42,7 +42,7 @@ char *cop(const char *f, char *t)
 	}
 	return t;
 }
-
+/*
 char *str_r(FILE *inp)
 {
 	int N = 1024, cl = 1, bl, check = 0;
@@ -84,7 +84,7 @@ char *str_r(FILE *inp)
 	free(buf);
 	return str;
 }
-
+*/
 char *pol (char *str)
 {
 	int len = slen(str);
@@ -99,7 +99,7 @@ char *pol (char *str)
 	return str;
 }
 
-////
+
 int eq (char *a, char *b)
 {
 	int q = slen(a), n = slen(b), check = 0;
@@ -115,4 +115,4 @@ int eq (char *a, char *b)
 	if(check == q)
 		return 1;
 	return 0;
-}*/
+}

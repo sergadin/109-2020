@@ -50,9 +50,9 @@ int main() {
     }
 	//printf("здесь кончается считывание\n");
 	
-	for(i = 0;i < n; i++)
+	for(i = 0;i < m; i++)
 	{
-		for(j = 0;j < m;j++)
+		for(j = 0;j < n;j++)
 		{
 			if(slen(a[i][j]) == 0)
 			{
@@ -74,9 +74,9 @@ int main() {
 				break;
 		}
 	}
-	for(i = 0;i < n;i++)
+	for(i = 0;i < m;i++)
 	{
-		for(j = 0; j < m; j++)
+		for(j = 0; j < n; j++)
 		{
 			if(ii != i && j == jj && strlen(a[ii][jj]) != 0)
 			{
@@ -87,9 +87,9 @@ int main() {
 		}
 	}
 	fclose(outp);
-	for (i = 0; i < n;i++)
+	for (i = 0; i < m;i++)
         {
-          for (int j = 0; j < m; j++)
+          for (int j = 0; j < n; j++)
           {
             free(a[i][j]);
           }
