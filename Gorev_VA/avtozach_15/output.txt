@@ -1,7 +1,22 @@
-2 3
-abc
-def4
-Голубая луна
-1234
-321
+7 3
+
+ad
+ds
+v
+da
+dv
+
+az
+c
+s
+d
+
+
+ds
+c
+zabbc
+cccb
+baz
+
+
 
