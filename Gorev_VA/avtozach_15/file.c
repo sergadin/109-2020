@@ -4,6 +4,7 @@
 
 #define _N 2
 
+char *read_str(FILE *input);
 char *read_str(FILE *input)
 {
 	char *str;
@@ -56,6 +57,7 @@ char *read_str(FILE *input)
 	return str;
 }
 
+char ***read_matr(FILE *input, int *m, int *n);
 char ***read_matr(FILE *input, int *m, int *n)
 {
 	int M, N;
@@ -89,6 +91,26 @@ char ***read_matr(FILE *input, int *m, int *n)
 	*m = M, *n = N;
 	return A;
 }
+
+int write(FILE *output, char ***matr, int M, int N);
+int write(FILE *output, char ***matr, int M, int N)
+{
+	int i, j;
+	fprintf(output, "%d %d\n", M, N);
+	i = 0;
+	while (i < M)
+	{
+		j = 0;
+		while (j < N)
+		{
+			fprintf(output, "%s\n", matr[i][j]);
+			j++;
+		}
+		i++;
+	}
+	return 0;
+}
+
 
 int is_pal(char **str, int size_of_str);
 int is_pal(char **str, int size_of_str)
@@ -216,15 +238,22 @@ int main(void)
 	char ***A;
 	int M, N;
 	int i, j;
-	FILE *input;
-	input = fopen("input.txt", "r");
-	A = read_matr(input, &M, &N);
-	fclose(input);
 	
-	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
-	printf("%d %d\n", is_pal(A[0], N), is_pal(A[1], N));
+	FILE *input;
+	FILE *output;
+	if ((input = fopen("input.txt", "r")) == 0)
+	{
+		return -1;
+	}
+	if ((output = fopen("output.txt", "w")) == 0)
+	{
+		fclose(input);
+		return -1;
+	}
+	
+	A = read_matr(input, &M, &N);
 	transform(A, M, N);
-	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
+	write(output, A, M, N);
 	i = 0;
 	while (i < M)
 	{
@@ -243,6 +272,7 @@ int main(void)
 		i++;
 	}
 	free(A);
-	
+	fclose(input);
+	fclose(output);
 	return 0;
 }
