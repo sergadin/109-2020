@@ -15,7 +15,7 @@ int main() {
         if ((a[k] = (double *)malloc(m*sizeof(double))) == NULL)
         {
             printf("Not enough memory\n");
-                for(int j = 0; j < k-1; j++)
+                for(int j = 0; j < k; j++)
                 {
                     free(a[j]);
                 }
@@ -37,6 +37,11 @@ int main() {
 				if((fscanf(fp, "%lf", &a[i][j]) != 1))
 				{
 					err = ERROR_READ;
+					for (int k = 0; k < n; k++)
+					{
+						free(a[k]);
+					}
+					free(a);
 					break;
 				}
 			}
@@ -51,17 +56,14 @@ int main() {
 				a[i][j] = t;
 			}
 		}
-		fclose(fp);
+		
 	}
 	if (err != SUCCESS) {
 		ERROR_RE(err);
-		for (int k = 0; k < n; k++)
-		{
-			free(a[k]);
-		}
-		free(a);
+		fclose(fp);
 		return 0; 
 	}
+	fclose(fp);
 	//printf("Данная матрица:\n");
 	//print_matrix(a, n, m);
 	res = matr(a, n, m, eps);
