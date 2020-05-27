@@ -40,7 +40,7 @@ int read_file(FILE *file, char ***data, int N, int M)
  *      слово (строка)
  *
  * что делает:
- *      проверяет. является ли слово палиндромом
+ *      проверяет является ли слово палиндромом
  *
  * как делает:
  *      сравниваем первый и последний символ слова
@@ -80,18 +80,13 @@ int main(int argc, char *argv[])
 	printf("wrong arg, try again \n");        
 	return -1;
     }
+    //input file
     if ((input = fopen(argv[1], "r")) == NULL)
     {
         printf("cannot open input file \n");
         return -1;
     }
-    /*
-    if ((input = fopen("input.txt", "r")) == NULL)
-    {
-        printf("cannot open input file \n");
-        return -1;
-    }
-    */
+
     //output file
     if ((output = fopen("result.txt", "w")) == NULL)
     {
@@ -103,8 +98,8 @@ int main(int argc, char *argv[])
     if (!(fscanf(input, "%d", &n)) || (n <= 0))
     {
         printf("smth wrong with size \n");
-	fclose(input);
-	fclose(output);
+	    fclose(input);
+	    fclose(output);
         return -1;
     }
 
@@ -132,44 +127,48 @@ int main(int argc, char *argv[])
     //trying to fulfill the task
 
         //find first line with palindromes
+//printf("1 \n");
     for(int i = 0; i < n; i++)
     {	
-	for(int k = 0; k < n; k++)
+        for(int k = 0; k < m; k++)
         {
-	     check_sum += find_palindrome(matrix[i][k]);
-	     printf("%d \n", find_palindrome(matrix[i][k]));
-	}
-	if (check_sum == 0)
+	     //printf("%d %d \n", i, k);
+             check_sum += find_palindrome(matrix[i][k]);
+             //printf("%d \n", find_palindrome(matrix[i][k]));
+        }
+        if (check_sum == 0)
         {
-	     min = i;
-             break;
-	}  
+             min = i;
+                 break;
+        }
         check_sum = 0;
     }
+//printf("1 \n");
     //printf("%d \n", min);
     if (min == -1)
     {
-	printf("nothing to do because there is no palindromes \n");
+        printf("nothing to do because there is no palindromes \n");
         for(int i = 0; i < n; i++) 
         {
-	     for(int k=0; k < m; k++)
-                  free(matrix[i][k]);
-	     free(matrix[i]);
+             for(int k=0; k < m; k++)
+                      free(matrix[i][k]);
+             free(matrix[i]);
         }
         free(matrix);
         fclose(output);
         fclose(input);
         return -1;
     }
+
     for(int i = 0; i < n; i++)
-	for(int k = 0; k < m; k++)
-	{
-	    
-	    matrix[i][k] = realloc(matrix[i][k], strlen(matrix[i][k]) + strlen(matrix[min][k]) - 1);
-	    strcpy(matrix[i][k]+strlen(matrix[i][k])-1, matrix[min][k]);
+        for(int k = 0; k < m; k++)
+        {
+
+            matrix[i][k] = realloc(matrix[i][k], strlen(matrix[i][k]) + strlen(matrix[min][k]) - 1);
+            strcpy(matrix[i][k]+strlen(matrix[i][k])-1, matrix[min][k]);
             matrix[i][k][strlen(matrix[i][k]) + strlen(matrix[min][k]) - 2] = '\0';
             printf("%s \n", matrix[i][k]);
-	}
+        }
 
     //printing result
     for(int i = 0; i < n; i++) 
