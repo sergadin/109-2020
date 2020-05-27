@@ -11,7 +11,7 @@ int eq (char *a, char *b);
 
 int main() {
 	char *str, ***a;
-	int len, i, j, check = -1, ii = -1, jj = -1, res = SUCCESS;
+	int len, i, j, check = -1, ii = -1, jj = -1, n, m;
 	FILE *inp, *outp;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
@@ -61,10 +61,10 @@ int main() {
 		{
 			if(ii != i && j == jj && a[ii][jj] != '\n')
 			{
-				printf(outp, "%s%s\n", a[i][j], a[ii][jj])
+				fprintf(outp, "%s%s\n", a[i][j], a[ii][jj]);
 			}
 			else
-				printf(outp, "%s\n", a[i][j]);
+				fprintf(outp, "%s\n", a[i][j]);
 		}
 	}
 	fclose(outp);
