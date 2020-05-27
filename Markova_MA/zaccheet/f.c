@@ -22,13 +22,13 @@ void a_read(FILE *inp, char ***a)
 int a_look(FILE *inp, char ***a, int n, int m)
 {
   char *str; 
-  if ((a = (char***) malloc(n * sizeof(char**))) != 1)
+  if ((a = (char***) malloc(n * sizeof(char**))) == NULL)
   {
     return -1;
   }
   for (int i = 0; i < n; i++)
   {
-    if ((a[i] = (char**) malloc(m * sizeof(char**))) != 1)
+    if ((a[i] = (char**) malloc(m * sizeof(char**))) == NULL)
     {
       for (int j = 0; j < i; j++)
       {
@@ -77,7 +77,7 @@ int slen(const char *str)
 	return len;
 }
 
-char cop(const char *f, char *t)
+char *cop(const char *f, char *t)
 {
 	int len;
 	len = slen(f);
@@ -130,12 +130,12 @@ char *str_r(FILE *inp)
 	return str;
 }
 
-char pol (char *str)
+char *pol (char *str)
 {
 	if(slen(str) == 0)
 		return str;
 	int len = slen(str);
-	char w;
+	char *w;
 	if(len%2 == 0)
 		len /= 2;
 	else
