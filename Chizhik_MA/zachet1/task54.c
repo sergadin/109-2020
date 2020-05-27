@@ -9,29 +9,36 @@
  * Функция суммирования элементов
  *
  * Параметры:
- * string_k: пирбавляемый элемент
- * string_p: изменяемый элемент
+ * string_k: прибавляемый элемент
+ * string_p: указатель на изменяемый элемент
  *
- * Функция прибавляет одну строчку к другому по заданному правилу.
+ * Функция прибавляет одну строчку к другой по заданному правилу.
  *
  */
 
-static void sum_elements(char *string_k, char *string_p) {
-	int len_k, len_p;
-	len_k = strlen(string_k), len_p = strlen(string_p);
+static void sum_elements(char *string_k, char **string_p) {
+	char *new_elem;
+	int new_len, len_p;
+	new_len = strlen(string_k), len_p = strlen(*string_p);
 
-	for (int i = 0; i < len_p; i++) {
-		for (int j = 0; j < len_k; j++) {
-			if (string_p[i] == string_k[j]) {
-				for (int k = i + 1; k <= len_p; k++) {
-					string_p[k - 1] = string_p[k];
+	new_elem = (char *)malloc(new_len + 1);
+	strcpy(new_elem, string_k);
+
+	for (int i = 0; i < new_len; i++) {
+		for (int j = 0; j < len_p; j++) {
+			if (new_elem[i] == (*string_p)[j]) {
+				for (int k = i; k < new_len; k++) {
+					new_elem[k] = new_elem[k + 1];
 				}
-				len_p--;
+				new_len--;
 				i--;
 				break;
 			}
 		}
 	}
+
+	free(*string_p);
+	*string_p = new_elem;
 }
 
 char *inverse(char *word) {
@@ -138,7 +145,7 @@ int find_row(char **matrix, int m, int n) {
 
 void add_row(char **matrix, int n, int k, int p) {
 	for (int i = 0; i < n; i++) {	
-		sum_elements(matrix[k * n + i], matrix[p * n + i]);
+		sum_elements(matrix[k * n + i], &matrix[p * n + i]);
 	}
 }
 

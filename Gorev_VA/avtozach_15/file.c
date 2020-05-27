@@ -239,7 +239,7 @@ int del_str_from_str(char *str1, char *str2)
 	int i_new = 0;
 	while (i < strlen(str2))
 	{
-		if (!char_is_in_str(str2[i], str1))
+		if (char_is_in_str(str2[i], str1))
 		{
 			str2[i_new] = str2[i];
 			i_new ++;
