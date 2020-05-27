@@ -176,6 +176,8 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+	for(j = 0; j < m; j++)
+		A[imin][j][strlen(A[imin][j])-1] = 0;
 	fclose(input);
 
 	if((output = fopen("result.txt","w")) == NULL)
@@ -189,7 +191,7 @@ int main(int argc, char *argv[])
 	{
 		for(j = 0; j < m; j++)
 		{
-			fprintf(output,"%s",A[i][j]);
+			fprintf(output,"%s\n",A[i][j]);
 		}
 	}
 	fclose(output);
