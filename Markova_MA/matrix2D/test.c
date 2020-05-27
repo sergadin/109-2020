@@ -71,6 +71,12 @@ int main() {
 	//printf("Полученная матрица:\n");//
 	//print_matrix(a, n, m);//
 	//printf("Rank = %d\n", res);
-	free(a);
+	for (int k = 0; k < n; k++)
+    {
+        free(matrix[k]);
+    }
+    free(matrix);
+    return 0;
+}
 	return 0;
 }
