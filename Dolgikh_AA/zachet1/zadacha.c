@@ -166,6 +166,7 @@ int main(int argc, char *argv[])
 				{
 					A[i][j][k+strlen(A[imin][j])-1] = B[k];
 				}
+				A[i][j][len+strlen(A[imin][j])-2] = 0;
 				for(k = 0; k < strlen(A[imin][j]) - 1; k++)
 				{
 					A[i][j][k] = A[imin][j][k];
