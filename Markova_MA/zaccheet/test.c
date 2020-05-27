@@ -123,17 +123,18 @@ int main(void)
 				break;
 		}
 	}
-	printf( "%s\n", a[ii][jj]);
+	//printf( "%s\n", a[ii][jj]);
 	for(i = 0;i < m;i++)
 	{
 		for(j = 0; j < n; j++)
 		{
 			if(ii != i && j == jj && slen(a[ii][jj]) != 0)
 			{
-				printf( "%s %s\n", a[i][j], a[ii][jj]);
+				fprintf(outp, "%s", a[i][j]);
+				fprintf(outp, "%s\n", a[ii][jj]);
 			}
 			else
-				printf( "%s\n", a[i][j]);
+				fprintf(outp, "%s\n", a[i][j]);
 		}
 	}
     //cleaning of memory
