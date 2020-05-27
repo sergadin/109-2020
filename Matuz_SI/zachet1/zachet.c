@@ -33,22 +33,6 @@ int read_file(FILE *file, char ***data, int N, int M)
     return 0;
 }
 
-/* int find_palindrome(char *word)
- * find_palindrome aka функция проверки слова
- *
- * входные данные:
- *      слово (строка)
- *
- * что делает:
- *      проверяет является ли слово палиндромом
- *
- * как делает:
- *      сравниваем первый и последний символ слова
- *
- * что возвращает:
- *      0 - если слово является палиндромом
- *      -1 - если таковым не является
- * */
 int find_palindrome(char *word)
 {
     int len = strlen(word) - 1;
@@ -63,7 +47,44 @@ int find_palindrome(char *word)
     return 0;
 }
 
+// i did not come up with algorithm but have an idea
+/*int find_palindrome(char **data, int m)
+{
+    int word1 = 0;
+    int letter1 = 0;
 
+    int word2 = m - 1;
+    int letter2 = strlen(data[m-1]) - 1;
+
+    int kolvo = 0;
+    int len = 0;
+
+    for (int i = 0; i < m; i++)
+	len += strlen(word[i]);
+    len -= m;
+
+
+    while ((kolvo < len))
+    {
+	if(data[word1][letter1] != data[word2][letter2-k])
+            //printf("%c %c \n", word[k], word[len-k-1]);
+            return -1;
+        if(letter1 = strlen(data[word1])-1)
+	{
+	     word1++;
+	     letter1 = 0;
+	}
+	if(letter2 = 0)
+	{
+	     word2--;
+	     letter1 = strlen(data[word2-1]) - 1;
+	}
+	kolvo++;
+    }
+    return 0;
+}
+
+*/
 //int main(void)
 int main(int argc, char *argv[])
 {
