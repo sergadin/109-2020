@@ -8,7 +8,7 @@
 
 int main() {
 	char *str, ***a;
-	int len, i, j, check = -1, ii = -1, jj = -1, n, m;
+	int len, i, j, check = -1, ii = -1, jj = -1, n, m, res;
 	FILE *inp, *outp;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
