@@ -5,10 +5,13 @@ char *read_string(FILE *f);
 char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas);
 int length(const char *s);
 char *strcpy(char *t, const char *s);
-int strst(char * t, const char *w, int n);
+int strst(char * t, char *w);
+void delete(int i, char **mas, int n);
 
-int strst(char * t, const char *w, int n) 
+int strst(char * t, char *w) 
 {
+	int n;
+	n = length(w);
 	if(n > length(t))
 		return 0;
 	int i, j = 0;
@@ -82,26 +85,85 @@ char *read_string(FILE *f)
 	} 
 }
 
-
+void delete(int i, char **mas, int n)
+{
+	int j, k;
+	for(j = i; j < n - 1; j++)
+	{
+		free(mas[j]);
+		mas[j] = malloc(length(mas[j+1])+1);
+		for(k = 0; k <= length(mas[j+1]); k++)
+		{
+			mas[j][k] = mas[j + 1][k];
+		}
+	}
+	free(mas[n - 1]);
+}
 
 char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
 {
+	int i, j, row, k = 0, l = 0, ind = 0, n;
+	int w = 0;
 	char *s;
-	char *d = "a";
-	int i, j, row, k, l;
+	for(i = 0; i < n_rows; i ++)
+        {
+		l = 0;
+                for(j = 0; j < n_cols; j ++)
+                {
+			l = l+length(mas[i][j]);
+			if (length(mas[i][j])>=length(mas[i][n_cols-1-j]))
+			{
+			while(k < length(mas[i][j]))
+			{
+				n = 0;
+		        	while (mas[i][j][k] == mas[i][n_cols-1-j][length(mas[i][n_cols-1-j])-1-n])
+				{
+				k = k+1;
+				w = w+1;
+				n = n+1;
+				}
+				k = k+1;
+				if (w == length(mas[i][n_cols-1-j]))
+				{
+					ind = 1;
+					break;
+				}
+				w = 0;
+			}
+			}
+			if (ind = 1)
+			{
+				break;
+			}
+                }
+		if (ind = 1)
+		{
+			break;
+		}
+        }
+	w = 0;
+	s = (char*) malloc((l)*sizeof(char));
 	for(i = 0; i < n_rows; i ++)
         {
                 for(j = 0; j < n_cols; j ++)
                 {
-			l = length(mas[i][j]);
-			s = (char*) malloc((l)*sizeof(char));
-			for(k = 0; k < l; k ++)
+			for(k = 0; k < length(mas[i][j]); k ++)
                 	{
-		                s[l-1-k] = mas[i][j][k];
-			}
-			strcpy(mas[i][j], s);
-                }
-        }
+				while (w<l)
+				{
+					if(mas[i][j][k] == s[k])
+					{
+					 delete(k, mas[i], length(mas[i][j]));	
+					}
+					w = w+1;
+				}
+				w = 0;
+			}			
+		}
+	}
+
+
+
 	return mas;
 }
 
