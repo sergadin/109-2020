@@ -77,7 +77,7 @@ int slen(const char *str)
 	return len;
 }
 
-char *cop(const char *f, char *t)
+char cop(const char *f, char *t)
 {
 	int len;
 	len = slen(f);
@@ -130,9 +130,9 @@ char *str_r(FILE *inp)
 	return str;
 }
 
-char *pol (char *str)
+char pol (char *str)
 {
-	if(str == '\n')
+	if(slen(str) == 0)
 		return str;
 	int len = slen(str);
 	char w;
