@@ -61,6 +61,7 @@ char ***read_matr(FILE *input, int *m, int *n)
 	int M, N;
 	int i = 0, j = 0;
 	char ***A;
+	char *Q;
 	fscanf(input, "%d", &M);
 	fscanf(input, "%d", &N);
 	A = (char***)malloc(M * sizeof(char**));
@@ -71,7 +72,6 @@ char ***read_matr(FILE *input, int *m, int *n)
 			i++;
 		}
 	i = 0;
-	char *Q;
 	Q = (char*)malloc(100 * sizeof(char));
 	fgets(Q, 100, input);
 	free(Q);
@@ -219,6 +219,7 @@ int main(void)
 	FILE *input;
 	input = fopen("input.txt", "r");
 	A = read_matr(input, &M, &N);
+	fclose(input);
 	
 	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
 	printf("%d %d\n", is_pal(A[0], N), is_pal(A[1], N));
