@@ -27,13 +27,11 @@ int find(char **matrix, int n, int m) {
         for(int j = 0; j < m; j++) {
             n_k += strlen(matrix[k * m + j]) - 1;
             n_i += strlen(matrix[i * m + j]) - 1;
-            //printf("%d %d\n", strlen(matrix[k * m + j]), strlen(matrix[i * m + j]));
         }
         if(n_k < n_i) 
             S = n_k;
         else
             S = n_i;
-        //printf("%d\n", S);
         l_i = 0;
         l_k = 0;
         x_i = 0;
@@ -47,10 +45,13 @@ int find(char **matrix, int n, int m) {
                 l_k++;
                 x_k += strlen(matrix[k * m + l_k]) - 1;
             }
-            //printf("%c %c\n", matrix[i * m + l_i][j - x_i], matrix[k * m + l_k][j - x_k]);
             if(matrix[i * m + l_i][j - x_i] < matrix[k * m + l_k][j - x_k]) {
                 k = i;
                 break;
+            }
+            if(matrix[i * m + l_i][j - x_i] > matrix[k * m + l_k][j - x_k]) {
+                break;
+
             }
         }
     }
@@ -59,43 +60,45 @@ int find(char **matrix, int n, int m) {
 /*
 Функция вычеркиванет из слова A_pq букв слова A_kq.
 */
-/*void fun(char **matrix, int n, int m, int k){
-    int a, s;
-    char *q;
-    for(int j = 0; j < m; j++) {
-        for(int i = 0; i < n; i++) {
-            a = 0;
-            if(i == k) 
-            matrix[i * m + j][0] = '\n';
-            else {
-                s = 0;
-                while(s < strlen(matrix[k * m + j])) {
-                    if(q = (strpbrk(matrix[i * m + j] + (char *)s, matrix[k * m + j])) != NULL) {
-                        for(int t = 0; t < strlen(matrix[k * m + j] + s)) {
-                            matrix[i * m + j][s] = matrix[i * m + j][s + 1];
-                        }
+
+void fun(char **matrix, int n, int m, int k){
+int a, b = 0;
+for(int i = 0; i < n; i++) {
+    if(i != k) {
+        for(int j = 0; j < m; j++) {
+            b = 0;
+            for(int t = 0; t < strlen(matrix[i * m + j]); t++) {
+                a = 0;       
+                for(int s = 0; s < strlen(matrix[k * m + j]); s++) {
+                    if(matrix[i * m + j][t] == matrix[k * m + j][s]) {
+                        a = 1;
+                        break;
+                    }                
+                }
+                if(a != 0) {
+                    b = 1;
+                    for(int r = t; r < strlen(matrix[i * m + j]) - 1; r++) {
+                        matrix[i * m + j][r] = matrix[i * m + j][r + 1];
                     }
-                    else s++;    
+                    matrix[i * m + j][strlen(matrix[i * m + j]) - 1] = '\0';
+                    t--;
                 }
             }
         }
     }
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
+}
+/*
+Функция печатает матрицу в файл f
+*/
+void print(char **matrix, int n, int m, FILE *f) {
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+            for(int k = 0; k < strlen(matrix[i * m + j]); k++) {
+                if(matrix[i * m + j][k] != '\n')
+                    fprintf(f, "%c", matrix[i * m + j][k]);
+            }
+            fprintf(f, "\n");
+        }
+    }
+}

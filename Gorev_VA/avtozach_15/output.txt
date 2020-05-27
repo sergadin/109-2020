@@ -1,5 +1,22 @@
-2 2
-abc4
-def
+7 3
+zzza
+bc
+a
+aaa
+bc
+za
+bazbab
+b
+ab
+abc
+bc
+abb
+bba
+cb
+ba
+zabbc
+cccb
+baz
+zz
 
-141
+zzz

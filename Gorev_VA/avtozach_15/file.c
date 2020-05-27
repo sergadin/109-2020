@@ -4,6 +4,11 @@
 
 #define _N 2
 
+/*
+** Считывание строки из файла input
+** считывание проходит до конца файла, либо до символа '\n'
+** создает и возвращает считанную строку
+*/
 char *read_str(FILE *input);
 char *read_str(FILE *input)
 {
@@ -57,6 +62,20 @@ char *read_str(FILE *input)
 	return str;
 }
 
+/*
+** Считывает и создает матрицу строк char ***A из файла input размера M строк на N столбцов
+** В первой строке должны быть записаны число строк M и число столбцов N
+** Далее должны быть записаны элементы матрицы в порядке (номер строки) * N + (номер столбца)
+** Они записываются по входящим адресам *m и *n соответственно
+** Входные данные должны иметь следующий вид:
+** M N
+** A[0][0]
+** A[0][1]
+** A[0][2]
+** ...
+** A[M - 1][N - 1]
+** Возвращает считанную матрицу А
+*/
 char ***read_matr(FILE *input, int *m, int *n);
 char ***read_matr(FILE *input, int *m, int *n)
 {
@@ -92,6 +111,18 @@ char ***read_matr(FILE *input, int *m, int *n)
 	return A;
 }
 
+/*
+** Записывает матрицу строк char ***matr из файла input размера M строк на N столбцов
+** В первой строке записываются число строк M и число столбцов N
+** Далее записываются элементы матрицы в порядке (номер строки) * N + (номер столбца)
+** Выходные данные имеют следующий вид:
+** M N
+** matr[0][0]
+** matr[0][1]
+** matr[0][2]
+** ...
+** matr[M - 1][N - 1]
+*/
 int write(FILE *output, char ***matr, int M, int N);
 int write(FILE *output, char ***matr, int M, int N)
 {
@@ -111,7 +142,10 @@ int write(FILE *output, char ***matr, int M, int N)
 	return 0;
 }
 
-
+/*
+** Вычисляет, является ли строка char **str, состоящая из size_of_str подстрок палиндромом
+** Возвращает 1, если str - палиндром и 0 иначе
+*/
 int is_pal(char **str, int size_of_str);
 int is_pal(char **str, int size_of_str)
 {
@@ -175,6 +209,11 @@ int is_pal(char **str, int size_of_str)
 	return 1;
 }
 
+/*
+** Вычисляет, содержится ли символ char c в строке char *str
+** Возвращает 1, если символ char с содержится в строке char *str и 0 иначе
+*/
+int char_is_in_str(char c, char *str);
 int char_is_in_str(char c, char *str)
 {
 	int i = 0;
@@ -187,6 +226,12 @@ int char_is_in_str(char c, char *str)
 	return 0;
 }
 
+/*
+** Удаляет символы, встречающиеся в строке char *str1 из строки char *str2
+** Записывает полученную строку по адресу str2
+** Выделенная на str2 память не меняется
+*/
+int del_str_from_str(char *str1, char *str2);
 int del_str_from_str(char *str1, char *str2)
 {
 	int i = 0;
@@ -194,7 +239,7 @@ int del_str_from_str(char *str1, char *str2)
 	int i_new = 0;
 	while (i < strlen(str2))
 	{
-		if (!char_is_in_str(str2[i], str1))
+		if (char_is_in_str(str2[i], str1))
 		{
 			str2[i_new] = str2[i];
 			i_new ++;
@@ -205,6 +250,18 @@ int del_str_from_str(char *str1, char *str2)
 	return 0;
 }
 
+/*
+** Находит в матрице char ***A строку с наименьшим номером A[k], являющуюся палиндромом
+** Если таких строк нет, возвращает -1
+** Если такая строка нашлась, удаляет из всех строк A[i][j], где i != k, символы, встречающиеся в строке A[k][j] и возвращает 0
+** Например: такая матрица
+** abc4 def4
+** 1234 321
+** преобразуется следующим образом:
+** abc def4
+** 1234 321
+*/
+int transform(char*** A, int M, int N);
 int transform(char*** A, int M, int N)
 {
 	int k = 0;
@@ -231,6 +288,7 @@ int transform(char*** A, int M, int N)
 		}
 		i++;
 	}
+	return 0;
 }
 
 int main(int argc, char **argv)
