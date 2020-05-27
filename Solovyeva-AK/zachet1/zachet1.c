@@ -52,5 +52,7 @@ int main(int argc, char *argv[]) {
         free(matrix[i]);
     }
     free(matrix);
+    fclose(inp);
+    fclose(out);
     return 0;
 }
