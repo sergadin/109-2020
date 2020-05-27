@@ -2,7 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 char *read_string(FILE *f);
-char *vbr(FILE *input1, int n_rows, int n_cols, char ***mas);
+char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas);
 int length(const char *s);
 char *strcpy(char *t, const char *s);
 int strst(char * t, const char *w, int n);
@@ -84,7 +84,7 @@ char *read_string(FILE *f)
 
 
 
-char *vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
+char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
 {
 	char *s;
 	char *d = "a";
@@ -94,26 +94,15 @@ char *vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
                 for(j = 0; j < n_cols; j ++)
                 {
 			l = length(mas[i][j]);
-			//printf("%d\n", l);
 			s = (char*) malloc((l)*sizeof(char));
 			for(k = 0; k < l; k ++)
                 	{
 		                s[l-1-k] = mas[i][j][k];
 			}
 			strcpy(mas[i][j], s);
-			printf("%s\n", mas[i][j]);
                 }
-		printf("\n");
         }
-	for(i = 0; i < n_rows; i++)
-	{
-		for(j = 0; j < n_cols; j++)
-		{
-			//if (strst(mas[i][j], d) != 0) 
-			//printf("%s\n", mas[i][j]);
-			
-		}
-	}
+	return mas;
 }
 
 
@@ -177,18 +166,17 @@ int main(void)
         }
 
 
-	vbr(input1, n_rows, n_cols, mas);
+	mas = vbr(input1, n_rows, n_cols, mas);
 	
 
+	for(int i = 0; i < n_rows; i ++)
+        {
+                for(int j = 0; j < n_cols; j ++)
+                {
+                        fprintf(result, "%s\n", mas[i][j]);
+                }
 
-
-
-
-
-
-
-
-
+        }
 	fclose(input1);
 	fclose(result);
 	return 0;	
