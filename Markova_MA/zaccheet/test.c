@@ -43,10 +43,10 @@ int main() {
 				check = 1;
 				break;
 			}
-			str = cop(pol(a[i][j]), str);
+			//str = cop(pol(a[i][j]), str);
 			for(int k = j + 1;k < m - 1;k++)
 			{
-				if(eq(str, a[i][k]))
+				if(eq(pol(a[i][j], a[i][k]))
 				{
 					ii = i;
 					jj = j;
