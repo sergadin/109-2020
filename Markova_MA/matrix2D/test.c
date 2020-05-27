@@ -15,18 +15,25 @@ int main() {
         if ((a[k] = (double *)malloc(m*sizeof(double))) == NULL)
         {
             printf("Not enough memory\n");
-                for(int j = 0; j < k; j++)
+                for(int j = 0; j < k - 1; j++)
                 {
                     free(a[j]);
                 }
                 free(a);
-            //fclose(fp);
+            fclose(fp);
             return 0;
         }
     }
 	
 	if (!(fp = fopen("a.txt","r")) ){
 		err = ERROR_OPEN;
+		for (int k = 0; k < n; k++)
+		{
+			free(a[k]);
+		}
+		free(a);
+		fclose(fp);
+		return 0;
 	}
 	else
 	{
@@ -36,17 +43,18 @@ int main() {
 			{			
 				if((fscanf(fp, "%lf", &a[i][j]) != 1))
 				{
-					err = ERROR_READ;
+					//err = ERROR_READ;
 					for (int k = 0; k < n; k++)
 					{
 						free(a[k]);
 					}
 					free(a);
-					break;
+					fclose(fp);
+					return 0;
 				}
 			}
-			if(err != SUCCESS)
-				break;
+			//if(err != SUCCESS)
+				//break;
 			for(j = n; j < m; j++)
 			{
 				if(i == (j - n))
@@ -60,7 +68,6 @@ int main() {
 	}
 	if (err != SUCCESS) {
 		ERROR_RE(err);
-		fclose(fp);
 		return 0; 
 	}
 	fclose(fp);
@@ -83,6 +90,5 @@ int main() {
         free(a[k]);
     }
     free(a);
-	fclose(fp);
     return 0;
 }
