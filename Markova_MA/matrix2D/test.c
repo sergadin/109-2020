@@ -19,7 +19,7 @@ int main() {
         if ((a[k] = (double *)malloc(m*sizeof(double))) == NULL)
         {
             printf("Not enough memory\n");
-                for(int j = 0; j < k - 1; j++)
+                for(int j = 0; j < k; j++)
                 {
                     free(a[j]);
                 }
