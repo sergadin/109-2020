@@ -46,7 +46,7 @@ int main() {
 			//str = cop(pol(a[i][j]), str);
 			for(int k = j + 1;k < m - 1;k++)
 			{
-				if(eq(pol(a[i][j], a[i][k]))
+				if(eq(pol(a[i][j]), a[i][k]))
 				{
 					ii = i;
 					jj = j;
