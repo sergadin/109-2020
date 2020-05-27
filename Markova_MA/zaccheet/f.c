@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include "f.h"
 
-void a_read(FILE *inp, char ***a)
+int a_read(FILE *inp, char ***a)
 {
   int n, m;
   if (a_look(inp, a, n, m) != 0)
   {
 	printf("no date");
+	return -1;
 	/*for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m; j++)
@@ -17,6 +18,7 @@ void a_read(FILE *inp, char ***a)
 		printf("\n");
 	}*/
 }
+return 0;
 }
 
 int a_look(FILE *inp, char ***a, int n, int m)
