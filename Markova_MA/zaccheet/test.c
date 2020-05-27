@@ -5,32 +5,38 @@
 #include <stdlib.h>
 #include <string.h>
 #include "f.h"
-char pol (char *str);
-int eq (char *a, char *b);
-
 
 int main() {
 	char *str, ***a;
-	int len, i, j, check = -1, ii = -1, jj = -1, n, m;
+	int len, i, j, check = -1, ii = -1, jj = -1, n, m, res;
 	FILE *inp, *outp;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
-        return 0;
+        return -1;
     }
     if ((outp = fopen("result.txt", "w")) == NULL) {
         printf("ERROR\n");
         fclose(inp);
-        return 0;
+        return -1;
     }
 	if (fscanf(inp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1)
         {
             fclose(inp);
 			fclose(outp);
 			
-            return 0;
+            return -1;
         }
-	a_read(inp, a);
-	//здесь кончается считывание
+	a = malloc((n) * sizeof(char **));
+    for(int i = 0; i < n; i++)
+	a[i] = malloc((m) * sizeof(char*));
+    if (read_file(input, matrix, n, m) == -1)
+    {
+	
+        fclose(outp);
+        fclose(inp);
+	return -1;
+    }
+	//printf("здесь кончается считывание\n");
 	
 	for(i = 0;i < n; i++)
 	{
@@ -41,10 +47,10 @@ int main() {
 				check = 1;
 				break;
 			}
-			str = cop(pol(a[i][j]), str);
+			//str = cop(pol(a[i][j]), str);
 			for(int k = j + 1;k < m - 1;k++)
 			{
-				if(eq(str, a[i][k]))
+				if(eq(pol(a[i][j]), a[i][k]))
 				{
 					ii = i;
 					jj = j;

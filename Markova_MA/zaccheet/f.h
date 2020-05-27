@@ -1,6 +1,5 @@
 
-void a_read(FILE *inp, char ***a);
-int a_look(FILE *inp, char ***a, int n, int m);
+int read_file(FILE *file, char ***a, int N, int M)
 int slen(const char *str);
 char *cop(const char *f, char *t);
 char *str_r(FILE *inp);

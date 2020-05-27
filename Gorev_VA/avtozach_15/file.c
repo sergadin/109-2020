@@ -4,6 +4,7 @@
 
 #define _N 2
 
+char *read_str(FILE *input);
 char *read_str(FILE *input)
 {
 	char *str;
@@ -56,6 +57,7 @@ char *read_str(FILE *input)
 	return str;
 }
 
+char ***read_matr(FILE *input, int *m, int *n);
 char ***read_matr(FILE *input, int *m, int *n)
 {
 	int M, N;
@@ -90,6 +92,26 @@ char ***read_matr(FILE *input, int *m, int *n)
 	return A;
 }
 
+int write(FILE *output, char ***matr, int M, int N);
+int write(FILE *output, char ***matr, int M, int N)
+{
+	int i, j;
+	fprintf(output, "%d %d\n", M, N);
+	i = 0;
+	while (i < M)
+	{
+		j = 0;
+		while (j < N)
+		{
+			fprintf(output, "%s\n", matr[i][j]);
+			j++;
+		}
+		i++;
+	}
+	return 0;
+}
+
+
 int is_pal(char **str, int size_of_str);
 int is_pal(char **str, int size_of_str)
 {
@@ -110,12 +132,14 @@ int is_pal(char **str, int size_of_str)
 	if (j_glob == 0)
 		return 1;
 	
-	i = 0;
-	j = strlen(str[size_of_str - 1]) - 1;
 	i_glob = 0;
 	j_glob--;
 	i_str = 0;
 	j_str = size_of_str - 1;
+	while ((j_str > 0) && (strlen(str[j_str]) == 0))
+		j_str--;
+	i = 0;
+	j = strlen(str[j_str]) - 1;
 	while (i_glob < j_glob)
 	{
 		if (strlen(str[i_str]) == 0)
@@ -130,8 +154,6 @@ int is_pal(char **str, int size_of_str)
 		}
 		if (str[i_str][i] != str[j_str][j])
 		{
-			//printf("^%d %d^", strlen(str[i_str]), str[j_str]);
-			//printf("|%d %d, %c %c|", i_glob, j_glob, str[i_str][i], str[j_str][j]);
 			return 0;
 		}
 			
@@ -216,15 +238,22 @@ int main(void)
 	char ***A;
 	int M, N;
 	int i, j;
-	FILE *input;
-	input = fopen("input.txt", "r");
-	A = read_matr(input, &M, &N);
-	fclose(input);
 	
-	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
-	printf("%d %d\n", is_pal(A[0], N), is_pal(A[1], N));
+	FILE *input;
+	FILE *output;
+	if ((input = fopen("input.txt", "r")) == 0)
+	{
+		return -1;
+	}
+	if ((output = fopen("output.txt", "w")) == 0)
+	{
+		fclose(input);
+		return -1;
+	}
+	
+	A = read_matr(input, &M, &N);
 	transform(A, M, N);
-	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
+	write(output, A, M, N);
 	i = 0;
 	while (i < M)
 	{
@@ -243,6 +272,7 @@ int main(void)
 		i++;
 	}
 	free(A);
-	
+	fclose(input);
+	fclose(output);
 	return 0;
 }
