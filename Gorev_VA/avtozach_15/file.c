@@ -113,21 +113,26 @@ int transform(char*** A, int M, int N)
 
 int main(void)
 {
-	char ***A;
+	/*char ***A;
 	int M = 2, N = 2;
 	
 	A = (char***)malloc(M * sizeof(char**));
 	A[0] = (char**)malloc(N * sizeof(char*));
 	A[1] = (char**)malloc(N * sizeof(char*));	
 	
-	A[0][0] = "kjk";
-	printf("%d", strlen(A[0][0]));
-	A[0][1] = "ababba";
-	A[1][0] = "1234";
-	A[1][1] = "321";
+	A[0][0] = scanf("%s", &A[0][0]);
+	A[0][1] = scanf("%s", &A[0][1]);
+	A[1][0] = scanf("%s", &A[1][0]);
+	A[1][1] = scanf("%s", &A[1][1]);
 	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
 	printf("%d %d\n", is_pal(A[0], N), is_pal(A[1], N));
-	printf("%d\n", find_pal(A, M, N));
-
+	printf("%d\n", find_pal(A, M, N));*/
+	char **str;
+	str = (char**)malloc(1 * sizeof(char*));
+	str[0] = (char*)malloc(10 * sizeof(char));
+	str[0] = 'a';
+	str[1] = 'b';
+	str[2] = 0;
+	if_pal(str, 1);
 	return 0;
 }
