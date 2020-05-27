@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 char *read_string(FILE *f);
-char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas);
+char ***vbr(FILE *input1, int n_rows, int n_cols, char ***matrix);
 int length(const char *s);
 char *strcpy(char *t, const char *s);
 int strst(char * t, char *w);
@@ -100,7 +101,7 @@ void delete(int i, char **mas, int n)
 	free(mas[n - 1]);
 }
 
-char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
+char ***vbr(FILE *input1, int n_rows, int n_cols, char ***matrix)
 {
 	int i, j, row, k = 0, l = 0, ind = 0, n;
 	int w = 0;
@@ -161,9 +162,6 @@ char ***vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
 			}			
 		}
 	}
-
-
-
 	return mas;
 }
 
@@ -227,9 +225,7 @@ int main(void)
                 }
         }
 
-
 	mas = vbr(input1, n_rows, n_cols, mas);
-	
 
 	for(int i = 0; i < n_rows; i ++)
         {
