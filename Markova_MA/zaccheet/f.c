@@ -92,7 +92,7 @@ char *str_r(FILE *inp)
 {
 	int N = 1024, cl = 1, bl, check = 0;
 	char *str, *buf;
-	if ((buf = (char*)malloc(N)) != 1 || (str = (char*)malloc(1)) != 1)
+	if ((buf = (char*)malloc(N)) != NULL || (str = (char*)malloc(1)) != NULL)
 	{
 		return NULL;
 	}
@@ -132,23 +132,19 @@ char *str_r(FILE *inp)
 
 char *pol (char *str)
 {
-	if(slen(str) == 0)
-		return str;
 	int len = slen(str);
 	char *w;
-	if(len%2 == 0)
-		len /= 2;
-	else
-		len = (len - 1)/2;
+	if(w = (char *)malloc(len + 1)) == NULL || len == 0)
+		return str;
 	for(int i = 0; i < len; i++)
 	{
-		w = str[i]
-		str[i] = str[len - 1 - i];
-		str[len - 1 - i] = w;
+		w = str[len - 1 - i];
 	}
+	w[len] = 0
 	return str;
 }
 
+////
 int eq (char *a, char *b)
 {
 	int q = slen(a), n = slen(b), check = 0;
