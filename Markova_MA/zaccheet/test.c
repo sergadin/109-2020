@@ -5,9 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "f.h"
-char pol (char *str);
-int eq (char *a, char *b);
-
 
 int main() {
 	char *str, ***a;
@@ -30,7 +27,7 @@ int main() {
             return 0;
         }
 	a_read(inp, a);
-	printf("здесь кончается считывание\n")
+	printf("здесь кончается считывание\n");
 	
 	for(i = 0;i < n; i++)
 	{
