@@ -27,6 +27,7 @@ int main() {
             return 0;
         }
 	res = a_read(inp, a);
+	fclose(inp);
 	if(res == 0)
 	{
 		return 0;
