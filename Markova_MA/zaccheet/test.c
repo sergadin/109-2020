@@ -26,7 +26,11 @@ int main() {
 			
             return 0;
         }
-	a_read(inp, a);
+	res = a_read(inp, a);
+	if(res == 0)
+	{
+		return 0;
+	}
 	printf("здесь кончается считывание\n");
 	
 	for(i = 0;i < n; i++)
