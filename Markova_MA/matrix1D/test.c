@@ -1,11 +1,10 @@
-#include <time.h>
-#include "typedef.h"
+
+#include "f.h"
 
 int main() {
-	int n, m, res, i;
-	double *a;
+	int n = 3, m = 4, res, i,  err = SUCCESS;
+	double *a, eps = 1e-16;
 	FILE *fp;
-	ErrorCode err = SUCCESS;
 	if (!(a = (double *)malloc(sizeof(double) * n * m) )) {
 		printf("Not enough memory\n");
 		return -1;
@@ -32,7 +31,7 @@ int main() {
 	}
 	//printf("Данная матрица:\n");
 	//print_matrix(a, n, m);
-	res = rank(a, n, m);
+	res = rank(a, n, m, eps);
 	//printf("Полученная матрица:\n");//
 	//print_matrix(a, n, m);//
 	printf("Rank = %d\n", res);

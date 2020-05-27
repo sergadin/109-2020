@@ -1,6 +1,6 @@
 #include"stdio.h"
 #include"stdlib.h"
-#include"findstr.h"
+#include"findstr1.h"
 #include"string.h"
 
 
@@ -9,7 +9,6 @@ int posstr(char * t, char *w);
 char *readstring(FILE *input);
 char *strcpy(char *t, const char *s);
 int findstr(char * t, const char *w);
-int dlina(char *t, int k);
 char* zamena(char * t, char * what, char * forwhat);
 char * makewhat(char *strnow, const char* def);
 char * makeforwhat(char *strnow, const char* def);
@@ -126,28 +125,30 @@ int posstr(char * t, char *w)
 
 
                       
-void mainstrd(FILE * input, FILE * output, FILE * deffile)
+void mainstrd(FILE * input, FILE * output)
 {
 	char * def;
 	char * undef;
-	char *what;
-	char *forwhat;
+	char * what;
+	char * forwhat;
 	char *strnow;
-	char * news;
 	char ** maswhat = NULL;
 	char ** masforwhat = NULL;
 	int lenmas = 0;
 	int num = 0;
+	int realnum = 0;
 	int ind = 0;
 	def = malloc(8);
 	undef = malloc(7);
+	char * newstr;
 	def = strcpy(def, "#define");
 	undef = strcpy(undef, "#undef");
 	def[7] = '\0';
 	undef[6] = '\0';
 	int indec = 0;
 	char* whatu;
-	while((strnow = readstring(input)) != NULL)
+	strnow = readstring(input);
+	while(strnow != NULL)
 	{
 		if(findstr(strnow, def) != 0)
 		{
@@ -174,6 +175,7 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 				maswhat = realloc(maswhat, (num + 1)* sizeof(char *));
 				masforwhat = realloc(masforwhat, (num + 1) * sizeof(char *));
 				num ++;
+				realnum ++;
 				maswhat[num - 1] = NULL;
 				masforwhat[num - 1] = NULL;
 				maswhat[num - 1] = realloc(maswhat[num - 1], len(what) + 1);
@@ -187,10 +189,9 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 					masforwhat[num - 1][i] = forwhat[i];
 
 				}
-				free(what);
-				free(forwhat);
 			}
-			ind = 0;
+		free(what);
+		free(forwhat);
 		}
 		ind = 0;
 		if(findstr(strnow, undef) != 0)
@@ -198,13 +199,17 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 			whatu = makeundef(strnow);
 			for(int j = 0; j < num; j++)
 			{
-				if((poisk(maswhat[j], whatu) != 0) && (len(maswhat[j]) == len(whatu)))
+				if((poisk(maswhat[j], whatu) != 0))
+				{
+				if((len(maswhat[j]) == len(whatu)))
 				{
 					deleteel(j, maswhat, num); 
 					deleteel(j, masforwhat, num);
 					num -= 1;
 				}
+				}
 			}
+			free(whatu);
 		}
 		if((findstr(strnow, def) == 0) && (findstr(strnow, undef) == 0))
 		{
@@ -212,27 +217,21 @@ void mainstrd(FILE * input, FILE * output, FILE * deffile)
 			{
 				if(poisk(strnow, maswhat[i]) != 0)
 				{
-					news = zamena(strnow, maswhat[i], masforwhat[i]);
-					indec = 1;
+					newstr = zamena(strnow, maswhat[i], masforwhat[i]);
+					strnow = realloc(strnow, len(newstr) + 1);
+					strnow = strcpy(strnow, newstr);
+					free(newstr);
+
 				}
 			}
-			if(indec == 1)
-			{
-				fprintf(output, "%s\n", news);
-                                free(news);
-			}            
-			if(indec == 0)
-			{
-				fprintf(output, "%s\n", strnow);
-			}
-			indec = 0;
-
-
+			fprintf(output, "%s\n", strnow);
+			
 
 		}
+		free(strnow);
+		strnow = readstring(input);
 		
-	}	
-free(strnow);	
+	}		
 free(def);
 free(undef);
 for(int i = 0; i < num; i ++)
@@ -253,19 +252,18 @@ char* zamena(char * str, char * what, char * forwhat)
 	int j;
 	while(poisk(strnow, what) != 0)
 	{
-		newstr = malloc(2);
-		newstr[0] = '0';
-		newstr[1] = '\0'; 
+		newstr = malloc(1);
+		lenn = 1;
 		pos = pospoisk(strnow, what);
 		for(int i = 0; i < pos; i++)
 		{
-			newstr = realloc(newstr, len(newstr) + 1);
+			newstr = realloc(newstr, lenn);
 			lenn ++;
 			newstr[i] = strnow[i];
 		}
 		for(int i = 0; i < len(forwhat); i ++)
 		{
-			newstr = realloc(newstr, len(newstr) + 1);
+			newstr = realloc(newstr, lenn);
 			lenn ++;
 			newstr[pos + i] = forwhat[i];
 			j = pos + i + 1;
@@ -273,17 +271,16 @@ char* zamena(char * str, char * what, char * forwhat)
 		
 		for(int i = pos + len(what); i <= len(strnow); i ++)
 		{
-			newstr = realloc(newstr, len(newstr) + 1);
+			newstr = realloc(newstr, lenn + 1);
 			lenn ++;
 		       	newstr[len(forwhat) - len(what) + i] = strnow[i];
 		}
-		newstr[len(newstr)] = '\0';
+		newstr[lenn - 1] = '\0';
 		strnow = realloc(strnow, len(newstr) + 1);
 		strcpy(strnow, newstr);
 		free(newstr);	
 	}
 	return(strnow);
-	
 }
 
 
@@ -292,21 +289,17 @@ char *  makewhat(char *strnow,  const char* def)
 	char* what;
 	int d = len(strnow);
 	int d1 = 1;
-	int i = 0, j = 0;
+	int i = 8, j = 0;
 	what = malloc(1);
 	while(strnow[i] != ' ')
-	{
-		i++;
-	}
-	i++;
-	while(strnow[i] != ' ')
 	{	
+		d1 += 1;
 		what = realloc(what, d1);
 		what[j] = strnow[i];
 		i++;
 		j++;
-		d1 += 1;
 	}
+	what[d1 - 1] = '\0';
 	i++;
 	return what;
 
@@ -333,14 +326,13 @@ char *  makeforwhat(char *strnow,  const char* def)
         j = 0;
 	while(strnow[i] != '\n')
         {
-                forwhat = realloc(forwhat, d2);
 		d2 += 1;
+                forwhat = realloc(forwhat, d2);
                 forwhat[j] = strnow[i];
                 i++;
                 j++;
         }
-	forwhat = realloc(forwhat, d2);
-	forwhat[len(forwhat)] = '\0';
+	forwhat[d2 - 1] = '\0';
 	return forwhat;
 }
 
@@ -356,6 +348,7 @@ void deleteel(int i, char ** mas, int num)
 		}
 
 	}
+	free(mas[num - 1]);
 }
 int poisk(char * t, char * w)
 {
@@ -377,12 +370,40 @@ int poisk(char * t, char * w)
                 }
                 if(p == n1)
                 {
-			if((i == 0) || (t[i - 1] == ' '))
+			if(i == 0)
 			{
-				if((t[i + len(w)] == ' ') || (t[i + len(w) + 1] == '\0'))
+				if(((i + len(w)) == len(t)))
+                                {
+                                        return 1;
+                                }
+				if((t[i + len(w)] == ' '))
 				{
 					return 1;
 				}
+				if((t[i + len(w) + 1] == '\0'))
+				{
+					return 1;
+				}
+
+			}
+			else
+			{
+			if((t[i - 1] == ' '))
+			{
+				if(((i + len(w)) == len(t)))
+                                {
+                                        return 1;
+                                }
+                                if((t[i + len(w)] == ' '))
+                                {
+                                        return 1;
+                                }
+                                if((t[i + len(w) + 1] == '\0'))
+                                {
+                                        return 1;
+                                }
+
+			}
 			}
                 }
 
@@ -391,16 +412,24 @@ int poisk(char * t, char * w)
 }
 char * makeundef(char * str)
 {
-	char * w = NULL;
-	int le = 1;
-	for(int i = 7; i < (len(str) - 1); i++)
-	{
-		w = realloc(w, le);
-		w[i - 7] = str[i];
-		le ++;
-	}
-	w[le] = '\0';
-	return w;
+	char* w;
+        int d = len(str);
+        int d1 = 1;
+        int i = 7, j = 0;
+        w = malloc(1);
+        while(str[i] != '\n')
+        {
+                d1 += 1;
+                w = realloc(w, d1);
+                w[j] = str[i];
+                i++;
+                j++;
+        }
+        w[d1 - 1] = '\0';
+        i++;
+        return w;
+
+
 
 }
 int pospoisk(char * t, char * w)

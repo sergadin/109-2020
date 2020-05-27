@@ -1,19 +1,19 @@
-CFLAGS = -c -g -Wall -O3
+CC=gcc
+CFLAGS= -g
 
-start: a.out
+all: do-test clean
 
-f.o: typedef.h
-	gcc $(CFLAGS) f.c -o f.o
+sum.o: f.c f.h
+#	gcc -c f.c
 
-main.o: typedef.h f.o
-	gcc $(CFLAGS) main.c -o main.o
+sum_test.o: test.o f.h
+#	gcc -c test10.c
 
-a.out: f.o main.o e1.o
-	gcc f.o main.o e1.o -o a.out
+a.out: test.o f.o
+	gcc test.o f.o -lm
 
-e1.o: typedef.h f.o
-	gcc $(CFLAGS) e1.c -o e1.o
+do-test: a.out
+	./a.out
 
-cl:
-	rm -f *.o
-	rm -f *.out
+clean: test.o f.o
+	rm test.o f.o
