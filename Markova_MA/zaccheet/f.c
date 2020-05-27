@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "f.h"
-
+/*
 int read_file(FILE *file, char ***a, int N, int M)
 {
     size_t bufsize = 32;

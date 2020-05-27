@@ -1,4 +1,4 @@
-
+/*
 int read_file(FILE *file, char ***a, int N, int M)
 int slen(const char *str);
 char *cop(const char *f, char *t);
