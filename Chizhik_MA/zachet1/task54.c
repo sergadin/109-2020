@@ -5,6 +5,17 @@
 #include "../lib/ustrings.h"
 #include "task54.h"
 
+/*
+ * Функция суммирования элементов
+ *
+ * Параметры:
+ * string_k: пирбавляемый элемент
+ * string_p: изменяемый элемент
+ *
+ * Функция прибавляет одну строчку к другому по заданному правилу.
+ *
+ */
+
 static void sum_elements(char *string_k, char *string_p) {
 	int len_k, len_p;
 	len_k = strlen(string_k), len_p = strlen(string_p);

@@ -3,6 +3,16 @@
 #include "../lib/ustrings.h"
 #include "task54.h"
 
+/*
+ * Преобразование матрицы по правилу 54
+ *
+ * Программа должна вызываться по меньшей мере с одним дополнительным параметром, именем входного файла.
+ * Если его не окажется, будет выведена информация о корректных параметрах для вызова программы.
+ * Если строк во входном файле больше, чем заявлено, это не считается ошибкой, лишние строки просто не будут
+ * считаться относящимися к матрице.
+ *
+ */
+
 static void print_usage(char *program_name) {
 	fprintf(stderr, "usage: %s input.txt\n", program_name);
 	fprintf(stderr, "input.txt: file with matrix\n");
@@ -55,6 +65,16 @@ int main(int argc, char **argv) {
 
 	for (int i = 0; i < m * n; i++) {
 		matrix[i] = read_string(input);
+		if (matrix[i] == NULL) {
+			fprintf(stderr, "Can't read the matrix properly\n");
+			for (int j = 0; j < i; j++) {
+				free(matrix[j]);
+			}
+			free(matrix);
+			fclose(input);
+			fclose(result);
+			return -1;
+		}
 		fprintf(stdout, "%s\n", matrix[i]);
 	}
 
@@ -66,14 +86,13 @@ int main(int argc, char **argv) {
 			if (i == special_row) {
 				continue;
 			}
-			fprintf(stdout, "special_row = %d, i = %d\n", special_row, i);
 			add_row(matrix, n, special_row, i);
 		}
 	}
 
 	fprintf(result, "%d %d\n", m, n);
 	for (int i = 0; i < m * n; i++) {
-		fprintf(result, "%d element: %s\n", i, matrix[i]);
+		fprintf(result, "%s\n", matrix[i]);
 	}
 
 	fclose(input);
