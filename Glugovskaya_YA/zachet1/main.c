@@ -15,12 +15,12 @@ int main(int argc,char **argv)
 	char *File_Name = 0;
 	char **a;
 	
-	if ((argc != 4) || !(n = atoi(argv[1])) || !(m = atoi(argv[1])))
+	if (argc != 2)
 	{
 		printf("Usage:%s n m filename \n n m - martix size \n filename - name of file with n * n numbers\n", argv[0]);
 		return -1;
 	}
-	File_Name = argv[3];
+	File_Name = argv[1];
 	
 	if (!(a = (char**) malloc (n*m*sizeof(char*))))
 	{
@@ -30,7 +30,7 @@ int main(int argc,char **argv)
 	
 	if (File_Name)
 	{
-		int res = read(a, n, m, File_Name);
+		int res = read(a, File_Name);
 
 		if(res < 0)
 		{
@@ -56,9 +56,8 @@ int main(int argc,char **argv)
 			return -1;
 		}
 	}
-	printf("Matrix A:\n");
-	print(a, n, m);
-	solve(a, n, m);
+	
+	
 
 	free(a);
 

@@ -8,12 +8,13 @@ void print(char **a, int n, int m)
 {
 	int N = (n > MAX_PRN ? MAX_PRN:n);
 	int M = (m > MAX_PRN ? MAX_PRN:m);
+	printf ("n %d m%d\n", N, M);
 	
 	for(int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < M; j++)
 		{
-			printf("%s", a[i*m + j]);
+			printf("%d %d %s", i, j, a[i*m + j]);
 			if (j == M - 1) printf("\n");
 		}
 		if (i == N - 1)break;

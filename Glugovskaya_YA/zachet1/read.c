@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "read.h"
+#include "solve.h"
+#include "print.h"
 #include <stdio.h>
 #include <string.h>
 
-int read(char **a, int n, int m, char *name)
+int read(char **a, char *name)
 {
 	FILE*fp;
-	
+	int n, m;
 	fp = fopen(name,"r");
-	if (!fp) return Open_Err;
 	
+	if (!fp) return Open_Err;
+	fscanf(fp, "%d %d\n", &n, &m);
+	//printf("%d %d\n", n, m);
 	for (int i = 0; i < m*n; i++)
 	{
 		if ((a[i]=Read_Srt(fp)) == NULL)
@@ -18,13 +22,11 @@ int read(char **a, int n, int m, char *name)
 			fclose(fp);
 			return Read_Err;
 		}
+		printf("a[%d] = %s\n", i, a[i]);
 	}
-	
-	if (!feof(fp))
-	{
-		fclose(fp);
-		return Not_to_End;
-	}
+	printf("Matrix A:\n");
+	print(a, n, m);
+	solve(a, n, m);
 	
 	fclose(fp);
 	return All_Correct;
