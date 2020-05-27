@@ -68,21 +68,51 @@ char *row_to_string(char **row, int len) {
 	return string;
 }
 
+int find_in_the_row(char **row, int n, const char *needle) {
+	int len = 0, sub_len;
+	int curr_len;
+	int words_ahead = 0, past_len = 0;
+
+	for (int i = 0; i < n; i++) {
+		len += strlen(row[i]);
+	}
+	sub_len = strlen(needle);
+	curr_len = strlen(row[0]);
+
+	for (int i = 0; i < len - sub_len + 1; i++) {
+		unsigned int found = 1;
+		if (i == curr_len) {
+			words_ahead++;
+			past_len += curr_len;
+			curr_len = strlen(row[words_ahead]);
+		}
+		for (int j = 0; j < sub_len; j++) {
+			if (row[words_ahead][i - past_len + j] != needle[j]) {
+				found = 0;
+				break;
+			}
+		}
+		if (found == 1) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
 int find_row(char **matrix, int m, int n) {
-	char *word, *inv_string;
+	char *inv_string;
 	int row_index = -1;
 	for (int i = 0; i < m; i++) {
-		word = row_to_string(matrix + (i * n), n);
 		for (int j = 0; j < n; j++) {
 			inv_string = inverse(matrix[i * n + j]);
-			if (strstr(word, inv_string) != NULL) {
+			if (find_in_the_row(matrix + (i * n), n, inv_string) != -1) {
 				row_index = i;
 				free(inv_string);
 				break;
 			}
 			free(inv_string);
 		}
-		free(word);
 		if (row_index != -1) break;
 	}
 	return row_index;
