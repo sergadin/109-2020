@@ -109,6 +109,7 @@ int main(int argc, char *argv[])
 	int imin = 0;
 	int len;
 	FILE *output;
+	char *B;
 
 	if(argc != 2)
 	{
@@ -149,6 +150,8 @@ int main(int argc, char *argv[])
 			imin = i;
 	}
 
+
+	printf("1\n");
 	for(i = 0; i < n; i++)
 	{
 		if(i != imin)
@@ -164,6 +167,7 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
+	printf("2\n");
 	fclose(input);
 
 	if((output = fopen("result.txt","w")) == NULL)
@@ -171,16 +175,16 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "output file opening error\n");
 		return -1;
 	}
-	printf("ura!\n");
 
 	fprintf(output,"%d %d\n",n,m);
-	for(i = 0 ; i < m; i++)
+	for(i = 0 ; i < n; i++)
 	{
 		for(j = 0; j < m; j++)
 		{
 			fprintf(output,"%s",A[i][j]);
 		}
 	}
+	fclose(output);
 
 	for(i = 0; i < n; i++)
 	{
