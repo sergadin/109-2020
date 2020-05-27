@@ -110,12 +110,14 @@ int is_pal(char **str, int size_of_str)
 	if (j_glob == 0)
 		return 1;
 	
-	i = 0;
-	j = strlen(str[size_of_str - 1]) - 1;
 	i_glob = 0;
 	j_glob--;
 	i_str = 0;
 	j_str = size_of_str - 1;
+	while ((j_str > 0) && (strlen(str[j_str]) == 0))
+		j_str--;
+	i = 0;
+	j = strlen(str[j_str]) - 1;
 	while (i_glob < j_glob)
 	{
 		if (strlen(str[i_str]) == 0)
@@ -130,8 +132,6 @@ int is_pal(char **str, int size_of_str)
 		}
 		if (str[i_str][i] != str[j_str][j])
 		{
-			//printf("^%d %d^", strlen(str[i_str]), str[j_str]);
-			//printf("|%d %d, %c %c|", i_glob, j_glob, str[i_str][i], str[j_str][j]);
 			return 0;
 		}
 			
