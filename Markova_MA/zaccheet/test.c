@@ -123,6 +123,7 @@ int main(void)
 				break;
 		}
 	}
+	printf( "%s\n", a[i][j]);
 	for(i = 0;i < m;i++)
 	{
 		for(j = 0; j < n; j++)
