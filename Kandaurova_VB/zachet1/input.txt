@@ -1,5 +1,22 @@
-2 2
-hai
-hai
-df
-dff
+7 3
+zzza
+abcd
+ads
+aaav
+bcda
+zdav
+bazbab
+abz
+abc
+abcs
+bdc
+abb
+bba
+cdbs
+cba
+zabbc
+cccb
+baz
+zz
+
+zzz
