@@ -28,8 +28,7 @@ int main() {
             return 0;
         }
     }
-	else
-	{
+
 		for (i = 0; i < n; ++i)
 		{
 			for(j = 0; j < n; j++)
@@ -57,8 +56,7 @@ int main() {
 				a[i][j] = t;
 			}
 		}
-		
-	}
+	
 	if (err != SUCCESS) {
 		ERROR_RE(err);
 		return 0; 
