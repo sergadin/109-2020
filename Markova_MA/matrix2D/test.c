@@ -24,6 +24,7 @@ int main() {
             return 0;
         }
     }
+	
 	if (!(fp = fopen("a.txt","r")) ){
 		err = ERROR_OPEN;
 	}
@@ -54,6 +55,10 @@ int main() {
 	}
 	if (err != SUCCESS) {
 		ERROR_RE(err);
+		for (int k = 0; k < n; k++)
+		{
+			free(a[k]);
+		}
 		free(a);
 		return 0; 
 	}
@@ -73,10 +78,9 @@ int main() {
 	//printf("Rank = %d\n", res);
 	for (int k = 0; k < n; k++)
     {
-        free(matrix[k]);
+        free(a[k]);
     }
-    free(matrix);
+    free(a);
+	fclose(fp);
     return 0;
-}
-	return 0;
 }
