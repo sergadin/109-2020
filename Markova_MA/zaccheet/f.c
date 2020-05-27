@@ -43,7 +43,7 @@ int eq (char *a, char *b)
 	int q = slen(a), n = slen(b), check = 0;
 	if(q > n)
 		return 0;
-	for(int i = 0; i < n - q; i++)
+	for(int i = 0; i < n; i++)
 	{
 		if(a[i] == b[i])
 			check++;
