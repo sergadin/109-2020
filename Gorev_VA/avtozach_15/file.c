@@ -1,6 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+char ***read_matr(FILE *input)
+{
+	int M, N;
+	int i = 0, j = 0;
+	char ***A;
+	fscanf(input, "%d", &M);
+	fscanf(input, "%d", &N);
+	A = (char***)malloc(M * sizeof(char**));
+	i = 0;
+	while (i < M)
+		{
+			A[i] = (char**)malloc(N * sizeof(char*));
+			i++;
+		}
+	i = 0;
+	char *Q;
+	Q = (char*)malloc(100 * sizeof(char));
+	fgets(Q, 100, input);
+	while (i < M)
+	{
+		j = 0;
+		while (j < N)
+		{
+			A[i][j] = (char*)malloc(100 * sizeof(char));
+			fgets(A[i][j], 100, input);
+			printf("%s", A[i][j]);
+			j++;
+		}
+		i++;
+	}
+	return A;
+}
+
 int is_pal(char **str, int size_of_str);
 int is_pal(char **str, int size_of_str)
 {
@@ -59,13 +92,14 @@ int is_pal(char **str, int size_of_str)
 	return 1;
 }
 
-/*int char_is_in_str(char c, char *str)
+int char_is_in_str(char c, char *str)
 {
 	int i = 0;
 	while (i < strlen(str))
 	{
 		if (c == str[i])
 			return 1;
+		i++;
 	}
 	return 0;
 }
@@ -75,7 +109,6 @@ int del_str_from_str(char *str1, char *str2)
 	int i = 0;
 	int j = 0;
 	int i_new = 0;
-	int k = 0;
 	while (i < strlen(str2))
 	{
 		if (!char_is_in_str(str2[i], str1))
@@ -109,30 +142,29 @@ int transform(char*** A, int M, int N)
 		
 		i++;
 	}
-}*/
+}
 
 int main(void)
 {
-	/*char ***A;
-	int M = 2, N = 2;
-	
-	A = (char***)malloc(M * sizeof(char**));
+	char ***A;
+	int M, N;
+	FILE *input;
+	input = fopen("input.txt", "r");
+	A = read_matr(input);
+	/*A = (char***)malloc(M * sizeof(char**));
 	A[0] = (char**)malloc(N * sizeof(char*));
 	A[1] = (char**)malloc(N * sizeof(char*));	
 	
-	A[0][0] = scanf("%s", &A[0][0]);
-	A[0][1] = scanf("%s", &A[0][1]);
-	A[1][0] = scanf("%s", &A[1][0]);
-	A[1][1] = scanf("%s", &A[1][1]);
+	A[0][0] = "kjk";
+	A[0][1] = "ababba";
+	A[1][0] = "1234";
+	A[1][1] = "321";
+	
 	printf("%s %s\n%s %s\n", A[0][0], A[0][1], A[1][0], A[1][1]);
 	printf("%d %d\n", is_pal(A[0], N), is_pal(A[1], N));
-	printf("%d\n", find_pal(A, M, N));*/
-	char **str;
-	str = (char**)malloc(1 * sizeof(char*));
-	str[0] = (char*)malloc(10 * sizeof(char));
-	str[0] = 'a';
-	str[1] = 'b';
-	str[2] = 0;
-	if_pal(str, 1);
+	//del_str_from_str(A[1][1], A[1][0]);
+	//A[0][0][0] = 'a';
+	//printf("%s", A[0][0]);*/
+
 	return 0;
 }
