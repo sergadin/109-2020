@@ -26,5 +26,7 @@ int main(void) {
     fun(matrix, n, m, k);
     print(matrix, n, m, output);
     free(matrix);
+    fclose(input);
+    fclose(output);
     return 0;
 }
