@@ -68,7 +68,7 @@ int print_res_file(char **a, int n, int m, int MinI)
 				for (int k = 0; k < LenEl - 2;  k++)
 				fprintf(fp, "%c", a[i*m+j][k]);
 			}
-			for (int k = 0; k < LenMin - 1;  k++)
+			for (int k = 0; k < LenMin;  k++)
 				fprintf(fp, "%c", a[MinI*m+j][k]);
 			if (j == M - 1) fprintf(fp, "\n");
 		}
