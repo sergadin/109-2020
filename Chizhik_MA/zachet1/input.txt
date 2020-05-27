@@ -1,5 +1,22 @@
-2 2
-dba_00
-00_ab
-dsals
-ababa
+7 3
+zzza
+abcd
+ads
+aaav
+bcda
+zdav
+bazbab
+abz
+abc
+abcs
+bdc
+abb
+bba
+cdbs
+cba
+zabbc
+cccb
+baz
+zz
+
+zzz
