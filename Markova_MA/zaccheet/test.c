@@ -41,7 +41,7 @@ int main() {
 	a = malloc((n) * sizeof(char **));
     for(int i = 0; i < n; i++)
 	a[i] = malloc((m) * sizeof(char*));
-    if (read_file(input, matrix, n, m) == -1)
+    if (read_file(input, a, n, m) == -1)
     {
 	
         fclose(outp);
