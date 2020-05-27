@@ -2,73 +2,26 @@
 #include <stdlib.h>
 #include "f.h"
 
-int a_read(FILE *inp, char ***a)
+int read_file(FILE *file, char ***a, int N, int M)
 {
-  int n, m;
-  if (a_look(inp, a, n, m) != 0)
-  {
-	printf("no date");
-	return -1;
-	/*for (int i = 0; i < n; i++)
+    size_t bufsize = 32;
+    for(int i = 0; i < N; i++)
+	for(int k = 0; k < M; k++) 
+	    a[i][k] = NULL;
+    for(int i = 0; i < N; i++)
 	{
-		for (int j = 0; j < m; j++)
-		{
-		  printf ("%s " a[i][j]);
-		}
-		printf("\n");
-	}*/
-}
-return 0;
-}
-
-int a_look(FILE *inp, char ***a, int n, int m)
-{
-  char *str; 
-  if ((a = (char***) malloc(n * sizeof(char**))) == NULL)
-  {
-    return -1;
-  }
-  for (int i = 0; i < n; i++)
-  {
-    if ((a[i] = (char**) malloc(m * sizeof(char**))) == NULL)
-    {
-      for (int j = 0; j < i; j++)
-      {
-        free(a[j]);
-      }
-      free(a);
-      return -1;
-    }
-  }
-  for (int i = 0; i < n; i++)
-  {
-    for (int j = 0; j < m; j++)
-    {
-      if ((str = str_r(inp)) == NULL || (a[i][j] = (char*)malloc((slen(str) + 1) * sizeof(char*))) == NULL)
-      {
-        for (int k = 0; k < j; k++)
-        {
-          free(a[i][k]);
-        }
-        free(a[i]);
-        for (int k = 0; k < i; k++)
-        {
-          for (int l = 0; l < m; l++)
-          {
-            free(a[i][l]);
-          }
-          free(a[k]);
-        }
-        free (a);
-        return -1;
-      }
-      a[i][j] = cop(str, a[i][j]);
-      free(str);
-    }
-  }
-  return 0;
+		for(int k = 0; k < M; k++) 
+			
+			if(getline(&a[i][k], &bufsize, file) == -1)
+			{
+				 printf("smth wrong with reading \n");
+				 return -1;
+			}
+	}
 }
 
+    return 0;
+}
 int slen(const char *str)
 {
 	int len = 0;

@@ -12,27 +12,31 @@ int main() {
 	FILE *inp, *outp;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
-        return 0;
+        return -1;
     }
     if ((outp = fopen("result.txt", "w")) == NULL) {
         printf("ERROR\n");
         fclose(inp);
-        return 0;
+        return -1;
     }
 	if (fscanf(inp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1)
         {
             fclose(inp);
 			fclose(outp);
 			
-            return 0;
+            return -1;
         }
-	res = a_read(inp, a);
-	fclose(inp);
-	if(res == -1)
-	{
-		return 0;
-	}
-	printf("здесь кончается считывание\n");
+	a = malloc((n) * sizeof(char **));
+    for(int i = 0; i < n; i++)
+	a[i] = malloc((m) * sizeof(char*));
+    if (read_file(input, matrix, n, m) == -1)
+    {
+	
+        fclose(outp);
+        fclose(inp);
+	return -1;
+    }
+	//printf("здесь кончается считывание\n");
 	
 	for(i = 0;i < n; i++)
 	{
