@@ -11,4 +11,4 @@ enum RETURN_CODES
     SUCCESS,
     ERROR_READ,
     ERROR_OPEN,
-};
+};*/

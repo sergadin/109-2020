@@ -115,4 +115,4 @@ int eq (char *a, char *b)
 	if(check == q)
 		return 1;
 	return 0;
-}
+}*/
