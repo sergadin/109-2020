@@ -171,6 +171,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "output file opening error\n");
 		return -1;
 	}
+	printf("ura\n");
 
 	fprintf(output,"%d %d\n",n,m);
 	for(i = 0 ; i < m; i++)
