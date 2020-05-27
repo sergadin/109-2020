@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+#include "f.h"
 int main(void)
 {
 	int ii = -1, jj = -1, check = -1, i, j, n, m, len = 32;
@@ -20,7 +20,7 @@ int main(void)
         fclose(fp);
         return -1;
     }
-	if (fscanf(fp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1)
+	if (fscanf(fp, "%d", &n) != 1 || fscanf(fp, "%d", &m) != 1)
         {
             fclose(fp);
 			fclose(outp);
