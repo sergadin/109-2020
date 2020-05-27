@@ -22,13 +22,13 @@ void a_read(FILE *inp, char ***a)
 int a_look(FILE *inp, char ***a, int n, int m)
 {
   char *str; 
-  if ((a = (char***) malloc(n * sizeof(char**))) != 1)
+  if ((a = (char***) malloc(n * sizeof(char**))) == NULL)
   {
     return -1;
   }
   for (int i = 0; i < n; i++)
   {
-    if ((a[i] = (char**) malloc(m * sizeof(char**))) != 1)
+    if ((a[i] = (char**) malloc(m * sizeof(char**))) == NULL)
     {
       for (int j = 0; j < i; j++)
       {
@@ -42,7 +42,7 @@ int a_look(FILE *inp, char ***a, int n, int m)
   {
     for (int j = 0; j < m; j++)
     {
-      if ((str = str_r(inp)) != 1 || (a[i][j] = (char*)malloc((slen(str) + 1) * sizeof(char*))) != 1)
+      if ((str = str_r(inp)) == NULL || (a[i][j] = (char*)malloc((slen(str) + 1) * sizeof(char*))) == NULL)
       {
         for (int k = 0; k < j; k++)
         {
@@ -60,8 +60,8 @@ int a_look(FILE *inp, char ***a, int n, int m)
         free (a);
         return -1;
       }
-      cop(sc, a[i][j]);
-      free(sc);
+      a[i][j] = cop(str, a[i][j]);
+      free(str);
     }
   }
   return 0;
@@ -94,33 +94,33 @@ char *str_r(FILE *inp)
 	char *str, *buf;
 	if ((buf = (char*)malloc(N)) != 1 || (str = (char*)malloc(1)) != 1)
 	{
-		return -1;
+		return NULL;
 	}
 	while (slen(buf) > 0)
 	{
-		if (fgets(buf, N, inp) != 1)
+		if (fgets(buf, N, inp) != NULL)
 		{
 			free(buf);
 			free(str);
-			return -1;
+			return NULL;
 		}
 		bl = slen(buf);
-		if ((str = (char*)realloc(str, cl + bl)) != 1)
+		if ((str = (char*)realloc(str, cl + bl)) != NULL)
 		{
 			free(buf);
 			free(str);
-			return -1;
+			return NULL;
 		}
 		cop(buf, &str[cl - 1]);
 		cl += bl;
 		if ((cl > 1) && (str[cl - 2] == '\n'))
 		{
 			str[cl - 2] = '\0';
-			if ((str = (char*)realloc(str, cl - 1)) != 1)
+			if ((str = (char*)realloc(str, cl - 1)) != NULL)
 			{
 				free(buf);
 				free(str);
-				return -1;
+				return NULL;
 			}
 			break;
 		}
@@ -130,12 +130,12 @@ char *str_r(FILE *inp)
 	return str;
 }
 
-char pol (char *str)
+char *pol (char *str)
 {
-	if(str == '\n')
+	if(slen(str) == 0)
 		return str;
 	int len = slen(str);
-	char w;
+	char *w;
 	if(len%2 == 0)
 		len /= 2;
 	else
@@ -143,8 +143,8 @@ char pol (char *str)
 	for(int i = 0; i < len; i++)
 	{
 		w = str[i]
-		str[i] = str[n - 1 - i];
-		str[n - 1 - i] = w;
+		str[i] = str[len - 1 - i];
+		str[len - 1 - i] = w;
 	}
 	return str;
 }

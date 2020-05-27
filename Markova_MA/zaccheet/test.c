@@ -22,7 +22,7 @@ int main() {
         fclose(inp);
         return 0;
     }
-	if (fscanf(inp, "%d", n) != 1 || fscanf(inp, "%d", m) != 1)
+	if (fscanf(inp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1)
         {
             fclose(inp);
 			fclose(outp);
@@ -36,11 +36,12 @@ int main() {
 	{
 		for(j = 0;j < m;j++)
 		{
-			if(a[i][j] == '\n')
+			if(slen(a[i][j]) == 0)
 			{
 				check = 1;
+				break;
 			}
-			str = pol(a[i][j]);
+			str = cop(pol(a[i][j]), str);
 			for(int k = j + 1;k < m - 1;k++)
 			{
 				if(eq(str, a[i][k]))
@@ -59,7 +60,7 @@ int main() {
 	{
 		for(j = 0; j < m; j++)
 		{
-			if(ii != i && j == jj && a[ii][jj] != '\n')
+			if(ii != i && j == jj && strlen(a[ii][jj]) != 0)
 			{
 				fprintf(outp, "%s%s\n", a[i][j], a[ii][jj]);
 			}
