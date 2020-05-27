@@ -1,4 +1,4 @@
-2 3
+2 2
 a_00
 second item of the first row
 
