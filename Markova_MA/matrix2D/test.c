@@ -20,7 +20,7 @@ int main() {
                     free(a[j]);
                 }
                 free(a);
-            fclose(fp);
+            //fclose(fp);
             return 0;
         }
     }
@@ -36,12 +36,12 @@ int main() {
 			{			
 				if((fscanf(fp, "%lf", &a[i][j]) != 1))
 				{
-					//printf("%d\n %d\n", i, j);
-					fclose(fp);
 					err = ERROR_READ;
 					break;
 				}
 			}
+			if(err != SUCCESS)
+				break;
 			for(j = n; j < m; j++)
 			{
 				if(i == (j - n))
