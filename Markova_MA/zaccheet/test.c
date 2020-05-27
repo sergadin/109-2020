@@ -4,21 +4,34 @@
 
 int main(void)
 {
-	int i,j,n,m,len = 32;
+	int ii = -1, jj = -1, check = -1, i, j, n, m, len = 32;
     char ***a;
     char buf[len];
-    FILE *fp;
-    scanf("%d %d", &m, &n);
+    FILE *fp, *outp;
+    
     fp = fopen("input.txt", "r");
     if (!fp)
     {
+		printf("ERROR\n");
     	return -1;
     }
+	if ((outp = fopen("result.txt", "w")) == NULL) {
+        printf("ERROR\n");
+        fclose(fp);
+        return -1;
+    }
+	if (fscanf(fp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1)
+        {
+            fclose(fp);
+			fclose(outp);
+			
+            return -1;
+        }
     //make memory
     a = (char ***)malloc(m*sizeof(char **));
     if (!a)
     {
-    	fclose(fp);
+    	fclose(fp); fclose(outp);
     	return -1;
     }
     for (i = 0; i < m; i++)
@@ -26,7 +39,7 @@ int main(void)
     	a[i] = (char **)malloc(n*sizeof(char *));
     	if (!a[i])
     	{
-    		fclose (fp);
+    		fclose (fp); fclose(outp);
     		for (j = 0; j < i; j++)
     			free(a[j]);
     		free(a);
@@ -41,7 +54,17 @@ int main(void)
     	    int q,p;
     	    if (!fgets(buf,len,fp))
             {
+				for (int k = 0; k < i; k++)
+				{
+					for (int m = 0; m < n; m++)
+						{
+							free(a[k][m]);
+						}
+					free(a[k]);
+				}
+				free(a);
 				//error
+				fclose (fp); fclose(outp);
                 return -1;
             }
             for (q = 0; buf[q]; q++)
@@ -52,9 +75,20 @@ int main(void)
                     break;
                 }
             }
-            a[i][j] = (char *)malloc(q+1);
+            a[i][j] = (char *)malloc(q + 1);
             if (!a[i][j])
             {
+				
+				for (int k = 0; k < i; k++)
+				{
+					for (int m = 0; m < n; m++)
+						{
+							free(a[k][m]);
+						}
+					free(a[k]);
+				}
+				free(a);
+				fclose(fp); fclose(outp);
 				//error
                 return -1;
             }
