@@ -49,6 +49,8 @@ int main (void)
                 return -1;
         }
 //printf ("%d %d m2\n", m, n);
+	fseek(input, 1, SEEK_CUR);
+
         for (i=0;i<m*n;i++)
         {
 //       		 for (j=0;j<n;j++)
@@ -66,9 +68,9 @@ int main (void)
 	{
 		for (j=0; j<n; j++)
 		{
-			fprintf (output, "%s ", mass[i*m+j]);
+			fprintf (output, "%s", mass[i*m+j]);
 		}
-		fprintf (output, "\n");
+	//	fprintf (output, "\n");
 	}
 
 	free(mass);
