@@ -134,13 +134,13 @@ char *pol (char *str)
 {
 	int len = slen(str);
 	char *w;
-	if(w = (char *)malloc(len + 1)) == NULL || len == 0)
+	if((w = (char *)malloc(len + 1)) == NULL || len == 0)
 		return str;
 	for(int i = 0; i < len; i++)
 	{
-		w = str[len - 1 - i];
+		w[i] = str[len - 1 - i];
 	}
-	w[len] = 0
+	w[len] = 0;
 	return str;
 }
 
