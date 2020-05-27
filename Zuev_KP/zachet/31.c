@@ -110,7 +110,6 @@ char *vbr(FILE *input1, int n_rows, int n_cols, char ***mas)
 		for(j = 0; j < n_cols; j++)
 		{
 			//if (strst(mas[i][j], d) != 0) 
-			//s[i][j-n_cols-1] = mas[i][j];
 			//printf("%s\n", mas[i][j]);
 			
 		}
@@ -194,33 +193,4 @@ int main(void)
 	fclose(result);
 	return 0;	
 }
-
-	/*mas = malloc(n_rows * sizeof(char**));
-	if (mas == NULL)
-		return -1;
-	for(row = 0; row < n_rows; row++)
-	{
-		mas[row] = malloc(n_cols* sizeof(char *));
-		if (mas[row] == NULL)
-			return -1;
-	}
-	for(i = 0; i < n_rows ; i ++)
-	{
-		for(j = 0; j < n_cols; j ++)
-		{
-			mas[i][j] = read_string(input1);
-		}
-	}*/
-
-
-
-
-
-
-
-
-
-
-
-
 
