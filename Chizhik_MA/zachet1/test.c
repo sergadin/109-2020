@@ -18,11 +18,37 @@ static void print_usage(char *program_name) {
 	fprintf(stderr, "input.txt: file with matrix\n");
 }
 
+/* 
+ * Функция преобразования матрицы
+ *
+ * Параметры:
+ * matrix: матрица
+ * m: число строк
+ * n: число столбцов
+ *
+ * Функция находит требуемую по условию строчку и "прибавляет" ее ко всем остальным.
+ *
+ */
+
+static void matrix_operation(char **matrix, int m, int n) {
+	int special_row = find_row(matrix, m, n);
+	if (special_row == -1) {
+		fprintf(stdout, "Can't find such a string. Nothing has happened\n");
+	} else {
+		for (int i = 0; i < m; i++) {
+			if (i == special_row) {
+				continue;
+			}
+			add_row(matrix, n, special_row, i);
+		}
+	}
+}
+
 int main(int argc, char **argv) {
 	FILE *input, *result;
 	char *input_filename;
 	char **matrix;
-	int m, n, special_row;
+	int m, n;
 	unsigned int reading_success;
 
 	if (argc > 1) {
@@ -78,18 +104,7 @@ int main(int argc, char **argv) {
 		fprintf(stdout, "%s\n", matrix[i]);
 	}
 
-	special_row = find_row(matrix, m, n);
-	if (special_row == -1) {
-		fprintf(stdout, "Can't find such a string. Nothing has happened\n");
-	} else {
-		for (int i = 0; i < m; i++) {
-			if (i == special_row) {
-				continue;
-			}
-			add_row(matrix, n, special_row, i);
-		}
-	}
-
+	matrix_operation(matrix, m, n);
 	fprintf(result, "%d %d\n", m, n);
 	for (int i = 0; i < m * n; i++) {
 		fprintf(result, "%s\n", matrix[i]);
