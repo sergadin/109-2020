@@ -46,7 +46,6 @@ char *inverse(char *word) {
 	}
 
 	inversed[len] = 0;
-	fprintf(stdout, "Inversed: %s\n", inversed);
 	return inversed;
 }
 
@@ -65,8 +64,6 @@ char *row_to_string(char **row, int len) {
 		strcpy(string + (curr_len - 1), row[i]);
 		curr_len += strlen(row[i]);
 	}
-
-	fprintf(stdout, "String from row: %s\n", string);
 
 	return string;
 }
@@ -93,10 +90,7 @@ int find_row(char **matrix, int m, int n) {
 
 void add_row(char **matrix, int n, int k, int p) {
 	for (int i = 0; i < n; i++) {	
-		fprintf(stdout, "Before: %s\n", matrix[p * n + i]);
 		sum_elements(matrix[k * n + i], matrix[p * n + i]);
-		fprintf(stdout, "%d\n", strlen(matrix[p*n+i]));	
-		fprintf(stdout, "After: %s\n", matrix[p * n + i]);
 	}
 }
 

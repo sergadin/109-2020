@@ -233,15 +233,15 @@ int transform(char*** A, int M, int N)
 	}
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
 	char ***A;
 	int M, N;
 	int i, j;
-	
+	char *fileinput = argv[1];
 	FILE *input;
 	FILE *output;
-	if ((input = fopen("input.txt", "r")) == 0)
+	if ((input = fopen(fileinput, "r")) == 0)
 	{
 		return -1;
 	}
