@@ -9,7 +9,11 @@ int main() {
 		printf("Not enough memory\n");
 		return 0;
 	}
-
+	if (!(fp = fopen("a.txt","r")) ){
+		err = ERROR_OPEN;
+		free(a);
+		return 0;
+	}
     for (int k = 0; k < n; k++)
     {
         if ((a[k] = (double *)malloc(m*sizeof(double))) == NULL)
@@ -24,17 +28,6 @@ int main() {
             return 0;
         }
     }
-	
-	if (!(fp = fopen("a.txt","r")) ){
-		err = ERROR_OPEN;
-		for (int k = 0; k < n; k++)
-		{
-			free(a[k]);
-		}
-		free(a);
-		fclose(fp);
-		return 0;
-	}
 	else
 	{
 		for (i = 0; i < n; ++i)
