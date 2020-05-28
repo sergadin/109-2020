@@ -7,18 +7,11 @@ int find(char *s, char *w); //проверяет, начинается ли ст
 int check(char *s, char **w, int n); //проверяет, содержит ли строка s какую-нибудь из строк w, начиная с 1
 
 int check(char *s, char **w, int n) {
-    int flag = 1;
+    int flag = 0, a;
     for(int i = 2; i < n; i++) {
-        if(strlen(s) >= strlen(w[i])) {
-            for(int j = 0; j <= strlen(w[i]); j++) {
-                if(s[j] != w[i][j]) {
-                    flag = 0;
-                    break;
-                } 
-            }
-        }
-        if(flag == 1)
-            break;  
+        a = strcmp(s, w[i]);
+        if(a == 0)
+            flag = 1;        
     }
     return flag;
 }
@@ -38,93 +31,43 @@ char *readstring(FILE *f) {
 	char buf[1024];
 	buf[0] = 0;
 	char *s = fgets(buf, 1024, f);
-	if(s) {
-		int len = strlen(s);
-		char *result = malloc(len + 1);
+	if(s) { 
+	    int len = strlen(s);
+	    char *result = malloc(len);
 		strcpy(result, s);
-		return result;
+        result = realloc(result, len - 1);
+        result[len - 1] = '\0';
+        return result;
 	}
 	return NULL;
 }
 
 void ifdef(FILE *input, char **x, int n) {
     char *s, sif[7] = {"#ifdef"}, selse[6] = {"#else"}, send[7] = {"#endif"};
-    int k;
+    int k, *stack = NULL, i = -1;
     while ((s = readstring(input)) != NULL) {
         if(find(s, sif) == 1) {
+            i++;
+            stack = realloc(stack, i * sizeof(int));
             if(check(s + 7, x, n) == 1) {
-                if(find(s, selse) == 1) {
-                    while ((s = readstring(input)) != NULL) {
-                        if(find(s, send) == 1)
-                            break;
-                    }                    
-                }
-                else
-                    printf("%s", s);
-            }
-            if(check(s + 7, x, n) == 0) {
-                if(find(s, selse) == 0) {
-                    while ((s = readstring(input)) != NULL) {
-                        if(find(s, selse) == 1)
-                            break;
-                    }                    
-                }
-                else
-                    printf("%s", s);
+                stack[i] = 1;
             }
             else
-                printf("%s", s);
+                stack[i] = 0;
         }
-    }    
-
-
-    /*while ((s = readstring(input)) != NULL) {
-        //printf("%s\n", s);
-        if(find(s, sif) == 1) {
-            if(check(s + 7, x, n) == 1) {
-                    //printf("YY\n");
-                    if(find(s, sif) == 1)
-                        ifdef(input, x, n); 
-                    if(find(s, selse) == 1) {
-                        k = 1;
-                        while((s = readstring(input)) != NULL) {
-                            if(find(s, sif) == 1)
-                                k++;
-                            if(find(s, send) == 1)
-                                k--;
-                            if(k == 0)
-                                break;
-                        }
-                    }                      
-                    else 
-                        printf("%s", s);
-            }
-            if(check(s + 7, x, n) == 0) {
-                //printf("XX\n");
-                k = 1;
-                while ((s = readstring(input)) != NULL) {
-                    if(find(s, sif) == 1)
-                        k++;
-                    if(find(s, send) == 1)
-                        k--;
-                    //printf("%d %s", k, s);
-                    if(k == 0)
-                        break;
-                }
-                k = 1;
-                while ((s = readstring(input)) != NULL) {
-                    if(find(s, sif) == 1)
-                        k++;
-                    if(find(s, send) == 1)
-                        k--;
-                    //printf("%d %s", k, s);
-                    if(k == 0)
-                        break;
-                    //printf("%s %d\n", s, k);
-                }
-            }   
+        else if(find(s, selse) == 1) {
+            if(stack[i] == 1)
+                stack[i] = 0;
+            else
+                stack[i] = 1;
         }
-        else 
-            printf("%s", s);      
-    }*/
+        else if(find(s, send) == 1) {
+            i--;
+            if(i == -1)
+                stack = NULL;
+        }
+        else if((i == -1) || (i >= 0) && (stack[i] == 1))
+            printf("%s\n", s);
+    } 
+    free(stack);   
 }

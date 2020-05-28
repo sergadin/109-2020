@@ -1,9 +1,21 @@
 aa
-#ifdef pop
+#ifdef popu
 aa
 aa
 aa
 #else
 ss
+#ifdef sy
+ff
+#endif
 ss
+#endif
+dd
+#ifdef syer
+bb
+bb
+bb
+#else
+c
+c
 #endif
