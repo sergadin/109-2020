@@ -12,7 +12,8 @@ void sort(int *a, char **b, int n);
 char *strcpy(char *t, const char *s);
 int length(const char *s);
 void obr(char *t, char *s); 
-/*
+
+	/*
 	Параметры:
 	int argc: количество аргументов командной строки.
 	char *argv[]: массив аргументов командной строки.
@@ -28,29 +29,19 @@ void obr(char *t, char *s);
 
 	Метод:
 	для обхода дерева файлов, используется функция ftw из библиотеки <ftw.h>.
-*/
+	*/
 
+	/*
+	callback function: poisk - функция, вызымаемая для каждого элемента дерева файлов.
 
+	Параметры:
+	const char *file: полное имя элемента.
+	const struct stat *sb:  указатель на структуру элемента stat(2).
+	int flag: целое число, которое показывает тип file. 
 
-
-/*
-callback function: poisk - функция, вызымаемая для каждого элемента дерева файлов.
-
-Параметры:
-const char *file: полное имя элемента.
-const struct stat *sb:  указатель на структуру элемента stat(2).
-int flag: целое число, которое показывает тип file. 
-
-Метод:
-Сначала функция poisk считает размер файла и записывает его в массив A, потом она пишет в массив B название этого файла. Потом функция sort сортирует массивы A и B по размеру файла.
-*/
-
-
-
-
-
-
-
+	Метод:
+	Сначала функция poisk считает размер файла и записывает его в массив A, потом она пишет в массив B название этого файла. 		Потом функция sort сортирует массивы A и B по размеру файла.
+	*/
 
 int length(const char *s) 
 {
@@ -94,13 +85,14 @@ void sort(int *a, char **b, int n)
 
 void obr(char *t, char *s) //меняет местами строки
 {
-	char * str = NULL;
+	char *str = NULL;
 	str = realloc(str, length(t) + 1);
 	str = strcpy(str, t);
 	t = realloc(t, length(s) + 1);
 	t = strcpy(t, s);
 	s = realloc(s, length(str) + 1);
 	s = strcpy(s, str);
+	free(str);
 }
 
 int filesize(const char* file_name)
@@ -157,6 +149,10 @@ int main(int argc, char *argv[])
 	{
 		printf("%d\n", a[i]);
 		printf("%s\n", b[i]);
+	}
+	for (i = 0; i<n; i++)
+	{
+		free(b[i]);
 	}
 	free(a);
 	free(b);
