@@ -1,19 +1,106 @@
 #include <ftw.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdint.h>
-#include <stdint.h> // для int64_t
-#include <inttypes.h> // для правильного вывода int64_t в printf
 
 static int n;
+static int *a;	
+static char **b;
 
 int filesize(const char* file_name);
-int cmp(const void *a, const void *b);
+void sort(int *a, char **b, int n);
+char *strcpy(char *t, const char *s);
+int length(const char *s);
+void obr(char *t, char *s); 
+/*
+	Параметры:
+	int argc: количество аргументов командной строки.
+	char *argv[]: массив аргументов командной строки.
+	  
+	argc = 2:
+	имя исполяемого файла.
+	имя директории, в которой будет происходить поиск.
 
-int cmp(const void *a, const void *b) 
+	Если количество аргументов командной строки не равно 2, то программа не заработает.
+
+	В результате работы программы будет напечатан упорядоченный по размеру список всех файлов(путь до этого файла) и их размер.
+	Если в результате работы программы ничего не будет напечатано, то это означает, что файлов в указанном каталоге нет.
+
+	Метод:
+	для обхода дерева файлов, используется функция ftw из библиотеки <ftw.h>.
+*/
+
+
+
+
+/*
+callback function: poisk - функция, вызымаемая для каждого элемента дерева файлов.
+
+Параметры:
+const char *file: полное имя элемента.
+const struct stat *sb:  указатель на структуру элемента stat(2).
+int flag: целое число, которое показывает тип file. 
+
+Метод:
+Сначала функция poisk считает размер файла и записывает его в массив A, потом она пишет в массив B название этого файла. Потом функция sort сортирует массивы A и B по размеру файла.
+*/
+
+
+
+
+
+
+
+
+int length(const char *s) 
 {
-     return *(int*)a - *(int*)b;
+	int n = 0;
+	while (s[n] != '\0') 
+	{
+		n = n+1;
+	}	
+	return n;
+}
+
+char *strcpy(char *t, const char *s) 
+{
+	int n, i; 
+	n = length(s);
+	for (i = 0; i < n+1; i++) 
+	{
+		t[i] = s[i];
+	}
+	return t;
+}
+
+void sort(int *a, char **b, int n)
+{
+	int i, k, s;
+	for(i = 1; i < n; i ++)
+	{
+		for(k = 1; k < n; k ++)
+		{
+			if(a[k] < a[k-1])
+			{
+				s = a[k];
+				a[k] = a[k-1];
+				a[k-1] = s;
+				obr(b[k], b[k-1]);
+			}
+		}
+	}
+
+}
+
+void obr(char *t, char *s) //меняет местами строки
+{
+	char * str = NULL;
+	str = realloc(str, length(t) + 1);
+	str = strcpy(str, t);
+	t = realloc(t, length(s) + 1);
+	t = strcpy(t, s);
+	s = realloc(s, length(str) + 1);
+	s = strcpy(s, str);
 }
 
 int filesize(const char* file_name)
@@ -33,34 +120,46 @@ int filesize(const char* file_name)
 	return size;
 }
 
-static int check(const char *file, const struct stat *sb, int flag) 
+static int poisk(const char *file, const struct stat *sb, int flag) 
 {
 	int i;
 	int size;
-	int *a;	
-	a = (int*) malloc(n * sizeof(int));
 	if (flag == FTW_F) 
 	{
 			size = filesize(file);
 			n = n+1;
 			a = realloc(a, (n)* sizeof(int *));
+			b = realloc(b, (n)* sizeof(char *));
+			b[n - 1] = NULL;
+			b[n - 1] = realloc(b[n - 1], length(file) + 1);
+			strcpy(b[n-1], file); 
 			a[n-1] = size;
 	}
-	qsort(a, n, sizeof(int), cmp);
-    	for(i = 0 ; i < n; i++) 
-	{
-        	printf("%d\n", a[i]);
-    	}
 	return 0;         
 }
 
 int main(int argc, char *argv[]) 
 {
 	int i;
+	n = 0;
+	a = (int*) malloc(0 * sizeof(int));
+	b = malloc(0* sizeof(char));
+	if (argc == 1 || argc >= 3) 
+	{
+        return 0;
+    	}
 	if (argc == 2) 
 	{
-		ftw(argv[1], check, 50);
-	}  
+		ftw(argv[1], poisk, 50);
+	} 
+	sort(a, b, n);
+	for (i = 0; i<n; i++)
+	{
+		printf("%d\n", a[i]);
+		printf("%s\n", b[i]);
+	}
+	free(a);
+	free(b);
 	return 0;
 }
 
