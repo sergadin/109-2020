@@ -1,5 +1,0 @@
-2 2
-#include file.txt
-aaaab
-bgbg
-gggh
