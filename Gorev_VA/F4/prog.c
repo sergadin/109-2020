@@ -4,21 +4,35 @@
 #include <ftw.h>
 #include "prog.h"
 
+struct chain // ðåàëèçàöèÿ ñïèñêà ôàéëîâ
+{
+	char *name;         // èìÿ ôàéëà 
+	struct chain *next; // óêàçàòåëü íà ñëåäóþùèé ôàéë â ñïèñêå
+						// åñëè ñëåäóþùåãî íåò, òî 0
+	struct chain *prev; // óêàçàòåëü íà ïðåäûäóùèé ôàéë â ñïèñêå
+						// åñëè ïðåäûäóùåãî íåò, òî 0
+};
+
+char *file_name(const char *filename);
+int write_in_filelist(const char *filename, struct chain *filelist);
+int find_file_in_list(char *short_filename, struct chain *filelist);
+int func_for_ftw(const char *fpath, const struct stat *sb, int flag);
+
 struct chain *List1;
 struct chain *List2;
 char *dir1;
 char *dir2;
 
 /*
-** Ð¡Ñ‚Ñ€Ð¾Ð¸Ñ‚ Ð¿Ð¾ Ð¿Ð¾Ð»Ð½Ð¾Ð¼Ñƒ Ð°Ð´Ñ€ÐµÑÑƒ Ñ„Ð°Ð¹Ð»Ð° ÐµÐ³Ð¾ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð² Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ¹ Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¸:
+** Ñòðîèò ïî ïîëíîìó àäðåñó ôàéëà åãî íàçâàíèå â ïîñëåäíåé äèðåêòîðèè:
 ** dir1/dir2/.../dirn/file -> file
-** Ð¡Ð¾Ð·Ð´Ð°ÐµÑ‚ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð½Ð¾Ð²ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ñ ÑÐ¾Ð´ÐµÑ€Ð¶Ð¸Ð¼Ñ‹Ð¼ file
+** Ñîçäàåò è âîçâðàùàåò íîâóþ ñòðîêó ñ ñîäåðæèìûì file
 */
 char *file_name(const char *filename)
 {
 	int i = strlen(filename);
 	char *new_filename;
-	while((i >= 0) && (filename[i] != '/'))
+	while ((i >= 0) && (filename[i] != '/'))
 		i--;
 	new_filename = (char*)malloc((strlen(filename) - i) * sizeof(char));
 	strcpy(new_filename, filename + i + 1);
@@ -26,11 +40,11 @@ char *file_name(const char *filename)
 }
 
 /*
-** Ð—Ð°Ð¿Ð¸ÑÑŒ Ñ„Ð°Ð¹Ð»Ð° Ð² ÑÐ¿Ð¸ÑÐ¾Ðº Ñ„Ð°Ð¹Ð»Ð¾Ð²
-** filename - Ð¸Ð¼Ñ Ð·Ð°Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÐ¼Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð°
-** filelist - ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ð° Ð¿ÐµÑ€Ð²Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑÐ¿Ð¸ÑÐºÐ°
-** Ð•ÑÐ»Ð¸ Ð² ÑÐ¿Ð¸ÑÐºÐµ filelist Ð½ÐµÑ‚ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð° Ñ Ð¸Ð¼ÐµÐ½ÐµÐ¼ file_name(filename), Ñ‚Ð¾ Ñ‚Ð°ÐºÐ¾Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÑ‚ÑÑ Ð² ÐºÐ¾Ð½ÐµÑ† ÑÐ¿Ð¸ÑÐºÐ°
-** Ð•ÑÐ»Ð¸ Ð² ÑÐ¿Ð¸ÑÐºÐµ filelist ÐµÑÑ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ñ Ð¸Ð¼ÐµÐ½ÐµÐ¼ file_name(filename), Ñ‚Ð¾ Ð½Ðµ Ð¿Ñ€Ð¾Ð¸ÑÑ…Ð¾Ð´Ð¸Ñ‚ Ð½Ð¸Ñ‡ÐµÐ³Ð¾
+** Çàïèñü ôàéëà â ñïèñîê ôàéëîâ
+** filename - èìÿ çàïèñûâàåìîãî ôàéëà
+** filelist - óêàçàòåëü íà ïåðâûé ýëåìåíò ñïèñêà
+** Åñëè â ñïèñêå filelist íåò ýëåìåíòà ñ èìåíåì file_name(filename), òî òàêîé ýëåìåíò äîáàâëÿåòñÿ â êîíåö ñïèñêà
+** Åñëè â ñïèñêå filelist åñòü ýëåìåíò ñ èìåíåì file_name(filename), òî íå ïðîèñõîäèò íè÷åãî
 */
 int write_in_filelist(const char *filename, struct chain *filelist)
 {
@@ -39,7 +53,7 @@ int write_in_filelist(const char *filename, struct chain *filelist)
 	struct chain *last_file;
 	new_filename = file_name(filename);
 	last_file = filelist;
-	while(last_file->next != 0)
+	while (last_file->next != 0)
 	{
 		if (strcmp(last_file->next->name, new_filename) == 0)
 		{
@@ -48,7 +62,7 @@ int write_in_filelist(const char *filename, struct chain *filelist)
 		}
 		last_file = last_file->next;
 	}
-	
+
 	new_file = (struct chain*)malloc(sizeof(struct chain));
 	new_file->name = new_filename;
 	new_file->next = 0;
@@ -58,16 +72,16 @@ int write_in_filelist(const char *filename, struct chain *filelist)
 }
 
 /*
-** ÐÐ°Ñ…Ð¾Ð´Ð¸Ñ‚ Ñ„Ð°Ð¹Ð» filename Ð² ÑÐ¿Ð¸ÑÐºÐµ filelist
-** short_filename - Ð¸Ð¼Ñ Ð¸ÑÐºÐ¾Ð¼Ð¾Ð³Ð¾ Ñ„Ð°Ð¹Ð»Ð°
-** filelist - ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ð° Ð¿ÐµÑ€Ð²Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑÐ¿Ð¸ÑÐºÐ°
-** Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ 1, ÐµÑÐ»Ð¸ Ñ„Ð°Ð¹Ð» ÐµÑÑ‚ÑŒ Ð² ÑÐ¿Ð¸ÑÐºÐµ Ð¸ 0 Ð¸Ð½Ð°Ñ‡Ðµ
+** Íàõîäèò ôàéë filename â ñïèñêå filelist
+** short_filename - èìÿ èñêîìîãî ôàéëà
+** filelist - óêàçàòåëü íà ïåðâûé ýëåìåíò ñïèñêà
+** ôóíêöèÿ âîçâðàùàåò 1, åñëè ôàéë åñòü â ñïèñêå è 0 èíà÷å
 */
 int find_file_in_list(char *short_filename, struct chain *filelist)
 {
 	struct chain *FL;
 	FL = filelist;
-	while(FL != 0)
+	while (FL != 0)
 	{
 		if (strcmp(FL->name, short_filename) == 0)
 			return 1;
@@ -93,8 +107,8 @@ int func_for_ftw(const char *fpath, const struct stat *sb, int flag)
 }
 
 /*
-** Ð”Ð»Ñ Ð´Ð²ÑƒÑ… Ð·Ð°Ð´Ð°Ð½Ð½Ñ‹Ñ… ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð¾Ð² dir1 Ð¸ dir2 Ð¿ÐµÑ‡Ð°Ñ‚Ð°ÐµÑ‚ Ð´Ð²Ð° ÑÐ¿Ð¸ÑÐºÐ° Ñ„Ð°Ð¹Ð»Ð¾Ð²:
-** Ð¿Ñ€Ð¸ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ñ… Ð² Ð¾Ð´Ð½Ð¾Ð¼ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ðµ Ð¸ Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ñ… Ð² Ð´Ñ€ÑƒÐ³Ð¾Ð¼
+** Äëÿ äâóõ çàäàííûõ êàòàëîãîâ dir1 è dir2 ïå÷àòàåò äâà ñïèñêà ôàéëîâ:
+** ïðèñóòñòâóþùèõ â îäíîì êàòàëîãå è îòñóòñòâóþùèõ â äðóãîì
 */
 int dif(const char* DIR1, const char *DIR2)
 {
@@ -102,34 +116,34 @@ int dif(const char* DIR1, const char *DIR2)
 	strcpy(dir1, DIR1);
 	dir2 = (char*)malloc((strlen(DIR2) + 1) * sizeof(char));
 	strcpy(dir2, DIR2);
-	
+
 	List1 = (struct chain*)malloc(sizeof(struct chain));
 	List1->name = (char*)malloc((strlen(dir1) + 1) * sizeof(char));
 	strcpy(List1->name, dir1);
 	List1->next = List1->prev = 0;
-	
+
 	List2 = (struct chain*)malloc(sizeof(struct chain));
 	List2->name = (char*)malloc((strlen(dir2) + 1) * sizeof(char));
 	strcpy(List2->name, dir2);
 	List2->next = List2->prev = 0;
-	
+
 	ftw(dir1, func_for_ftw, 20);
 	ftw(dir2, func_for_ftw, 20);
-	
-	printf("Ð¤Ð°Ð¹Ð»Ñ‹, Ð¿Ñ€Ð¸ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð² %s, Ð½Ð¾ Ð¾Ñ‚ÑÑƒÑ‚ÑÐ²ÑƒÑŽÑ‰Ð¸Ðµ Ð² %s:\n", dir1, dir2);
+
+	printf("Ôàéëû, ïðèñóòñòâóþùèå â %s, íî îòñóòñâóþùèå â %s:\n", dir1, dir2);
 	for (struct chain *FL = List1->next; FL != 0; FL = FL->next)
 	{
 		if (find_file_in_list(FL->name, List2) == 0)
-		    printf("%s\n", FL->name);
+			printf("%s\n", FL->name);
 	}
-	
-	printf("Ð¤Ð°Ð¹Ð»Ñ‹, Ð¿Ñ€Ð¸ÑÑƒÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð² %s, Ð½Ð¾ Ð¾Ñ‚ÑÑƒÑ‚ÑÐ²ÑƒÑŽÑ‰Ð¸Ðµ Ð² %s:\n", dir2, dir1);
+
+	printf("Ôàéëû, ïðèñóòñòâóþùèå â %s, íî îòñóòñâóþùèå â %s:\n", dir2, dir1);
 	for (struct chain *FL = List2->next; FL != 0; FL = FL->next)
 	{
 		if (find_file_in_list(FL->name, List1) == 0)
-		    printf("%s\n", FL->name);
+			printf("%s\n", FL->name);
 	}
-	
+
 	while (List1 != 0)
 	{
 		struct chain *next;
@@ -146,7 +160,7 @@ int dif(const char* DIR1, const char *DIR2)
 		free(List2);
 		List2 = next;
 	}
-	
+
 	free(dir1);
 	free(dir2);
 	return 0;
