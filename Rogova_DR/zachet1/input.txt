@@ -1,11 +1,22 @@
-3
-3
-ab
-cd
-ef
-a
-b
-c
-d
-e
+7 3
+zzza
+abcd
+ads
+aaav
+bcda
+zdav
+bazbab
+abz
+abc
+abcs
+bdc
+abb
+bba
+cdbs
+cba
+zabbc
+cccb
+baz
+zz
 
+zzz

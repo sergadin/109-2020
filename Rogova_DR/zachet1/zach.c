@@ -72,18 +72,18 @@ char ***func(char *** matrix, int nrows, int ncols)//osnovnaya funkci
 		i ++;
 		ind = 0;
 		str = malloc(1);//skleennaya stroka
-		prev = 0;//index s kotorogo bydem zapisyvat v stroky str elent sleduyushego stolbca 
-		lenn = 0;
-		for(int j = 0; j < ncols; j ++)
-		{
-			str = realloc(str, lenn + len(matrix[i][j]));
-			lenn += len(matrix[i][j]);//vydelili dopolnitelnuyu pamat
+		prev = len(matrix[i][0]); 
+		lenn = len(matrix[i][0]);
+		for(int j = 1; j < ncols; j ++)
+		{			
+			matrix[i][0] = realloc(matrix[i][0], lenn + len(matrix[i][j]));
+			lenn += len(matrix[i][j]);
 			for(int k = 0; k < len(matrix[i][j]); k++)
 			{
-				str[prev + k] = matrix[i][j][k];//dopisali konec
+				str[prev + k] = matrix[i][j][k];
 
 			}
-			prev += len(matrix[i][j]);//smestili index
+			prev += len(matrix[i][j]);
 		}
 		str = realloc(str, lenn + 1);
 		str[lenn] = '\0';
