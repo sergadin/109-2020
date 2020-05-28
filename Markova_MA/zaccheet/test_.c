@@ -78,7 +78,7 @@ int main() {
 	{
 		for(j = 0; j < n; j++)
 		{
-			if(ii != i && j == jj && strlen(a[ii][jj]) != 0)
+			if(ii != i && j == jj && slen(a[ii][jj]) != 0)
 			{
 				fprintf(outp, "%s%s\n", a[i][j], a[ii][jj]);
 			}

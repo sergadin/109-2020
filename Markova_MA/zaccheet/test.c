@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+#include "f.h"
 int main(void)
 {
 	int ii = -1, jj = -1, check = -1, i, j, n, m, len = 32;
@@ -15,12 +15,12 @@ int main(void)
 		printf("ERROR\n");
     	return -1;
     }
-	if ((outp = fopen("result.txt", "w")) == NULL) {
+	if ((outp = fopen("output.txt", "w")) == NULL) {
         printf("ERROR\n");
         fclose(fp);
         return -1;
     }
-	if (fscanf(fp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1)
+	if (fscanf(fp, "%d", &n) != 1 || fscanf(fp, "%d", &m) != 1)
         {
             fclose(fp);
 			fclose(outp);
@@ -123,13 +123,15 @@ int main(void)
 				break;
 		}
 	}
+	//printf( "%s\n", a[ii][jj]);
 	for(i = 0;i < m;i++)
 	{
 		for(j = 0; j < n; j++)
 		{
-			if(ii != i && j == jj && strlen(a[ii][jj]) != 0)
+			if(ii != i && j == jj && slen(a[ii][jj]) != 0)
 			{
-				fprintf(outp, "%s%s\n", a[i][j], a[ii][jj]);
+				fprintf(outp, "%s", a[i][j]);
+				fprintf(outp, "%s\n", a[ii][jj]);
 			}
 			else
 				fprintf(outp, "%s\n", a[i][j]);

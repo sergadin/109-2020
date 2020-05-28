@@ -9,13 +9,17 @@ int main() {
 		printf("Not enough memory\n");
 		return 0;
 	}
-
+	if (!(fp = fopen("a.txt","r")) ){
+		err = ERROR_OPEN;
+		free(a);
+		return 0;
+	}
     for (int k = 0; k < n; k++)
     {
         if ((a[k] = (double *)malloc(m*sizeof(double))) == NULL)
         {
             printf("Not enough memory\n");
-                for(int j = 0; j < k-1; j++)
+                for(int j = 0; j < k; j++)
                 {
                     free(a[j]);
                 }
@@ -24,23 +28,25 @@ int main() {
             return 0;
         }
     }
-	if (!(fp = fopen("a.txt","r")) ){
-		err = ERROR_OPEN;
-	}
-	else
-	{
+
 		for (i = 0; i < n; ++i)
 		{
 			for(j = 0; j < n; j++)
 			{			
 				if((fscanf(fp, "%lf", &a[i][j]) != 1))
 				{
-					//printf("%d\n %d\n", i, j);
+					//err = ERROR_READ;
+					for (int k = 0; k < n; k++)
+					{
+						free(a[k]);
+					}
+					free(a);
 					fclose(fp);
-					err = ERROR_READ;
-					break;
+					return 0;
 				}
 			}
+			//if(err != SUCCESS)
+				//break;
 			for(j = n; j < m; j++)
 			{
 				if(i == (j - n))
@@ -50,13 +56,12 @@ int main() {
 				a[i][j] = t;
 			}
 		}
-		fclose(fp);
-	}
+	
 	if (err != SUCCESS) {
 		ERROR_RE(err);
-		free(a);
 		return 0; 
 	}
+	fclose(fp);
 	//printf("Данная матрица:\n");
 	//print_matrix(a, n, m);
 	res = matr(a, n, m, eps);
@@ -71,6 +76,10 @@ int main() {
 	//printf("Полученная матрица:\n");//
 	//print_matrix(a, n, m);//
 	//printf("Rank = %d\n", res);
-	free(a);
-	return 0;
+	for (int k = 0; k < n; k++)
+    {
+        free(a[k]);
+    }
+    free(a);
+    return 0;
 }

@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "f.h"
 char *read_string(FILE *in) {
     char buf[1024];
     char *s = fgets(buf, 1024, in);

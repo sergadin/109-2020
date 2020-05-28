@@ -21,7 +21,8 @@ int read_matrix(FILE *file, char ***A, int N, int M)
 			}
 		}
 	}
-	return 0;
+
+	return error;
 }
 
 int strings_lexic_compare(char **a, char **b, int m)
@@ -105,7 +106,8 @@ int main(int argc, char *argv[])
 	int n,m;
 	char ***A;
 	FILE *input;
-	int i, j, k;
+	int i, j;
+	long int k;
 	int imin = 0;
 	int len;
 	FILE *output;
@@ -141,33 +143,41 @@ int main(int argc, char *argv[])
 	}
 
 	for(i = 0; i < n; i++)
-		for(j = 0; j < m; j++)
-			printf("strlen = %ld, A[%d][%d] = %s",strlen(A[i][j]),i,j,A[i][j]);
-		
-	for(i = 0; i < n; i++)
 	{
 		if(strings_lexic_compare(A[i],A[imin],m) < 0)
 			imin = i;
 	}
 
 
-	printf("1\n");
 	for(i = 0; i < n; i++)
 	{
 		if(i != imin)
 		{
 			for(j = 0; j < m; j++)
 			{
+				B = malloc(strlen(A[i][j]) * sizeof(char));
+				for(k = 0; k < strlen(A[i][j]);k++)
+					B[k] = A[i][j][k];
+
 				len = strlen(A[i][j]);
 				A[i][j] = realloc(A[i][j], len + strlen(A[imin][j]) - 1);
-				for(k = 0; k < len; k++)
-					A[i][j][k+strlen(A[imin][j])] = A[i][j][k];
-				for(k = 0; k < strlen(A[i][j]) - 1; k++)
+
+				for(k = len - 1; k >=0; k--)
+				{
+					A[i][j][k+strlen(A[imin][j])-1] = B[k];
+				}
+				A[i][j][len+strlen(A[imin][j])-2] = 0;
+				for(k = 0; k < strlen(A[imin][j]) - 1; k++)
+				{
 					A[i][j][k] = A[imin][j][k];
+				}
+
+				free(B);
 			}
 		}
 	}
-	printf("2\n");
+	for(j = 0; j < m; j++)
+		A[imin][j][strlen(A[imin][j])-1] = 0;
 	fclose(input);
 
 	if((output = fopen("result.txt","w")) == NULL)
@@ -181,7 +191,7 @@ int main(int argc, char *argv[])
 	{
 		for(j = 0; j < m; j++)
 		{
-			fprintf(output,"%s",A[i][j]);
+			fprintf(output,"%s\n",A[i][j]);
 		}
 	}
 	fclose(output);

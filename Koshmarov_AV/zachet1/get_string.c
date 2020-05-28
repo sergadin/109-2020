@@ -11,7 +11,14 @@ char *get_string(FILE *f){
     if(s){
         int length = strlen(s);
         char *result = malloc(length + 1);
-        strcpy(result, buf);
+        if (s[length - 1] == '\n'){
+            for (int i = 0; i < length - 1; i++) {
+                result[i] = s[i];
+            }
+        }
+        else {
+            strcpy(result, buf);
+        }
         return result;
     }
     return NULL;
