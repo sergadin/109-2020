@@ -1,3 +1,4 @@
+#include <stdio.h>
 char *get_string(FILE *f);
 char *coup_string(char *stroka);
 char *delete_char(char *stroka, int pozition);
