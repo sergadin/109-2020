@@ -11,7 +11,6 @@ int filesize(const char* file_name);
 void sort(int *a, char **b, int n);
 char *strcpy(char *t, const char *s);
 int length(const char *s);
-void obr(char *t, char *s); 
 
 	/*
 	Параметры:
@@ -73,26 +72,20 @@ void sort(int *a, char **b, int n)
 		{
 			if(a[k] < a[k-1])
 			{
+				char *str = NULL;
 				s = a[k];
 				a[k] = a[k-1];
 				a[k-1] = s;
-				obr(b[k], b[k-1]);
+				str = realloc(str, length(b[k]) + 1);
+				str = strcpy(str, b[k]);
+				b[k] = realloc(b[k], length(b[k-1]) + 1);
+				b[k] = strcpy(b[k], b[k-1]);
+				b[k-1] = realloc(b[k-1], length(str) + 1);
+				b[k-1] = strcpy(b[k-1], str);
+				free(str);
 			}
 		}
 	}
-
-}
-
-void obr(char *t, char *s) //меняет местами строки
-{
-	char *str = NULL;
-	str = realloc(str, length(t) + 1);
-	str = strcpy(str, t);
-	t = realloc(t, length(s) + 1);
-	t = strcpy(t, s);
-	s = realloc(s, length(str) + 1);
-	s = strcpy(s, str);
-	free(str);
 }
 
 int filesize(const char* file_name)
