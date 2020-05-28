@@ -24,8 +24,8 @@ int main(int argc, char **argv)
         return INPUT_ERROR;
     }
     
-    name = argv[1];
-    dir_name = argv[2];
+    name = argv[2];
+    dir_name = argv[1];
     
     if( !(file = fopen(name, "w")) )
     {
