@@ -45,20 +45,22 @@ int main() {
     }
 	while (str = read_string(inp)) 
 	{
-		/*if (str[0] == '\n') continue;
+		if (str[0] == '\n') continue;
 		len = strlen(str);
 		for(i = 0; i < len; i++)
 		{
-			if(check < 1)
-				fprintf(out, "%s", str[i]);
-			if(str[i] == '{' && check < 1)
-				check++;
-			else if(str[i] == '}' && check > 0)
+			if(check)
+			{
+				if(str[i] == '}')
+					check = 0;
+				else
+					pos++;
+			}
+			else if(str[i] == '{' )
 				check--;
+			str[i] = str[i + pos];
 		}
-		fprintf(out, "/n");*/
-		str[i]=str[i + 1];
-		str[i + 1] = str[i + 2];
+		//fprintf(out, "/n");
 		printf("%s", str);
 	}
 	return 0;
