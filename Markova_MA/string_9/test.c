@@ -73,8 +73,7 @@ int main() {
 		}
 		pos = 0;
 		//fprintf(out, "/n");
-		i = 3;
-		printf("%s\n", str[i]);
+		printf("%s\n", str);
 		printf("?\n");
 		free(str);
 	}
