@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "1.h"
@@ -11,6 +12,7 @@ int main (void)
 
 {
     int n,m;
+     
     FILE *input;
     if ((input = fopen("input.txt", "r")) == NULL)
     {
@@ -29,13 +31,13 @@ int main (void)
     
     for (int i = 0; i < n; i++ )
     for (int j = 0; j < m; j++ )
-        fscanf(input, "%lf", &(syst[i] [j]) ); 
+      fscanf(input, "%lf", &(syst[i] [j]) ); 
 
     
 
     rk(n,m,syst);
     
-   for ( row = 0; row < n; row++)
+   for (int row = 0; row < n; row++)
    {
        free(syst[row]);
    }

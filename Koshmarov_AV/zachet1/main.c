@@ -34,32 +34,39 @@ int main() {
         a[i] = get_string(input);
         if (a[i] == NULL){
             fclose(input);
+            for (int j = 0; j < i; j++)
+                free(a[j]);
             return -1;
         }
     }
-    char *w = coup_string(a[k*n + q]);
-    int number;
+    if(strlen(a[k*n + q]) != 0) {
+        char *w = coup_string(a[k * n + q]);
 
-    for (int i = 0; i < m; i++){
-        for (int j = 0; j < n; j++) {
-            pozition = strchr(a[i * n + j], w[0]);
-            if (pozition != NULL) {
-                number = pozition - a[i * n + j];
-                if (func(0, number, a, w, n, j, i) == 1){
-                    num_of_str = i;
-                    break;
+        int number;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                pozition = strchr(a[i * n + j], w[0]);
+                if (pozition != NULL) {
+                    number = pozition - a[i * n + j];
+                    if (func(0, number, a, w, n, j, i) == 1) {
+                        num_of_str = i;
+                        break;
+                    }
                 }
             }
         }
-    }
-    if (num_of_str == -1){
-        fclose(input);
-        for (int i = 0; i < n*m; i++)
-            free(a[i]);
+        if (num_of_str == -1) {
+            fclose(input);
+            for (int i = 0; i < n * m; i++)
+                free(a[i]);
+            free(w);
+            return -1;
+        }
         free(w);
+    } else{
         return -1;
     }
-
     for (int i = 0; i < m; i++){
         if (i != num_of_str)
             for (int j = 0; j < n; j++){
@@ -79,7 +86,6 @@ int main() {
         fprintf(result, "%s\n", a[i]);
         free(a[i]);
     }
-    free(w);
     fclose(input);
     fclose(result);
 

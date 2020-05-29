@@ -8,9 +8,9 @@ void change(const char *s, const char *old, const char *curr)
 	char *result = NULL, *temp;
 	int i, calc = 0, currlen = strlen(curr), oldlen = strlen(old);
 
-	for (i = 0; s[i] != '\0'; i++)
+	for (i = i; s[i] != '\0'; i++)
 	{
-		if (strstr(&s[i], old) == &s[i])
+		if (strstr(&s[i + calc*oldlen], old) == &s[i + calc*oldlen])
 		{
 			i += oldlen - 1;
 			calc++;

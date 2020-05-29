@@ -13,6 +13,6 @@ a.out: test.o file.o
 	gcc test.o file.o -lm
 
 do-test: a.out
-	./a.out input.txt sy i o pop
+	./a.out input.txt sy i o pop po
 clean: test.o file.o
 	rm test.o file.o 
