@@ -31,7 +31,7 @@ char *read_string(FILE *in) {
 //int eq(char *a, char *b)
 
 int main() {
-	const char *str1 = '{', *str2 = '}', *str;
+	char *str;
 	int len, check = 0, i, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
@@ -50,10 +50,10 @@ int main() {
 		for(i = 0; i < len; i++)
 		{
 			if(check < 1)
-				printf(out, "%s", s[i]);
-			if(str[i] == str1 && check < 1)
+				printf(out, "%s", str[i]);
+			if(str[i] == '{' && check < 1)
 				check++;
-			else if(str[i] == str2 && check > 0)
+			else if(str[i] == '}' && check > 0)
 				check--;
 		}
 		fprintf(out, "/n");
