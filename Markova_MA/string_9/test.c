@@ -57,7 +57,7 @@ int main() {
 				check--;
 		}
 		fprintf(out, "/n");*/
-		printf("%s", str[i]);
+		printf("%d", str[i]);
 	}
 	return 0;
 }
