@@ -32,7 +32,7 @@ char *read_string(FILE *in) {
 
 int main() {
 	char *str;
-	int len, check = 0, i = 6, pos = 0;
+	int len, check = 0, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
@@ -57,7 +57,8 @@ int main() {
 				check--;
 		}
 		fprintf(out, "/n");*/
-		printf("%d", str[i]);
+		str[i]=str[i + 1];
+		printf("%s", str[i]);
 	}
 	return 0;
 }
