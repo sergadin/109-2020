@@ -58,6 +58,7 @@ int main() {
 		}
 		fprintf(out, "/n");*/
 		str[i]=str[i + 1];
+		str[i + 1] = str[i + 2];
 		printf("%s", str);
 	}
 	return 0;
