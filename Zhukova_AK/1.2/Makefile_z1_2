@@ -1,2 +1,0 @@
-z12: Zhukova_z1_2_test.c Zhukova_z1_2.h Zhukova_z1_2.c
-	gcc -o z12 Zhukova_z1_2_test.c Zhukova_z1_2.c -lm
