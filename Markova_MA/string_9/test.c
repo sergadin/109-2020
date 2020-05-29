@@ -74,7 +74,7 @@ int main() {
 		//putchar(str[i]);
 		//printf("%s\n", m);
 		//printf("%s\n", str);
-		printf("\n");
+		//printf("\n");
 		free(str);
 	}
 	return 0;
