@@ -50,7 +50,7 @@ int main() {
 		for(i = 0; i < len; i++)
 		{
 			if(check < 1)
-				printf(out, "%s", str[i]);
+				fprintf(out, "%s", str[i]);
 			if(str[i] == '{' && check < 1)
 				check++;
 			else if(str[i] == '}' && check > 0)
