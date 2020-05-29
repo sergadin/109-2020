@@ -74,8 +74,8 @@ int main() {
 		pos = 0;
 		i = 2;
 		m = str[i];
-		sputchar(str[i]);
-		printf("%c\n", m);
+		putchar(str[i]);
+		printf("%s\n", m);
 		printf("%s\n", str);
 		printf("?\n");
 		free(str);
