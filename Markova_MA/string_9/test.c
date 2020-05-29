@@ -74,6 +74,7 @@ int main() {
 		pos = 0;
 		//fprintf(out, "/n");
 		printf("%s", str);
+		free(str);
 	}
 	return 0;
 }
