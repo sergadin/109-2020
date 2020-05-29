@@ -54,29 +54,30 @@ int main() {
 				if(str[i] == '}')
 				{
 					check = 0; 
-					str[i - pos] = str[i];
+					putchar(str[i]);
+					//str[i - pos] = str[i];
 				}
 				else
 				{
-					pos++;
+					//pos++;
 				}
 			}
 			else 
 			{
+				putchar(str[i]);
 				if(str[i] == '{')
 				{
 					check = 1;
 				}
-				str[i - pos] = str[i];
 			}
 			//str[i - pos] = str[i];
 		}
 		pos = 0;
-		i = 2;
+		//i = 2;
 		//m = str[i];
-		putchar(str[i]);
+		//putchar(str[i]);
 		//printf("%s\n", m);
-		printf("%s\n", str);
+		//printf("%s\n", str);
 		printf("?\n");
 		free(str);
 	}
