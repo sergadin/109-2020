@@ -31,10 +31,13 @@ void indent(FILE *input, FILE *output, int max_len)
 				calc++;
 				start = i;
 
-				while (buf[i] != ' ' && buf[i] != '\n' && (int)(buf[i]) != 13)
+				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0 && (int)(buf[i]) != 13)
 				{
-					i++;
-					calc++;
+					if (buf[i] != ' ' && buf[i] != '\n' && (int)(buf[i]) != 13)
+					{
+						i++;
+						calc++;
+					}
 				}
 
 				if (calc <= max_len)
@@ -42,8 +45,8 @@ void indent(FILE *input, FILE *output, int max_len)
 					for (int j = start; j < i; j++)
 					{
 
-							fprintf(output, "%c", buf[j]);
-						
+						fprintf(output, "%c", buf[j]);
+
 					}
 					fprintf(output, " ");
 				}
@@ -58,7 +61,7 @@ void indent(FILE *input, FILE *output, int max_len)
 		}
 		free(buf);
 	}
-	
+
 	if(!feof(input))
 	{
 		fclose(input);
