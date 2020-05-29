@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "Zhukova_func2.h"
 
+//вычисляет композицию функций
+//n - количество функций
+//х - переменная, от которой вычисляется композиция
 double func (double( * funcs[]) (double), int n, double x)
 {
 	int i;

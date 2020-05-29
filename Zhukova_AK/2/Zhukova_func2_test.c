@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include "Zhukova_func2.h"
 
-double func1 ( double x); //Функции
+double func1 ( double x); //Функции для тестов
 double func2 ( double x);
 double func3 ( double x);
 double func4 ( double x);
 double func5 ( double x);
 
 int funcAB (double a, double b, double eps); //Сравнивает два числа
+//возвращает 0, если 2 числа равны
+//и 1 или -1 в противном случае
+
 
 int main (void)
 {
@@ -20,8 +23,8 @@ int main (void)
 //1.4=2*(1\5)+1
 //16=((5^2+1)*2 - 50)^2
 
-	int i, res;
-	int n1 = 2;
+	int i, res;//i - счётчик, res - результат сравнения получившегося ответа и верного
+	int n1 = 2;//n1, n2, n3 - количество функций в 1, 2, 3 тестах
 	int n2 = 3;
 	int n3 = 4;
 
