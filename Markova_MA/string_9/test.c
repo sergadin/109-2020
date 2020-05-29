@@ -45,7 +45,7 @@ int main() {
     }
 	while (str = read_string(inp)) 
 	{
-		if (str[0] == '\n') continue;
+		/*if (str[0] == '\n') continue;
 		len = strlen(str);
 		for(i = 0; i < len; i++)
 		{
@@ -56,7 +56,8 @@ int main() {
 			else if(str[i] == '}' && check > 0)
 				check--;
 		}
-		fprintf(out, "/n");
+		fprintf(out, "/n");*/
+		fprintf(out, "%s", str);
 	}
 	return 0;
 }
