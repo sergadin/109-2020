@@ -58,7 +58,7 @@ int main() {
 		}
 		fprintf(out, "/n");*/
 		str[i]=str[i + 1];
-		printf("%s", str[i]);
+		printf("%s", str);
 	}
 	return 0;
 }
