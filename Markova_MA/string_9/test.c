@@ -31,7 +31,7 @@ char *read_string(FILE *in) {
 //int eq(char *a, char *b)
 
 int main() {
-	char *str;
+	char *str, *m;
 	int len, check = 0, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
@@ -72,7 +72,10 @@ int main() {
 			//str[i - pos] = str[i];
 		}
 		pos = 0;
-		//fprintf(out, "/n");
+		i = 2;
+		m = str[i];
+		sputchar(str[i]);
+		printf("%c\n", m);
 		printf("%s\n", str);
 		printf("?\n");
 		free(str);
