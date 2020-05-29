@@ -73,7 +73,8 @@ int main() {
 		}
 		pos = 0;
 		//fprintf(out, "/n");
-		printf("%s", str);
+		printf("%s/n", str);
+		print("?")
 		free(str);
 	}
 	return 0;
