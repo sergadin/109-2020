@@ -52,16 +52,23 @@ int main() {
 			if(check)
 			{
 				if(str[i] == '}')
-					check = 0; str[i - pos] = str[i];
+				{
+					check = 0; 
+					//str[i - pos] = str[i];
+				}
 				else
+				{
 					pos++;
+				}
 			}
 			else 
 			{
 				if(str[i] == '{')
+				{
 					check = 1;
-				str[i - pos] = str[i];
+				}
 			}
+			str[i - pos] = str[i];
 		}
 		pos = 0;
 		//fprintf(out, "/n");
