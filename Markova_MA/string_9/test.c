@@ -28,8 +28,10 @@ char *read_string(FILE *in) {
     return NULL;
 }
 
+//int eq(char *a, char *b)
+
 int main() {
-	const char *str1 = "{", *str2 = "}", *str, **mas;
+	const char *str1 = '{', *str2 = '}', *str;
 	int len, check = 0, i, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
@@ -54,7 +56,7 @@ int main() {
 			else if(str[i] == str2 && check > 0)
 				check--;
 		}
-		printf(out, "/n");
+		fprintf(out, "/n");
 	}
 	return 0;
 }
