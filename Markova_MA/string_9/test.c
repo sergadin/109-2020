@@ -54,7 +54,7 @@ int main() {
 				if(str[i] == '}')
 				{
 					check = 0; 
-					//str[i - pos] = str[i];
+					str[i - pos] = str[i];
 				}
 				else
 				{
@@ -67,8 +67,9 @@ int main() {
 				{
 					check = 1;
 				}
+				str[i - pos] = str[i];
 			}
-			str[i - pos] = str[i];
+			//str[i - pos] = str[i];
 		}
 		pos = 0;
 		//fprintf(out, "/n");
