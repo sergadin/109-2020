@@ -1,13 +1,20 @@
-all: do-test
+CC=gcc
+CFLAGS=-g
 
-indent.o: indent.c indent.h
-	gcc -c indent.c
+all: do-test clean
 
-test.o: test.c indent.h
-	gcc -c test.c
+indent.o: indent.h indent.c
+	gcc -c -g indent.c
 
-a.out: test.o indent.o
-	gcc test.o indent.o
+test.0: indent.h indent.c
+	gcc -c -g test.c
+
+a.out: indent.o test.o
+	gcc -o a.out indent.o test.o
 
 do-test: a.out
-	./a.out
+	valgrind ./a.out
+
+clean: indent.o test.0 a.out
+	rm indent.o test.o a.out
+

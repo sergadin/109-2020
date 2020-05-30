@@ -6,11 +6,11 @@
 void indent(FILE *input, FILE *output, int max_len)
 {
 	char *buf;
-	int ind = 0, start, calc = 0, size_buffer; 	
+	int ind = 0, start, calc = 0, size_buffer, check_sp; 	
 
 	while((buf = read_string(input)) != NULL)
 	{
-		if ((int)(buf[0]) == 10 && (int)(buf[1]) == 13)
+		if (buf[0] == '\n')
 		{
 			ind = 1;
 			calc = 0;
@@ -30,14 +30,12 @@ void indent(FILE *input, FILE *output, int max_len)
 			{
 				calc++;
 				start = i;
+				check_sp = 1;
 
-				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0 && (int)(buf[i]) != 13)
+				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0)
 				{
-					if (buf[i] != ' ' && buf[i] != '\n' && (int)(buf[i]) != 13)
-					{
-						i++;
-						calc++;
-					}
+					i++;
+					calc++;
 				}
 
 				if (calc <= max_len)
@@ -45,7 +43,7 @@ void indent(FILE *input, FILE *output, int max_len)
 					for (int j = start; j < i; j++)
 					{
 
-						fprintf(output, "%c", buf[j]);
+							fprintf(output, "%c", buf[j]);
 
 					}
 					fprintf(output, " ");
@@ -67,7 +65,9 @@ void indent(FILE *input, FILE *output, int max_len)
 		fclose(input);
 		fclose(output);
 		free(buf);
+		printf("ERROR indenting");
 	}
+
 	fclose(input);
 	fclose(output);
 	free(buf);
@@ -100,7 +100,11 @@ char *read_string(FILE *input)
 			result = (char *)realloc(result, len);
 			strcat(result, s);		
 		}
+
+		free(s);
+		return result;
 	}
+
 	free(s);
 	free(result);
 	return NULL;
