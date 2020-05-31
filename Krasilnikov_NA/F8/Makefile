@@ -13,7 +13,7 @@ a.out: tree.o tree_test.o
 	gcc -o a.out tree.o tree_test.o
 
 do-test: a.out
-	valgrind ./a.out dir output.txt
+	valgrind ./a.out ../../Krasilnikov_NA output.txt
 
 clean: tree.o tree_test.o
 	rm -rf *.o
