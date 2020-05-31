@@ -15,12 +15,12 @@ int main(void)
 		return -1;
 	}
 
-	if ((output = fopen("output.txt", "w")) == NULL)
-	{
-		printf("ERROR open output\n");
+ 	if ((output = fopen("output.txt", "w")) == NULL)
+        {
+                printf("ERROR open output\n");
 		fclose(input);
-		return -1;
-	}
+                return -1;
+        }
 
 	indent(input, output, max_len);
 
