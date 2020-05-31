@@ -8,19 +8,13 @@ double func1(double t, double x);
 int main(void)
 {
 	int i;
-	double ep = 0.0001, a = 0, b = 11, result = 0;
-	double e = 0.0001;
+	double ep = 0.00001, a = 0, b = 11, result = 0;
+	double e = 0.00001;
 	double c[] = {16.6504};
 	RRFUN funcs[] = {func1};
 	for(i = 0; i < 1; i++)
 	{
 		result = integrate(a, b, ep, funcs[i]);
-		if (result > 10000000000)
-		{
-			printf("пройден\n");
-			printf("0\n");
-			return 0;
-		}
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
 		{
 			printf("пройден\n");
