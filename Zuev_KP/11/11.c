@@ -12,14 +12,14 @@ static double simp(double a, double b, double n, RRFUN ffunc)
 	for(i = 1; i < n-1; i++)
 	{
 		x = a+2*i*h;
-		res1 = res1 + (*ffunc)(x);
+		res1 = res1 + (*ffunc)(x, b);
 	}
 	for(i = 1; i < n; i++)
 	{
 		x = a+(2*i-1)*h;
-		res2 = res2 + (*ffunc)(x);
+		res2 = res2 + (*ffunc)(x, b);
 	}
-	res = (h/3)*(2*res1 + 4*res2 + (*ffunc)(a) + (*ffunc)(b));
+	res = (h/3)*(2*res1 + 4*res2 + (*ffunc)(a, b) + (*ffunc)(b, b));
 	return res;
 }
 
