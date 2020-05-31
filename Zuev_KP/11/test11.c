@@ -9,7 +9,7 @@ double f(double t, double x);
 int main(void)
 {
 	int i;
-	double ep = 0.0001, a = 1, b = 10, result = 0;
+	double ep = 0.0001, a = 0, b = 10, result = 0;
 	double e = 0.1;
 	double c[] = {4.809};
 	ErrorCode ec;
