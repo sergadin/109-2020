@@ -79,7 +79,7 @@ int main() {
 	w = malloc(len+1);
 	w = cop(str, w);
 	for(i = 0; i < len - 1; i++)
-	{	n
+	{	
 		now = str[0];
 		str[0] = str[len - 1];
 		for(int j = 1;j < len;j++)
