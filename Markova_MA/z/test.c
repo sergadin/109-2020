@@ -62,7 +62,7 @@ int main() {
 	}
 	len = strlen(str);
 	temp = str[0];
-	for(i = 1;i < len - 1;i++)
+	for(i = 1;i < len;i++)
 	{
 		if(strcmp(temp, str[i]) > 0)
 		{
@@ -72,12 +72,12 @@ int main() {
 	}
 		//i = 2;
 		//m = str[i];
-	for(i = pos; i < n + pos; i++)
+	for(i = pos; i < len + pos; i++)
 	{		
 		putchar(str[i%n]);
 	}
-		printf("%c\n", temp1);
-		printf("%s\n", w);
+		//printf("%c\n", temp1);
+		//printf("%s\n", w);
 		//printf("\n");
 		free(str);
 
