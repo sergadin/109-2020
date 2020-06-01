@@ -40,9 +40,9 @@ char *cop(const char *f, char *t)
 //int eq(char *a, char *b)
 
 int main() {
-	char *str, *w = NULL;
-	char temp1;
-	int len, i = 0, word = 0;
+	char *str;
+	char temp;
+	int len, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
@@ -61,21 +61,21 @@ int main() {
 		return 0;
 	}
 	len = strlen(str);
-	w = malloc(len);
-	w = cop(str, w);
-	//for(i = 1;i < len - 1;i++)
-	//{
-		temp1 = str[0];
-		/*for(j = 0; j < len; j++)
+	temp = str[0];
+	for(i = 1;i < len - 1;i++)
+	{
+		if(strcmp(temp, str[i]) > 0)
 		{
-			temp2 = 
-			str[j + 1] = str[i];
-			tmp = 
-		}*/
-	//}
+			temp = str[i];
+			pos = i;
+		}
+	}
 		//i = 2;
 		//m = str[i];
-		//putchar(str[i]);
+	for(i = pos; i < n + pos; i++)
+	{		
+		putchar(str[i%n]);
+	}
 		printf("%c\n", temp1);
 		printf("%s\n", w);
 		//printf("\n");
