@@ -42,7 +42,7 @@ int eq(char *a, char *b)
 {
 	int len = strlen(a);
 	char temp1, temp2;
-	for(int i = 0;i < n;i++)
+	for(int i = 0;i < len;i++)
 	{
 		temp1 = a[i];
 		temp2 = b[i];
@@ -79,9 +79,9 @@ int main() {
 	w = malloc(len+1);
 	w = cop(str, w);
 	for(i = 0; i < len - 1; i++)
-	{	
+	{	n
 		now = str[0];
-		str[0] = str[len - 1]
+		str[0] = str[len - 1];
 		for(int j = 1;j < len;j++)
 		{
 			temp = str[j];
