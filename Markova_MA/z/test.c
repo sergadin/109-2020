@@ -61,7 +61,7 @@ int main() {
 		//m = str[i];
 		//putchar(str[i]);
 		//printf("%s\n", m);
-		printf("%c\n", w);
+		printf("%s\n", w);
 		//printf("\n");
 		free(str);
 	}
