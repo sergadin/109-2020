@@ -28,9 +28,11 @@ char *read_string(FILE *in) {
     return NULL;
 }
 
+//int eq(char *a, char *b)
+
 int main() {
-	const char *str1 = "{", *str2 = "}", *str, **mas;
-	int len, check = 0, i, pos = 0;
+	char *str, *m;
+	int len, check = 0, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
@@ -47,14 +49,33 @@ int main() {
 		len = strlen(str);
 		for(i = 0; i < len; i++)
 		{
-			if(check < 1)
-				printf(out, "%s", s[i]);
-			if(str[i] == str1 && check < 1)
-				check++;
-			else if(str[i] == str2 && check > 0)
-				check--;
+			if(check)
+			{
+				if(str[i] == '}')
+				{
+					check = 0; 
+					putchar(str[i]);
+					//str[i - pos] = str[i];
+				}
+			}
+			else 
+			{
+				putchar(str[i]);
+				if(str[i] == '{')
+				{
+					check = 1;
+				}
+			}
+			//str[i - pos] = str[i];
 		}
-		printf(out, "/n");
+		pos = 0;
+		//i = 2;
+		//m = str[i];
+		//putchar(str[i]);
+		//printf("%s\n", m);
+		//printf("%s\n", str);
+		//printf("\n");
+		free(str);
 	}
 	return 0;
 }

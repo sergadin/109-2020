@@ -21,7 +21,7 @@ int main(void)
 		fclose(input);
                 return -1;
         }
-	
+
 	indent(input, output, max_len);
 
 	return 0;

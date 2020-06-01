@@ -6,11 +6,11 @@
 void indent(FILE *input, FILE *output, int max_len)
 {
 	char *buf;
-	int ind = 0, start, calc = 0, size_buffer, check_sp; 	
+	int ind = 0, start, calc = 0, size_buffer; 	
 
 	while((buf = read_string(input)) != NULL)
 	{
-		if ((int)(buf[0]) == '\n')
+		if (buf[0] == '\n')
 		{
 			ind = 1;
 			calc = 0;
@@ -30,9 +30,8 @@ void indent(FILE *input, FILE *output, int max_len)
 			{
 				calc++;
 				start = i;
-				check_sp = 1;
 
-				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0)
+				while (buf[i] != ' ' && buf[i] != '\n' && (int)(buf[i]) != 0)
 				{
 					i++;
 					calc++;
@@ -42,9 +41,7 @@ void indent(FILE *input, FILE *output, int max_len)
 				{
 					for (int j = start; j < i; j++)
 					{
-
-							fprintf(output, "%c", buf[j]);
-						
+						fprintf(output, "%c", buf[j]);
 					}
 					fprintf(output, " ");
 				}
