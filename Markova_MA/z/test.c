@@ -40,8 +40,8 @@ char *cop(const char *f, char *t)
 //int eq(char *a, char *b)
 
 int main() {
-	char *str;
-	char temp;
+	const char *str;
+	const char temp*;
 	int len, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
