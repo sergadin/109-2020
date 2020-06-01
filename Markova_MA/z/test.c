@@ -52,7 +52,7 @@ int main() {
 		w = str[0];
 		for(i = 1;i < len;i++)
 		{
-			if(str[i] > w)
+			if(str[i] == 'A'+ i)
 			{
 				w = str[i];
 			}
