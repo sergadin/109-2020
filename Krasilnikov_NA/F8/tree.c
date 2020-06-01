@@ -17,9 +17,9 @@ void make_tree(char *directory, FILE *fout)
 	Levels[0] = 0;
 	ftw(directory, fn, 20);
 	qsort(FL, n, sizeof(char*), comp);
-	count_tree(directory, FL, 1);
+	count_tree(directory, 1);
 	fprintf(fout, "%s", directory);
-	print_tree(directory, fout, FL, strlen(directory), 1);
+	print_tree(directory, fout, strlen(directory), 1);
 	for (int i = 0; i < n; i++)
 	{
 		free(FL[i]);
@@ -35,17 +35,17 @@ int comp(const void *arg1, const void *arg2)
 	return strcmp(aa, bb);
 }
 
-void count_tree(char *directory, char **FL, int depth)
+void count_tree(char *directory, int depth)
 {
 	char **SD; //SD = SubDirectories
 	char *dir;
 	int sdbi = 0, sdei = 0, cosd = 0, mem, lotlsd = 0;
 	/* sdbi = SubDirectory_Beginning_Index
-		sdei = SubDirectory_Ending_Index
-		cosd = Count_Of_SubDirectories
-		mem = MEMory
-		lotlsd = Length_Of_The_Longest_SubDirectory
-	*/
+	   sdei = SubDirectory_Ending_Index
+	   cosd = Count_Of_SubDirectories
+	   mem = MEMory
+	   lotlsd = Length_Of_The_Longest_SubDirectory
+	   */
 	SD = NULL;
 	for (int i = 0; i < n; i++)
 	{
@@ -124,7 +124,7 @@ void count_tree(char *directory, char **FL, int depth)
 				dir[strlen(directory) + 1 + j] = SD[i][j];
 			}
 			dir[strlen(directory) + strlen(SD[i]) + 1] = '\0';
-			count_tree(dir, FL, depth + 1);
+			count_tree(dir, depth + 1);
 			free(dir);
 		}
 	}
@@ -135,16 +135,16 @@ void count_tree(char *directory, char **FL, int depth)
 	free(SD);
 }
 
-void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth)
+void print_tree(char *directory, FILE *fout, int cs, int depth)
 {
 	char **SD; //SD = SubDirectories
 	char *dir;
 	int sdbi = 0, sdei = 0, cosd = 0, mem;
 	/* sdbi = SubDirectory_Beginning_Index
-		sdei = SubDirectory_Ending_Index
-		cosd = Count_Of_SubDirectories
-		mem = MEMory
-	*/
+	   sdei = SubDirectory_Ending_Index
+	   cosd = Count_Of_SubDirectories
+	   mem = MEMory
+	   */
 	SD = NULL;
 	for (int i = 0; i < n; i++)
 	{
@@ -228,7 +228,7 @@ void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth)
 				dir[strlen(directory) + 1 + j] = SD[i][j];
 			}
 			dir[strlen(directory) + strlen(SD[i]) + 1] = '\0';
-			print_tree(dir, fout, FL, cs + 5 + Levels[depth - 1], depth + 1);
+			print_tree(dir, fout, cs + 5 + Levels[depth - 1], depth + 1);
 			free(dir);
 		}
 	}

@@ -1,0 +1,66 @@
+../../Krasilnikov_NA ——— .gitkeep
+                      |-    1.2   ———           Makefile          
+                                   |-           Newton.c          
+                                   |-           Newton.h          
+                                   |-          answers.txt        
+                                   |-           input.txt         
+                                   |-          output.txt         
+                                   |-         test_Newton.c       
+                      |-    2.3   ———           Makefile          
+                                   |-          answers.txt        
+                                   |-           input.txt         
+                                   |-          output.txt         
+                                   |-           simpson.c         
+                                   |-           simpson.h         
+                                   |-        test_simpson.c       
+                      |-    3.3   ———           Makefile          
+                                   |-          answers.txt        
+                                   |-           input.txt         
+                                   |-           minimum.c         
+                                   |-           minimum.h         
+                                   |-          output.txt         
+                                   |-        test_minimum.c       
+                      |-   4.log  ———           Makefile          
+                                   |-           Taylor.c          
+                                   |-           Taylor.h          
+                                   |-          output.txt         
+                                   |-         test_Taylor.c       
+                      |-    5.2   ———           Makefile          
+                                   |-             a.out           
+                                   |-        interpolation.h      
+                                   |-           test.cpp          
+                      |-    F8    ———           Makefile          
+                                   |-             a.out           
+                                   |-          output.txt         
+                                   |-            tree.c           
+                                   |-            tree.h           
+                                   |-            tree.o           
+                                   |-          tree_test.c        
+                                   |-          tree_test.o        
+                      |-   M1.4   ———           Makefile          
+                                   |-            Sole.c           
+                                   |-            Sole.h           
+                                   |-           input.txt         
+                                   |-          test_Sole.c        
+                      |-   M2.2   ———             Det.c           
+                                   |-             Det.h           
+                                   |-           Makefile          
+                                   |-           input.txt         
+                                   |-          test_Det.c         
+                      |-    S12   ———           Makefile          
+                                   |-           format.c          
+                                   |-           format.h          
+                                   |-         format_test.c       
+                                   |-           input.txt         
+                      |-    S5    ———           Makefile          
+                                   |-           input.txt         
+                                   |-    strings_words_symbols.c  
+                                   |-    strings_words_symbols.h  
+                                   |- strings_words_symbols_test.c
+                      |-  Zachet  ———             33.c            
+                                   |-             33.h            
+                                   |-           33_test.c         
+                                   |-           Makefile          
+                                   |-           input.txt         
+                      |-   libs   ———           mystring           ——— mystring.c
+                                                                    |- mystring.h

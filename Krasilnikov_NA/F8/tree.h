@@ -41,7 +41,7 @@ void make_tree(char *directory, FILE *fout);
  **   fn динамически выделяет память для массива FL и записывает в новуя ячейку
  ** имя файла
  */
-static int fn(const char *file, const struct stat *sb, int flag
+static int fn(const char *file, const struct stat *sb, int flag);
 
 /**
  **   Колбэк-функция для qsort:
@@ -60,7 +60,7 @@ int comp(const void *arg1, const void *arg2);
  **   directory: Имя текущей дериктории или поддериктории
  **   depth: глубина текущей дериктории или поддериктории
  */
-void count_tree(char *directory, char **FL, int depth);
+void count_tree(char *directory, int depth);
 
 /**
  **   Функция рекурсивно выводит список файлов каталога и его подкатологов.
@@ -70,4 +70,4 @@ void count_tree(char *directory, char **FL, int depth);
  **   cs: количество символов необходимых для отступа на текущем уровне
  **   depth: глубина текущей дериктории или поддериктории
  */
-void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth);
+void print_tree(char *directory, FILE *fout, int cs, int depth);
