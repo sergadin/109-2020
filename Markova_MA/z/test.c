@@ -74,7 +74,7 @@ int main() {
 		//m = str[i];
 	for(i = pos; i < len + pos; i++)
 	{		
-		putchar(str[i%n]);
+		putchar(str[i%len]);
 	}
 		//printf("%c\n", temp1);
 		//printf("%s\n", w);
