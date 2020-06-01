@@ -30,7 +30,7 @@ char *read_string(FILE *in) {
 char *cop(const char *f, char *t)
 {
 	int len;
-	len = slen(f);
+	len = strlen(f);
 	for (int i = 0; i <= len; i++)
 	{
 		t[i] = f[i];
@@ -54,7 +54,7 @@ int main() {
         return 0;
     }
 	
-	str = read_string(inp)) 
+	str = read_string(inp) 
 	if (str[0] == '\n' || strlen(str) == 1)
 	{			
 		printf("0");
