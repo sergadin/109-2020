@@ -25,7 +25,7 @@ void make_tree(char *directory, FILE *fout)
 		free(FL[i]);
 	}
 	free(FL);
-	free(Levels);	
+	free(Levels);
 }
 
 int comp(const void *arg1, const void *arg2)
@@ -37,9 +37,15 @@ int comp(const void *arg1, const void *arg2)
 
 void count_tree(char *directory, char **FL, int depth)
 {
-	char **SD; //SD = Sub_Directories
+	char **SD; //SD = SubDirectories
 	char *dir;
 	int sdbi = 0, sdei = 0, cosd = 0, mem, lotlsd = 0;
+	/* sdbi = SubDirectory_Beginning_Index
+		sdei = SubDirectory_Ending_Index
+		cosd = Count_Of_SubDirectories
+		mem = MEMory
+		lotlsd = Length_Of_The_Longest_SubDirectory
+	*/
 	SD = NULL;
 	for (int i = 0; i < n; i++)
 	{
@@ -53,7 +59,7 @@ void count_tree(char *directory, char **FL, int depth)
 					sdei = j - 1;
 					break;
 				}
-			}	
+			}
 			if (sdei != 0)
 			{
 				cosd++;
@@ -78,7 +84,7 @@ void count_tree(char *directory, char **FL, int depth)
 				free(SD[j]);
 				SD[j] = (char*)malloc(strlen(SD[j + 1]) + 1);
 				strcpy(SD[j], SD[j + 1]);
-			}	
+			}
 			cosd--;
 			i--;
 		}
@@ -121,20 +127,24 @@ void count_tree(char *directory, char **FL, int depth)
 			count_tree(dir, FL, depth + 1);
 			free(dir);
 		}
-	}	
+	}
 	for (int i = 0; i < mem; i++)
 	{
 		free(SD[i]);
 	}
 	free(SD);
-
 }
 
 void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth)
 {
-	char **SD; //SD = Sub_Directories
+	char **SD; //SD = SubDirectories
 	char *dir;
-	int sdbi = 0, sdei = 0, cosd = 0, mem, lotlsd = 0;
+	int sdbi = 0, sdei = 0, cosd = 0, mem;
+	/* sdbi = SubDirectory_Beginning_Index
+		sdei = SubDirectory_Ending_Index
+		cosd = Count_Of_SubDirectories
+		mem = MEMory
+	*/
 	SD = NULL;
 	for (int i = 0; i < n; i++)
 	{
@@ -148,7 +158,7 @@ void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth)
 					sdei = j - 1;
 					break;
 				}
-			}	
+			}
 			if (sdei != 0)
 			{
 				cosd++;
@@ -173,7 +183,7 @@ void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth)
 				free(SD[j]);
 				SD[j] = (char*)malloc(strlen(SD[j + 1]) + 1);
 				strcpy(SD[j], SD[j + 1]);
-			}	
+			}
 			cosd--;
 			i--;
 		}
@@ -235,7 +245,7 @@ void print_tree(char *directory, FILE *fout, char **FL, int cs, int depth)
 
 static int fn(const char *file, const struct stat *sb, int flag)
 {
-	if (flag == FTW_F) 
+	if (flag == FTW_F)
 	{
 		FL = (char**)realloc(FL, (n + 1) * sizeof(char*));
 		FL[n] = NULL;
@@ -247,5 +257,3 @@ static int fn(const char *file, const struct stat *sb, int flag)
 	}
 	return 0;
 }
-
-
