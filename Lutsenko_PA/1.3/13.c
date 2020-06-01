@@ -21,7 +21,7 @@ double  sum (double prev,double curr,double e,RRFUN f)
         next = curr - (*f)(curr) * (prev - curr) / ((*f)(prev) - (*f)(curr));
         prev = curr;
         curr = tmp;
-    } while (abs(next - curr) > e);
+    } while (fabs(next - curr) > e);
    if ((*f)(prev) == (*f)(curr)) {return f(prev);} 
     return next;
 }
