@@ -54,7 +54,7 @@ int main() {
         return 0;
     }
 	
-	str = read_string(inp) 
+	str = read_string(inp);
 	if (str[0] == '\n' || strlen(str) == 1)
 	{			
 		printf("0");
