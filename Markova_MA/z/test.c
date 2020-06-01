@@ -41,7 +41,7 @@ char *cop(const char *f, char *t)
 
 int main() {
 	const char *str;
-	const char temp*;
+	char temp1, temp2;
 	int len, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
@@ -61,12 +61,13 @@ int main() {
 		return 0;
 	}
 	len = strlen(str);
-	temp = str[0];
+	temp1 = str[0];
 	for(i = 1;i < len;i++)
 	{
-		if(strcmp(temp, str[i]) > 0)
+		temp2 = str[i];
+		if(temp1 - temp2 > 0)
 		{
-			temp = str[i];
+			temp1 = temp2;
 			pos = i;
 		}
 	}
