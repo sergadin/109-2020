@@ -10,7 +10,7 @@ void indent(FILE *input, FILE *output, int max_len)
 	
 	while((buf = read_string(input)) != NULL)
 	{
-		if (buf[0] == '\n' && strlen(buf) > 1 && (int)(buf[1]) == 13)
+		if (buf[0] == '\n')
 		{
 			ind = 1;
 			calc = 0;
@@ -31,7 +31,7 @@ void indent(FILE *input, FILE *output, int max_len)
 				calc++;
 				start = i;
 
-				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0 && (int)(buf[i]) != 13)
+				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0)
 				{
 					i++;
 					calc++;
