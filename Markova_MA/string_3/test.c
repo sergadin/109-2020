@@ -73,7 +73,7 @@ int main() {
         fclose(inp);
         return 0;
     }
-	stock = realloc(stock, 1);
+	stock = realloc(stock, len_word + 1);
 	stock[0] = '\n';
 	while (str = read_string(inp)) 
 	{
@@ -97,6 +97,7 @@ int main() {
 						stock[len_stock - len_word - 1 + j] = w[j];
 					}
 				}
+				free(w);
 			}
 			else
 				len_word++;
