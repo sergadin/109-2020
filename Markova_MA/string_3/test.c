@@ -73,7 +73,7 @@ int main() {
         fclose(inp);
         return 0;
     }
-	stock = realloc(stack, 1);
+	stock = realloc(stock, 1);
 	stock[0] = '\n';
 	while (str = read_string(inp)) 
 	{
