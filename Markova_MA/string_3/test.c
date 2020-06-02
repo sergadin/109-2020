@@ -73,7 +73,7 @@ int main() {
         fclose(inp);
         return 0;
     }
-	stock = malloc(stock, len_word + 1);
+	stock = malloc(len_word + 1);
 	stock[0] = '\n';
 	while (str = read_string(inp)) 
 	{
