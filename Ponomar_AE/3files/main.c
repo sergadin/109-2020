@@ -70,5 +70,11 @@ int main(int argc, char **argv)
 		ftw(argv[2], compare_names, 10);
 	}
 
+	for (int i = 0; i < calc_names; i++)
+	{
+		free(data[i]);
+	}
+	free(data);
+
 	return 0;
 }
