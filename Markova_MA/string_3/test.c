@@ -91,7 +91,7 @@ int main() {
 				{
 					len_stock += len_word;
 					stock = realloc(stock, len_stock + 1);
-					stock[len_stock + 1] = '\n';
+					stock[len_stock] = '\n';
 					for(int j = 0; j < len_word;j++)
 					{
 						stock[len_stock - len_word - 1 + j] = w[j];
