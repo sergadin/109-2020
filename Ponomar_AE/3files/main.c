@@ -12,10 +12,11 @@ static int get_names(const char *file, const struct stat *sb, int flag)
 {
 	if (flag == FTW_F)
         {	
-		char *temp;
-		if (strrchr(file, '/') != NULL)
+		char *temp, *temp1;
+		temp = strchr(file, '/');
+		temp1 = strrchr(file, '/');
+		if (temp != NULL && temp1 != NULL && temp == temp1)
 		{
-		        temp = strrchr(file, '/');
 			data = realloc(data, (calc_names + 1)* sizeof(char*));
 			data[calc_names] = malloc((strlen(temp) + 1) * sizeof(char));
 			strcpy(data[calc_names], temp);
