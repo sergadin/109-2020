@@ -27,12 +27,37 @@ char *read_string(FILE *in) {
     } 
     return NULL;
 }
-
-//int eq(char *a, char *b)
+char *cop(const char *f, char *t)
+{
+	int len;
+	len = strlen(f);
+	for (int i = 0; i <= len; i++)
+	{
+		t[i] = f[i];
+	}
+	return t;
+}
+int eq(char *a, char *b);
+int eq(char *a, char *b)
+{
+	int len = strlen(a);
+	char temp1, temp2;
+	for(int i = 0;i < len;i++)
+	{
+		temp1 = a[i];
+		temp2 = b[i];
+		if(temp1 - temp2 > 0)
+			return 1;
+		else if(temp1 - temp2 < 0)
+			return -1;
+	}
+	return 0;
+}
 
 int main() {
-	char *str, *w = NULL;
-	int len, i = 0, word = 0;
+	char *str, *w;
+	char now, temp;
+	int len, i = 0, pos = 0;
 	FILE *inp, *out;
     if ((inp = fopen("input.txt", "r")) == NULL) {
         printf("ERROR\n");
@@ -44,26 +69,32 @@ int main() {
         return 0;
     }
 	
-	while (str = read_string(inp)) 
-	{
-		if (str[0] == '\n') 
-			printf("0");
-		len = strlen(str);
-		w = str[0];
-		for(i = 1;i < len;i++)
-		{
-			if(str[i] == 'A'+ i)
-			{
-				w = str[i];
-			}
-		}
-		//i = 2;
-		//m = str[i];
-		//putchar(str[i]);
-		//printf("%s\n", m);
-		printf("%s\n", w);
-		//printf("\n");
-		free(str);
+	str = read_string(inp);
+	if (str[0] == '\n' || strlen(str) == 1)
+	{			
+		printf("0");
+		return 0;
 	}
+	len = strlen(str);
+	w = malloc(len+1);
+	w = cop(str, w);
+	for(i = 0; i < len - 1; i++)
+	{	
+		now = str[0];
+		str[0] = str[len - 1];
+		for(int j = 1;j < len;j++)
+		{
+			temp = str[j];
+			str[j] = now;
+			now = temp;
+		}
+		if(eq(w, str) > 0)
+			w = cop(str, w);
+	}
+		//printf("%c\n", temp1);
+	printf("%s\n", w);
+	printf("\n");
+	free(str);
+
 	return 0;
 }
