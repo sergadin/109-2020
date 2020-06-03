@@ -55,7 +55,7 @@ double integral(double (*f)(double), double a, double b)
 		n *= 2;
 		I1 = I2;
 		I2 = i(f, a, b, n);
-		printf("%lf\n", I2);
+		//printf("%lf\n", I2);
 	}
 	/*if(check >= T)
 	{
@@ -67,11 +67,11 @@ double integral(double (*f)(double), double a, double b)
 double root(double (*f)(double), double a, double b);	
 double root(double (*f)(double), double a, double b)
 {
-	double m = (a + b)/2;
-	if((integral(f, 1, a) - alpha*a) * (integral(f, 1, b) - alpha*b) > 0)
+	double m = (a + b)/2, int1 = integral(f, 1, a), int2 = integral(f, 1, b);
+	if((int1 - alpha*a) * (int2- alpha*b) > 0)
 	{
-		printf("%lf\n", integral(f, 1, a) - alpha*a);
-		printf("%lf\n", integral(f, 1, b) - alpha*b);
+		printf("res1 %lf\n", int1 - alpha*a);
+		printf("res2 %lf\n", int2 - alpha*b);
 		
 		return m; 
 	}
