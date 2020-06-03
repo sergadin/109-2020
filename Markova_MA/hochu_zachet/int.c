@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #define T 1000
-//#define eps 1e-5
+//#define eps 1e-16
  /**
     ** Позиция (индекс) минимального элемента, значение которого больше 
 	**среднего арифметического элементов строки, минимальна (в других строках такой элемент стоит правее)
@@ -24,7 +24,7 @@
     **
     */
 
-double alpha, eps = 0.000001;
+double alpha;
 double i (double (*f)(double), double a, double b, int n);
 double i (double (*f)(double), double a, double b, int n)
 {
@@ -103,7 +103,7 @@ double root(double (*f)(double), double a, double b)
 double f (double x);
 double f (double x)
 {
-	return pow(x + 1/(x*x + 1) , 1/2);
+	return sqrt(x + 1/(x*x + 1));
 }
 
 int main() {
