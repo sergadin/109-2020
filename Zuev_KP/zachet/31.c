@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #define EL(m, n_cols, row, col) \
     ((m)[(n_cols) * (row) + col])
+#define MAX(a, b) (((a) > (b))?(a):(b))
 double *vbr(double *mas, int n_rows, int n_cols);
 double modul(double x);
 
@@ -17,10 +18,10 @@ double modul(double x)
 double *vbr(double *mas, int n_rows, int n_cols)
 {
 	int k = 0, j = 0, i = 0, m = 0, ind;
-	double t = 0, s = 0, d = 0, max = 0;
+	double t = 0, s = 0, d = 0, max = 0, e = 0.00001;
 	for(i = 0; i < n_rows*n_cols ; i ++)
 	{
-		if (mas[i] == 0)
+		if (modul(mas[i]) < e*MAX(mas[i], 1))
 			s = s+1;
 	}
 	if (s == n_rows*n_cols)
