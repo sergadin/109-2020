@@ -3,7 +3,32 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
+int f (double *a, int n, int m);
+int f (double *a, int n, int m)
+{
+	int i , j, sum = 0, max = 0, pos_j, pos_i;
+	for(i = 0; i < n; i++)
+	{
+		for(j = 0; j < m; j++)
+		{
+			sum += a[i*m + j];
+		}
+		sum /= m;
+		max = sum;
+		for(j = 0; j < m; j++)
+		{
+			if(a[i*m + j] > max)
+			{
+				if(pos_j == -1 || pos_j < j)
+				{	
+					pos_j = j;
+					pos_i = i;
+				}
+			}
+		}
+	}
+	return pos_i;
+}
 
 int main() {
 	int n, m, i, j, pos_j = -1, pos_i = -1, sum = 0;
@@ -52,27 +77,8 @@ int main() {
 		free(a);
 		return -1; 
 	}*/
-	printf("kyky\n");
-	for(i = 0; i < n; i++)
-	{
-		for(j = 0; j < m; j++)
-		{
-			sum += a[i*m + j];
-		}
-		sum /= m;
-		max = sum;
-		for(j = 0; j < m; j++)
-		{
-			if(a[i*m + j] > max)
-			{
-				if(pos_j == -1 || pos_j < j)
-				{	
-					pos_j = j;
-					pos_i = i;
-				}
-			}
-		}
-	}
+	//printf("kyky\n");
+	pos_i = f(a, n, m);
 	for(i = 0; i < n; i++)
 	{
 		for(j = 0; j < m; j++)
@@ -84,18 +90,12 @@ int main() {
 				if(a[i*m + j] > a[pos_i*m + j])
 					printf( "%lf ",a[i*m+j]);
 				else
-					printf("%lf ",a[pos_i*m + pos_j]);
+					printf("%lf ",a[pos_i*m + j]);
 			}
 		}
 		//fprintf(outp, "\n");
 		printf("\n");
 	}
-	//printf("Данная матрица:\n");
-	//print_matrix(a, n, m);
-	//res = rank(a, n, m, eps);
-	//printf("Полученная матрица:\n");//
-	//print_matrix(a, n, m);//
-	//printf("Rank = %d\n", res);
 	free(a);
 	//fclose(outp);
 	return 0;
