@@ -34,10 +34,11 @@ static int compare_names(const char *file, const struct stat *sb, int flag)
 
 	if (flag == FTW_F)
         {	
-		char *filename;
-		if (strrchr(file, '/') != NULL)
+		char *filename, *filename1;
+		filename = strrchr(file, '/');
+		filename1 = strchr(file, '/');
+		if (filename != NULL && filename == filename1)
 		{
-			filename = strrchr(file, '/');
 			for (int i = 0; i < calc_names; i++)
 			{
 				if (strstr(data[i], filename))
@@ -68,6 +69,12 @@ int main(int argc, char **argv)
 		ftw(argv[1], get_names, 10);
 		ftw(argv[2], compare_names, 10);
 	}
+
+	for (int i = 0; i < calc_names; i++)
+	{
+		free(data[i]);
+	}
+	free(data);
 
 	return 0;
 }
