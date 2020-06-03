@@ -23,7 +23,7 @@ int main(void)
 {
 	double a = 0, b = 2*pi, m, eps = 0.00001;
 	ErrorCode err;
-	m = integral(f1, 1, 2, &err, eps);
+	m = integral(f1, 1, 10, &err, eps);
 	
 	printf("f1 ");
 	switch(err)
