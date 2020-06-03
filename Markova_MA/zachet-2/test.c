@@ -14,7 +14,7 @@ int main() {
 		printf("ERROR\n");
 		return -1;
 	}
-	if ((outp = fopen("out.txt", "w")) == NULL) 
+	if ((outp = fopen("output.txt", "w")) == NULL) 
 	{
         printf("ERROR\n");
         fclose(inp);
