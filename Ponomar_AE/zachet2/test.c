@@ -57,6 +57,7 @@ int main(void)
 	                        free(matrix);
         	                return -1;
                 	}
+			printf("%lf ", matrix[i]);
         	}
 
 		fprintf(output, "TEST %d\n", (numt+1));
