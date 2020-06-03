@@ -69,7 +69,7 @@ double root(double (*f)(double), double a, double b);
 double root(double (*f)(double), double a, double b)
 {
 	double m = (a + b)/2;
-	if((*f)(a) * (*f)(b) > 0)
+	if((integral(f, 1, a) - alpha*a) * (integral(f, 1, b) - alpha*b) > 0)
 	{
 		printf("%lf\n", (*f)(a));
 		printf("%lf\n", (*f)(b));
@@ -78,21 +78,21 @@ double root(double (*f)(double), double a, double b)
 	}
 	while(fabs(b - a) < eps)
 	{
-		if((*f)(m) < 0)
+		if(integral(f, 1, m) - alpha*m < 0)
 		{
-			if((*f)(a) < 0)
+			if(integral(f, 1, a) - alpha*a < 0)
 				a = m;
 			else
 				b = m;
 		}
 		else
 		{
-			if((*f)(a) > 0)
+			if(integral(f, 1, a) - alpha*a > 0)
 				a = m;
 			else
 				b = m;
 		}
-		printf("%lf", (*f)(m));
+		//printf("%lf", (*f)(m));
 		printf("%lf", b - a);
 		m = (a + b)/2;
 	}
@@ -116,7 +116,7 @@ int main() {
 		return -1;
 	}
 	//printf("kyky\n");
-	res = root(f1, a, b);
+	res = root(f, a, b);
 		printf("%lf\n", res);
 	//fclose(outp);
 	return 0;
