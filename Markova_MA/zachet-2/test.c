@@ -20,8 +20,8 @@
     **   Элементы массива a не изменяют свой порядок.
     **
     */
-int f (double *a, int n, int m);
-int f (double *a, int n, int m)
+void f (double *a, int n, int m);
+void f (double *a, int n, int m)
 {
 	int i , j, sum = 0, max = 0, pos_j = 0, pos_i = 0;
 	for(i = 0; i < n; i++)
@@ -45,11 +45,21 @@ int f (double *a, int n, int m)
 		}
 	}
 	//printf("%d", pos_i);
-	return pos_i;
+	//return pos_i;
+	for(i = 0; i < n; i++)
+	{
+		for(j = 0; j < m; j++)
+		{
+			if(i != pos_i && a[i*m + j] < a[pos_i*m + j])
+			{
+				a[i*m + j] = a[pos_i*m + j]);
+			}
+		}
+	}
 }
 
 int main() {
-	int n, m, i, j, pos_i = -1;
+	int n, m, i, j;
 	double *a;
 	FILE *inp, *outp;
 	if (!(inp = fopen("input.txt","r")) )
@@ -96,22 +106,13 @@ int main() {
 		return -1; 
 	}*/
 	//printf("kyky\n");
-	pos_i = f(a, n, m);
 	for(i = 0; i < n; i++)
 	{
 		for(j = 0; j < m; j++)
 		{
-			if(i == pos_i)
-				printf("%lf ",a[i*m+j]); //fprintf(outp, "%lf ",a[i*m+j]);
-			else
-			{
-				if(a[i*m + j] > a[pos_i*m + j])
-					printf( "%lf ",a[i*m+j]);
-				else
-					printf("%lf ",a[pos_i*m + j]);
-			}
+			printf("\lf", a[i*m + j]);
 		}
-		//fprintf(outp, "\n");
+		//fprintf(outp, "\n");	
 		printf("\n");
 	}
 	free(a);
