@@ -56,8 +56,8 @@ double integral(double (*f)(double), double a, double b)
 		//check++;
 		n *= 2;
 		I1 = I2;
-		I2 = I2 = i(f, a, b, n);
-		//printf("%e\n", I2);
+		I2 = i(f, a, b, n);
+		printf("%lf\n", I2);
 	}
 	/*if(check >= T)
 	{
@@ -98,16 +98,13 @@ double root(double (*f)(double), double a, double b)
 	}
 	return m;
 }
+
 double f (double x);
 double f (double x)
 {
 	return pow(x + 1/(x*x + 1) , 1/2);
 }
-double f1 (double x);
-double f1 (double x)
-{
-	return integral(f, 1, x) - alpha*x;
-}
+
 int main() {
 	int a = 2, b = 10;
 	double res = 0;
