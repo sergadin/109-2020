@@ -1,1 +1,1 @@
-double findint (double( * func) (double ), double a, double b, int s);
+double findint (double( * func) (double ), double a, double b, double eps);

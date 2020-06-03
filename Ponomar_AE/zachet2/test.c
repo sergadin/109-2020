@@ -25,13 +25,20 @@ int main(void)
 	}
         for (int numt = 0; numt < NUMT; numt++) 
 	{
-		if ((fscanf(input, "%d%d", &n, &m) != 2) || (n <= 0) || (m <= 0)) 
+		if ((fscanf(input, "%d%d", &n, &m) != 2))
 		{
                         printf("ERROR read matrix\n");
                         fclose(input);
 			fclose(output);
                         return -1;
                 } 
+
+		if (n <= 0 || m <= 0)
+		{
+			printf("ERROR n || m");
+			fclose(input);
+			fclose(output);
+		}
 
                 if ((matrix = (double *) malloc(n*m*sizeof(double))) == NULL) 
 		{
