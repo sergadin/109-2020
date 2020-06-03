@@ -31,7 +31,7 @@ int f (double *a, int n, int m)
 }
 
 int main() {
-	int n, m, pos_i = -1;
+	int n, m, i, j, pos_i = -1;
 	double *a;
 	FILE *inp, *outp;
 	if (!(inp = fopen("input.txt","r")) )
