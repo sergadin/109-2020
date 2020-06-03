@@ -77,6 +77,7 @@ double root(double (*f)(double), double a, double b)
 	}
 	printf("res1 %lf\n", int1 - alpha*a);
 	printf("res2 %lf\n", int2 - alpha*b);
+	printf("")
 	while(fabs(b - a) < eps)
 	{
 		double res = integral(f, 1, m) - alpha*m;
@@ -109,7 +110,7 @@ double f (double x)
 }
 
 int main() {
-	int a = 2, b = 12;
+	double a = 2, b = 12;
 	double res = 0;
 	if (scanf("%lf", &alpha) != 1) {
 		//err = ERROR_READ;
