@@ -4,7 +4,8 @@
 
 int main(void)
 {
-	int count;
+	int count, index;
+	double value;
 	double* arr;
 
 	FILE* finput = fopen("array.txt", "r");
@@ -23,10 +24,10 @@ int main(void)
 
 	printArray(arr, count);
 
-	for (int index = 0; index < count; ++index)
+	for (index = 0; index < count; ++index)
 	{
-		double f = func(arr[index]);
-		printf("%d: f(%Lg) = %Lg\n", index, arr[index], f);
+		value = func(arr[index]);
+		printf("%d: f(%Lg) = %Lg\n", index, arr[index], value);
 	}
 
 	free(arr);
