@@ -27,7 +27,7 @@ int f (double *a, int n, int m)
 			}
 		}
 	}
-	printf("%d", pos_i);
+	//printf("%d", pos_i);
 	return pos_i;
 }
 
