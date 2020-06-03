@@ -9,14 +9,12 @@ double f(double t, double x);
 int main(void)
 {
 	int i;
-	double ep = 0.0001, a = 0, b = 10, result = 0;
+	double ep = 0.0001, a = 0, b = 10, result = 0, alpha = 6;
 	double e = 0.1;
 	double c[] = {4.809};
-	ErrorCode ec;
-	RRFUN1 funcs[] = {func1};
 	for(i = 0; i < 1; i++)
 	{
-		result = delenie(a, b, ep, funcs[i], &ec);	
+		result = uravn(a, b, ep, alpha);	
 		if (modul(result - c[i]) < e*MAX1(result, c[i], 1))
 		{
 			printf("пройден\n");
@@ -32,15 +30,3 @@ int main(void)
 	return 0;
 }
 
-double func1(double b)
-{
-	double ep = 0.00001, a = 0, alpha = 6;
-	double k = integrate(a, b, ep, f)-alpha;
-	return k;
-}
-
-double f(double t, double x)
-{
-	double k = (x-t)/(sqrt(1+t*t*t*t));
-	return k;
-}
