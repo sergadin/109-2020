@@ -61,7 +61,7 @@ double integral(double (*f)(double), double a, double b)
 	{
 		return I1;
 	*/
-	printf("I2 %lf\n", I2);
+	//printf("I2 %lf\n", I2);
 	return I2;
 }
 double root(double (*f)(double), double a, double b);	
@@ -70,19 +70,19 @@ double root(double (*f)(double), double a, double b)
 	double m = (a + b)/2, int1 = integral(f, 1, a), int2 = integral(f, 1, b);
 	if((int1 - alpha*a) * (int2- alpha*b) > 0)
 	{
-		printf("res1 %lf\n", int1 - alpha*a);
-		printf("res2 %lf\n", int2 - alpha*b);
+		//printf("res1 %lf\n", int1 - alpha*a);
+		//printf("res2 %lf\n", int2 - alpha*b);
 		
 		return m; 
 	}
-	printf("res1 %lf\n", int1 - alpha*a);
-	printf("res2 %lf\n", int2 - alpha*b);
-	printf("b - a = %lf", b - a);
+	//printf("res1 %lf\n", int1 - alpha*a);
+	//printf("res2 %lf\n", int2 - alpha*b);
+	//printf("b - a = %lf", b - a);
 	while(fabs(b - a) > eps)
 	{
 		double res = integral(f, 1, m) - alpha*m;
-		printf("res = %lf\n", res);
-		printf("b - a = %lf", b - a);
+		//printf("res = %lf\n", res);
+		//printf("b - a = %lf", b - a);
 		if(integral(f, 1, m) - alpha*m < 0)
 		{
 			if(integral(f, 1, a) - alpha*a < 0)
