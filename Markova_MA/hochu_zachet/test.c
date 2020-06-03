@@ -63,7 +63,7 @@ double integral(double (*f)(double), double a, double b)
 	{
 		return I1;
 	*/
-	printf("%lf\n", I1 - I2);
+	printf("I1 - I2%lf\n", I1 - I2);
 	return I2;
 }
 double root(double (*f)(double), double a, double b);	
@@ -94,7 +94,7 @@ double root(double (*f)(double), double a, double b)
 				b = m;
 		}
 		//printf("%lf", (*f)(m));
-		printf("%lf", b - a);
+		printf("b - a = %lf", b - a);
 		m = (a + b)/2;
 	}
 	return m;
