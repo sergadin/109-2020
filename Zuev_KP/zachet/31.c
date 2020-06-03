@@ -18,6 +18,13 @@ double *vbr(double *mas, int n_rows, int n_cols)
 {
 	int k = 0, j = 0, i = 0, m = 0, ind;
 	double t = 0, s = 0, d = 0, max = 0;
+	for(i = 0; i < n_rows*n_cols ; i ++)
+	{
+		if (mas[i] == 0)
+			s = s+1;
+	}
+	if (s == n_rows*n_cols)
+		return mas;
 	for (k = 0; k < n_rows; k ++)
 	{
 		s = 0;
@@ -49,7 +56,10 @@ double *vbr(double *mas, int n_rows, int n_cols)
 					s = s+EL(mas, n_cols, k, j);
 				}
 			}
-			mas[(n_cols)*(k)+i] = EL(mas, n_cols, m, i)*n_cols/s;
+			if (s != 0)
+			{
+				mas[(n_cols)*(k)+i] = EL(mas, n_cols, m, i)*n_cols/s;
+			}
 			ind = 1;
 		}
 	}
@@ -94,9 +104,7 @@ int main(void)
 		fscanf(input1, "%lf", &current);
 		mas[i] = current;
 	}
-
 	mas = vbr(mas, n_rows, n_cols);
-
 	for(j = 0; j < n_cols*n_rows; j ++)
 	{
 		fprintf(result, "%lf\n", mas[j]);
