@@ -44,6 +44,7 @@ double integral(double (*f)(double), double a, double b)
 	int check = 0, n = 128;
 	if(a >= b)
 	{
+		printf("puk");
 		//*perr = INT_ND;
 		return I2;
 	}
@@ -70,6 +71,9 @@ double root(double (*f)(double), double a, double b)
 	double m = (a + b)/2;
 	if((*f)(a) * (*f)(b) > 0)
 	{
+		printf("%lf\n", (*f)(a));
+		printf("%lf\n", (*f)(b));
+		
 		return m; 
 	}
 	while(fabs(b - a) < eps)
