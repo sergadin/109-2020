@@ -16,12 +16,14 @@ int main(void)
 	double eps = 1;
 	double a = -5;
 	double c = 1;
+	ErrorCode error;
 	double result;
 	double r_ans[] = {-16 ,-51.028, -10.25, 11};
 	RRFunc funcs[] = {f1, f2, f3, f4};
 	
+//double minimum(RRFunc f, double eps, double a, double b, ErrorCode *error)
 	for(i = 0; i < 4; i++){
-		result =  minim(a , c, eps, funcs[i]);
+		result =  minimum(funcs[i], eps, a , c, &error);
 			printf("правильный ответ:\n%lf\nответ:\n%lf\n eps: \n%lf\n", r_ans[i], result, eps);	
 			printf("меньше?=%d\n", fabs(r_ans[i] - result) < eps);
 		}
