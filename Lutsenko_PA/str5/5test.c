@@ -21,8 +21,8 @@ int main(void)
     }
     
     
-    maxminlength(input, output);
-    freq(input, output);
+    func(input, output);
+
     fclose(input);
     fclose(output);
     return 0;
