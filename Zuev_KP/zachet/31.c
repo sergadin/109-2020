@@ -16,9 +16,8 @@ double modul(double x)
 
 double *vbr(double *mas, int n_rows, int n_cols)
 {
-	int k = 0, j = 0, i = 0, m = 0;
+	int k = 0, j = 0, i = 0, m = 0, ind;
 	double t = 0, s = 0, d = 0, max = 0;
-	double *x = malloc(n_rows* sizeof(double));
 	for (k = 0; k < n_rows; k ++)
 	{
 		s = 0;
@@ -37,22 +36,23 @@ double *vbr(double *mas, int n_rows, int n_cols)
 			m = k;
 		}
 	}
-	printf("%d\n", m);
-
-
-
-	
-	for (k = n_rows-1; k >= 1; k --)
+	for (k = 0; k < n_rows; k ++)
 	{
-		for (i = n_cols-1; i >= 0; i --)
+		ind = 0;
+		s = 0;
+		for (i = 0; i < n_cols; i ++)
 		{
-			d = EL(mas, n_cols, k, i); 
-			if (modul(d) < 0.000001)
-				break;
-			EL(mas, n_cols, k-1, i) -= EL(mas, n_cols, k, i)*EL(mas, n_cols, k-1, i)/d;
+			if (ind == 0)
+			{
+				for (j = 0; j < n_cols; j ++)
+				{
+					s = s+EL(mas, n_cols, k, j);
+				}
+			}
+			mas[(n_cols)*(k)+i] = EL(mas, n_cols, m, i)*n_cols/s;
+			ind = 1;
 		}
 	}
-
 	return mas;
 }
 
@@ -101,7 +101,6 @@ int main(void)
 	{
 		fprintf(result, "%lf\n", mas[j]);
         }
-	
 	free(mas);
 	fclose(input1);
 	fclose(result);
