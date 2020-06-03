@@ -16,7 +16,7 @@ void  func (int n, int m, double *syst)
         
         for (int  j = 0; j < m; j++ )
            {
-              if  (abs(syst[i*m]>syst[i*(m)+j])) {currsum=currsum+syst[i*(m)+j];}
+              if  (abs(syst[i*m]<syst[i*(m)+j])) {currsum=currsum+syst[i*(m)+j];}
            }
         
         if (currsum>maxsum)
@@ -28,14 +28,15 @@ void  func (int n, int m, double *syst)
     
     
     for ( int i = 0; i < n; i++ )
-    {
+    {   if (i != strnum)
+      {
         for (int  j = 0; j < m; j++ )
         {
             for (int  k = j; k < m; k++ ) {currscalar=currscalar+syst[i*m+k]*syst[strnum*m+k];}
             syst[i*(m)+j]=currscalar;
             currscalar=0;
         }
-            
+      }
     }
     
     for ( int i = 0; i < n; i++ )
