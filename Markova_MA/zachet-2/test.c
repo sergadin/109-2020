@@ -50,12 +50,15 @@ void f (double *a, int n, int m)
 	{
 		for(j = 0; j < m; j++)
 		{
-			if(i != pos_i && a[i*m + j] < a[pos_i*m + j])
+			if(i != pos_i && a[i*m + j] <= a[pos_i*m + j])
 			{
 				a[i*m + j] = a[pos_i*m + j];
 			}
+			//printf("%lf ", a[i*m + j]);
 		}
+		//printf("\n");
 	}
+	//printf("\n");
 }
 
 int main() {
@@ -106,11 +109,12 @@ int main() {
 		return -1; 
 	}*/
 	//printf("kyky\n");
+	f(a, n, m);
 	for(i = 0; i < n; i++)
 	{
 		for(j = 0; j < m; j++)
 		{
-			printf("%lf", a[i*m + j]);
+			printf("%lf ", a[i*m + j]);
 		}
 		//fprintf(outp, "\n");	
 		printf("\n");

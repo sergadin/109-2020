@@ -6,5 +6,3 @@ prog.out: 3.o tests3.o
 tests3.o: 3.h tests3.c
 clean:
 	rm -f prog.out tests3.o 3.o
-
-
