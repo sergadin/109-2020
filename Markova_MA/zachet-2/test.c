@@ -54,11 +54,11 @@ void f (double *a, int n, int m)
 			{
 				a[i*m + j] = a[pos_i*m + j];
 			}
-			printf("%lf ", a[i*m + j]);
+			//printf("%lf ", a[i*m + j]);
 		}
-		printf("\n");
+		//printf("\n");
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 int main() {
@@ -109,6 +109,7 @@ int main() {
 		return -1; 
 	}*/
 	//printf("kyky\n");
+	f(a, n, m);
 	for(i = 0; i < n; i++)
 	{
 		for(j = 0; j < m; j++)
