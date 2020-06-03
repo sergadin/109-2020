@@ -49,7 +49,7 @@ double integral(double (*f)(double), double a, double b)
 		return I2;
 	}
 	I1 = i(f, a, b, n);
-	I2 = i(f, a, b, 2*n);
+	I2 = i(f, a, b, 4*n);
 	n *= 2;
 	while(fabs(I1 - I2) > eps )
 	{
