@@ -6,7 +6,7 @@
 int f (double *a, int n, int m);
 int f (double *a, int n, int m)
 {
-	int i , j, sum = 0, max = 0, pos_j, pos_i;
+	int i , j, sum = 0, max = 0, pos_j = 0, pos_i = 0;
 	for(i = 0; i < n; i++)
 	{
 		for(j = 0; j < m; j++)
@@ -27,6 +27,7 @@ int f (double *a, int n, int m)
 			}
 		}
 	}
+	printf("%d", pos_i);
 	return pos_i;
 }
 
