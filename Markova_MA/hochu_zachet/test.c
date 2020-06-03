@@ -72,22 +72,21 @@ double root(double (*f)(double), double a, double b)
 	{
 		return m; 
 	}
-	if((*f)(a) > 0)
-	{
-		double temp;
-		temp = a;
-		a = b;
-		b = temp;
-	}
 	while(fabs(b - a) < eps)
 	{
 		if((*f)(m) < 0)
 		{
-			a = (*f)(m);
+			if((*f)(a) < 0)
+				a = m;
+			else
+				b = m;
 		}
 		else
 		{
-			b = (*f)(m);
+			if((*f)(a) > 0)
+				a = m;
+			else
+				b = m;
 		}
 		m = (a + b)/2;
 	}
