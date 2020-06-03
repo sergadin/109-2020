@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-int f (double *a, int n, int m);
+//int f (double *a, int n, int m);
 int f (double *a, int n, int m)
 {
 	int i , j, sum = 0, max = 0, pos_j, pos_i;
