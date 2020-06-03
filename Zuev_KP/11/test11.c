@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <math.h>
 #include "11.h"
-double func1(double t);
-double f(double t, double x);
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 
@@ -26,7 +24,6 @@ int main(void)
 			printf("%lf\n", result);
 		}
 	}
-
 	return 0;
 }
 
