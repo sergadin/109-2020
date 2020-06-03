@@ -37,7 +37,7 @@ int main(void){
         printf("ERROR\n");
         return -1;
     }
-    if ((out = fopen("out.txt", "w")) == NULL) {
+    if ((out = fopen("output.txt", "w")) == NULL) {
         printf("ERROR\n");
         fclose(inp);
         return -1;
