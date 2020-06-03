@@ -19,14 +19,13 @@ int main (void)
         double intf; //интеграл функции
         int n = 4; //количество тестов
 
-//        double eps[] = {0.001, 0.005, 0.005, 0.001}; //точность сравнения
 	double eps_all = 0.05; //точность сравнения для всех функций
 
-	int nAB[] = {5000, 5000, 5000, 1000};//количество отрезков
+//	int nAB[] = {5000, 5000, 5000, 1000};//количество отрезков
         double a[] = {2, 0, 1, -7}; //левые концы отрезков
         double b[] = {5, 5, 25, 7}; //правые концы отрезков
         double trueansw[] = {39, 12.5, 0.96, 0}; //правильные ответы
-//например, [a[0] , b[0]] - отрезок для первой функции func1, точность сравнения - eps[0]
+//например, [a[0] , b[0]] - отрезок для первой функции func1, точность сравнения - eps_all
 
         double (*funcs[n])(double); //функции для тестов
         funcs [0] = func1;
@@ -37,7 +36,7 @@ int main (void)
 
         for (i=0; i<n; i++)
         {
-                intf = findint (funcs[i], a[i], b[i], nAB[i]);
+                intf = findint (funcs[i], a[i], b[i], eps_all);
                 //вычисление интеграла
 
 		printf ("intf=%f   trueansw=%f\n", intf, trueansw[i]);
@@ -105,8 +104,3 @@ int funcAB (double a, double b, double eps)
                 return 0;
         }
 }
-
-
-
-
-
