@@ -15,7 +15,7 @@ void printArray(double* buffer, int count)
 	int index;
 	for (index = 0; index < count; ++index)
 	{
-		printf("x[%d] = %Lg\n", index, buffer[index]);
+		printf("x[%d] = %lg\n", index, buffer[index]);
 	}
 }
 
@@ -37,7 +37,7 @@ double* readArray(FILE* finput, int* count)
 	}
 	for (index = 0; index < temp; ++index)
 	{
-		fscanf(finput, "%Lg", &buffer[index]);
+		fscanf(finput, "%lg", &buffer[index]);
 	}
 	*count = temp;
 	return buffer;

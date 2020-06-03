@@ -1,3 +1,2 @@
 all:
-  gcc -o ReadFile ReadFile.c array.c
-  
+	gcc -o Readfile Readfile.c array.c

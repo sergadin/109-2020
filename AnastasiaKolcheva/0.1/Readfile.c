@@ -1,11 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "array.h"
 
 
 int main(void)
 {
-	int count, index;
-	double value;
+	int count;
 	double* arr;
 
 	FILE* finput = fopen("array.txt", "r");
@@ -24,10 +24,10 @@ int main(void)
 
 	printArray(arr, count);
 
-	for (index = 0; index < count; ++index)
+	for (int index = 0; index < count; ++index)
 	{
-		value = func(arr[index]);
-		printf("%d: f(%Lg) = %Lg\n", index, arr[index], value);
+		double f = func(arr[index]);
+		printf("%d: f(%lg) = %lg\n", index, arr[index], f);
 	}
 
 	free(arr);

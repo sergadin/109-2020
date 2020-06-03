@@ -1,2 +1,3 @@
-void freq(FILE *input, FILE *output);
-void maxminlength(FILE *input, FILE *output);
+void func(FILE *input, FILE *output);
+
+
