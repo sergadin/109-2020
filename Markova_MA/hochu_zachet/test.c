@@ -71,8 +71,8 @@ double root(double (*f)(double), double a, double b)
 	double m = (a + b)/2;
 	if((integral(f, 1, a) - alpha*a) * (integral(f, 1, b) - alpha*b) > 0)
 	{
-		printf("%lf\n", (*f)(a));
-		printf("%lf\n", (*f)(b));
+		printf("%lf\n", integral(f, 1, a) - alpha*a);
+		printf("%lf\n", integral(f, 1, b) - alpha*b);
 		
 		return m; 
 	}
