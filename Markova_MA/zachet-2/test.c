@@ -31,8 +31,8 @@ int f (double *a, int n, int m)
 }
 
 int main() {
-	int n, m, i, j, pos_j = -1, pos_i = -1, sum = 0;
-	double *a, max = 0;
+	int n, m, pos_i = -1;
+	double *a;
 	FILE *inp, *outp;
 	if (!(inp = fopen("input.txt","r")) )
 	{
