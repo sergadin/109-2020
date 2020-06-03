@@ -41,7 +41,7 @@ double integral(double (*f)(double), double a, double b);
 double integral(double (*f)(double), double a, double b)
 {
 	double I1 = 0, I2 = 0, state;
-	int check = 0, n = 128;
+	int n = 128;
 	if(a >= b)
 	{
 		printf("puk");
@@ -51,7 +51,7 @@ double integral(double (*f)(double), double a, double b)
 	I1 = i(f, a, b, n);
 	I2 = i(f, a, b, 2*n);
 	n *= 2;
-	while(fabs(I1 - I2) > eps && check < T)
+	while(fabs(I1 - I2) > eps )
 	{
 		check++;
 		n *= 2;
@@ -59,10 +59,10 @@ double integral(double (*f)(double), double a, double b)
 		I2 = I2 = i(f, a, b, n);
 		//printf("%e\n", I2);
 	}
-	if(check >= T)
+	/*if(check >= T)
 	{
 		return I1;
-	}
+	*/
 	return I2;
 }
 double root(double (*f)(double), double a, double b);	
