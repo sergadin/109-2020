@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #define T 1000
+#define eps 1e-5
  /**
     ** Позиция (индекс) минимального элемента, значение которого больше 
 	**среднего арифметического элементов строки, минимальна (в других строках такой элемент стоит правее)
@@ -36,8 +37,8 @@ double i (double (*f)(double), double a, double b, int n)
 		}
 	return (2*I2 + (*f)(a) + (*f)(b))*h/2;
 }
-double integral(double (*f)(double), double a, double b, double eps);
-double integral(double (*f)(double), double a, double b, double eps)
+double integral(double (*f)(double), double a, double b);
+double integral(double (*f)(double), double a, double b)
 {
 	double I1 = 0, I2 = 0, state;
 	int check = 0, n = 128;
@@ -59,10 +60,8 @@ double integral(double (*f)(double), double a, double b, double eps)
 	}
 	if(check >= T)
 	{
-		*perr = INT_NOT;
 		return I1;
 	}
-	*perr = INT_OK;
 	return I2;
 }
 double root(double (*f)(double), double a, double b, double eps);	
@@ -112,8 +111,7 @@ int main() {
 		return -1;
 	}
 	//printf("kyky\n");
-	res = root(f1, a, b, m, eps, perr);
-	if (perr == INT_OK)
+	res = root(f1, a, b, eps);
 		printf("%lf\n", res);
 	//fclose(outp);
 	return 0;
