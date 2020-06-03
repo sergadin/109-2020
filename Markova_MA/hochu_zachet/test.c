@@ -96,7 +96,7 @@ double root(double (*f)(double), double a, double b)
 double f (double x);
 double f (double x)
 {
-	return sqrt(x + 1/(x*x + 1));
+	return pow(x + 1/(x*x + 1) , 1/2);
 }
 double f1 (double x);
 double f1 (double x)
