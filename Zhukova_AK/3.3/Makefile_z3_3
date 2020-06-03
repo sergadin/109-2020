@@ -1,0 +1,2 @@
+z33: z3_3_test.c z3_3.h z3_3.c
+	gcc -o z33 z3_3_test.c z3_3.c -lm

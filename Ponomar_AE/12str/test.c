@@ -23,6 +23,6 @@ int main(void)
         }
 
 	indent(input, output, max_len);
-
 	return 0;
+
 }
