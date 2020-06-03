@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "solve.h"
-#include "MaxEl.h"
 #include "prn_matr.h"
 void solve(double *a, int n, int m)
 {
@@ -10,7 +9,11 @@ void solve(double *a, int n, int m)
 	printf("NumMaxPos: %d\n", NumMaxPos);
 	PoelMax(a, n, m, NumMaxPos);
 }
-	
+/*
+	Выбираем строку с максимальныой позицией максимального элемента
+	Проходимся по всец матрице, запоминаем позицию максимального элемента в строке и 
+	сравниваем с позициями максимальных элементов в предыдущих строках
+*/
 int choose_string(double *a, int n, int m)
 { 
 	int MaxElinStr, PosMaxEl, MaxPos = 0, NumMaxPos = 0;
@@ -34,6 +37,9 @@ int choose_string(double *a, int n, int m)
 	}
 	return NumMaxPos;
 }
+/*
+	Поэлеметноно сравнивеаем элементы выбраной строки и текущией и выбираем максимальный
+*/
 void PoelMax(double *a, int n, int m, int NumMaxPos)
 {
 	for (int i = 0; i < n; i++)
