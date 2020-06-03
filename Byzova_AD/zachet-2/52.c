@@ -46,32 +46,30 @@ void solve(FILE *output, int n, int m, double *matrix) {
 double now_min;	
 double arifm_m = 0;
 int index = -1;
-int now_index = -1;
+int pr_index = -1;
 int need_str = -1;
 	for(int i = 0; i < n; i++) {
         arifm_m = arif_m(m, matrix, i);
-		now_index = -1;
 		for(int j = 0; j < m; j++) {	
 			if ( matrix[i * m + j] > arifm_m) {
-				if(now_index == -1){ //?
-					now_min = matrix[i * m + j];
-					if (index == -1) { 
-						index = j;
-						need_str = i;
-					}
-					now_index = j;
-					if(now_index < index) {
-						need_str = i;
-						index = now_index;	
-					}
+				if(index == -1) { // первый раз попали на нужный элемент 
+					now_min = matrix[i * m + j]; //все значения изменяем
+					index = j;
+					need_str = i;
 				}
-				if(matrix[i * m + j] < now_min && j <= index) {
+				// если элемент меньше текущ минимума и индекс меньше предыдущего минммального 
+				//все изменяем
+				if(matrix[i * m + j] < now_min && index <= pr_index) {
 					now_min = matrix[i * m + j];
 					index = j;
 					need_str = i;
 				}
 			}
 		}
+	//переходя на новую строку текущий индекс становится предыдущим	
+	//а индекс снова -1
+	pr_index = index;
+	index = -1;
 	}
 	if(need_str == -1) return;
 	printf("n_str = %d", need_str);
