@@ -63,7 +63,7 @@ double integral(double (*f)(double), double a, double b)
 	{
 		return I1;
 	*/
-	printf("I1 - I2%lf\n", I1 - I2);
+	printf("I2 %lf\n", I2);
 	return I2;
 }
 double root(double (*f)(double), double a, double b);	
@@ -107,7 +107,7 @@ double f (double x)
 }
 
 int main() {
-	int a = 2, b = 10;
+	int a = 2, b = 12;
 	double res = 0;
 	if (scanf("%lf", &alpha) != 1) {
 		//err = ERROR_READ;
