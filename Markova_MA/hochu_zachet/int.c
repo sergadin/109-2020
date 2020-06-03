@@ -1,9 +1,7 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <math.h>
+
 #define T 1000
 #define eps 1e-16
  /**
