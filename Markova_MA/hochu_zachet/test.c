@@ -53,7 +53,7 @@ double integral(double (*f)(double), double a, double b)
 	n *= 2;
 	while(fabs(I1 - I2) > eps )
 	{
-		check++;
+		//check++;
 		n *= 2;
 		I1 = I2;
 		I2 = I2 = i(f, a, b, n);
