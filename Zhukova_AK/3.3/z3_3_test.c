@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "Zhukova_z2_1.h"
+#include "z3_3.h"
 
 double func1 ( double x); //Функции
 double func2 ( double x);
@@ -16,16 +16,15 @@ int funcAB (double a, double b, double eps); //Сравнивает два чи�
 int main (void)
 {
         int i;
-        double intf; //интеграл функции
-        int n = 4; //количество тестов
+        int tests = 4; //количество тестов
+	int n = 20; //количество отрезков в измельчении
 
-	double eps_all = 0.05; //точность сравнения для всех функций
-
-//	int nAB[] = {5000, 5000, 5000, 1000};//количество отрезков
-        double a[] = {2, 0, 1, -7}; //левые концы отрезков
-        double b[] = {5, 5, 25, 7}; //правые концы отрезков
-        double trueansw[] = {39, 12.5, 0.96, 0}; //правильные ответы
-//например, [a[0] , b[0]] - отрезок для первой функции func1, точность сравнения - eps_all
+	double minx; //найденый минимум
+        double eps = 0.001; //точность сравнения
+        double a[] = {-1, -5, 0, -4}; //левые концы отрезков
+        double b[] = {5, 0, 3, 19}; //правые концы отрезков
+        double trueansw[] = {-16, -1, -1, 0}; //правильные ответы
+//например, [a[0] , b[0]] - отрезок для первой функции func1, точность сравнения - eps
 
         double (*funcs[n])(double); //функции для тестов
         funcs [0] = func1;
@@ -34,23 +33,23 @@ int main (void)
         funcs [3] = func4;
 
 
-        for (i=0; i<n; i++)
+        for (i=0; i<tests; i++)
         {
-                intf = findint (funcs[i], a[i], b[i], eps_all);
-                //вычисление интеграла
+                minx = findmin (funcs[i], a[i], b[i], eps, n);
+                //поиск минимума
 
-		printf ("intf=%f   trueansw=%f\n", intf, trueansw[i]);
+                printf ("x=%f   trueansw=%f\n", minx, trueansw[i]);
+		//x - полученный результат
+		//trueansw - правильный ответ
 
-		//intf - полученный ответ
-		//trueansw  - верный ответ
 
-                if (funcAB(trueansw[i], intf, eps_all) == 0)
+                if (funcAB(trueansw[i], minx, eps) == 0)
                 {
-                        printf ("test%d = OK\n\n", i+1);//верный ответ
+                        printf ("test%d = OK\n", i+1);//верный ответ
                 }
                 else
                 {
-                        printf ("test%d = WA\n\n", i+1);//неверный
+                        printf ("test%d = WA\n", i+1);//неверный
 
                 }
         }
@@ -61,22 +60,22 @@ int main (void)
 
 double func1 (double x)
 {
-	x = x*x;
+        x = x*x*x - 12*x;
         return x;
 }
 double func2 (double x)
 {
-	x = 5*x - 10;
+        x = x*x + 6*x + 8;
         return x;
 }
 double func3 (double x)
 {
-        x = 1/(x*x);
+        x = -cos(x);
         return x;
 }
 double func4 (double x)
 {
-	x = sin(x);
+        x = x*x*x*x;
         return x;
 }
 
@@ -104,3 +103,10 @@ int funcAB (double a, double b, double eps)
                 return 0;
         }
 }
+
+
+
+
+
+
+

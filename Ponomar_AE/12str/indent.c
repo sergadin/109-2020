@@ -7,7 +7,7 @@ void indent(FILE *input, FILE *output, int max_len)
 {
 	char *buf;
 	int ind = 0, start, calc = 0, size_buffer; 	
-
+	
 	while((buf = read_string(input)) != NULL)
 	{
 		if (buf[0] == '\n')
@@ -31,7 +31,7 @@ void indent(FILE *input, FILE *output, int max_len)
 				calc++;
 				start = i;
 
-				while (buf[i] != ' ' && buf[i] != '\n' && (int)(buf[i]) != 0)
+				while (buf[i] != ' ' && buf[i] != '\n' && buf[i] != 0)
 				{
 					i++;
 					calc++;
@@ -41,11 +41,13 @@ void indent(FILE *input, FILE *output, int max_len)
 				{
 					for (int j = start; j < i; j++)
 					{
+
 						fprintf(output, "%c", buf[j]);
+
 					}
 					fprintf(output, " ");
 				}
-
+				
 				else 
 				{
 					fprintf(output, "\n");
@@ -59,50 +61,30 @@ void indent(FILE *input, FILE *output, int max_len)
 
 	if(!feof(input))
 	{
+		free(buf);
 		fclose(input);
 		fclose(output);
-		free(buf);
 		printf("ERROR indenting");
 	}
 
+	free(buf);
 	fclose(input);
 	fclose(output);
-	free(buf);
 }
 
 
 char *read_string(FILE *input)
 {
 	char buf[1024];
-	char *s = malloc(1025), *result = malloc (1);
 	buf[0] = 0;
-	s = fgets(buf, 1024, input);
-
-	if(s)
+	char *s = fgets(buf, 1024, input);
+	if (s)
 	{
 		int len = strlen(s);
-		result = (char *)malloc((len + 1)*sizeof(char));
+		char *result = malloc(len + 1);
 		strcpy(result, s);
-
-		if (len < 1023) 
-		{
-			return result;
-		}
-
-		while((s) && (s[strlen(s) - 1] != '\n'))
-		{
-			s = fgets(buf, 1024, input);
-			len += strlen(s);
-
-			result = (char *)realloc(result, len);
-			strcat(result, s);		
-		}
-
-		free(s);
 		return result;
 	}
-
-	free(s);
-	free(result);
 	return NULL;
+
 }
