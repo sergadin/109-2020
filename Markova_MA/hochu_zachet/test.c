@@ -64,8 +64,8 @@ double integral(double (*f)(double), double a, double b)
 	}
 	return I2;
 }
-double root(double (*f)(double), double a, double b, double eps);	
-double root(double (*f)(double), double a, double b, double eps, )
+double root(double (*f)(double), double a, double b);	
+double root(double (*f)(double), double a, double b)
 {
 	double m = (a + b)/2;
 	if((*f)(a) * (*f)(b) > 0)
@@ -111,7 +111,7 @@ int main() {
 		return -1;
 	}
 	//printf("kyky\n");
-	res = root(f1, a, b, eps);
+	res = root(f1, a, b);
 		printf("%lf\n", res);
 	//fclose(outp);
 	return 0;
