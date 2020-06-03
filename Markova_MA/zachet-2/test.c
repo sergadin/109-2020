@@ -1,5 +1,9 @@
 
-#include "f.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
 
 int main() {
 	int n, m, i, j, pos_j = -1, pos_i = -1, err = SUCCESS, sum = 0;
