@@ -46,16 +46,26 @@ void solve(FILE *output, int n, int m, double *matrix) {
 double now_min;	
 double arifm_m = 0;
 int index = -1;
-int need_str = 0;
+int now_index = -1;
+int need_str = -1;
 	for(int i = 0; i < n; i++) {
         arifm_m = arif_m(m, matrix, i);
+		now_index = -1;
 		for(int j = 0; j < m; j++) {	
 			if ( matrix[i * m + j] > arifm_m) {
-				if(index == -1){ //?
+				if(now_index == -1){ //?
 					now_min = matrix[i * m + j];
-					index = j;
+					if (index == -1) { 
+						index = j;
+						need_str = i;
+					}
+					now_index = j;
+					if(now_index < index) {
+						need_str = i;
+						index = now_index;	
+					}
 				}
-				if(matrix[i * m + j] < now_min && (j) < index) {
+				if(matrix[i * m + j] < now_min && j <= index) {
 					now_min = matrix[i * m + j];
 					index = j;
 					need_str = i;
@@ -63,6 +73,8 @@ int need_str = 0;
 			}
 		}
 	}
+	if(need_str == -1) return;
+	printf("n_str = %d", need_str);
 //	Заменить A_pi на скалярное произведение (A_pi, A_pi+1, A_pm) и (A_ki, A_ki+1, A_km). k - найденная строка
 	for(int i = 0; i < n; i++) {
 		if(i != need_str) {
