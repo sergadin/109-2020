@@ -77,11 +77,12 @@ double root(double (*f)(double), double a, double b)
 	}
 	printf("res1 %lf\n", int1 - alpha*a);
 	printf("res2 %lf\n", int2 - alpha*b);
-	printf("")
+	
 	while(fabs(b - a) < eps)
 	{
 		double res = integral(f, 1, m) - alpha*m;
 		printf("res = %lf\n", res);
+		printf("b - a = %lf", b - a);
 		if(integral(f, 1, m) - alpha*m < 0)
 		{
 			if(integral(f, 1, a) - alpha*a < 0)
