@@ -4,3 +4,7 @@ typedef double (*RRFunc) (double x);
 double sign(double a);
 double ch(double a, double b, double c);
 double minim(double a , double c, double eps, RRFunc f);
+
+typedef enum {INT_OK = 0, INT_ERROR} ErrorCode;
+
+double  minimum(RRFunc f, double eps, double a, double b, ErrorCode *error);
