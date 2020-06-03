@@ -24,7 +24,7 @@
     **
     */
 
-double alpha, eps = 0,000001;
+double alpha, eps = 0.000001;
 double i (double (*f)(double), double a, double b, int n);
 double i (double (*f)(double), double a, double b, int n)
 {
