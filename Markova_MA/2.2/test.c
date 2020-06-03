@@ -5,7 +5,7 @@
 
 double f1 (double x)
 {
-	return pow(x + 1/(x*x + 1) , 1/2);
+	return sqrt(x + 1/(x*x + 1));
 }
 double f2 (double x)
 {
