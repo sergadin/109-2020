@@ -32,7 +32,7 @@ double *vbr(double *mas, int n_rows, int n_cols)
 		{
 			t = EL(mas, n_cols, k, 0);
 			d = EL(mas, n_cols, k, i);
-			if (modul(d)>t) 
+			if (modul(d)>modul(t)) 
 			{
 				s = s+d;
 			}
