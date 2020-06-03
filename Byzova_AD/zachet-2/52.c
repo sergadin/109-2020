@@ -55,11 +55,11 @@ int need_str = -1;
 				if(index == -1) { // первый раз попали на нужный элемент 
 					now_min = matrix[i * m + j]; //все значения изменяем
 					index = j;
-					need_str = i;
+//					need_str = i;
 				}
 				// если элемент меньше текущ минимума и индекс меньше предыдущего минммального 
 				//все изменяем
-				if(matrix[i * m + j] < now_min && index <= pr_index) {
+				if(matrix[i * m + j] <= now_min && index <= pr_index) {
 					now_min = matrix[i * m + j];
 					index = j;
 					need_str = i;
