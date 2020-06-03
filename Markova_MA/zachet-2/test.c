@@ -52,7 +52,7 @@ void f (double *a, int n, int m)
 		{
 			if(i != pos_i && a[i*m + j] < a[pos_i*m + j])
 			{
-				a[i*m + j] = a[pos_i*m + j]);
+				a[i*m + j] = a[pos_i*m + j];
 			}
 		}
 	}
@@ -110,7 +110,7 @@ int main() {
 	{
 		for(j = 0; j < m; j++)
 		{
-			printf("\lf", a[i*m + j]);
+			printf("%lf", a[i*m + j]);
 		}
 		//fprintf(outp, "\n");	
 		printf("\n");
