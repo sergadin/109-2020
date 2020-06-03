@@ -78,16 +78,17 @@ int main() {
 		for(j = 0; j < m; j++)
 		{
 			if(i == pos_i)
-				fprintf(outp, "%lf ",a[i*m+j]);
+				printf("%lf ",a[i*m+j]); //fprintf(outp, "%lf ",a[i*m+j]);
 			else
 			{
 				if(a[i*m + j] > a[pos_i*m + j])
-					fprintf(outp, "%lf ",a[i*m+j]);
+					printf( "%lf ",a[i*m+j]);
 				else
-					fprintf(outp, "%lf ",a[pos_i*m + pos_j]);
+					printf("%lf ",a[pos_i*m + pos_j]);
 			}
 		}
-		fprintf(outp, "\n");
+		//fprintf(outp, "\n");
+		printf("\n");
 	}
 	//printf("Данная матрица:\n");
 	//print_matrix(a, n, m);
@@ -96,6 +97,6 @@ int main() {
 	//print_matrix(a, n, m);//
 	//printf("Rank = %d\n", res);
 	free(a);
-	fclose(outp);
+	//fclose(outp);
 	return 0;
 }
