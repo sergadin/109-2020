@@ -6,7 +6,7 @@
 
 
 int main() {
-	int n, m, i, j, pos_j = -1, pos_i = -1, err = SUCCESS, sum = 0;
+	int n, m, i, j, pos_j = -1, pos_i = -1, sum = 0;
 	double *a, max = 0;
 	FILE *inp, *outp;
 	if (!(inp = fopen("input.txt","r")) )
@@ -22,7 +22,7 @@ int main() {
     }
 	if (fscanf(inp, "%d", &n) != 1 || fscanf(inp, "%d", &m) != 1) {
 		fclose(inp);
-		err = ERROR_READ;
+		//err = ERROR_READ;
 		return -1;
 		//break;
 	}
