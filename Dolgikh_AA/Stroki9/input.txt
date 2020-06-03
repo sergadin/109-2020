@@ -1,6 +1,2 @@
 Hello!
-My name is
-#include name.txt
-I am
-#include age.txt
-years old
+#include info.txt

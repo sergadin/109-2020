@@ -1,1 +1,2 @@
-char *read_long_string(FILE *f);
+char *readstring(FILE *input);
+char *include(FILE *output, char *filename, char *filelist);
