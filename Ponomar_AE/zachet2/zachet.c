@@ -13,14 +13,14 @@ double zachet_matrix(double *matrix, int n, int m, double E)
 	for(int i = 0; i < n; i++)
 	{
 		max = matrix(n, i, 0);
-		for (int j = 0; j < m - 1; j++)
+		for (int j = 0; j < m; j++)
 		{
-			if (matrix(n, i, j + 1) - max > E)
+			if (matrix(n, i, j) - max > E)
 			{
-				max = matrix(n, i, j + 1);
-				if (j + 1 > max_index)
+				max = matrix(n, i, j);
+				if (j > max_index)
 				{
-					max_index = j + 1;
+					max_index = j;
 					str_index = i;
 				}
 			}
