@@ -3,7 +3,7 @@
 #include <math.h>
 #include "zachet.h"
 
-#define matrix(n, i, j) matrix[(i) * (n) + (j)]
+#define matrix(m, i, j) matrix[(i) * (m) + (j)]
 
 void printMatrix(double *matrix, int n, int m, FILE *output);
 double zachet_matrix(double *matrix, int n, int m, double E) 
@@ -12,12 +12,12 @@ double zachet_matrix(double *matrix, int n, int m, double E)
 	double max;
 	for(int i = 0; i < n; i++)
 	{
-		max = matrix(n, i, 0);
+		max = matrix(m, i, 0);
 		for (int j = 0; j < m; j++)
 		{
-			if (matrix(n, i, j) - max > E)
+			if (matrix(m, i, j) - max > E)
 			{
-				max = matrix(n, i, j);
+				max = matrix(m, i, j);
 				if (j > max_index)
 				{
 					max_index = j;
@@ -27,17 +27,17 @@ double zachet_matrix(double *matrix, int n, int m, double E)
 		}
 	}
 
+	printf("%d %d\n", max_index, str_index);
 	for (int p = 0; p < n; p++)
 	{
-		if (p != str_index)
+
+		for (int i = 0; i < m; i++)
 		{
-			for (int i = 0; i < m; i++)
-			{
 
-				matrix(n, p, i) = (matrix(n, p, i) + matrix(n, str_index, i))/2;
+			matrix(m, p, i) = (matrix(m, p, i) + matrix(m, str_index, i))/2;
 
-			}
 		}
+
 	}	
 
 }
@@ -49,7 +49,7 @@ void printMatrix(double *matrix, int n, int m, FILE *output)
 	{
 		for (int j = 0; j < m; j++)
 		{
-			fprintf(output, "%lf ", matrix(n, i, j));
+			fprintf(output, "%lf ", matrix(m, i, j));
 		}
 		fprintf(output, "\n");
 	}
