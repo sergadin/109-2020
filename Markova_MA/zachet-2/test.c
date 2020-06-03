@@ -38,7 +38,7 @@ int main() {
 		{
 			if (fscanf(inp, "%lf", &a[i]) != 1) {
 				fclose(inp);
-				err = ERROR_READ;
+				//err = ERROR_READ;
 				fclose(inp);
 				fclose(outp);
 				free(a);
