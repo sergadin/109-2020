@@ -5,7 +5,7 @@
 
 double f1 (double x)
 {
-	return x*sin(x);
+	return pow(x + 1/(x*x + 1) , 1/2);
 }
 double f2 (double x)
 {
@@ -23,7 +23,7 @@ int main(void)
 {
 	double a = 0, b = 2*pi, m, eps = 0.00001;
 	ErrorCode err;
-	m = integral(f1, a, b, &err, eps);
+	m = integral(f1, 1, 10, &err, eps);
 	
 	printf("f1 ");
 	switch(err)

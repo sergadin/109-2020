@@ -115,7 +115,7 @@ int main() {
 	}
 	//printf("kyky\n");
 	res = root(f, a, b);
-		printf("%lf\n", res);
+		printf("res = %lf\n", res);
 	//fclose(outp);
 	return 0;
 }

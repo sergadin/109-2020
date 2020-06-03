@@ -43,11 +43,11 @@ int main(void){
         return -1;
     }*/
     int len_w = 0, stock_len = 0, w_memory = 1;
-    w = malloc(len_w+1);
+    w = malloc(len_w + 1);
     w[len_w] = '\0';
     while (str = read_string(inp)) {
-        if (str[0] == '\n') continue;
-        int len = strlen(str);
+         int len = strlen(str);
+		if (len == 0) continue;
         if (str[len - 1] == '\n') {
             str[len - 1] = '\0';
             len--;
