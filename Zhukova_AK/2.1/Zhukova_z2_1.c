@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "Zhukova_z2_1.h"
 //эта фунция вычисляет интеграл на отрезке
 //по составной формуле прямоугольников с s отрезками
@@ -33,17 +34,18 @@ double findint (double( * func) (double ), double a, double b, double eps)
                 x = x + delta;
 	}
 
-	printf ("i_s=%f i_2s=%f s=%d\n",i_s, i_2s, s);
+//	printf ("i_s=%f i_2s=%f s=%d\n",i_s, i_2s, s);
 
 	x = a;
 //	printf ("eps=%f a=%f b=%f\n", eps, a, b);
 
-        while (((i_s - i_2s)<eps)  && ((i_2s - i_s)<eps))
+        while (fabs(i_s-i_2s)>=eps)
         {
 		i_s = i_2s;
 		s = s*2;
 		delta = (b - a)/s;
 		x = a;
+		i_2s = 0;
 
 		for (i=0; i<s; i++)
 		{
