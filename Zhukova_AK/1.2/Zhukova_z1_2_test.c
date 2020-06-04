@@ -37,6 +37,10 @@ int main (void)
 		//поиск корня
 
 //		printf ("x=%f   trueansw=%f\n", root, trueansw[i]);
+		if (root > b[i] || root < a[i])
+		{
+			printf ("ошибка\n");
+		}
 
 		if (funcAB(trueansw[i], root, eps[i]) == 0)
 		{
