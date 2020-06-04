@@ -50,7 +50,7 @@ char *readstring(FILE * input)
 }
 
 
-void include(FILE *output, char *filename, char *filelist)
+char* include(FILE *output, char *filename, char *filelist)
 {
     //char *check = strstr(filelist, filename);
     char *nextfilename;
@@ -61,19 +61,25 @@ void include(FILE *output, char *filename, char *filelist)
 
     int len = 0;
     int old_len = 0;
-
+    char *check = strstr(filelist, filename);
     //check whether filename is in filelist
-    //???
-printf("1\n");
+    if(check != NULL)
+    {
+	printf("zadumat' nedobroe ne polychilos' \n");
+        return filelist;
+    }
+  
+//printf("1\n");
     if ((file = fopen(filename, "r")) == NULL)
     {
         printf("cannot open file %s \n",filename);
-        return;
+        return filelist;
     }
     //write filename in filelist
     old_len = strlen(filelist);
     len = strlen(filelist) + strlen(filename);
     filelist = realloc(filelist, len+2);
+printf("%d \n", len+2);
     strncpy(filelist + old_len, filename, strlen(filename));
     filelist[len] = ' ';
     filelist[len + 1] = '\0';
@@ -82,7 +88,6 @@ printf("%s \n", filelist);
     //read file
     while((data = readstring(file)) != NULL)
     {
-
 	if (strncmp(data, incl, 9) == 0)
 	{
 	    nextfilename = malloc((strlen(data) - 9)*sizeof(char)); 
@@ -90,9 +95,7 @@ printf("%s \n", filelist);
 	    nextfilename[strlen(data) - 9 - 1] = '\0';
 printf("%s \n", nextfilename);
     
-
-
-	    include(output, nextfilename, filelist);
+	    filelist = include(output, nextfilename, filelist);
 	    free(nextfilename);
 	}
 	else
@@ -100,15 +103,14 @@ printf("%s \n", nextfilename);
 	    fprintf(output, "%s", data);
 	}
 	free(data);
-
     }
     
     fclose(file);
 //delete filename in filelist
-   /* filelist = realloc(filelist, old_len);
+    filelist = realloc(filelist, old_len);
     filelist[old_len-1] = '\0';
-    printf("%s \n", filelist);*/
-    return;
+    //printf("111 %s \n", filelist);
+    return filelist;
 }
 
 
@@ -126,12 +128,12 @@ int main(void)
         printf("cannot open output file \n");
         return -1;
     }
-    include(output, filename, filelist);
+    filelist = include(output, filename, filelist);
 
 //cleaning
     fclose(output);
   // here problem
- //free(filelist);
+    free(filelist);
 
     return 0;
 }

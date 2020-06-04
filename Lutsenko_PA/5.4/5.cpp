@@ -1,56 +1,74 @@
 #include <iostream>
+#include "math.h"
 #include "5.hpp"
+using namespace std;
 
-hermit::hermit(double *a1,double *b1,double *c1,double *d1,  int n)
+hermit::hermit(double *a,double *b,double *c,  int n)
+
 {
-    int N = n;
+    N = n;
     
-    a = (double*) malloc(n *sizeof(double));
-    b = (double*) malloc(n *sizeof(double));
-    c = (double*) malloc(n *sizeof(double));
-    d = (double*) malloc(n *sizeof(double));
+    Z = new double[2*N];
     
-
-    for (int i = 0; i < N; i++)
-    {  
-        a[i] = a1[i];
-        b[i] = b1[i];
-        c[i] = c1[i];
-        d[i] = d1[i];
+    Q = new double * [2*N];
+    for (int i = 0; i < 2*N; i++)
+    {
+        Q[i] = new double [2*N];
     }
     
-}
-
-
-hermit::~hermit()
-{
-    free(a);
-    free(b);
-    free(c);
-    free(d);
+    for (int i = 0; i <N; i++)
+    {  
+        Z[2*i] = a[i];
+        Z[2*i+1] = a[i];
+        Q[0][2*i] = b[i];
+        Q[0][2*i+1]= b[i];
+        Q[1][2*i+1]= c[i];
+        if (i != 0)
+            Q[1][2*i] = (Q[0][2*i] - Q[0][2*i-1]) / (Z[2*i] -Z[2*i-1]);
+    }
     
-}
+    
+   // for (int i = 0; i < 2*N; i++) std::cout<<Z[i]<<"  ";
 
+    }
 
 
 double hermit::Y(double XX)
 {
  
-   double YY, f_i_1, f_i;
+   double S;
+    int I,J;
+    int K;
     
-   for(int i = 1; i < N; i++)
-   {
-       if ((a[i-1] <= XX) && (XX <= a[i]))
-       {
-           f_i_1 = (d[i-1]-c[i-1])/(b[i-1]-a[i-1]);
-           f_i = (d[i]-c[i])/(b[i]-a[i]);
-           
-           YY = с[i-1] + (XX-a[i-1])*(f_i_1 + ((XX-a[i-1])*(f_i_1-(c[i-1]-c[i])/(a[i-1]-a[i])+(XX-a[i])*
-                       (f_i_1-2*(c[i-1]-c[i])/(a[i-1]-a[i])+f_i)/(a[i-1]-a[i])))/(a[i-1]-a[i]));
-               
-       }
-   }
+    // for (int i = 0; i < 2*N; i++) std::cout<<Z[i]<<"  ";
+    
+   K = 2 * (N-1)+ 1;
+    
+    for (I=2; I<=K; I++)
+        for (J=2; J<=I; J++)
+            Q[J][I] = ( Q[J - 1][I] - Q[J - 1][I - 1] ) / ( Z[I] - Z[I - J] );
+     
+        S = S = Q[K][K] * (XX - Z[K-1]);
+    for (I=2; I<=K; I++) {
+        J = K - I + 1;
+        S = (S + Q[J][J]) * (XX - Z[J-1]);
+    }
+    S = S + Q[0][0];
 
-   return YY;
+        
+   return S;
+}
 
+
+
+hermit::~hermit()
+{
+    delete [] Z;
+    
+    for (int i = 0; i < 2*N; i++)
+        {
+           delete [] Q[i];
+        }
+    delete [] Q;
+    
 }

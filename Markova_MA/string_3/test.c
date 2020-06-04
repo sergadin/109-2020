@@ -37,17 +37,17 @@ int main(void){
         printf("ERROR\n");
         return -1;
     }
-    if ((out = fopen("output.txt", "w")) == NULL) {
+   /* if ((out = fopen("output.txt", "w")) == NULL) {
         printf("ERROR\n");
         fclose(inp);
         return -1;
-    }
+    }*/
     int len_w = 0, stock_len = 0, w_memory = 1;
-    w = malloc(len_w+1);
+    w = malloc(len_w + 1);
     w[len_w] = '\0';
     while (str = read_string(inp)) {
-        if (str[0] == '\n') continue;
-        int len = strlen(str);
+         int len = strlen(str);
+		if (len == 0) continue;
         if (str[len - 1] == '\n') {
             str[len - 1] = '\0';
             len--;
@@ -80,10 +80,10 @@ int main(void){
         }
         free(str);
     }
-    fprintf(out, "%s", stock);
+    printf("%s", stock);
     free(stock);
     free(w);
     fclose(inp);
-    fclose(out);
+    //fclose(out);
     return 0;
 }
