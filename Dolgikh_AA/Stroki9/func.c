@@ -3,6 +3,8 @@
 #include <string.h>
 #include "func.h"
 
+const char* shablon = "#include ";
+
 char *readstring(FILE *input)
 {
 	int l, p = 0;
@@ -31,36 +33,48 @@ char *readstring(FILE *input)
 	return NULL;
 }
 
-char *include(FILE *output, char *filename, char *filelist)
+char **include(FILE *output, char *filename, char **filelist, int *listlength)
 {
+	printf("Начинаем работу с файлом %s\n",filename);
 	char *nextfilename;
 	FILE *file;
 	char *s;
-	const char* shablon = "#include ";
 	
-	int len = 0;
-	int old_len = 0;
-	char *check = strstr(filelist, filename);
+	int i;
+	int repeat = 0;
 
-	if(check != NULL)
+	printf("Ищем файл в списке\n");
+	//Ищем наш файл в списке
+	for(i = 0; i < *listlength; i++)
+	{
+		if(!strcmp(filename,filelist[i]))
+			repeat = 1;
+	}
+	//Если нашли, то случился повтор, и всё плохо
+	if(repeat)
 	{
 		printf("Змея укусила себя за хвост\n");
 		return filelist;
 	}
-
+	printf("Не нашли\n");
+	//Открываем наш файл
 	if((file = fopen(filename, "r")) == NULL)
 	{
 		printf("Не удалось открыть файл\n");
 		return filelist;
 	}
+	printf("Открыли файл %s\n", filename);
+	//Добавляем наш файл в список
+	printf("Реаллочим наш список на размер %d\n",*listlength+1);
+	filelist = realloc(filelist, *listlength + 1);
+	printf("Выделяем память под имя нашего файла в списке\n");
+	filelist[*listlength] = malloc((strlen(filename)+1) * sizeof(char));
+	printf("Записываем наш файл в список\n");
+	strncpy(filelist[*listlength], filename, strlen(filename));
+	filelist[*listlength][strlen(filename)] = 0;
+	*listlength += 1;
 
-	old_len = strlen(filelist);
-	len = strlen(filelist) + strlen(filename);
-	filelist = realloc(filelist, len+2);
-	strncpy(filelist + old_len, filename, strlen(filename));
-	filelist[len] = 32;
-	filelist[len + 1] = 0;
-
+	//Читаем строчки из нашего файла
 	while((s = readstring(file)) != NULL)
 	{
 		if(strncmp(s, shablon, 9) == 0)
@@ -68,7 +82,7 @@ char *include(FILE *output, char *filename, char *filelist)
 			nextfilename = malloc((strlen(s) - 9) * sizeof(char));
 			strncpy(nextfilename, s + 9, strlen(s) - 10);
 			nextfilename[strlen(s) - 10] = 0;
-			filelist = include(output, nextfilename, filelist);
+			filelist = include(output, nextfilename, filelist, listlength);
 			free(nextfilename);
 		}
 		else
@@ -80,8 +94,9 @@ char *include(FILE *output, char *filename, char *filelist)
 
 	fclose(file);
 
-	filelist = realloc(filelist, old_len);
-	filelist[old_len - 1] = 0;
+	free(filelist[*listlength - 1]);
+	filelist = realloc(filelist, *listlength);
+	*listlength += -1;
 
 	return filelist;
 }
