@@ -7,28 +7,36 @@
 
 
 
-void func(FILE *input, FILE *output)
+void func(FILE *input, FILE *output, int n)
 {   
     
     char * string = NULL;
     size_t len = 0;
     ssize_t read;
+    
    
     
     while ((read = getline(&string, &len, input)) != -1)
         
-      {fprintf(output,"Разрежем эту строку: %s\n",string);
-        char *temp = strtok(string, " ");
+    {
         
+        fprintf(output,"\nРазрежем эту строку: %s\n",string);
+        char *temp = strtok(string, " ");
         while (temp != NULL)
-             { fprintf(output,"%s\n",temp);
-                
+        {
+                if  (strlen(temp) >= n)
+                  {
+                      
+                           fprintf(output,"%s\n",temp);
+                   }
+            
+            
                 temp = strtok(NULL, " ");
-              }
+        }
           
         
-      }
-  
+      
+    }
     
    
 }

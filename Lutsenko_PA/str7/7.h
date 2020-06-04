@@ -1,3 +1,3 @@
-void func(FILE *input, FILE *output);
+void func(FILE *input, FILE *output,int n);
 
 

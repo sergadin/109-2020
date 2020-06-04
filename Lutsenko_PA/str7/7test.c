@@ -8,8 +8,12 @@ int main(void)
 {
     FILE *input;
     FILE *output;
+    int n;
+ 
+    printf("Введите минимальную длину вырезанного слова ");
+       scanf("%d", &n);
+       
     
-  
     if((input = fopen("input.txt", "r")) == NULL) {
         printf("Не удалось открыть input.txt\n");
         return -1;
@@ -21,7 +25,10 @@ int main(void)
     }
     
     
-    func(input, output);
+    
+
+    
+    func(input, output, n);
 
     fclose(input);
     fclose(output);
