@@ -13,13 +13,13 @@
 double sum(double a, double b, RRFUN f, double eps)
 {
     int n = 10;
-    double h, result,curr, prev, next,zap;
+    double h, result,curr, prev, next;
     h = (b - a)/n;
-    zap = b-a;
     
-    if (h < 2* eps) return -1;
+    if (h <  2*eps) { return -1;}
+        else {
     
-    while(  2*h > eps)
+    while(  h > 2*eps)
     {
         prev = a;
         curr = a + h;
@@ -32,23 +32,33 @@ double sum(double a, double b, RRFUN f, double eps)
                  a = a + h * (i - 1);
                  b = a + 2 * h;
                  break;
-            }
+               }
             
             prev = curr;
             curr = next;
             next = next + h;
          }
         n *= 2;
-        h = zap / n;
+        h /= 2;
         
     }
+       printf("curr%f\n",(*f)(curr));
+    printf("a%f\n",(*f)(a));
+    printf("b%f\n",(*f)(b));
     
     if(((*f)(curr) != (*f)(a)) && ((*f)(curr) != (*f)(b)))
     result = vershina(a,b,curr,f);
-    else
-    result = (*f)(curr);
+        
+        else
+        {
+            result = (*f)(curr);
+            
+        }
+    
+       
     
     return result;
+        }
   
 }
 
@@ -59,7 +69,7 @@ double vershina (double a, double b, double c,RRFUN f )
 {
     
   
-    double x = c - ((c - a)*(c - a)*((*f)(c) - (*f)(b))-(c - b)*(c - b)*((*f)(c) - (*f)(a)))/2*( (c - a)*((*f)(c) - (*f)(b)) - (c - b)*((*f)(c) - (*f)(a)));
+   double x = c - ((c - a)*(c - a)*((*f)(c) - (*f)(b))-(c - b)*(c - b)*((*f)(c) - (*f)(a)))/2*( (c - a)*((*f)(c) - (*f)(b)) - (c - b)*((*f)(c) - (*f)(a)));
     double y = (*f)(x);
     return y;
 }
