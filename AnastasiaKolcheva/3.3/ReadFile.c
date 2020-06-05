@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 	double answers[4] = {0, 0 , -25, -125};
 	int index;
 	double result;
-	double epsilon = 0.001;
+	double epsilon = 0.000001;
 	
 
 	printf("                     Result             |            Correct result            |          Accuracy\n");
