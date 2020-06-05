@@ -17,15 +17,16 @@ double  sum (double x1,double x2,double eps, int n,RRFUN f)
    {
       prev += f(x1 + i * h) * h;
    }
-    
+    //printf("\nprev%f\n",prev);
     h = h/2;
+    n *= 2;
     
     curr += ((*f)(x1) + (*f)(x2)) * h / 2; //посчитала с разбиением h/2
     for (int i = 1; i < n; ++i)
     {
        curr += f(x1 + i * h) * h;
     }
-          
+       // printf("\ncurr%f\n",curr);
     
     while( fabs(prev - curr)/3 >= eps)
     {  //уменьшаю разбиение если нет нужной точности
