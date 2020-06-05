@@ -1,3 +1,3 @@
 all:
-  gcc -o ReadFile ReadFile.c array.c
+  gcc -o ReadFile ReadFile.c composition.c
   
