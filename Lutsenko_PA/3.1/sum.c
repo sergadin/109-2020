@@ -12,32 +12,41 @@
 
 double sum(double a, double b, RRFUN f, double eps)
 {
-
     int n = 10;
-    double h,min,result;
-    int index_min=0;
+    double h, result,curr, prev, next,zap;
     h = (b - a)/n;
+    zap = b-a;
     
-    while (2*h<eps)
+    if (h < 2* eps) return -1;
+    
+    while(  2*h > eps)
     {
-      min=a;
-    for (int k=0;k<=n;k++)
-    {
-        if ((*f)(a+k*h)<min )
-        {
-            min = (*f)(a+k*h);
-            index_min=k;
-        }
-    }
-    a = a + (index_min-1)*h;
-    b = a + (index_min+1)*h;
-        h=h/2;
+        prev = a;
+        curr = a + h;
+        next = a + h * 2;
+
+        for (int i = 1; i < n - 1; i++)
+         {
+            if (((*f)(prev) > (*f)(curr)) && ((*f)(next) > (*f)(curr)))
+               {
+                 a = a + h * (i - 1);
+                 b = a + 2 * h;
+                 break;
+            }
+            
+            prev = curr;
+            curr = next;
+            next = next + h;
+         }
+        n *= 2;
+        h = zap / n;
         
     }
-    if(((*f)(a + index_min*h) != (*f)(a)) && ((*f)(a + index_min*h) != (*f)(b)))
-    result = vershina(a, a + index_min*h,b,f);
+    
+    if(((*f)(curr) != (*f)(a)) && ((*f)(curr) != (*f)(b)))
+    result = vershina(a,b,curr,f);
     else
-    result = (*f)(a + index_min*h);
+    result = (*f)(curr);
     
     return result;
   
