@@ -15,7 +15,7 @@ int main (void)
 
 {
 
-    double e [] = {0.1,0.001, 0.01, 0.01};
+    double e [] = {0.1,0.001, 0.1, 0.1};
     double  answ [] = {5, -1, 1 , -4};
     double x1 [] = {-1, 0, 0, -3 };
     double x2 [] = {1, 4, 1, 1 };
@@ -27,7 +27,7 @@ int main (void)
     for (int i=0;i<4;i++)
               {
              printf("результат=%f\n",sum(x1[i], x2[i], f[i], e[i] ));
-	         printf("правильный ответ=%f\n'",answ[i]);
+	         printf("правильный ответ=%f\n",answ[i]);
 
               }
 }

@@ -13,12 +13,12 @@
 double sum(double a, double b, RRFUN f, double eps)
 {
 
-    int n = 150;
+    int n = 10;
     double h,min,result;
     int index_min=0;
     h = (b - a)/n;
     
-    while (h>eps)
+    while (2*h<eps)
     {
       min=a;
     for (int k=0;k<=n;k++)
