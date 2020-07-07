@@ -16,7 +16,7 @@ double f0(double x){
 }*/
 
 /*double f0(double x){
-    return x*x;
+    return x*x + 1;
 }*/
 //ответы: корень из двух (1,41421356237), 1.125, No roots.
 int main(void){
