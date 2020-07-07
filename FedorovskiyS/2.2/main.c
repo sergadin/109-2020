@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "prot.h"
+#include "INT.h"
 
 double f0(double x);
 //double f1(double x);
@@ -19,10 +19,13 @@ double f0(double x){
 }*/
 //ответы: 1/3 или 0,(3); 0,375; 3,75;
 int main(void){
-    double a = 1, b = 2, s;//а - начало интегрирования, b - конец.
-    int N = 1000;
-    s = task(f0, N, a, b);
-    printf("%lf\n", s);
+    double a = 1, b = 2, s, eps = 1e-6;//а - начало интегрирования, b - конец.
+    ErrCode err;
+    s = INT(f0, eps, a, b, &err);
+    if(err == NO_INT)
+        printf("Coudn't find integral!");
+    else
+        printf("%lf\n", s);
     return 0;
 }
 
