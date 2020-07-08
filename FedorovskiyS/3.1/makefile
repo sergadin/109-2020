@@ -1,9 +1,9 @@
 COMPILE = -O3
-prog.exe: main.o task.o
-	gcc main.o task.o -o prog.exe
-main.o: main.c prot.h
+prog.exe: main.o min.o
+	gcc main.o min.o -o prog.exe
+main.o: main.c min.h
 	gcc -c $(COMPILE) main.c
-task.o: task.c prot.h
-	gcc -c $(COMPILE) task.c
+min.o: min.c min.h
+	gcc -c $(COMPILE) min.c
 clean:
 	rm -f *.o *.exe *.out
