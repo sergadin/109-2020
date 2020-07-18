@@ -1,1 +1,1 @@
-double Taylor_cos(double x, double eps);
+double Taylor(double x, double eps);

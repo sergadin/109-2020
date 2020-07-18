@@ -11,9 +11,9 @@ double Taylor(double x, double eps)
 {
 		tay = (-1) * tay * x * x / (n * (n + 1));
 		res = res + tay;
-//		printf("tay : %lf\n result : %lf", tay, res);
+//		printf("tay : %lf\n res : %lf", tay, res);
 		n += 2;
 	}
-return result;
+return res;
 }
 
