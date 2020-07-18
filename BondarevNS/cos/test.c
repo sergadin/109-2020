@@ -14,8 +14,7 @@ int main(void)
 {
 		r_res = cos(x[i]);	
 		res = Taylor(x[i], eps);
-		printf("правильный ответ:\n%lf\nответ:\n%lf\n eps: %lf\n", r_res, res, eps);	
-		printf("меньше?=%d\n", fabs(r_res - res) < eps);
+		printf("correct:\n%lf\nmy:\n%lf\n eps: %lf\n", r_res, res, eps);	
 }
 	return 0;
 }
