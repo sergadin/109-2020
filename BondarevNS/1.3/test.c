@@ -17,14 +17,14 @@ double f2 (double x)
 
 double f3 (double x)
 {
-        return  2*x-5;
+        return  tan(x);
 }
 
 
 int main (void)
 {
 double res, epsilon = 0.001;
-double  otvet [] = {1, 2, 2.5};
+double  otvet [] = {1, 2, 0};
 double a = 0;
 double b = 3;
 RRFUN f[] = {f1, f2, f3 };
