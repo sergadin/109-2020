@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "sum.h"
+#include "root.h"
 double f1 (double x);
 double f2 (double x);
 double f3 (double x);
