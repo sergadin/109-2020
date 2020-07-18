@@ -12,10 +12,10 @@ int main(void)
 	double x[] = {pi/2 , 0, pi/3, pi/4 };
 	for(i = 0; i < 4; i++)
 {
-		r_res = cos(x_mas[i]);	
+		r_res = cos(x[i]);	
 		res = Taylor(x[i], eps);
 		printf("правильный ответ:\n%lf\nответ:\n%lf\n eps: %lf\n", r_res, res, eps);	
-		printf("меньше?=%d\n", fabs(r_res - result) < eps);
+		printf("меньше?=%d\n", fabs(r_res - res) < eps);
 }
 	return 0;
 }
