@@ -7,7 +7,7 @@ int main(void)
 {
 	int i;
 	double r_res;
-	double eps = 0.00005;
+	double eps = 0.000005;
 	double res;
 	double x[] = {pi/2 , 0, pi/3, pi/4 };
 	for(i = 0; i < 4; i++)
