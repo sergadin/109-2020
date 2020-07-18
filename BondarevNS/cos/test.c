@@ -7,14 +7,14 @@ int main(void)
 {
 	int i;
 	double r_res;
-	double eps = 0.5;
+	double eps = 0.00005;
 	double res;
 	double x[] = {pi/2 , 0, pi/3, pi/4 };
 	for(i = 0; i < 4; i++)
 {
 		r_res = cos(x[i]);	
 		res = Taylor(x[i], eps);
-		printf("correct:\n%lf\nmy:\n%lf\n eps: %lf\n", r_res, res, eps);	
+		printf("correct:\n%lf\nmy:\n%lf+-%lf\n", r_res, res, eps);	
 }
 	return 0;
 }
