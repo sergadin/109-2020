@@ -23,7 +23,7 @@ double f2(double x)
 
 double f3(double x)
 {
-        return  (-x*x + x);
+        return  (sin(x));
 }
 
 
