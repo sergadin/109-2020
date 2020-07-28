@@ -16,14 +16,14 @@ int main(void)
 	RRFUN fun[] = {f1, f2, f3};
 	for(i = 0; i < 3; i++)
 	{
-		result = integrate(a, b, ep, fun[i]);
+		result = integ(a, b, eps, fun[i]);
 		if (result > 10000000000)
 		{
 			printf("OK\n");
 			printf("0\n");
 			return 0;
 		}
-		if (fabs(result - c[i]) < e*MAX1(result, correct[i], 1))
+		if (fabs(result - correct[i]) < e*MAX1(result, correct[i], 1))
 		{
 			printf("OK\n");
 			printf("%lf\n", result);
@@ -40,7 +40,7 @@ int main(void)
 
 double f1(double a)
 {
-	double k = (sqrt(6 - x));
+	double k = (sqrt(6 - a));
 	return k;
 }
 
@@ -52,7 +52,7 @@ double f2(double a)
 
 double f3(double a)
 {
-	double k = ln(x)+34;
+	double k = log(a)+34;
 	return k;
 }
 
