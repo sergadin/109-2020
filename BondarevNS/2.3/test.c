@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "simpson.h"
+#include "simp.h"
 double f1(double a);
 double f2(double a);
 double f3(double a);
