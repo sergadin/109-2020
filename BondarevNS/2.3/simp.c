@@ -27,7 +27,7 @@ double integ(double a, double b, double eps, RRFUN ffunc)
 {
 	int n = 2;
 	double int1 = simp(a, b, n, ffunc), int2 = simp(a, b, 2*n, ffunc);
-	while ((n > 0) && (fabs(int2 - int1) > ep) && (n < 67108864))
+	while ((n > 0) && (fabs(int2 - int1) > eps) && (n < 67108864))
 	{                                              
 		int1 = simp(a, b, n, ffunc);
 		n = 2*n;
