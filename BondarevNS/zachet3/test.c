@@ -20,7 +20,7 @@ int main(void)
 		fclose(fin);
 		return -1;
 	}
-	if ((fscanf(fin, "%d %d", &n, &m) != 2) || ((n<=1) || (m<=1)))
+	if ((fscanf(fin, "%d %d", &n, &m) != 2) || (n<=1) || (m<=1))
 	{
 		fprintf(fout, "Invalid data");
 		fclose(fin);
