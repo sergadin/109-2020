@@ -69,13 +69,16 @@ void foundandtrans(double *matrix, int n, int m)
 	}
 	for(int i=0; i<m; i++)
 	{
-		for (int j =0; j< m - i - 1; j++)
+		for (int j = 0; j < m - i - 1; j++)
 		{
 			if(MATR(m, kr, j) <= MATR(m, kr, (j + 1)))
 			{
-				memory = MATR(m, kr, (j+1));
-				MATR(m, kr, (j+1)) = MATR(m, kr, j);
-				MATR(m, kr, j) = memory;
+				for (int k=0; k<n; k++)
+				{
+					memory = MATR(m, k, (j+1));
+					MATR(m, k, (j+1)) = MATR(m, k, j);
+					MATR(m, k, j) = memory;
+				}
 			}
 		}
 	}
