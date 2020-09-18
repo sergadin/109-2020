@@ -44,6 +44,7 @@ for(i = 0; i < 3; i++)
 		}
 	}
 	row = find_row(data, n_rows, n_cols);
+    sort(data,n_rows, n_cols,row);
     printmat(data, n_rows, n_cols, row);
 	fprintf(stdout,"\n");
 		fprintf(stdout, "row is %d .\n ", row);

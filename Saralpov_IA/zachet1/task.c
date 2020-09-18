@@ -31,25 +31,39 @@ double max, first_el1, s=0, s1=0;
     }
 return t; 
 } 
- 
 
-void printmat(double *data, int n_rows, int n_cols,int t)
+void swapcols(double *data, int n_rows, int n_cols, int col1, int col2)
 {
-    int i, j;
+int i, j;
+double t;
+	for(i = 0; i < n_rows; i++)
+	{
+
+		t = EL(data, n_cols, i, col1);
+		EL(data, n_cols, i, col1) = EL(data, n_cols, i, col2);
+		EL(data, n_cols, i, col2) = t;
+	}
+}
+
+void sort(double *data, int n_rows, int n_cols,int t)
+{
+int i, j;
     double tmp;
 
     for(j=0; j<n_cols-1; j++)
     {
         for(i=j+1; i<n_cols; i++)
         {
-        if(EL(data, n_cols, t, i) < EL(data, n_cols, t, i-1))
+        if(EL(data, n_cols, t, i) > EL(data, n_cols, t, i-1))
                 {
-                tmp = EL(data, n_cols, j, i);
-                EL(data, n_cols, t, i)=EL(data, n_cols, t, i-1);
-                EL(data, n_cols, t, i-1)=tmp;
+                swapcols(data, n_rows, n_cols, i, i-1); 
                 }
         }
     }
+}
+void printmat(double *data, int n_rows, int n_cols,int t)
+{
+    int i,j;
 	for(i = 0; i < n_rows; i++)
 	{
 		for(j = 0; j < n_cols; j++)
