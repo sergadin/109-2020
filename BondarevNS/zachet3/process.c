@@ -57,7 +57,7 @@ void foundandtrans(double *matrix, int n, int m)
 			if (MATR(m, i, j)>strsum/m)
 			{
 				cursum += MATR(m, i, j);
-				count += 1;
+				
 			}
 		}
 		if ((i ==0) || (cursum < minsum))
