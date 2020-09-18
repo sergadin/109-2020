@@ -75,7 +75,7 @@ void foundandtrans(double *matrix, int n, int m)
 			{
 				memory = MATR(m, kr, (j+1));
 				MATR(m, kr, (j+1)) = MATR(m, kr, j);
-				MATR(m, kr, j = memory);
+				MATR(m, kr, j) = memory;
 			}
 		}
 	}
