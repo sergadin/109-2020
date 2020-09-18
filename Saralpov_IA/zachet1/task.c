@@ -54,7 +54,7 @@ int i, j;
     {
         for(i=j+1; i<n_cols; i++)
         {
-        if(EL(data, n_cols, t, i) > EL(data, n_cols, t, j))
+        if(EL(data, n_cols, t-1, i) > EL(data, n_cols, t-1, j))
                 {
                 swapcols(data, n_rows, n_cols, i, j); 
                 }
