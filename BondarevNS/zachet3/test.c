@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "clin.h"
+#include "process.h"
 
 int main(void)
 {
