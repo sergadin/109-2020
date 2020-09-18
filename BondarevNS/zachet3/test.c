@@ -34,7 +34,7 @@ int main(void)
 		fclose(fout);
 		return -1;
 	}
-	read_matrix(matrix, n, m, fin, &materr)
+	read_matrix(matrix, n, m, fin, &materr);
 	if (materr == DATAERR)
 	{	
 			fprintf(fout, "Invalid dATA");
