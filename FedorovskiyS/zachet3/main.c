@@ -28,10 +28,26 @@ void swap_columns (double *arr, int rows, int columns, int c1, int c2)
 
 void task (double *arr, int rows, int columns)
 {
-	int i, j, row_index = 0, min_index;
-	double mult, sum, max_mult, prev_max_mult = -1e300;
+	int i, j, row_index = 0, min_index, is_find = 0;
+	double mult, sum, max_mult, prev_max_mult;
 	double min_el;
 	//Выбор строки где произведение эл-тов строки максимально и больше суммы. 
+    
+    mult = 1.0;
+    sum = 0.0;
+    for (j = 0; j < columns; j++)
+    {
+        sum += arr[j]/columns;
+        mult *= arr[j];
+    }
+    
+    if (mult > sum)
+    {
+        is_find = 1;
+        prev_max_mult = mult;
+    }
+    
+    
 	for (i = 0; i < rows; i++)
 	{
 		mult = 1.0;
@@ -42,30 +58,40 @@ void task (double *arr, int rows, int columns)
 			mult *= arr[i*columns + j];
 		}
 		max_mult = mult;
-
+        
+        if (!is_find && (mult > sum))
+        {   
+            is_find = 1;
+            prev_max_mult = mult;
+        }
+        
 		if ((mult > sum) && (max_mult > prev_max_mult))
 		{
 			prev_max_mult = max_mult;
 			row_index = i;
 		}
 	}
-	//Переставить столбцы так, чтобы элементы найденной строки неубывали.
-	for (i = 0; i < columns; i++)
-	{
-		min_el = arr[row_index*columns + i];
-		min_index = i;
-		//Ищем минимальный в оставшейся части строки.
-		for (j = i; j < columns; j++)
-		{
-			if (min_el > arr[row_index*columns + j])
-			{
-				min_el = arr[row_index*columns + j];
-				min_index = j;
-			}
-		}
-		//Переставляем столбцы.
-		swap_columns (arr, rows, columns, i, min_index);
-	}
+	
+	if (is_find)
+    {
+        //Переставить столбцы так, чтобы элементы найденной строки неубывали.
+        for (i = 0; i < columns; i++)
+        {
+            min_el = arr[row_index*columns + i];
+            min_index = i;
+            //Ищем минимальный в оставшейся части строки.
+            for (j = i; j < columns; j++)
+            {
+                if (min_el > arr[row_index*columns + j])
+                {
+                    min_el = arr[row_index*columns + j];
+                    min_index = j;
+                }
+            }
+            //Переставляем столбцы.
+            swap_columns (arr, rows, columns, i, min_index);
+        }
+    }
 }
 
 int main(void){
@@ -88,7 +114,7 @@ int main(void){
 	{
 		for (j = 0; j < columns; j++)
 		{
-			if (fscanf(fp, "%lf", matrix + i*columns + j) != 1)
+			if (fscanf(fp, "%lf", matrix + j*columns + i) != 1)
 			{
 				fclose (fp);
                 free(matrix);
