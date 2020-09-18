@@ -9,7 +9,7 @@ int main(void)
 	int n, m;
 	double *matrix;
 	ErrorCode materr;
-	printf("Input file error");
+	
 	if ((fin = fopen("input.txt", "r")) == NULL)
 	{
 		printf("Input file error");
@@ -44,6 +44,7 @@ int main(void)
 			free(matrix);
 			return -1;		
 	}
+	printf("Input file error");
 	foundandtrans(matrix, n, m);
 	print_matrix(matrix, n, m, fout);
 	fclose(fout);
