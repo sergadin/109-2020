@@ -42,11 +42,10 @@ void print_matrix(double *matrix, int n, int m, FILE *fout)
 
 void foundandtrans(double *matrix, int n, int m)
 {
-	int kr = -1, count, strcount = 0;
+	int kr = -1, strcount = 0;
 	double strsum, minsum = 0, cursum = 0, memory;
 	for (int i = 0; i<n; i++)
 	{
-		count = 0;
 		strsum = 0;
 		cursum = 0;
 		for (int j = 0; j < m; j++)
@@ -75,11 +74,11 @@ void foundandtrans(double *matrix, int n, int m)
 	{
 		for (int j =0; j< n - i - 1; j++)
 		{
-			if(MATR(m, kr, j) <= MATR(m, kr< (j + 1)))
+			if(MATR(m, kr, j) <= MATR(m, kr, (j + 1)))
 			{
 				memory = MATR(m, kr, (j+1));
 				MATR(m, kr, (j+1)) = MATR(m, kr, j);
-				MATR(m, kr, j = memory;
+				MATR(m, kr, j = memory);
 			}
 		}
 	}
