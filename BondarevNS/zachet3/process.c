@@ -27,7 +27,7 @@ void print_matrix(double *matrix, int n, int m, FILE *fout)
 	{
 		for (int j = 0; j < m; j++)
 		{
-			fprintf(fout, "%lf", MATR(n, i, j));
+			fprintf(fout, "%lf", MATR(m, i, j));
 			if(j != m -1)
 			{
 				fprintf(fout, " ");
