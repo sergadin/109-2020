@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "process.h"
+#include "clin.h"
 
 int main(void)
 {
@@ -43,7 +43,7 @@ int main(void)
 		free(matrix);
 		return -1;
 		}
-	founding_and_transformation(matrix, n, m);
+	foundandtrans(matrix, n, m);
 	print_matrix(matrix, n, m, fout);
 	fclose(fin);
 	fclose(fout);

@@ -1,19 +1,19 @@
 CC=gcc
-CFLAGS=-g
+CFLAGS= -g
 
 all: do-test clean
 
-process.o: process.h process.c
-	gcc -c -g process.c
+sum.o: process.c process.h
+# gcc -c process.c
 
-test.o: process.h process.c
-	gcc -c -g test.c 
+sum_test.o: test.o process.h
+# gcc -c test.c
 
-a.out: process.o test.o
-	gcc -o a.out process.o test.o
+a.out: test.o process.o
+gcc test.o process.o -lm
 
 do-test: a.out
-	valgrind ./a.out
+./a.out
 
-clean: process.o test.o
-	rm process.o test.o
+clean: test.o process.o
+rm test.o process.o
