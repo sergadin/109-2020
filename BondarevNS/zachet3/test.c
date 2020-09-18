@@ -9,6 +9,7 @@ int main(void)
 	int n, m;
 	double *matrix;
 	ErrorCode materr;
+	printf("Input file error");
 	if ((fin = fopen("input.txt", "r")) == NULL)
 	{
 		printf("Input file error");
