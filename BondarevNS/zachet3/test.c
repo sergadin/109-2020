@@ -14,7 +14,7 @@ int main(void)
 		printf("Input file error");
 		return -1;
 	}
-	if ((fout = fopen("output.txt", "r")) == NULL)
+	if ((fout = fopen("output.txt", "w")) == NULL)
 	{
 		printf("Output file error");
 		fclose(fin);
