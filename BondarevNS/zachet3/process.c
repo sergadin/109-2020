@@ -69,7 +69,7 @@ void foundandtrans(double *matrix, int n, int m)
 	}
 	for(int i=0; i<n; i++)
 	{
-		for (int j =0; j< n - i - 1; j++)
+		for (int j =0; j< m - i - 1; j++)
 		{
 			if(MATR(m, kr, j) <= MATR(m, kr, (j + 1)))
 			{
