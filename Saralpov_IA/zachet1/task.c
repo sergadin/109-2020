@@ -7,7 +7,7 @@ int find_row (double *data, int n_rows, int n_cols)
 int  i, j, t=1;
 double max, first_el1, s=0, s1=0;
     
-    for (i=1; i<n_rows; i++)
+    for (i=1; i<n_cols; i++)
     {
         first_el1 = EL(data, n_cols, 0, 0);
         if(fabs(EL(data, n_cols, 0, i))>fabs(first_el1))
