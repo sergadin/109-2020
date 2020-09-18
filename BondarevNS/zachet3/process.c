@@ -65,10 +65,7 @@ void foundandtrans(double *matrix, int n, int m)
 			minsum = cursum;
 			kr = i;
 		}
-		if (count = 0)
-		{
-			strcount +=1;
-		}
+	
 	}
 	for(int i=0; i<n; i++)
 	{
