@@ -1,66 +1,34 @@
-#include"iostream"
-#include"math.h"
+#ifndef ZZ_H__
+#define ZZ_H__
 
-using namespace std;
+#include <iostream>
 
+class ZZ {
+private:
+  char *data_;
+  int ndigits_;
+  bool isPositive_;
+  ZZ(int val, unsigned int arrsize);
+  int realSize() const;
+  void convertIn(int val); 
 
+public:
+  ZZ(int val=0); 
+  ZZ(const ZZ& z);  
+  ~ZZ();
 
-class klin
-{
-	private:
-		int n;
-		double *x;
-		double *y;	
-	public:
+  ZZ& operator= (const ZZ& z); 
+  friend ZZ operator* (const ZZ& z1, const ZZ& z2);
 
+  friend std::ostream& operator <<(std::ostream& os, const ZZ& z); 
 
-		klin(int dlina, double *a, double *b)
-		{	
-			n = dlina;
-			x = (double*) malloc(n *sizeof(double));
-			y = (double*) malloc(n *sizeof(double));
+  bool isPositive() const { return isPositive_; } 
+  void shrink(); 
 
-
-			for(int i = 0; i < n; i++)
-			{
-				x[i] = a[i];
-				y[i] = b[i];
-			}
-
-		}
-
-		double interpolation(double x0)
-		{
-			double y0 = 0;
-			double h = 0, k = 0;
-			if ((y == NULL) || (x == NULL))
-			{
-				throw 0;
-			}
-			for(int i = 1; i < n; i ++)
-			{
-				if ((x[i-1]<=x0) && (x0<=x[i]))
-				{
-					h = (y[i]-y[i-1])/(x[i]-x[i-1]);
-					k = y[i-1]-h*x[i-1];
-					y0 = h*x0+k;
-				}
-			}
-			return y0;
-		}
-		~klin()
-		{
-
-			free(x);
-			free(y);
-		}
+  static bool doTrace;
 };
 
-
-
-
-
-
+#endif
 
 
 
