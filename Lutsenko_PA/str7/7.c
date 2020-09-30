@@ -18,18 +18,27 @@ void func(FILE *input, FILE *output, int n)
     
     while ((read = getline(&string, &len, input)) != -1)
         
-    {
-        
-        fprintf(output,"\nРазрежем эту строку: %s\n",string);
+    {   fprintf(output,"\nРазрежем эту строку: %s\n",string);
         char *temp = strtok(string, " ");
+        unsigned long sum_len = 0;
+        fprintf(output,"\n%s",temp);
+        int kolvoproberlov=0;
+        temp = strtok(NULL, " ");
         while (temp != NULL)
         {
-                if  (strlen(temp) >= n)
-                  {
-                      
-                           fprintf(output,"%s\n",temp);
-                   }
+               sum_len = sum_len + strlen(temp)/2;
+            kolvoproberlov++;
+            if  (sum_len + kolvoproberlov-1  >= n)
+            {
+                fprintf(output,"\n");
+                sum_len = strlen(temp);
+                kolvoproberlov = 0;
+            }
             
+            fprintf(output," %s",temp);
+           
+          
+                     
             
                 temp = strtok(NULL, " ");
         }

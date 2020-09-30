@@ -16,18 +16,18 @@ int main (void)
 
 {
 
-    double e [] = {0.1, 0.1, 0.01, 0.1,0,0.01,0.01};
+    double e [] = {0.1, 0.1, 0.01, 0.1, 0.001, 0.1};
     double  answ [] = {-5, 2 , 5.7051, -1, 1.1926, 0};
     double x1 [] = {-5, 1.9, 5.6, -2 , 1.1 ,6.25  };
     double x2 [] = {-4.9, 2.1, 6, -1 , 1.2,6.29 };
 
     RRFUN f[] = {f1, f2, f3 , f4, f5, f6};
-    double delta;
+
 
 
     for (int i=0;i<6;i++)
               { 
-            if (fabs(sum(x1[i], x2[i], e[i], f[i] ) - answ[i])<0,0000001 )
+            if (fabs(sum(x1[i], x2[i], e[i], f[i] ) - answ[i])<e[i] )
                   {printf("\nOK");
                    printf("\nright anwer = %10.6f",answ[i]);
                   printf("\nyour answer = %10.6f",sum(x1[i], x2[i], e[i], f[i]) );}
