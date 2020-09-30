@@ -1,11 +1,11 @@
 all: do-test clean
 
-solution.o: solution.cpp
-	g++ -c solution.cpp
+text.o: text.cpp
+	g++ -c text.cpp
 test.o: test.cpp
 	g++ -c test.cpp
-run: solution.o test.o
-	g++ -o run test.o solution.o -lm
+run: text.o test.o
+	g++ -o run test.o text.o -lm
 do-test: run
 	./run
 clean: 
