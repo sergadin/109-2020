@@ -24,7 +24,7 @@ double* rank(double **mas, int n_rows, int n_cols, double *x)
 		for(i = 0; i < n_cols; i++)
 			if ( fabs( mas[i] [k] ) > 0.0001)
 				{
-					rank++;
+					x++;
   					break;
 				}
 
