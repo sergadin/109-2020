@@ -27,6 +27,8 @@ double* rank(double **mas, int n_rows, int n_cols, double *x)
 					x++;
   					break;
 				}
+				return x;
+}
 
 
 static void mainelem( int k, double **mas, int n_rows)

@@ -40,7 +40,7 @@ int main(void)
 			printf("NO OK\n");
 		}
 	}
-	for(row = 0; row < n_rows; row ++)
+	for(row = 0; row < n_rows; row++)
 	{
 		free(mas[row]);
 	}
