@@ -1,7 +1,7 @@
 #include"rank.h"
 static void mainelem(int k, double **mas, int n_rows);
-double modul(double x);
-double modul(double x)
+static double modul(double x);
+static double modul(double x)
 {
 	if (x < 0)
 		return -x;
