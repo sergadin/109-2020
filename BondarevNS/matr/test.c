@@ -5,6 +5,14 @@
 #define MAX(a, b) (((a) > (b))?(a):(b))
 #define MAX1(a, b, c) MAX(a, MAX(b, c))
 double modul(double x);
+double modul(double x)
+{
+	if (x < 0)
+		return -x;
+	else 
+		return x;
+}
+
 
 int main(void)
 {
@@ -50,10 +58,4 @@ int main(void)
 }
 
 
-double modul(double x)
-{
-	if (x < 0)
-		return -x;
-	else 
-		return x;
-}
+
