@@ -1,10 +1,11 @@
 #include"rank.h"
 static void mainelem(int k, double **mas, int n_rows);
 
-double* rank(double **mas, int n_rows, int n_cols)       
+double rank(double **mas, int n_rows, int n_cols)       
                                                          
 {
-	int k, j, i, x; 
+	int k, j, i; 
+	double x;
 	x = 0;
 	for ( k = 0; k < n_rows; k++ )                   
 	{	         

@@ -8,8 +8,8 @@ double modul(double x);
 
 int main(void)
 {
-	int row, i, j, n_rows = 3, n_cols = 4, okrank;
-	double current, e = 0.1, a;
+	int row, i, j, n_rows = 3, n_cols = 4;
+	double current, e = 0.1, a, okrank;
 	double **mas = malloc(n_rows* sizeof(double));
 	okrank = 4;
 	FILE *input;
