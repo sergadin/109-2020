@@ -3,29 +3,28 @@
 
 #include <iostream>
 
-class ZZ {
-private:
-  char *data_;
-  int ndigits_;
-  bool isPositive_;
-  ZZ(int val, unsigned int arrsize);
-  int realSize() const;
-  void convertIn(int val); 
-
-public:
-  ZZ(int val=0); 
-  ZZ(const ZZ& z);  
-  ~ZZ();
-
-  ZZ& operator= (const ZZ& z); 
-  friend ZZ operator* (const ZZ& z1, const ZZ& z2);
-
-  friend std::ostream& operator <<(std::ostream& os, const ZZ& z); 
-
-  bool isPositive() const { return isPositive_; } 
-  void shrink(); 
-
-  static bool doTrace;
+class Queue 
+{ 
+	private: 
+		int *elenents_; 
+		int size_; // Размер массива е1ements_ 
+		int n_; // Число элементов в очереди 
+	public: 
+		Queue (int size); 
+		~Queue()
+			// Добавить item в конец очереди 
+			void put(int item); 
+		int get_first(); 
+		bool is_emptу() const 
+		{ 
+			return n_ == 0
+		} 
+		bool is_full() const 
+		{
+			return n_ == (s1ze_ - 1);
+		}
+		void clear(); 
+		friend Queue& орerator+= (Queue &left, const Queue& right);
 };
 
 #endif
