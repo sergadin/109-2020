@@ -1,117 +1,87 @@
-#include <cstring>
-#include <stdio.h>
+#include <string>
 #include "kuslin.h"
 
-bool ZZ::doTrace = true;
-
-void ZZ::convertIn(int val)
+Queue::Queue(unsigned int size)
 {
-	char temp[12];
-	sprintf(temp, "%d", val); 
-	int len = strlen(temp); 
-	if(ndigits_ == 0)
-       	{
-		ndigits_ = len;
-	}
-
-	data_ = new char[ndigits_]; 
-	if(len > ndigits_)
-       	{
-	       	throw "ZZ::convertIn: len > ndigits_";
-       	}
-
-	for(int i=0; i<ndigits_; i++)
-       	{
-		data_[i] = (i < len ? temp[len - i - 1] : '0');
-	}
-}
-
-ZZ::ZZ(int val) : data_(NULL), ndigits_(0), isPositive_(false)
-{
-
-	if(ZZ::doTrace) 
+	if(size == 0)
 	{
-		std::cout << "Constructor" << std::endl;
+		throw QueueError(-1, std::string( "Нулевой размер очереди в конструкторе"));
 	}
-
-	convertIn(val);
+	elements_ = new int[size]; 
+	size_ = size; 
+	n_ = 0;
 }
 
-
-ZZ::ZZ(int val, unsigned int arrsize) : data_(NULL), isPositive_(false) 
+Queue::Queue(const Queue & right)
 {
-	ndigits_ = arrsize;
-	convertIn(val);
+        elements_ = new int[size_ = right.size_];
+        for(int k = 0; k < size_; k++)
+		elements_[k] = right.elements_[k];
+	n_ = right.n_;
 }
 
-
-ZZ::ZZ(const ZZ& z) 
+Queue::~Queue()
 {
-	delete data_;
-	data_ = new char[z.ndigits_];
-	memcpy(data_, z.data_, z.ndigits_);
-	ndigits_ = z.ndigits_;
-	isPositive_ = z.isPositive_;
+	delete[] elements_;
 }
 
-
-ZZ::~ZZ()
+void Queue::put(int item)
 {
-	if(ZZ::doTrace) 
+	if(is_full())
+		throw QueueError(-2, std::string("НЕТ МЕСТА"));
+	elements_[n_++] = item;
+}
+
+int Queue::get_first() 
+{
+	if(is_empty())
+		throw QueueError(-4, std::string("get от пустой очереди."));
+	int first_item = elements_[0];
+	shift_left();
+	return first_item;
+}	
+
+void Queue::clear()
+{
+	n_ = 0;
+}
+
+void Queue::shift_left()
+{
+	if(is_empty())
+		return;
+	for(int k = 1; k < n_; k++)
 	{
-		std::cout << "Destructor" << std::endl;
+		elements_[k-1] = elements_[k];
 	}
-	delete[] data_;
+	--n_;
 }
 
-
-ZZ operator* (const ZZ& z1, const ZZ& z2) 
+Queue & Queue::operator=(const Queue & right)
 {
-	int z1rs = z1.realSize(),
-	    z2rs = z2.realSize();
-	ZZ res(0, z1rs+z2rs+1);
-	for(int i=0; i < z1rs; i++) 
+	if(this == &right)
 	{
-		for(int j=0; j < z2rs; j++) 
-		{
-			unsigned int prod = (unsigned int)(z1.data_[i]-'0')*(unsigned int)(z2.data_[j]-'0');
-
-			for(int k=i+j; k < i+z2rs+1 && prod > 0; k++) {
-				unsigned int sum = (prod % 10) + (unsigned)(res.data_[k]-'0');
-				res.data_[k] = '0' + (sum % 10);
-				prod = (sum/10 + prod/10);
-			}
-		}
+		return *this;
 	}
-
-	res.isPositive_ = !(z1.isPositive_ ^ z2.isPositive_);
-	return res;
-}
-
-
-ZZ& ZZ::operator= (const ZZ& z) 
-{
-	delete data_;
-	data_ = new char[ndigits_ = z.ndigits_];
-	memcpy(data_, z.data_, z.ndigits_);
-	isPositive_ = z.isPositive_;
+	delete[] elements_;
+	elements_ = new int[size_ = right.size_];
+	for(int k = 0; k < size_; k++)
+		elements_[k] = right.elements_[k];
+	n_ = right.n_;
 	return *this;
 }
 
-std::ostream& operator <<(std::ostream& os, const ZZ& z) 
+Queue & operator+=(Queue &left, const Queue& right)
 {
-	for(int i = z.realSize()-1; i>=0; i--) 
-	{
-		os << z.data_[i];
-		//if(i>0) os << " ";
-	}
-	return os;
+	return left;
 }
 
-
-int ZZ::realSize() const 
+std::ostream & operator<<(std::ostream &os, const Queue &q)
 {
-	for(int i=ndigits_-1; i>0; --i)
-		if(data_[i] != 0 && data_[i] != '0') return i+1;
-	return 1;
+	os << "Queue of size " << q.size_ << " with " << q.n_ << " items:\n";
+	for(int k = 0; k < q.n_; k++)
+	{
+		os << "\t" << q.elements_[k] << "\n";
+	}
+	return os;
 }

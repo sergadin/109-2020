@@ -1,33 +1,61 @@
-#ifndef ZZ_H__
-#define ZZ_H__
-
 #include <iostream>
+#include <string>
+
+class QueueError
+{ 
+	private: 
+		int code_;
+		std::string reason_;
+	public:
+		QueueError(int code, const std::string& reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
+
+		const std::string& get_reason() const 
+		{ 
+			return reason_; 
+		}
+
+};
+
 
 class Queue 
 { 
 	private: 
-		int *elenents_; 
+		int *elements_; 
 		int size_; // Размер массива е1ements_ 
-		int n_; // Число элементов в очереди 
+		int n_; // Число элементов в очереди
+
+		void shift_left(); // сдвиг массива elenents_ на один элемент налево.
 	public: 
-		Queue (int size); 
-		~Queue()
-			// Добавить item в конец очереди 
-			void put(int item); 
-		int get_first(); 
-		bool is_emptу() const 
+		// Создание пустой очереди с максимальным размером size
+		Queue (unsigned int size); 
+		Queue (const Queue& obj); // Создать копию объекта obj
+		~Queue();
+
+		// Добавить item в конец очереди 
+		void put(int item);
+
+		int get_first();
+
+		bool is_empty() const 
 		{ 
-			return n_ == 0
+			return n_ == 0;
 		} 
 		bool is_full() const 
 		{
-			return n_ == (s1ze_ - 1);
+			return n_ == (size_ - 1);
 		}
-		void clear(); 
-		friend Queue& орerator+= (Queue &left, const Queue& right);
-};
 
-#endif
+		void clear();
+
+		Queue & operator=(const Queue & right);
+
+		friend Queue& operator+= (Queue &left, const Queue& right);
+		friend std::ostream& operator<<(std::ostream &os, const Queue& q);
+};
 
 
 
