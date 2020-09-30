@@ -9,7 +9,7 @@ double modul(double x);
 int main(void)
 {
 	int row, i, j, n_rows = 3, n_cols = 4;
-	double current, e = 0.1, a;
+	double current, e = 0.1, a, okrank;
 	double **mas = malloc(n_rows* sizeof(double));
 	okrank = 4;
 	FILE *input;
@@ -39,7 +39,7 @@ int main(void)
 		{
 			printf("NO OK\n");
 		}
-	}
+	
 	for(row = 0; row < n_rows; row++)
 	{
 		free(mas[row]);
