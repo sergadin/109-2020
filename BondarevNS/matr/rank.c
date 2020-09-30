@@ -32,7 +32,7 @@ double* rank(double **mas, int n_rows, int n_cols, double *x)
 static void mainelem( int k, double **mas, int n_rows)
 {
 	int i, j, i_max = k, j_max = k;
-	double tmp;
+	double t;
 		for ( i = k; i < n_rows; i++ )
 			for ( j = k; j < n_rows; j++ )
 				if (fabs(mas[i_max] [j_max]) < fabs(mas[i] [j] ))
