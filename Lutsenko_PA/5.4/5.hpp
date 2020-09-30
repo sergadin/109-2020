@@ -1,18 +1,11 @@
-
-
 class hermit
 {
 private:
-    double *a;
-    double *b;
-    double *c;
-    double *d;
-    
+    double **Q;
+    double *Z;
     int N;
 public:
-    
-    hermit(double *a1, double *b1, double *c1,double *d1,  int n);
-    ~hermit();
+    hermit(double *a, double *b, double *c,  int n);
     double Y(double X);
-    
+    ~hermit();
 };

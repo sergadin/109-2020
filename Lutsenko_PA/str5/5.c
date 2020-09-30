@@ -8,10 +8,11 @@
 
 
 void func(FILE *input, FILE *output)
-{   int count[256];
+{   double count[256];
     unsigned long maxlength=0;
     unsigned long minlength=1024;
-    int summa_dlin_slov=0,kolichestvo_slov=1,k;
+    unsigned long summa_dlin_slov=0,kolichestvo_slov=1;
+    double result;
     
     char * string = NULL;
     size_t len = 0;
@@ -32,6 +33,7 @@ void func(FILE *input, FILE *output)
         char *temp = strtok(string, " ");
         while (temp != NULL)
              {
+                
             
             summa_dlin_slov = summa_dlin_slov + strlen(temp);
             kolichestvo_slov++;
@@ -48,20 +50,21 @@ void func(FILE *input, FILE *output)
         
       }
   
+    result = (summa_dlin_slov)/kolichestvo_slov;
     
-    
-    fprintf(output,"average length: %d\n", summa_dlin_slov/kolichestvo_slov);
+    fprintf(output,"average length: %f\n",result);
     fprintf(output,"max length: %lu\n", maxlength);
     fprintf(output,"min length: %lu\n", minlength);
   
-    fputs("character    frequency", output);
-    for (k = 1; k <= 256; k++)
+    fputs("character   frequency", output);
+    for (int k = 0; k <= 256; k++)
+      {
         if (count[k] != 0)
-        {
-           fprintf(output, "\n%c\t\t%d", k,count[k]);
+        {   count[k]= count[k]/summa_dlin_slov*100;
+           fprintf(output, "\n%c\t\t\t%.2f", k,count[k]);
         }
 
-
+      }
    
 }
 

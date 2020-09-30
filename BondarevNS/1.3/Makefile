@@ -3,15 +3,15 @@ CFLAGS=-g
 
 all: do-test clean
 
-sum.o: sum.c sum.h
+sum.o: root.c root.h
 
-test.o: test.c sum.h
+test.o: root.c root.h
 
-a.out: test.o sum.o
-	gcc test.o sum.o -lm
+a.out: test.o root.o
+	gcc test.o root.o -lm
 
 do-test: a.out
 	./a.out
 
-clean: test.o sum.o ./a.out
-	rm test.o sum.o ./a.out
+clean: test.o root.o ./a.out
+	rm test.o root.o ./a.out
