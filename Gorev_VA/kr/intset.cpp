@@ -153,5 +153,5 @@ intset& operator* (const intset &left, const intset &right)
 	std::cout << "qwerty" << IS1.find_item(1) << "\n";
 	std::cout << "qwerty" << IS1.find_item(2) << "\n";
 	//IS1 *= right;
-	return IS1;
+	return IS1 *= right;
 }
