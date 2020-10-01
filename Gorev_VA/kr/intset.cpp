@@ -54,6 +54,7 @@ int main(void)
 	intset IS(-2, 2);
 	IS.put(1);
 	IS.put(2);
+	IS.put(3);
 	intset IS1(IS);
 	return 0;
 }
