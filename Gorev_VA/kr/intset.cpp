@@ -1,12 +1,12 @@
 #include <iostream>
 #include "intset.h"
 
-intset::intset(int maxval, int minval)
+intset::intset(int minval, int maxval)
 {
 	size_ = 0;
 	maxval_ = maxval;
 	minval_ = minval;
-	std::cout << maxval_ << ", " << minval_ << "\n";
+	std::cout << minval_ << ", " << maxval_ << "\n";
 }
 
 intset::~intset()
@@ -20,7 +20,18 @@ intset::~intset()
 
 intset::intset(intset& IS)
 {
+	if (IS.size_ <= 0)
+		return;
+	minval_ = IS.minval_;
+	maxval_ = IS.maxval_;
+	ar_ = new int[IS.size_];
+	size_ = IS.size_;
+	for (int i = 0; i < IS.size_; i++)
+		ar_[i] = IS.ar_[i];
 	
+	std::cout << size << " " << minval << " " << maxval << "\n";
+	for (int i = 0; i < size; i++)
+	std::cout << ar_[i] << "\n";
 }
 
 int main(void)
