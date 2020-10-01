@@ -140,7 +140,7 @@ void ZZ::print() const {
     if (size_ == 0) 
 	{
 		printf("no elements");
-		cout << " " << left_ << " " << right_ << endl;
+		cout << " " << 1 << " " << left_ << " " << right_ << endl;
 		return;
     }
 	cout << left_ << " " << right_ << endl;
