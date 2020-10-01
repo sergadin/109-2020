@@ -22,7 +22,7 @@ int main()
       //  std::cout << "равны"<< std::endl;
     //}
    // q*=q3;
-    q.delete_item(1)
+   // q.delete_item(1)
    
     
     std::cout << "left = " << q.left() << ", right = " << q.right() << std::endl;

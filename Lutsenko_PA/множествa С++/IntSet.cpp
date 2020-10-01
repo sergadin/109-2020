@@ -39,7 +39,7 @@ void IntSet::delete_item(int item)
     if (is_empty())
         throw IntSetError(-4, std::string("тут пусто"));
     
-    for(int i=0;i<abs(right_-left_);i++)
+    for(int i=0;i<abs(n_);i++)
     {
         if (item==elements_[i])
         delete  &elements_[i];
