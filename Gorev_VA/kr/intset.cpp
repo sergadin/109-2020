@@ -13,7 +13,14 @@ intset::intset(intset& IS)
 {
 	
 }
-
+intset::~intset()
+{
+	if (size != 0)
+		delete[] ar_;
+	size_ = 0;
+	minval_ = 0;
+	maxval_ = 0;
+}
 int main(void)
 {
 	intset IS(-1, 1);
