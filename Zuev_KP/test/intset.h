@@ -38,28 +38,29 @@ class IntSet
 		
 		void exc(int item); //Исключение
 
-		/*
 		bool is_empty() const //Пустота
 		{ 
 			return n_ == 0;
-		} 
-		bool number() const 
-		{
-			return n_ == (size_ - 1);
-		}*/
+		}
+		
+		int max(); //Макс
+
+		int min(); //Мин
+
+		int lima(); //Left
+		
+		int limb(); //Right
 
 		IntSet & operator=(const IntSet & right);
 
-		friend IntSet& operator*= (IntSet &left, const IntSet& right);
 		friend std::ostream& operator<<(std::ostream &os, const IntSet& q);
-		//friend IntSet operator* (const IntSet &left, const IntSet& right);
+
+		friend IntSet& operator*= (IntSet &left, const IntSet& right);		
+		friend IntSet operator* (const IntSet &left, const IntSet& right);
+		friend bool operator== (const IntSet &left, const IntSet &right);
 };
 
 /*
-Исключение элемента из множества.
-Проверка пустоты множества.
-Получение минимального / максимального значения, содержащегося в множестве.
-Получение границ множества (left, right).
 Пересечение двух множеств, пересечение множества с другим множеством (операторы * и *=).
 Проверка равенства множеств (оператор сравнения ==).
 */
