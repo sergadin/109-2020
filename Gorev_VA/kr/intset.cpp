@@ -45,9 +45,9 @@ intset::intset(const intset& IS)
 	for (int i = 0; i < IS.size_; i++)
 		ar_[i] = IS.ar_[i];
 	
-	//std::cout << size_ << " " << minval_ << " " << maxval_ << "\n";
-	//for (int i = 0; i < size_; i++)
-	//std::cout << ar_[i] << "\n";
+	std::cout << size_ << " " << minval_ << " " << maxval_ << "\n";
+	for (int i = 0; i < size_; i++)
+	std::cout << ar_[i] << "\n";
 }
 
 bool intset::find_item(int item) const
