@@ -98,7 +98,7 @@ class UserException {
 		int code() const;
 };
 
-UserException::UserException(int code, string message) : code_(code), message_(message) {}
+/*UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {
 	return message_;
@@ -107,5 +107,5 @@ string UserException::message() const {
 int UserException::code() const {
 	return code_;
 }
-
+*/
 

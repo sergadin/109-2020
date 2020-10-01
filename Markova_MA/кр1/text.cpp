@@ -108,14 +108,14 @@ void ZZ::print() const {
     }
 	cout << left_ << " " << right_ << endl;
 	for(int i = 0; i < abs(right_ - left_ + 1); i++) {
-		if(mas[i] == 1)
-        printf("%.2lf ", left_ + mas_[i]);
+		if(mas_[i] == 1)
+        printf("%.2lf ", left_ + i);
     }
     cout << endl;
 	cout << size_ << endl;
 }
 
-UserException::UserException(int code, string message) : code_(code), message_(message) {}
+/*UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {
 	return message_;
@@ -123,4 +123,4 @@ string UserException::message() const {
 
 int UserException::code() const {
 	return code_;
-}
+}*/
