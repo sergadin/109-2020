@@ -183,3 +183,14 @@ intset& operator*= (intset &left, const intset &right)
 	}
 	return  IS;
 }*/
+
+bool operator== (const intset &left, const intset &right)
+{
+	for (int i = 0; i < left.size_; i++)
+		if (!right.find_item(left.ar_[i]))
+			return 0;
+	for (int j = 0; j < right.size_; j++)
+		if (!left.find_item(right.ar_[j]))
+			return 0;
+	return 1;
+}
