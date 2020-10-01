@@ -45,7 +45,7 @@ bool intset::find_item(int item) const
 void intset::put(int item)
 {
 	if (find_item(item))
-		return
+		return;
 	if ((item > maxval_) || (item < minval_))
 		return;
 	int *ar;
