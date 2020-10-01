@@ -15,7 +15,7 @@ intset::intset(intset& IS)
 }
 intset::~intset()
 {
-	if (size != 0)
+	if (size_ != 0)
 		delete[] ar_;
 	size_ = 0;
 	minval_ = 0;
