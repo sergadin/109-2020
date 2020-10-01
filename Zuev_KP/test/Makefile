@@ -1,16 +1,16 @@
 all: do-test clean
 
-func.o: kuslin.cpp kuslin.h
-#	g++ -c kuslin.cpp
+func.o: intset.cpp
+#	g++ -c intset.cpp
 
-test.o: test.o kuslin.h
-#	g++ -c test.c
+test.o: test.cpp
+#	g++ -c test.cpp
 
-a.out: test.o kuslin.o
-	g++ test.o kuslin.o -lm
+a.out: test.o intset.o
+	g++ test.o intset.o -lm
 
 do-test: a.out
 	./a.out
 
-clean: test.o kuslin.o
-	rm test.o kuslin.o
+clean: test.o intset.o
+	rm test.o intset.o
