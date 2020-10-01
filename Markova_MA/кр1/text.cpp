@@ -21,6 +21,7 @@ void ZZ::copy_ (const ZZ a)
 
 void ZZ::push_ (int a)
 {
+	printf("here");
 	if(a < left_ || a > right_)
 	{
 		//throw(-1, "a < left || a > right");
