@@ -12,7 +12,7 @@ class IntSet {
 		~IntSet();
 
 		bool is_empty() const { return len_ == 0; }
-		int length() const { return len_; }
+		int len() const { return len_; }
 
 		void add_element(int a);
 		void remove_element(int a);
@@ -23,12 +23,12 @@ class IntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
-		friend bool operator<= const (const IntSet& A, const IntSet& B);
-		friend bool operator== const (const IntSet& A, const IntSet& B);
-		friend IntSet& operator*(IntSet& A, IntSet& B);
-		IntSet& operator*=(IntSet& B);
-		IntSet& operator=(IntSet& B);
-}
+		friend bool operator<=(const IntSet& A, const IntSet& B);
+		friend bool operator==(const IntSet& A, const IntSet& B);
+		friend IntSet operator*(const IntSet& A, const IntSet& B);
+		IntSet& operator*=(const IntSet& B);
+		IntSet& operator=(const IntSet& B);
+};
 
 class IntSetException {
 	private:
@@ -38,4 +38,4 @@ class IntSetException {
 		IntSetException(int code, const std::string& message): error_code_(code), reason_(message) {}
 		const std::string& message() const { return reason_; }
 		int code() const { return error_code_; }
-}
+};

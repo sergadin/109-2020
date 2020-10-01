@@ -1,23 +1,19 @@
+#include <string>
 #include "sets.hpp"
 
 using namespace std;
 
-IntSet::IntSet(int min, int max) {
+IntSet::IntSet(int min, int max): sup_(max), inf_(min) {
+	if (min > max) throw IntSetException(-1, "Incorrect range");
 	len_ = 0;
 	size_ = 10;
 	list_ = new int[size_];
-
-	inf_ = min;
-	sup_ = max;
 }
 
-IntSet::IntSet(const IntSet& set) {
+IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 	len_ = set.len();
-	size_ = set.len() + 10;
+	size_ = len_ + 10;
 	list_ = new int[size_];
-
-	inf_ = set.inf_;
-	sup_ = set.sup_;
 
 	for (int i = 0; i < len_; i++) {
 		list_[i] = set.list_[i];
@@ -35,7 +31,7 @@ void IntSet::add_element(int a) {
 	}
 	if (len_ >= size_) {
 		list_ = (int *)realloc(list_, sizeof(int)*(size_ + 10));
-		size += 10;
+		size_ += 10;
 	}
 	list_[len_++] = a;
 }
@@ -93,23 +89,23 @@ bool operator==(const IntSet& A, const IntSet& B) {
 
 IntSet& IntSet::operator=(const IntSet &B) {
 	delete[] list_;
-	size_ = B.len() + 10;
+	size_ = B.len_ + 10;
 	len_ = B.len();
 	list_ = new int[size_];
 
 	for (int i = 0; i < len_; i++) {
-		list[i] = B.list_[i];
+		list_[i] = B.list_[i];
 	}
 
 	return *this;
 }
 
-IntSet& operator*(const IntSet& A, const IntSet& B) {
+IntSet operator*(const IntSet& A, const IntSet& B) {
 	int left = (A.left() < B.left()) ? B.left() : A.left();
 	int right = (A.right() > B.right()) ? B.right() : A.right();
 
 	IntSet product = IntSet(left, right);
-	for (int i = 0; i < A.len(); i++) {
+	for (int i = 0; i < A.len_; i++) {
 		for (int k = 0; k < B.len(); k++) {
 			if (A.list_[i] == B.list_[k]) {
 				product.add_element(A.list_[i]);
