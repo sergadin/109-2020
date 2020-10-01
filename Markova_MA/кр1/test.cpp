@@ -12,7 +12,7 @@ int main()
 	a.print();
 	if(b.isEmpty())
 	{
-		print("empty");
+		printf("empty");
 		cout << endl;
 	}
 	a.print();
