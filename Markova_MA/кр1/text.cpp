@@ -2,48 +2,82 @@
 
 ZZ::new_(int left, int right)
 {
-	int size = abs(-left + right + 1), size_ = 0;
-	int mas_ = (int*)malloc(size*sizeof(*mas));
-	for(int i = 0;i < size;i++)
-	{
-		mas[i] = 0;
-	}
+	int size_ = 0;
+	left_ = left;
+	right_ = right;
 }
 
 void ZZ::copy_ (const ZZ a)
 {
-	int size = abs(-a.left() + a.right() + 1);
-	ZZ c(a.left(), a.right());
+	left_ = a.left();
+	right_ = a.right();	
+	mas_ = int new[a.size()]
 	for(int i = 0; i < size;i++)
 	{
-		c.mas_[i] = a.mas_[i];
+		mas_[i] = a.mas_[i];
 	}
-	c.size_ = a.size_;
+	size_ = a.size_;
 }
 
 void ZZ::push_ (int a)
 {
-	/*if(a < left_ || a > right_)
+	if(a < left_ || a > right_)
 	{
-		throw(-1, "a < left || a > right");
-	}*/
-	int temp = a - left_;
-	if(mas_[temp] == 1)
+		//throw(-1, "a < left || a > right");
 		return;
-	mas_[a - left_] = 1;
+	}
+	//int temp = a - left_;
+	for(int i = 0; i < size_; i++)
+	{
+		if(a == mas_[i])
+			return;
+	}
+	int *mas;
+	mas = new int[size_ + 1];
+	for(int i = 0; i < size_; i++)
+	{
+		mas[i] == mas_[i])
+	}
+	mas[size_] = a;
 	size_++;
+	if (size_ > 0)
+		delete mas_;
+	mas_ = mas;
 }
 
-void ZZ::clean_ (int a);
+void ZZ::clean_ (int a)
 {
 	if(a < left_ || a > right_)
 	{
-		throw(-1, "a < left || a > right");
-	}
-	if(mas_[a - left_] != 1)
+		//throw(-1, "a < left || a > right");
 		return;
-	mas_[a - left_] = 0;
+	}
+	int yes = -1;
+	for(int i = 0; i < size_; i++)
+	{
+		if(a == mas_[i] && !yes)
+			yes = i;
+	}
+	if(yes == -1)
+		return;
+	int *mas, j = 0;
+	mas = new int[size_ - 1];
+	for(int i = 0; i < size_; i++)
+	{
+		if(i == yes)
+		{
+			continue;
+		}
+		else
+		{
+			mas[j] == mas_[i]);
+			j++;
+		}
+	}
 	size_--;
+	if (size_ > 0)
+		delete mas_;
+	mas_ = mas;
 }
 
 bool ZZ::isEmpty() const
@@ -61,33 +95,32 @@ int ZZ::min_ () const
 	{
 		return;
 	}
-	int min;
-	for(int i = 0; i < abs(-left_ + right_ + 1);i++)
+	int m = mas_[0];
+	for(int i = 0; i < size_; i++)
 	{
-		if(mas_[i] == 1)
+		if(mas_[i] < m)
 		{
-			min = left_ + i;
-			return min;
+			m = mas[i];
 		}
 	}
+	return m;
 }
 
 int ZZ::max_() const
 {
-	
 	if(size_ == 0)
 	{
-		return -1;
+		return;
 	}
-	int min;
-	for(int i = abs(-left_ + right + 1) - 1; i >= 0;i--)
+	int m = mas_[0];
+	for(int i = 0; i < size_; i++)
 	{
-		if(mas_[i] == 1)
+		if(mas_[i] > m)
 		{
-			min = left_ + i;
-			return min;
+			m = mas[i];
 		}
 	}
+	return m;
 }
 
 ZZ::~ZZ()
