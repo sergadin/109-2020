@@ -1,5 +1,5 @@
 #include "text.h"
-commit&
+
 ZZ::new_(int left, int right)
 {
 	int size = abs(-left + right + 1), size_ = 0;
@@ -16,7 +16,7 @@ ZZ::new_(int left, int right)
 void ZZ::copy_ (const ZZ a)
 {
 	int size = abs(-left_ + right_ + 1);
-	ZZ c(left_, right_);
+	ZZ c(a.left(), a.right());
 	for(int i = 0; i < size;i++)
 	{
 		c.mas_[i] = a.mas_[i];
@@ -64,7 +64,7 @@ int ZZ::min_ () const
 		return;
 	}
 	int min;
-	for(int i = 0; i < abs(-left_ + right + 1);i++)
+	for(int i = 0; i < abs(-left_ + right_ + 1);i++)
 	{
 		if(mas_[i] == 1)
 		{
@@ -79,7 +79,7 @@ int ZZ::max_() const
 	
 	if(size_ == 0)
 	{
-		return NULL;
+		return -1;
 	}
 	int min;
 	for(int i = abs(-left_ + right + 1) - 1; i >= 0;i--)
@@ -108,7 +108,7 @@ void ZZ::print() const {
 	cout << left_ << " " << right_ << endl;
 	for(int i = 0; i < abs(right_ - left_ + 1); i++) {
 		if(mas_[i] == 1)
-        printf("%.2lf ", left_ + i);
+        printf("%d ", left_ + i);
     }
     cout << endl;
 	cout << size_ << endl;
