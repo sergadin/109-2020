@@ -109,7 +109,7 @@ int intset::find_min() const
 	return min;
 }
 
-intset& operator*= (intset &left, const intset &right);
+intset& operator*= (intset &left, const intset &right)
 {
 	for (int i = 0, j = 0; i <= left.size_; i++)
 	{
