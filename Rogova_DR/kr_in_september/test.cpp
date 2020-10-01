@@ -16,11 +16,7 @@ int main()
 		q2.put(2);
 		q = q2;
         q = q;
-<<<<<<< HEAD
-        q.add(min_value + 2);
-=======
         q.put(min_value + 2);
->>>>>>> kak-to tak
 		std::cout << "q: " << q << endl;
 		std::cout << "q2: " << q2 << endl;
 	}
