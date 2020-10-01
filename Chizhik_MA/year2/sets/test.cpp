@@ -27,10 +27,22 @@ int main() {
 	}
 	//Fourth test
 	IntSet A = IntSet(0, 50);
-	for (int i = 0; i < 45; i += 2) {
+	for (int i = A.left(); i < A.right(); i += 2) {
 		A.add_element(i);
 	}
 	A = A;
 	cout << "Minimum of A is " << A.min() << " and maximum of A is " << A.max() << endl;
+	IntSet B(40, 100);
+	for (int k = 40; k < B.right(); k += 3) {
+		B.add_element(k);
+	}
+	IntSet C = A * B;
+	cout << "C has " << C.len() << " elements" << endl;
+	IntSet D(-200, 200);
+	if (D.is_empty()) {
+		cout << "D is empty" << endl;
+	} else {
+		cout << "D is not empty" << endl;
+	}
 	return 0;
 }
