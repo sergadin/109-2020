@@ -23,7 +23,7 @@ class ZZ
 		void push_ (int a);
 		void clean_ (int a);
 		
-		int size_() {return size_;};
+		int size_() {return size_;}
 		
 		bool isEmpty() const;
 		int min_ () const;
@@ -33,7 +33,7 @@ class ZZ
 		int right() {return right_;}
 		
 		void print() const;
-		~ZZ free_();
+		~ZZ();
 };
 /*
 bool ZZ:operator ==(const ZZ &a, const ZZ &b)
@@ -85,6 +85,17 @@ ZZ ZZ:operator =(const ZZ &other)
 	return 
 }
 */
+
+class UserException {
+	private:
+		int code_;
+		string message_;
+	public:
+		UserException(int code, string message);
+		string message() const;
+		int code() const;
+};
+
 UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {
@@ -96,12 +107,3 @@ int UserException::code() const {
 }
 
 
-class UserException {
-	private:
-		int code_;
-		string message_;
-	public:
-		UserException(int code, string message);
-		string message() const;
-		int code() const;
-};

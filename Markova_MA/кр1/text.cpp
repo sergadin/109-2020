@@ -93,7 +93,7 @@ int ZZ::max_() const
 	}
 }
 
-ZZ::~ZZ free_()
+ZZ::~ZZ()
 {
 	free(mas_);
 	size_ = 0;
