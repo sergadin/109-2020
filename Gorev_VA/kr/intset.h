@@ -9,6 +9,7 @@ class intset
 		intset(int maxval, int minval);
 		~intset();
 		intset(intset& IS);
-		void put(int item); // �������� item � �����
+		void put(int item); // добавить item в конец множества
+		void del(int item); // удалить элементы со значением item из множества
 		 
 };

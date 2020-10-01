@@ -47,14 +47,38 @@ void intset::put(int item)
 		delete[] ar_;
 	size_++;
 	ar_ = ar;
-} 
+}
+
+void intset::del(int item)
+{
+	if (size_ == 0)
+		return;
+	for (int i = 0, j = 0; i <= size_ ; i++)
+	{
+		if (i >= size_)
+		{
+			size_ = j;
+			if (size_ == 0)
+			{
+				delete[] ar_;
+			}
+		}
+		if (ar_[i] != item)
+		{
+			ar_[j] = ar_[i];
+			j++;
+		}
+	}
+}
 
 int main(void)
 {
 	intset IS(-2, 2);
 	IS.put(1);
+	IS.put(1);
 	IS.put(2);
-	IS.put(3);
+	IS.put(2);
+	IS.del(1);
 	intset IS1(IS);
 	return 0;
 }
