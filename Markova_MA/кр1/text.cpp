@@ -1,5 +1,5 @@
 #include "text.h"
-
+commit&
 ZZ::new_(int left, int right)
 {
 	int size = abs(-left + right + 1), size_ = 0;
