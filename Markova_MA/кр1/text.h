@@ -23,7 +23,9 @@ class ZZ
 		void push_ (int a);
 		void clean_ (int a);
 		
-		int size_() {return size_;}
+		int size() {
+			return size_;
+		}
 		
 		bool isEmpty() const;
 		int min_ () const;

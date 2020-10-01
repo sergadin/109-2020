@@ -1,6 +1,6 @@
 #include "text.h"
 
-ZZ::new_(int left; int right)
+ZZ::new_(int left, int right)
 {
 	int size = abs(-left + right + 1), size_ = 0;
 	int mas_ = (int*)malloc(size*sizeof(*array));
