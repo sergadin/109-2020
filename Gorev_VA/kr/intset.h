@@ -9,6 +9,7 @@ class intset
 		intset(int maxval, int minval);
 		~intset();
 		intset(intset& IS);
+		intset(const intset& IS);
 		bool find_item(int item) const; // найти элемент в множестве
 		void put(int item); // добавить item в конец множества
 		void del(int item); // удалить элементы со значением item из множества
