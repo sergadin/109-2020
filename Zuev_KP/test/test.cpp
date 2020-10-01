@@ -1,33 +1,37 @@
 #include <iostream>
-#include "kuslin.h"
+#include "intset.h"
 
-using namespace std;
-
-int main()
+int main() 
 {
-	Queue q(10);
-	
-	q.put(1234);
-	std::cout << q << endl;
+  IntSet big(0, 100);
+  const int max_itertions = 500;
 
-	try
-	{
-	Queue q2(0);
-	Queue q3 = q2;
-	q = q2;
-	q = q;
-	std::cout << "q: " << q << endl;
-	std::cout << "q2: " << q2 << endl;
-	}	
-	catch(QueueError &err)
-	{
-		std::cout << "EXCEPTION: " << err.get_reason() << std::endl;
-	}
+  for(int iter = 0; iter < max_iterations; iter++) 
+  {
+    IntSet temp(0, big.right());
+    for(int item = temp.left(); item <= temp.right(); item++) 
+    {
+      if((item % 7) > (iter % 11))
+        temp.add(item);
+    }
+    if(iter > 0)
+      big = big * temp;
+    else
+      big = temp;
+  }
+  big = big;
+  std::cout << "min = " << big.min() << ", max = " << big.max() << std::endl;
 
-	std::cout << q << endl;
+  try 
+  {
+    IntSet invalid(-1, -2);
+    std::cerr << "**** An exception was expected! *****" << endl;
+    return -1;
+  }
+  catch(...) 
+  {
+    // ...
+  }
 
-	cout << "First item is: "<< q.get_first() << std::endl;
-	std::cout << q << endl;
-
-	return 0;
-} 
+  return 0;
+}
