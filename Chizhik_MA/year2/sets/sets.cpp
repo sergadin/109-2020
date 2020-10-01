@@ -1,10 +1,14 @@
 #include <string>
 #include "sets.hpp"
 
+#include <stdio.h>
+
 using namespace std;
 
 IntSet::IntSet(int min, int max): sup_(max), inf_(min) {
-	if (min > max) throw IntSetException(-1, "Incorrect range");
+	if (sup_ < inf_) {
+		throw IntSetException(-1, "Incorrect range");
+	}
 	len_ = 0;
 	size_ = 10;
 	list_ = new int[size_];
@@ -51,7 +55,7 @@ void IntSet::remove_element(int a) {
 }
 
 int IntSet::min() const {
-	if (this->is_empty()) throw IntSetException(-1, "Set is empty");
+	if (this->is_empty()) throw IntSetException(-3, "Set is empty");
 	int min = list_[0];
 	for (int i = 1; i < len_; i++) {
 		if (list_[i] < min) min = list_[i];
@@ -60,7 +64,7 @@ int IntSet::min() const {
 }
 
 int IntSet::max() const {
-	if (this->is_empty()) throw IntSetException(-1, "Set is empty");
+	if (this->is_empty()) throw IntSetException(-3, "Set is empty");
 	int max = list_[0];
 	for (int i = 1; i < len_; i++) {
 		if (list_[i] > max) max = list_[i];
@@ -88,6 +92,7 @@ bool operator==(const IntSet& A, const IntSet& B) {
 }
 
 IntSet& IntSet::operator=(const IntSet &B) {
+	if (&B == this) return *this;
 	delete[] list_;
 	size_ = B.len_ + 10;
 	len_ = B.len();
