@@ -60,8 +60,8 @@ public:
        
        IntSet & operator=(const IntSet & right);// присваивание
        IntSet & operator==(const IntSet & right); //сравнение
-       IntSet & operator*(const IntSet & right); // пересечения
-      IntSet & operator*=(const IntSet & right);
+  //     IntSet & operator*(const IntSet & right); // пересечения
+     IntSet & operator*=(const IntSet & right);
        
        friend std::ostream&  operator<<(std::ostream &os, const IntSet& q);
    };

@@ -72,7 +72,7 @@ int IntSet::min()
     throw IntSetError(-4, std::string("тут пусто"));
     
     int min = elements_[1];
-    for(int i=0;i<abs(right_-left_);i++)
+    for(int i=0;i<n_;i++)
     {
         if (elements_[i] < min) min = elements_[i];
     }
@@ -86,7 +86,7 @@ int IntSet::max()
     throw IntSetError(-4, std::string("тут пусто"));
     
     int max = elements_[1];
-    for(int i=0;i<abs(right_-left_);i++)
+    for(int i=0;i<n_;i++)
     {
         if (elements_[i] > max) max = elements_[i];
     }
@@ -125,15 +125,15 @@ IntSet & IntSet::operator==(const IntSet & right)
 
 IntSet & IntSet::operator*=(const IntSet & right)
 {
-    if(this == &right) {return *this;}
+   if(this == &right) {return *this;}
     
     if (n_!=0)
     {
       for (int k=0; k < n_;k++)
          {  int match = 0;
-            for (int p=0; p < n_;p++)
+           for (int p=0; p < n_;p++)
            if  (elements_[k] == right.elements_[p] ) match++;
-            if (match==0)
+           if (match==0)
         {
             delete  &elements_[k];
             shift_left(k);
@@ -169,7 +169,7 @@ IntSet & IntSet::operator*=(const IntSet & right)
 //}
 std::ostream & operator<<(std::ostream &os, const IntSet &q)
 {
-    os << "Quant of size " << abs(q.right_-q.left_)<<"with"<< q.n_ << "items";
+    os << "Quant of size " << abs(q.right_-q.left_)<<"with "<< q.n_ << "items ";
     for (int k  = 0; k < q.n_;k++)
     {
        os << "\t" << q.elements_[k] << "\n";
