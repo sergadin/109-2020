@@ -31,13 +31,26 @@ int main() {
 		A.add_element(i);
 	}
 	A = A;
+	A.remove_element(48);
+	try {
+		A.add_element(46); //Trying to add element that is already in the set
+		A.remove_element(56);
+	} catch (IntSetException& e) {
+		cerr << e.message() << endl;		
+	}
 	cout << "Minimum of A is " << A.min() << " and maximum of A is " << A.max() << endl;
 	IntSet B(40, 100);
 	for (int k = 40; k < B.right(); k += 3) {
 		B.add_element(k);
 	}
+	//Fifth test (intersection)
 	IntSet C = A * B;
-	cout << "C has " << C.len() << " elements" << endl;
+	if (C <= C) {
+		cout << "C is subset of C, that's great" << endl;
+	}
+	C *= C;
+	cout << "C has " << C.len() << " element(s)" << endl;
+	//Sixth test (emptiness)
 	IntSet D(-200, 200);
 	if (D.is_empty()) {
 		cout << "D is empty" << endl;
