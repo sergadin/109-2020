@@ -5,21 +5,22 @@ class inte{
 		int right;
 		int *a;
 	public:
-		inte(int left, int right);
-		~inte();
+		inte(int left, int right);//+
+		~inte();//+
 		inte(const inte &integer); //конструктор копирования
 		inte& operator=(const inte &integer); //оператор присваивания
-		inte operator*(const inte &integer);
-		inte& operator*=(const inte &integer);
 		inte& operator==(const inte &integer);
-		int check() const; //проверка пустоты множества
-		int fmin() const;
-		int fmax() const;
-		int fleft() const;
-		int fright() const;
+		int check() const; //+проверка пустоты множества
+		int fmin() const;//+
+		int fmax() const;//+
+		int fleft() const;//+
+		int fright() const;//+
 		void print() const;
-		void add(int x);
-		void del(int x);
+		void add(int x);//+
+		void del(int x);//+
+
+        friend inte& operator*(const inte &x, const inte &y);
+        friend inte& operator*=(inte &x, const inte &y);
 };
 
 
