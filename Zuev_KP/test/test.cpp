@@ -1,12 +1,16 @@
 #include <iostream>
-#include "kuslin.h"
+#include "intset.h"
 
-int main()
+using namespace std;
+
+int main() 
 {
-	ZZ a = 9, b = 1;
-	for(int n=0; n < 4; n++)
-		b = b * a;
-	std::cout << "a^n = " << b << std::endl;
-	if(a.isPositive())
-		std::cout << "Это положительное число!" << std::endl;
-} 
+  IntSet q(0, 100);
+  q.put(5);
+  q.put(10);
+  q.put(15);
+  q.put(50);
+  q.put(55);
+  std::cout << q << endl;
+  return 0;
+}
