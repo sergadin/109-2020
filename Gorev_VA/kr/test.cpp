@@ -39,7 +39,8 @@ int main(void)
     else
         std::cout << "IS != IS\n";
 
-    std::cout << "min is " << (IS *= IS1).find_min() << "\n";
-    std::cout << "left border is " << (IS *= IS1).left_bord() << "\n";
+    IS * IS1;
+    //std::cout << "min is " << (IS *= IS1).find_min() << "\n";
+    //std::cout << "left border is " << (IS *= IS1).left_bord() << "\n";
 	return 0;
 }

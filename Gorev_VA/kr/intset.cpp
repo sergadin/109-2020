@@ -148,7 +148,7 @@ intset& operator*= (intset &left, const intset &right)
 	return left;
 }
 
-/*intset& operator* (const intset &left, const intset &right)
+intset operator* (const intset &left, const intset &right)
 {
 	intset IS(left.minval_, left.maxval_);
 
@@ -183,7 +183,7 @@ intset& operator*= (intset &left, const intset &right)
 		}
 	}
 	return  IS;
-}*/
+}
 
 bool operator== (const intset &left, const intset &right)
 {
