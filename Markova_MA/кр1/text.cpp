@@ -1,6 +1,6 @@
 #include "text.h"
 
-ZZ::new_(int left, int right)
+ZZ::ZZ(int left, int right)
 {
 	int size_ = 0;
 	left_ = left;
