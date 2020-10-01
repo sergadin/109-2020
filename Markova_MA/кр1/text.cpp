@@ -141,7 +141,7 @@ void ZZ::print() const {
     }
 	cout << left_ << " " << right_ << endl;
 	for(int i = 0; i < size_; i++) {
-        printf("%d ", mas[i]);
+        printf("%d ", mas_[i]);
     }
     cout << endl;
 	cout << size_ << endl;
