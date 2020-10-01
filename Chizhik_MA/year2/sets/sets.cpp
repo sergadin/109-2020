@@ -94,6 +94,7 @@ bool operator<=(const IntSet& A, const IntSet& B) {
 	return subset;
 }
 
+/* Ведется поэлементное сравнение, верхняя и нижняя грани в расчет не берутся */
 bool operator==(const IntSet& A, const IntSet& B) {
 	return (A <= B) && (B <= A);
 }
