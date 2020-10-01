@@ -1,19 +1,19 @@
 #include <iostream>
 
-class QuantError {
+class IntSetError {
 private:
     int code_;
     std::string reason_;
     
 public:
-    QuantError(int code, const std::string& reason) {
+    IntSetError(int code, const std::string& reason) {
         code_ = code;
         reason_ = reason;
     }
     
     const std::string& get_reason() const { return reason_; }
 };
-  class Quant
+  class IntSet
 
    {
    private:
@@ -23,11 +23,11 @@ public:
        int n_;   // число элем в множесте текущее
       
        void shift_left(int num); //сдвиг влево
-       Quant () {}
+       IntSet () {}
    public:
        // создание пустого множества с макс размером
-       Quant( int left, int right);
-       ~Quant();
+      IntSet( int left, int right);
+       ~IntSet();
        
    
        // добавить item в конец очереди
@@ -58,8 +58,10 @@ public:
        
        void clear();
        
-       Quant & operator=(const Quant & right);// присваивание
-       Quant & operator==(const Quant & right); //сравнение
-       //friend Quant& operator+= (Quant &left, const Quant& right);
-       friend std::ostream&  operator<<(std::ostream &os, const Quant& q);
+       IntSet & operator=(const IntSet & right);// присваивание
+       IntSet & operator==(const IntSet & right); //сравнение
+  //     IntSet & operator*(const IntSet & right); // пересечения
+     IntSet & operator*=(const IntSet & right);
+       
+       friend std::ostream&  operator<<(std::ostream &os, const IntSet& q);
    };

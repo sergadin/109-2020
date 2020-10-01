@@ -116,7 +116,7 @@ int intset::find_min() const
 	int min = maxval_;
 	if (size_ == 0)
 	{
-		std::cout << "Set os emtpy\n";
+		std::cout << "Set is emtpy\n";
 		return minval_ - 1;
 	}
 	for (int i = 0; i < size_; i++)
@@ -136,6 +136,7 @@ intset& operator*= (intset &left, const intset &right)
 			{
 				delete[] left.ar_;
 			}
+			break;
 		}
 		if (right.find_item(left.ar_[i]))
 		{
@@ -146,8 +147,39 @@ intset& operator*= (intset &left, const intset &right)
 	return left;
 }
 
-intset& operator* (const intset &left, const intset &right)
+/*intset& operator* (const intset &left, const intset &right)
 {
-	intset IS(left);
-	return IS *= right;
-}
+	intset IS(left.minval_, left.maxval_);
+
+	if (left.minval_ <= right.minval_)
+		IS.minval_ = left.minval_;
+	else
+		IS.minval_ = right.minval_;
+	if (left.maxval_ >= right.maxval_)
+		IS.maxval_ = left.maxval_;
+	else
+		IS.maxval_ = right.maxval_;
+
+	if (left.size_ <= 0)
+		return IS;
+	IS.ar_ = new int[left.size_];
+
+	for (int i = 0, j = 0; i <= left.size_; i++)
+	{
+		if (i >= left.size_)
+		{
+			IS.size_ = j;
+			if (IS.size_ == 0)
+			{
+				delete[] IS.ar_;
+			}
+			break;
+		}
+		if (right.find_item(left.ar_[i]))
+		{
+			IS.ar_[j] = left.ar_[i];
+			j++;
+		}
+	}
+	return  IS;
+}*/
