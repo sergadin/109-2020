@@ -88,7 +88,7 @@ ZZ ZZ:operator =(const ZZ &other)
 }
 */
 
-class UserException {
+/*class UserException {
 	private:
 		int code_;
 		string message_;
@@ -97,7 +97,7 @@ class UserException {
 		string message() const;
 		int code() const;
 };
-
+*/
 /*UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {

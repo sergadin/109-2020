@@ -5,13 +5,12 @@ ZZ::new_(int left, int right)
 	int size = abs(-left + right + 1), size_ = 0;
 	int mas_ = (int*)malloc(size*sizeof(*array));
 	if (!array) {
-        throw UserException(1, "Memory Allocation Error");
+       /// throw UserException(1, "Memory Allocation Error");
     }
 	for(int i = 0;i < size;i++)
 	{
 		mas[i] = 0;
 	}
-	//mas = NULL;
 }
 
 void ZZ::copy_ (const ZZ a)
@@ -62,7 +61,7 @@ int ZZ::min_ () const
 {
 	if(size_ == 0)
 	{
-		return NULL;
+		return;
 	}
 	int min;
 	for(int i = 0; i < abs(-left_ + right + 1);i++)
