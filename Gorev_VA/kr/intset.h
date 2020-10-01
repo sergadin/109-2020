@@ -34,5 +34,6 @@ class intset
 
 		friend intset& operator* (const intset &left, const intset &right); // пересечение двух множеств
 		friend intset& operator*= (intset &left, const intset &right); // пересечение множества с другим множеством
+		friend bool operator== (const intset &left, const intset &right);
 
 };
