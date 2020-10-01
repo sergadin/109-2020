@@ -70,3 +70,31 @@ void intset::del(int item)
 		}
 	}
 }
+
+int intset::find_max()
+{
+	int max = minval_;
+	if (size_ == 0)
+	{
+		std::cout << "Set os emtpy\n";
+		return maxval_ + 1;
+	}
+	for (int i = 0; i < size_; i++)
+		if (ar_[i] > max)
+			max = ar_[i];
+	return max;
+}
+
+int intset::find_min()
+{
+	int min = maxval_;
+	if (size_ == 0)
+	{
+		std::cout << "Set os emtpy\n";
+		return minval_ - 1;
+	}
+	for (int i = 0; i < size_; i++)
+		if (ar_[i] < min)
+			min = ar_[i];
+	return min;
+}
