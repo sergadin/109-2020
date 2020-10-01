@@ -21,5 +21,13 @@ class intset
 		}
 		int find_max(); // максимальный элемент в множестве
 		int find_min(); // минимальный элемент в множестве
+		int left_bord() // левая граница множества
+		{
+			return minval_;
+		}
+		int right_bord() // правая граница множества
+		{
+			return maxval_;
+		}
 
 };
