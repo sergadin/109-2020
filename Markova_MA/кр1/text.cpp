@@ -4,7 +4,7 @@ ZZ::new_(int left, int right)
 {
 	int size = abs(-left + right + 1), size_ = 0;
 	int mas_ = (int*)malloc(size*sizeof(*array));
-	if (!array) {
+	if (!mas) {
        /// throw UserException(1, "Memory Allocation Error");
     }
 	for(int i = 0;i < size;i++)
