@@ -149,7 +149,7 @@ intset& operator*= (intset &left, const intset &right)
 
 intset& operator* (const intset &left, const intset &right)
 {
-	intset IS;
+	intset IS(left.minval_, left.maxval_);
 
 	IS.size_ = 0;
 	if (left.minval_ <= right.minval_)
