@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "sum.h"
+#include "root.h"
 
 double findRoot(double a, double b, double epsilon, RRFUN f)
 {
