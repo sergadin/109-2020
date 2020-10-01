@@ -156,7 +156,6 @@ Matr operator* (const Matr& lev, const Matr& prav)
 	return res;
 }
 
-
 std::ostream & operator<<(std::ostream &os, const Matr &q)
 {
 	os << "Matr of size" << q.size_  << "items:\n";
