@@ -146,7 +146,7 @@ intset& operator*= (intset &left, const intset &right)
 	return left;
 }
 
-intset& operator* (const intset &left, const intset &right)
+/*intset& operator* (const intset &left, const intset &right)
 {
 	intset IS1(left);
 	std::cout << "qwerty" << IS1.find_item(0) << "\n";
@@ -154,4 +154,4 @@ intset& operator* (const intset &left, const intset &right)
 	std::cout << "qwerty" << IS1.find_item(2) << "\n";
 	//IS1 *= right;
 	return IS1;
-}
+}*/
