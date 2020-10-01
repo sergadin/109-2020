@@ -116,7 +116,7 @@ int intset::find_min() const
 	int min = maxval_;
 	if (size_ == 0)
 	{
-		std::cout << "Set os emtpy\n";
+		std::cout << "Set is emtpy\n";
 		return minval_ - 1;
 	}
 	for (int i = 0; i < size_; i++)
@@ -152,5 +152,6 @@ intset& operator* (const intset &left, const intset &right)
 	std::cout << "qwerty" << IS.find_item(0) << "\n";
 	std::cout << "qwerty" << IS.find_item(1) << "\n";
 	std::cout << "qwerty" << IS.find_item(2) << "\n";
-	return IS *= right;
+	IS *= right;
+	return IS;
 }
