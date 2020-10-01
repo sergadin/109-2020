@@ -4,7 +4,7 @@ class intset
 		int *ar_;
 		int size_;
 		int maxval_;
-		int min_val;
+		int minval_;
 	public:
 		intset(int maxval, int minval);
 		~intset();
