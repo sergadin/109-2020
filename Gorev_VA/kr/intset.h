@@ -9,4 +9,6 @@ class intset
 		intset(int maxval, int minval);
 		~intset();
 		intset(intset& IS);
+		void put(int item); // добавить item в конец
+		 
 };

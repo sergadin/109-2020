@@ -34,8 +34,25 @@ intset::intset(intset& IS)
 	std::cout << ar_[i] << "\n";
 }
 
+void intset::put(int item)
+{
+	if ((item > maxval_) || (item < minval_))
+		return;
+	int *ar;
+	ar = new int[size_ + 1];
+	for (int i = 0; i < size_; i++)
+		ar[i] = ar_[i];
+	ar[size_] = item;
+	if (size_ > 0)
+		delete[] ar_;
+	size_++;
+	ar_ = ar;
+} 
+
 int main(void)
 {
-	intset IS(-1, 1);
+	intset IS(-2, 2);
+	IS.put(1);
+	intset IS1(IS);
 	return 0;
 }
