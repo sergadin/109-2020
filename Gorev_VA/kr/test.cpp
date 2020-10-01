@@ -29,9 +29,10 @@ int main(void)
 	IS1.put(2);
 	IS1.put(2);
 
-    IS *= IS1;
+    intset IS2(-2, 2);
+    IS2 = IS * IS1;
 
-    std::cout << "min is " << IS.find_min() << "\n";
-    std::cout << "left border is " << IS.left_bord() << "\n";
+    std::cout << "min is " << IS2.find_min() << "\n";
+    std::cout << "left border is " << IS2.left_bord() << "\n";
 	return 0;
 }
