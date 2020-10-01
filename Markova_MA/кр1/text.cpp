@@ -24,7 +24,9 @@ void ZZ::push_ (int a)
 	if(a < left_ || a > right_)
 	{
 		//throw(-1, "a < left || a > right");
+		printf("1");
 		return;
+		
 	}
 	//int temp = a - left_;
 	for(int i = 0; i < size_; i++)
@@ -32,6 +34,7 @@ void ZZ::push_ (int a)
 		if(a == mas_[i])
 			return;
 	}
+	printf("2");
 	int *mas;
 	mas = new int[size_ + 1];
 	for(int i = 0; i < size_; i++)
@@ -39,6 +42,7 @@ void ZZ::push_ (int a)
 		mas[i] == mas_[i];
 	}
 	mas[size_] = a;
+	printf("%d", mas[size_]);
 	size_++;
 	if (size_ > 0)
 		delete mas_;
