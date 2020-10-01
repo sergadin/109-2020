@@ -4,16 +4,16 @@ using namespace std;
 
 IntSet::IntSet(int min, int max) {
 	len_ = 0;
-	size_ = 100;
+	size_ = 10;
 	list_ = new int[size_];
 
 	inf_ = min;
 	sup_ = max;
 }
 
-IntSet::IntSet(IntSet& set) {
-	len_ = set.len_;
-	size_ = set.size_;
+IntSet::IntSet(const IntSet& set) {
+	len_ = set.len();
+	size_ = set.len() + 10;
 	list_ = new int[size_];
 
 	inf_ = set.inf_;
@@ -29,7 +29,7 @@ IntSet::~IntSet() {
 }
 
 void IntSet::add_element(int a) {
-	if ((a > sup_) || (a < inf_)) throw IntSetException(-2, "Out of range");
+	if ((a > this->right()) || (a < this->left())) throw IntSetException(-2, "Out of range");
 	for (int i = 0; i < len_; i++) {
 		if (a == list_[i]) return;
 	}
@@ -54,7 +54,7 @@ void IntSet::remove_element(int a) {
 	}
 }
 
-int IntSet::min() {
+int IntSet::min() const {
 	if (this->is_empty()) throw IntSetException(-1, "Set is empty");
 	int min = list_[0];
 	for (int i = 1; i < len_; i++) {
@@ -63,11 +63,64 @@ int IntSet::min() {
 	return min;
 }
 
-int IntSet::min() {
+int IntSet::max() const {
 	if (this->is_empty()) throw IntSetException(-1, "Set is empty");
 	int max = list_[0];
 	for (int i = 1; i < len_; i++) {
 		if (list_[i] > max) max = list_[i];
 	}
 	return max;
+}
+
+bool operator<=(const IntSet& A, const IntSet& B) {
+	bool subset = true;
+	for (int i = 0; i < A.len(); i++) {
+		bool belongs = false;
+		for (int j = 0; j < B.len(); j++) {
+			if (A.list_[i] == B.list_[j]) {
+				belongs = true;
+				break;
+			}
+		}
+		if (!belongs) break;
+	}
+	return subset;
+}
+
+bool operator==(const IntSet& A, const IntSet& B) {
+	return (A <= B) && (B <= A);
+}
+
+IntSet& IntSet::operator=(const IntSet &B) {
+	delete[] list_;
+	size_ = B.len() + 10;
+	len_ = B.len();
+	list_ = new int[size_];
+
+	for (int i = 0; i < len_; i++) {
+		list[i] = B.list_[i];
+	}
+
+	return *this;
+}
+
+IntSet& operator*(const IntSet& A, const IntSet& B) {
+	int left = (A.left() < B.left()) ? B.left() : A.left();
+	int right = (A.right() > B.right()) ? B.right() : A.right();
+
+	IntSet product = IntSet(left, right);
+	for (int i = 0; i < A.len(); i++) {
+		for (int k = 0; k < B.len(); k++) {
+			if (A.list_[i] == B.list_[k]) {
+				product.add_element(A.list_[i]);
+			}
+		}
+	}
+
+	return product;
+}
+
+IntSet& operator*=(IntSet& A, const IntSet& B) {
+	A = A * B;
+	return A;
 }

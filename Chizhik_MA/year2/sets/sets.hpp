@@ -1,7 +1,7 @@
 class IntSet {
 	private:
-		int sup_;
-		int inf_;
+		const int sup_;
+		const int inf_;
 		int* list_;
 		int size_;
 		int len_;
@@ -11,22 +11,23 @@ class IntSet {
 		IntSet(const IntSet& set);
 		~IntSet();
 
-		bool is_empty() { return len_ == 0; }
-		int length() { return len_; }
+		bool is_empty() const { return len_ == 0; }
+		int length() const { return len_; }
 
 		void add_element(int a);
 		void remove_element(int a);
 
-		int min();
-		int max();
+		int min() const;
+		int max() const;
 
-		int left() { return inf_; }
-		int right() { return sup_; }
+		int left() const { return inf_; }
+		int right() const { return sup_; }
 
-		friend bool operator==(IntSet A, IntSet B);
-		friend IntSet& operator*(IntSet A, IntSet B);
-		IntSet& operator*=(IntSet B);
-		IntSet& operator=(IntSet B);
+		friend bool operator<= const (const IntSet& A, const IntSet& B);
+		friend bool operator== const (const IntSet& A, const IntSet& B);
+		friend IntSet& operator*(IntSet& A, IntSet& B);
+		IntSet& operator*=(IntSet& B);
+		IntSet& operator=(IntSet& B);
 }
 
 class IntSetException {
