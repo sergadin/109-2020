@@ -4,17 +4,19 @@
 
 int main()
 {
-	ZZ a(3,6), b(4, 9);
+	ZZ a(3,6), b(4,9);
 	cout << "a, b"<< endl;
 	a.print();
-	b.print();
-	a.push(5);
+	//b.print();
+	a.push_(5);
+	a.print();
 	if(b.isEmpty())
 	{
-		cout << "empty" << endl;
+		print("empty");
+		cout << endl;
 	}
 	a.print();
-	cout << a.size_() << endl;
+	cout << a.size() << endl;
 	a.clean_(5);
 	a.print();
 	

@@ -10,11 +10,11 @@ class ZZ
 	private:
 		int left_;
 		int right_;
-		int mas_;
+		int *mas_;
 		int size_;
 		ZZ();
 	public:
-		ZZ ZZ(int left, int right); //создает пустой
+		ZZ (int left, int right); //создает пустой
 		//ZZ operator =(const ZZ &other);
 		//ZZ operator *(const ZZ &other);
 		//ZZ operator *=(const ZZ &other);
@@ -31,8 +31,8 @@ class ZZ
 		int min_ () const;
 		int max_() const;
 		
-		int left() {return left_;}
-		int right() {return right_;}
+		int left() const {return left_;}
+		int right() const {return right_;}
 		
 		void print() const;
 		~ZZ();

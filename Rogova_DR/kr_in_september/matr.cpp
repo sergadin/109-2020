@@ -40,7 +40,9 @@ void Matr::put(int el)
 {
 	int ind = 0;
 	if((el < left_) || (el > right_))
+	{
 		throw MatrError(-2, std::string("No place"));
+	}
 	for(int k = 0; k < right_ - left_ + 1; k ++)
 	{
 		if(el == elements_[k])
@@ -48,6 +50,7 @@ void Matr::put(int el)
 	}
 	if(ind == 0)
 	{
+		size_ ++;
 		elements_[size_ - 1] = el;
 	}
 		
@@ -140,12 +143,17 @@ Matr & Matr::operator=(const Matr & prav)
 }
 Matr operator* (const Matr& lev, const Matr& prav)
 {
+	if(&lev == &prav)
+        {
+                return lev;
+        }
+
 	int legr = prav.left_;
 	int pragr = prav.right_;
 	if(lev.left_ >= legr)
 		legr = lev.left_;
 	if(lev.right_ <= pragr)
-		pragr = prav.right_;
+		pragr = lev.right_;
 	Matr res(legr, pragr);
 	for(int k = legr; k <= pragr; k ++)
 	{
@@ -154,6 +162,26 @@ Matr operator* (const Matr& lev, const Matr& prav)
 
 	}
 	return res;
+}
+bool operator== (const Matr& lev, const Matr& prav)
+{
+	if(&lev == &prav)
+        {
+                return true;
+        }
+
+	for(int k = 0; k < lev.size_; k ++)
+	{
+		if((prav.find_el(lev.elements_[k])) != 1)
+			return false;
+	}
+	for(int k = 0; k < prav.size_; k ++)
+        {
+                if((lev.find_el(prav.elements_[k])) != 1)
+                        return false;
+        }
+	return true;
+
 }
 
 
@@ -167,3 +195,5 @@ std::ostream & operator<<(std::ostream &os, const Matr &q)
 	return os;
 
 }
+
+

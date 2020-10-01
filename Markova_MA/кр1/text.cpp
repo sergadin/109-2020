@@ -11,8 +11,8 @@ void ZZ::copy_ (const ZZ a)
 {
 	left_ = a.left();
 	right_ = a.right();	
-	mas_ = int new[a.size()]
-	for(int i = 0; i < size;i++)
+	mas_ = (int*)malloc(a.size_*sizeof(*mas_));
+	for(int i = 0; i < a.size_;i++)
 	{
 		mas_[i] = a.mas_[i];
 	}
@@ -36,7 +36,7 @@ void ZZ::push_ (int a)
 	mas = new int[size_ + 1];
 	for(int i = 0; i < size_; i++)
 	{
-		mas[i] == mas_[i])
+		mas[i] == mas_[i];
 	}
 	mas[size_] = a;
 	size_++;
@@ -70,13 +70,13 @@ void ZZ::clean_ (int a)
 		}
 		else
 		{
-			mas[j] == mas_[i]);
+			mas[j] == mas_[i];
 			j++;
 		}
 	}
 	size_--;
 	if (size_ > 0)
-		delete mas_;
+		delete[] mas_;
 	mas_ = mas;
 }
 
@@ -93,14 +93,14 @@ int ZZ::min_ () const
 {
 	if(size_ == 0)
 	{
-		return;
+		return -1;
 	}
 	int m = mas_[0];
 	for(int i = 0; i < size_; i++)
 	{
 		if(mas_[i] < m)
 		{
-			m = mas[i];
+			m = mas_[i];
 		}
 	}
 	return m;
@@ -110,14 +110,14 @@ int ZZ::max_() const
 {
 	if(size_ == 0)
 	{
-		return;
+		return -1;
 	}
 	int m = mas_[0];
 	for(int i = 0; i < size_; i++)
 	{
 		if(mas_[i] > m)
 		{
-			m = mas[i];
+			m = mas_[i];
 		}
 	}
 	return m;
@@ -129,7 +129,7 @@ ZZ::~ZZ()
 		delete[] mas_;
 	size_ = 0;
 	left_ = 0;
-	right = 0;
+	right_ = 0;
 }
 
 void ZZ::print() const {
