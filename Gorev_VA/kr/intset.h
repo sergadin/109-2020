@@ -1,3 +1,24 @@
+#include <string>
+
+class intsetError
+{
+	private:
+		int code_;
+		std::string reason_;
+	public:
+		intsetError(int code, std::string reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
+
+		const std::string get_reason() const
+		{
+			return reason_;
+		}
+
+};
+
 class intset
 {
 	private:

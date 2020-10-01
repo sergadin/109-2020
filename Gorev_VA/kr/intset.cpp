@@ -1,5 +1,6 @@
 #include <iostream>
 #include "intset.h"
+#include <string>
 
 intset::intset(int minval, int maxval)
 {
