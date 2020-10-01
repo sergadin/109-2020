@@ -121,7 +121,7 @@ intset& operator*= (intset &left, const intset &right)
 				delete[] left.ar_;
 			}
 		}
-		if (!right.find_item(left.ar_[i]))
+		if (right.find_item(left.ar_[i]))
 		{
 			left.ar_[j] = left.ar_[i];
 			j++;
