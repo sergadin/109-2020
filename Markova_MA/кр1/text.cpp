@@ -3,10 +3,7 @@
 ZZ::new_(int left, int right)
 {
 	int size = abs(-left + right + 1), size_ = 0;
-	int mas_ = (int*)malloc(size*sizeof(*array));
-	if (!mas) {
-       /// throw UserException(1, "Memory Allocation Error");
-    }
+	int mas_ = (int*)malloc(size*sizeof(*mas));
 	for(int i = 0;i < size;i++)
 	{
 		mas[i] = 0;
@@ -15,7 +12,7 @@ ZZ::new_(int left, int right)
 
 void ZZ::copy_ (const ZZ a)
 {
-	int size = abs(-left_ + right_ + 1);
+	int size = abs(-a.left() + a.right() + 1);
 	ZZ c(a.left(), a.right());
 	for(int i = 0; i < size;i++)
 	{
@@ -26,11 +23,12 @@ void ZZ::copy_ (const ZZ a)
 
 void ZZ::push_ (int a)
 {
-	if(a < left_ || a > right_)
+	/*if(a < left_ || a > right_)
 	{
 		throw(-1, "a < left || a > right");
-	}
-	if(mas_[a - left_] == 1)
+	}*/
+	int temp = a - left_;
+	if(mas_[temp] == 1)
 		return;
 	mas_[a - left_] = 1;
 	size_++;
@@ -94,8 +92,11 @@ int ZZ::max_() const
 
 ZZ::~ZZ()
 {
-	free(mas_);
+	if(size_ != 0)
+		delete[] mas_;
 	size_ = 0;
+	left_ = 0;
+	right = 0;
 }
 
 void ZZ::print() const {
