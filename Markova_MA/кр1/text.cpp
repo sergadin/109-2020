@@ -11,8 +11,8 @@ void ZZ::copy_ (const ZZ a)
 {
 	left_ = a.left();
 	right_ = a.right();	
-	mas_ = int new[a.size()]
-	for(int i = 0; i < size;i++)
+	mas_ = (int*)malloc(a.size_*sizeof(*mas_));
+	for(int i = 0; i < a.size_;i++)
 	{
 		mas_[i] = a.mas_[i];
 	}
@@ -76,7 +76,7 @@ void ZZ::clean_ (int a)
 	}
 	size_--;
 	if (size_ > 0)
-		delete mas_;
+		delete[] mas_;
 	mas_ = mas;
 }
 
