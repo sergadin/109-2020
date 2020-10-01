@@ -3,16 +3,13 @@
 
 intset::intset(int maxval, int minval)
 {
+	intset;
 	size_ = 0;
 	maxval_ = maxval;
 	minval_ = minval;
-	std::cout << maxval_ << ", " << minval_ << endl;
+	std::cout << maxval_ << ", " << minval_ << "\n";
 }
 
-intset::intset(intset& IS)
-{
-	
-}
 intset::~intset()
 {
 	if (size_ != 0)
@@ -21,8 +18,13 @@ intset::~intset()
 	minval_ = 0;
 	maxval_ = 0;
 }
+
+intset::intset(intset& IS)
+{
+	
+}
+
 int main(void)
 {
-	intset IS(-1, 1);
 	return 0;
 }
