@@ -12,5 +12,5 @@ intset::intset(int maxval, int minval)
 
 intset::intset(intset& IS)
 {
-	return *this;
+	
 }
