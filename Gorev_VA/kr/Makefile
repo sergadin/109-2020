@@ -1,13 +1,12 @@
-all: do-test clean
-
-test_int.o: intset.o intset.h
-
-a.out: intset.o
-	g++ intset.o
+all: do-test clear
 
 do-test: a.out
 	./a.out
 
-clean:
-	rm intset.o
-	
+a.out: intset.o test.o
+	gcc -c intset.c
+	gcc -c test.c
+	gcc intset.o test.o -lm
+
+clear:
+	rm intset.o test.o a.out
