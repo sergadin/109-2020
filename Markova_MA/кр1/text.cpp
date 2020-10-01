@@ -100,7 +100,7 @@ int ZZ::min_ () const
 	{
 		if(mas_[i] < m)
 		{
-			m = mas[i];
+			m = mas_[i];
 		}
 	}
 	return m;
@@ -117,7 +117,7 @@ int ZZ::max_() const
 	{
 		if(mas_[i] > m)
 		{
-			m = mas[i];
+			m = mas_[i];
 		}
 	}
 	return m;
