@@ -7,6 +7,6 @@ run: sets.o test.o
 	g++ -o run sets.o test.o
 
 do-test: run
-	./run
+	valgrind ./run
 clean: sets.o test.o
 	rm -rf *.o

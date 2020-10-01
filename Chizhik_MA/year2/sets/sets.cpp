@@ -1,4 +1,5 @@
 #include <string>
+#include <cstdlib>
 #include "sets.hpp"
 
 #include <stdio.h>
@@ -11,13 +12,13 @@ IntSet::IntSet(int min, int max): sup_(max), inf_(min) {
 	}
 	len_ = 0;
 	size_ = 10;
-	list_ = new int[size_];
+	list_ = (int *)malloc(sizeof(int) * size_);
 }
 
 IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 	len_ = set.len();
 	size_ = len_ + 10;
-	list_ = new int[size_];
+	list_ = (int *)malloc(sizeof(int) * size_);
 
 	for (int i = 0; i < len_; i++) {
 		list_[i] = set.list_[i];
@@ -25,7 +26,7 @@ IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 }
 
 IntSet::~IntSet() {
-	delete[] list_;
+	free(list_);
 }
 
 void IntSet::add_element(int a) {
@@ -93,7 +94,8 @@ bool operator==(const IntSet& A, const IntSet& B) {
 
 IntSet& IntSet::operator=(const IntSet &B) {
 	if (&B == this) return *this;
-	delete[] list_;
+	free(list_);
+	list_ = NULL;
 	size_ = B.len_ + 10;
 	len_ = B.len();
 	list_ = new int[size_];
