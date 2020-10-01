@@ -6,10 +6,10 @@ int main()
 {
 	ZZ a(3,6), b(4,9);
 	cout << "a"<< endl;
-	a.print();
+	//a.print();
 	//b.print();
 	a.push_(5);
-	a.print();
+	//a.print();
 	/*if(b.isEmpty())
 	{
 		printf("empty");
