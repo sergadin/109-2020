@@ -150,10 +150,8 @@ intset& operator*= (intset &left, const intset &right)
 intset& operator* (const intset &left, const intset &right)
 {
 	intset IS;
-	if (left.size_ <= 0)
-		return left;
-	IS.ar_ = new int[left.size_];
 
+	IS.size_ = 0;
 	if (left.minval_ <= right.minval_)
 		IS.minval_ = left.minval_;
 	else
@@ -162,6 +160,10 @@ intset& operator* (const intset &left, const intset &right)
 		IS.maxval_ = left.maxval_;
 	else
 		IS.maxval_ = right.maxval_;
+
+	if (left.size_ <= 0)
+		return IS;
+	IS.ar_ = new int[left.size_];
 	
 	for (int i = 0; i < IS.size_; i++)
 		ar_[i] = IS.ar_[i];
