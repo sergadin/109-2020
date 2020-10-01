@@ -109,3 +109,23 @@ int intset::find_min() const
 	return min;
 }
 
+intset& operator*= (intset &left, const intset &right);
+{
+	for (int i = 0, j = 0; i <= left.size_; i++)
+	{
+		if (i >= left.size_)
+		{
+			left.size_ = j;
+			if (left.size_ == 0)
+			{
+				delete[] left.ar_;
+			}
+		}
+		if (!right.find_item(left.ar_[i]))
+		{
+			left.ar_[j] = ar_[i];
+			j++;
+		}
+	}
+	return left;
+}
