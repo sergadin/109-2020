@@ -7,7 +7,7 @@ class IntSetError
 		int code_;
 		std::string reason_;
 	public:
-		QueueError(int code, const std::string& reason)
+		IntSetError(int code, const std::string& reason)
 		{
 			code_ = code;
 			reason_ = reason;
@@ -23,39 +23,46 @@ class IntSetError
 class IntSet 
 { 
 	private: 
-		int *elements_; 
-		int size_; // Размер массива е1ements_ 
-		int n_; // Число элементов в очереди
+		int *elements_;
+		int a_; 
+		int b_;
+		int size_;
+		int n_;
 
-		void shift_left(); // сдвиг массива elenents_ на один элемент налево.
 	public: 
-		// Создание пустой очереди с максимальным размером size
-		Queue (unsigned int size); 
-		Queue (const Queue& obj); // Создать копию объекта obj
-		~Queue();
+		IntSet (int a, int b); 
+		IntSet (const IntSet& obj);
+		~IntSet();
 
-		// Добавить item в конец очереди 
-		void put(int item);
+		void put(int item); //Добавление		
+		
+		void exc(int item); //Исключение
 
-		int get_first();
-
-		bool is_empty() const 
+		/*
+		bool is_empty() const //Пустота
 		{ 
 			return n_ == 0;
 		} 
-		bool is_full() const 
+		bool number() const 
 		{
 			return n_ == (size_ - 1);
-		}
+		}*/
 
-		void clear();
+		IntSet & operator=(const IntSet & right);
 
-		Queue & operator=(const Queue & right);
-
-		friend Queue& operator+= (Queue &left, const Queue& right);
-		friend std::ostream& operator<<(std::ostream &os, const Queue& q);
+		friend IntSet& operator*= (IntSet &left, const IntSet& right);
+		friend std::ostream& operator<<(std::ostream &os, const IntSet& q);
+		//friend IntSet operator* (const IntSet &left, const IntSet& right);
 };
 
+/*
+Исключение элемента из множества.
+Проверка пустоты множества.
+Получение минимального / максимального значения, содержащегося в множестве.
+Получение границ множества (left, right).
+Пересечение двух множеств, пересечение множества с другим множеством (операторы * и *=).
+Проверка равенства множеств (оператор сравнения ==).
+*/
 
 
 

@@ -1,37 +1,16 @@
 #include <iostream>
 #include "intset.h"
 
+using namespace std;
+
 int main() 
 {
-  IntSet big(0, 100);
-  const int max_itertions = 500;
-
-  for(int iter = 0; iter < max_iterations; iter++) 
-  {
-    IntSet temp(0, big.right());
-    for(int item = temp.left(); item <= temp.right(); item++) 
-    {
-      if((item % 7) > (iter % 11))
-        temp.add(item);
-    }
-    if(iter > 0)
-      big = big * temp;
-    else
-      big = temp;
-  }
-  big = big;
-  std::cout << "min = " << big.min() << ", max = " << big.max() << std::endl;
-
-  try 
-  {
-    IntSet invalid(-1, -2);
-    std::cerr << "**** An exception was expected! *****" << endl;
-    return -1;
-  }
-  catch(...) 
-  {
-    // ...
-  }
-
+  IntSet q(0, 100);
+  q.put(5);
+  q.put(10);
+  q.put(15);
+  q.put(50);
+  q.put(55);
+  std::cout << q << endl;
   return 0;
 }

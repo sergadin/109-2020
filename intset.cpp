@@ -34,18 +34,8 @@ intset::intset(intset& IS)
 	std::cout << ar_[i] << "\n";
 }
 
-bool intset::find_item(int item)
-{
-	for (int i = 0; i < size_; i++)
-		if (ar_[i] == item)
-			return 1;
-	return 0;
-}
-
 void intset::put(int item)
 {
-	if (find_item(item))
-		return
 	if ((item > maxval_) || (item < minval_))
 		return;
 	int *ar;
@@ -108,4 +98,3 @@ int intset::find_min()
 			min = ar_[i];
 	return min;
 }
-
