@@ -1,10 +1,12 @@
 #include <iostream>
 #include "matr.h"
 
+const int min_value = 1000000;
+
 using namespace std;
 int main()
 {
-	Matr q(1, 5);
+	Matr q(min_value, min_value + 5);
 
 	std::cout<< q<< endl;
 
@@ -12,6 +14,8 @@ int main()
 	{
 		Matr q2(1, 7);
 		q = q2;
+        q = q;
+        q.add(min_value + 2);
 		std::cout << "q: " << q << endl;
 		std::cout << "q2: " << q2 << endl;
 	}
