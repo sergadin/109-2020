@@ -1,22 +1,21 @@
 #include <iostream>
-#include "dasha.h"
+#include "matr.h"
 
 using namespace std;
 int main()
 {
-	Queue q(100);
-	q.put(1234);
+	Matr q(1, 5);
 
 	std::cout<< q<< endl;
 
 	try
 	{
-		Queue q2(1);
+		Matr q2(1, 7);
 		q = q2;
 		std::cout << "q: " << q << endl;
 		std::cout << "q2: " << q2 << endl;
 	}
-	catch(QueueError &err)
+	catch(MatrError &err)
 	{
 		std::cout << "EXC"<< err.get_reason() << std::endl;
 	}

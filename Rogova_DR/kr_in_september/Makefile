@@ -1,16 +1,16 @@
 all: do-test clean
 
-func.o: dasha.cpp 
-#	g++ -c dasha.cpp
+func.o: matr.cpp 
+#	g++ -c matr.cpp
 
 test.o: test.cpp
 #	g++ -c test.cpp
 
-a.out: test.o dasha.o
-	g++ test.o dasha.o -lm
+a.out: test.o matr.o
+	g++ test.o matr.o -lm
 
 do-test: a.out
 	./a.out
 
-clean: test.o dasha.o
-	rm test.o dasha.o
+clean: test.o matr.o
+	rm test.o matr.o
