@@ -31,6 +31,6 @@ int main(void)
 
 
     std::cout << "min is " << (IS * IS1).find_min() << "\n";
-    std::cout << "left border is " << (IS * IS1).left_bord() << "\n";
+   // std::cout << "left border is " << (IS * IS1).left_bord() << "\n";
 	return 0;
 }
