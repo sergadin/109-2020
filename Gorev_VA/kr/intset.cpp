@@ -30,7 +30,7 @@ intset::intset(intset& IS)
 		ar_[i] = IS.ar_[i];
 	
 	std::cout << size_ << " " << minval_ << " " << maxval_ << "\n";
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size_; i++)
 	std::cout << ar_[i] << "\n";
 }
 
