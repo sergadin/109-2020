@@ -1,3 +1,24 @@
+#include <string>
+
+class intsetError
+{
+	private:
+		int code_;
+		std::string reason_;
+	public:
+		intsetError(int code, std::string reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
+
+		const std::string get_reason() const
+		{
+			return reason_;
+		}
+
+};
+
 class intset
 {
 	private:
@@ -32,7 +53,7 @@ class intset
 			return maxval_;
 		}
 
-		friend intset& operator* (const intset &left, const intset &right); // пересечение двух множеств
+		friend intset operator* (const intset &left, const intset &right); // пересечение двух множеств
 		friend intset& operator*= (intset &left, const intset &right); // пересечение множества с другим множеством
 		friend bool operator== (const intset &left, const intset &right);
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "intset.h"
+#include <string>
 
 int main(void)
 {
@@ -30,14 +31,15 @@ int main(void)
 	IS1.put(2);
 
     if (IS == IS1)
-        std::cout << "IS = IS1";
+        std::cout << "IS = IS1\n";
     else
-        std::cout << "IS != IS1";
+        std::cout << "IS != IS1\n";
     if (IS == IS)
-        std::cout << "IS = IS";
+        std::cout << "IS = IS\n";
     else
-        std::cout << "IS != IS";
+        std::cout << "IS != IS\n";
 
+    IS * IS1;
     std::cout << "min is " << (IS *= IS1).find_min() << "\n";
     std::cout << "left border is " << (IS *= IS1).left_bord() << "\n";
 	return 0;

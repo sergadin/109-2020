@@ -27,6 +27,7 @@ IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 
 IntSet::~IntSet() {
 	free(list_);
+	list_ = NULL;
 }
 
 void IntSet::add_element(int a) {
@@ -93,17 +94,21 @@ bool operator<=(const IntSet& A, const IntSet& B) {
 	return subset;
 }
 
+/* Ведется поэлементное сравнение, верхняя и нижняя грани в расчет не берутся */
 bool operator==(const IntSet& A, const IntSet& B) {
 	return (A <= B) && (B <= A);
 }
 
 IntSet& IntSet::operator=(const IntSet &B) {
+	inf_ = B.inf_;
+	sup_ = B.sup_;
+
 	if (&B == this) return *this;
 	free(list_);
 	list_ = NULL;
-	size_ = B.len_ + 10;
+	size_ = B.len() + 10;
 	len_ = B.len();
-	list_ = new int[size_];
+	list_ = (int *)malloc(sizeof(int) * size_);
 
 	for (int i = 0; i < len_; i++) {
 		list_[i] = B.list_[i];
@@ -130,6 +135,7 @@ IntSet operator*(const IntSet& A, const IntSet& B) {
 
 IntSet& IntSet::operator*=(const IntSet& B) {
 	if (this == &B) return *this;
-	*this = *this * B;
+	IntSet swap = *this * B;
+	*this = swap;
 	return *this;
 }
