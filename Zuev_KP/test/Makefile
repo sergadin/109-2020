@@ -1,10 +1,10 @@
 all: do-test clean
 
-func.o: kuslin.cpp kuslin.h
+func.o: kuslin.cpp
 #	g++ -c kuslin.cpp
 
-test.o: test.o kuslin.h
-#	g++ -c test.c
+test.o: test.cpp
+#	g++ -c test.cpp
 
 a.out: test.o kuslin.o
 	g++ test.o kuslin.o -lm
