@@ -49,6 +49,7 @@ int main() {
 		cout << "C is subset of C, that's great" << endl;
 	}
 	C *= C;
+	C *= A * A;
 	A = C;
 	cout << "A now has " << A.len() << " element(s)" << endl;
 	//Sixth test (emptiness)
