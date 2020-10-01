@@ -31,7 +31,7 @@ void ZZ::push_ (int a)
 	if(size_ == 0)
 	{
 		size_++;
-		mas_ = (int*)malloc(a.size_*sizeof(*mas_));
+		mas_ = (int*)malloc(size_*sizeof(*mas_));
 		mas_[0] = a;
 		return;
 	}
