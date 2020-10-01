@@ -31,8 +31,8 @@ class ZZ
 		int min_ () const;
 		int max_() const;
 		
-		int left() {return left_;}
-		int right() {return right_;}
+		int left() const {return left_;}
+		int right() const {return right_;}
 		
 		void print() const;
 		~ZZ();
