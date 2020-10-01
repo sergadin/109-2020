@@ -1,7 +1,7 @@
 class IntSet {
 	private:
-		const int sup_;
-		const int inf_;
+		int sup_;
+		int inf_;
 		int* list_;
 		int size_;
 		int len_;

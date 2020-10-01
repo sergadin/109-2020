@@ -49,13 +49,15 @@ int main() {
 		cout << "C is subset of C, that's great" << endl;
 	}
 	C *= C;
-	cout << "C has " << C.len() << " element(s)" << endl;
+	A = C;
+	cout << "A now has " << A.len() << " element(s)" << endl;
 	//Sixth test (emptiness)
 	IntSet D(-200, 200);
-	if (D.is_empty()) {
-		cout << "D is empty" << endl;
+	IntSet E = D;
+	if (E.is_empty()) {
+		cout << "E is empty" << endl;
 	} else {
-		cout << "D is not empty" << endl;
+		cout << "E is not empty" << endl;
 	}
 	return 0;
 }
