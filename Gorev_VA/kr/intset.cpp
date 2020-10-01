@@ -34,7 +34,7 @@ intset::intset(intset& IS)
 	std::cout << ar_[i] << "\n";
 }
 
-bool intset::find_item(int item)
+bool intset::find_item(int item) const
 {
 	for (int i = 0; i < size_; i++)
 		if (ar_[i] == item)
@@ -81,7 +81,7 @@ void intset::del(int item)
 	}
 }
 
-int intset::find_max()
+int intset::find_max() const
 {
 	int max = minval_;
 	if (size_ == 0)
@@ -95,7 +95,7 @@ int intset::find_max()
 	return max;
 }
 
-int intset::find_min()
+int intset::find_min() const
 {
 	int min = maxval_;
 	if (size_ == 0)
