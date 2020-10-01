@@ -71,13 +71,6 @@ void intset::del(int item)
 	}
 }
 
-bool intset::is_emtpy()
-{
-	if (size_ == 0)
-		return 1;
-	return 0;
-}
-
 int main(void)
 {
 	intset IS(-2, 2);
