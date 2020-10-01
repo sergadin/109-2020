@@ -8,5 +8,5 @@ class intset
 	public:
 		intset(int maxval, int minval);
 		~intset();
-		intset(intset IS);
+		intset(intset& IS);
 };
