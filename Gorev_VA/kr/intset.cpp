@@ -143,7 +143,7 @@ intset& operator*= (intset &left, const intset &right)
 			j++;
 		}
 	}
-	return *left;
+	return left;
 }
 
 intset& operator* (const intset &left, const intset &right)
