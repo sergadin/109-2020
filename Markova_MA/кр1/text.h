@@ -10,7 +10,7 @@ class ZZ
 	private:
 		int left_;
 		int right_;
-		int mas_;
+		int mas_*;
 		int size_;
 		ZZ();
 	public:
