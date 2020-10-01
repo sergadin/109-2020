@@ -4,7 +4,7 @@ IntSet::IntSet(int min, int max) {
     if (min > max) {
         throw UserException(3, "min > max");
     }
-    array_ = (int *)malloc(10*sizeof(*array_));
+    array_ = (int*)calloc(10, sizeof(*array_));
     if (!array_) {
         throw UserException(2, "Memory Allocation Error");
     }
@@ -48,6 +48,9 @@ void IntSet::resize_(int newSize) {
     array_ = (int *)realloc(array_, size_*sizeof(*array_));
     if (!array_) {
         throw UserException(2, "Memory Allocation Error");
+    }
+    for (int i = n_; i < size_; i++) {
+        array_[i] = 0;
     }
 }
 
