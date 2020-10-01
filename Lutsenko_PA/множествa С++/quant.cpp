@@ -3,6 +3,10 @@
 
 Quant::Quant(int left, int right)
 {
+    if(left - right == 0) {
+    throw QuantError(-1, std::string("нулевой размер множества"));
+}
+
     int max_size = abs(right-left);
     elements_ = new int[max_size];
     left_ = left;
@@ -33,7 +37,8 @@ void Quant::shift_left(int num)
 void Quant::delete_item(int item)
 {
     if (is_empty())
-        return;
+        throw QuantError(-4, std::string("тут пусто"));
+    
     for(int i=0;i<abs(right_-left_);i++)
     {
         if (item==elements_[i])
@@ -47,7 +52,7 @@ void Quant::delete_item(int item)
 void Quant::put_item(int item)
 {
     if (is_full())
-        return;
+        throw QuantError(-2, std::string("место занято"));
     elements_[n_++] = item;
 }
 
@@ -105,17 +110,24 @@ Quant & Quant::operator=(const Quant & right)
     return *this;
 }
 
+Quant & Quant::operator==(const Quant & right)
+{
+    if(this == &right) {std::cout<<"равны";}
+    else {std::cout<<"не равны";}
+    return *this;
+}
+
 //Quant & operator+= (Quant &left, const Quant& right)
 //{
  //   return left;
 //}
 
-//std::ostream & operator<<(std::ostream &os, const Quant &q)
-//{
-  //  os << "Quant of size " << q.size_<<"with"<< q.n_<< "items";
-  //  for (int k  = 0; k < q.n_;k++)
-  //  {
- //       os << "\t" << q.elements_[k] << "\n";
-  //  }
-   // return os;
-//}
+std::ostream & operator<<(std::ostream &os, const Quant &q)
+{
+    os << "Quant of size " << abs(q.right_-q.left_)<<"with"<< q.n_ << "items";
+    for (int k  = 0; k < q.n_;k++)
+    {
+       os << "\t" << q.elements_[k] << "\n";
+    }
+    return os;
+}

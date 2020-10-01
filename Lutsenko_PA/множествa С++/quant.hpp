@@ -1,4 +1,18 @@
 #include <iostream>
+
+class QuantError {
+private:
+    int code_;
+    std::string reason_;
+    
+public:
+    QuantError(int code, const std::string& reason) {
+        code_ = code;
+        reason_ = reason;
+    }
+    
+    const std::string& get_reason() const { return reason_; }
+};
   class Quant
 
    {
@@ -44,7 +58,8 @@
        
        void clear();
        
-       Quant & operator=(const Quant & right);
+       Quant & operator=(const Quant & right);// присваивание
+       Quant & operator==(const Quant & right); //сравнение
        //friend Quant& operator+= (Quant &left, const Quant& right);
-       //friend std::ostream&  operator<<(std::ostream &os, const Quant& q);
+       friend std::ostream&  operator<<(std::ostream &os, const Quant& q);
    };
