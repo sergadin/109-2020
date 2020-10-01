@@ -14,7 +14,7 @@ class ZZ
 		int size_;
 		ZZ();
 	public:
-		ZZ ZZ(int left, int right); //создает пустой
+		ZZ (int left, int right); //создает пустой
 		//ZZ operator =(const ZZ &other);
 		//ZZ operator *(const ZZ &other);
 		//ZZ operator *=(const ZZ &other);
