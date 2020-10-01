@@ -24,7 +24,7 @@ void ZZ::push_ (int a)
 	if(a < left_ || a > right_)
 	{
 		//throw(-1, "a < left || a > right");
-		printf("1");
+		cout << "1";
 		return;
 		
 	}
