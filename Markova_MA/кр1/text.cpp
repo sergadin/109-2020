@@ -36,7 +36,7 @@ void ZZ::push_ (int a)
 	mas = new int[size_ + 1];
 	for(int i = 0; i < size_; i++)
 	{
-		mas[i] == mas_[i])
+		mas[i] == mas_[i];
 	}
 	mas[size_] = a;
 	size_++;
@@ -70,7 +70,7 @@ void ZZ::clean_ (int a)
 		}
 		else
 		{
-			mas[j] == mas_[i]);
+			mas[j] == mas_[i];
 			j++;
 		}
 	}
@@ -93,7 +93,7 @@ int ZZ::min_ () const
 {
 	if(size_ == 0)
 	{
-		return;
+		return -1;
 	}
 	int m = mas_[0];
 	for(int i = 0; i < size_; i++)
@@ -110,7 +110,7 @@ int ZZ::max_() const
 {
 	if(size_ == 0)
 	{
-		return;
+		return -1;
 	}
 	int m = mas_[0];
 	for(int i = 0; i < size_; i++)
@@ -129,7 +129,7 @@ ZZ::~ZZ()
 		delete[] mas_;
 	size_ = 0;
 	left_ = 0;
-	right = 0;
+	right_ = 0;
 }
 
 void ZZ::print() const {
