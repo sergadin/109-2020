@@ -25,5 +25,6 @@ intset::intset(intset& IS)
 
 int main(void)
 {
+	intset IS(-1, 1);
 	return 0;
 }
