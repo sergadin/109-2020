@@ -140,7 +140,7 @@ void ZZ::print() const {
 		return;
     }
 	cout << left_ << " " << right_ << endl;
-	for(int i = 0; i < abs(right_ - left_ + 1); i++) {
+	for(int i = 0; i < size_; i++) {
 		if(mas_[i] == 1)
         printf("%d ", left_ + i);
     }
