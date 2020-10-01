@@ -11,5 +11,6 @@ class intset
 		intset(intset& IS);
 		void put(int item); // добавить item в конец множества
 		void del(int item); // удалить элементы со значением item из множества
+		bool is_emtpy(); // проверка пустоты множества
 		 
 };
