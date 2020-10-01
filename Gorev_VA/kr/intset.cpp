@@ -3,7 +3,6 @@
 
 intset::intset(int maxval, int minval)
 {
-	intset;
 	size_ = 0;
 	maxval_ = maxval;
 	minval_ = minval;
