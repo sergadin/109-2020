@@ -13,3 +13,8 @@ intset::intset(intset& IS)
 {
 	
 }
+
+int main(void)
+{
+	return 0;
+}
