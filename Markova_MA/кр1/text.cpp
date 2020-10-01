@@ -28,6 +28,13 @@ void ZZ::push_ (int a)
 		return;
 		
 	}
+	if(size_ == 0)
+	{
+		size_++;
+		mas_ = (int*)malloc(a.size_*sizeof(*mas_));
+		mas_[0] = a;
+		return;
+	}
 	//int temp = a - left_;
 	for(int i = 0; i < size_; i++)
 	{
