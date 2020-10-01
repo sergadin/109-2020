@@ -22,7 +22,7 @@ intset::~intset()
 intset::intset(intset& IS)
 {
 	if (IS.size_ <= 0)
-		return;
+		throw intsetError(-1, std::string("Нулевой размер присваиваемой строки"));
 	minval_ = IS.minval_;
 	maxval_ = IS.maxval_;
 	ar_ = new int[IS.size_];

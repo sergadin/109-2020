@@ -42,5 +42,15 @@ int main(void)
     IS * IS1;
     std::cout << "min is " << (IS *= IS1).find_min() << "\n";
     std::cout << "left border is " << (IS *= IS1).left_bord() << "\n";
+
+    try
+    {
+        intset I2(-2, 2);
+        intset I3(I2);
+    }
+    catch (intsetError &err)
+    {
+        std::cout << "EXEPTION: " << err.get_reason() << "\n";
+    }
 	return 0;
 }
