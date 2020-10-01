@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "sets.hpp"
 
-#include <stdio.h>
+#include <iostream>
 
 using namespace std;
 
@@ -32,7 +32,10 @@ IntSet::~IntSet() {
 void IntSet::add_element(int a) {
 	if ((a > this->right()) || (a < this->left())) throw IntSetException(-2, "Out of range");
 	for (int i = 0; i < len_; i++) {
-		if (a == list_[i]) return;
+		if (a == list_[i]) {
+			cout << "\nWarning: " << a << " is already in the set\n" << endl;
+			return;
+		}
 	}
 	if (len_ >= size_) {
 		list_ = (int *)realloc(list_, sizeof(int)*(size_ + 10));
@@ -42,6 +45,7 @@ void IntSet::add_element(int a) {
 }
 
 void IntSet::remove_element(int a) {
+	if ((a < inf_) || (a > sup_)) throw IntSetException(-5, "This number doesn't belong to the set");
 	int i = 0;
 	while(i < len_) {
 		if (list_[i] == a) {
@@ -49,6 +53,7 @@ void IntSet::remove_element(int a) {
 			break;
 		}
 		i++;
+		if (i == len_) throw IntSetException(-5, "This number doesn't belong to the set");
 	}
 	for (; i < len_; i++) {
 		list_[i] = list_[i + 1];
@@ -123,7 +128,8 @@ IntSet operator*(const IntSet& A, const IntSet& B) {
 	return product;
 }
 
-IntSet& operator*=(IntSet& A, const IntSet& B) {
-	A = A * B;
-	return A;
+IntSet& IntSet::operator*=(const IntSet& B) {
+	if (this == &B) return *this;
+	*this = *this * B;
+	return *this;
 }
