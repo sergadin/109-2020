@@ -123,7 +123,7 @@ intset& operator*= (intset &left, const intset &right)
 		}
 		if (!right.find_item(left.ar_[i]))
 		{
-			left.ar_[j] = ar_[i];
+			left.ar_[j] = left.ar_[i];
 			j++;
 		}
 	}
