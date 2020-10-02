@@ -1,10 +1,13 @@
 class IntSet {
 	private:
-		int sup_;
 		int inf_;
+		int sup_;
+
+		int len_;
+
 		int* list_;
 		int size_;
-		int len_;
+
 		IntSet();
 	public:
 		IntSet(int min, int max);
@@ -23,12 +26,13 @@ class IntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
-		IntSet& operator*=(const IntSet& B);
-		IntSet& operator=(const IntSet& B);
+		friend IntSet operator* (const IntSet& A, const IntSet& B);
+
+		IntSet& operator= (const IntSet& B);
+		IntSet& operator*= (const IntSet& B);
 
 		friend bool operator<= (const IntSet& A, const IntSet& B);
 		friend bool operator== (const IntSet& A, const IntSet& B);
-		friend IntSet operator* (const IntSet& A, const IntSet& B);
 };
 
 class IntSetException {
