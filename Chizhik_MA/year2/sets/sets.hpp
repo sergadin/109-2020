@@ -26,13 +26,13 @@ class IntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
-		friend IntSet operator* (const IntSet& A, const IntSet& B);
+		friend IntSet operator*(const IntSet& A, const IntSet& B);
 
-		IntSet& operator= (const IntSet& B);
-		IntSet& operator*= (const IntSet& B);
+		IntSet& operator=(const IntSet& B);
+		IntSet& operator*=(const IntSet& B);
 
-		friend bool operator<= (const IntSet& A, const IntSet& B);
-		friend bool operator== (const IntSet& A, const IntSet& B);
+		friend bool operator<=(const IntSet& A, const IntSet& B);
+		friend bool operator==(const IntSet& A, const IntSet& B);
 };
 
 class IntSetException {
