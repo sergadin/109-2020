@@ -5,20 +5,22 @@
 int main()
 {
 	ZZ a(3,6), b(4,9);
-	cout << "a, b"<< endl;
-	a.print();
+	int temp = 5;
+	cout << "a"<< endl;
+	//a.print();
 	//b.print();
-	a.push_(5);
-	a.print();
-	if(b.isEmpty())
+	a.push_(temp);
+	cout << "0";
+	//a.print();
+	/*if(b.isEmpty())
 	{
-		print("empty");
+		printf("empty");
 		cout << endl;
 	}
 	a.print();
 	cout << a.size() << endl;
 	a.clean_(5);
 	a.print();
-	
+	*/
 	return 0;
 }

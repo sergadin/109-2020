@@ -21,9 +21,19 @@ void ZZ::copy_ (const ZZ a)
 
 void ZZ::push_ (int a)
 {
+	printf("here");
 	if(a < left_ || a > right_)
 	{
 		//throw(-1, "a < left || a > right");
+		cout << "1";
+		return;
+		
+	}
+	if(size_ == 0)
+	{
+		size_++;
+		mas_ = (int*)malloc(size_*sizeof(*mas_));
+		mas_[0] = a;
 		return;
 	}
 	//int temp = a - left_;
@@ -32,6 +42,7 @@ void ZZ::push_ (int a)
 		if(a == mas_[i])
 			return;
 	}
+	printf("2");
 	int *mas;
 	mas = new int[size_ + 1];
 	for(int i = 0; i < size_; i++)
@@ -39,6 +50,7 @@ void ZZ::push_ (int a)
 		mas[i] == mas_[i];
 	}
 	mas[size_] = a;
+	printf("%d", mas[size_]);
 	size_++;
 	if (size_ > 0)
 		delete mas_;
@@ -135,14 +147,13 @@ ZZ::~ZZ()
 void ZZ::print() const {
     if (size_ == 0) 
 	{
-		cout << "no elements";
-		cout << " " << left_ << " " << right_ << endl;
+		printf("no elements");
+		cout << " " << 1 << " " << left_ << " " << right_ << endl;
 		return;
     }
 	cout << left_ << " " << right_ << endl;
-	for(int i = 0; i < abs(right_ - left_ + 1); i++) {
-		if(mas_[i] == 1)
-        printf("%d ", left_ + i);
+	for(int i = 0; i < size_; i++) {
+        printf("%d ", mas_[i]);
     }
     cout << endl;
 	cout << size_ << endl;
