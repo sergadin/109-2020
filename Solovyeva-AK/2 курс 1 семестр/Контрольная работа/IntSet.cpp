@@ -65,7 +65,7 @@ void IntSet::add_elem(int New_elem) {
             this->resize_(size_*2);
         }
         int i = 0;
-        while (New_elem > array_[i] && i < n_) {
+        while ((i < n_) && New_elem > array_[i]){
             i++;
         }
         if(New_elem == array_[i]) return;
