@@ -11,11 +11,11 @@ class IntSet {
 		IntSet(const IntSet& set);
 		~IntSet();
 
-		bool is_empty() const { return len_ == 0; }
+		bool empty() const { return len_ == 0; }
 		int len() const { return len_; }
 
-		void add_element(int a);
-		void remove_element(int a);
+		void add(int a);
+		void remove(int a);
 
 		int min() const;
 		int max() const;
@@ -23,11 +23,12 @@ class IntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
-		friend bool operator<=(const IntSet& A, const IntSet& B);
-		friend bool operator==(const IntSet& A, const IntSet& B);
-		friend IntSet operator*(const IntSet& A, const IntSet& B);
 		IntSet& operator*=(const IntSet& B);
 		IntSet& operator=(const IntSet& B);
+
+		friend bool operator<= (const IntSet& A, const IntSet& B);
+		friend bool operator== (const IntSet& A, const IntSet& B);
+		friend IntSet operator* (const IntSet& A, const IntSet& B);
 };
 
 class IntSetException {
