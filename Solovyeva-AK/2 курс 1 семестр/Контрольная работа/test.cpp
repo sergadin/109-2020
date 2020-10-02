@@ -20,11 +20,12 @@ int main() {
 */
 int main() {
     IntSet big(0, 100);
-    const int max_iterations = 500;
-
+    const int max_iterations = 1;
     for(int iter = 0; iter < max_iterations; iter++) {
     IntSet temp(0, big.right());
     for(int item = temp.left(); item <= temp.right(); item++) {
+        IntSet big2 = big;
+        big2 = big2;
         if((item % 7) > (iter % 11))
             temp.add_elem(item);
     }

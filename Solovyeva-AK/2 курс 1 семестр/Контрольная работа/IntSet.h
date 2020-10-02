@@ -6,7 +6,7 @@ using namespace std;
 class IntSet {
     private:
         int *array_;
-        int size_;
+        int size_ ;
         int n_;
         int max_;
         int min_;
@@ -14,6 +14,7 @@ class IntSet {
         
     public:
         IntSet(int min, int max);
+        IntSet(const IntSet &other);
         ~IntSet();
         void operator =(const IntSet &other);
         void add_elem(int new_elem);
