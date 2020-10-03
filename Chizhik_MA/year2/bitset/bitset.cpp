@@ -53,12 +53,11 @@ BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
 
 int BitIntSet::min() const {
 	if (this->empty()) throw BitIntSetException(2, "Set is empty");
-	int min = this->sup_;
 	for (int i = 0; i < this->size_; i++) {
 		if (list_[i] == 0) continue;
-		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
+		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
 			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				min = this->list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+				int min = this->list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
 				return min;
 			}
 		}
@@ -68,12 +67,11 @@ int BitIntSet::min() const {
 
 int BitIntSet::max() const {
 	if (this->empty()) throw BitIntSetException(2, "Set is empty");
-	int max = this->inf_;
-	for (int i = this->size_; i >= 0; i--) {
+	for (int i = this->size_ - 1; i >= 0; i--) {
 		if (list_[i] == 0) continue;
-		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k++) {
+		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
 			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				max = this->list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+				int max = this->list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
 				return max;
 			}
 		}
@@ -90,14 +88,13 @@ void BitIntSet::clear() {
 
 void BitIntSet::add(int a) {
 	if ((a < inf_)) {
-		if (a > list_start_) {
-			inf_ = a;
-		} else {
+		inf_ = a;
+		if (a < list_start_) {
 			int difference = list_start_ - a;
 			int shift = difference / BitIntSet::INT_CARDINALITY + 1;
 			list_ = (int *)realloc(list_, sizeof(int) * (size_ + shift));
 
-			for (int i = size_ - 1; i >= 0; i++) {
+			for (int i = size_ - 1; i >= 0; i--) {
 				list_[i + shift] = list_[i]; 
 			}
 			for (int j = 0; j < shift; j++) list_[j] = 0;
@@ -106,10 +103,9 @@ void BitIntSet::add(int a) {
 			list_start_ -= shift * BitIntSet::INT_CARDINALITY;
 		}
 	} else if (a > sup_) {
-		int list_end = list_start_ + size_ * BitIntSet::INT_CARDINALITY;
-		if (a < list_end) {
-			sup_ = a;
-		} else {
+		int list_end = list_start_ + size_ * BitIntSet::INT_CARDINALITY - 1;
+		sup_ = a;
+		if (a > list_end) {
 			int difference = a - list_end;
 			int top = difference / BitIntSet::INT_CARDINALITY + 1;
 			list_ = (int *)realloc(list_, sizeof(int) * (size_ + top));
@@ -131,7 +127,7 @@ void BitIntSet::add(int a) {
 
 void BitIntSet::remove (int a) {
 	if ((a < inf_) || (a > sup_)) {
-		cout << "\nWarning: you're trying to remove element which is out of the set's range\n" << endl;
+		cout << "Warning: you're trying to remove element which is out of the set's range" << endl;
 		return;
 	}
 
@@ -140,7 +136,7 @@ void BitIntSet::remove (int a) {
 
 	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
 	if (!(list_[index_of_subarr] & elem_mask)) return;
-	list_[index_of_subarr] |= ~elem_mask;
+	list_[index_of_subarr] &= ~elem_mask;
 	len_--;
 }
 
@@ -154,31 +150,60 @@ bool BitIntSet::belongs (int a) const {
 
 
 BitIntSet operator*(const BitIntSet& A, const BitIntSet& B) {
-	return BitIntSet(0, 0);
+	if (&A == &B) return A;
+	BitIntSet product = A;
+	for (int i = 0; i < A.len(); i++) {
+		if (!(B.belongs(A[i]))) product.remove(A[i]);
+	}
+	return product;
 }
 
 BitIntSet operator+(const BitIntSet& A, const BitIntSet& B) {
-	return BitIntSet(0, 0);
+	if (&A == &B) return A;
+	BitIntSet sum = A;
+	if (B.empty()) return sum;
+
+	sum.add(B.min());
+	if (B.len() > 1) sum.add(B.max());
+	for (int i = 1; i < B.len() - 1; i++) {
+		sum.add(B[i]);
+	}
+	return sum;
 }
 
 BitIntSet operator-(const BitIntSet& A, const BitIntSet& B) {
-	return BitIntSet(0, 0);
+	if (&A == &B) {
+		BitIntSet swap = A;
+		swap.clear();
+		return swap;
+	}
+	BitIntSet diff = A;
+	if (B.empty()) return diff;
+
+	for (int i = 0; i < B.len(); i++) {
+		if (diff.belongs(B[i])) diff.remove(B[i]);
+	}
+	return diff;
 }
 
 BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
-	return BitIntSet(0, 0);
+	if (&A == &B) return BitIntSet(A.left(), A.right());
+	BitIntSet sym_diff = A + B;
+	for (int i = 0; i < A.len(); i++) {
+		if (B.belongs(A[i])) sym_diff.remove(A[i]);
+	}
+	return sym_diff;
 }
 
 int BitIntSet::operator[](int index) const {
 	if ((index >= len_) || (index < 0)) throw BitIntSetException(3, "Element doesn't exist");
 	int elems_detected = -1;	
-	int needed_element = this->min();
 	for (int i = 0; i < this->size_; i++) {
 		if (list_[i] == 0) continue;
-		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
+		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
 			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
 				if (++elems_detected == index) {
-					needed_element = this->list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+					int needed_element = this->list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
 					return needed_element;
 				}
 			}
@@ -189,26 +214,41 @@ int BitIntSet::operator[](int index) const {
 
 BitIntSet& BitIntSet::operator*=(const BitIntSet& B) {
 	if (*this == B) return *this;
+	BitIntSet product = *this * B;
+	*this = product;
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator+=(const BitIntSet& B) {
 	if (*this == B) return *this;
+	BitIntSet sum = *this + B;
+	*this = sum;
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator-=(const BitIntSet& B) {
-	if (*this == B) this->clear();
+	if (*this == B) {
+		this->clear();
+		return *this;
+	}
+	BitIntSet diff = *this - B;
+	*this = diff;
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator^=(const BitIntSet& B) {
-	if (*this == B) this->clear();
+	if (*this == B) {
+		this->clear();
+		return *this;
+	}
+	BitIntSet sym_diff = *this ^ B;
+	*this = sym_diff;
 	return *this;
 }
 
 
 bool operator<=(const BitIntSet& A, const BitIntSet& B) {
+	if (&A == &B) return true;
 	if (A.len() > B.len()) return false;
 	for (int i = 0; i < A.len(); i++) {
 		if (!B.belongs(A[i])) return false;
@@ -225,16 +265,16 @@ bool operator==(const BitIntSet& A, const BitIntSet& B) {
 }
 
 ostream& operator<<(ostream& os, const BitIntSet& set) {
-	os << "[";
+	os << "{";
 	for (int i = 0; i < set.len(); i++) {
 		os << set[i];
 		if (i < set.len() - 1) os << ", ";
 	}
-	os << "]";
+	os << "}";
 	return os;
 }
 
 ostream& operator<<(ostream& os, const BitIntSetException& e) {
-	os << "Error " << e.code() << ": " << e.message() << endl;
+	os << "Error " << e.code() << ": " << e.message();
 	return os;
 }
