@@ -30,7 +30,7 @@ int main() {
 		cerr << e << endl;
 	}
 
-	//Third test (adding & min/max & left/right & checking if element belongs to the set)
+	//Third test (adding & min/max & left/right & checking if element belongs to the set & cache)
 	BitIntSet Z(-200, 0);
 	Z.add(-45);
 	Z.add(656785);
@@ -38,10 +38,14 @@ int main() {
 	Z.add(0);
 	Z.add(3);
 	Z.add(-4789999);
+	cout << "Printing last element using the operator[]..." << endl;
 	cout << Z[Z.len() - 1] << endl;
 	Z.print_cache(1);
+	cout << "Adding -25" << endl;
 	Z.add(-25);
 	Z.print_cache(0);
+	cout << endl;
+
 	cout << "\nZ: " << Z << endl;
 	for (int j = 0; j < 5; j++) {
 		cout << j << (Z.belongs(j) ? " belongs" : " doesn't belong") << " to Z" << endl;
@@ -97,27 +101,34 @@ int main() {
 	BitIntSet G(-40, 80);
 	for (int k = -19; k < 76; k += 4) G.add(k);
 	cout << "Set G = " << G << endl;
-	cout << X[X.len() / 2] << " is in the middle of X" << endl;
+	cout << "Additional info (to get some cache): " << X[X.len() / 2] << " is in the middle of X" << endl;
+	cout << G[G.len() / 2] << " is in the middle of G" << endl;
 	X -= G;
 	cout << "We subtract G from X" << endl;
 	cout << "And now X = " << X << endl;
 
 	if (!(Y <= X)) cout << "Y isn't the subset of X anymore\n" << endl;
 
-	//Sixth test (intersection, set is a subset of itself)
+	//Sixth test (intersection & set is a subset of itself & more cache)
 	BitIntSet P = X * Y;	
 	cout << P[P.len() - 1] << " is the maximum of P" <<  endl;
-	P.print_cache(0);
-	P.add(3);
-	P.print_cache(0);
-	P.add(-8);
-	P.print_cache(0);
+
+	cout << "We now create copy of P and modify it" << endl;
 	cout << endl;
+	BitIntSet copy = P;
+	copy.print_cache(0);
+	copy.add(3);
+	copy.print_cache(0);
+	copy.add(-8);
+	copy.print_cache(0);
+	cout << endl;
+
 	cout << "Length of X*Y is " << P.len() << ": " << P << endl;
 	if (P <= P) {
 		cout << "P is subset of P, that's great" << endl;
 	}
 	P *= P;
+	P.print_cache(0);
 	cout << "A = " << A << endl;
 	cout << "P = " << P << endl;
 	
