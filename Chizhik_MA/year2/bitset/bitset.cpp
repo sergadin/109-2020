@@ -5,6 +5,8 @@
 
 using namespace std;
 
+int BitIntSet::INT_CARDINALITY = (int)(CHAR_BIT * sizeof(int));
+
 BitIntSet::BitIntSet(int left, int right): inf_(left), sup_(right) {
 	if (inf_ > sup_) {
 		throw BitIntSetException(1, "Incorrect range");
@@ -32,7 +34,21 @@ BitIntSet::BitIntSet(const BitIntSet& set): inf_(set.inf_), sup_(set.sup_) {
 
 BitIntSet::~BitIntSet() {
 	free(list_);
-	list_ = NULL;
+}
+
+BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
+	if (this == &B) return *this;
+	inf_ = B.inf_;
+	sup_ = B.sup_;
+	list_start_ = B.list_start_;
+	size_ = B.size_;
+	len_ = B.len_;
+
+	free(list_);
+	list_ = (int *)malloc(sizeof(int) * size_);
+
+	for (int i = 0; i < size_; i++) list_[i] = B.list_[i];
+	return *this;
 }
 
 int BitIntSet::min() const {
@@ -69,6 +85,7 @@ void BitIntSet::clear() {
 	for (int i = 0; i < this->size_; i++) {
 		list_[i] = 0;
 	}
+	len_ = 0;
 }
 
 void BitIntSet::add(int a) {
@@ -106,7 +123,10 @@ void BitIntSet::add(int a) {
 	int elem_mask = 1 << (BitIntSet::INT_CARDINALITY - index_in_sub - 1);
 	
 	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
+
+	if (list_[index_of_subarr] & elem_mask) return;
 	list_[index_of_subarr] |= elem_mask;
+	len_++;
 }
 
 void BitIntSet::remove (int a) {
@@ -119,7 +139,9 @@ void BitIntSet::remove (int a) {
 	int elem_mask = 1 << (BitIntSet::INT_CARDINALITY - index_in_sub - 1);
 
 	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
+	if (!(list_[index_of_subarr] & elem_mask)) return;
 	list_[index_of_subarr] |= ~elem_mask;
+	len_--;
 }
 
 bool BitIntSet::belongs (int a) const {
@@ -147,39 +169,59 @@ BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
 	return BitIntSet(0, 0);
 }
 
-
-BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
-	return *this;
+int BitIntSet::operator[](int index) const {
+	if ((index >= len_) || (index < 0)) throw BitIntSetException(3, "Element doesn't exist");
+	int elems_detected = -1;	
+	int needed_element = this->min();
+	for (int i = 0; i < this->size_; i++) {
+		if (list_[i] == 0) continue;
+		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
+			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
+				if (++elems_detected == index) {
+					needed_element = this->list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+					return needed_element;
+				}
+			}
+		}
+	}
+	throw BitIntSetException(3, "Element doesn't exist");
 }
-
-const int& BitIntSet::operator[](int index) const {
-	return this->list_[0];
-}
-
 
 BitIntSet& BitIntSet::operator*=(const BitIntSet& B) {
+	if (*this == B) return *this;
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator+=(const BitIntSet& B) {
+	if (*this == B) return *this;
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator-=(const BitIntSet& B) {
+	if (*this == B) this->clear();
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator^=(const BitIntSet& B) {
+	if (*this == B) this->clear();
 	return *this;
 }
 
 
 bool operator<=(const BitIntSet& A, const BitIntSet& B) {
+	if (A.len() > B.len()) return false;
+	for (int i = 0; i < A.len(); i++) {
+		if (!B.belongs(A[i])) return false;
+	}
 	return true;
 }
 
 bool operator==(const BitIntSet& A, const BitIntSet& B) {
-	return false;
+	if (A.len() != B.len()) return false;
+	for (int i = 0; i < A.len(); i++) {
+		if (A[i] != B[i]) return false;
+	}
+	return true;
 }
 
 ostream& operator<<(ostream& os, const BitIntSet& set) {

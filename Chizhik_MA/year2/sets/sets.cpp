@@ -27,7 +27,7 @@ IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 
 IntSet::~IntSet() {
 	free(list_);
-	list_ = NULL;
+	free(cash_);
 }
 
 void IntSet::add(int a) {
@@ -99,11 +99,12 @@ bool operator==(const IntSet& A, const IntSet& B) {
 	return (A <= B) && (B <= A);
 }
 
-IntSet& IntSet::operator=(const IntSet &B) {
+IntSet& IntSet::operator=(const IntSet &B) {	
+	if (&B == this) return *this;
+
 	inf_ = B.inf_;
 	sup_ = B.sup_;
 
-	if (&B == this) return *this;
 	free(list_);
 	list_ = NULL;
 	size_ = B.len() + 10;
@@ -120,6 +121,8 @@ IntSet& IntSet::operator=(const IntSet &B) {
 IntSet operator*(const IntSet& A, const IntSet& B) {
 	int left = (A.left() < B.left()) ? B.left() : A.left();
 	int right = (A.right() > B.right()) ? B.right() : A.right();
+
+	if (left > right) return IntSet(left, left);
 
 	IntSet product = IntSet(left, right);
 	for (int i = 0; i < A.len_; i++) {

@@ -2,7 +2,9 @@
 #include <climits>
 
 class BitIntSet {
-	private:
+	private:	
+		static int INT_CARDINALITY;
+
 		int inf_;
 		int sup_;
 
@@ -13,7 +15,9 @@ class BitIntSet {
 		int* list_;
 		int size_;
 
-		const static int INT_CARDINALITY = (int)(CHAR_BIT * sizeof(int));
+		//List(or int*) cash;
+		//int cash_index;
+		//int last_cached; 
 
 		BitIntSet();
 	public:
@@ -35,13 +39,14 @@ class BitIntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
+		int operator[](int index) const;
+
 		friend BitIntSet operator*(const BitIntSet& A, const BitIntSet& B);
 		friend BitIntSet operator+(const BitIntSet& A, const BitIntSet& B);
 		friend BitIntSet operator-(const BitIntSet& A, const BitIntSet& B);
 		friend BitIntSet operator^(const BitIntSet& A, const BitIntSet& B);
 
 		BitIntSet& operator=(const BitIntSet& B);
-		const int& operator[](int index) const;
 
 		BitIntSet& operator*=(const BitIntSet& B);
 		BitIntSet& operator+=(const BitIntSet& B);
