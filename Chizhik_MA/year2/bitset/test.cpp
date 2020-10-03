@@ -38,7 +38,10 @@ int main() {
 	Z.add(0);
 	Z.add(3);
 	Z.add(-4789999);
-
+	cout << Z[Z.len() - 1] << endl;
+	Z.print_cache(1);
+	Z.add(-25);
+	Z.print_cache(0);
 	cout << "\nZ: " << Z << endl;
 	for (int j = 0; j < 5; j++) {
 		cout << j << (Z.belongs(j) ? " belongs" : " doesn't belong") << " to Z" << endl;
@@ -54,10 +57,10 @@ int main() {
 	cout << "A: " << A << endl;
 	A = A;
 	cout << "After assigning to itself" << endl;
-	cout << "A: " << A  << endl;
+	cout << "A: " << A << endl;
 	A.remove(48);
-	
-	cout << "A: " << A  << endl;
+
+	cout << "A: " << A << endl;
 	cout << "A's values belong to the segment [" << A.left() << ", " << A.right() << "]" << endl;
 	A.add(46); // Trying to add element that is already in the set; nothing happens
 	A.remove(56); // Leads to showing warning message
@@ -94,6 +97,7 @@ int main() {
 	BitIntSet G(-40, 80);
 	for (int k = -19; k < 76; k += 4) G.add(k);
 	cout << "Set G = " << G << endl;
+	cout << X[X.len() / 2] << " is in the middle of X" << endl;
 	X -= G;
 	cout << "We subtract G from X" << endl;
 	cout << "And now X = " << X << endl;
@@ -101,7 +105,14 @@ int main() {
 	if (!(Y <= X)) cout << "Y isn't the subset of X anymore\n" << endl;
 
 	//Sixth test (intersection, set is a subset of itself)
-	BitIntSet P = X * Y;
+	BitIntSet P = X * Y;	
+	cout << P[P.len() - 1] << " is the maximum of P" <<  endl;
+	P.print_cache(0);
+	P.add(3);
+	P.print_cache(0);
+	P.add(-8);
+	P.print_cache(0);
+	cout << endl;
 	cout << "Length of X*Y is " << P.len() << ": " << P << endl;
 	if (P <= P) {
 		cout << "P is subset of P, that's great" << endl;

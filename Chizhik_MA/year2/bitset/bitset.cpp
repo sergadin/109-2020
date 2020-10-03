@@ -134,12 +134,13 @@ void BitIntSet::add(int a) {
 
 	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] > a)) {
 		if (a < cache_[0]) {
-			a = cache_[0];
+			cache_[0] = a;
 			last_actual_cached_ = 0;
 		} else {
 			do {
 				last_actual_cached_--;
 			} while (cache_[last_actual_cached_] > a);
+			cache_[++last_actual_cached_] = a;
 		}
 	}
 
@@ -160,12 +161,12 @@ void BitIntSet::remove (int a) {
 	if (!(list_[index_of_subarr] & elem_mask)) return;
 
 	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] > a)) {
-		if (a < cache_[0]) {
+		if (a <= cache_[0]) {
 			last_actual_cached_ = -1;
 		} else {
 			do {
 				last_actual_cached_--;
-			} while (cache_[last_actual_cached_] > a);
+			} while (cache_[last_actual_cached_] >= a);
 		}
 	}
 
@@ -257,7 +258,7 @@ int BitIntSet::operator[](int index) {
 
 	if (last_actual_cached_ > index - 1) return cache_[index];
 
-	if (cache_len_ != len_) cache_ = (int *)realloc(cache_, sizeof(int) * len_);
+	if (cache_len_ != len_) cache_ = (int *)realloc(cache_, sizeof(int) * (cache_len_ = len_));
 	int start_position = (last_actual_cached_ >= 0) ? (cache_[last_actual_cached_] - list_start_ + 1) : 0;
 	int start_block = start_position / BitIntSet::INT_CARDINALITY;
 	for (int i = start_block; i < this->size_; i++) {
