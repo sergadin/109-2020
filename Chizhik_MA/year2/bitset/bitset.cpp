@@ -274,36 +274,49 @@ int BitIntSet::operator[](int index) {
 }
 
 BitIntSet& BitIntSet::operator*=(const BitIntSet& B) {
-	if (*this == B) return *this;
-	BitIntSet product = *this * B;
-	*this = product;
+	if (this == &B) return *this;
+	if (B.empty()) {
+		this->clear();
+		return *this;
+	}
+	for (int i = 0; i < this->len(); i++) {
+		if (!(B.belongs((*this)[i]))) this->remove((*this)[i--]);
+	}
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator+=(const BitIntSet& B) {
-	if (*this == B) return *this;
-	BitIntSet sum = *this + B;
-	*this = sum;
+	if ((this == &B) || B.empty()) return *this;
+
+	this->add(B.min());
+	if (B.len() > 1) this->add(B.max());
+
+	for (int i = 1; i < B.len() - 1; i++) {
+		this->add(B.get(i));
+	}
+
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator-=(const BitIntSet& B) {
-	if (*this == B) {
+	if (this == &B) {
 		this->clear();
 		return *this;
 	}
-	BitIntSet diff = *this - B;
-	*this = diff;
+	if (B.empty()) return *this;
+	for (int i = 0; i < B.len(); i++) {
+		if (this->belongs(B.get(i))) this->remove(B.get(i));
+	}
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator^=(const BitIntSet& B) {
-	if (*this == B) {
+	if (this == &B) {
 		this->clear();
 		return *this;
 	}
-	BitIntSet sym_diff = *this ^ B;
-	*this = sym_diff;
+	*this = *this ^ B;
+
 	return *this;
 }
 
