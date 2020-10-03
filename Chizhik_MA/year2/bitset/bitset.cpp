@@ -141,6 +141,7 @@ void BitIntSet::remove (int a) {
 }
 
 bool BitIntSet::belongs (int a) const {
+	if ((a > sup_) || (a < inf_)) return false;
 	int index_in_sub = (a - list_start_) % BitIntSet::INT_CARDINALITY;
 	int elem_mask = 1 << (BitIntSet::INT_CARDINALITY - index_in_sub - 1);
 
@@ -188,7 +189,7 @@ BitIntSet operator-(const BitIntSet& A, const BitIntSet& B) {
 
 BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
 	if (&A == &B) return BitIntSet(A.left(), A.right());
-	BitIntSet sym_diff = A + B;
+	BitIntSet sym_diff = (A + B);
 	for (int i = 0; i < A.len(); i++) {
 		if (B.belongs(A[i])) sym_diff.remove(A[i]);
 	}
