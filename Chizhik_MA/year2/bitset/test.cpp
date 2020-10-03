@@ -84,6 +84,9 @@ int main() {
 
 	//Fifth test (equal sets, subtraction, one set is the subset of another)
 	BitIntSet X = BitIntSet(-100, 50);
+	const BitIntSet e(0, 0);
+	cout << ((X == e) ? "X is empty" : "X is not equal to empty set, hmm...") << endl;
+
 	for (int a = -25; a < X.right(); a += 5) {
 		X.add(a);
 	}
@@ -92,6 +95,10 @@ int main() {
 		Y.add(b);
 	}
 	if (X == Y) cout << "X = Y" << endl;
+	cout << "X's ";
+	X.print_cache(0);
+	cout << "Y's ";
+	Y.print_cache(0);
 
 	cout << "Let's remove some elements from Y" << endl;
 	Y.remove(0);

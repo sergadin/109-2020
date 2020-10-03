@@ -337,6 +337,14 @@ bool operator==(const BitIntSet& A, const BitIntSet& B) {
 	return true;
 }
 
+bool operator==(BitIntSet& A, BitIntSet& B) {
+	if (A.len() != B.len()) return false;
+	for (int i = 0; i < A.len(); i++) {
+		if (A[i] != B[i]) return false;
+	}
+	return true;
+}
+
 ostream& operator<<(ostream& os, const BitIntSet& set) {
 	os << "{";
 	for (int i = 0; i < set.len(); i++) {
