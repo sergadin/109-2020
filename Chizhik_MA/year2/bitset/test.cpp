@@ -135,7 +135,13 @@ int main() {
 		cout << "P is subset of P, that's great" << endl;
 	}
 	P *= P;
+	cout << "Let's now add and remove something small" << endl;
+	P.add(-500);
 	P.print_cache(0);
+	P.print_cache(1);
+	P.remove(-500);
+	P.print_cache(0);
+	P.print_cache(1);
 	cout << "A = " << A << endl;
 	cout << "P = " << P << endl;
 	

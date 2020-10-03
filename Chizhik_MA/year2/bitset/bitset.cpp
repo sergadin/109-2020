@@ -160,14 +160,10 @@ void BitIntSet::remove (int a) {
 	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
 	if (!(list_[index_of_subarr] & elem_mask)) return;
 
-	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] > a)) {
+	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] >= a)) {
 		if (a <= cache_[0]) {
 			last_actual_cached_ = -1;
-		} else {
-			do {
-				last_actual_cached_--;
-			} while (cache_[last_actual_cached_] >= a);
-		}
+		} else while ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] >= a)) last_actual_cached_--;
 	}
 
 	list_[index_of_subarr] &= ~elem_mask;
