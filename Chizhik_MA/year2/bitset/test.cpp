@@ -21,6 +21,13 @@ int main() {
 		BitIntSet emp2(-18, 12);
 		emp2.add(8);
 		emp2.add(-5);
+
+		try {
+			cout << emp2[3] << endl;
+		} catch(BitIntSetException& e) {
+			cerr << e << endl;
+		}
+
 		cout << "emp2 = " << emp2 << endl;
 		emp2.clear();
 		cout << "After clear() method emp2 = " << emp2 << endl;
