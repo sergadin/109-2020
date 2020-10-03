@@ -133,7 +133,15 @@ int main() {
 	cout << "M is its intersection with the segment [-100, 100]" << endl;
 	cout << "And N is its intersection with the segment [0, 200]" << endl;
 
-	cout << "M Δ Ν = " << (M ^ N) << endl;
+	BitIntSet SD = M ^ N;
+	cout << "M Δ Ν = ";
+
+	//Ninth test (iteration over set with caching)
+	cout << "{";
+	for (int i = 0; i < SD.len(); i++) {
+		cout << SD[i] << ((i < SD.len() - 1) ? ", " : "");
+	}
+	cout << "}" << endl;
 
 	return 0;
 }

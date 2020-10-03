@@ -15,9 +15,9 @@ class BitIntSet {
 		int* list_;
 		int size_;
 
-		//List(or int*) cash;
-		//int cash_index;
-		//int last_cached; 
+		int* cache_;
+		int last_actual_cached_;
+		int cache_len_;
 
 		BitIntSet();
 	public:
@@ -39,7 +39,8 @@ class BitIntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
-		int operator[](int index) const;
+		int get(int index) const;
+		int operator[](int index);
 
 		friend BitIntSet operator*(const BitIntSet& A, const BitIntSet& B);
 		friend BitIntSet operator+(const BitIntSet& A, const BitIntSet& B);

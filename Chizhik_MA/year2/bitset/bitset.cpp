@@ -15,6 +15,10 @@ BitIntSet::BitIntSet(int left, int right): inf_(left), sup_(right) {
 	int range_len = sup_ - inf_ + 1;
 	len_ = 0;
 
+	cache_ = NULL;
+	cache_len_ = 0;
+	last_actual_cached_ = -1;	
+
 	list_start_ = inf_ - BitIntSet::INT_CARDINALITY;
 	size_ = range_len / BitIntSet::INT_CARDINALITY + 3;
 
@@ -23,17 +27,22 @@ BitIntSet::BitIntSet(int left, int right): inf_(left), sup_(right) {
 
 BitIntSet::BitIntSet(const BitIntSet& set): inf_(set.inf_), sup_(set.sup_) {
 	len_ = set.len_;
+
+	cache_len_ = set.cache_len_;
+	last_actual_cached_ = set.last_actual_cached_;
+
 	size_ = set.size_;
 	list_start_ = set.list_start_;
 
-	list_ = (int *)calloc(size_, sizeof(int));
-	for (int i = 0; i < size_; i++) {
-		list_[i] = set.list_[i];
-	}
+	list_ = (int *)malloc(size_ * sizeof(int));
+	cache_ = (int *)malloc(cache_len_ * sizeof(int));
+	for (int i = 0; i < size_; i++) list_[i] = set.list_[i];
+	for (int j = 0; j < cache_len_; j++) cache_[j] = set.cache_[j];
 }
 
 BitIntSet::~BitIntSet() {
 	free(list_);
+	free(cache_);
 }
 
 BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
@@ -42,36 +51,36 @@ BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
 	sup_ = B.sup_;
 	list_start_ = B.list_start_;
 	size_ = B.size_;
+
 	len_ = B.len_;
 
-	free(list_);
-	list_ = (int *)malloc(sizeof(int) * size_);
+	cache_len_ = B.cache_len_;
+	last_actual_cached_ = B.last_actual_cached_;
 
+	free(list_);
+	free(cache_);
+	list_ = (int *)malloc(sizeof(int) * size_);
+	cache_ = (int *)malloc(sizeof(int) * cache_len_);
+	
 	for (int i = 0; i < size_; i++) list_[i] = B.list_[i];
+	for (int j = 0; j < cache_len_; j++) cache_[j] = B.cache_[j];
 	return *this;
 }
 
 int BitIntSet::min() const {
 	if (this->empty()) throw BitIntSetException(2, "Set is empty");
-	for (int i = 0; i < this->size_; i++) {
-		if (list_[i] == 0) continue;
-		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
-			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				int min = this->list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
-				return min;
-			}
-		}
-	}
-	throw BitIntSetException(2, "Set is empty");
+	if (last_actual_cached_ >= 0) return cache_[0];
+	return this->get(0);
+
 }
 
 int BitIntSet::max() const {
 	if (this->empty()) throw BitIntSetException(2, "Set is empty");
-	for (int i = this->size_ - 1; i >= 0; i--) {
+	for (int i = size_ - 1; i >= 0; i--) {
 		if (list_[i] == 0) continue;
 		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
 			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				int max = this->list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
+				int max = list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
 				return max;
 			}
 		}
@@ -84,6 +93,7 @@ void BitIntSet::clear() {
 		list_[i] = 0;
 	}
 	len_ = 0;
+	last_actual_cached_ = -1;
 }
 
 void BitIntSet::add(int a) {
@@ -121,6 +131,18 @@ void BitIntSet::add(int a) {
 	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
 
 	if (list_[index_of_subarr] & elem_mask) return;
+
+	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] > a)) {
+		if (a < cache_[0]) {
+			a = cache_[0];
+			last_actual_cached_ = 0;
+		} else {
+			do {
+				last_actual_cached_--;
+			} while (cache_[last_actual_cached_] > a);
+		}
+	}
+
 	list_[index_of_subarr] |= elem_mask;
 	len_++;
 }
@@ -136,6 +158,17 @@ void BitIntSet::remove (int a) {
 
 	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
 	if (!(list_[index_of_subarr] & elem_mask)) return;
+
+	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] > a)) {
+		if (a < cache_[0]) {
+			last_actual_cached_ = -1;
+		} else {
+			do {
+				last_actual_cached_--;
+			} while (cache_[last_actual_cached_] > a);
+		}
+	}
+
 	list_[index_of_subarr] &= ~elem_mask;
 	len_--;
 }
@@ -154,7 +187,7 @@ BitIntSet operator*(const BitIntSet& A, const BitIntSet& B) {
 	if (&A == &B) return A;
 	BitIntSet product = A;
 	for (int i = 0; i < A.len(); i++) {
-		if (!(B.belongs(A[i]))) product.remove(A[i]);
+		if (!(B.belongs(A.get(i)))) product.remove(A.get(i));
 	}
 	return product;
 }
@@ -166,23 +199,20 @@ BitIntSet operator+(const BitIntSet& A, const BitIntSet& B) {
 
 	sum.add(B.min());
 	if (B.len() > 1) sum.add(B.max());
+
 	for (int i = 1; i < B.len() - 1; i++) {
-		sum.add(B[i]);
+		sum.add(B.get(i));
 	}
 	return sum;
 }
 
 BitIntSet operator-(const BitIntSet& A, const BitIntSet& B) {
-	if (&A == &B) {
-		BitIntSet swap = A;
-		swap.clear();
-		return swap;
-	}
+	if (&A == &B) return BitIntSet(A.left(), A.right());
 	BitIntSet diff = A;
 	if (B.empty()) return diff;
 
 	for (int i = 0; i < B.len(); i++) {
-		if (diff.belongs(B[i])) diff.remove(B[i]);
+		if (diff.belongs(B.get(i))) diff.remove(B.get(i));
 	}
 	return diff;
 }
@@ -191,21 +221,54 @@ BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
 	if (&A == &B) return BitIntSet(A.left(), A.right());
 	BitIntSet sym_diff = (A + B);
 	for (int i = 0; i < A.len(); i++) {
-		if (B.belongs(A[i])) sym_diff.remove(A[i]);
+		if (B.belongs(A.get(i))) sym_diff.remove(A.get(i));
 	}
 	return sym_diff;
 }
 
-int BitIntSet::operator[](int index) const {
+int BitIntSet::get(int index) const {
+	if (len_ == 0) throw BitIntSetException(2, "Set is empty");
 	if ((index >= len_) || (index < 0)) throw BitIntSetException(3, "Element doesn't exist");
-	int elems_detected = -1;	
-	for (int i = 0; i < this->size_; i++) {
+
+	if (last_actual_cached_ > index - 1) return cache_[index];
+
+	int available = last_actual_cached_;
+	int start_position = (last_actual_cached_ >= 0) ? (cache_[last_actual_cached_] - list_start_ + 1) : 0;
+	int start_block = start_position / BitIntSet::INT_CARDINALITY;
+
+	for (int i = start_block; i < this->size_; i++) {
 		if (list_[i] == 0) continue;
 		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
+			if ((i + 1) * BitIntSet::INT_CARDINALITY - (k + 1) < start_position) continue; 
 			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				if (++elems_detected == index) {
-					int needed_element = this->list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
-					return needed_element;
+				int next_element = list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
+				if (++available == index) {
+					return next_element;
+				}
+			}
+		}
+	}
+	throw BitIntSetException(3, "Element doesn't exist");
+}
+
+int BitIntSet::operator[](int index) {
+	if (len_ == 0) throw BitIntSetException(2, "Set is empty");
+	if ((index >= len_) || (index < 0)) throw BitIntSetException(3, "Element doesn't exist");
+
+	if (last_actual_cached_ > index - 1) return cache_[index];
+
+	if (cache_len_ != len_) cache_ = (int *)realloc(cache_, sizeof(int) * len_);
+	int start_position = (last_actual_cached_ >= 0) ? (cache_[last_actual_cached_] - list_start_ + 1) : 0;
+	int start_block = start_position / BitIntSet::INT_CARDINALITY;
+	for (int i = start_block; i < this->size_; i++) {
+		if (list_[i] == 0) continue;
+		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
+			if ((i + 1) * BitIntSet::INT_CARDINALITY - (k + 1) < start_position) continue; 
+			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
+				int next_element = list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
+				cache_[++last_actual_cached_] = next_element;
+				if (last_actual_cached_ == index) {
+					return next_element;
 				}
 			}
 		}
@@ -247,12 +310,11 @@ BitIntSet& BitIntSet::operator^=(const BitIntSet& B) {
 	return *this;
 }
 
-
 bool operator<=(const BitIntSet& A, const BitIntSet& B) {
 	if (&A == &B) return true;
 	if (A.len() > B.len()) return false;
 	for (int i = 0; i < A.len(); i++) {
-		if (!B.belongs(A[i])) return false;
+		if (!B.belongs(A.get(i))) return false;
 	}
 	return true;
 }
@@ -260,7 +322,7 @@ bool operator<=(const BitIntSet& A, const BitIntSet& B) {
 bool operator==(const BitIntSet& A, const BitIntSet& B) {
 	if (A.len() != B.len()) return false;
 	for (int i = 0; i < A.len(); i++) {
-		if (A[i] != B[i]) return false;
+		if (A.get(i) != B.get(i)) return false;
 	}
 	return true;
 }
@@ -268,7 +330,7 @@ bool operator==(const BitIntSet& A, const BitIntSet& B) {
 ostream& operator<<(ostream& os, const BitIntSet& set) {
 	os << "{";
 	for (int i = 0; i < set.len(); i++) {
-		os << set[i];
+		os << set.get(i);
 		if (i < set.len() - 1) os << ", ";
 	}
 	os << "}";
