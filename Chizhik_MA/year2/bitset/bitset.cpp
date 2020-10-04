@@ -235,14 +235,20 @@ int BitIntSet::get(int index) const {
 
 	for (int i = start_block; i < this->size_; i++) {
 		if (list_[i] == 0) continue;
-		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
-			if ((i + 1) * BitIntSet::INT_CARDINALITY - (k + 1) < start_position) continue; 
-			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				int next_element = list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
+		
+		unsigned int bit_mask = 1 << (BitIntSet::INT_CARDINALITY - 1);
+		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
+			if (i * BitIntSet::INT_CARDINALITY + k < start_position) {
+				bit_mask >>= 1;
+				continue;
+			}
+			if (((list_[i] & bit_mask) ^ bit_mask) == 0) {
+				int next_element = list_start_ + i * BitIntSet::INT_CARDINALITY + k;
 				if (++available == index) {
 					return next_element;
 				}
 			}
+			bit_mask >>= 1;
 		}
 	}
 	throw BitIntSetException(3, "Element doesn't exist");
@@ -259,15 +265,21 @@ int BitIntSet::operator[](int index) {
 	int start_block = start_position / BitIntSet::INT_CARDINALITY;
 	for (int i = start_block; i < this->size_; i++) {
 		if (list_[i] == 0) continue;
-		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
-			if ((i + 1) * BitIntSet::INT_CARDINALITY - (k + 1) < start_position) continue; 
-			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				int next_element = list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
+
+		unsigned int bit_mask = 1 << (BitIntSet::INT_CARDINALITY - 1);
+		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
+			if (i * BitIntSet::INT_CARDINALITY + k < start_position) {
+				bit_mask >>= 1;
+				continue;	
+			}
+			if (((list_[i] & bit_mask) ^ bit_mask) == 0) {
+				int next_element = list_start_ + i * BitIntSet::INT_CARDINALITY + k;
 				cache_[++last_actual_cached_] = next_element;
 				if (last_actual_cached_ == index) {
 					return next_element;
 				}
 			}
+			bit_mask >>= 1;
 		}
 	}
 	throw BitIntSetException(3, "Element doesn't exist");
