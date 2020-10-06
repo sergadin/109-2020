@@ -107,6 +107,10 @@ void Matr::del_elem(int el)
 			place = k;
 		}
 	}
+	if(ind == 0)
+	{
+		throw MatrError(-1, std::string("Element does not exist..."));
+	}
 	if(ind == 1)
 	{
 		for(int k = place + 1; k < left_ - right_ + 1; k ++)
