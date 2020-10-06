@@ -28,7 +28,15 @@ class IntSet
 		int b_;
 		int size_;
 		int n_;
-
+		int find(int item) const
+                {
+                        for(int k = 0; k < n_; k++)
+                        {
+                                if(elements_[k] == item)
+                                        return 1;
+                        }
+                        return 0;
+                } 
 	public: 
 		IntSet (int a, int b); 
 		IntSet (const IntSet& obj);
@@ -54,25 +62,9 @@ class IntSet
 		IntSet & operator=(const IntSet & right);
 
 		friend std::ostream& operator<<(std::ostream &os, const IntSet& q);
-
-		friend IntSet& operator*= (IntSet &left, const IntSet& right);		
-		friend IntSet operator* (const IntSet &left, const IntSet& right);
-		friend bool operator== (const IntSet &left, const IntSet &right);
+	
+		friend IntSet operator*(const IntSet &lev, const IntSet& prav);
+		friend bool operator== (const IntSet& lev, const IntSet& prav);
+		friend void operator*= (IntSet &lev, const IntSet& prav);		
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
