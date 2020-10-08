@@ -17,8 +17,8 @@ class ZZ
 	public:
 		ZZ (int k, int n); //создает пустой
 		void name (int temp); //события это числа
-		void message (int from, int to);
-		bool operator <(const ZZ b)
+		void message (ZZ from, ZZ to);
+		bool operator <(const ZZ b);
 		//void print() const;
 		~ZZ();
 };

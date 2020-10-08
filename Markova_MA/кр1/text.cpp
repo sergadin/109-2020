@@ -9,24 +9,23 @@ ZZ::ZZ (int k, int n) //создает пустой
 	{
 		mas_[i] = 0;
 	}
-	size_ = 1;
+	//size_ = 1;
 }
 
 void ZZ::name (int temp)
 {
-	mas_[k_] = size_;
-	size_++;
+	mas_[k_] = temp;
 }
 
-void ZZ::message (ZZ from, ZZ to)
+void ZZ::message (ZZ to)
 {
-	if(from.k_ > to.k_)
+	if(k_ > to.k_)
 	{
 		return;
 	}
 	for(int i = 0;i < from.k_;i++)
 	{
-		to.mas_[i] = from.mas_[i];
+		to.mas_[i] = mas_[i];
 	}
 }
 
@@ -55,6 +54,15 @@ bool ZZ::operator <(const ZZ b) // a < b
 	return false;
 }
 
+void ZZ::print() const
+{
+	printf("(");
+	for(int i = 0;i < n_;i++)
+	{
+		printf("%d ", mas_[i]);
+	}
+	printf(") ");
+}
 /*UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {
