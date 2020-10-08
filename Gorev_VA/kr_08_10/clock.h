@@ -34,6 +34,7 @@ class clock
 				mark_[i] = 0;
 		}
 		~clock();
+		clock(const clock &C);
 		clock nextclock(const clock &C);
 		clock nextclock(const clock &prev_clock, const clock &sending_clock);
 
