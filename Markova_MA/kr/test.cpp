@@ -16,6 +16,12 @@ int main()
 		b2.print();
 		a2.message(b2);
 		b2.print();
+		if(a2 < b2)
+		{
+			printf("true");
+		}
+		else
+			printf("false");
 	}
 	catch (UserException& my)
 	{

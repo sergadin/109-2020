@@ -26,7 +26,7 @@ void ZZ::message (ZZ to)
 	for(int i = 0;i < k_;i++)
 	{
 		printf("%d, %d ", to.mas_[i], mas_[i]);
-		to.mas_[i] = mas_[i];
+		mas_[i] = to.mas_[i];
 	}
 }
 
