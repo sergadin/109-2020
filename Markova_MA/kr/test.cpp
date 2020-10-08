@@ -24,9 +24,10 @@ int main()
 			printf("false");
 		cout << endl;
 	}
-	catch (UserException& my)
+	catch (UserException& stupid)
 	{
 		cout << "ERROR" << endl;
+		cout << stupid.error() << endl;
     }
 	/*a1.print();
 	a2.print();
