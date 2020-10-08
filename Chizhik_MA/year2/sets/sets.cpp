@@ -27,10 +27,10 @@ IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 
 IntSet::~IntSet() {
 	free(list_);
-	list_ = NULL;
+	free(cash_);
 }
 
-void IntSet::add_element(int a) {
+void IntSet::add(int a) {
 	if ((a > this->right()) || (a < this->left())) throw IntSetException(-2, "Out of range");
 	for (int i = 0; i < len_; i++) {
 		if (a == list_[i]) {
@@ -45,7 +45,7 @@ void IntSet::add_element(int a) {
 	list_[len_++] = a;
 }
 
-void IntSet::remove_element(int a) {
+void IntSet::remove(int a) {
 	if ((a < inf_) || (a > sup_)) throw IntSetException(-5, "This number doesn't belong to the set");
 	int i = 0;
 	while(i < len_) {
@@ -62,7 +62,7 @@ void IntSet::remove_element(int a) {
 }
 
 int IntSet::min() const {
-	if (this->is_empty()) throw IntSetException(-3, "Set is empty");
+	if (this->empty()) throw IntSetException(-3, "Set is empty");
 	int min = list_[0];
 	for (int i = 1; i < len_; i++) {
 		if (list_[i] < min) min = list_[i];
@@ -71,7 +71,7 @@ int IntSet::min() const {
 }
 
 int IntSet::max() const {
-	if (this->is_empty()) throw IntSetException(-3, "Set is empty");
+	if (this->empty()) throw IntSetException(-3, "Set is empty");
 	int max = list_[0];
 	for (int i = 1; i < len_; i++) {
 		if (list_[i] > max) max = list_[i];
@@ -99,11 +99,12 @@ bool operator==(const IntSet& A, const IntSet& B) {
 	return (A <= B) && (B <= A);
 }
 
-IntSet& IntSet::operator=(const IntSet &B) {
+IntSet& IntSet::operator=(const IntSet &B) {	
+	if (&B == this) return *this;
+
 	inf_ = B.inf_;
 	sup_ = B.sup_;
 
-	if (&B == this) return *this;
 	free(list_);
 	list_ = NULL;
 	size_ = B.len() + 10;
@@ -121,11 +122,13 @@ IntSet operator*(const IntSet& A, const IntSet& B) {
 	int left = (A.left() < B.left()) ? B.left() : A.left();
 	int right = (A.right() > B.right()) ? B.right() : A.right();
 
+	if (left > right) return IntSet(left, left);
+
 	IntSet product = IntSet(left, right);
 	for (int i = 0; i < A.len_; i++) {
 		for (int k = 0; k < B.len(); k++) {
 			if (A.list_[i] == B.list_[k]) {
-				product.add_element(A.list_[i]);
+				product.add(A.list_[i]);
 			}
 		}
 	}
