@@ -26,10 +26,18 @@ class Clock
 		int num_; // номер процесса 0..(N-1)
 	public:
 		Clock(int N, int num);
-		Clock(const Clock &C);
-		~Clock();
+		Clock(const Clock &C)
+		{
+			N_ = C.N_;
+			num_ = C.num_;
+		}
+		~Clock()
+		{
+			delete[] mark_;
+			N_ = num_ = 0;
+		}
 		Clock nextClock(const Clock &C);
-		Clock nextClock(const Clock &prev_Clock, const Clock &sending_Clock);
+		Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
 
 };

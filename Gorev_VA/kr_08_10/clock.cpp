@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "clock.h"
 
 Clock::Clock(int N, int num)
@@ -10,16 +11,18 @@ Clock::Clock(int N, int num)
 		mark_[i] = 0;
 }
 
-Clock::~Clock()
+Clock::Clock nextClock(const Clock &C)
 {
-	delete[] mark_;
-	N_ = num_ = 0;
-}
-
-Clock::Clock(const Clock &C)
-{
-	N_ = C.N_;
-	num_ = C.num_;
+	clock nextC(C.N_, C.num_);
+	newC.mark = new int[C.N_];
+	for (int i = 0; i < C.N_; i++)
+		newC.mark[i] = C.mark[i];
+	newC.mark[num_]++;
+	for (int i = 0; i < C.N_; i++)
+		cout << C.mark[i] << " " << newC.mark[i] << "\n";
+	
+	return newC;
+	
 }
 
 
