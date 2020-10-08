@@ -6,6 +6,7 @@ class vector_clock
         int id_;
         
         vector_clock();
+		vector_clock & operator=(const vector_clock & right);
     public:
         vector_clock(int n , int id);
         
@@ -15,7 +16,6 @@ class vector_clock
         { clock_[this->id_]++; }
         
         vector_clock & receve(const vector_clock & second);
-    
         
         friend bool operator<(const vector_clock & left,const vector_clock & right);
         friend std::ostream& operator<< (std::ostream &,const vector_clock & a);
