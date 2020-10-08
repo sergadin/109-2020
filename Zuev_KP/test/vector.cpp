@@ -11,8 +11,8 @@ Vector::Vector(int n, int k)
 	n_ = n;
 	k_ = k;
 	elements_ = new int[n_];
-	for(int k = 0; k < n_; k++)
-		elements_[k] = 0;
+	for(int i = 0; i < n_; i++)
+		elements_[i] = 0;
 }
 
 Vector::~Vector()
@@ -72,9 +72,9 @@ Vector & Vector::operator=(const Vector & right)
 std::ostream & operator<<(std::ostream &os, const Vector& q)
 {
 	os << "sobytiye " << q.k_ << " items:\n";
-	for(int k = 0; k < q.n_; k++)
+	for(int i = 0; i < q.n_; i++)
 	{
-		os << "\t" << q.elements_[k] << "\n";
+		os << "\t" << q.elements_[i] << "\n";
 	}
 	return os;
 }
