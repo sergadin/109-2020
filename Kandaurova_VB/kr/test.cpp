@@ -17,6 +17,10 @@ int main() {
         std::cout<< c<< endl;
 		b = a;
   		std::cout<< b<< endl;
+        for(int k = 0; k < 10; k++) {
+            cl temp = b;
+            temp = c = temp = b;
+        }
   		return 0;
 	}
 	catch(UserException &e) {
