@@ -10,9 +10,6 @@ Clock nextClock(const Clock &C)
 		nextC.mark_[i] = C.mark_[i];
 	nextC.mark_[C.num_]++;
 
-	//for (int i = 0; i < C.N_; i++)
-	//	std::cout << C.mark_[i] << " " << nextC.mark_[i] << "\n";
-
 	return nextC;
 }
 
@@ -29,6 +26,7 @@ Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 	for (int i = 0; i < C.N_; i++)
 		if (C.mark_[i] < sendingClock.mark_[i])
 			C.mark_[i] = sendingClock.mark_[i];
+
 	return C;
 }
 
