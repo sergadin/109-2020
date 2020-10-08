@@ -26,10 +26,14 @@ class Vector
 		int *elements_;
 		int n_; 
 		int k_;
-		int size_;
 	public: 
 		Vector (int n, int k); 
-		Vector (const Vector& obj);
 		~Vector();
+		void loc();
+		void rec(const Vector& lev, const Vector& prav);
+		friend bool operator<= (const Vector& lev, const Vector& prav);
+		Vector & operator=(const Vector & right);
+
+		friend std::ostream& operator<<(std::ostream &os, const Vector& q);
 };
 
