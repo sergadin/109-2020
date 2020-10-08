@@ -5,9 +5,9 @@
 int main(void)
 {
     Clock C(2, 0);
-    //nextClock(C);
+    Clock CC(C);
 
-   /* try
+    /*try
     {
         nextClock(nextClock(C), C);
     }
