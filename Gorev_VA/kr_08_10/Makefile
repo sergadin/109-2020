@@ -1,7 +1,7 @@
 all: do-test clear
 
 do-test: a.out
-	valgrind -g ./a.out
+	valgrind ./a.out
 
 a.out: clock.o test.o
 	g++ -c clock.cpp
