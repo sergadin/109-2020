@@ -17,7 +17,7 @@ int main()
 	q0.loc();
 	q0.loc();
 	q4.loc();
-	q4.rec(q4, q0);
+	q4.rec(q0);
 	std::cout << q0 << endl;
 	std::cout << q4 << endl;
 	if (q0 <= q4)

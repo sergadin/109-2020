@@ -24,8 +24,10 @@ Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 	return C;
 }
 
-Clock operator=(Clock C)
+Clock Clock::operator=(const Clock &C)
 {
+	if (mark_ == C.mark_)
+		return *this;
 	N_ = C.N_;
 	num_ = C.num_;
 	delete[] mark_;
