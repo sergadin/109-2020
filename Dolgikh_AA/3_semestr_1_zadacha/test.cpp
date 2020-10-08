@@ -23,11 +23,6 @@ int main()
 		cout << "a<c? "<< (a<c) << endl;
 		b = a;
 		cout << a << b << c;
-		for(int k = 0; k < 10; k++)
-		{
-			Lamport temp = a;
-			temp = temp;
-		}
 	}
 	catch(Exception &exc)
 	{

@@ -15,6 +15,11 @@ vector_clock::vector_clock(int n , int id)
         throw vector_clock_Exception(-2, "incorrenct process id");
     }
 	
+	if(( id_ < 0 )) 
+    {
+        throw vector_clock_Exception(-2, "incorrenct process id");
+    }
+	
 	this->id_ = id;
     this->n_ = n;
     

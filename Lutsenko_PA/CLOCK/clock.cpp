@@ -6,7 +6,9 @@ VClock::VClock(int n,int k)
     
     n_ = n;
     k_ = k;
-    
+    if(k_ <= 0) {
+        throw VClockError(-3, std::string("плохо дело"));
+    }
     if(n_ <= k_) {
         throw VClockError(-2, std::string("не хватает ячеек времени"));
     }
