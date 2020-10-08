@@ -65,16 +65,16 @@ Vector & Vector::operator=(const Vector & right)
                 elements_[k] = right.elements_[k];
         n_ = right.n_;
 	k_ = right.k_;
-        return *this;
+	return *this;
 }
 
 
 std::ostream & operator<<(std::ostream &os, const Vector& q)
 {
-        os << "sobytiye " << q.k_ << " items:\n";
-        for(int k = 0; k < q.n_; k++)
-        {
-                os << "\t" << q.elements_[k] << "\n";
-        }
-        return os;
+	os << "sobytiye " << q.k_ << " items:\n";
+	for(int k = 0; k < q.n_; k++)
+	{
+		os << "\t" << q.elements_[k] << "\n";
+	}
+	return os;
 }

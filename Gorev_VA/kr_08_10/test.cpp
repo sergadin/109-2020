@@ -5,7 +5,7 @@
 int main(void)
 {
     Clock C(2, 0);
-    nextClock(C);
+    C = nextClock(C);
 
     try
     {
