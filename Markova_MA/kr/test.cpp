@@ -27,7 +27,7 @@ int main()
 	catch (UserException& stupid)
 	{
 		cout << "ERROR" << endl;
-		cout << stupid.error() << endl;
+		//cout << stupid.error() << endl;
     }
 	/*a1.print();
 	a2.print();
