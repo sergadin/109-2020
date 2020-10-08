@@ -9,12 +9,14 @@ class UserException {
 	private:
 		int code_;
 	public:
-		UserException(int code);
+		UserException(int code)
+		{
+			code_ = code;
+		}
 		//tring message() const;
 		//int code() const;
 };
 
-UserException::UserException(int code, string message) : code_(code), message_(message) {}
 /*
 string UserException::message() const {
 	return message_;

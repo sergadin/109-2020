@@ -69,3 +69,7 @@ ZZ::~ZZ()
 	k_ = 0;
 	delete[] mas_;
 }
+UserException::UserException(int code) 
+{
+	
+}
