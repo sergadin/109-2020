@@ -27,10 +27,10 @@ int main()
 		cout << err.message() << endl;
 	}
 	
-	for(int i = 0; i < 1000000000000000; i++)
+	/*for(int i = 0; i < 1000000000000000; i++)
 	{
 		i -= 2;
-	}
+	}*/
 	
 	
     return 0;
