@@ -30,12 +30,8 @@ int main()
    for (int k = 0; k < 10; k++)
     {
        VClock temp = a;
-        VClock pain(17,-63);
-        
         temp = temp;
-        pain.Local();
     }
-    
     
     
     return 0;
