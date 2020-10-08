@@ -11,7 +11,6 @@ clock::clock(const clock &C)
 {
 	N_ = C.N_;
 	num_ = C.num_;
-
 }
 
 
