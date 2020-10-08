@@ -1,3 +1,4 @@
+#include <string>
 #include "clock.h"
 
 int main(void)

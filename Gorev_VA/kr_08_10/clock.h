@@ -25,16 +25,9 @@ class clock
 		int *mark_; // набор из N_ чисел
 		int num_; // номер процесса 0..(N-1)
 	public:
-		clock(int N, int num)
-		{
-			N_ = N;
-			num_ = num;
-			mark_ = new int[N];
-			for (int i = 0; i < N; i++)
-				mark_[i] = 0;
-		}
-		~clock();
+		clock(int N, int num);
 		clock(const clock &C);
+		~clock();
 		clock nextclock(const clock &C);
 		clock nextclock(const clock &prev_clock, const clock &sending_clock);
 

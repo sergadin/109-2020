@@ -1,6 +1,15 @@
 #include <string>
 #include "clock.h"
 
+clock::clock(int N, int num)
+{
+	N_ = N;
+	num_ = num;
+	mark_ = new int[N];
+	for (int i = 0; i < N; i++)
+		mark_[i] = 0;
+}
+
 clock::~clock()
 {
 	delete[] mark_;
