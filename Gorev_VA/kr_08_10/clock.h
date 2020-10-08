@@ -26,6 +26,7 @@ class Clock
 		int *mark_; // набор из N_ чисел
 		int num_; // номер процесса 0..(N-1)
 	public:
+		explicit Clock();
 		Clock(int N, int num)
 		{
 			if ((N <= 0) || (num >= N))
