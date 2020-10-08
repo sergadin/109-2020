@@ -11,7 +11,8 @@ int main()
 	b1.name(1);
 	b2.name(2);
 	b3.name(3);
-	a2.message(b2);
+	/*a2.message(b2);
+	*/
 	a1.print();
 	a2.print();
 	a3.print();
