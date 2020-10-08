@@ -30,7 +30,7 @@ class Vector
 		Vector (int n, int k); 
 		~Vector();
 		void loc();
-		void rec(const Vector& lev, const Vector& prav);
+		void rec(const Vector& prav);
 		friend bool operator<= (const Vector& lev, const Vector& prav);
 		Vector & operator=(const Vector & right);
 
