@@ -2,15 +2,6 @@
 #include <iostream>
 #include "clock.h"
 
-Clock::Clock(int N, int num)
-{
-	N_ = N;
-	num_ = num;
-	mark_ = new int[N];
-	for (int i = 0; i < N; i++)
-		mark_[i] = 0;
-}
-
 Clock nextClock(const Clock &C)
 {
 	Clock nextC(C.N_, C.num_);
@@ -18,14 +9,22 @@ Clock nextClock(const Clock &C)
 	for (int i = 0; i < C.N_; i++)
 		nextC.mark_[i] = C.mark_[i];
 	nextC.mark_[C.num_]++;
-	for (int i = 0; i < C.N_; i++)
-		std::cout << C.mark_[i] << " " << nextC.mark_[i] << "\n";
-	
+
+	//for (int i = 0; i < C.N_; i++)
+	//	std::cout << C.mark_[i] << " " << nextC.mark_[i] << "\n";
+
 	return nextC;
-	
 }
 
-
+Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
+{
+	Clock C(nextClock(prevClock));
+	if (C.N_ != sendingClock.N_)
+		throw ClockError(-1, std::string("Количество процессов в подаваемых часах разное\n"));
+	for (int i = 0; i < C.N_; i++)
+		if (C.mark_[i] < sendingClock.mark_[i])
+			C.mark_[i] = sendingClock.mark_[i];
+}
 
 
 

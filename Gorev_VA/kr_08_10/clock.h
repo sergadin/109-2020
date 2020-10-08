@@ -1,12 +1,12 @@
 #include <string>
 
-class ErrorClock
+class ClockError
 {
 	private:
 		int code_;
 		std::string reason_;
 	public:
-		ErrorClock(int code, std::string reason)
+		ClockError(int code, std::string reason)
 		{
 			code_ = code;
 			reason_ = reason;
@@ -25,7 +25,14 @@ class Clock
 		int *mark_; // набор из N_ чисел
 		int num_; // номер процесса 0..(N-1)
 	public:
-		Clock(int N, int num);
+		Clock(int N, int num)
+		{
+			N_ = N;
+			num_ = num;
+			mark_ = new int[N];
+			for (int i = 0; i < N; i++)
+				mark_[i] = 0;
+		}
 		Clock(const Clock &C)
 		{
 			N_ = C.N_;
@@ -36,6 +43,7 @@ class Clock
 			delete[] mark_;
 			N_ = num_ = 0;
 		}
+
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
