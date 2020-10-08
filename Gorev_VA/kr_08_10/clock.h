@@ -26,6 +26,7 @@ class Clock
 		int *mark_; // набор из N_ чисел
 		int num_; // номер процесса 0..(N-1)
 	public:
+		explicit Clock();
 		Clock(int N, int num)
 		{
 			if ((N <= 0) || (num >= N))
@@ -53,9 +54,9 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
-		Clock &operator=(const Clock& C);		
+		Clock operator=(const Clock &C);		
 
-		friend bool &operator<(const Clock &left, const Clock &right);
+		friend bool operator<(const Clock &left, const Clock &right);
 };
 
 

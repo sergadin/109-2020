@@ -38,7 +38,7 @@ bool Lamport::operator <(const Lamport &right)
 	return result;
 }
 
-Lamport Lamport::operator =(const Lamport &right)
+void Lamport::operator =(const Lamport &right)
 {
 	if(N_ != right.N_)
 		throw Exception(-1, std::string("You try to do something with clocks in diffent dimenstions"));	
