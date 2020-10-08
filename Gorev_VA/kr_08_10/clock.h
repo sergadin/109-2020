@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 class ClockError
 {
@@ -27,6 +28,8 @@ class Clock
 	public:
 		Clock(int N, int num)
 		{
+			if ((N <= 0) || (num >= N))
+				throw ClockError(-3, std::string("Недопустимые значения параметров\n"));
 			N_ = N;
 			num_ = num;
 			mark_ = new int[N];
@@ -37,6 +40,9 @@ class Clock
 		{
 			N_ = C.N_;
 			num_ = C.num_;
+			mark_ = new int[N_];
+			for (int i = 0; i < N_; i++)
+				mark_[i] = C.mark_[i];
 		}
 		~Clock()
 		{
@@ -47,7 +53,9 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
+		Clock operator=(Clock C);		
 
+		friend bool operator<(const Clock &left, const Clock &right);
 };
 
 

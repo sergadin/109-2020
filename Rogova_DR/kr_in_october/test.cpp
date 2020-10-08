@@ -18,7 +18,8 @@ int main()
 		q.global_ev(q2);
 		if(q4 <= q)
 			std::cout<< 111111111111112<< endl;
-  		std::cout<< q<< endl;
+		q4 = q;
+  		std::cout<< q4<< endl;
 		std::cout<< q2<< endl;
   		return 0;
 	}
