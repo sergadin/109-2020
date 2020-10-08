@@ -16,7 +16,7 @@ class Errorclock
 		{
 			return reason_;
 		}
-}
+};
 
 class clock
 {
@@ -38,7 +38,7 @@ class clock
 		nextclock(const clock prev_clock &C, const clock sending_clock &C);
 
 
-}
+};
 
 
 
