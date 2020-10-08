@@ -64,6 +64,7 @@ Vector & Vector::operator=(const Vector & right)
         for(int k = 0; k < n_; k++)
                 elements_[k] = right.elements_[k];
         n_ = right.n_;
+	k_ = right.k_;
         return *this;
 }
 
