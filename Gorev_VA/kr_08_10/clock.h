@@ -55,7 +55,7 @@ class Clock
 
 		Clock &operator=(const Clock& C);		
 
-		friend Clock &operator<(const Clock &left, const Clock &right);
+		friend bool &operator<(const Clock &left, const Clock &right);
 };
 
 
