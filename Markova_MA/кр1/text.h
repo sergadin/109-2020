@@ -12,14 +12,13 @@ class ZZ
 		int k_;
 		//string s;
 		int *mas_;
-		int size_;
 		ZZ();
 	public:
 		ZZ (int k, int n); //создает пустой
 		void name (int temp); //события это числа
-		void message (ZZ from, ZZ to);
+		void message (ZZ to);
 		bool operator <(const ZZ b);
-		//void print() const;
+		void print() const;
 		~ZZ();
 };
 
