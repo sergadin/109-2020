@@ -33,6 +33,7 @@ class Vclock
 		void global_ev(const Vclock& M); 
 		friend bool operator <= (const Vclock& lev, const Vclock& prav);
 		friend std::ostream& operator<<(std::ostream &os, const Vclock& q);
+		Vclock & operator=(const Vclock & prav);
 
 
 };
