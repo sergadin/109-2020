@@ -25,14 +25,26 @@ void Vector::loc()
 	 elements_[k_] = elements_[k_]+1;
 }
 
-void Vector::rec(const Vector& lev, const Vector& prav)
+void Vector::rec(const Vector& prav)
 {
-	if(lev.n_ != prav.n_)
+	if(n_ != prav.n_)
         {
                 throw VectorError(-1, std::string( "нет"));
         }
-	int i = prav.k_;
-	lev.elements_[i] = prav.elements_[i];
+	for(int i = 0; i < n_; i ++)
+	{
+		if(i != k_)
+		{
+			if(prav.elements_[i] > elements_[i])
+			{
+				elements_[i] = prav.elements_[i];
+			}
+		}
+		else
+		{
+			elements_[i] = elements_[i]+1;
+		}
+	}
 }
 
 bool operator<= (const Vector& lev, const Vector& prav)
