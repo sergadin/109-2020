@@ -15,12 +15,12 @@ class UserException {
 			code_ = code;
 			error_ = error;
 		}
-		string UserException error()
-		{
-			return error_;
-		}
+		string error();
 };
-
+string UserException::error();
+{
+	return error_;
+}
 /*
 string UserException::message() const {
 	return message_;
