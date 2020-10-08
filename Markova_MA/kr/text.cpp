@@ -5,7 +5,7 @@ ZZ::ZZ (int k, int n) //создает пустой
 	n_ = n;
 	k_ = k; // c 1
 	mas_ = new int[n];
-	for(int i = 0; i < n;)
+	for(int i = 0; i < n;i++)
 	{
 		mas_[i] = 0;
 	}
