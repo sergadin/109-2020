@@ -1,7 +1,7 @@
 all: do-test clear
 
 do-test: a.out
-	valgrind ./a.out
+	valgrind --leak-check=full ./a.out
 
 a.out: clock.o test.o
 	g++ -c clock.cpp
