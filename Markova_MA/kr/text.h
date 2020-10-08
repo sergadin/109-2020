@@ -11,7 +11,7 @@ class UserException
 		int code_;
 		std::string error_;
 	public:
-		ClockError(int code, std::string reason)
+		UserException (int code, std::string reason)
 		{
 			code_ = code;
 			error_ = error;
