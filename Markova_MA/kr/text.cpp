@@ -28,7 +28,7 @@ void ZZ::message (ZZ &to)
 		throw UserException(1, std::string("your messege is wrong"));
 	}
 	int good;
-	for(int i = 0;i < k_;i++)
+	for(int i = 0;i < n+;i++)
 	{
 		good = Max(mas_[i], to.mas_[i]);
 		mas_[i] = good;
@@ -43,7 +43,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 		throw UserException(2, std::string("wrong size")); // ошибка
 	}
 	int count = 0;
-	for(int i = 0;i < temp; i++)
+	for(int i = 0;i < n; i++)
 	{
 		if(mas_[i] > b.mas_[i])
 		{
@@ -51,7 +51,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 		}
 		if(mas_[i] < b.mas_[i])
 		{
-			cout++;
+			count++;
 		}
 	}
 	if(count == 0)
