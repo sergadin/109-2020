@@ -2,6 +2,10 @@
 
 ZZ::ZZ (int k, int n) //создает пустой
 {
+	if(k > n || n == 0)
+	{
+		throw UserException(0, std::string("k > n || n == 0"));
+	}
 	n_ = n;
 	k_ = k; // c 1
 	mas_ = new int[n];
