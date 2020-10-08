@@ -20,6 +20,11 @@ int main()
 	q4.rec(q4, q0);
 	std::cout << q0 << endl;
 	std::cout << q4 << endl;
+	for(int i = 0; i < 10; i++)
+	{
+	Vector temp = q0;
+	temp = temp;
+	}
 	if (q0 <= q4)
 	{
 		cout << "true " << std::endl;
