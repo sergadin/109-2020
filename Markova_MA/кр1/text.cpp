@@ -18,7 +18,7 @@ void ZZ::name (int temp)
 	size_++;
 }
 
-void ZZ::message (int from, int to)
+void ZZ::message (ZZ from, ZZ to)
 {
 	if(from.k_ > to.k_)
 	{
@@ -44,7 +44,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 		}
 		return false;
 	}
-	int temp = Min(k_, b.k_)
+	int temp = Min(k_, b.k_);
 	for(int i = 0;i < temp; i++)
 	{
 		if(mas_[i] != b.mas_[i])
