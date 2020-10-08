@@ -4,10 +4,7 @@
 
 Clock nextClock(const Clock &C)
 {
-	Clock nextC(C.N_, C.num_);
-	nextC.mark_ = new int[C.N_];
-	for (int i = 0; i < C.N_; i++)
-		nextC.mark_[i] = C.mark_[i];
+	Clock nextC(C);
 	nextC.mark_[C.num_]++;
 
 	return nextC;
