@@ -2,7 +2,7 @@
 
 ZZ::ZZ (int k, int n) //создает пустой
 {
-	if(k > n || n == 0)
+	if(k > n || n < 1 || k < 1)
 	{
 		throw UserException(0, std::string("k > n || n == 0"));
 	}
