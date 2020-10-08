@@ -6,7 +6,12 @@ int main(void)
 {
     Clock C(2, 0);
     C = nextClock(C);
-
+    
+    for (int k = 0; k < 1; k++)
+    {
+        Clock temp = C;
+    }
+    
     try
     {
         nextClock(nextClock(C), C);
