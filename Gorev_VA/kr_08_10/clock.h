@@ -33,7 +33,7 @@ class clock
 		}
 		~clock();
 		clock nextclock(const clock &C);
-		nextclock(const prev_clock &C, const sending_clock &C);
+		nextclock(const clock prev_clock &C, const clock sending_clock &C);
 
 
 }
