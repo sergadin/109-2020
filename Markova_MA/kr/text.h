@@ -17,7 +17,7 @@ class UserException
 			error_ = reason;
 		}
 
-		const std::string get_reason() const
+		const std::string error() const
 		{
 			return error_;
 		}
