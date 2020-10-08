@@ -61,10 +61,10 @@ Vector & Vector::operator=(const Vector & right)
         }
         delete[] elements_;
         elements_ = new int[n_ = right.n_];
-        for(int k = 0; k < n_; k++)
-                elements_[k] = right.elements_[k];
-        n_ = right.n_;
+	n_ = right.n_;
 	k_ = right.k_;
+	for(int i = 0; i < n_; i++)
+		elements_[i] = right.elements_[i];
 	return *this;
 }
 
