@@ -9,6 +9,7 @@ int main()
 		Lamport a(3,0);
 		Lamport b(3,1);
 		Lamport c(3,2);
+
 		a.step();
 		c.step();
 		c.step();

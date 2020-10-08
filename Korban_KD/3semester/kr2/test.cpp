@@ -19,7 +19,7 @@ int main()
 		A.local_add();
 		cout << A << endl;
 		cout << (A < B) << endl;
-		
+		//A = B;
         
     }
 	catch(vector_clock_Exception & err)

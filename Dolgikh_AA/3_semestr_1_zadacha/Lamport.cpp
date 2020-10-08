@@ -14,6 +14,15 @@ Lamport::Lamport(int N, int K)
 		clock_[i] = 0;
 }
 
+Lamport::Lamport (const Lamport &a)
+{
+	N_ = a.N_;
+	K_ = a.K_;
+	clock_ = new int[N_];
+	for(int i = 0; i < N_; i++)
+		clock_[i] = a.clock_[i];
+}
+
 Lamport::~Lamport()
 {
 	delete[] clock_;
@@ -38,12 +47,25 @@ bool Lamport::operator <(const Lamport &right)
 	return result;
 }
 
-void Lamport::operator =(const Lamport &right)
+Lamport Lamport::operator =(const Lamport &right)
 {
-	if(N_ != right.N_)
-		throw Exception(-1, std::string("You try to do something with clocks in diffent dimenstions"));	
+	if(this == &right)
+	{
+		return *this;
+	}
+
+	N_ = right.N_;
+	K_ = right.K_;
+	delete[] clock_;
+	clock_ = new int[N_];
 	for(int i = 0; i < N_; i++)
 		clock_[i] = right.clock_[i];
+	return *this;
+
+	/*if(N_ != right.N_)
+		throw Exception(-1, std::string("You try to do something with clocks in diffent dimenstions"));	
+	for(int i = 0; i < N_; i++)
+		clock_[i] = right.clock_[i];*/
 }
 
 std::ostream& operator <<(std::ostream &os, const Lamport &a)

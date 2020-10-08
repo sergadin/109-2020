@@ -48,7 +48,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 	for(int i = 0;i < temp; i++)
 	{
 		if(mas_[i] != b.mas_[i])
-			throw UserException(3); //ошибка
+			return false;//throw UserException(2); //ошибка
 	}
 	if(mas_[temp + 1] < b.mas_[temp + 1])
 		return true;
