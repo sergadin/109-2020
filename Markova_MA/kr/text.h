@@ -5,22 +5,24 @@
 using namespace std;
 #define Max(a, b) ((a)>(b) ? (a) : (b))
 #define Min(a, b) ((a)<(b) ? (a) : (b))
-class UserException {
+class UserException
+{
 	private:
 		int code_;
-		
+		std::string error_;
 	public:
-		UserException(int code)
+		ClockError(int code, std::string reason)
 		{
 			code_ = code;
-			
+			error_ = error;
 		}
-		int error();
+
+		const std::string get_reason() const
+		{
+			return error_;
+		}
 };
-int UserException::error()
-{
-	return code_;
-}
+
 /*
 string UserException::message() const {
 	return message_;
@@ -45,6 +47,7 @@ class ZZ
 		void message (ZZ &to);
 		bool operator <(const ZZ b);
 		void print() const;
+		ZZ operator=(const ZZ &C);
 		~ZZ();
 };
 

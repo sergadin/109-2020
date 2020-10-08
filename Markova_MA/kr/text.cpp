@@ -21,7 +21,7 @@ void ZZ::message (ZZ &to)
 {
 	if(k_ > to.k_ || n_ != to.n_)
 	{
-		throw UserException(1);
+		throw UserException(1, std::string("your messege is wrong"));
 	}
 	for(int i = 0;i < k_;i++)
 	{
@@ -34,7 +34,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 {
 	if(n_ != b.n_)
 	{
-		throw UserException(2); // ошибка
+		throw UserException(2, std::string("wrong size")); // ошибка
 	}
 	if(k_ == b.k_)
 	{
@@ -48,7 +48,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 	for(int i = 0;i < temp; i++)
 	{
 		if(mas_[i] != b.mas_[i])
-			return false;//throw UserException(2); //ошибка
+			return false;//throw UserException(3, std::string("can`t compare")); //ошибка
 	}
 	if(mas_[temp + 1] < b.mas_[temp + 1])
 		return true;
@@ -71,3 +71,20 @@ ZZ::~ZZ()
 	delete[] mas_;
 }
 
+ZZ ZZ::operator=(const ZZ &C)
+{
+	if (mas_ == C.mas_)
+		return *this;
+	n_ = C.n_;
+	k_ = C.k_;
+	delete[] mas_;
+	mas_ = new int[n_];
+	for (int i = 0; i < n_; i++)
+		mas_[i] = C.mas_[i];
+
+	/*for (int i = 0; i < N_; i++)
+		std::cout << mark_[i] << " ";
+	std::cout << "\n";
+	*/
+	return *this;
+}
