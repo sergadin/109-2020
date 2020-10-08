@@ -1,7 +1,7 @@
 all: do-test clear
 
 do-test: a.out
-	./a.out
+	valgrind ./a.out
 
 a.out: intset.o test.o
 	g++ -c intset.cpp
