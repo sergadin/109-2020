@@ -24,7 +24,7 @@ Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 	return C;
 }
 
-Clock operator=(const Clock& C)
+Clock operator=(Clock C)
 {
 	N_ = C.N_;
 	num_ = C.num_;
