@@ -68,6 +68,16 @@ class Clock
 
 
 
+
+
+
+
+
+
+
+
+
+
 /*class intsetError
 {
 	private:

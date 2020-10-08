@@ -8,13 +8,17 @@ using namespace std;
 class UserException {
 	private:
 		int code_;
+		string error_;
 	public:
-		UserException(int code)
+		UserException(int code, string error)
 		{
 			code_ = code;
+			error_ = error;
 		}
-		//tring message() const;
-		//int code() const;
+		string UserException error()
+		{
+			return error_;
+		}
 };
 
 /*
@@ -38,7 +42,7 @@ class ZZ
 	public:
 		ZZ (int k, int n); //создает пустой
 		void name (int temp); //события это числа
-		void message (ZZ to);
+		void message (ZZ &to);
 		bool operator <(const ZZ b);
 		void print() const;
 		~ZZ();

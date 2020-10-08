@@ -17,14 +17,15 @@ void ZZ::name (int temp)
 	mas_[k_ - 1] = temp;
 }
 
-void ZZ::message (ZZ to)
+void ZZ::message (ZZ &to)
 {
-	if(k_ > to.k_)
+	if(k_ > to.k_ || n_ != to.n_)
 	{
-		throw UserException(1);
+		throw UserException(1, std::string("your messege is wrong"));
 	}
 	for(int i = 0;i < k_;i++)
 	{
+		//printf("%d, %d ", to.mas_[i], mas_[i]);
 		to.mas_[i] = mas_[i];
 	}
 }
@@ -33,7 +34,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 {
 	if(n_ != b.n_)
 	{
-		return false; // ошибка
+		throw UserException(2, std::string("wrong size")); // ошибка
 	}
 	if(k_ == b.k_)
 	{
@@ -47,7 +48,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 	for(int i = 0;i < temp; i++)
 	{
 		if(mas_[i] != b.mas_[i])
-			return false; //ошибка
+			throw UserException(3, std::string("can`t compare")); //ошибка
 	}
 	if(mas_[temp + 1] < b.mas_[temp + 1])
 		return true;
