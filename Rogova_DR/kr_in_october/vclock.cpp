@@ -4,7 +4,7 @@
 
 Vclock::Vclock(int N, int k)
 {
-	if(k > N - 1)
+	if((k > N - 1) || (k < 0))
 	{
 		throw MatrError(-1, std::string("Fuuuu..."));
 	}
@@ -87,6 +87,22 @@ bool operator <= (const Vclock& lev, const Vclock& prav)
 		}
 	}
 	return true;
+}
+Vclock & Vclock::operator=(const Vclock & prav)
+{
+        if(this == &prav)
+        {
+                return *this;
+        }
+        delete[] elements_;
+        elements_ = new int[prav.N_];
+	N_ = prav.N_;
+        k_ = prav.k_;
+        for(int i = 0; i < N_; i++)
+	{
+                elements_[i] = prav.elements_[i];
+	}
+        return *this;
 }
 
 std::ostream & operator<<(std::ostream &os, const Vclock &q)
