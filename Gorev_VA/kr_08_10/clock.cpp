@@ -1,7 +1,7 @@
 #include <string>
 #include "clock.h"
 
-clock::clock(int N, int num)
+Clock::Clock(int N, int num)
 {
 	N_ = N;
 	num_ = num;
@@ -10,13 +10,13 @@ clock::clock(int N, int num)
 		mark_[i] = 0;
 }
 
-clock::~clock()
+Clock::~Clock()
 {
 	delete[] mark_;
 	N_ = num_ = 0;
 }
 
-clock::clock(const clock &C)
+Clock::Clock(const Clock &C)
 {
 	N_ = C.N_;
 	num_ = C.num_;

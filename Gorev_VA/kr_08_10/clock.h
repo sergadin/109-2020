@@ -1,12 +1,12 @@
 #include <string>
 
-class Errorclock
+class ErrorClock
 {
 	private:
 		int code_;
 		std::string reason_;
 	public:
-		Errorclock(int code, std::string reason)
+		ErrorClock(int code, std::string reason)
 		{
 			code_ = code;
 			reason_ = reason;
@@ -18,18 +18,18 @@ class Errorclock
 		}
 };
 
-class clock
+class Clock
 {
 	private:
 		int N_; // количество процессов
 		int *mark_; // набор из N_ чисел
 		int num_; // номер процесса 0..(N-1)
 	public:
-		clock(int N, int num);
-		clock(const clock &C);
-		~clock();
-		clock nextclock(const clock &C);
-		clock nextclock(const clock &prev_clock, const clock &sending_clock);
+		Clock(int N, int num);
+		Clock(const Clock &C);
+		~Clock();
+		Clock nextClock(const Clock &C);
+		Clock nextClock(const Clock &prev_Clock, const Clock &sending_Clock);
 
 
 };
