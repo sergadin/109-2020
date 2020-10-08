@@ -63,6 +63,12 @@ void ZZ::print() const
 	}
 	printf(") ");
 }
+ZZ::~ZZ()
+{
+	n_ = 0;
+	k_ = 0;
+	delete[] mas_;
+}
 /*UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {
