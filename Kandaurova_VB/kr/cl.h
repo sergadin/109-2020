@@ -6,9 +6,10 @@ class cl{
         cl();
     public:
         cl(int n, int k);
+        cl(const cl &a);
         ~cl();
         void send();//подпись локального события
-
+        cl operator =(const cl &right);
         cl& receve(const cl& b);//подпись события
 
         friend bool operator<=(const cl& a, const cl& b);
