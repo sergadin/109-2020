@@ -10,6 +10,7 @@ int main(void)
     for (int k = 0; k < 10; k++)
     {
         Clock temp = C;
+        temp = C = temp;
     }
     
     try
