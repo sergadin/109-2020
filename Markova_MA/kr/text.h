@@ -8,15 +8,14 @@ using namespace std;
 class UserException {
 	private:
 		int code_;
-		string message_;
 	public:
-		UserException(int code, string message);
-		string message() const;
-		int code() const;
+		UserException(int code);
+		//tring message() const;
+		//int code() const;
 };
 
 UserException::UserException(int code, string message) : code_(code), message_(message) {}
-
+/*
 string UserException::message() const {
 	return message_;
 }
@@ -24,7 +23,7 @@ string UserException::message() const {
 int UserException::code() const {
 	return code_;
 }
-
+*/
 
 class ZZ
 {

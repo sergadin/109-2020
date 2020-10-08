@@ -21,7 +21,7 @@ void ZZ::message (ZZ to)
 {
 	if(k_ > to.k_)
 	{
-		throw UserException(1, "wrong in from");
+		throw UserException(1);
 	}
 	for(int i = 0;i < k_;i++)
 	{
