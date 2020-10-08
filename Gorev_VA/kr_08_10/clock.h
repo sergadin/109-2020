@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 class ClockError
 {
@@ -50,7 +51,20 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
+		Clock &operator=(const Clock &C)
+		{
+			N_ = C.N_;
+			num_ = C.num_;
+			mark_ = C.mark_;
+			
+			for (int i = 0; i < N_; i++)
+				std::cout << C.mark_[i] << " ";
+			cout << endl;
 
+			return *this;
+		}
+
+		friend Clock &operator<(const Clock &left, const Clock &right);
 };
 
 
