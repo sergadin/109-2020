@@ -17,7 +17,7 @@ class UserException {
 		}
 		string error();
 };
-string UserException::error();
+string UserException::error()
 {
 	return error_;
 }
