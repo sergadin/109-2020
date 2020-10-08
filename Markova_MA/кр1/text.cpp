@@ -3,7 +3,7 @@
 ZZ::ZZ (int k, int n) //создает пустой
 {
 	n_ = n;
-	k_ = k;
+	k_ = k; // c 1
 	mas_ = new int[n];
 	for(int i = 0; i < n;)
 	{
@@ -14,7 +14,7 @@ ZZ::ZZ (int k, int n) //создает пустой
 
 void ZZ::name (int temp)
 {
-	mas_[k_] = temp;
+	mas_[k_ - 1] = temp;
 }
 
 void ZZ::message (ZZ to)
@@ -23,7 +23,7 @@ void ZZ::message (ZZ to)
 	{
 		return;
 	}
-	for(int i = 0;i <= k_;i++)
+	for(int i = 0;i < k_;i++)
 	{
 		to.mas_[i] = mas_[i];
 	}
@@ -37,7 +37,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 	}
 	if(k_ == b.k_)
 	{
-		if(mas_[k_] < b.mas_[k_])
+		if(mas_[k_ - 1] < b.mas_[k_ - 1])
 		{
 			return true;
 		}
