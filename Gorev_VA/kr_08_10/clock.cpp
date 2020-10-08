@@ -24,7 +24,7 @@ Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 	return C;
 }
 
-Clock &operator=(const Clock& C)
+Clock operator=(const Clock& C)
 {
 	N_ = C.N_;
 	num_ = C.num_;
@@ -39,7 +39,7 @@ Clock &operator=(const Clock& C)
 	return *this;
 }
 
-bool &operator<(const Clock &left, const Clock &right)
+bool operator<(const Clock &left, const Clock &right)
 {
 	if (left.N_ != right.N_)
 		throw ClockError(-2, std::string("Количество процессов в подаваемых часах разное\n"));
