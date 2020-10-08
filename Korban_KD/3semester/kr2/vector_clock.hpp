@@ -10,6 +10,7 @@ class vector_clock
         
         vector_clock();
 		vector_clock & operator=(const vector_clock & right);
+		vector_clock(const vector_clock & right);
     public:
         vector_clock(int n , int id);
         

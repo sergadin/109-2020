@@ -66,7 +66,7 @@ vector_clock & vector_clock::receve(const vector_clock & second)
     
     for(int i = 0; i < left.n_; i++)
     {
-        if( left.clock_[i] >= right.clock_[i] ) 
+        if( left.clock_[i] > right.clock_[i] ) 
             return false;
     }
     return true;
