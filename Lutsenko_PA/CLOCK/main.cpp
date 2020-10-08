@@ -27,6 +27,11 @@ int main()
     c.PrintCoordinates();
     c == b;
    // a == d;
+   for (int k = 0; k < 10; k++)
+    {
+       VClock temp = a;
+        temp = temp;
+    }
     
     
     return 0;

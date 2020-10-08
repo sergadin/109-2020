@@ -34,6 +34,7 @@ public:
        //печать координат
        void PrintCoordinates();
        
+      VClock & operator=(const VClock & right);
        //Сравнение двух меток.
        friend  void operator==( const VClock & left, const VClock & right); //Сравнение двух меток.
        // Подпись локального события.

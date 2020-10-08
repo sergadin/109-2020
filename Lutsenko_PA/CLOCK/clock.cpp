@@ -60,6 +60,18 @@ void VClock::Local()
    
 }
 
+VClock & VClock:: operator=(const VClock & right)
+{
+  
+   
+    n_ =right.n_;
+    coordinates_= new int[n_];
+    
+    for (int i=0; i < n_;i++)
+     coordinates_[i] = right.coordinates_[i];
+
+   return *this;
+}
 
 void VClock::Global (const VClock & m)
 {
