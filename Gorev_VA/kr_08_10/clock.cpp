@@ -21,7 +21,7 @@ Clock nextClock(const Clock &C)
 	for (int i = 0; i < C.N_; i++)
 		std::cout << C.mark_[i] << " " << nextC.mark_[i] << "\n";
 	
-	return newC;
+	return nextC;
 	
 }
 
