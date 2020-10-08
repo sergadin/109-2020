@@ -23,7 +23,7 @@ void ZZ::message (ZZ to)
 	{
 		return;
 	}
-	for(int i = 0;i < from.k_;i++)
+	for(int i = 0;i <= k_;i++)
 	{
 		to.mas_[i] = mas_[i];
 	}
@@ -37,7 +37,7 @@ bool ZZ::operator <(const ZZ b) // a < b
 	}
 	if(k_ == b.k_)
 	{
-		if(size_ < b.size_)
+		if(mas_[k_] < b.mas_[k_])
 		{
 			return true;
 		}
