@@ -43,7 +43,7 @@ class ZZ
 		ZZ();
 	public:
 		ZZ (int k, int n); //создает пустой
-		void name (int temp); //события это числа
+		void name (); //
 		void message (ZZ &to);
 		bool operator <(const ZZ b);
 		void print() const;

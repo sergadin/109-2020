@@ -7,10 +7,10 @@ int main()
 	ZZ a1(1,3), a2(1,3), a3(1,3), b1(2,3), b2(2,4), b3(2,3);
 	try {
 		//a1.name(1);
-		a2.name(2);
+		a2.name();
 		/*a3.name(3);
 		b1.name(1);
-		*/b2.name(2);
+		*/b2.name();
 		/*b3.name(3);
 		a2.print();
 		b2.print();

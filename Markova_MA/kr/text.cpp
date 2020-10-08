@@ -16,22 +16,24 @@ ZZ::ZZ (int k, int n) //создает пустой
 	//size_ = 1;
 }
 
-void ZZ::name (int temp)
+void ZZ::name ()
 {
-	mas_[k_ - 1] = temp;
+	mas_[k_ - 1]++;
 }
 
 void ZZ::message (ZZ &to)
 {
-	if(k_ > to.k_ || n_ != to.n_)
+	if(k_ == to.k_ || n_ != to.n_)
 	{
 		throw UserException(1, std::string("your messege is wrong"));
 	}
+	int good;
 	for(int i = 0;i < k_;i++)
 	{
-		//printf("%d, %d ", to.mas_[i], mas_[i]);
-		to.mas_[i] = mas_[i];
+		good = Max(mas_[i], to.mas_[i]);
+		mas_[i] = good;
 	}
+	mas_[k - 1]++;
 }
 
 bool ZZ::operator <(const ZZ b) // a < b
@@ -40,23 +42,23 @@ bool ZZ::operator <(const ZZ b) // a < b
 	{
 		throw UserException(2, std::string("wrong size")); // ошибка
 	}
-	if(k_ == b.k_)
-	{
-		if(mas_[k_ - 1] < b.mas_[k_ - 1])
-		{
-			return true;
-		}
-		return false;
-	}
-	int temp = Min(k_, b.k_);
+	int count = 0;
 	for(int i = 0;i < temp; i++)
 	{
-		if(mas_[i] != b.mas_[i])
-			return false;//throw UserException(3, std::string("can`t compare")); //ошибка
+		if(mas_[i] > b.mas_[i])
+		{
+			return false;
+		}
+		if(mas_[i] < b.mas_[i])
+		{
+			cout++;
+		}
 	}
-	if(mas_[temp + 1] < b.mas_[temp + 1])
-		return true;
-	return false;
+	if(count == 0)
+	{
+		return false;
+	}
+	return true;
 }
 
 void ZZ::print() const
