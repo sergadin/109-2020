@@ -8,6 +8,10 @@ int main()
 	try
 	{
 	IntSet q(5, 11);
+	if (q.is_empty())
+	{
+		cout << "pusto " << std::endl;
+	}
 	q.put(5);
 	q.put(9);
 	q.put(10);
