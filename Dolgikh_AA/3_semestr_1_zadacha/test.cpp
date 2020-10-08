@@ -9,6 +9,7 @@ int main()
 		Lamport a(3,0);
 		Lamport b(3,1);
 		Lamport c(3,2);
+
 		a.step();
 		c.step();
 		c.step();
@@ -22,6 +23,11 @@ int main()
 		cout << "a<c? "<< (a<c) << endl;
 		b = a;
 		cout << a << b << c;
+		for(int k = 0; k < 10; k++)
+		{
+			Lamport temp = a;
+			temp = temp;
+		}
 	}
 	catch(Exception &exc)
 	{
