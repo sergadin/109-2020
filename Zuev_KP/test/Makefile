@@ -1,16 +1,16 @@
 all: do-test clean
 
-func.o: intset.cpp
-#	g++ -c intset.cpp
+func.o: vector.cpp
+#	g++ -c vector.cpp
 
 test.o: test.cpp
 #	g++ -c test.cpp
 
-a.out: test.o intset.o
-	g++ test.o intset.o -lm
+a.out: test.o vector.o
+	g++ test.o vector.o -lm
 
 do-test: a.out
 	./a.out
 
-clean: test.o intset.o
-	rm test.o intset.o
+clean: test.o vector.o
+	rm test.o vector.o

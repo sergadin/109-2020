@@ -60,7 +60,10 @@ class Matr
 		};
 		Matr & operator= (const Matr & right);	
 		friend Matr operator*(const Matr &lev, const Matr& prav);
+		friend void operator*=(Matr &lev, const Matr& prav);
 		friend std::ostream& operator<<(std::ostream &os, const Matr& q);
+		friend bool operator== (const Matr& lev, const Matr& prav);
+
 };
 
 

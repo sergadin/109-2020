@@ -1,8 +1,44 @@
-#include <iostream>
-#include "intset.h"
 #include <string>
+#include <iostream>
+#include "clock.h"
 
-intset::intset(int minval, int maxval)
+Clock nextClock(const Clock &C)
+{
+	Clock nextC(C);
+	nextC.mark_[C.num_]++;
+
+	return nextC;
+}
+
+Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
+{
+	Clock C(prevClock);
+	C.mark_[prevClock.num_]++;
+
+	if (C.N_ != sendingClock.N_)
+		throw ClockError(-1, std::string("Количество процессов в подаваемых часах разное\n"));
+	for (int i = 0; i < C.N_; i++)
+		if (C.mark_[i] < sendingClock.mark_[i])
+			C.mark_[i] = sendingClock.mark_[i];
+
+	return C;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*intset::intset(int minval, int maxval)
 {
 	size_ = 0;
 	maxval_ = maxval;
@@ -29,26 +65,18 @@ intset::intset(intset& IS)
 	size_ = IS.size_;
 	for (int i = 0; i < IS.size_; i++)
 		ar_[i] = IS.ar_[i];
-	
-	//std::cout << size_ << " " << minval_ << " " << maxval_ << "\n";
-	//for (int i = 0; i < size_; i++)
-	//std::cout << ar_[i] << "\n";
 }
 
 intset::intset(const intset& IS)
 {
 	if (IS.size_ <= 0)
-		return;
+		throw intsetError(-2, std::string("Нулевой размер присваиваемой строки"));
 	minval_ = IS.minval_;
 	maxval_ = IS.maxval_;
 	ar_ = new int[IS.size_];
 	size_ = IS.size_;
 	for (int i = 0; i < IS.size_; i++)
 		ar_[i] = IS.ar_[i];
-	
-	std::cout << size_ << " " << minval_ << " " << maxval_ << "\n";
-	for (int i = 0; i < size_; i++)
-	std::cout << ar_[i] << "\n";
 }
 
 bool intset::find_item(int item) const
@@ -64,7 +92,7 @@ void intset::put(int item)
 	if (find_item(item))
 		return;
 	if ((item > maxval_) || (item < minval_))
-		return;
+		throw intsetError(-3, std::string("Требуемое значение вне исходного диапазона"));
 	int *ar;
 	ar = new int[size_ + 1];
 	for (int i = 0; i < size_; i++)
@@ -103,8 +131,7 @@ int intset::find_max() const
 	int max = minval_;
 	if (size_ == 0)
 	{
-		std::cout << "Set os emtpy\n";
-		return maxval_ + 1;
+		throw intsetError(-4, std::string("Множество пусто: в нем нет максимума"));
 	}
 	for (int i = 0; i < size_; i++)
 		if (ar_[i] > max)
@@ -117,8 +144,7 @@ int intset::find_min() const
 	int min = maxval_;
 	if (size_ == 0)
 	{
-		std::cout << "Set is emtpy\n";
-		return minval_ - 1;
+		throw intsetError(-5, std::string("Множество пусто: в нем нет минимума"));
 	}
 	for (int i = 0; i < size_; i++)
 		if (ar_[i] < min)
@@ -195,3 +221,5 @@ bool operator== (const intset &left, const intset &right)
 			return 0;
 	return 1;
 }
+
+*/

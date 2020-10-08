@@ -62,10 +62,10 @@ void IntSet::add_elem(int New_elem) {
             this->resize_(size_*2);
         }
         int i = 0;
-        while (New_elem > array_[i] && i < n_) {
+        while (i < n_ && New_elem > array_[i]) {
             i++;
         }
-        if(New_elem == array_[i]) return;
+        if(i < n_ && New_elem == array_[i]) return;
         for(int j = n_; j > i; j--){
             array_[j] = array_[j-1];
         }
@@ -105,6 +105,17 @@ void IntSet::operator =(const IntSet &other) {
     this->resize_(other.size_);
     for (int i = 0; i < other.n_; i++) {
         this->add_elem(other.array_[i]);
+    }
+}
+
+IntSet::IntSet (const IntSet &other) {
+    this->size_ = other.size_;
+    this->min_ = other.min_;
+    this->max_ = other.max_;
+    this->n_ = other.n_;
+    this->array_ = (int *)malloc(other.size_*sizeof(*array_));
+    for (int i = 0; i < other.n_; i++) {
+       this->array_[i] = other.array_[i];
     }
 }
 

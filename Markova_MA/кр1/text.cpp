@@ -1,153 +1,74 @@
 #include "text.h"
 
-ZZ::ZZ(int left, int right)
+ZZ::ZZ (int k, int n) //создает пустой
 {
-	int size_ = 0;
-	left_ = left;
-	right_ = right;
+	n_ = n;
+	k_ = k; // c 1
+	mas_ = new int[n];
+	for(int i = 0; i < n;)
+	{
+		mas_[i] = 0;
+	}
+	//size_ = 1;
 }
 
-void ZZ::copy_ (const ZZ a)
+void ZZ::name (int temp)
 {
-	left_ = a.left();
-	right_ = a.right();	
-	mas_ = int new[a.size()]
-	for(int i = 0; i < size;i++)
-	{
-		mas_[i] = a.mas_[i];
-	}
-	size_ = a.size_;
+	mas_[k_ - 1] = temp;
 }
 
-void ZZ::push_ (int a)
+void ZZ::message (ZZ to)
 {
-	if(a < left_ || a > right_)
+	if(k_ > to.k_)
 	{
-		//throw(-1, "a < left || a > right");
 		return;
 	}
-	//int temp = a - left_;
-	for(int i = 0; i < size_; i++)
+	for(int i = 0;i < k_;i++)
 	{
-		if(a == mas_[i])
-			return;
+		to.mas_[i] = mas_[i];
 	}
-	int *mas;
-	mas = new int[size_ + 1];
-	for(int i = 0; i < size_; i++)
-	{
-		mas[i] == mas_[i])
-	}
-	mas[size_] = a;
-	size_++;
-	if (size_ > 0)
-		delete mas_;
-	mas_ = mas;
 }
 
-void ZZ::clean_ (int a)
+bool ZZ::operator <(const ZZ b) // a < b
 {
-	if(a < left_ || a > right_)
+	if(n_ != b.n_)
 	{
-		//throw(-1, "a < left || a > right");
-		return;
+		return false; // ошибка
 	}
-	int yes = -1;
-	for(int i = 0; i < size_; i++)
+	if(k_ == b.k_)
 	{
-		if(a == mas_[i] && !yes)
-			yes = i;
-	}
-	if(yes == -1)
-		return;
-	int *mas, j = 0;
-	mas = new int[size_ - 1];
-	for(int i = 0; i < size_; i++)
-	{
-		if(i == yes)
+		if(mas_[k_ - 1] < b.mas_[k_ - 1])
 		{
-			continue;
+			return true;
 		}
-		else
-		{
-			mas[j] == mas_[i]);
-			j++;
-		}
+		return false;
 	}
-	size_--;
-	if (size_ > 0)
-		delete mas_;
-	mas_ = mas;
+	int temp = Min(k_, b.k_);
+	for(int i = 0;i < temp; i++)
+	{
+		if(mas_[i] != b.mas_[i])
+			return false; //ошибка
+	}
+	if(mas_[temp + 1] < b.mas_[temp + 1])
+		return true;
+	return false;
 }
 
-bool ZZ::isEmpty() const
+void ZZ::print() const
 {
-	if(size_ == 0)
+	printf("(");
+	for(int i = 0;i < n_;i++)
 	{
-		return 1;
+		printf("%d ", mas_[i]);
 	}
-	return 0;
+	printf(") ");
 }
-
-int ZZ::min_ () const
-{
-	if(size_ == 0)
-	{
-		return;
-	}
-	int m = mas_[0];
-	for(int i = 0; i < size_; i++)
-	{
-		if(mas_[i] < m)
-		{
-			m = mas[i];
-		}
-	}
-	return m;
-}
-
-int ZZ::max_() const
-{
-	if(size_ == 0)
-	{
-		return;
-	}
-	int m = mas_[0];
-	for(int i = 0; i < size_; i++)
-	{
-		if(mas_[i] > m)
-		{
-			m = mas[i];
-		}
-	}
-	return m;
-}
-
 ZZ::~ZZ()
 {
-	if(size_ != 0)
-		delete[] mas_;
-	size_ = 0;
-	left_ = 0;
-	right = 0;
+	n_ = 0;
+	k_ = 0;
+	delete[] mas_;
 }
-
-void ZZ::print() const {
-    if (size_ == 0) 
-	{
-		cout << "no elements";
-		cout << " " << left_ << " " << right_ << endl;
-		return;
-    }
-	cout << left_ << " " << right_ << endl;
-	for(int i = 0; i < abs(right_ - left_ + 1); i++) {
-		if(mas_[i] == 1)
-        printf("%d ", left_ + i);
-    }
-    cout << endl;
-	cout << size_ << endl;
-}
-
 /*UserException::UserException(int code, string message) : code_(code), message_(message) {}
 
 string UserException::message() const {
