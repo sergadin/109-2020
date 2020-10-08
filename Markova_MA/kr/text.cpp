@@ -21,7 +21,7 @@ void ZZ::message (ZZ to)
 {
 	if(k_ > to.k_)
 	{
-		return;
+		throw UserException(1, "wrong in from");
 	}
 	for(int i = 0;i < k_;i++)
 	{
@@ -69,12 +69,3 @@ ZZ::~ZZ()
 	k_ = 0;
 	delete[] mas_;
 }
-/*UserException::UserException(int code, string message) : code_(code), message_(message) {}
-
-string UserException::message() const {
-	return message_;
-}
-
-int UserException::code() const {
-	return code_;
-}*/
