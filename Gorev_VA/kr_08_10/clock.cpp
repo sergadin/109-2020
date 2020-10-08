@@ -24,6 +24,7 @@ Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 	for (int i = 0; i < C.N_; i++)
 		if (C.mark_[i] < sendingClock.mark_[i])
 			C.mark_[i] = sendingClock.mark_[i];
+	return C;
 }
 
 
