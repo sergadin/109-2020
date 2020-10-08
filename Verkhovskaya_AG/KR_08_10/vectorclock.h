@@ -27,4 +27,14 @@ public:
     bool operator<(const VectorClock& other) const;
     
     void print();
+    
+    VectorClock &operator=(const VectorClock& other) {
+        n = other.n;
+        k = other.k;
+        v = new int[n];
+        for (int i = 0; i < n; ++i) {
+            v[i] = other.v[i];
+        }
+        return *this;
+    }
 };
