@@ -10,7 +10,7 @@ int main()
     VClock c(4,3);
     VClock d(5,4);
     
-    a.PrintCoordinates();
+    
     a.Local();
     a.Local();
     a.Local();
@@ -18,11 +18,12 @@ int main()
     b.Global(a);
     a.PrintCoordinates();
     b.PrintCoordinates();
-    a == b;
-    a == c;
+    b == a;
+   
     b.Local();
      b.Local();
     c.Global(b);
+    b.PrintCoordinates();
     c.PrintCoordinates();
     c == b;
    // a == d;
