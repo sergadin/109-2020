@@ -24,7 +24,24 @@ Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 	return C;
 }
 
-bool &operator<(const Clock &left, const Clock &right)
+Clock Clock::operator=(const Clock &C)
+{
+	if (mark_ == C.mark_)
+		return *this;
+	N_ = C.N_;
+	num_ = C.num_;
+	delete[] mark_;
+	mark_ = new int[N_];
+	for (int i = 0; i < N_; i++)
+		mark_[i] = C.mark_[i];
+
+	for (int i = 0; i < N_; i++)
+		std::cout << mark_[i] << " ";
+	std::cout << "\n";
+	return *this;
+}
+
+bool operator<(const Clock &left, const Clock &right)
 {
 	if (left.N_ != right.N_)
 		throw ClockError(-2, std::string("Количество процессов в подаваемых часах разное\n"));

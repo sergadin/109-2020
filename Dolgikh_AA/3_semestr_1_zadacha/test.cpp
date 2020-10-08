@@ -20,6 +20,8 @@ int main()
 		c.send(a);
 		cout << a << b << c;
 		cout << "a<c? "<< (a<c) << endl;
+		b = a;
+		cout << a << b << c;
 	}
 	catch(Exception &exc)
 	{

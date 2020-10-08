@@ -1,4 +1,4 @@
-all: do-test
+all: do-test clean
 
 Lamport.o: Lamport.cpp
 	g++ -c Lamport.cpp
@@ -11,3 +11,6 @@ a.out: Lamport.o test.o
 
 do-test: a.out
 	./a.out
+
+clean: Lamport.o test.o
+	rm Lamport.o test.o

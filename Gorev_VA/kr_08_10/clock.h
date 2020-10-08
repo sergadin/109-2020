@@ -26,8 +26,11 @@ class Clock
 		int *mark_; // набор из N_ чисел
 		int num_; // номер процесса 0..(N-1)
 	public:
+		explicit Clock();
 		Clock(int N, int num)
 		{
+			if ((N <= 0) || (num >= N))
+				throw ClockError(-3, std::string("Недопустимые значения параметров\n"));
 			N_ = N;
 			num_ = num;
 			mark_ = new int[N];
@@ -51,21 +54,20 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
-		Clock &operator=(const Clock &C)
-		{
-			N_ = C.N_;
-			num_ = C.num_;
-			mark_ = C.mark_;
-			
-			for (int i = 0; i < N_; i++)
-				std::cout << C.mark_[i] << " ";
-			cout << endl;
+		Clock operator=(const Clock &C);		
 
-			return *this;
-		}
-
-		friend Clock &operator<(const Clock &left, const Clock &right);
+		friend bool operator<(const Clock &left, const Clock &right);
 };
+
+
+
+
+
+
+
+
+
+
 
 
 
