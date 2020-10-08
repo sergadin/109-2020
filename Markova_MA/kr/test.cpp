@@ -15,6 +15,7 @@ int main()
 	a1.print();
 	a2.print();
 	a3.print();
+	b2.print();
 	
 	
 	return 0;
