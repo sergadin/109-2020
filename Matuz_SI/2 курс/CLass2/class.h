@@ -21,7 +21,7 @@ public:
     ~VectorClock();
     void LocalEvent();
 
-    void EventMessage(const VectorClock process);
+    void EventMessage(const VectorClock &process);
 
 
     void print();
