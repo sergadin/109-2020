@@ -167,6 +167,12 @@ Matr operator* (const Matr& lev, const Matr& prav)
 	}
 	return res;
 }
+void operator*=(Matr &lev, const Matr& prav)
+{
+	Matr res(lev.left_, lev.right_);
+	res = lev*prav;
+	lev = res;
+}
 bool operator== (const Matr& lev, const Matr& prav)
 {
 	if(&lev == &prav)
