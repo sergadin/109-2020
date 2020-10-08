@@ -28,6 +28,8 @@ class Clock
 	public:
 		Clock(int N, int num)
 		{
+			if ((N <= 0) || (num >= N))
+				throw ClockError(-3, std::string("Недопустимые значения параметров\n"));
 			N_ = N;
 			num_ = num;
 			mark_ = new int[N];
@@ -51,18 +53,7 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
-		Clock &operator=(const Clock &C)
-		{
-			N_ = C.N_;
-			num_ = C.num_;
-			mark_ = C.mark_;
-			
-			for (int i = 0; i < N_; i++)
-				std::cout << C.mark_[i] << " ";
-			cout << endl;
-
-			return *this;
-		}
+		&Clock operator=(const Clock& C);		
 
 		friend Clock &operator<(const Clock &left, const Clock &right);
 };
