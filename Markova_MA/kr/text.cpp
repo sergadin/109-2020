@@ -19,7 +19,7 @@ void ZZ::name (int temp)
 
 void ZZ::message (ZZ &to)
 {
-	if(k_ > to.k_)
+	if(k_ > to.k_ || n_ != to.n_)
 	{
 		throw UserException(1);
 	}
