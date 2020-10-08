@@ -53,7 +53,7 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
-		&Clock operator=(const Clock& C);		
+		Clock &operator=(const Clock& C);		
 
 		friend Clock &operator<(const Clock &left, const Clock &right);
 };
