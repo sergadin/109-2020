@@ -28,7 +28,7 @@ void VectorClock::LocalEvent() {
     data_[indexK_-1]++;
 };
 
-void VectorClock::EventMessage(const VectorClock process) {
+void VectorClock::EventMessage(const VectorClock &process) {
     if ((dimN_ != process.dimN_))
         throw UserException(2, "different dimensions:((((");
     if ((indexK_ == process.indexK_))
