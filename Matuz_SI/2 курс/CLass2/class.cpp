@@ -16,17 +16,17 @@ VectorClock::VectorClock(int dimension, int index) {
     data_ = new unsigned int[dimN_ ];
     for (int i = 0; i < dimN_; i++)
         data_[i] = 0;
-};
+}
 
 void VectorClock::print() {
      for(int i = 0; i < dimN_; i++)
          std::cout << data_[i];
      std::cout << endl;
-};
+}
 
 void VectorClock::LocalEvent() {
     data_[indexK_-1]++;
-};
+}
 
 void VectorClock::EventMessage(const VectorClock &process) {
     if ((dimN_ != process.dimN_))
@@ -38,12 +38,13 @@ void VectorClock::EventMessage(const VectorClock &process) {
         backup = Max2(data_[i], process.data_[i]);
         data_[i] = backup;
     }
-    this->LocalEvent();
-};
+    data_[indexK_-1]++;
+    //this->LocalEvent();
+}
 
 VectorClock::~VectorClock() {
     delete[] data_;
-};
+}
 
 bool operator<(const VectorClock& left, const VectorClock& right) {
     if (left.dimN_ != right.dimN_)
@@ -60,7 +61,7 @@ bool operator<(const VectorClock& left, const VectorClock& right) {
         return false;
 
     return true;
-};
+}
 
 /////////////////////////////
 UserException::UserException(int code, string message) : code_(code), message_(message) {}

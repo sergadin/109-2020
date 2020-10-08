@@ -3,10 +3,17 @@
 
 VClock::VClock(int n,int k)
 {
+    
     n_ = n;
     k_ = k;
-    if(n_ == 0) {
-    throw VClockError(-1, std::string("нулевой размер  векторa"));
+    
+    if(n_ <= k_) {
+        throw VClockError(-2, std::string("не хватает ячеек времени"));
+    }
+    if(n_ <= 0) {
+        throw VClockError(-1, std::string("нулевой размер  векторa"));
+    
+  
 }
     
     coordinates_ = new int[n];
@@ -29,7 +36,7 @@ VClock::~VClock()
 void operator==( const VClock & left, const VClock & right)
 {
     if ( left.n_ != right.n_ )
-        throw VClockError(-2, std::string("вектора разных размеров не сравнимы"));
+        throw VClockError(-3, std::string("вектора разных размеров не сравнимы"));
     int sravnimost = 0;
     
     for (int i = 1; i < left.n_ ; i++)

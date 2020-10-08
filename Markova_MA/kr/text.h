@@ -8,18 +8,18 @@ using namespace std;
 class UserException {
 	private:
 		int code_;
-		string error_;
+		
 	public:
-		UserException(int code, string error)
+		UserException(int code)
 		{
 			code_ = code;
-			error_ = error;
+			
 		}
-		string error();
+		int error();
 };
-string UserException::error()
+int UserException::error()
 {
-	return error_;
+	return code_;
 }
 /*
 string UserException::message() const {
