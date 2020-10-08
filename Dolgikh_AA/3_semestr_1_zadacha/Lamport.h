@@ -10,7 +10,7 @@ class Lamport {
 		Lamport(int N, int K);
 		~Lamport();
 		bool operator <(const Lamport &right);
-		Lamport operator =(const Lamport &right);
+		void operator =(const Lamport &right);
 		friend std::ostream& operator<<(std::ostream &os, const Lamport &a);
 		void step();
 		void send(Lamport &receiver);

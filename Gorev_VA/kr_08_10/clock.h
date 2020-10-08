@@ -53,9 +53,9 @@ class Clock
 		friend Clock nextClock(const Clock &C);
 		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
-		Clock &operator=(const Clock& C);		
+		Clock operator=(Clock C);		
 
-		friend bool &operator<(const Clock &left, const Clock &right);
+		friend bool operator<(const Clock &left, const Clock &right);
 };
 
 
