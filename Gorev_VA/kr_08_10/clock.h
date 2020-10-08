@@ -37,6 +37,9 @@ class Clock
 		{
 			N_ = C.N_;
 			num_ = C.num_;
+			mark_ = new int[N_];
+			for (int i = 0; i < N_; i++)
+				mark_[i] = C.mark_[i];
 		}
 		~Clock()
 		{
