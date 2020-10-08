@@ -4,8 +4,8 @@
 
 int main()
 {
-	ZZ *a1, *a2, *a3, b(4,4);
-	a1 = new ZZ[3];
+	ZZ *a1 = ((0,3), (0,3), (0,3));//, *a2, *a3, b(4,4);
+	/*a1 = new ZZ[3];
 	a2 = new ZZ[3];
 	a3 = new ZZ[3];
 	for(int i = 0; i < 3;i++)
@@ -29,6 +29,6 @@ int main()
 		a1[i].print();
 		a2[i].print();
 		a3[i].print();
-	}
+	}*/
 	return 0;
 }
