@@ -36,8 +36,8 @@ class Clock
 			delete[] mark_;
 			N_ = num_ = 0;
 		}
-		Clock nextClock(const Clock &C);
-		Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
+		friend Clock nextClock(const Clock &C);
+		friend Clock nextClock(const Clock &prevClock, const Clock &sendingClock);
 
 
 };

@@ -11,7 +11,7 @@ Clock::Clock(int N, int num)
 		mark_[i] = 0;
 }
 
-Clock::Clock nextClock(const Clock &C)
+Clock nextClock(const Clock &C)
 {
 	clock nextC(C.N_, C.num_);
 	newC.mark = new int[C.N_];
