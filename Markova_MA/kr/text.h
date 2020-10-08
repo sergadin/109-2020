@@ -14,7 +14,7 @@ class UserException
 		UserException (int code, std::string reason)
 		{
 			code_ = code;
-			error_ = error;
+			error_ = reason;
 		}
 
 		const std::string get_reason() const
