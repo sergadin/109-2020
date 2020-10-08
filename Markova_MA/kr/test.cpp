@@ -11,12 +11,14 @@ int main()
 	b1.name(1);
 	b2.name(2);
 	b3.name(3);
+	b2.print();
 	a2.message(b2);
-	a1.print();
+	b2.print();
+	/*a1.print();
 	a2.print();
 	a3.print();
 	b2.print();
-	
+	*/
 	
 	return 0;
 }
