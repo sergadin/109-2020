@@ -12,11 +12,8 @@ Clock nextClock(const Clock &C)
 
 Clock nextClock(const Clock &prevClock, const Clock &sendingClock)
 {
-	Clock C(prevClock.N_, prevClock.num_);
-	C.mark_ = new int[prevClock.N_];
-	for (int i = 0; i < C.N_; i++)
-		C.mark_[i] = prevClock.mark_[i];
-	C.mark_[C.num_]++;
+	Clock C(prevClock);
+	C.mark_[prevClock.num_]++;
 
 	if (C.N_ != sendingClock.N_)
 		throw ClockError(-1, std::string("Количество процессов в подаваемых часах разное\n"));
