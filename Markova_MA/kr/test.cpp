@@ -22,6 +22,7 @@ int main()
 		}
 		else
 			printf("false");
+		cout << endl;
 	}
 	catch (UserException& my)
 	{

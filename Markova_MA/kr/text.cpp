@@ -17,7 +17,7 @@ void ZZ::name (int temp)
 	mas_[k_ - 1] = temp;
 }
 
-void ZZ::message (ZZ to)
+void ZZ::message (ZZ &to)
 {
 	if(k_ > to.k_)
 	{
