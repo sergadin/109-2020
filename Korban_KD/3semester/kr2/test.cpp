@@ -5,19 +5,21 @@ using namespace std;
 
 int main()
 {
+	try
+	{
     vector_clock A(2, 0), B(2, 1);
     B.local_add(3);
     A.local_add();
     cout << A << endl;
     cout << B << endl;
-    try
-    {
+    
         A.receve(B);
         cout << A << endl;
         cout << (A < B) << endl;
 		A.local_add();
 		cout << A << endl;
 		cout << (A < B) << endl;
+		
         
     }
 	catch(vector_clock_Exception & err)
