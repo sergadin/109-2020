@@ -28,8 +28,8 @@ VClock::~VClock()
 
 void operator==( const VClock & left, const VClock & right)
 {
-    //if ( left.n_ != right.n_ )
-      //  throw VClockError(-2, std::string("вектора разных размеров не сравнимы"));
+    if ( left.n_ != right.n_ )
+        throw VClockError(-2, std::string("вектора разных размеров не сравнимы"));
     int sravnimost = 0;
     
     for (int i = 1; i < left.n_ ; i++)
@@ -38,7 +38,7 @@ void operator==( const VClock & left, const VClock & right)
             if (left.coordinates_[i] > right.coordinates_[i]) sravnimost ++;
     }
     
-    if (sravnimost > 0 ) { std::cout<<"событие с номером "<< right.coordinates_[0]<< " произошло позже события с номером"<<left.coordinates_[0]<<std::endl;}
+    if (sravnimost > 0 ) { std::cout<<"событие с номером "<< left.coordinates_[0]<< " произошло позже события с номером "<<right.coordinates_[0]<<std::endl;}
     
     if (sravnimost == 0) { std::cout<<"событие с номером "<< right.coordinates_[0]<< " не сравнимо с событием номера "<<left.coordinates_[0]<<std::endl;}
     
@@ -60,6 +60,18 @@ void VClock::Local()
    
 }
 
+VClock & VClock:: operator=(const VClock & right)
+{
+  
+   
+    n_ =right.n_;
+    coordinates_= new int[n_];
+    
+    for (int i=0; i < n_;i++)
+     coordinates_[i] = right.coordinates_[i];
+
+   return *this;
+}
 
 void VClock::Global (const VClock & m)
 {

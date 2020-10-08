@@ -14,9 +14,12 @@ class vector_clock
         vector_clock(int n , int id);
         
         ~vector_clock();
+		
+		int get_id()
+		{return id_; }
         
         void local_add(int k = 1)
-        { clock_[this->id_]++; }
+        { clock_[id_]++; }
         
         vector_clock & receve(const vector_clock & second);
         
