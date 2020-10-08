@@ -13,13 +13,13 @@ Clock::Clock(int N, int num)
 
 Clock nextClock(const Clock &C)
 {
-	clock nextC(C.N_, C.num_);
-	newC.mark = new int[C.N_];
+	Clock nextC(C.N_, C.num_);
+	newC.mark_ = new int[C.N_];
 	for (int i = 0; i < C.N_; i++)
-		newC.mark[i] = C.mark[i];
-	newC.mark[num_]++;
+		newC.mark_[i] = C.mark_[i];
+	newC.mark_[C.num_]++;
 	for (int i = 0; i < C.N_; i++)
-		cout << C.mark[i] << " " << newC.mark[i] << "\n";
+		std::cout << C.mark_[i] << " " << newC.mark_[i] << "\n";
 	
 	return newC;
 	
