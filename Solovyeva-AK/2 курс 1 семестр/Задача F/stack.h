@@ -17,7 +17,6 @@ class stack {
         stack();
         stack(int elem);
         stack(const stack &other);
-        stack
         void operator =(const stack &other);
         bool operator ==(const IntSet &other);
         stack operator +(const stack &other);
