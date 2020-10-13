@@ -107,6 +107,10 @@ void Matr::del_elem(int el)
 			place = k;
 		}
 	}
+	if(ind == 0)
+	{
+		throw MatrError(-1, std::string("Element does not exist..."));
+	}
 	if(ind == 1)
 	{
 		for(int k = place + 1; k < left_ - right_ + 1; k ++)
@@ -162,6 +166,12 @@ Matr operator* (const Matr& lev, const Matr& prav)
 
 	}
 	return res;
+}
+void operator*=(Matr &lev, const Matr& prav)
+{
+	Matr res(lev.left_, lev.right_);
+	res = lev*prav;
+	lev = res;
 }
 bool operator== (const Matr& lev, const Matr& prav)
 {

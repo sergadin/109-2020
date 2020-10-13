@@ -1,7 +1,7 @@
 #include <iostream>
 #include "matr.h"
 
-const int min_value = 1000000;
+const int min_value = -3;
 
 using namespace std;
 int main()
@@ -12,36 +12,35 @@ int main()
 
 	try
 	{
-		Matr q2(1, 7);
+		Matr q2(-1, 5);
+		q2.put(-1);
 		q2.put(2);
-		q = q2;
-        q = q;
-        q.put(min_value + 2);
-		std::cout << "q: " << q << endl;
-		std::cout << "q2: " << q2 << endl;
+		q2.put(0);
+		q2.put(700);
+		Matr q4(-500, 2);
+                q4.put(-1);
+                q4.put(2);
+                q4.put(0);
+		if(q2 == q4)
+		{
+			cout<< "1" << endl;
+		}
+  		std::cout<< q<< endl;
+  		q.put(-1);
+  		std::cout<< q<< endl;
+  		q.put(0);
+  		std::cout<< q<< endl;
+  		q.put(-2);
+  		std::cout<< q<< endl;
+		Matr q3(-1, 5);
+		q2 *= q;
+		std::cout<< q2<< endl;
+  		return 0;
 	}
 	catch(MatrError &err)
 	{
 		std::cout << "EXC"<< err.get_reason() << std::endl;
 	}
-	try
-        {
-                Matr q3(1, 7);
-		q3.put(2);
-		Matr q1(2, 5);
-		q1.put(2);
-		q1.put(4);
-		q = q1 * q3;
-                std::cout << "q: " << q << endl;
-                std::cout << "q2: " << q1 << endl;
-        }
-        catch(MatrError &err)
-        {
-                std::cout << "EXC"<< err.get_reason() << std::endl;
-        }
-
-
-
 	std::cout << q << endl;
 
 	return 0;

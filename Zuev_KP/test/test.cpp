@@ -1,22 +1,32 @@
 #include <iostream>
-#include "intset.h"
+#include "vector.h"
 
 using namespace std;
 
 int main() 
 {
-  IntSet q(0, 100);
-  q.put(5);
-  q.put(10);
-  q.put(15);
-  q.put(50);
-  q.put(55);
-  std::cout << q << endl;
-  cout << "left: "<< q.lima() << std::endl;
-  cout << "right: "<< q.limb() << std::endl;
-  cout << "max: "<< q.max() << std::endl;
-  cout << "min: "<< q.min() << std::endl;
-  q.exc(5);
-  std::cout << q << endl;
-  return 0;
+	try
+	{
+		Vector q0(5, 0);
+		Vector q1(5, 1);
+		Vector q2(5, 2);
+		Vector q3(5, 3);
+		Vector q4(5, 4);
+		q0.loc();
+		q0.loc();
+		q0.loc();
+		q0.loc();
+		q4.rec(q0);
+		std::cout << q0 << endl;
+		std::cout << q4 << endl;
+		if (q0 <= q4)
+		{
+			cout << "true " << std::endl;
+		}
+	}
+	catch(VectorError &err)
+	{
+		std::cout << err.get_reason() << std::endl;
+	}
+	return 0;
 }
