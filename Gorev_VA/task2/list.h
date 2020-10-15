@@ -18,7 +18,6 @@ class list
 		}
 		~list()
 		{
-			list <T> L = *this;
 			val_ = 0;
 		}
 		list <T> put_item(const T item)
