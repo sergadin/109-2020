@@ -6,8 +6,8 @@ class list
 {
 	private:
 		T val_;
-		T *next_;
-		T *prev_;
+		list *next_;
+		list *prev_;
 	public:
 		explicit list();
 		list(T first_item)
@@ -16,7 +16,11 @@ class list
 			prev_ = 0;
 			next_ = 0;
 		}
-		~list();
+		~list()
+		{
+			val_ = 0;
+			
+		}
 };
 
 
