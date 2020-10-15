@@ -22,7 +22,7 @@ class list
 		}
 		put_item(const T item)
 		{
-			L->next_ = new list <T>;
+			next_ = new list <T>;
 		}
 };
 
