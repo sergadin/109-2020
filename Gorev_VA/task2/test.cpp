@@ -5,7 +5,8 @@ int main(void)
 {
     int item = 1;
     list <int> L(1);
-    put_item(L, 2);
+    L.put_item(2);
+    
     return 0;
 }
 

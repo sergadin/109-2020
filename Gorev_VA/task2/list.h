@@ -20,7 +20,7 @@ class list
 		{
 			val_ = 0;
 		}
-		list <T> put_item(list <T> L, const T item)
+		put_item(const T item)
 		{
 			L->next_ = new list <T>;
 		}
