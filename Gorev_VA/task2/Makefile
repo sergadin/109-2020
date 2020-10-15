@@ -1,7 +1,7 @@
 all: do-test clear
 
 do-test: a.out
-	valgrind -g ./a.out
+	valgrind ./a.out
 
 a.out: list.o test.o
 	g++ -c list.cpp
