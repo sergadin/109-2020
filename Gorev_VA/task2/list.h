@@ -10,7 +10,7 @@ class list
 		list *prev_;
 	public:
 		explicit list();
-		list(T first_item)
+		list(const T first_item)
 		{
 			val_ = first_item;
 			prev_ = 0;
@@ -19,7 +19,10 @@ class list
 		~list()
 		{
 			val_ = 0;
-			
+		}
+		list <T> put_item(list <T> L, const T item)
+		{
+			L->next_ = new list <T>;
 		}
 };
 
