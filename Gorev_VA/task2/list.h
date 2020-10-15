@@ -23,6 +23,7 @@ class list
 		put_item(const T item)
 		{
 			next_ = new list <T>;
+			return *this;
 		}
 };
 
