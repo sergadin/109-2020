@@ -18,12 +18,15 @@ class list
 		}
 		~list()
 		{
+			list <T> L = *this;
 			val_ = 0;
 		}
 		list <T> put_item(const T item)
 		{
-			next_ = new list <T> (item);
-			return *this;
+			next_ = new list <int>(item);
+			next_->prev_ = this;
+			next_->next_ = 0;
+			return *next_;
 		}
 };
 
