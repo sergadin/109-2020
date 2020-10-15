@@ -4,7 +4,7 @@
 int main(void)
 {
     int item = 1;
-    list L(1);
+    list int L(1);
     return 0;
 }
 
