@@ -23,8 +23,8 @@ class list
 		list <T> put_item(const T item)
 		{
 			next_ = new list <int>(item);
-			next_->prev_ = this;
-			next_->next_ = 0;
+			//next_->prev_ = this;
+			//next_->next_ = 0;
 			return *next_;
 		}
 };
