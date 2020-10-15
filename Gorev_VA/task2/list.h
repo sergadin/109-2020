@@ -20,7 +20,7 @@ class list
 		{
 			val_ = 0;
 		}
-		put_item(const T item)
+		list <T> put_item(const T item)
 		{
 			return *this;
 		}
