@@ -74,7 +74,8 @@ int main(void) {
 	cout << "A: " << A << endl;
 	cout << "A's values belong to the segment [" << A.left() << ", " << A.right() << "]" << endl;
 	A.add(46); // Trying to add element that is already in the set; nothing happens
-	A.remove(56); // Leads to showing warning message
+	int status = A.remove(56);
+	cout << "A.remove(56) returns " << status << endl;
 
 	cout << "Minimum of A is " << A.min() << " and maximum of A is " << A.max() << "\n" << endl;
 	BitIntSet B(40, 100);
