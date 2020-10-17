@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <climits>
 
@@ -6,7 +7,7 @@
 class BitIntSet {
 	private:
 		// Число битов в целочисленной переменной
-		static int INT_CARDINALITY;
+		const static int INT_CARDINALITY = (int)(CHAR_BIT * sizeof(int));
 
 		// Границы множества
 		int inf_;
@@ -14,7 +15,7 @@ class BitIntSet {
 
 		// Целочисленный массив, используемый для хранения информации о том, 
 		// какие элементы содержатся в множестве
-		int* list_;
+		unsigned int* list_;
 
 		// Длина массива list_
 		int size_;
@@ -38,6 +39,7 @@ class BitIntSet {
 		int* cache_;
 		int last_actual_cached_;
 		int cache_len_;
+		// можно добавить int cached_max
 
 		// Запрет вызова конструктора без параметров
 		BitIntSet();
@@ -66,11 +68,57 @@ class BitIntSet {
 		// Возвращает мощность множества
 		int len() const { return len_; }
 
+		class Iterator {
+			private:
+				// Итерируемое множество
+				const BitIntSet* parent_set_;
+
+  		      		// Текущий элемент
+	  		      	int curr_position_;
+					// Индекс текущего элемента
+					int curr_index_;
+	
+	  		      	// Запрет на использование извне конструктора без параметров
+  			      	Iterator();
+			public:
+				// Объявление дружественным класса BitIntSet
+				friend class BitIntSet;
+
+				// Конструкторы
+				// Получает на вход указатель на итерируемое множество
+				Iterator(const BitIntSet* parent_set);
+				// Создает итератор, начинающий обход с элемента с порядковым номером start_index
+				// Если start_index больше мощности множества, возникает исключение
+				Iterator(const BitIntSet* parent_set, int start_index);
+				// Конструктор копирования
+				Iterator(const Iterator& iter);
+
+				// Деструктор
+				~Iterator();
+
+  		      		// Получение предыдущего и следующего, первого и последнего элементов
+	  		      	int next();
+  			      	int prev();
+  			      	int curr() const { return curr_position_; }
+
+  		      		void begin();
+	  		      	void end();
+
+  			      	// Проверка на наличие элементов больше/меньше текущего
+  		      		bool at_begin() const { return curr_index_ <= 0; }
+  			      	bool at_end() const { return curr_index_ >= parent_set_->len_ - 1; }
+		};
+
 		// Добавление в множество элемента со значением a
+		// В случае, если элемента со значением a нет в множестве, добавляет его туда,
+		// иначе никаких действий не производится
 		void add(int a);
 
 		// Удаление из множества элемента со значением a
-		void remove(int a);
+		// При попытке удалить из множества элемент, не содержащийся в нем,
+		// метод не производит никаких действий и
+		// возвращает -1; в случае успешного удаления элемента возвращает 0 
+		int remove(int a);
 
 		// Проверка на то, является ли целое число a элементом множества
 		bool belongs(int a) const;
@@ -124,10 +172,7 @@ class BitIntSet {
 
 		// Операторы равенства
 		// Если все элементы совпадают, возвращают true, иначе - false
-		// Первый оператор вызывается для константных ссылок, второй - в случае, если обе ссылки неконстантны 
-		// (второй, в отличие от первого, имеет возможность закэшировать все элементы)
 		friend bool operator==(const BitIntSet& A, const BitIntSet& B);
-		friend bool operator==(BitIntSet& A, BitIntSet& B);
 
 		// Оператор вывода множества
 		// Печатает упорядоченные в порядке возрастания элементы множества

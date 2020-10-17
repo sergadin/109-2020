@@ -1,7 +1,7 @@
 #include "bitset.hpp"
 using namespace std;
 
-int main() {
+int main(void) {
 	//First test (incorrect range)
 	try {
 		BitIntSet small(-100, -200);
