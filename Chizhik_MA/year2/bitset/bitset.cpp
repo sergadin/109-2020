@@ -356,10 +356,10 @@ ostream& operator<<(ostream& os, const BitIntSetException& e) {
 	return os;
 }
 
-BitIntSet::Iterator::Iterator(): parent_set_(nullptr), step_(1) {
-	curr_position_ = 0;
-	curr_index_ = -1;
-}
+//BitIntSet::Iterator::Iterator(): parent_set_(nullptr), step_(1) {
+//	curr_position_ = 0;
+//	curr_index_ = -1;
+//}
 
 BitIntSet::Iterator::Iterator(const BitIntSet* parent_set, int start_index, int step): parent_set_(parent_set), step_(step) {
 	if (step_ == 0) throw BitIntSetException(4, "Step must be non-zero integer");
@@ -454,7 +454,7 @@ int BitIntSet::Iterator::prev() {
 	return curr_index_;
 }
 
-int BitIntSet::Iterator::custom_next() {
+int BitIntSet::Iterator::next_step() {
 	int next_item;
 	if (step_ > 0) {
 		for (int i = 0; i < step_; i++) {

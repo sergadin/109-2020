@@ -189,11 +189,12 @@ int main(void) {
 	typename BitIntSet::Iterator SD_Iterator = BitIntSet::Iterator(&SD, SD.len(), -1);
 	typename BitIntSet::Iterator SD_Iterator_copy = SD_Iterator;
 
-	SD_Iterator.custom_next();
-	SD_Iterator.custom_next();
+	SD_Iterator.begin();
+	SD_Iterator.next();
+	SD_Iterator_copy = SD_Iterator_copy;
 
 	cout << "M Δ Ν (reversed): {";
-	for (SD_Iterator_copy.prev(); !SD_Iterator_copy.at_begin(); SD_Iterator_copy.custom_next()) {
+	for (SD_Iterator_copy.prev(); !SD_Iterator_copy.at_begin(); SD_Iterator_copy.next_step()) {
 		cout << SD_Iterator_copy.curr() << ((SD_Iterator_copy.curr_index() > 0) ? ", " : "");
 	}
 	cout << "}" << endl;
