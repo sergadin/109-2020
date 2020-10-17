@@ -101,12 +101,14 @@ class BitIntSet {
   			      	int prev();
   			      	int curr() const { return curr_position_; }
 
+					int curr_index() const { return curr_index_; }
+
   		      		void begin();
 	  		      	void end();
 
-  			      	// Проверка на наличие элементов больше/меньше текущего
-  		      		bool at_begin() const { return curr_index_ <= 0; }
-  			      	bool at_end() const { return curr_index_ >= parent_set_->len_ - 1; }
+  			      	// Проверки итератора на регулярность (выход влево/вправо за границы множества)
+  		      		bool at_begin() const { return curr_index_ < 0; }
+  			      	bool at_end() const { return curr_index_ > parent_set_->len_ - 1; }
 		};
 
 		// Добавление в множество элемента со значением a

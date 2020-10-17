@@ -17,8 +17,8 @@ BitIntSet::BitIntSet(int left, int right): inf_(left), sup_(right) {
 	cache_len_ = 0;
 	last_actual_cached_ = -1;	
 
-	list_start_ = inf_ - BitIntSet::INT_CARDINALITY;
-	size_ = range_len / BitIntSet::INT_CARDINALITY + 3;
+	list_start_ = inf_ - INT_CARDINALITY;
+	size_ = range_len / INT_CARDINALITY + 3;
 
 	list_ = (unsigned int *)calloc(size_, sizeof(int));
 }
@@ -76,9 +76,9 @@ int BitIntSet::max() const {
 	if (this->empty()) throw BitIntSetException(2, "Set is empty");
 	for (int i = size_ - 1; i >= 0; i--) {
 		if (list_[i] == 0) continue;
-		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
+		for (int k = 0; k < INT_CARDINALITY; k++) {
 			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
-				int max = list_start_ + (i + 1) * BitIntSet::INT_CARDINALITY - (k + 1);
+				int max = list_start_ + (i + 1) * INT_CARDINALITY - (k + 1);
 				return max;
 			}
 		}
@@ -100,7 +100,7 @@ void BitIntSet::add(int a) {
 		inf_ = a;
 		if (a < list_start_) {
 			int difference = list_start_ - a;
-			int shift = difference / BitIntSet::INT_CARDINALITY + 1;
+			int shift = difference / INT_CARDINALITY + 1;
 			list_ = (unsigned int *)realloc(list_, sizeof(int) * (size_ + shift));
 
 			for (int i = size_ - 1; i >= 0; i--) {
@@ -109,14 +109,14 @@ void BitIntSet::add(int a) {
 			for (int j = 0; j < shift; j++) list_[j] = 0;
 
 			size_ += shift;
-			list_start_ -= shift * BitIntSet::INT_CARDINALITY;
+			list_start_ -= shift * INT_CARDINALITY;
 		}
 	} else if (a > sup_) {
-		int list_end = list_start_ + size_ * BitIntSet::INT_CARDINALITY - 1;
+		int list_end = list_start_ + size_ * INT_CARDINALITY - 1;
 		sup_ = a;
 		if (a > list_end) {
 			int difference = a - list_end;
-			int top = difference / BitIntSet::INT_CARDINALITY + 1;
+			int top = difference / INT_CARDINALITY + 1;
 			list_ = (unsigned int *)realloc(list_, sizeof(int) * (size_ + top));
 			for (int j = size_; j < size_ + top; j++) list_[j] = 0;
 
@@ -124,10 +124,10 @@ void BitIntSet::add(int a) {
 		}
 	}
 
-	int index_in_sub = (a - list_start_) % BitIntSet::INT_CARDINALITY;
-	int elem_mask = 1 << (BitIntSet::INT_CARDINALITY - index_in_sub - 1);
+	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
+	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
 	
-	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
+	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
 
 	if (list_[index_of_subarr] & elem_mask) return;
 
@@ -152,10 +152,10 @@ int BitIntSet::remove (int a) {
 		return -1;
 	}
 
-	int index_in_sub = (a - list_start_) % BitIntSet::INT_CARDINALITY;
-	int elem_mask = 1 << (BitIntSet::INT_CARDINALITY - index_in_sub - 1);
+	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
+	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
 
-	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
+	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
 	if (!(list_[index_of_subarr] & elem_mask)) return -1;
 
 	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] >= a)) {
@@ -175,10 +175,10 @@ int BitIntSet::remove (int a) {
 
 bool BitIntSet::belongs (int a) const {
 	if ((a > sup_) || (a < inf_)) return false;
-	int index_in_sub = (a - list_start_) % BitIntSet::INT_CARDINALITY;
-	int elem_mask = 1 << (BitIntSet::INT_CARDINALITY - index_in_sub - 1);
+	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
+	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
 
-	int index_of_subarr = (a - list_start_) / BitIntSet::INT_CARDINALITY;
+	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
 	return list_[index_of_subarr] & elem_mask;
 }
 
@@ -244,18 +244,18 @@ int BitIntSet::operator[](int index) {
 
 	if (cache_len_ != len_) cache_ = (int *)realloc(cache_, sizeof(int) * (cache_len_ = len_));
 	int start_position = (last_actual_cached_ >= 0) ? (cache_[last_actual_cached_] - list_start_ + 1) : 0;
-	int start_block = start_position / BitIntSet::INT_CARDINALITY;
+	int start_block = start_position / INT_CARDINALITY;
 	for (int i = start_block; i < this->size_; i++) {
 		if (list_[i] == 0) continue;
 
-		unsigned int bit_mask = 1 << (BitIntSet::INT_CARDINALITY - 1);
-		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
-			if (i * BitIntSet::INT_CARDINALITY + k < start_position) {
+		unsigned int bit_mask = 1 << (INT_CARDINALITY - 1);
+		for (int k = 0; k < INT_CARDINALITY; k++) {
+			if (i * INT_CARDINALITY + k < start_position) {
 				bit_mask >>= 1;
 				continue;	
 			}
 			if (((list_[i] & bit_mask) ^ bit_mask) == 0) {
-				int next_element = list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+				int next_element = list_start_ + i * INT_CARDINALITY + k;
 				cache_[++last_actual_cached_] = next_element;
 				if (last_actual_cached_ == index) {
 					return next_element;
@@ -387,58 +387,67 @@ void BitIntSet::Iterator::end() {
 }
 
 int BitIntSet::Iterator::next() {
-	if (curr_index_ >= parent_set_->len_) throw BitIntSetException(3, "Next element doesn't exist");
+	if (curr_index_ > parent_set_->len_) throw BitIntSetException(3, "Next element doesn't exist");
 
-	if (parent_set_->last_actual_cached_ > curr_index_) return parent_set_->cache_[++curr_index_];
+	if (parent_set_->last_actual_cached_ > curr_index_) {
+		curr_position_ = parent_set_->cache_[++curr_index_];
+		return curr_position_;
+	}
 
-	int available = parent_set_->last_actual_cached_;
-	int start_position = (available >= 0) ? (parent_set_->cache_[available] - parent_set_->list_start_ + 1) : 0;
-	int start_block = start_position / BitIntSet::INT_CARDINALITY;
+	int start_position = curr_position_ - parent_set_->list_start_ + 1;
+	int start_block = start_position / INT_CARDINALITY;
 
 	for (int i = start_block; i < parent_set_->size_; i++) {
 		if (parent_set_->list_[i] == 0) continue;
 		
-		unsigned int bit_mask = 1 << (BitIntSet::INT_CARDINALITY - 1);
-		for (int k = 0; k < BitIntSet::INT_CARDINALITY; k++) {
-			if (i * BitIntSet::INT_CARDINALITY + k < start_position) {
+		unsigned int bit_mask = 1 << (INT_CARDINALITY - 1);
+		for (int k = 0; k < INT_CARDINALITY; k++) {
+			if (i * INT_CARDINALITY + k < start_position) {
 				bit_mask >>= 1;
 				continue;
 			}
 			if (((parent_set_->list_[i] & bit_mask) ^ bit_mask) == 0) {
-				curr_position_ = parent_set_->list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+				curr_position_ = parent_set_->list_start_ + i * INT_CARDINALITY + k;
 				++curr_index_;
 				return curr_position_;
 			}
 			bit_mask >>= 1;
 		}
 	}
-	throw BitIntSetException(3, "Next element doesn't exist");
+	curr_index_ = parent_set_->len_;
+	curr_position_ = parent_set_->list_start_ + parent_set_->size_ * INT_CARDINALITY;
+	return curr_index_;
 }
 
 int BitIntSet::Iterator::prev() {
-	if (curr_index_ < 1) throw BitIntSetException(3, "Previous element doesn't exist");
+	if (curr_index_ < 0) throw BitIntSetException(3, "Previous element doesn't exist");
 
-	if (parent_set_->last_actual_cached_ > curr_index_ - 2) return parent_set_->cache_[--curr_index_];
+	if (parent_set_->last_actual_cached_ > curr_index_ - 2) {
+		curr_position_ = parent_set_->cache_[--curr_index_];
+		return curr_position_;
+	}
 
 	int start_position = curr_position_ - parent_set_->list_start_ - 1;
-	int start_block = start_position / BitIntSet::INT_CARDINALITY;
+	int start_block = start_position / INT_CARDINALITY;
 
 	for (int i = start_block; i >= 0; i--) {
 		if (parent_set_->list_[i] == 0) continue;
 		
 		unsigned int bit_mask = 1;
-		for (int k = BitIntSet::INT_CARDINALITY - 1; k >= 0; k--) {
-			if (i * BitIntSet::INT_CARDINALITY + k < start_position) {
+		for (int k = INT_CARDINALITY - 1; k >= 0; k--) {
+			if (i * INT_CARDINALITY + k < start_position) {
 				bit_mask <<= 1;
 				continue;
 			}
 			if (((parent_set_->list_[i] & bit_mask) ^ bit_mask) == 0) {
-				curr_position_ = parent_set_->list_start_ + i * BitIntSet::INT_CARDINALITY + k;
+				curr_position_ = parent_set_->list_start_ + i * INT_CARDINALITY + k;
 				--curr_index_;
 				return curr_position_;
 			}
 			bit_mask <<= 1;
 		}
 	}
-	throw BitIntSetException(3, "Previous element doesn't exist");
+	curr_index_ = -1;
+	curr_position_ = parent_set_->list_start_ - 1;
+	return curr_index_;
 }

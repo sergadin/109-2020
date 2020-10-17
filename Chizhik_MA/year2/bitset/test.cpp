@@ -2,14 +2,14 @@
 using namespace std;
 
 int main(void) {
-	//First test (incorrect range)
+	// First test (incorrect range)
 	try {
 		BitIntSet small(-100, -200);
 	} catch(BitIntSetException& e) {
 		cerr << e << endl;
   	}
 
-	//Second test (trying to get min/max of empty sets)
+	// Second test (trying to get min/max of empty sets)
 	try {
 		BitIntSet emp(0, 4);
 		cout << "Set emp = " << emp << ((emp.empty()) ? " (it is empty)" : "") << endl;
@@ -37,7 +37,7 @@ int main(void) {
 		cerr << e << endl;
 	}
 
-	//Third test (adding & min/max & left/right & checking if element belongs to the set & cache)
+	// Third test (adding & min/max & left/right & checking if element belongs to the set & cache)
 	BitIntSet Z(-200, 0);
 	Z.add(-45);
 	Z.add(656785);
@@ -60,7 +60,7 @@ int main(void) {
 	cout << "Minimum of Z is " << Z.min() << " and maximum is " << Z.max() << endl;
 	cout << "Z's values belong to the segment [" << Z.left() << ", " << Z.right() << "]\n" << endl;
 
-	//Fourth test (adding & removing & assigning to itself)
+	// Fourth test (adding & removing & assigning to itself)
 	BitIntSet A = BitIntSet(0, 50);
 	for (int i = A.left(); i < A.right(); i += 2) {
 		A.add(i);
@@ -82,7 +82,7 @@ int main(void) {
 		B.add(k);
 	}
 
-	//Fifth test (equal sets, subtraction, one set is the subset of another)
+	// Fifth test (equal sets, subtraction, one set is the subset of another)
 	BitIntSet X = BitIntSet(-100, 50);
 	const BitIntSet e(0, 0);
 	cout << ((X == e) ? "X is empty" : "X is not equal to empty set, hmm...") << endl;
@@ -123,7 +123,7 @@ int main(void) {
 
 	if (!(Y <= X)) cout << "Y isn't the subset of X anymore\n" << endl;
 
-	//Sixth test (intersection & set is a subset of itself & more cache)
+	// Sixth test (intersection & set is a subset of itself & more cache)
 	BitIntSet P = X * Y;	
 	cout << P[P.len() - 1] << " is the maximum of P" <<  endl;
 
@@ -159,12 +159,12 @@ int main(void) {
 	cout << "A = P now has " << A.len() << " element(s)" << endl;
 	cout << "A = " << A << "\n" << endl;
 
-	//Seventh test (union)
+	// Seventh test (union)
 	cout << "So, G = " << G << endl;
 	cout << "And X = " << X << endl;
 	cout << "Their union is " << (G + X) << "\n" << endl;
 
-	//Eighth test (symmetrical difference)
+	// Eighth test (symmetrical difference)
 	BitIntSet M(-100, 100), N(0, 200);
 	for (int i = M.left(); i <= M.right(); i += 2) {
 		M.add(i);
@@ -178,10 +178,18 @@ int main(void) {
 	BitIntSet SD = M ^ N;
 	cout << "M Δ Ν = ";
 
-	//Ninth test (iteration over set with caching)
+	// Ninth test (iteration over set with caching)
 	cout << "{";
 	for (int i = 0; i < SD.len(); i++) {
 		cout << SD[i] << ((i < SD.len() - 1) ? ", " : "");
+	}
+	cout << "}" << endl;
+
+	// Tenth test (iterator)
+	cout << "{";
+	typename BitIntSet::Iterator SD_Iterator = BitIntSet::Iterator(&SD, 0);
+	for (; !SD_Iterator.at_end(); SD_Iterator.next()) {
+		cout << SD_Iterator.curr() << ((SD_Iterator.curr_index() < SD.len() - 1) ? ", " : "");
 	}
 	cout << "}" << endl;
 
