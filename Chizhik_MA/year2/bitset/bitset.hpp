@@ -5,6 +5,57 @@
 #define DEBUG
 
 class BitIntSet {
+	public:
+		class Iterator {
+			private:
+				// Итерируемое множество
+				const BitIntSet* parent_set_;
+
+  		      		// Текущий элемент
+	  		      	int curr_position_;
+					// Индекс текущего элемента
+					int curr_index_;
+
+					// Шаг итератора
+					int step_;
+	
+	  		      	// Запрет на использование извне конструктора без параметров
+  			      	Iterator();
+			public:
+				// Объявление класса BitIntSet дружественным
+				friend class BitIntSet;
+
+				// Конструкторы
+				// Получает на вход указатель на итерируемое множество, индекс, с которого нужно начинать обход 
+				// (по умолчанию обход начинается с первого элемента множества) и шаг (по умолчанию равен 1)
+				// Если шаг равен 0, или индекс начала обхода превосходит мощность множества, вызывается исключение
+				Iterator(const BitIntSet* parent_set, int start_index = 0, int step = 1);
+				// Конструктор копирования
+				Iterator(const Iterator& iter);
+
+				// Деструктор
+				~Iterator();
+
+  		      		// Получение предыдущего и следующего элементов
+	  		      	int next();
+  			      	int prev();
+
+					// Выполнение next или prev (в зависимости от знака шага итератора) step_ раз
+					int custom_next();
+					
+					// Получение текущего элемента
+  			      	int curr() const { return curr_position_; }
+					// Получение индекса текущего элемента
+					int curr_index() const { return curr_index_; }
+
+					// Установка итератора в положение начала/конца соответственно
+  		      		void begin();
+	  		      	void end();
+
+  			      	// Проверки итератора на регулярность (выход влево/вправо за границы множества)
+  		      		bool at_begin() const { return curr_index_ < 0; }
+  			      	bool at_end() const { return curr_index_ >= parent_set_->len_; }
+		};
 	private:
 		// Число битов в целочисленной переменной
 		const static int INT_CARDINALITY = (int)(CHAR_BIT * sizeof(int));
@@ -16,6 +67,15 @@ class BitIntSet {
 		// Целочисленный массив, используемый для хранения информации о том, 
 		// какие элементы содержатся в множестве
 		unsigned int* list_;
+
+		/* Массив указателей на итераторы по данному множеству
+		BitIntSet::Iterator* iterators_;
+
+		// Длина массива итераторов
+		int iter_len_;
+		// Текущая вместительность массива iterators
+		int iter_size_;
+		*/
 
 		// Длина массива list_
 		int size_;
@@ -39,7 +99,10 @@ class BitIntSet {
 		int* cache_;
 		int last_actual_cached_;
 		int cache_len_;
-		// можно добавить int cached_max
+		// Кэшированное значение максимума
+		// Если известен максимум, в cached_max_ хранится его значение; если максимум множества в его текущем состоянии еще не вычислен или отсутствует 
+		// (по причине того, что множество пустое), в cached_max_ устанавливается значение, большее верхней границы множества
+		int cached_max_;
 
 		// Запрет вызова конструктора без параметров
 		BitIntSet();
@@ -67,49 +130,6 @@ class BitIntSet {
 		// Получение длины множества
 		// Возвращает мощность множества
 		int len() const { return len_; }
-
-		class Iterator {
-			private:
-				// Итерируемое множество
-				const BitIntSet* parent_set_;
-
-  		      		// Текущий элемент
-	  		      	int curr_position_;
-					// Индекс текущего элемента
-					int curr_index_;
-	
-	  		      	// Запрет на использование извне конструктора без параметров
-  			      	Iterator();
-			public:
-				// Объявление дружественным класса BitIntSet
-				friend class BitIntSet;
-
-				// Конструкторы
-				// Получает на вход указатель на итерируемое множество
-				Iterator(const BitIntSet* parent_set);
-				// Создает итератор, начинающий обход с элемента с порядковым номером start_index
-				// Если start_index больше мощности множества, возникает исключение
-				Iterator(const BitIntSet* parent_set, int start_index);
-				// Конструктор копирования
-				Iterator(const Iterator& iter);
-
-				// Деструктор
-				~Iterator();
-
-  		      		// Получение предыдущего и следующего, первого и последнего элементов
-	  		      	int next();
-  			      	int prev();
-  			      	int curr() const { return curr_position_; }
-
-					int curr_index() const { return curr_index_; }
-
-  		      		void begin();
-	  		      	void end();
-
-  			      	// Проверки итератора на регулярность (выход влево/вправо за границы множества)
-  		      		bool at_begin() const { return curr_index_ < 0; }
-  			      	bool at_end() const { return curr_index_ > parent_set_->len_ - 1; }
-		};
 
 		// Добавление в множество элемента со значением a
 		// В случае, если элемента со значением a нет в множестве, добавляет его туда,
@@ -140,6 +160,8 @@ class BitIntSet {
 		int get(int index) const;
 		int operator[](int index);
 
+		// Функция для вывода кэша в cout
+		// Используется при отладке
 		#ifdef DEBUG
 		void print_cache(bool whole) const {
 			int top = whole ? cache_len_ : (last_actual_cached_ + 1);

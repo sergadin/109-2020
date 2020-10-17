@@ -186,10 +186,15 @@ int main(void) {
 	cout << "}" << endl;
 
 	// Tenth test (iterator)
-	cout << "{";
-	typename BitIntSet::Iterator SD_Iterator = BitIntSet::Iterator(&SD, 0);
-	for (; !SD_Iterator.at_end(); SD_Iterator.next()) {
-		cout << SD_Iterator.curr() << ((SD_Iterator.curr_index() < SD.len() - 1) ? ", " : "");
+	typename BitIntSet::Iterator SD_Iterator = BitIntSet::Iterator(&SD, SD.len(), -1);
+	typename BitIntSet::Iterator SD_Iterator_copy = SD_Iterator;
+
+	SD_Iterator.custom_next();
+	SD_Iterator.custom_next();
+
+	cout << "M Δ Ν (reversed): {";
+	for (SD_Iterator_copy.prev(); !SD_Iterator_copy.at_begin(); SD_Iterator_copy.custom_next()) {
+		cout << SD_Iterator_copy.curr() << ((SD_Iterator_copy.curr_index() > 0) ? ", " : "");
 	}
 	cout << "}" << endl;
 
