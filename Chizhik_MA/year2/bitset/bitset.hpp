@@ -56,6 +56,8 @@ class BitIntSet {
   			      	int curr() const { return curr_position_; }
 				// Получение индекса текущего элемента
 				int curr_index() const { return curr_index_; }
+				// Получение значения шага итератора
+				int step() const { return step_; }
 
 				// Установка итератора в положение начала/конца соответственно
   		      		void begin();

@@ -418,7 +418,7 @@ int BitIntSet::Iterator::next() {
 	}
 	curr_index_ = parent_set_->len_;
 	curr_position_ = parent_set_->list_start_ + parent_set_->size_ * INT_CARDINALITY;
-	return curr_index_;
+	return curr_position_;
 }
 
 int BitIntSet::Iterator::prev() {
@@ -451,17 +451,19 @@ int BitIntSet::Iterator::prev() {
 	}
 	curr_index_ = -1;
 	curr_position_ = parent_set_->list_start_ - 1;
-	return curr_index_;
+	return curr_position_;
 }
 
 int BitIntSet::Iterator::next_step() {
 	int next_item;
 	if (step_ > 0) {
+		if (this->at_end()) throw BitIntSetException(3, "Next element doesn't exist");
 		for (int i = 0; i < step_; i++) {
 			next_item = this->next();
 			if (this->at_end()) break;
 		}
 	} else {
+		if (this->at_begin()) throw BitIntSetException(3, "Next element doesn't exist");
 		for (int i = 0; i < -step_; i++) {
 			next_item = this->prev();
 			if (this->at_begin()) break;
