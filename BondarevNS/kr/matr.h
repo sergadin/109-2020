@@ -18,7 +18,7 @@ class matr
 	int get_height () const;
 	double get_element (int i, int j) const;
 	void set_element (double C, int i, int j);
-	matr& operator+(const matr &right);
+	matr operator+(const matr &right);
     friend std::ostream& operator<<(std::ostream &os, const matr& Q);
 };
 
