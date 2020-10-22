@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include "bonus_program.h"
 
-BonusProgram::BonusProgram(int l)
+BonusProgram::BonusProgram(int l, const std::string &program)
 {
 	n = l;
 	if (n <= 0)
@@ -56,7 +56,7 @@ bool BonusProgram::operator < (const BonusProgram &other)
 	int sum1 = 0;
 	int sum2 = 0;
 
-	if (n != other.n)
+	if ((n != other.n) || ( program !=other.program))
 	{
 		throw BonusProgramException (3, "Программы несравнимы");
 	}
@@ -106,3 +106,22 @@ void BonusProgram::print() const
 	}
 	printf ("\n");
 }
+
+
+
+BonusProgram BonusProgram::operator = (const BonusProgram &other)
+{
+        if (this->n != other.n)
+        {
+                throw BonusProgramException (4, "Невозможно присвоить");
+        }
+
+        for (int i=0; i < this->n; i++)
+        {
+                this->m1[i] = other.m1[i];
+                this->m2[i] = other.m2[i];
+        }
+
+        return *this;
+}
+

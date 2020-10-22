@@ -4,7 +4,10 @@ int main (void)
 {
 	try
 	{
-		BonusProgram a(4), b(4), c(4);
+		BonusProgram a(4, std::string("program"));
+		BonusProgram b(4, std::string("program"));
+		BonusProgram c(4, std::string("program"));
+		BonusProgram d(4, std::string("program"));
 
 		a.Registration(2,100);
 		a.Registration(3,100);
@@ -21,6 +24,11 @@ int main (void)
 		a.print();
 		b.print();
 		c.print();
+
+		printf ("d:\n");
+		d = a + b;
+		d = d + c;
+		d.print();
 
 		if (a < c)
 		{
