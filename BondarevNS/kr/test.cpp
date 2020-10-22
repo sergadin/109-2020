@@ -15,8 +15,7 @@ int main()
 		A.set_element(i+4, i, 3);
 		
 	}
-	cout << A.get_length();
-	cout << A.get_height();
+
 	cout << A;
 	cout << B;
 	C = B+A;
