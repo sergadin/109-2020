@@ -172,7 +172,7 @@ int main(void) {
 	SD_Iterator.next();
 	SD_Iterator_copy = SD_Iterator_copy;
 	
-	for (cout << "M Δ Ν (reversed): {"; !SD_Iterator_copy.at_begin(); SD_Iterator_copy.prev()) {
+	for (cout << "M Δ Ν (reversed): {"; !SD_Iterator_copy.at_begin(); SD_Iterator_copy.next_step()) {
 		cout << SD_Iterator_copy.curr() << ((SD_Iterator_copy.curr_index() > 0) ? ", " : "");
 	}
 	cout << "}" << endl;
