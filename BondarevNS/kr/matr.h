@@ -18,7 +18,7 @@ class matr
 	int get_height () const;
 	double get_element (int i, int j) const;
 	void set_element (double C, int i, int j);
-	friend matr& operator+(const matr &left, const matr &right);
+	matr& operator+(const matr &right);
     friend std::ostream& operator<<(std::ostream &os, const matr& Q);
 };
 
@@ -46,5 +46,5 @@ class Exception
 		Exception(int code, std::string message): code_(code), message_(message){}
 		std::string message() const {return message_;}
 		int code() const {return code_;}
-}
+};
 
