@@ -41,6 +41,7 @@ matr& matr::operator=(const matr &other)
 	{
 		this->array_[i] = other.array_[i];
 	}
+	return *this;
 }
 
 int matr::get_height() const
