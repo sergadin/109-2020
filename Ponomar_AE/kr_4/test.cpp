@@ -10,7 +10,7 @@ int main()
 		matrix matr2(2, 4);
 		matrix matr3(2, 4);
 
-		for(int i = 1; i < 3; i)
+		for(int i = 1; i < 3; i++)
 		{
 			matr1.change(i, i, 1);
 			matr1.change(i+2, i, 2);
@@ -30,7 +30,7 @@ int main()
 	}
 	catch(iskl &exc)
 	{
-		std::cout << exc.message() << std::endl;
+		std::cout << "ERROR : " << exc.message() << std::endl;
 	}
 	return 0;
 }

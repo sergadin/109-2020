@@ -15,7 +15,7 @@ matrix::matrix(int N, int M)
 	M_=M;
 	for (int i=0; i < N*M; i++)
 	{
-		array_[i] = 0;
+		array_[i] = 1;
 	}
 }
 
