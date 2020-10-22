@@ -39,7 +39,7 @@ void PortrPart::SpendMoney(int InWhatKat, double HowMuch){
 	return;
 }
 
-void Check(const PortrPart &Par1, const PortrPart &Par2){
+bool Check(const PortrPart &Par1, const PortrPart &Par2){
 	if (Par1.NameOfProgr_ == Par2.NameOfProgr_  && Par1.SizeOfMasKat_ == Par2.SizeOfMasKat_){
 		printf("Тут два одинаковых человека\n");
 		for (int  i = 0; i < Par1.SizeOfMasKat_; i++){
@@ -48,10 +48,11 @@ void Check(const PortrPart &Par1, const PortrPart &Par2){
 			Par1.MasofSumInEvKat_[i] += Par2.MasofSumInEvKat_[i];
 			Par2.MasofSumInEvKat_[i] = Par1.MasofSumInEvKat_[i];
 		}
-
+		return true;
 	}
 	else {
 		printf("Человеки разные\n");
+		return false;
 	}
 		
 }

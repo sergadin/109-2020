@@ -13,7 +13,7 @@ class PortrPart
 		PortrPart (const std::string& NameOfProgr, int SizeOfMasKat);
 		~PortrPart();
 		void SpendMoney(int InWhatKat, double HowMuch);
-		friend void Check(const PortrPart &Par1, const PortrPart &Par2);
+		friend bool Check(const PortrPart &Par1, const PortrPart &Par2);
 		friend bool operator <= (const PortrPart &Par1, const PortrPart &Par2);
 		friend std::ostream& operator<<(std::ostream &os, const PortrPart &Par);
 		
