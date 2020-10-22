@@ -165,7 +165,7 @@ int main(void) {
 	cout << "M Δ Ν = ";
 
 	// Ninth test (iterator)
-	BitIntSet::iterator SD_Iterator = BitIntSet::Iterator(&SD, SD.len(), -1);
+	BitIntSet::iterator SD_Iterator = SD.start(SD.len(), -1);
 	BitIntSet::iterator SD_Iterator_copy = SD_Iterator;
 
 	SD_Iterator.begin();
@@ -178,14 +178,14 @@ int main(void) {
 	}
 	cout << "}" << endl;
 
-	BitIntSet::iterator SD_Odd_Iterator = BitIntSet::Iterator(&SD, 1, 2);
+	BitIntSet::iterator SD_Odd_Iterator = SD.start(1, 2);
 	cout << "Now, we'll print every second element of M Δ N:" << endl;
 	for (cout << "{"; !SD_Odd_Iterator.at_end(); SD_Odd_Iterator.next_step()) {
 		cout << SD_Odd_Iterator.curr() << ((SD_Odd_Iterator.curr_index() < SD.len() - SD_Odd_Iterator.step()) ? ", " : "");
 	}
 	cout << "}" << endl;
 
-	BitIntSet::iterator SD_Even_Iterator = BitIntSet::Iterator(&SD, 0, 2);
+	BitIntSet::iterator SD_Even_Iterator = SD.start(0, 2);
 	cout << "Now, we'll print all elements of M Δ N with even indices:" << endl;
 	for (cout << "{"; !SD_Even_Iterator.at_end(); SD_Even_Iterator.next_step()) {
 		cout << SD_Even_Iterator.curr() << ((SD_Even_Iterator.curr_index() < SD.len() - SD_Even_Iterator.step()) ? ", " : "");

@@ -20,9 +20,6 @@ class BitIntSet {
 
 				// Шаг итератора
 				int step_;
-	
-	  		      	// Запрет на использование извне конструктора без параметров
-  			      	Iterator();
 			public:
 				// Объявление класса BitIntSet дружественным
 				friend class BitIntSet;
@@ -137,6 +134,8 @@ class BitIntSet {
 		// Получение границ диапазона множества
 		int left() const { return inf_; }
 		int right() const { return sup_; }
+
+		iterator start(int start_index = 0, int step = 1) const;
 
 		// Получение элемента с порядковым номером index, если упорядочить множество по возрастанию
 		// Перегруженный оператор взятия индекса является псевдонимом метода get
