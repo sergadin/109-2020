@@ -31,7 +31,6 @@ class sub
 		Matrix *matr_;
 	public:
 		sub(Matrix *matr, int i, int j, int N, int M);
-		~sub();
 		double GetElem(int row, int coloumn) const;
 };
 

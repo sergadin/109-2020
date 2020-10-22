@@ -16,9 +16,13 @@ int main()
 		cout << Third << endl;
 		Third = First + Second;
 		cout << Third << endl;
-		sub Fourth(&Third, 0, 1, 2, 2);
-		cout << Fourth.GetElem(0,0) << " " << Fourth.GetElem(0,1) << endl;  
-		cout << Fourth.GetElem(1,0) << " " << Fourth.GetElem(1,1) << endl;  
+		Third.ChangeElem(1,1,4);
+		Third.ChangeElem(0,1,2);
+		Third.ChangeElem(0,2,7);
+		cout << Third << endl;
+		sub Fourth(&Third, 0, 1, 2, 2); 
+		cout << Fourth.GetElem(0,0) << " " << Fourth.GetElem(0,1) << endl; 
+		cout << Fourth.GetElem(1,0) << " " << Fourth.GetElem(1,1) << endl; 
 	}
 	catch(Error &ec)
 	{

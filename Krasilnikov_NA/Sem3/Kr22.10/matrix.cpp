@@ -52,7 +52,7 @@ int Matrix::Rows() const
 
 double Matrix::GetElem (int i, int j) const
 {
-	if ((i >= N_) || (j >= M_) || (i <= 0) || (j <= 0))
+	if ((i >= N_) || (j >= M_) || (i < 0) || (j < 0))
 	{
 		throw Error(3, "Matrix index out of bounds");
 	}
@@ -61,7 +61,7 @@ double Matrix::GetElem (int i, int j) const
 
 void Matrix::ChangeElem (int i, int j, double k)
 {
-	if ((i >= N_) || (j >= M_) || (i <= 0) || (j <= 0))
+	if ((i >= N_) || (j >= M_) || (i < 0) || (j < 0))
 	{
 		throw Error(3, "Matrix index out of bounds");
 	}
@@ -112,15 +112,7 @@ sub::sub(Matrix *matr, int i, int j, int N, int M)
 	j_ = j;
 	N_ = N;
 	M_ = M;
-	*matr_ = *matr;
-}
-
-sub::~sub()
-{
-	i_ = 0;
-	j_ = 0;
-	N_ = 0;
-	M_ = 0;
+	matr_ = matr;
 }
 
 double sub::GetElem(int row, int coloumn) const
