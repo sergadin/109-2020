@@ -113,7 +113,7 @@ podmatr::podmatr(matr *pod_,int i_, int j_,int N,int M)
 	}
 	if ((N+i_>pod_->get_height())||(M+j_>pod_->get_length())||(N<1)||(M<1))
 	{
-		throw Exception(5, "ошибка: неверный размер подматрицы");
+		throw Exception(5, "ошибка: неверный размер подматрицыy");
 	}
 	i=i_;
 	j=j_;
