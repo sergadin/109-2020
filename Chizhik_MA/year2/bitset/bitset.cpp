@@ -245,7 +245,7 @@ int BitIntSet::get(int index) const {
 		throw BitIntSetException(3, "Element doesn't exist");
 	}
 
-	BitIntSet::iterator I = BitIntSet::Iterator(this, index);
+	BitIntSet::iterator I(this, index);
 	return I.curr();
 }
 
