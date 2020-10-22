@@ -2,8 +2,6 @@
 #include <iostream>
 #include <climits>
 
-#define DEBUG
-
 class BitIntSet {
 	public:
 		// Итератор по расширяемому битовому множеству
@@ -22,23 +20,22 @@ class BitIntSet {
 
 				// Шаг итератора
 				int step_;
-	
-	  		      	// Запрет на использование извне конструктора без параметров
-  			      	Iterator();
-			public:
-				// Объявление класса BitIntSet дружественным
-				friend class BitIntSet;
 
 				// Конструкторы
+
 				// Получает на вход указатель на итерируемое множество, 
 				// индекс, с которого нужно начинать обход (по умолчанию обход начинается 
 				// с первого элемента множества) и шаг (по умолчанию равен 1)
 				// Если шаг равен 0, или индекс начала обхода превосходит мощность множества, 
 				// вызывается исключение
-				Iterator(const BitIntSet* parent_set, int start_index = 0, int step = 1);
+				Iterator(const BitIntSet* parent_set, int start_index = 0, int step = 1);	
+			public:
+				// Объявление класса BitIntSet дружественным
+				friend class BitIntSet;
+
 				// Конструктор копирования
 				Iterator(const Iterator& iter);
-
+	
 				// Деструктор
 				~Iterator();
 
@@ -66,7 +63,17 @@ class BitIntSet {
   			      	// Проверки итератора на регулярность (выход влево/вправо за границы множества)
   		      		bool at_begin() const { return curr_index_ < 0; }
   			      	bool at_end() const { return curr_index_ >= parent_set_->len_; }
+
+				friend BitIntSet operator*(const BitIntSet& A, const BitIntSet& B);
+				friend BitIntSet operator+(const BitIntSet& A, const BitIntSet& B);
+				friend BitIntSet operator-(const BitIntSet& A, const BitIntSet& B);
+				friend BitIntSet operator^(const BitIntSet& A, const BitIntSet& B);
+				friend bool operator<=(const BitIntSet& A, const BitIntSet& B);
+				friend bool operator==(const BitIntSet& A, const BitIntSet& B);
+				friend std::ostream& operator<<(std::ostream& os, const BitIntSet& set);
+
 		};
+		typedef typename BitIntSet::Iterator iterator;
 	private:
 		// Число битов в целочисленной переменной
 		const static int INT_CARDINALITY = (int)(CHAR_BIT * sizeof(int));
@@ -89,22 +96,6 @@ class BitIntSet {
 
 		// Мощность множества
 		int len_;
-
-		// Кэш
-		// В cache_ хранятся в порядке возрастания элементы, вычисляемые при вызове оператора
-		// взятия индекса;
-		// в last_actual_cached_ - последний индекс, до которого элементы массива cache_ актуальны,
-		// т.е. их индекс в массиве cache_ равен их порядковому номеру при упорядочивании множества 
-		// в порядке возрастания;
-		// в cache_len_ - длина массива cache_ (количество целых чисел, которые можно поместить в
-		// выделенной под кэш памяти)
-		int* cache_;
-		int last_actual_cached_;
-		int cache_len_;
-		// Кэшированное значение максимума
-		// Если известен максимум, в cached_max_ хранится его значение; если максимум множества в его текущем состоянии еще не вычислен или отсутствует 
-		// (по причине того, что множество пустое), в cached_max_ устанавливается значение, большее верхней границы множества
-		int cached_max_;
 
 		// Запрет вызова конструктора без параметров
 		BitIntSet();
@@ -155,26 +146,12 @@ class BitIntSet {
 		int left() const { return inf_; }
 		int right() const { return sup_; }
 
-		// Получение элемента с порядковым номером index, если упорядочить множество по возрастанию
-		// get - константный метод, поэтому он не изменяет кэш
-		// Перегруженный оператор взятия индекса заполняет кэш всеми элементами, что по порядковому
-		// номеру не превосходят index
-		int get(int index) const;
-		int operator[](int index);
+		iterator start(int start_index = 0, int step = 1) const;
 
-		// Функция для вывода кэша в cout
-		// Используется при отладке
-		#ifdef DEBUG
-		void print_cache(bool whole) const {
-			int top = whole ? cache_len_ : (last_actual_cached_ + 1);
-			std::cout << "Cache" << (whole ? " (whole array)" : "") << ": {";
-			for (int i = 0; i < top; i++) {
-				std::cout << cache_[i];
-				if (i < top - 1) std::cout << ", ";
-			}
-			std::cout << "}" << std::endl;
-		}
-		#endif
+		// Получение элемента с порядковым номером index, если упорядочить множество по возрастанию
+		// Перегруженный оператор взятия индекса является псевдонимом метода get
+		int get(int index) const;
+		int operator[](int index) const;
 
 		// Операторы пересечения, объединения, разности и симметрической разности множеств
 		// соответственно

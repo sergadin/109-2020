@@ -8,11 +8,14 @@ class BonusProgram
                 int n; //размер массива m1, m2
                 int *m1, *m2; //m1 - кол-во совершённых операций
 		//m2 - сумма потраченных средств
+
+		std::string program;
         public:
-  		BonusProgram (int l);
+  		BonusProgram (int l,const  std::string & program);
                 BonusProgram (const BonusProgram& v);
                 ~BonusProgram();
 		void Registration (int coordinate, int sum);
+		BonusProgram operator = (const BonusProgram &other);
 		BonusProgram operator + (const BonusProgram &other);
 		bool operator < (const BonusProgram &other);
 		void print () const;
