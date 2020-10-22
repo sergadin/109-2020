@@ -72,6 +72,11 @@ double matrix::element(int i, int j) const
 
 matrix matrix::operator+(const matrix &right)
 {
+	if ((this->N_!=right.N_)||(this->M_!=right.M_))
+	{
+		throw iskl(4, "ERROR sum");
+	}
+
 	matrix outmatrix(1,1);
 	outmatrix = *this;
 	
@@ -118,7 +123,7 @@ podmatrix::podmatrix(matrix *podmatr_, int i_, int j_, int n, int m)
 	}
 	if ((n+i_-1>podmatr_->str())||(m+j_-1>podmatr_->stolb())||(n<1)||(m<1))
 	{
-		throw iskl(4, "ERROR podmatrix");
+		throw iskl(5, "ERROR podmatrix");
 	}
 
 	i=i_;
