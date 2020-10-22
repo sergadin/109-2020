@@ -129,7 +129,7 @@ double sub::GetElem(int row, int coloumn) const
 	{
 		throw Error(3, "Matrix index out of bounds");    
 	}
-	if ((row > N_) || (coloumn > M_))
+	if ((row >= N_) || (coloumn >= M_))
 	{
 		throw Error(3, "Matrix index out of bounds");
 	}
