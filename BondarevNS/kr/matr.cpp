@@ -12,7 +12,8 @@ matr::matr(int n, int m)
 	}
 	
 
-
+	n_ = n;
+	m_ = m;
 	for(int i=0; i<n*m; i++)
 		{
 			array_[i] = 0;
