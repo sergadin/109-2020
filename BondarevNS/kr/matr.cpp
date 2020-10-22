@@ -83,7 +83,7 @@ std::ostream& operator<<(std::ostream &os, const matr& Q)
 }
 
 
-podmatr::podmatr(matr *pod,int i, int j,int n,int m)
+podmatr::podmatr(matr *pod_,int i_, int j_,int n_,int m_)
 {
 	i=i_;
 	j=j_;
