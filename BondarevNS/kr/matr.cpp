@@ -64,7 +64,7 @@ double matr::get_element(int i, int j) const
   	
 } 
 
-matr& matr::operator+(const matr &right)
+matr matr::operator+(const matr &right)
 {
 	if ((this->n_!=right.n_)||(this->m_!=right.m_))
 	{
