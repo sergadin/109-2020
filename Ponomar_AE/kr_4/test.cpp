@@ -10,12 +10,12 @@ int main()
 	matrix matr2(2, 4);
 	matrix matr3(2, 4);
 
-	for(int i = 1; i < 3; ++i)
+	for(int i = 1; i < 3; i)
 	{
 		matr1.change(i, i, 1);
 		matr1.change(i+2, i, 2);
 		matr1.change(i+4, i, 3);
-		matr1.change(i+6, i, 4);												
+		matr1.change(i+6, i, 4);										
 	}
 
 	cout<<matr1;

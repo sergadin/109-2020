@@ -2,9 +2,18 @@
 
 matrix::matrix(int N, int M)
 {
-	array_ = new double[N*M];
-
-	for (int i=0; i < N_*M_; i++)
+	if ((N<1)||(M<1))
+	{
+		throw iskl(1, "ERROR size of matrix");
+	}
+	if(!(array_ = new double[N*M]))
+	{
+		throw iskl(2, "ERROR memory");
+	}
+	 
+	N_=N;
+	M_=M;
+	for (int i=0; i < N*M; i++)
 	{
 		array_[i] = 0;
 	}
@@ -21,15 +30,17 @@ matrix::~matrix()
 
 matrix& matrix::operator=(const matrix &other)
 {
-
 	this->N_ = other.N_;
 	this->M_ = other.M_;
-
+	
 	delete[] array_;
+	
+	if(!(this->array_ = new double[N_*M_]))
+	{
+		throw iskl(2, "ERROR memory");
+	}
 
-	this->array_ = new double[N_*M_];
-
-	for(int i=0; i < N_*M_; i++)
+	for(int i=0; i<N_*M_; ++i)
 	{
 		this->array_[i] = other.array_[i];
 	}
@@ -37,33 +48,25 @@ matrix& matrix::operator=(const matrix &other)
 }
 
 
-int matrix::str()
+int matrix::str() const
 {
         return this->N_;
 }
 
-int matrix::stolb()
+int matrix::stolb() const
 {
         return this->M_;
 }
 
-double matrix::element(int i, int j)
+double matrix::element(int i, int j) const
 {
 
-	if ((N_>0)&&(M_>0))
+        if((i<1)||(j<1)||(i>N_)||(j>M_))
 	{
-		return array_[j+(i-1)*M_-1];
+		throw iskl(3, "ERROR index");
 	}
+	return array_[j+(i-1)*M_-1];
 
-	else
-	{
-		return 0;
-	}
-}
-
-void matrix::change(int i, int j, double t)
-{
-       	this->array_[i*M_+j] = t;
 }
 
 
@@ -79,8 +82,17 @@ matrix matrix::operator+(const matrix &right)
 	return outmatrix;
 }
 
+void matrix::change(double t, int i, int j)
+{
+	if((i<1)||(j<1)||(i>N_)||(j>M_))
+	{
+		throw iskl(3, "ERROR index");
+	}
 
-std::ostream& operator<<(std::ostream&os, const matrix&q)
+	array_[j+(i-1)*M_-1] = t;
+}
+
+std::ostream& operator<<(std::ostream &os, const matrix& q)
 {
 	os<<"size of matrix is "<<q.N_<<"*"<<q.M_<<endl;
 
@@ -98,12 +110,21 @@ std::ostream& operator<<(std::ostream&os, const matrix&q)
 }
 
 
-podmatrix::podmatrix(matrix *podmatr_, int i_, int j_, int N_, int M_)
+podmatrix::podmatrix(matrix *podmatr_, int i_, int j_, int n, int m)
 {
+	if ((i_>podmatr_->str())||(j_>podmatr_->stolb())||(i_<1)||(j_<1))
+	{
+		throw iskl(3, "ERROR index");
+	}
+	if ((n+i_-1>podmatr_->str())||(m+j_-1>podmatr_->stolb())||(n<1)||(m<1))
+	{
+		throw iskl(4, "ERROR podmatrix");
+	}
+
 	i=i_;
 	j=j_;
-	podN=N_;
-	podM=M_;
+	podN=n;
+	podM=m;
 	podmatr=podmatr_;
 }
 
@@ -115,8 +136,11 @@ podmatrix::~podmatrix()
 	podM=0;
 }
 
-
-double podmatrix::element(int N_, int M_)
+double podmatrix::element(int n, int m) const
 {
-	return podmatr->element(i+N_-1, j+M_-1);
+	if((n>podN)||(m>podM)||(n<1)||(m<1))
+	{
+		throw iskl(3, "ERROR index");
+	}
+	return podmatr->element(i+n-1, j+m-1);
 }

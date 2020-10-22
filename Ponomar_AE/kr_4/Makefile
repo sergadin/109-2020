@@ -10,7 +10,7 @@ a.out: class.o test.o
 	g++  test.o class.o 
 
 do-test: a.out
-	valgrind ./a.out
+	./a.out
 
 clean: class.o test.o
 	rm class.o test.o

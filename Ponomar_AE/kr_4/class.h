@@ -18,12 +18,12 @@ class matrix
 		~matrix();
 		matrix& operator=(const matrix &other);
 
-		int str();
-		int stolb();
-		void change(int i, int j, double t);
-		double element(int i, int j);
+		int str() const;
+		int stolb() const;
+		void change(double t, int i, int j);
+		double element(int i, int j) const;
 		matrix operator+(const matrix &right);
-		friend std::ostream&operator<<(std::ostream&os, const matrix&q);
+		friend std::ostream&operator<<(std::ostream &os, const matrix& q);
 };
 
 class podmatrix
@@ -39,10 +39,10 @@ class podmatrix
 
 	public:
 
-		podmatrix(matrix *podmatr_, int i_, int j_, int N_, int M_);
+		podmatrix(matrix *podmatr_, int i_, int j_, int n, int m);
 		~podmatrix();
 
-		double element(int N_, int M_);	
+		double element(int n, int m) const;	
 };
 
 class iskl
