@@ -12,8 +12,7 @@ matr::matr(int n, int m)
 	}
 	
 
-	n_ = n;
-	m_ = m;
+
 	for(int i=0; i<n*m; i++)
 		{
 			array_[i] = 0;
@@ -35,7 +34,7 @@ matr& matr::operator=(const matr &other)
 	delete[] array_;
 		if(!(this->array_ = new double[n_*m_]))
 	{
-		throw Exception(1, "ошибкаЖ выделение памяти");
+		throw Exception(1, "ошибка: выделение памяти");
 	}
 	for(int i=0; i<n_*m_; ++i)
 	{
