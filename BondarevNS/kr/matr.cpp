@@ -129,11 +129,11 @@ podmatr::~podmatr()
 	m1 = 0;
 }
 
-double podmatr::get_element(int n_, int m_) const
+double podmatr::get_element(int n, int m) const
 {
-	if((n_>N_)||(m_>M_)||(n<1)||(m<1))
+	if((n>n_)||(m>m_)||(n<1)||(m<1))
 	{
 		throw Exception(3, "Incorrect element index");
 	}
-	return pod ->get_element(i+n_-1, j+m_-1);
+	return pod ->get_element(i+n-1, j+m-1);
 }
