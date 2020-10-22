@@ -92,6 +92,27 @@ bool operator <= (const PortrPart &Par1, const PortrPart &Par2){
 		return false;
 	}
 }
+
+
+PortrPart & PortrPart::operator=(const PortrPart & Part)
+{
+        if(this == &Part)
+        {
+                return *this;
+        }
+        delete[] MasofSumInEvKat_;
+		delete[] MasofOperInKat_;
+		MasofOperInKat_ = new int [Part.SizeOfMasKat_];
+		MasofSumInEvKat_ = new double [Part.SizeOfMasKat_];
+        SizeOfMasKat_=Part.SizeOfMasKat_;
+		
+        for(int i = 0; i < SizeOfMasKat_; i++)
+		{
+                MasofOperInKat_[i] = Part.MasofOperInKat_[i];
+				MasofSumInEvKat_[i] = Part.MasofSumInEvKat_[i];
+		}
+        return *this;
+}
 	
 std::ostream & operator<<(std::ostream &os, const PortrPart &Par)
 {
