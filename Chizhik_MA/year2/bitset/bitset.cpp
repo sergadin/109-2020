@@ -448,7 +448,7 @@ int BitIntSet::Iterator::prev() {
 		
 		unsigned int bit_mask = 1;
 		for (int k = INT_CARDINALITY - 1; k >= 0; k--) {
-			if (i * INT_CARDINALITY + k < start_position) {
+			if (i * INT_CARDINALITY + k > start_position) {
 				bit_mask <<= 1;
 				continue;
 			}
