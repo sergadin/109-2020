@@ -13,11 +13,6 @@ BitIntSet::BitIntSet(int left, int right): inf_(left), sup_(right) {
 	int range_len = sup_ - inf_ + 1;
 	len_ = 0;
 
-	cache_ = NULL;
-	cache_len_ = 0;
-	last_actual_cached_ = -1;
-	cached_max_ = sup_ + 1;
-
 	list_start_ = inf_ - INT_CARDINALITY;
 	size_ = range_len / INT_CARDINALITY + 3;
 
@@ -26,68 +21,67 @@ BitIntSet::BitIntSet(int left, int right): inf_(left), sup_(right) {
 
 BitIntSet::BitIntSet(const BitIntSet& set): inf_(set.inf_), sup_(set.sup_) {
 	len_ = set.len_;
-
-	cache_len_ = set.cache_len_;
-	last_actual_cached_ = set.last_actual_cached_;
-	cached_max_ = set.cached_max_;
-
 	size_ = set.size_;
 	list_start_ = set.list_start_;
 
 	list_ = (unsigned int *)malloc(size_ * sizeof(int));
-	cache_ = (int *)malloc(cache_len_ * sizeof(int));
-
-	for (int i = 0; i < size_; i++) list_[i] = set.list_[i];
-	for (int j = 0; j < cache_len_; j++) cache_[j] = set.cache_[j];
+	for (int i = 0; i < size_; i++) {
+		list_[i] = set.list_[i];
+	}
 }
 
 BitIntSet::~BitIntSet() {
 	free(list_);
-	free(cache_);
 }
 
 BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
-	if (this == &B) return *this;
+	if (this == &B) {
+		return *this;
+	}
+
 	inf_ = B.inf_;
 	sup_ = B.sup_;
+
 	list_start_ = B.list_start_;
 	size_ = B.size_;
-
 	len_ = B.len_;
 
-	cache_len_ = B.cache_len_;
-	last_actual_cached_ = B.last_actual_cached_;
-	cached_max_ = B.cached_max_;
-
 	free(list_);
-	free(cache_);
 
 	list_ = (unsigned int *)malloc(sizeof(int) * size_);
-	cache_ = (int *)malloc(sizeof(int) * cache_len_);
 	
-	for (int i = 0; i < size_; i++) list_[i] = B.list_[i];
-	for (int j = 0; j < cache_len_; j++) cache_[j] = B.cache_[j];
+	for (int i = 0; i < size_; i++) {
+		list_[i] = B.list_[i];
+	}
+
 	return *this;
 }
 
 int BitIntSet::min() const {
-	if (this->empty()) throw BitIntSetException(2, "Set is empty");
-	if (last_actual_cached_ >= 0) return cache_[0];
+	if (this->empty()) {
+		throw BitIntSetException(2, "Set is empty");
+	}
 	return this->get(0);
 
 }
 
 int BitIntSet::max() const {
-	if (this->empty()) throw BitIntSetException(2, "Set is empty");
-	if (cached_max_ <= sup_) return cached_max_;
+	if (this->empty()) {
+		throw BitIntSetException(2, "Set is empty");
+	}
 
 	for (int i = size_ - 1; i >= 0; i--) {
-		if (list_[i] == 0) continue;
+		if (list_[i] == 0) {
+			continue;
+		}
+
+		unsigned int bit_mask = 1;
 		for (int k = 0; k < INT_CARDINALITY; k++) {
-			if (((list_[i] & (1 << k)) ^ (1 << k)) == 0) {
+			if (list_[i] & bit_mask) {
 				int max = list_start_ + (i + 1) * INT_CARDINALITY - (k + 1);
 				return max;
 			}
+			bit_mask <<= 1;
 		}
 	}
 	throw BitIntSetException(2, "Set is empty");
@@ -98,7 +92,6 @@ void BitIntSet::clear() {
 		list_[i] = 0;
 	}
 	len_ = 0;
-	last_actual_cached_ = -1;
 }
 
 void BitIntSet::add(int a) {
@@ -131,22 +124,11 @@ void BitIntSet::add(int a) {
 	}
 
 	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
-	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
-	
+	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);	
 	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
 
-	if (list_[index_of_subarr] & elem_mask) return;
-
-	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] > a)) {
-		if (a < cache_[0]) {
-			cache_[0] = a;
-			last_actual_cached_ = 0;
-		} else {
-			do {
-				last_actual_cached_--;
-			} while (cache_[last_actual_cached_] > a);
-			cache_[++last_actual_cached_] = a;
-		}
+	if (list_[index_of_subarr] & elem_mask) {
+		return;
 	}
 
 	list_[index_of_subarr] |= elem_mask;
@@ -154,19 +136,17 @@ void BitIntSet::add(int a) {
 }
 
 int BitIntSet::remove (int a) {
-	if ((a < inf_) || (a > sup_)) return -1;
+	if ((a < inf_) || (a > sup_)) {
+		return -1;
+	}
 
 	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
 	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
-
 	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
-	if (!(list_[index_of_subarr] & elem_mask)) return -1;
 
-	if ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] >= a)) {
-		if (a <= cache_[0]) last_actual_cached_ = -1; 
-		else while ((last_actual_cached_ > -1) && (cache_[last_actual_cached_] >= a)) last_actual_cached_--;
+	if (!(list_[index_of_subarr] & elem_mask)) {
+		return -1;
 	}
-	if (a == cached_max_) cached_max_ = sup_ + 1;
 
 	list_[index_of_subarr] &= ~elem_mask;
 	len_--;
@@ -174,120 +154,130 @@ int BitIntSet::remove (int a) {
 }
 
 bool BitIntSet::belongs (int a) const {
-	if ((a > sup_) || (a < inf_)) return false;
+	if ((a > sup_) || (a < inf_)) {
+		return false;
+	}
+
 	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
 	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
-
 	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
+
 	return list_[index_of_subarr] & elem_mask;
 }
 
 
 BitIntSet operator*(const BitIntSet& A, const BitIntSet& B) {
-	if (&A == &B) return A;
-	BitIntSet product = A;
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&A);
-	for (; !I.at_end(); I.next()) {
-		if (!B.belongs(I.curr())) product.remove(I.curr());
+	if (&A == &B) {
+		return A;
+	}
+
+	BitIntSet product = A;	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&A); !I.at_end(); I.next()) {
+		if (!B.belongs(I.curr())) {
+			product.remove(I.curr());
+		}
 	}
 	return product;
 }
 
 BitIntSet operator+(const BitIntSet& A, const BitIntSet& B) {
-	if (&A == &B) return A;
+	if (&A == &B) {
+		return A;
+	}
+
 	BitIntSet sum = A;
-	if (B.empty()) return sum;
+	if (B.empty()) {
+		return sum;
+	}
 
 	sum.add(B.min());
-	if (B.len() > 1) sum.add(B.max());
-
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&B, 1);
-	for (; I.curr_index() < (B.len() - 1); I.next()) {
+	if (B.len() > 1) {
+		sum.add(B.max());
+	}
+	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&B, 1); I.curr_index() < (B.len() - 1); I.next()) {
 		sum.add(I.curr());
 	}
 	return sum;
 }
 
 BitIntSet operator-(const BitIntSet& A, const BitIntSet& B) {
-	if (&A == &B) return BitIntSet(A.left(), A.right());
-	BitIntSet diff = A;
-	if (B.empty()) return diff;
+	if (&A == &B) {
+		return BitIntSet(A.left(), A.right());
+	}
 
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&B);
-	for (; !I.at_end(); I.next()) {
-		if (diff.belongs(I.curr())) diff.remove(I.curr());
+	BitIntSet diff = A;
+	if (B.empty()) {
+		return diff;
+	}
+	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&B); !I.at_end(); I.next()) {
+		if (diff.belongs(I.curr())) {
+			diff.remove(I.curr());
+		}
 	}
 	return diff;
 }
 
 BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
-	if (&A == &B) return BitIntSet(A.left(), A.right());
+	if (&A == &B) {
+		return BitIntSet(A.left(), A.right());
+	}
 	BitIntSet sym_diff = (A + B);
-
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&A);
-	for (; !I.at_end(); I.next()) {
-		if (B.belongs(I.curr())) sym_diff.remove(I.curr());
+	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&A); !I.at_end(); I.next()) {
+		if (B.belongs(I.curr())) {
+			sym_diff.remove(I.curr());
+		}
 	}
 	return sym_diff;
 }
 
 int BitIntSet::get(int index) const {
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(this, index);
+	BitIntSet::iterator I = BitIntSet::Iterator(this, index);
 	return I.curr();
 }
 
-int BitIntSet::operator[](int index) {
-	if (len_ == 0) throw BitIntSetException(2, "Set is empty");
-	if ((index >= len_) || (index < 0)) throw BitIntSetException(3, "Element doesn't exist");
-
-	if (last_actual_cached_ > index - 1) return cache_[index];
-
-	if (cache_len_ != len_) cache_ = (int *)realloc(cache_, sizeof(int) * (cache_len_ = len_));
-	int start_position = (last_actual_cached_ >= 0) ? (cache_[last_actual_cached_] - list_start_ + 1) : 0;
-	int start_block = start_position / INT_CARDINALITY;
-	for (int i = start_block; i < this->size_; i++) {
-		if (list_[i] == 0) continue;
-
-		unsigned int bit_mask = 1 << (INT_CARDINALITY - 1);
-		for (int k = 0; k < INT_CARDINALITY; k++) {
-			if (i * INT_CARDINALITY + k < start_position) {
-				bit_mask >>= 1;
-				continue;	
-			}
-			if (((list_[i] & bit_mask) ^ bit_mask) == 0) {
-				int next_element = list_start_ + i * INT_CARDINALITY + k;
-				cache_[++last_actual_cached_] = next_element;
-				if (last_actual_cached_ == index) {
-					return next_element;
-				}
-			}
-			bit_mask >>= 1;
-		}
+int BitIntSet::operator[](int index) const {
+	if (len_ == 0) {
+		throw BitIntSetException(2, "Set is empty");
 	}
-	throw BitIntSetException(3, "Element doesn't exist");
+	if ((index >= len_) || (index < 0)) {
+		throw BitIntSetException(3, "Element doesn't exist");
+	}
+
+	return this->get(index);
 }
 
 BitIntSet& BitIntSet::operator*=(const BitIntSet& B) {
-	if (this == &B) return *this;
+	if (this == &B) {
+		return *this;
+	}
+
 	if (B.empty()) {
 		this->clear();
 		return *this;
 	}
 
 	for (int i = 0; i < this->len(); i++) {
-		if (!(B.belongs((*this)[i]))) this->remove((*this)[i--]);
+		if (!(B.belongs((*this)[i]))) {
+			this->remove((*this)[i--]);
+		}
 	}
 	return *this;
 }
 
 BitIntSet& BitIntSet::operator+=(const BitIntSet& B) {
-	if ((this == &B) || B.empty()) return *this;
+	if ((this == &B) || B.empty()) {
+		return *this;
+	}
 
 	this->add(B.min());
-	if (B.len() > 1) this->add(B.max());
-
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&B, 1);
-	for (; I.curr_index() < B.len() - 1; I.next()) {
+	if (B.len() > 1) {
+		this->add(B.max());
+	}
+	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&B, 1); I.curr_index() < B.len() - 1; I.next()) {
 		this->add(I.curr());
 	}
 
@@ -299,11 +289,14 @@ BitIntSet& BitIntSet::operator-=(const BitIntSet& B) {
 		this->clear();
 		return *this;
 	}
-	if (B.empty()) return *this;
-
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&B);
-	for (; !I.at_end(); I.next()) {
-		if (this->belongs(I.curr())) this->remove(I.curr());
+	if (B.empty()) {
+		return *this;
+	}
+	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&B); !I.at_end(); I.next()) {
+		if (this->belongs(I.curr())) {
+			this->remove(I.curr());
+		}
 	}
 	return *this;
 }
@@ -319,33 +312,42 @@ BitIntSet& BitIntSet::operator^=(const BitIntSet& B) {
 }
 
 bool operator<=(const BitIntSet& A, const BitIntSet& B) {
-	if (&A == &B) return true;
-	if (A.len() > B.len()) return false;
+	if (&A == &B) {
+		return true;
+	}
 
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&A);
-	for (; !I.at_end(); I.next()) {
-		if (!B.belongs(I.curr())) return false;
+	if (A.len() > B.len()) {
+		return false;
+	}
+	
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&A); !I.at_end(); I.next()) {
+		if (!B.belongs(I.curr())) {
+			return false;
+		}
 	}
 	return true;
 }
 
 bool operator==(const BitIntSet& A, const BitIntSet& B) {
-	if (A.len() != B.len()) return false;
-	typename BitIntSet::Iterator iter_A = BitIntSet::Iterator(&A);
-	typename BitIntSet::Iterator iter_B = BitIntSet::Iterator(&B);
+	if (A.len() != B.len()) {
+		return false;
+	}
 
-	for (; !iter_A.at_end(); iter_A.next(), iter_B.next()) {
-		if (iter_A.curr() != iter_B.curr()) return false;
+	for (BitIntSet::iterator iter_A = BitIntSet::Iterator(&A), iter_B = BitIntSet::Iterator(&B); !iter_A.at_end(); iter_A.next(), iter_B.next()) {
+		if (iter_A.curr() != iter_B.curr()) {
+			return false;
+		}
 	}
 	return true;
 }
 
-ostream& operator<<(ostream& os, const BitIntSet& set) {
-	typename BitIntSet::Iterator I = BitIntSet::Iterator(&set);
+ostream& operator<<(ostream& os, const BitIntSet& set) {	
 	os << "{";
-	for (; !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = BitIntSet::Iterator(&set); !I.at_end(); I.next()) {
 		os << I.curr();
-		if (I.curr_index() < set.len() - 1) os << ", ";
+		if (I.curr_index() < set.len() - 1) {
+			os << ", ";
+		}
 	}
 	os << "}";
 	return os;
@@ -362,13 +364,20 @@ ostream& operator<<(ostream& os, const BitIntSetException& e) {
 //}
 
 BitIntSet::Iterator::Iterator(const BitIntSet* parent_set, int start_index, int step): parent_set_(parent_set), step_(step) {
-	if (step_ == 0) throw BitIntSetException(4, "Step must be non-zero integer");
-	if (start_index < -1 || start_index > parent_set_->len_) throw BitIntSetException(5, "Invalid start point of iterator");
+	if (step_ == 0) {
+		throw BitIntSetException(4, "Step must be non-zero integer");
+	}
+
+	if (start_index < -1 || start_index > parent_set_->len_) {
+		throw BitIntSetException(5, "Invalid start point of iterator");
+	}
 
 	curr_position_= parent_set_->list_start_ - 1;
 	curr_index_ = -1;
 	
-	while (curr_index_ < start_index) this->next();
+	while (curr_index_ < start_index) {
+		this->next();
+	}
 }
 
 BitIntSet::Iterator::Iterator(const BitIntSet::Iterator& iter): parent_set_(iter.parent_set_), step_(iter.step_) {
@@ -389,11 +398,8 @@ void BitIntSet::Iterator::end() {
 }
 
 int BitIntSet::Iterator::next() {
-	if (curr_index_ > parent_set_->len_) throw BitIntSetException(3, "Next element doesn't exist");
-
-	if (parent_set_->last_actual_cached_ > curr_index_) {
-		curr_position_ = parent_set_->cache_[++curr_index_];
-		return curr_position_;
+	if (curr_index_ > parent_set_->len_) {
+		throw BitIntSetException(3, "Next element doesn't exist");
 	}
 
 	int start_position = curr_position_ - parent_set_->list_start_ + 1;
@@ -408,7 +414,7 @@ int BitIntSet::Iterator::next() {
 				bit_mask >>= 1;
 				continue;
 			}
-			if (((parent_set_->list_[i] & bit_mask) ^ bit_mask) == 0) {
+			if (parent_set_->list_[i] & bit_mask) {
 				curr_position_ = parent_set_->list_start_ + i * INT_CARDINALITY + k;
 				++curr_index_;
 				return curr_position_;
@@ -422,18 +428,17 @@ int BitIntSet::Iterator::next() {
 }
 
 int BitIntSet::Iterator::prev() {
-	if (curr_index_ < 0) throw BitIntSetException(3, "Previous element doesn't exist");
-
-	if (parent_set_->last_actual_cached_ > curr_index_ - 2 && curr_index_ != 0) {
-		curr_position_ = parent_set_->cache_[--curr_index_];
-		return curr_position_;
+	if (curr_index_ < 0) {
+		throw BitIntSetException(3, "Previous element doesn't exist");
 	}
 
 	int start_position = curr_position_ - parent_set_->list_start_ - 1;
 	int start_block = start_position / INT_CARDINALITY;
 
 	for (int i = start_block; i >= 0; i--) {
-		if (parent_set_->list_[i] == 0) continue;
+		if (parent_set_->list_[i] == 0) {
+			continue;
+		}
 		
 		unsigned int bit_mask = 1;
 		for (int k = INT_CARDINALITY - 1; k >= 0; k--) {
@@ -449,6 +454,7 @@ int BitIntSet::Iterator::prev() {
 			bit_mask <<= 1;
 		}
 	}
+
 	curr_index_ = -1;
 	curr_position_ = parent_set_->list_start_ - 1;
 	return curr_position_;
@@ -457,16 +463,26 @@ int BitIntSet::Iterator::prev() {
 int BitIntSet::Iterator::next_step() {
 	int next_item;
 	if (step_ > 0) {
-		if (this->at_end()) throw BitIntSetException(3, "Next element doesn't exist");
+		if (this->at_end()) {
+			throw BitIntSetException(3, "Next element doesn't exist");
+		}
+
 		for (int i = 0; i < step_; i++) {
 			next_item = this->next();
-			if (this->at_end()) break;
+			if (this->at_end()) {
+				break;
+			}
 		}
 	} else {
-		if (this->at_begin()) throw BitIntSetException(3, "Next element doesn't exist");
+		if (this->at_begin()) {
+			throw BitIntSetException(3, "Next element doesn't exist");
+		}
+
 		for (int i = 0; i < -step_; i++) {
 			next_item = this->prev();
-			if (this->at_begin()) break;
+			if (this->at_begin()) {
+				break;
+			}
 		}
 	}
 	return next_item;

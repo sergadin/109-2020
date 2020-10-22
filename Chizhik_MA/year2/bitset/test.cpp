@@ -45,13 +45,12 @@ int main(void) {
 	Z.add(0);
 	Z.add(3);
 	Z.add(-4789999);
+	cout << Z << endl;
 	cout << "Printing last element using the operator[]..." << endl;
 	cout << Z[Z.len() - 1] << endl;
-	Z.print_cache(1);
 	cout << "Adding -25" << endl;
 	Z.add(-25);
-	Z.print_cache(0);
-	cout << endl;
+	cout << Z << endl;
 
 	cout << "\nZ: " << Z << endl;
 	for (int j = 0; j < 5; j++) {
@@ -96,10 +95,6 @@ int main(void) {
 		Y.add(b);
 	}
 	if (X == Y) cout << "X = Y" << endl;
-	cout << "X's ";
-	X.print_cache(0);
-	cout << "Y's ";
-	Y.print_cache(0);
 
 	cout << "Let's remove some elements from Y" << endl;
 	Y.remove(0);
@@ -131,11 +126,8 @@ int main(void) {
 	cout << "We now create copy of P and modify it" << endl;
 	cout << endl;
 	BitIntSet copy = P;
-	copy.print_cache(0);
 	copy.add(3);
-	copy.print_cache(0);
 	copy.add(-8);
-	copy.print_cache(0);
 	cout << endl;
 
 	cout << "Length of X*Y is " << P.len() << ": " << P << endl;
@@ -143,13 +135,6 @@ int main(void) {
 		cout << "P is subset of P, that's great" << endl;
 	}
 	P *= P;
-	cout << "Let's now add and remove something small" << endl;
-	P.add(-500);
-	P.print_cache(0);
-	P.print_cache(1);
-	P.remove(-500);
-	P.print_cache(0);
-	P.print_cache(1);
 	cout << "A = " << A << endl;
 	cout << "P = " << P << endl;
 	
@@ -179,16 +164,9 @@ int main(void) {
 	BitIntSet SD = M ^ N;
 	cout << "M Δ Ν = ";
 
-	// Ninth test (iteration over set with caching)
-	cout << "{";
-	for (int i = 0; i < SD.len(); i++) {
-		cout << SD[i] << ((i < SD.len() - 1) ? ", " : "");
-	}
-	cout << "}" << endl;
-
-	// Tenth test (iterator)
-	typename BitIntSet::Iterator SD_Iterator = BitIntSet::Iterator(&SD, SD.len(), -1);
-	typename BitIntSet::Iterator SD_Iterator_copy = SD_Iterator;
+	// Ninth test (iterator)
+	BitIntSet::iterator SD_Iterator = BitIntSet::Iterator(&SD, SD.len(), -1);
+	BitIntSet::iterator SD_Iterator_copy = SD_Iterator;
 
 	SD_Iterator.begin();
 	SD_Iterator.next();
@@ -200,19 +178,19 @@ int main(void) {
 	}
 	cout << "}" << endl;
 
-	typename BitIntSet::Iterator SD_Odd_Iterator = BitIntSet::Iterator(&SD, 1, 2);
+	BitIntSet::iterator SD_Odd_Iterator = BitIntSet::Iterator(&SD, 1, 2);
 	cout << "Now, we'll print every second element of M Δ N:" << endl;
 	for (cout << "{"; !SD_Odd_Iterator.at_end(); SD_Odd_Iterator.next_step()) {
 		cout << SD_Odd_Iterator.curr() << ((SD_Odd_Iterator.curr_index() < SD.len() - SD_Odd_Iterator.step()) ? ", " : "");
 	}
 	cout << "}" << endl;
 
-	typename BitIntSet::Iterator SD_Even_Iterator = BitIntSet::Iterator(&SD, 0, 2);
+	BitIntSet::iterator SD_Even_Iterator = BitIntSet::Iterator(&SD, 0, 2);
 	cout << "Now, we'll print all elements of M Δ N with even indices:" << endl;
 	for (cout << "{"; !SD_Even_Iterator.at_end(); SD_Even_Iterator.next_step()) {
 		cout << SD_Even_Iterator.curr() << ((SD_Even_Iterator.curr_index() < SD.len() - SD_Even_Iterator.step()) ? ", " : "");
 	}
-	cout << "}" << endl;
+	cout << "}" << endl; 
 
 	return 0;
 }
