@@ -4,6 +4,7 @@
 using namespace std;
 int main()
 {
+	try{
 	matr A(2, 3);
 	matr B(2, 3);
 	matr C(2, 3);
@@ -22,5 +23,10 @@ int main()
 	podmatr D(&A, 1,1,2,2);
 	cout << D.get_element(1,1) << " "<< D.get_element(1,2) << endl;
 	cout << D.get_element(2,1) << " "<< D.get_element(2,2) << endl;
+	}
+		catch(Exception &exc)
+	{
+		std::cout << "EXCEPTION " << exc.message() << std::endl;
+	}
 	return 0;
 }
