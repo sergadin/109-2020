@@ -45,12 +45,12 @@ matr& matr::operator=(const matr &other)
 
 int matr::get_height() const
 {
-return n_;
+return this->n_;
 }
 
 int matr::get_length() const
 {
-return m_;
+return this->m_;
 }
 
 double matr::get_element(int i, int j) const
