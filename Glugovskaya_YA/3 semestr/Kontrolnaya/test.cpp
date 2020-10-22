@@ -27,8 +27,8 @@ int main(){
 		Check(Par4, Par5);
 		std::cout<< Par1 << endl;
 		std::cout<< Par2 << endl;
-		Par1 == Par6;
-		Par4 == Par5;
+		Par1 <= Par6;
+		Par4 <= Par5;
 		
 		
   		std::cout<< Par1 << endl;

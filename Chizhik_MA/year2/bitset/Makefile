@@ -10,5 +10,6 @@ run: bitset.o test.o
 
 do-test: run
 	valgrind ./run
+	#./run
 clean: bitset.o test.o
 	rm -rf *.o
