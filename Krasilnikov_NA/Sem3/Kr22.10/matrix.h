@@ -3,7 +3,8 @@
 #include <math.h>
 using namespace std;
 
-class Matrix{
+class Matrix
+{
 	private:
 		double *array_;
 		int N_;
@@ -11,42 +12,41 @@ class Matrix{
 	public:
 		Matrix(int N, int M);
 		~Matrix();
-		Matrix& operator =(const Matrix &other);
-		int Coloumns () const;
-		int Rows () const;
+		Matrix & operator=(const Matrix &other);
+		int Rows() const;
+		int Coloumns() const;
 		double GetElem (int i, int j) const;
 		void ChangeElem (int i, int j, double k);
-		friend Matrix& operator+(const Matrix &second);
-		friend std::ostream& operator«(std::ostream &os, const Matrix& q)
+		Matrix operator+(const Matrix &second);
+		friend std::ostream& operator <<(std::ostream &os, const Matrix& Matrix);
 };
 
-class sub{
+class sub
+{
 	private:
 		int i_;
 		int j_;
 		int N_;
 		int M_;
 		Matrix *matr_;
-
 	public:
-		sub(matr, i, j, N, M);
+		sub(Matrix *matr, int i, int j, int N, int M);
 		~sub();
-		double GetElem(int row, int coloumn);
+		double GetElem(int row, int coloumn) const;
 };
 
 class Error
 {
 	private:
-		int EC_; //EC = Error_Code
+		int EC_;
 		std::string reason_;
-
 	public:
-		Error(int EC, const std::string reason) : EC_(EC), reason_(reason) {}
-		std::string reason() const
+		Error(int EC, std::string reason) : EC_(EC), reason_(reason) {}
+		std::string reason() const 
 		{
 			return reason_;
 		}
-		int EC() const
+		int code() const
 		{
 			return EC_;
 		}
