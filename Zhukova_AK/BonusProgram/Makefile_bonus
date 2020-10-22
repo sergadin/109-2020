@@ -1,0 +1,2 @@
+bonus_program: bonus_program_main.cpp bonus_program.h bonus_program.cpp
+	g++ -o bonus_program bonus_program_main.cpp bonus_program.cpp
