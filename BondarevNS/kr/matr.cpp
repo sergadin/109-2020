@@ -111,9 +111,9 @@ podmatr::podmatr(matr *pod_,int i_, int j_,int N,int M)
 	{
 		throw Exception(3, "ошибка: неверный индекс");
 	}
-	if ((N+i_>pod_->get_height())||(M+j_>pod_->get_length())||(N<1)||(M<1))
+	if ((N+i_-1>pod_->get_height())||(M+j_-1>pod_->get_length())||(N<1)||(M<1))
 	{
-		throw Exception(5, "ошибка: неверный размер подматрицыy");
+		throw Exception(5, "ошибка: неверный размер подматрицы");
 	}
 	i=i_;
 	j=j_;
