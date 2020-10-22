@@ -8,7 +8,7 @@
 
 PortrPart::PortrPart (const std::string& NameOfProgr, int SizeOfMasKat){
 	int i = 0;
-	if (SizeOfMasKat < 0){
+	if (SizeOfMasKat < 0 || SizeOfMasKat == 0){
 		throw Error(-1, std::string("Размер не может быть отрицательным"));
 	}
 		
@@ -18,9 +18,10 @@ PortrPart::PortrPart (const std::string& NameOfProgr, int SizeOfMasKat){
 	
 	SizeOfMasKat_ = SizeOfMasKat;
 	
-	for (i = 0; i < SizeOfMasKat; i++)
+	for (i = 0; i < SizeOfMasKat; i++){
 		MasofOperInKat_[i] = 0;
 		MasofSumInEvKat_[i] = 0;
+	}
 }
 
 PortrPart::~PortrPart(){
@@ -31,7 +32,7 @@ PortrPart::~PortrPart(){
 void PortrPart::SpendMoney(int InWhatKat, double HowMuch){
 	if (InWhatKat >= SizeOfMasKat_){
 		printf("Такой категории нет");
-		throw (-3, "Такой категории нет");
+		throw Error(-3, std::string("Такой категории нет"));
 	}
 	MasofOperInKat_[InWhatKat] +=1;
 	MasofSumInEvKat_[InWhatKat] +=HowMuch;
@@ -56,8 +57,8 @@ void Check(const PortrPart &Par1, const PortrPart &Par2){
 }
 
 	
-operator == (const PortrPart &Par1, const PortrPart &Par2){
-	int Sum1 = 0, Sum2 = 0; 
+bool operator <= (const PortrPart &Par1, const PortrPart &Par2){
+	double Sum1 = 0, Sum2 = 0; 
 	//if (strcmp((const char*)(Par1.NameOfProgr_), (const char*)(Par2.NameOfProgr_)) == 0){
 	/*std::cout << "---------------------------------" << std::endl; 
 	std::cout << Par1.NameOfProgr_<< std::endl; 
@@ -71,28 +72,32 @@ operator == (const PortrPart &Par1, const PortrPart &Par2){
 		}
 		if (Sum1 < Sum2){
 			printf("Второй лояльнее\n");
+			return true;
 		}
 		
-		if (Sum1 == Sum2){
+		if (Sum1 <= Sum2 && Sum1 >=Sum2){
 			printf("Их лояльность одинаковая\n");
+			return true;
 		}
 		
 		if (Sum1 > Sum2){
 			printf("Первый лояльнее\n");
+			return false;
 		}
 	}
 	else{	
 		printf("Не тех сравниваете\n");
 		throw Error (-2, std::string("Не тех сравниваете"));
+		return false;
 	}
 }
 	
 std::ostream & operator<<(std::ostream &os, const PortrPart &Par)
 {
-	if (Par.MasofOperInKat_ == nullptr || Par.MasofSumInEvKat_ == nullptr){
+	/*if (Par.MasofOperInKat_ == nullptr || Par.MasofSumInEvKat_ == nullptr){
 		throw(-3, std::string("Такого человека уже нет, а может и не было"));
 	}
-
+*/
 	os << "Количество категорий " << Par.SizeOfMasKat_ << "  Количество операций в каждой категории и количество денег \n";
 	for(int i = 0; i < Par.SizeOfMasKat_; i ++)
 	{
