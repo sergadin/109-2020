@@ -32,9 +32,9 @@ class podmatr
 		matr *pod;
 		
 	public:
-		podmatr(matr *pod_,int i_,int j_,int n_,int m_);
+		podmatr(matr *pod_,int i_,int j_,int N,int M);
 		~podmatr();
-		double get_element(int n_, int m_) const;
+		double get_element(int N, int M) const;
 };
 
 class Exception 

@@ -104,20 +104,20 @@ std::ostream& operator<<(std::ostream &os, const matr& Q)
 }
 
 
-podmatr::podmatr(matr *pod_,int i_, int j_,int n_,int m_)
+podmatr::podmatr(matr *pod_,int i_, int j_,int N,int M)
 {
 	if((i_>pod->get_height())||(j_>pod->get_length())||(i_<1)||(j_<1))
 	{
 		throw Exception(3, "ошибка: неверный индекс");
 	}
-	if ((n_+i_>pod->get_height())||(m_+j_>pod->get_length())||(n_<1)||(m_<1))
+	if ((N+i_>pod->get_height())||(M+j_>pod->get_length())||(N<1)||(M<1))
 	{
 		throw Exception(5, "ошибка: неверный размер подматрицы");
 	}
 	i=i_;
 	j=j_;
-	n1=n_;
-	m1=m_;
+	n1=N;
+	m1=M;
 	pod=pod_;
 }
 
@@ -129,11 +129,11 @@ podmatr::~podmatr()
 	m1 = 0;
 }
 
-double podmatr::get_element(int n_, int m_) const
+double podmatr::get_element(int N, int M) const
 {
-	if((n_>n1)||(m_>m1)||(n_<1)||(m_<1))
+	if((N>n1)||(M>m1)||(N<1)||(M<1))
 	{
 		throw Exception(3, "ошибка: неверный индекс");
 	}
-	return pod ->get_element(i+n_-1, j+m_-1);
+	return pod ->get_element(i+N-1, j+M-1);
 }
