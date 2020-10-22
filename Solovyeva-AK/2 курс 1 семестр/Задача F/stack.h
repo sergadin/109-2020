@@ -8,25 +8,42 @@ typedef struct list{
     int data;
 } list;
 
-
+template<typename T>
 class stack {
     private:
-        list *head;
-        
+        stack *next;
+        T data;
     public:
+    
+        class Iterator{
+            private:
+                T *current;
+            public:
+                Iterator();
+                Iterator (Iterator &other);
+                T& operator +(int n);
+                T& operator -(int n);
+                T& operator ++();
+                T& operator --();
+                bool operator !=(const Iterator &it);
+                bool operator ==(const Iterator &it);
+                T& operator *();
+        }
+        Iterator begin();
+        Iterator end();
+        
         stack();
         stack(int elem);
         stack(const stack &other);
+        ~stack();
         void operator =(const stack &other);
-        bool operator ==(const IntSet &other);
+        bool operator ==(const stack &other) const;
         stack operator +(const stack &other);
-        void SortStack();//точно ли нужна функция сортировки для стека?
         void print() const;
         int checkVoid() const;
         void push(int n);
         double pop();
         void clean();
-        ~stack();
 };
 
 class UserException {
