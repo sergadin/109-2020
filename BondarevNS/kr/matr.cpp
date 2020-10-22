@@ -5,7 +5,7 @@ matr::matr(int n, int m)
 	array_ = new double[n*m];
 	n_ = n;
 	m_ = m;
-	for(int i=0, i<n*m, ++i)
+	for(int i=0; i<n*m; i++)
 		{
 			array_[i] = 0;
 		}
@@ -64,14 +64,14 @@ matr& matr::operator+(const matr &right)
 
 void matr::set_element(double C, int i, int j)
 {
-	this->elements_[(i-1)*m_+j-1] = C;
+	this->array_[(i-1)*m_+j-1] = C;
 }
 
 
 std::ostream& operator<<(std::ostream &os, const matr& Q)
 {
 	os << "size: " <<Q.n_<< "*" << Q.m_ << endl;
-	for(int i=0, i<Q.n_*Q.m_, i++)
+	for(int i=0; i<Q.n_*Q.m_; i++)
 	{
 		os <<Q.array_[i]<<" ";
 		if(i%Q.m_ == Q.m_ - 1)
