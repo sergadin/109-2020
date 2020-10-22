@@ -4,14 +4,14 @@ matr::matr(int n, int m)
 {
 		if ((n<=0)||(m<=0))
 	{
-		throw Exception(2, "Invalid inputs");
+		throw Exception(2, "ошибка: неверный ввод");
 	}
 	if( !(array_ = new double[n*m]))
 	{
-		throw Exception(1, "Memory allocation error");
+		throw Exception(1, "ошибка: выделение памяти");
 	}
 	
-	array_ = new double[n*m];
+
 	n_ = n;
 	m_ = m;
 	for(int i=0; i<n*m; i++)
@@ -35,7 +35,7 @@ matr& matr::operator=(const matr &other)
 	delete[] array_;
 		if(!(this->array_ = new double[n_*m_]))
 	{
-		throw Exception(1, "Memory allocation error");
+		throw Exception(1, "ошибкаЖ выделение памяти");
 	}
 	for(int i=0; i<n_*m_; ++i)
 	{
@@ -45,12 +45,12 @@ matr& matr::operator=(const matr &other)
 
 int matr::get_height() const
 {
-return this->n_;
+	return this->n_;
 }
 
 int matr::get_length() const
 {
-return this->m_;
+	return this->m_;
 }
 
 double matr::get_element(int i, int j) const
@@ -58,7 +58,7 @@ double matr::get_element(int i, int j) const
 	
    if((i>n_)||(j>m_)||(i<1)||(j<1))
 	{
-		throw Exception(3, "Incorrect element index");
+		throw Exception(3, "ошибка: неверный индекс");
 	}
 	return array_[(i-1)*m_+j-1];
   	
@@ -68,7 +68,7 @@ matr matr::operator+(const matr &right)
 {
 	if ((this->n_!=right.n_)||(this->m_!=right.m_))
 	{
-		throw Exception(4, "Matrices have different sizes");
+		throw Exception(4, "ошибка: разные размеры");
 	}
 	matr res_matr(1,1);
 	res_matr = *this;
@@ -83,7 +83,7 @@ void matr::set_element(double C, int i, int j)
 {
 	if((i>n_)||(j>m_)||(i<1)||(j<1))
 	{
-		throw Exception(3, "Incorrect element index");
+		throw Exception(3, "ошибка: неверный индекс");
 	}
 		array_[(i-1)*m_+j-1] = C;
 }
@@ -108,11 +108,11 @@ podmatr::podmatr(matr *pod_,int i_, int j_,int n_,int m_)
 {
 	if((i_>pod->get_height())||(j_>pod->get_length())||(i_<1)||(j_<1))
 	{
-		throw Exception(3, "Incorrect element index");
+		throw Exception(3, "ошибка: неверный индекс");
 	}
 	if ((n_+i_>pod->get_height())||(m_+j_>pod->get_length())||(n_<1)||(m_<1))
 	{
-		throw Exception(5, "Incorrect submatrix size input");
+		throw Exception(5, "ошибка: неверный размер подматрицы");
 	}
 	i=i_;
 	j=j_;
@@ -133,7 +133,7 @@ double podmatr::get_element(int n_, int m_) const
 {
 	if((n_>n1)||(m_>m1)||(n_<1)||(m_<1))
 	{
-		throw Exception(3, "Incorrect element index");
+		throw Exception(3, "ошибка: неверный индекс");
 	}
 	return pod ->get_element(i+n_-1, j+m_-1);
 }
