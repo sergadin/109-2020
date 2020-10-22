@@ -55,7 +55,7 @@ matr& matr::operator+(const matr &right)
 {
 	matr res_matr(1,1);
 	res_matr = *this;
-	for(int i = 0, i<n_*m_, i++)
+	for(int i = 0; i<n_*m_; i++)
 	{
 		res_matr.array_[i]+=right.array_[i];
 	}
@@ -83,7 +83,7 @@ std::ostream& operator<<(std::ostream &os, const matr& Q)
 }
 
 
-podmatr::podmatr(matr *pod, i, j, n, m)
+podmatr::podmatr(matr *pod,int i, int j,int n,int m)
 {
 	i=i_;
 	j=j_;
