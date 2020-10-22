@@ -172,7 +172,7 @@ BitIntSet operator*(const BitIntSet& A, const BitIntSet& B) {
 	}
 
 	BitIntSet product = A;	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&A); !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = A.start(); !I.at_end(); I.next()) {
 		if (!B.belongs(I.curr())) {
 			product.remove(I.curr());
 		}
@@ -195,7 +195,7 @@ BitIntSet operator+(const BitIntSet& A, const BitIntSet& B) {
 		sum.add(B.max());
 	}
 	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&B, 1); I.curr_index() < (B.len() - 1); I.next()) {
+	for (BitIntSet::iterator I = B.start(1); I.curr_index() < (B.len() - 1); I.next()) {
 		sum.add(I.curr());
 	}
 	return sum;
@@ -211,7 +211,7 @@ BitIntSet operator-(const BitIntSet& A, const BitIntSet& B) {
 		return diff;
 	}
 	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&B); !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = B.start(); !I.at_end(); I.next()) {
 		if (diff.belongs(I.curr())) {
 			diff.remove(I.curr());
 		}
@@ -225,7 +225,7 @@ BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
 	}
 	BitIntSet sym_diff = (A + B);
 	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&A); !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = A.start(); !I.at_end(); I.next()) {
 		if (B.belongs(I.curr())) {
 			sym_diff.remove(I.curr());
 		}
@@ -233,12 +233,11 @@ BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
 	return sym_diff;
 }
 
-int BitIntSet::get(int index) const {
-	BitIntSet::iterator I = BitIntSet::Iterator(this, index);
-	return I.curr();
+BitIntSet::iterator BitIntSet::start(int start_index, int step) const {
+	return iterator(this, start_index, step);
 }
 
-int BitIntSet::operator[](int index) const {
+int BitIntSet::get(int index) const {
 	if (len_ == 0) {
 		throw BitIntSetException(2, "Set is empty");
 	}
@@ -246,6 +245,11 @@ int BitIntSet::operator[](int index) const {
 		throw BitIntSetException(3, "Element doesn't exist");
 	}
 
+	BitIntSet::iterator I(this, index);
+	return I.curr();
+}
+
+int BitIntSet::operator[](int index) const {
 	return this->get(index);
 }
 
@@ -277,7 +281,7 @@ BitIntSet& BitIntSet::operator+=(const BitIntSet& B) {
 		this->add(B.max());
 	}
 	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&B, 1); I.curr_index() < B.len() - 1; I.next()) {
+	for (BitIntSet::iterator I = B.start(1); I.curr_index() < B.len() - 1; I.next()) {
 		this->add(I.curr());
 	}
 
@@ -293,7 +297,7 @@ BitIntSet& BitIntSet::operator-=(const BitIntSet& B) {
 		return *this;
 	}
 	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&B); !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = B.start(); !I.at_end(); I.next()) {
 		if (this->belongs(I.curr())) {
 			this->remove(I.curr());
 		}
@@ -320,7 +324,7 @@ bool operator<=(const BitIntSet& A, const BitIntSet& B) {
 		return false;
 	}
 	
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&A); !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = A.start(); !I.at_end(); I.next()) {
 		if (!B.belongs(I.curr())) {
 			return false;
 		}
@@ -333,7 +337,7 @@ bool operator==(const BitIntSet& A, const BitIntSet& B) {
 		return false;
 	}
 
-	for (BitIntSet::iterator iter_A = BitIntSet::Iterator(&A), iter_B = BitIntSet::Iterator(&B); !iter_A.at_end(); iter_A.next(), iter_B.next()) {
+	for (BitIntSet::iterator iter_A = A.start(), iter_B = B.start(); !iter_A.at_end(); iter_A.next(), iter_B.next()) {
 		if (iter_A.curr() != iter_B.curr()) {
 			return false;
 		}
@@ -343,7 +347,7 @@ bool operator==(const BitIntSet& A, const BitIntSet& B) {
 
 ostream& operator<<(ostream& os, const BitIntSet& set) {	
 	os << "{";
-	for (BitIntSet::iterator I = BitIntSet::Iterator(&set); !I.at_end(); I.next()) {
+	for (BitIntSet::iterator I = set.start(); !I.at_end(); I.next()) {
 		os << I.curr();
 		if (I.curr_index() < set.len() - 1) {
 			os << ", ";

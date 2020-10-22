@@ -20,23 +20,22 @@ class BitIntSet {
 
 				// Шаг итератора
 				int step_;
-	
-	  		      	// Запрет на использование извне конструктора без параметров
-  			      	Iterator();
-			public:
-				// Объявление класса BitIntSet дружественным
-				friend class BitIntSet;
 
 				// Конструкторы
+
 				// Получает на вход указатель на итерируемое множество, 
 				// индекс, с которого нужно начинать обход (по умолчанию обход начинается 
 				// с первого элемента множества) и шаг (по умолчанию равен 1)
 				// Если шаг равен 0, или индекс начала обхода превосходит мощность множества, 
 				// вызывается исключение
-				Iterator(const BitIntSet* parent_set, int start_index = 0, int step = 1);
+				Iterator(const BitIntSet* parent_set, int start_index = 0, int step = 1);	
+			public:
+				// Объявление класса BitIntSet дружественным
+				friend class BitIntSet;
+
 				// Конструктор копирования
 				Iterator(const Iterator& iter);
-
+	
 				// Деструктор
 				~Iterator();
 
@@ -64,6 +63,15 @@ class BitIntSet {
   			      	// Проверки итератора на регулярность (выход влево/вправо за границы множества)
   		      		bool at_begin() const { return curr_index_ < 0; }
   			      	bool at_end() const { return curr_index_ >= parent_set_->len_; }
+
+				friend BitIntSet operator*(const BitIntSet& A, const BitIntSet& B);
+				friend BitIntSet operator+(const BitIntSet& A, const BitIntSet& B);
+				friend BitIntSet operator-(const BitIntSet& A, const BitIntSet& B);
+				friend BitIntSet operator^(const BitIntSet& A, const BitIntSet& B);
+				friend bool operator<=(const BitIntSet& A, const BitIntSet& B);
+				friend bool operator==(const BitIntSet& A, const BitIntSet& B);
+				friend std::ostream& operator<<(std::ostream& os, const BitIntSet& set);
+
 		};
 		typedef typename BitIntSet::Iterator iterator;
 	private:
@@ -137,6 +145,8 @@ class BitIntSet {
 		// Получение границ диапазона множества
 		int left() const { return inf_; }
 		int right() const { return sup_; }
+
+		iterator start(int start_index = 0, int step = 1) const;
 
 		// Получение элемента с порядковым номером index, если упорядочить множество по возрастанию
 		// Перегруженный оператор взятия индекса является псевдонимом метода get
