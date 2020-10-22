@@ -165,15 +165,14 @@ int main(void) {
 	cout << "M Δ Ν = ";
 
 	// Ninth test (iterator)
-	BitIntSet::iterator SD_Iterator = SD.start(SD.len(), -1);
+	BitIntSet::iterator SD_Iterator = SD.start(SD.len() - 1, -1);
 	BitIntSet::iterator SD_Iterator_copy = SD_Iterator;
 
 	SD_Iterator.begin();
 	SD_Iterator.next();
 	SD_Iterator_copy = SD_Iterator_copy;
-
-	cout << "M Δ Ν (reversed): {";
-	for (SD_Iterator_copy.prev(); !SD_Iterator_copy.at_begin(); SD_Iterator_copy.next_step()) {
+	
+	for (cout << "M Δ Ν (reversed): {"; !SD_Iterator_copy.at_begin(); SD_Iterator_copy.prev()) {
 		cout << SD_Iterator_copy.curr() << ((SD_Iterator_copy.curr_index() > 0) ? ", " : "");
 	}
 	cout << "}" << endl;

@@ -410,7 +410,9 @@ int BitIntSet::Iterator::next() {
 	int start_block = start_position / INT_CARDINALITY;
 
 	for (int i = start_block; i < parent_set_->size_; i++) {
-		if (parent_set_->list_[i] == 0) continue;
+		if (parent_set_->list_[i] == 0) {
+			continue;
+		}
 		
 		unsigned int bit_mask = 1 << (INT_CARDINALITY - 1);
 		for (int k = 0; k < INT_CARDINALITY; k++) {
@@ -450,7 +452,7 @@ int BitIntSet::Iterator::prev() {
 				bit_mask <<= 1;
 				continue;
 			}
-			if (((parent_set_->list_[i] & bit_mask) ^ bit_mask) == 0) {
+			if (parent_set_->list_[i] & bit_mask) {
 				curr_position_ = parent_set_->list_start_ + i * INT_CARDINALITY + k;
 				--curr_index_;
 				return curr_position_;
