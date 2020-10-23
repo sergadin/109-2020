@@ -8,6 +8,7 @@ int main()
 	matr A(2, 3);
 	matr B(2, 3);
 	matr C(2, 3);
+	matr E(4, 4);
 	for(int i = 1; i<3; ++i)
 	{
 		A.set_element(i, i, 1);
@@ -21,6 +22,8 @@ int main()
 	C = B+A;
 	cout << C;
 	cout << A+B+C;
+	E=A.get_podmatr(1, 1, 2, 2);
+    cout << E ;
 	podmatr D(&A, 1,1,2,2);
 	cout << D.get_element(1,1) << " "<< D.get_element(1,2) << endl;
 	cout << D.get_element(2,1) << " "<< D.get_element(2,2) << endl;

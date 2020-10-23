@@ -88,7 +88,18 @@ void matr::set_element(double C, int i, int j)
 	}
 		array_[(i-1)*m_+j-1] = C;
 }
-
+matr matr::get_podmatr(int i1, int j1, int n, int m)
+{
+	matr A(n,m);
+    for (int i=1; i<n+1; i++)
+    {
+        for (int j=1; j<m+1; j++)
+        {
+            A.set_element(this->get_element(i1+i-1, j1+j-1), i, j);
+        }
+    }
+	return A;
+}
 
 std::ostream& operator<<(std::ostream &os, const matr& Q)
 {
