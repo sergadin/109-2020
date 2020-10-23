@@ -3,16 +3,14 @@
 #include <math.h>
 using namespace std;
 
-typedef struct list{
-    list *next;
-    int data;
-} list;
-
 template<typename T>
 class stack {
     private:
-        stack *next;
-        T data;
+        typedef struct list{
+            list *next;
+            T data;
+        } list;
+        list *head;
     public:
     
         class Iterator{
@@ -33,16 +31,16 @@ class stack {
         Iterator end();
         
         stack();
-        stack(int elem);
+        stack(T elem);
         stack(const stack &other);
         ~stack();
         void operator =(const stack &other);
         bool operator ==(const stack &other) const;
         stack operator +(const stack &other);
         void print() const;
-        int checkVoid() const;
-        void push(int n);
-        double pop();
+        bool checkVoid() const;
+        void push(T n);
+        T pop();
         void clean();
 };
 
