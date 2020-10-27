@@ -1,16 +1,18 @@
 #include <string>
 #include <cstdio>
 #include <math.h>
-using namespace std;
+
+template<typename T>
+struct list{
+    list<T> *next;
+    T data;
+}
+
 
 template<typename T>
 class stack {
     private:
-        typedef struct list{
-            list *next;
-            T data;
-        } list;
-        list *head;
+        list<T> *topElem;
     public:
     
         class Iterator{
@@ -19,10 +21,10 @@ class stack {
             public:
                 Iterator();
                 Iterator (Iterator &other);
-                T& operator +(int n);
-                T& operator -(int n);
-                T& operator ++();
-                T& operator --();
+                Iterator& operator +(int n);
+                Iterator& operator -(int n);
+                Iterator& operator ++();
+                Iterator& operator --();
                 bool operator !=(const Iterator &it);
                 bool operator ==(const Iterator &it);
                 T& operator *();
