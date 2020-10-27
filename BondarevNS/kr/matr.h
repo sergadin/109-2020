@@ -20,6 +20,7 @@ class matr
 	void set_element (double C, int i, int j);
 	matr operator+(const matr &right);
     friend std::ostream& operator<<(std::ostream &os, const matr& Q);
+     matr get_podmatr(int i, int j, int n, int m);
 };
 
 class podmatr 
