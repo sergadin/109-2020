@@ -47,6 +47,7 @@ public:
 	void print(const Matrix &m); 
 	// печать матрицы
 
+	void get_submatrix(int i0, int j0, int ns, int ms); // взятие подматрицы
 };
 
 class SubM {
@@ -60,7 +61,7 @@ public:
 	SubM(Matrix *m, int i_corner, int j_corner, int n_sub, int m_sub);
 	int GetElem(int row, int coloumn);
 //	~SubM();
-	//friend void get_submatrix(const SubM &subm, int *matrix); // взятие подматрицы
+	//void get_submatrix(Matrix *matrix, int i0, int j0, int ns, int ms); // взятие подматрицы
 };	
 
 
