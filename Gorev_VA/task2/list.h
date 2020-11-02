@@ -16,25 +16,26 @@ class list
 			prev_ = 0;
 			next_ = 0;
 		}
-		void deletelist(list <T> L)
+		/*void deletelist(list <T> L)
 		{
-			if (L->next_ == 0)
-				cout << "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n"
-			/*while (L->prev_ != 0)
+			while (L->prev_ != 0)
 			{
 				L = L->prev_;
 				delete (L->next_)->prev_;
 				delete L->next_;
-			}*/
-		}
+			}
+		}*/
 		~list()
 		{
-			cout << "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n"
-			deletelist(*this);
+			//cout << "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n"
+			//deletelist(*this);
+			if (next_ != 0)
+				delete next_;
+			if (prev_ != 0)
+				delete prev_;
 		}
 		list <T> put_item(const T item)
 		{
-			//A = new list <int>(item);
 			list *p = new list <int>(val_);
 			p->prev_ = prev_;
 			p->next_ = this;
