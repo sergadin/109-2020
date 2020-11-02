@@ -18,8 +18,8 @@ public:
 	}
 	friend void deletenode(node <T> *L)
 	{
-		while (L->next_ != 0)
-			L = L->next_;
+		if (L->next_ != 0)
+			L->next_->prev_ = 0;
 		while (L->prev_ != 0)
 		{
 			L = L->prev_;
@@ -42,15 +42,22 @@ public:
 	{
 		return val_;
 	}
+
+	bool &operator==(const node <T> &L)
+	{
+		if ((val_ == L.val_) && (next_ == L.next_) && (prev_ == L.prev_))
+			return 1;
+		return 0;
+	}
 	node <T> &operator=(const node <T> &L)
 	{
 		val_ = L.val_;
-		prev_ = L.prev_;
-		next_ = L.next_;
+		next_ = 0;
+		prev_ = 0;
 		if (prev_ != 0)
 		{
-			node <T> *P = new node <T>(0);
-			*P = *(L.prev_);
+			prev_ = new node <T>(0);
+			*prev_ = *(L.prev_);
 		}
 		return *this;
 	}
