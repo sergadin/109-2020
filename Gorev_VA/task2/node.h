@@ -42,6 +42,20 @@ public:
 	{
 		return val_;
 	}
+	node <T> *del_item()
+	{
+		if (prev_ = 0)
+		{
+			delete this;
+			return 0;
+		}
+		val_ = prev_->val_;
+		if (prev_->prev_ != 0)
+			prev_ = prev_->prev_;
+		delete prev_->next_;
+		prev_->next_ = this;
+		return this;
+	}
 
 	bool &operator==(const node <T> &L) const
 	{

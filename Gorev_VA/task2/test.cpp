@@ -5,7 +5,7 @@ int main(void)
 {
 	int item = 1;
 	node <int> *L = new node <int>(1);
-	L->put_item(2);
+	/*L->put_item(2);
 	L->put_item(3);
 	L->put_item(4);
 	L->put_item(5);
@@ -15,9 +15,17 @@ int main(void)
 	node <int> *N = new node <int>(0);
 	*N = *L;
 	std::cout << N->get_item() << "\n";
+
 	deletenode(L);
 	if (N != 0)
-		deletenode(N);
+		deletenode(N);*/
+	L->del_item();
+	if (L == 0)
+		std::cout << "L = 0\n";
+	else
+		std::cout << "L != 0\n";
+	if (L != 0)
+		delete(L);
 	return 0;
 }
 
