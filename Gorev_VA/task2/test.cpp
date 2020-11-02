@@ -12,8 +12,11 @@ int main(void)
 
 	std::cout << L->get_item() << "\n";
 
+	node <int> *N = new node <int>(0);
+	*N = *L;
+	std::cout << N->get_item() << "\n";
 	deletenode(L);
-
+	deletenode(N);
 	return 0;
 }
 

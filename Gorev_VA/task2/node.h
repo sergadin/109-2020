@@ -42,7 +42,20 @@ public:
 	{
 		return val_;
 	}
-
+	node <T> &operator=(const node <T> &L)
+	{
+		val_ = 1;
+		prev_ = L.prev_;
+		next_ = L.next_;
+		return *this;
+	}
+	/*friend node <T> *operator-(const node <T> *L)
+	{
+		node <T> *N = new node <T>(L->val_);
+		node <T> *L1;
+		N->prev_ = L->next_;
+		N->next_ = L->prev_;
+	}*/
 };
 
 
