@@ -53,13 +53,13 @@ public:
 		std::cout << "this = " << this << "\n";
 		std::cout << "val_ = " << val_ << "\n";
 		std::cout << "prev_ = " << prev_ << "\n";
-		std::cout << "next_ = " << next_ << "\n";
+		std::cout << "next_ = " << next_ << "\n\n";
 
 		std::cout << "prev_:\n";
 		std::cout << "this = " << prev_ << "\n";
 		std::cout << "val_ = " << prev_->val_ << "\n";
 		std::cout << "prev_ = " << prev_->prev_ << "\n";
-		std::cout << "next_ = " << prev_->next_ << "\n";
+		std::cout << "next_ = " << prev_->next_ << "\n\n";
 
 		return this;
 	}
