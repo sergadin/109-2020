@@ -29,6 +29,7 @@ class list
 		}
 		~list()
 		{
+			cout << "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n"
 			deletelist(*this);
 		}
 		list <T> put_item(const T item)
