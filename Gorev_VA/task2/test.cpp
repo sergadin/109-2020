@@ -6,7 +6,7 @@ int main(void)
     int item = 1;
     list <int> L(1);
     item = 2;
-    L.put_item(item);
+    //L.put_item(item);
     
     return 0;
 }
