@@ -21,22 +21,25 @@ public:
 		if (L->next_ == 0)
 			std::cout << "L->next_ = 0\n";
 		else
-			std::cout << "L->next_ != 0";
+			std::cout << "L->next_ != 0\n";
 		while (L->prev_ != 0)
 		{
+			std::cout << L->val_ << " UUU ";
 			L = L->prev_;
-			delete (L->next_)->prev_;
+			std::cout << L->val_ << "\n";
 			delete L->next_;
+			std::cout << "L->next_ deleted\n";
 		}
+
 	}
 	~list()
 	{
 		deletelist(this);
 	}
-	list <T> put_item(const T item)
+	list <T> *put_item(const T item)
 	{
 		std::cout << "NO\n\n\n";
-		list *p = new list <T>(val_);
+		list <T> *p = new list <T>(val_);
 		std::cout << "YES\n\n\n";
 		p->prev_ = prev_;
 		p->next_ = this;
@@ -45,7 +48,20 @@ public:
 		prev_ = p;
 		val_ = item;
 		std::cout << "YES YES\n\n\n";
-		return *this;
+
+		std::cout << "this:\n";
+		std::cout << "this = " << this << "\n";
+		std::cout << "val_ = " << val_ << "\n";
+		std::cout << "prev_ = " << prev_ << "\n";
+		std::cout << "next_ = " << next_ << "\n";
+
+		std::cout << "prev_:\n";
+		std::cout << "this = " << prev_ << "\n";
+		std::cout << "val_ = " << prev_->val_ << "\n";
+		std::cout << "prev_ = " << prev_->prev_ << "\n";
+		std::cout << "next_ = " << prev_->next_ << "\n";
+
+		return this;
 	}
 };
 

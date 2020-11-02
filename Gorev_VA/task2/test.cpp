@@ -4,10 +4,10 @@
 int main(void)
 {
 	int item = 1;
-	list <int> L(1);
+	list <int> *L = new list <int>(1);
 	item = 2;
-	//deletelist(&L);
-	//L.put_item(item);
+	//deletelist(L);
+	L->put_item(item);
 
 	return 0;
 }
