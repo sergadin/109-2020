@@ -19,10 +19,10 @@ class list
 		~list()
 		{
 			val_ = 0;
-			if (next_ != 0)
-				delete[] next_;
-			if (prev_ != 0)
-				delete[] prev_;
+			//if (next_ != 0)
+			//	delete[] next_;
+			//if (prev_ != 0)
+			//	delete[] prev_;
 		}
 		/*list <T> put_item(const T item)
 		{
