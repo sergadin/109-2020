@@ -36,7 +36,9 @@ class list
 		}
 		list <T> put_item(const T item)
 		{
+			cout << "NO\n\n\n";
 			list *p = new list <T>(val_);
+			cout << "YES\n\n\n";
 			p->prev_ = prev_;
 			p->next_ = this;
 			if (prev_ != 0)
