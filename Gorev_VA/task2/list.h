@@ -36,7 +36,7 @@ class list
 		}
 		list <T> put_item(const T item)
 		{
-			list *p = new list <int>(val_);
+			list *p = new list <T>(val_);
 			p->prev_ = prev_;
 			p->next_ = this;
 			if (prev_ != 0)
