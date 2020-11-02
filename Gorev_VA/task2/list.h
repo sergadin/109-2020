@@ -4,50 +4,52 @@ template <class T>
 
 class list
 {
-	private:
-		T val_;
-		list *next_;
-		list *prev_;
-	public:
-		explicit list();
-		list(const T first_item)
+private:
+	T val_;
+	list *next_;
+	list *prev_;
+public:
+	explicit list();
+	list(const T first_item)
+	{
+		val_ = first_item;
+		prev_ = 0;
+		next_ = 0;
+	}
+	~list()
+	{
+		if (next_ != 0)
+			delete next_;
+		if (prev_ != 0)
+			delete prev_;
+	}
+	list <T> put_item(const T item)
+	{
+		std::cout << "NO\n\n\n";
+		list *p = new list <T>(val_);
+		std::cout << "YES\n\n\n";
+		p->prev_ = prev_;
+		p->next_ = this;
+		if (prev_ != 0)
+			prev_->next_ = p;
+		prev_ = p;
+		val_ = item;
+		std::cout << "YES YES\n\n\n";
+		return *this;
+	}
+	friend void deletelist(list <T> *L)
+	{
+		if (L->next_ == 0)
+			std::cout << "L->next_ = 0\n";
+		else
+			std::cout << "L->next_ != 0";
+		while (L->prev_ != 0)
 		{
-			val_ = first_item;
-			prev_ = 0;
-			next_ = 0;
+			L = L->prev_;
+			delete (L->next_)->prev_;
+			delete L->next_;
 		}
-		/*void deletelist(list <T> L)
-		{
-			while (L->prev_ != 0)
-			{
-				L = L->prev_;
-				delete (L->next_)->prev_;
-				delete L->next_;
-			}
-		}*/
-		~list()
-		{
-			//std::cout << "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n"
-			//deletelist(*this);
-			if (next_ != 0)
-				delete next_;
-			if (prev_ != 0)
-				delete prev_;
-		}
-		list <T> put_item(const T item)
-		{
-			std::cout << "NO\n\n\n";
-			list *p = new list <T>(val_);
-			std::cout << "YES\n\n\n";
-			p->prev_ = prev_;
-			p->next_ = this;
-			if (prev_ != 0)
-				prev_->next_ = p;
-			prev_ = p;
-			val_ = item;
-			return *this;
-		}
-
+	}
 };
 
 

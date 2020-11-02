@@ -3,12 +3,13 @@
 
 int main(void)
 {
-    int item = 1;
-    list <int> L(1);
-    item = 2;
-    L.put_item(item);
-    
-    return 0;
+	int item = 1;
+	list <int> L(1);
+	item = 2;
+	deletelist(&L);
+	//L.put_item(item);
+
+	return 0;
 }
 
 
