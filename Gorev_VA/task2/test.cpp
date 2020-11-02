@@ -17,6 +17,7 @@ int main(void)
 	std::cout << N->get_item() << "\n";
 	deletenode(L);
 	deletenode(N);
+	deletenode(N);
 	return 0;
 }
 
