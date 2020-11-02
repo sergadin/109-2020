@@ -18,7 +18,7 @@ class list
 		}
 		void deletelist(list <T> L)
 		{
-			if (L->next_ != 0)
+			if (L->next_ == 0)
 				cout << "NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n"
 			while (L->prev_ != 0)
 			{
