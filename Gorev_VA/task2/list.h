@@ -34,11 +34,14 @@ class list
 		}
 		list <T> put_item(const T item)
 		{
-			next_ = new list <int>(item);
-			next_->prev_ = this;
-			next_->next_ = 0;
-			this = next_;
-			return *next_;
+			//A = new list <int>(item);
+			list *p = new list <int>(val_);
+			p->next_ = this;
+			p->prev_ = prev_;
+			if (prev_ != 0)
+				prev_->next_ = p;
+			prev_ = p;
+			return *this;
 		}
 
 };
