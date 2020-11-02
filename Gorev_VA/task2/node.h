@@ -43,7 +43,7 @@ public:
 		return val_;
 	}
 
-	bool &operator==(const node <T> &L)
+	bool &operator==(const node <T> &L) const
 	{
 		if ((val_ == L.val_) && (next_ == L.next_) && (prev_ == L.prev_))
 			return 1;
@@ -60,6 +60,19 @@ public:
 			*prev_ = *(L.prev_);
 		}
 		return *this;
+	}
+	node <T> &operator+(const node <T> &L) const
+	{
+		node <T> *S = new node <T>(L.val_);
+		*S = L;
+		node <T> N(S->val_);
+		N.prev_ = S->prev_;
+		N.next_ = S->next_;
+		while (N.prev_ != 0)
+			&N = N.prev_;
+		N.prev_ = new node <T>(0);
+		*(N.prev_) = *this;
+		N.prev_->next_ = &N;
 	}
 	/*friend node <T> *operator-(const node <T> *L)
 	{
