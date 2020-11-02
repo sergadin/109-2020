@@ -27,14 +27,12 @@ public:
 			std::cout << L->val_ << " UUU ";
 			L = L->prev_;
 			std::cout << L->val_ << "\n";
+			std::cout << L->next_ << "\n";
 			delete L->next_;
 			std::cout << "L->next_ deleted\n";
-		}
 
-	}
-	~list()
-	{
-		deletelist(this);
+		}
+		delete L;
 	}
 	list <T> *put_item(const T item)
 	{
