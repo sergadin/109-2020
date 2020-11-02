@@ -1,14 +1,18 @@
 #include <iostream>
-#include "list.h"
+#include "node.h"
 
 int main(void)
 {
 	int item = 1;
-	list <int> *L = new list <int>(1);
-	//deletelist(L);
+	node <int> *L = new node <int>(1);
 	L->put_item(2);
 	L->put_item(3);
-	deletelist(L);
+	L->put_item(4);
+	L->put_item(5);
+
+	std::cout << L->get_item() << "\n";
+
+	deletenode(L);
 
 	return 0;
 }
