@@ -16,8 +16,8 @@ int main(void)
 	*N = *L;
 	std::cout << N->get_item() << "\n";
 	deletenode(L);
-	deletenode(N);
-	deletenode(N);
+	if (N != 0)
+		deletenode(N);
 	return 0;
 }
 
