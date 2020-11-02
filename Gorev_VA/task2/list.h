@@ -36,11 +36,12 @@ class list
 		{
 			//A = new list <int>(item);
 			list *p = new list <int>(val_);
-			p->next_ = this;
 			p->prev_ = prev_;
+			p->next_ = this;
 			if (prev_ != 0)
 				prev_->next_ = p;
 			prev_ = p;
+			val_ = item;
 			return *this;
 		}
 
