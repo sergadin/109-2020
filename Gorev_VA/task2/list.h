@@ -16,20 +16,18 @@ class list
 			prev_ = 0;
 			next_ = 0;
 		}
+		void deletelist(list <T> L)
+		{
+			while (L->prev_ != 0)
+			{
+				L = L->prev_;
+				delete (L->next_)->prev_;
+				delete L->next_;
+			}
+		}
 		~list()
 		{
-			val_ = 0;
-			if (next_ != 0)
-			{
-				delete[] next_;
-				cout << "next_ is free\n";
-			}
-				
-			if (prev_ != 0)
-			{
-				delete[] prev_;
-				cout << "prev_ is free\n";
-			}
+			deletelist(*this);
 		}
 		list <T> put_item(const T item)
 		{
