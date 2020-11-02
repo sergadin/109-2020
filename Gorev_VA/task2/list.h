@@ -37,6 +37,7 @@ class list
 			next_ = new list <int>(item);
 			next_->prev_ = this;
 			next_->next_ = 0;
+			this = next_;
 			return *next_;
 		}
 
