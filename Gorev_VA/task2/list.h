@@ -16,12 +16,22 @@ public:
 		prev_ = 0;
 		next_ = 0;
 	}
+	friend void deletelist(list <T> *L)
+	{
+		if (L->next_ == 0)
+			std::cout << "L->next_ = 0\n";
+		else
+			std::cout << "L->next_ != 0";
+		while (L->prev_ != 0)
+		{
+			L = L->prev_;
+			delete (L->next_)->prev_;
+			delete L->next_;
+		}
+	}
 	~list()
 	{
-		if (next_ != 0)
-			delete next_;
-		if (prev_ != 0)
-			delete prev_;
+		deletelist(this);
 	}
 	list <T> put_item(const T item)
 	{
@@ -36,19 +46,6 @@ public:
 		val_ = item;
 		std::cout << "YES YES\n\n\n";
 		return *this;
-	}
-	friend void deletelist(list <T> *L)
-	{
-		if (L->next_ == 0)
-			std::cout << "L->next_ = 0\n";
-		else
-			std::cout << "L->next_ != 0";
-		while (L->prev_ != 0)
-		{
-			L = L->prev_;
-			delete (L->next_)->prev_;
-			delete L->next_;
-		}
 	}
 };
 
