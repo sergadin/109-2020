@@ -20,9 +20,16 @@ class list
 		{
 			val_ = 0;
 			if (next_ != 0)
+			{
 				delete[] next_;
+				cout << "next_ is free\n";
+			}
+				
 			if (prev_ != 0)
+			{
 				delete[] prev_;
+				cout << "prev_ is free\n";
+			}
 		}
 		list <T> put_item(const T item)
 		{
