@@ -66,7 +66,7 @@ class StackList
 			}
 		}
 
-		void Del()// удаление вершины стека
+		void Del()// вынуть вершину стека
 		{
 			if (vershina == nullptr)
 			{
