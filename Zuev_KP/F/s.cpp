@@ -48,9 +48,8 @@ class StackList
 			vershina = p;
 		}
 
-		void Print(const char* o)// вывод стека
+		void Print()// вывод
 		{
-			cout << "Stack: " << o << endl;
 			if (vershina == nullptr)
 			{
 				throw StackListError(-1, std::string("empty"));
@@ -68,7 +67,7 @@ class StackList
 			}
 		}
 
-		void Del()// удаление вершины
+		void Del()// удаление вершины стека
 		{
 			if (vershina == nullptr)
 			{
@@ -82,14 +81,14 @@ class StackList
 			delete p;
 		}
 
-		StackList<T>& operator=(const StackList<T>& L)// копирование
+		StackList<T>& operator=(const StackList<T>& right)// копирование
 		{
 			Stack<T>* p;
 			Stack<T>* p1;
 			Stack<T>* t;
 			vershina = nullptr;
 			t = nullptr;
-			p = L.vershina;
+			p = right.vershina;
 			while (p != nullptr)
 			{
 				p1 = new Stack<T>;
@@ -120,23 +119,28 @@ int main()
 	S.Put(5);
 	S.Put(10);
 	S.Put(7);
-	S.Print("S");
+	cout << "S"<< endl;
+	S.Print();
 	
 	StackList<int> S1;
 	S1.Put(1);
 	S1.Put(2);
 	S1.Put(3);
-	S1.Print("S1");
+	cout << "S1"<< endl;
+	S1.Print();
 	
 	StackList<int> S5;
 	S5 = S;
-	S5.Print("S5");
+	cout << "S5"<< endl;
+	S5.Print();
 	
 	S.Del();
-	S.Print("S");
+	cout << "S"<< endl;
+	S.Print();
 
 	StackList<int> L;
-	L.Print("L");
+	cout << "L"<< endl;
+	L.Print();
 	}
 	catch(StackListError &err)
         {
