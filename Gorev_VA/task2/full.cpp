@@ -12,12 +12,29 @@ private:
 		node *next_;
 	};
 	node *base_; // "Empty" first element
+	node *last_;
 	node *current_;
 public:
 	list() // create empty list
 	{
-		base_ = current_ = 0;
+		last_ = base_ = current_ = 0;
 	}
+	/*list(const list <T> L)
+	{
+		node *N;
+		if (L.base_ == 0)
+			return L;
+		N = L.base_;
+		add_item(L.base_->val_);
+		if (L.base_ == L.current_)
+			current_ = base_;
+		N = N->next_;
+		while (N != 0)
+		{
+			node *new_element = new node;
+			
+		}
+	}*/
 	T get_current_item() const
 	{
 		return current_->val_;
@@ -28,17 +45,32 @@ public:
 	}
 	T get_last_item() const
 	{
-		node *N;
-		N = current_;
-		while (N->next_ != 0)
-			N = N->next_;
-		return N->val_;
+		return last_->val_;
 	}
 	bool is_empty() const
 	{
 		return (base_ == 0);
 	}
 	
+	int add_item(const T item) // add item to the beginning of the list
+	// return 1 if item - first created element
+	// return 0 if item - not first created element
+	{
+		if (base_ == 0)
+		{
+			last_ = base_ = current_ = new node;
+			current_->val_ = item;
+			current_->next_ = 0;
+			return 1;
+		}
+		
+		node *new_element = new node;
+		new_element->val_ = item;
+		new_element->next_ = 0;
+		last_->next_ = new_element;
+		last_ = new_element;
+		return 0;
+	}
 	int del_item() // delete item from the end of the list
 	// return 0 if list is empty
 	// return 1 if list is not empty
@@ -68,24 +100,6 @@ public:
 		}
 		delete N;
 		return 1;
-	}
-	int add_item(const T item) // add item to the beginning of the list
-	// return 1 if item - first created element
-	// return 0 if item - not first created element
-	{
-		if (base_ == 0)
-		{
-			base_ = current_ = new node;
-			current_->val_ = item;
-			current_->next_ = 0;
-			return 1;
-		}
-		
-		node *new_element = new node;
-		new_element->val_ = item;
-		new_element->next_ = base_;
-		base_ = new_element;
-		return 0;
 	}
 	
 	int deletelist() // return number of deleted elements
@@ -137,7 +151,7 @@ int main(void)
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "first element: " << L.get_first_item() << "\n";
 	
-	L.del_item();
+	/*L.del_item();
 	std::cout << "\n";
 	
 	std::cout << "L:\n";
@@ -150,7 +164,7 @@ int main(void)
 		std::cout << "M = L\n";
 	else
 		std::cout << "M != L\n";
-	
+	*/
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements: " << M.deletelist() << "\n";
