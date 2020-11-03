@@ -1,0 +1,117 @@
+#include <iostream>
+
+template <class T>
+
+class list
+{
+private:
+	class node
+	{
+	public:
+		T val_;
+		node *next_;
+	};
+	node *base_; // "Empty" first element
+	node *current_;
+public:
+	list() // create empty list
+	{
+		base_ = current_ = 0;
+	}
+	T get_current_item() const
+	{
+		return current_->val_;
+	}
+	T get_first_item() const
+	{
+		return base_->val_;
+	}
+	T get_last_item() const
+	{
+		node *N;
+		N = current_;
+		while (N->next_ != 0)
+			N = N->next_;
+		return N->val_;
+	}
+	
+	int del_item() // delete item from the end of the list
+	// return 0 if list is empty
+	// return 1 if list is not empty
+	// if current_ - last element, current_ moves 1 step to first element 
+	{
+		node *N;
+		if (base_ == 0)
+			return 0;
+			
+		N = current_;
+		while (N->next_ != 0)
+			N = N->next_;
+		// N become the last element
+		if (N == base_)
+		{
+			delete base_;
+			base_ = current_ = 0;
+			return 1;
+		}
+		
+		if (N == current_)
+		{
+			current_ = base_;
+			while (current_->next_ != N)
+				current_ = current_->next_;
+		}
+		delete N;
+		return 1;
+	}
+	int add_item(const T item) // add item to the beginning of the list
+	// return 1 if item - first created element
+	// return 0 if item - not first created element
+	{
+		if (base_ == 0)
+		{
+			base_ = current_ = new node;
+			current_->val_ = item;
+			current_->next_ = 0;
+			return 1;
+		}
+		
+		node *new_element = new node;
+		new_element->val_ = item;
+		new_element->next_ = base_;
+		base_ = new_element;
+		return 0;
+	}
+	
+	int deletelist() // return number of deleted elements
+	{
+		int N = 0;
+		if (base_ == 0)
+			return 0;
+		current_ = base_->next_;
+		delete base_;
+		base_ = current_;
+		return 1 + deletelist();
+	}
+};
+
+int main(void)
+{
+	list <int> L;
+	L.add_item(1);
+	L.add_item(2);
+	L.add_item(3);
+	std::cout << "current element: " << L.get_current_item() << "\n";
+	std::cout << "last element: " << L.get_last_item() << "\n";
+	std::cout << "first element: " << L.get_first_item() << "\n";
+	
+	L.del_item();
+	std::cout << "\n";
+	
+	std::cout << "current element: " << L.get_current_item() << "\n";
+	std::cout << "last element: " << L.get_last_item() << "\n";
+	std::cout << "first element: " << L.get_first_item() << "\n";
+	
+	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	return 0;
+}
