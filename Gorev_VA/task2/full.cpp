@@ -52,7 +52,7 @@ public:
 		return (base_ == 0);
 	}
 	
-	int add_item(const T item) // add item to the beginning of the list
+	int add_item(const T item) // add item to the end of the list
 	// return 1 if item - first created element
 	// return 0 if item - not first created element
 	{
@@ -76,29 +76,21 @@ public:
 	// return 1 if list is not empty
 	// if current_ - last element, current_ moves 1 step to first element 
 	{
-		node *N;
+		node *new_base;
 		if (base_ == 0)
 			return 0;
-			
-		N = current_;
-		while (N->next_ != 0)
-			N = N->next_;
-		// N become the last element
-		if (N == base_)
+		new_base = base_->next_;
+		if (last_ == base_)
+			last_ = 0;
+		if (current_ == base_)
 		{
+			current_ = new_base;
 			delete base_;
-			base_ = current_ = 0;
-			return 1;
+			base_ = new_base;
+			return 2;
 		}
-		
-		if (N == current_)
-		{
-			current_ = base_;
-			while (current_->next_ != N)
-				current_ = current_->next_;
-			current_->next_ = 0;
-		}
-		delete N;
+		delete base_;
+		base_ = new_base;
 		return 1;
 	}
 	
@@ -151,7 +143,7 @@ int main(void)
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "first element: " << L.get_first_item() << "\n";
 	
-	/*L.del_item();
+	L.del_item();
 	std::cout << "\n";
 	
 	std::cout << "L:\n";
@@ -164,7 +156,7 @@ int main(void)
 		std::cout << "M = L\n";
 	else
 		std::cout << "M != L\n";
-	*/
+	
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements: " << M.deletelist() << "\n";
