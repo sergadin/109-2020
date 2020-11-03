@@ -32,7 +32,6 @@ class StackList
 {
 	private:
 		Stack<T>* vershina;
-
 	public:
 		StackList() 
 		{ 
