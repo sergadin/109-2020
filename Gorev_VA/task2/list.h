@@ -39,4 +39,14 @@ public:
 			base_->next_ = new_element;
 		}
 	}
+	int deletelist() // return number of deleted elements
+	{
+		int N = 0;
+		if (base_ == 0)
+			return 0;
+		current_ = base_->next_;
+		delete base_;
+		base_ = current_;
+		return 1 + deletelist();
+	}
 };

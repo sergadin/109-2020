@@ -7,6 +7,7 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	std::cout << L.get_current_item() << "\n";
+	std::cout << L.deletelist() << "\n";
 	return 0;
 }
 
