@@ -82,23 +82,22 @@ class StackList
 			delete p;
 		}
 
-		StackList<T>& operator=(const StackList<T>& LS)// оператор копирования
+		StackList<T>& operator=(const StackList<T>& L)// копирование
 		{
-			Stack<T>* p; // дополнительный указатель
-			Stack<T>* p2;
-			Stack<T>* p3;
+			Stack<T>* p;
+			Stack<T>* p1;
+			Stack<T>* t;
 
-			// Инициализировать pTop
 			vershina = nullptr;
-			p3 = nullptr;
+			t = nullptr;
 
-			p = LS.vershina; // указатель p двигается по списку SL.pTop->...
+			p = L.vershina;
 			while (p != nullptr)
 			{
-				// 1. Сформировать узел p2
+				// 1. Сформировать узел p1
 				try {
 					// попытка выделить память
-					p2 = new Stack<T>;
+					p1 = new Stack<T>;
 				}
 				catch (bad_alloc e)
 				{
@@ -106,19 +105,19 @@ class StackList
 					cout << e.what() << endl;
 					return *this;
 				}
-				p2->item = p->item;
-				p2->next = nullptr;
+				p1->item = p->item;
+				p1->next = nullptr;
 
 				// 2. pTop = pTop + p2
 				if (vershina == nullptr) // создать стек
 				{
-					vershina = p2;
-					p3 = p2;
+					vershina = p1;
+					t = p1;
 				}
 				else
 				{
-					p3->next = p2;
-					p3 = p3->next;
+					t->next = p1;
+					t = t->next;
 				}
 
 				// 3. Перейти на следующий элемент
