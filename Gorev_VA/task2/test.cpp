@@ -1,31 +1,11 @@
 #include <iostream>
-#include "node.h"
+#include "list.h"
 
 int main(void)
 {
-	int item = 1;
-	node <int> *L = new node <int>(1);
-	/*L->put_item(2);
-	L->put_item(3);
-	L->put_item(4);
-	L->put_item(5);
-
-	std::cout << L->get_item() << "\n";
-
-	node <int> *N = new node <int>(0);
-	*N = *L;
-	std::cout << N->get_item() << "\n";
-
-	deletenode(L);
-	if (N != 0)
-		deletenode(N);*/
-	L->del_item();
-	if (L == 0)
-		std::cout << "L = 0\n";
-	else
-		std::cout << "L != 0\n";
-	if (L != 0)
-		delete(L);
+	list <int> L;
+	L.add_item(1);
+	std::cout << L.get_current_item() << "\n";
 	return 0;
 }
 
