@@ -36,7 +36,6 @@ public:
 				N = N->next_;
 			}
 		}
-		
 	}
 	T get_current_item() const
 	{
@@ -129,6 +128,9 @@ public:
 		if (base_ != L.base_)
 		{
 			deletelist();
+			base_ = L.base_;
+			last_ = L.last_;
+			current_ = L.current_;
 		}
 	}
 };
@@ -172,6 +174,13 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
+	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	
+	std::cout << "\n";
+	L.add_item(1);
+	L.add_item(2);
+	L.add_item(3);
+	
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	return 0;
 }

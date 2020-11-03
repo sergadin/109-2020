@@ -12,11 +12,30 @@ private:
 		node *next_;
 	};
 	node *base_; // "Empty" first element
+	node *last_;
 	node *current_;
 public:
 	list() // create empty list
 	{
-		base_ = current_ = 0;
+		last_ = base_ = current_ = 0;
+	}
+	list(const list <T> &L)
+	{
+		node *N;
+		last_ = base_ = current_ = 0;
+		if (L.base_ != 0)
+		{
+			N = L.base_;
+			add_item(L.base_->val_);
+			N = N->next_;
+			while (N != 0)
+			{
+				add_item(N->val_);
+				if (N == L.current_)
+					current_ = last_;
+				N = N->next_;
+			}
+		}
 	}
 	T get_current_item() const
 	{
@@ -28,54 +47,20 @@ public:
 	}
 	T get_last_item() const
 	{
-		node *N;
-		N = current_;
-		while (N->next_ != 0)
-			N = N->next_;
-		return N->val_;
+		return last_->val_;
 	}
 	bool is_empty() const
 	{
 		return (base_ == 0);
 	}
 
-	int del_item() // delete item from the end of the list
-	// return 0 if list is empty
-	// return 1 if list is not empty
-	// if current_ - last element, current_ moves 1 step to first element 
-	{
-		node *N;
-		if (base_ == 0)
-			return 0;
-
-		N = current_;
-		while (N->next_ != 0)
-			N = N->next_;
-		// N become the last element
-		if (N == base_)
-		{
-			delete base_;
-			base_ = current_ = 0;
-			return 1;
-		}
-
-		if (N == current_)
-		{
-			current_ = base_;
-			while (current_->next_ != N)
-				current_ = current_->next_;
-			current_->next_ = 0;
-		}
-		delete N;
-		return 1;
-	}
-	int add_item(const T item) // add item to the beginning of the list
+	int add_item(const T item) // add item to the end of the list
 	// return 1 if item - first created element
 	// return 0 if item - not first created element
 	{
 		if (base_ == 0)
 		{
-			base_ = current_ = new node;
+			last_ = base_ = current_ = new node;
 			current_->val_ = item;
 			current_->next_ = 0;
 			return 1;
@@ -83,9 +68,32 @@ public:
 
 		node *new_element = new node;
 		new_element->val_ = item;
-		new_element->next_ = base_;
-		base_ = new_element;
+		new_element->next_ = 0;
+		last_->next_ = new_element;
+		last_ = new_element;
 		return 0;
+	}
+	int del_item() // delete item from the beginning of the list
+	// return 0 if list is empty
+	// if current_ != base_, return 1
+	// if current_ == base_, current_ moves 1 step to first element and return 2 
+	{
+		node *new_base;
+		if (base_ == 0)
+			return 0;
+		new_base = base_->next_;
+		if (last_ == base_)
+			last_ = 0;
+		if (current_ == base_)
+		{
+			current_ = new_base;
+			delete base_;
+			base_ = new_base;
+			return 2;
+		}
+		delete base_;
+		base_ = new_base;
+		return 1;
 	}
 
 	int deletelist() // return number of deleted elements
@@ -114,5 +122,15 @@ public:
 		if (N1 != N2)
 			return 0;
 		return 1;
+	}
+	list <T> &operator=(const list <T> &L)
+	{
+		if (base_ != L.base_)
+		{
+			deletelist();
+			base_ = L.base_;
+			last_ = L.last_;
+			current_ = L.current_;
+		}
 	}
 };
