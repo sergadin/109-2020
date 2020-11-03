@@ -5,6 +5,7 @@ int main(void)
 {
 	list <int> L;
 	L.add_item(1);
+	L.add_item(2);
 	std::cout << L.get_current_item() << "\n";
 	return 0;
 }
