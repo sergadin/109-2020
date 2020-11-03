@@ -34,7 +34,11 @@ class StackList
 		Stack<T>* vershina;
 
 	public:
-		StackList() { vershina = nullptr; }
+		StackList() 
+		{ 
+		vershina = nullptr; 
+		}
+		
 		void Put(T i)// добавить
 		{
 			Stack<T>* p;
