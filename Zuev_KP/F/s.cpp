@@ -9,6 +9,24 @@ struct Stack
 	Stack<T>* next;
 };
 
+class StackListError
+{ 
+	private: 
+		int code_;
+		std::string reason_;
+	public:
+		StackListError(int code, const std::string& reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
+
+		const std::string& get_reason() const 
+		{ 
+			return reason_; 
+		}
+};
+
 template <typename T>
 class StackList
 {
@@ -30,7 +48,9 @@ class StackList
 		{
 			cout << "Stack: " << o << endl;
 			if (vershina == nullptr)
-				cout << "Stack is empty." << endl;
+			{
+				throw StackListError(-1, std::string("empty"));
+		        }
 			else
 			{
 				Stack<T>* p;
@@ -47,7 +67,9 @@ class StackList
 		void Del()// удаление вершины
 		{
 			if (vershina == nullptr)
-				cout << "Stack is empty." << endl;
+			{
+				throw StackListError(-5, std::string("empty"));
+		        }
 			Stack<T>* p;
 			T item;
 			item = vershina->item;
@@ -102,29 +124,10 @@ class StackList
 		}
 };
 
-class StackListError
-{ 
-	private: 
-		int code_;
-		std::string reason_;
-	public:
-		StackListError(int code, const std::string& reason)
-		{
-			code_ = code;
-			reason_ = reason;
-		}
-
-		const std::string& get_reason() const 
-		{ 
-			return reason_; 
-		}
-};
-
 int main()
 {
-	StackList<int> L;
-	L.Print("L");
-	
+	try
+        {
 	StackList<int> S;
 	S.Put(8);
 	S.Put(5);
@@ -144,4 +147,13 @@ int main()
 	
 	S.Del();
 	S.Print("S");
+
+	StackList<int> L;
+	L.Print("L");
+	}
+	catch(StackListError &err)
+        {
+                std::cout << err.get_reason() << std::endl;
+        }
+	return 0;
 }
