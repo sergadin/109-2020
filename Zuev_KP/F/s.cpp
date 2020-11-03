@@ -87,29 +87,15 @@ class StackList
 			Stack<T>* p;
 			Stack<T>* p1;
 			Stack<T>* t;
-
 			vershina = nullptr;
 			t = nullptr;
-
 			p = L.vershina;
 			while (p != nullptr)
 			{
-				// 1. Сформировать узел p1
-				try {
-					// попытка выделить память
-					p1 = new Stack<T>;
-				}
-				catch (bad_alloc e)
-				{
-					// если память не выделена, то выход
-					cout << e.what() << endl;
-					return *this;
-				}
+				p1 = new Stack<T>;
 				p1->item = p->item;
 				p1->next = nullptr;
-
-				// 2. pTop = pTop + p2
-				if (vershina == nullptr) // создать стек
+				if (vershina == nullptr)
 				{
 					vershina = p1;
 					t = p1;
@@ -119,8 +105,6 @@ class StackList
 					t->next = p1;
 					t = t->next;
 				}
-
-				// 3. Перейти на следующий элемент
 				p = p->next;
 			}
 			return *this;
