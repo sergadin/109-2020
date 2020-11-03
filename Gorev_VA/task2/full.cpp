@@ -124,6 +124,13 @@ public:
 			return 0;
 		return 1;
 	}
+	list <T> &operator=(const list <T> &L)
+	{
+		if (base_ != L.base_)
+		{
+			deletelist();
+		}
+	}
 };
 
 int main(void)
@@ -160,5 +167,11 @@ int main(void)
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements: " << M.deletelist() << "\n";
+	
+	std::cout << "\n";
+	L.add_item(1);
+	L.add_item(2);
+	L.add_item(3);
+	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	return 0;
 }
