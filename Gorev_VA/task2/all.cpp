@@ -34,6 +34,10 @@ public:
 			N = N->next_;
 		return N->val_;
 	}
+	bool is_empty() const
+	{
+		return (base_ == 0);
+	}
 	
 	int del_item() // delete item from the end of the list
 	// return 0 if list is empty
@@ -94,6 +98,23 @@ public:
 		base_ = current_;
 		return 1 + deletelist();
 	}
+	
+	bool operator==(const list <T> &L) const
+	{
+		node *N1, *N2;
+		N1 = base_;
+		N2 = L.base_;
+		while((N1 != 0) && (N2 != 0))
+		{
+			if (N1->val_ != N2->val_)
+				return 0;
+			N1 = N1->next_;
+			N2 = N2->next_;
+		}
+		if (N1 != N2)
+			return 0;
+		return 1;
+	}
 };
 
 int main(void)
@@ -102,6 +123,16 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
+	list <int> M;
+	M.add_item(1);
+	M.add_item(2);
+	M.add_item(3);
+	if (M == L)
+		std::cout << "M = L\n";
+	else
+		std::cout << "M != L\n";
+	
+	std::cout << "L:\n";
 	std::cout << "current element: " << L.get_current_item() << "\n";
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "first element: " << L.get_first_item() << "\n";
@@ -109,10 +140,19 @@ int main(void)
 	L.del_item();
 	std::cout << "\n";
 	
+	std::cout << "L:\n";
 	std::cout << "current element: " << L.get_current_item() << "\n";
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "first element: " << L.get_first_item() << "\n";
 	
+	std::cout << "\n";
+	if (M == L)
+		std::cout << "M = L\n";
+	else
+		std::cout << "M != L\n";
+	
 	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements: " << M.deletelist() << "\n";
 	return 0;
 }

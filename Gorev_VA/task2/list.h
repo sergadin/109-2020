@@ -34,6 +34,10 @@ public:
 			N = N->next_;
 		return N->val_;
 	}
+	bool is_empty() const
+	{
+		return (base_ == 0);
+	}
 
 	int del_item() // delete item from the end of the list
 	// return 0 if list is empty
@@ -93,5 +97,22 @@ public:
 		delete base_;
 		base_ = current_;
 		return 1 + deletelist();
+	}
+
+	bool operator==(const list <T> &L) const
+	{
+		node *N1, *N2;
+		N1 = base_;
+		N2 = L.base_;
+		while ((N1 != 0) && (N2 != 0))
+		{
+			if (N1->val_ != N2->val_)
+				return 0;
+			N1 = N1->next_;
+			N2 = N2->next_;
+		}
+		if (N1 != N2)
+			return 0;
+		return 1;
 	}
 };
