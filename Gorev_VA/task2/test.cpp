@@ -6,8 +6,19 @@ int main(void)
 	list <int> L;
 	L.add_item(1);
 	L.add_item(2);
-	std::cout << L.get_current_item() << "\n";
-	std::cout << L.deletelist() << "\n";
+	L.add_item(3);
+	std::cout << "current element: " << L.get_current_item() << "\n";
+	std::cout << "last element: " << L.get_last_item() << "\n";
+	std::cout << "first element: " << L.get_first_item() << "\n";
+
+	L.del_item();
+	std::cout << "\n";
+
+	std::cout << "current element: " << L.get_current_item() << "\n";
+	std::cout << "last element: " << L.get_last_item() << "\n";
+	std::cout << "first element: " << L.get_first_item() << "\n";
+
+	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
 	return 0;
 }
 
