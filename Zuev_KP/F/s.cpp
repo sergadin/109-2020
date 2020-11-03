@@ -47,40 +47,14 @@ class StackList
 		void Del()// удаление вершины
 		{
 			if (vershina == nullptr)
-				return 0;
-			Stack<T>* p2;
+				cout << "Stack is empty." << endl;
+			Stack<T>* p;
 			T item;
 			item = vershina->item;
-
-			// перенаправить указатели vershina, p2
-			p2 = vershina;
+			p = vershina;
 			vershina = vershina->next;
-
-			// Освободить память, выделенную под 1-й элемент
-			delete p2;
-
-			// вернуть item
-			return item;
+			delete p;
 		}
-
-		/*T Del()// удаление вершины
-		{
-			if (vershina == nullptr)
-				return 0;
-			Stack<T>* p2;
-			T item;
-			item = vershina->item;
-
-			// перенаправить указатели vershina, p2
-			p2 = vershina;
-			vershina = vershina->next;
-
-			// Освободить память, выделенную под 1-й элемент
-			delete p2;
-
-			// вернуть item
-			return item;
-		}*/
 
 		StackList<T>& operator=(const StackList<T>& LS)// оператор копирования
 		{
@@ -168,8 +142,6 @@ int main()
 	S5 = S;
 	S5.Print("S5");
 	
-	/*int d = S.Del();
-  	cout << "d = " << d << endl;*/
 	S.Del();
 	S.Print("S");
 }
