@@ -60,6 +60,7 @@ public:
 			current_ = base_;
 			while (current_->next_ != N)
 				current_ = current_->next_;
+			current_->next_ = 0;
 		}
 		delete N;
 		return 1;
