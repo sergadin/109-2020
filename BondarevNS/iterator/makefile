@@ -10,7 +10,7 @@ a.out: iterator.o test.o
 	g++ test.o iterator.o
 
 do-test: a.out
-	valgrind ./a.out
+	valgrind -v ./a.out
 
 clean: iterator.o test.o
 	rm iterator.o test.o
