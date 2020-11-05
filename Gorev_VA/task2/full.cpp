@@ -149,22 +149,10 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			list <T> *new_list = new list <T>;
-			
+			list <T> *new_list = new list <T>(L);
 			deletelist();
-			node *N;
-			last_ = base_ = 0;
-			if (L.base_ != 0)
-			{
-				N = L.base_;
-				add_item(L.base_->val_);
-				N = N->next_;
-				while(N != 0)
-				{
-					add_item(N->val_);
-					N = N->next_;
-				}
-			}
+			base_ = new_list->base_;
+			last_ = new_list->last_;
 		}
 	}
 };
@@ -239,9 +227,9 @@ int main(void)
 	std::cout << "M:\n";
 	std::cout << "first element: " << M.get_first_item() << "\n";
 	std::cout << "last element: " << M.get_last_item() << "\n";
-	std::cout << "---Check operator =: \"L = L\"; \" M = M\"\n";
-	L = L;
-	M = M;
+	//std::cout << "---Check operator =: \"L = L\"; \" M = M\"\n";
+	//L = L;
+	//M = M;
 	
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
