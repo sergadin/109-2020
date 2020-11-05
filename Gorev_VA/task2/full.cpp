@@ -27,6 +27,7 @@ public:
 		{
 			return (current_->next_ == 0);
 		}
+		friend list;
 	};
 	iterator begin()
 	{
