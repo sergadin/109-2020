@@ -125,13 +125,13 @@ public:
 	}
 	list <T> &operator=(const list <T> &L)
 	{
-		list <T> new_list(L);
 		if (base_ != L.base_)
 		{
+			list <T> new_list(L);
 			deletelist();
+			base_ = new_list.base_;
+			last_ = new_list.last_;
 		}
-		base_ = new_list.base_;
-		last_ = new_list.last_;
 	}
 };
 
