@@ -24,6 +24,9 @@ int main()
 	cout << A.find_elem(2) << endl;
 	A.del_elem(2); 
 	cout<< A << endl;
+	IntArray X(10);
+	X = A;
+	cout<< X << endl;
 	while (a.check_bound() == true)
 	{
 		cout << a.get_cmp() << endl;
