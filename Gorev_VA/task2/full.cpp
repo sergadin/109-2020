@@ -176,6 +176,8 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
+	L.deletelist();
+	L.deletelist();
 	/*std::cout << "---Create \"list <int> M(L)\"\n";
 	list <int> M(L);
 	
