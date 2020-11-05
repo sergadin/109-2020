@@ -149,15 +149,11 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			list <T> new_list(L);
+			list <T> *new_list = new list <T>(L);
 			deletelist();
-			base_ = new_list.base_;
-			last_ = new_list.last_;
+			base_ = new_list->base_;
+			last_ = new_list->last_;
 		}
-	}
-	list <T> &operator+(const list <T> &L) const
-	{
-		
 	}
 };
 
@@ -169,9 +165,7 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
-	/*std::cout << "---Create \"list <int> M(L)\"\n";
+	std::cout << "---Create \"list <int> M(L)\"\n";
 	list <int> M(L);
 	
 	std::cout << "---Check operator ==: \"M == L\":\n";
@@ -227,8 +221,13 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	std::cout << "---Check operator =: \"M = L\"; \"L = L\"; \" M = M\"\n";
+	std::cout << "---Check operator =: \"M = L\"\n";
 	M = L;
+	std::cout << "---Find elements:\n";
+	std::cout << "M:\n";
+	std::cout << "first element: " << M.get_first_item() << "\n";
+	std::cout << "last element: " << M.get_last_item() << "\n";
+	std::cout << "---Check operator =: \"L = L\"; \" M = M\"\n";
 	L = L;
 	M = M;
 	
@@ -255,6 +254,6 @@ int main(void)
 		i.go_next();
 	}
 	std::cout << "---Delete L\n";
-	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";*/
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
 }
