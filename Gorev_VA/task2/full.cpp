@@ -31,6 +31,10 @@ public:
 		{
 			return (current_->next_ == 0);
 		}
+		bool is_valid()
+		{
+			return !(current_ == 0);
+		}
 		friend list;
 	};
 	iterator begin()
@@ -59,6 +63,11 @@ public:
 			}
 		}
 	}
+	~list()
+	{
+		deletelist();
+	}
+	
 	T get_first_item() const
 	{
 		return base_->val_;
@@ -143,6 +152,10 @@ public:
 			last_ = new_list.last_;
 		}
 	}
+	list <T> &operator+(const list <T> &L) const
+	{
+		
+	}
 };
 
 int main(void)
@@ -153,7 +166,7 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	std::cout << "---Create \"list <int> M(L)\"\n";
+	/*std::cout << "---Create \"list <int> M(L)\"\n";
 	list <int> M(L);
 	
 	std::cout << "---Check operator ==: \"M == L\":\n";
@@ -237,6 +250,6 @@ int main(void)
 		i.go_next();
 	}
 	std::cout << "---Delete L\n";
-	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";*/
 	return 0;
 }
