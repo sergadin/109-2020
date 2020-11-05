@@ -18,7 +18,7 @@ public:
 	{
 	private:
 		node *current_;
-	private:
+	public:
 		T get_current_item()
 		{
 			return current_->val_;
@@ -28,6 +28,11 @@ public:
 			return (current_->next_ == 0);
 		}
 	};
+	iterator begin()
+	{
+		iterator I;
+		I.current_ = base_;
+	}
 	
 	list() // create empty list
 	{
@@ -186,5 +191,12 @@ int main(void)
 	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	
+	std::cout << "\n";
+	L.add_item(1);
+	L.add_item(2);
+	L.add_item(3);
+	
+	list <int>::iterator i = L.begin();
 	return 0;
 }
