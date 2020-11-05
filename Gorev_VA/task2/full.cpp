@@ -179,8 +179,8 @@ int main(void)
 	L.add_item(2);
 	L.add_item(3);
 	M = L;
-	L = L;
-	M = M;
+	//L = L;
+	//M = M;
 	
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
