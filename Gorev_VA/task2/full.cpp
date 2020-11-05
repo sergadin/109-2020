@@ -19,11 +19,15 @@ public:
 	private:
 		node *current_;
 	public:
+		void go_next()
+		{
+			current_ = current_->next_;
+		}
 		T get_current_item()
 		{
 			return current_->val_;
 		}
-		T is_last()
+		bool is_last()
 		{
 			return (current_->next_ == 0);
 		}
@@ -199,6 +203,12 @@ int main(void)
 	L.add_item(3);
 	
 	list <int>::iterator i = L.begin();
+	
+	while(!i.is_last())
+	{
+		std::cout << i.get_current_item() << "\n";
+		i.go_next();
+	}
 	
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
