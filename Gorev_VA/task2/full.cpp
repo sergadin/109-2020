@@ -125,12 +125,13 @@ public:
 	}
 	list <T> &operator=(const list <T> &L)
 	{
+		list <T> new_list(L);
 		if (base_ != L.base_)
 		{
 			deletelist();
-			base_ = L.base_;
-			last_ = L.last_;
 		}
+		base_ = L.base_;
+		last_ = L.last_;
 	}
 };
 
@@ -163,21 +164,27 @@ int main(void)
 	else
 		std::cout << "M != L\n";
 	
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 	
 	std::cout << "\n";
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	
 	std::cout << "\n";
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
+	M = L;
+	L = L;
+	M = M;
 	
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
 }
