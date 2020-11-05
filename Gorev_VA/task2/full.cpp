@@ -115,15 +115,25 @@ public:
 		return 1;
 	}
 	
-	int deletelist() // return number of deleted elements
+	void deletelist() // return number of deleted elements
 	{
-		node *N;
+		/*node *N;
 		if (base_ == 0)
 			return 0;
 		N = base_->next_;
 		delete base_;
 		base_ = N;
-		return 1 + deletelist();
+		return 1 + deletelist();*/
+		
+		
+		node *N = base_;
+		while (N != 0)
+		{
+			N = base_->next_;
+			delete base_;
+			base_ = N;
+		}
+			
 	}
 	
 	bool operator==(const list <T> &L) const
