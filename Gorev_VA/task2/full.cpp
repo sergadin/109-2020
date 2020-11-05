@@ -115,25 +115,18 @@ public:
 		return 1;
 	}
 	
-	void deletelist() // return number of deleted elements
+	int deletelist() // return number of deleted elements
 	{
-		/*node *N;
-		if (base_ == 0)
-			return 0;
-		N = base_->next_;
-		delete base_;
-		base_ = N;
-		return 1 + deletelist();*/
-		
-		
+		int i = 0;
 		node *N = base_;
 		while (N != 0)
 		{
 			N = base_->next_;
 			delete base_;
 			base_ = N;
+			i++;
 		}
-			
+		return i;
 	}
 	
 	bool operator==(const list <T> &L) const
@@ -176,8 +169,8 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	L.deletelist();
-	L.deletelist();
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	/*std::cout << "---Create \"list <int> M(L)\"\n";
 	list <int> M(L);
 	
