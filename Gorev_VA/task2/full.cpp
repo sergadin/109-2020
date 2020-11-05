@@ -199,5 +199,7 @@ int main(void)
 	L.add_item(3);
 	
 	list <int>::iterator i = L.begin();
+	
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
 }
