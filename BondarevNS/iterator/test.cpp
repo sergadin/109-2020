@@ -28,12 +28,12 @@ int main()
 	
 	while (a.check_bound() == true)
 	{
-		IntArray X(10);
-		X = A;
-		cout<< X << endl;
+	
 		cout << a.get_cmp() << endl;
 		a.step();
-		
+		IntArray X(10);
+		X = A;
+		cout<< X << endl;	
 		
 	
 	}
