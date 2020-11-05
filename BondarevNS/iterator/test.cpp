@@ -30,7 +30,7 @@ int main()
 		cout << a.get_cmp() << endl;
 		a.step();
 	X = A;
-	cout<< X(10) << endl;
+	cout<< X << endl;
 	}
 	
 	}
