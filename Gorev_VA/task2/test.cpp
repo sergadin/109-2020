@@ -14,7 +14,6 @@ int main(void)
 		std::cout << "M != L\n";
 
 	std::cout << "L:\n";
-	std::cout << "current element: " << L.get_current_item() << "\n";
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "first element: " << L.get_first_item() << "\n";
 
@@ -22,7 +21,6 @@ int main(void)
 	std::cout << "\n";
 
 	std::cout << "L:\n";
-	std::cout << "current element: " << L.get_current_item() << "\n";
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "first element: " << L.get_first_item() << "\n";
 
@@ -32,21 +30,27 @@ int main(void)
 	else
 		std::cout << "M != L\n";
 
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 
 	std::cout << "\n";
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 
 	std::cout << "\n";
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
+	M = L;
+	L = L;
+	M = M;
 
-	std::cout << "number of deleted elements: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
 }

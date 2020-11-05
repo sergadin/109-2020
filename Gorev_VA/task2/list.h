@@ -13,16 +13,30 @@ private:
 	};
 	node *base_; // "Empty" first element
 	node *last_;
-	node *current_;
 public:
+	class iterator
+	{
+	private:
+		node *current_;
+	private:
+		T get_current_item()
+		{
+			return current_->val_;
+		}
+		T is_last()
+		{
+			return (current_->next_ == 0);
+		}
+	};
+
 	list() // create empty list
 	{
-		last_ = base_ = current_ = 0;
+		last_ = base_ = 0;
 	}
 	list(const list <T> &L)
 	{
 		node *N;
-		last_ = base_ = current_ = 0;
+		last_ = base_ = 0;
 		if (L.base_ != 0)
 		{
 			N = L.base_;
@@ -31,15 +45,9 @@ public:
 			while (N != 0)
 			{
 				add_item(N->val_);
-				if (N == L.current_)
-					current_ = last_;
 				N = N->next_;
 			}
 		}
-	}
-	T get_current_item() const
-	{
-		return current_->val_;
 	}
 	T get_first_item() const
 	{
@@ -60,9 +68,9 @@ public:
 	{
 		if (base_ == 0)
 		{
-			last_ = base_ = current_ = new node;
-			current_->val_ = item;
-			current_->next_ = 0;
+			last_ = base_ = new node;
+			base_->val_ = item;
+			base_->next_ = 0;
 			return 1;
 		}
 
@@ -75,8 +83,7 @@ public:
 	}
 	int del_item() // delete item from the beginning of the list
 	// return 0 if list is empty
-	// if current_ != base_, return 1
-	// if current_ == base_, current_ moves 1 step to first element and return 2 
+	// return 1 if list is not empty
 	{
 		node *new_base;
 		if (base_ == 0)
@@ -84,13 +91,6 @@ public:
 		new_base = base_->next_;
 		if (last_ == base_)
 			last_ = 0;
-		if (current_ == base_)
-		{
-			current_ = new_base;
-			delete base_;
-			base_ = new_base;
-			return 2;
-		}
 		delete base_;
 		base_ = new_base;
 		return 1;
@@ -98,12 +98,12 @@ public:
 
 	int deletelist() // return number of deleted elements
 	{
-		int N = 0;
+		node *N;
 		if (base_ == 0)
 			return 0;
-		current_ = base_->next_;
+		N = base_->next_;
 		delete base_;
-		base_ = current_;
+		base_ = N;
 		return 1 + deletelist();
 	}
 
@@ -127,10 +127,10 @@ public:
 	{
 		if (base_ != L.base_)
 		{
+			list <T> new_list(L);
 			deletelist();
-			base_ = L.base_;
-			last_ = L.last_;
-			current_ = L.current_;
+			base_ = new_list.base_;
+			last_ = new_list.last_;
 		}
 	}
 };
