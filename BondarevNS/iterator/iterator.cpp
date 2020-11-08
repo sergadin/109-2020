@@ -23,6 +23,12 @@ IntArray::~IntArray()
 	delete[] arr_;
 } 
 
+IntArray::IntArray(const IntArray &other)
+{
+	this->n_ = other.n_;
+	this->arr_ = other.arr_;
+}
+
 int IntArray::get_elem(int i) const
 {
 	if((i<=0)||(i>n_))

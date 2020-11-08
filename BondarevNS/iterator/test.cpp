@@ -31,8 +31,7 @@ int main()
 	
 		cout << a.get_cmp() << endl;
 		a.step();
-		IntArray X(10);
-		X = A;
+		IntArray X = A;
 		cout<< X << endl;	
 		
 	
