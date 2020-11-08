@@ -28,13 +28,9 @@ int main()
 	
 	while (a.check_bound() == true)
 	{
-	
 		cout << a.get_cmp() << endl;
 		a.step();
-		IntArray X = A;
-		cout<< X << endl;	
-		
-	
+		IntArray X = A;	
 	}
 	
 	}
