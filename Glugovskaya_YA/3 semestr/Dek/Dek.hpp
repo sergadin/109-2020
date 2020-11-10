@@ -5,8 +5,8 @@ using namespace std;
 
 template <typename T>
 class Dek{
-	private:
 	
+	private:
 		struct Node{
 			public:
 				T data;

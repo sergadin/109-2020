@@ -46,7 +46,7 @@ void Dek<T>::push_head(T data){
 	temp -> Next = (Head -> Prev) -> Next;
 	temp -> Prev = (Head -> Prev);
 	(Head -> Prev) -> Next = temp; //Делаем от головы шаг назад, смотрим на указатель, который указывает на голову и присваиваем ему значение новой ячейки
-	Head -> Pvev = temp; //указтель из головы на предыдущий, это новый элетемент
+	Head -> Prev = temp; //указтель из головы на предыдущий, это новый элетемент
 	Head = temp; //теперь у нас новая голова
 	size ++;
 }
@@ -61,3 +61,9 @@ void Dek<T>::print(){
 		count ++;
 	}
 }
+
+template class Dek<int>;
+template class Dek<double>;
+template class Dek<char>;
+template class Dek<float>;
+
