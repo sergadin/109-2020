@@ -93,10 +93,23 @@ int main(void)
 		std::cout << i.get_current_item() << "\n";
 		i.go_next();
 	}
-	std::cout << "---Delete L and M:\n";
+	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "---Delete M\n";
 	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 
+	std::cout << "\n";
+	std::cout << "---Add items 1, 2, 3 in L\n";
+	L.add_item(1);
+	L.add_item(2);
+	L.add_item(3);
+	std::cout << "---Check operator +: \"L + L\"\n";
+	L + L;
+	std::cout << "---Find elements:\n";
+	std::cout << "L:\n";
+	std::cout << "first element: " << L.get_first_item() << "\n";
+	std::cout << "last element: " << L.get_last_item() << "\n";
+	std::cout << "---Delete L\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
 }

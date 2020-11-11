@@ -166,4 +166,13 @@ public:
 		}
 		return *this;
 	}
+	list <T> &operator+(const list <T> &L) // add list L in the end of this list
+	{
+		list <T> L1(L);
+		last_->next_ = L1.base_;
+		last_ = L1.last_;
+		L1.base_ = 0;
+		L1.last_ = 0;
+		return *this;
+	}
 };
