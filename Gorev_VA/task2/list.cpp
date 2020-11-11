@@ -1,6 +1,8 @@
 #include <iostream>
 #include "list.h"
 
+template <class T>
+
 int list::add_item(const T item) // add item to the end of the list
 	// return 1 if item - first created element
 	// return 0 if item - not first created element
