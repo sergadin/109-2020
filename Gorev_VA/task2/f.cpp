@@ -164,7 +164,7 @@ public:
 				}
 			}
 		}
-		return &this;
+		return *this;
 	}
 };
 
