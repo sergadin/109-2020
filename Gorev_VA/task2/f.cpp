@@ -65,7 +65,7 @@ public:
 	}
 	~list()
 	{
-		//deletelist();
+		deletelist();
 	}
 	
 	T get_first_item() const
@@ -149,17 +149,17 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			//list <T> *new_list = new list <T>(L);
+			list <T> *new_list = new list <T>(L);
 			deletelist();
-			//base_ = new_list->base_;
-			//last_ = new_list->last_;
+			base_ = new_list->base_;
+			last_ = new_list->last_;
 		}
 	}
 };
 
 int main(void)
 {
-	std::cout << "---Create \"list <int> L\"\n";
+	/*std::cout << "---Create \"list <int> L\"\n";
 	list <int> L;
 	std::cout << "---Add items 1, 2, 3 in L\n";
 	L.add_item(1);
@@ -240,7 +240,7 @@ int main(void)
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	
-	/*std::cout << "\n";
+	std::cout << "\n";
 	std::cout << "---Add items 1, 2, 3 in L\n";
 	L.add_item(1);
 	L.add_item(2);
@@ -257,5 +257,14 @@ int main(void)
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";*/
+	
+	list <int> L;
+	L.add_item(1);
+	L.add_item(2);
+	L.add_item(3);
+	list <int> M;
+	M = L;
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 	return 0;
 }
