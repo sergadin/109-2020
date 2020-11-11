@@ -149,10 +149,10 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			list <T> *new_list = new list <T>(L);
+			//list <T> *new_list = new list <T>(L);
 			deletelist();
-			base_ = new_list->base_;
-			last_ = new_list->last_;
+			//base_ = new_list->base_;
+			//last_ = new_list->last_;
 		}
 	}
 };
@@ -222,7 +222,7 @@ int main(void)
 	L.add_item(2);
 	L.add_item(3);
 	std::cout << "---Check operator =: \"M = L\"\n";
-	L = L;
+	M = L;
 	//std::cout << "---Find elements:\n";
 	//std::cout << "M:\n";
 	//std::cout << "first element: " << M.get_first_item() << "\n";
