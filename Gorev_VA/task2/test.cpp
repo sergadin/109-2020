@@ -65,10 +65,11 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	std::cout << "---Check operator =: \"M = L\"; \"L = L\"; \" M = M\"\n";
+	std::cout << "---Check operator =: \"M = L\", \"L = L\", \"L = M\", \"M = L = M\"\n";
 	M = L;
 	L = L;
-	M = M;
+	L = M;
+	M = L = M;
 
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
@@ -92,7 +93,10 @@ int main(void)
 		std::cout << i.get_current_item() << "\n";
 		i.go_next();
 	}
-	std::cout << "---Delete L\n";
+	std::cout << "---Delete L and M:\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
+
 	return 0;
 }
