@@ -149,10 +149,12 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			list <T> new_list;
+			list <T> *new_list = new list <T>(L);
 			deletelist();
-			base_ = new_list.base_;
-			last_ = new_list.last_;
+			base_ = new_list->base_;
+			last_ = new_list->last_;
+			new_list->base_ = 0;
+			new_list->last_ = 0;
 		}
 	}
 };
