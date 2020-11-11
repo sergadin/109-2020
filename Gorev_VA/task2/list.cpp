@@ -2,8 +2,7 @@
 #include "list.h"
 
 template <class T>
-
-int list::add_item(const T item) // add item to the end of the list
+int list <T>::add_item(const T item) // add item to the end of the list
 	// return 1 if item - first created element
 	// return 0 if item - not first created element
 {
@@ -23,6 +22,7 @@ int list::add_item(const T item) // add item to the end of the list
 	return 0;
 }
 
+template <class T>
 int list <T>::del_item() // delete item from the beginning of the list
 	// return 0 if list is empty
 	// return 1 if list is not empty
@@ -38,6 +38,7 @@ int list <T>::del_item() // delete item from the beginning of the list
 	return 1;
 }
 
+template <class T>
 int list <T>::deletelist() // return number of deleted elements
 {
 	int i = 0;
@@ -52,6 +53,7 @@ int list <T>::deletelist() // return number of deleted elements
 	return i;
 }
 
+template <class T>
 bool list <T>::operator==(const list <T> &L) const
 {
 	node *N1, *N2;
@@ -69,6 +71,7 @@ bool list <T>::operator==(const list <T> &L) const
 	return 1;
 }
 
+template <class T>
 list <T> &list <T>::operator=(const list <T> &L)
 {
 	if (base_ != L.base_)
