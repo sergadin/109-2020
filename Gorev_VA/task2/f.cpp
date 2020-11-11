@@ -216,7 +216,7 @@ int main(void)
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	
 	
-	/*std::cout << "\n";
+	std::cout << "\n";
 	std::cout << "---Add items 1, 2, 3 in L\n";
 	L.add_item(1);
 	L.add_item(2);
@@ -240,7 +240,7 @@ int main(void)
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	
-	std::cout << "\n";
+	/*std::cout << "\n";
 	std::cout << "---Add items 1, 2, 3 in L\n";
 	L.add_item(1);
 	L.add_item(2);
@@ -252,10 +252,10 @@ int main(void)
 	{
 		std::cout << i.get_current_item() << "\n";
 		i.go_next();
-	}*/
+	}
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
-	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";*/
 	return 0;
 }
