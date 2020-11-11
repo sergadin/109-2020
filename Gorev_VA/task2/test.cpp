@@ -111,5 +111,20 @@ int main(void)
 	std::cout << "last element: " << L.get_last_item() << "\n";
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+
+	try
+	{
+		std::cout << "---Find elements:\n";
+		std::cout << "L:\n";
+		std::cout << "first element: " << L.get_first_item() << "\n";
+		std::cout << "last element: " << L.get_last_item() << "\n";
+	}
+	catch (listError &err)
+	{
+		std::cout << "EXEPTION: Error code: " << err.get_code() << "; Reason: " << err.get_reason() << "\n";
+	}
+
+	std::cout << "---Delete L\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	return 0;
 }

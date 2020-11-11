@@ -1,7 +1,28 @@
 #include <iostream>
 
-template <class T>
+class listError
+{
+private:
+	int code_;
+	std::string reason_;
+public:
+	listError(int code, std::string reason)
+	{
+		code_ = code;
+		reason_ = reason;
+	}
 
+	const std::string get_reason() const
+	{
+		return reason_;
+	}
+	const int get_code() const
+	{
+		return code_;
+	}
+};
+
+template <class T>
 class list
 {
 private:
@@ -21,14 +42,20 @@ public:
 	public:
 		void go_next()
 		{
+			if (current_ == 0)
+				throw listError(-1, std::string("in void go_next(): Attempt to call empty node *current in class iterator"));
 			current_ = current_->next_;
 		}
 		T get_current_item()
 		{
+			if (current_ == 0)
+				throw listError(-2, std::string("in T get_current_item(): Attempt to call empty node *current in class iterator"));
 			return current_->val_;
 		}
 		bool is_last()
 		{
+			if (current_ == 0)
+				throw listError(-3, std::string("in bool is_last(): Attempt to call empty node *current in class iterator"));
 			return (current_->next_ == 0);
 		}
 		bool is_valid()
@@ -70,10 +97,14 @@ public:
 
 	T get_first_item() const
 	{
+		if (base_ == 0)
+			throw listError(-4, std::string("in T get_first_item(): Attempt to call empty node *base_ in class list"));
 		return base_->val_;
 	}
 	T get_last_item() const
 	{
+		if (last_ == 0)
+			throw listError(-5, std::string("in T get_last_item(): Attempt to call empty node *last_ in class list"));
 		return last_->val_;
 	}
 	bool is_empty() const
