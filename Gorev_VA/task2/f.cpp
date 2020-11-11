@@ -255,5 +255,7 @@ int main(void)
 	}
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 	return 0;
 }
