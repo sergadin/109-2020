@@ -149,11 +149,6 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			/*list <T> *new_list = new list <T>(L);
-			deletelist();
-			base_ = new_list->base_;
-			last_ = new_list->last_;*/
-			
 			deletelist();
 			node *N;
 			last_ = base_ = 0;
@@ -169,6 +164,7 @@ public:
 				}
 			}
 		}
+		return &this;
 	}
 };
 
