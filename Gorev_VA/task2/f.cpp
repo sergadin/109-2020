@@ -223,10 +223,10 @@ int main(void)
 	L.add_item(3);
 	std::cout << "---Check operator =: \"M = L\"\n";
 	L = L;
-	std::cout << "---Find elements:\n";
-	std::cout << "M:\n";
-	std::cout << "first element: " << M.get_first_item() << "\n";
-	std::cout << "last element: " << M.get_last_item() << "\n";
+	//std::cout << "---Find elements:\n";
+	//std::cout << "M:\n";
+	//std::cout << "first element: " << M.get_first_item() << "\n";
+	//std::cout << "last element: " << M.get_last_item() << "\n";
 	//std::cout << "---Check operator =: \"L = L\"; \" M = M\"\n";
 	//L = L;
 	//M = M;
