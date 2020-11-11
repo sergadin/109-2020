@@ -149,12 +149,25 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			list <T> *new_list = new list <T>(L);
+			/*list <T> *new_list = new list <T>(L);
 			deletelist();
 			base_ = new_list->base_;
-			last_ = new_list->last_;
-			new_list->base_ = 0;
-			new_list->last_ = 0;
+			last_ = new_list->last_;*/
+			
+			deletelist();
+			node *N;
+			last_ = base_ = 0;
+			if (L.base_ != 0)
+			{
+				N = L.base_;
+				add_item(L.base_->val_);
+				N = N->next_;
+				while(N != 0)
+				{
+					add_item(N->val_);
+					N = N->next_;
+				}
+			}
 		}
 	}
 };
