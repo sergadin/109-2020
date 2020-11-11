@@ -81,7 +81,7 @@ public:
 		return (base_ == 0);
 	}
 
-	int list <T>::add_item(const T item) // add item to the end of the list
+	int add_item(const T item) // add item to the end of the list
 	// return 1 if item - first created element
 	// return 0 if item - not first created element
 	{
@@ -100,7 +100,7 @@ public:
 		last_ = new_element;
 		return 0;
 	}
-	int list <T>::del_item() // delete item from the beginning of the list
+	int del_item() // delete item from the beginning of the list
 	// return 0 if list is empty
 	// return 1 if list is not empty
 	{
@@ -115,7 +115,7 @@ public:
 		return 1;
 	}
 
-	int list <T>::deletelist() // return number of deleted elements
+	int deletelist() // return number of deleted elements
 	{
 		int i = 0;
 		node *N = base_;
@@ -129,7 +129,7 @@ public:
 		return i;
 	}
 
-	bool list <T>::operator==(const list <T> &L) const
+	bool operator==(const list <T> &L) const
 	{
 		node *N1, *N2;
 		N1 = base_;
@@ -145,7 +145,7 @@ public:
 			return 0;
 		return 1;
 	}
-	list <T> &list <T>::operator=(const list <T> &L)
+	list <T> &operator=(const list <T> &L)
 	{
 		if (base_ != L.base_)
 		{
