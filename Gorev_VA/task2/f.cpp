@@ -65,7 +65,7 @@ public:
 	}
 	~list()
 	{
-		deletelist();
+		//deletelist();
 	}
 	
 	T get_first_item() const
@@ -222,7 +222,7 @@ int main(void)
 	L.add_item(2);
 	L.add_item(3);
 	std::cout << "---Check operator =: \"M = L\"\n";
-	//M = L;
+	M = L;
 	std::cout << "---Find elements:\n";
 	std::cout << "M:\n";
 	std::cout << "first element: " << M.get_first_item() << "\n";
