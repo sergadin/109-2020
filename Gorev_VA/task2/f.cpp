@@ -273,8 +273,11 @@ int main(void)
 	L.add_item(1);
 	L.add_item(2);
 	L.add_item(3);
-	list <int> M;
+	list <int> M(L);
 	M = L;
+	L = L;
+	L = M;
+	M = L = M;
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	std::cout << "number of deleted elements in M: " << M.deletelist() << "\n";
 	return 0;
