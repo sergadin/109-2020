@@ -65,7 +65,7 @@ public:
 	}
 	~list()
 	{
-		std::cout << "list " << base_ << " was deleted. Total deleted elements: " << deletelist() << "\n";
+		deletelist();
 	}
 	
 	T get_first_item() const
