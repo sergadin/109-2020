@@ -3,7 +3,7 @@
 
 template <class T>
 
-int list::add_item(const T item) // add item to the end of the list
+int list <T>::add_item(const T item) // add item to the end of the list
 	// return 1 if item - first created element
 	// return 0 if item - not first created element
 {
@@ -23,7 +23,7 @@ int list::add_item(const T item) // add item to the end of the list
 	return 0;
 }
 
-int list::del_item() // delete item from the beginning of the list
+int list <T>::del_item() // delete item from the beginning of the list
 	// return 0 if list is empty
 	// return 1 if list is not empty
 {
@@ -38,7 +38,7 @@ int list::del_item() // delete item from the beginning of the list
 	return 1;
 }
 
-int list::deletelist() // return number of deleted elements
+int list <T>::deletelist() // return number of deleted elements
 {
 	int i = 0;
 	node *N = base_;
@@ -52,7 +52,7 @@ int list::deletelist() // return number of deleted elements
 	return i;
 }
 
-bool list::operator==(const list <T> &L) const
+bool list <T>::operator==(const list <T> &L) const
 {
 	node *N1, *N2;
 	N1 = base_;
@@ -69,7 +69,7 @@ bool list::operator==(const list <T> &L) const
 	return 1;
 }
 
-list <T> &list::operator=(const list <T> &L)
+list <T> &list <T>::operator=(const list <T> &L)
 {
 	if (base_ != L.base_)
 	{
