@@ -157,6 +157,7 @@ public:
 			base_ = N;
 			i++;
 		}
+		last_ = 0;
 		return i;
 	}
 
