@@ -62,12 +62,13 @@ public:
 		{
 			return !(current_ == 0);
 		}
-		friend list;
+		friend iterator list <T>::begin() const;
 	};
-	iterator begin()
+	iterator begin() const
 	{
 		iterator I;
 		I.current_ = base_;
+		return I;
 	}
 
 	list() // create empty list
@@ -206,5 +207,17 @@ public:
 		L1.base_ = 0;
 		L1.last_ = 0;
 		return *this;
+	}
+	friend std::ostream &operator<<(std::ostream& os, const list <T> &L)
+	{
+		iterator I = L.begin();
+		while (I.is_valid())
+		{
+			os << I.get_current_item();
+			if (!I.is_last())
+				os << " ";
+			I.go_next();
+		}
+		return os;
 	}
 };

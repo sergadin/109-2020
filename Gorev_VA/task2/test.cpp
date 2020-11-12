@@ -121,10 +121,26 @@ int main(void)
 	}
 	catch (listError &err)
 	{
-		std::cout << "EXEPTION: Error code: " << err.get_code() << "; Reason: " << err.get_reason() << "\n";
+		std::cout << "ECXEPTION: Error code: " << err.get_code() << "; Reason: " << err.get_reason() << "\n";
 	}
 
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+
+	std::cout << "\n";
+	std::cout << "---Check operator <<: \n";
+	std::cout << "---L1 = (1);  L2 = (1, 2);  L3 = (1, 2, 3);  LL = (L1, L2, L3)\n";
+	list <int> L1, L2, L3;
+	L1.add_item(1);
+	L3 = L2 = L1;
+	L2.add_item(2);
+	L3 = L2;
+	L3.add_item(3);
+	list < list <int> > LL;
+	LL.add_item(L1);
+	LL.add_item(L2);
+	LL.add_item(L3);
+	std::cout << "---LL: \n";
+	std::cout << LL << "\n";
 	return 0;
 }

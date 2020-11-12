@@ -31,10 +31,28 @@ class List
 
 		};
 
-		List();
+		List()
+		{
+			base_.data = NULL;
+			base_.next = &base_;
+		}
+
 		~List();
 
-		void add(T value);
+		void add(T value)
+		{
+			if(base_.data == NULL)
+			{
+				base_.data = value;
+				last_ = base_;
+				return;
+			}
+			ListItem *new_element = new ListItem;
+			new_element.data = value;
+			new_element.next = last_.next;
+			last_.next = &new_element;
+			last_ = new_element;
+		}
 		//void del();
 		//void go_next();
 		//void go_prev();
