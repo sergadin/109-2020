@@ -360,6 +360,6 @@ int main(void)
 	LL.add_item(L1);
 	LL.add_item(L2);
 	LL.add_item(L3);
-	std::cout << L3 << "\n";
+	std::cout << LL.get_last_item() << "\n";
 	return 0;
 }
