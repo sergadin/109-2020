@@ -9,6 +9,7 @@ int main(){
 	printf("Hello\n");
 	Deque <int> dek;
 	dek.push_front(5);
+	cout << dek <<  endl;
 	//dek.push_head(10);
 	//dek.print();
 	return 0;

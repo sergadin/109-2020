@@ -31,16 +31,15 @@ void Deque<T>::pop_front(){
 template <typename T>
 void Deque<T>:: push_front(T data)
 {
-    Head_ = new Node(data, Head_, NULL);
+	Head_ = new Node(data, Head_, NULL);
     size_++;
 }
 
 template <typename T>
 ostream& operator<<(std::ostream& os, const Deque<T> & Deck){
-	Deque<T>::Node<T>* current;
-	current = Deck.Head_;
+	typename  Deque<T>::Node* current = Deck.Head_;
 	for (int i = 0; i < Deck.size_; i++){
-	cout << current -> Deck.data_ << endl;
+	cout << current -> current.data_ << endl;
 	current = current -> Deck.Next_;
 	}
 		
