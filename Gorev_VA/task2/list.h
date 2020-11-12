@@ -1,7 +1,28 @@
 #include <iostream>
 
-template <class T>
+class listError
+{
+private:
+	int code_;
+	std::string reason_;
+public:
+	listError(int code, std::string reason)
+	{
+		code_ = code;
+		reason_ = reason;
+	}
 
+	const std::string get_reason() const
+	{
+		return reason_;
+	}
+	const int get_code() const
+	{
+		return code_;
+	}
+};
+
+template <class T>
 class list
 {
 private:
@@ -21,15 +42,25 @@ public:
 	public:
 		void go_next()
 		{
+			if (current_ == 0)
+				throw listError(-1, std::string("in void go_next(): Attempt to call empty node *current in class iterator"));
 			current_ = current_->next_;
 		}
 		T get_current_item()
 		{
+			if (current_ == 0)
+				throw listError(-2, std::string("in T get_current_item(): Attempt to call empty node *current in class iterator"));
 			return current_->val_;
 		}
 		bool is_last()
 		{
+			if (current_ == 0)
+				throw listError(-3, std::string("in bool is_last(): Attempt to call empty node *current in class iterator"));
 			return (current_->next_ == 0);
+		}
+		bool is_valid()
+		{
+			return !(current_ == 0);
 		}
 		friend list;
 	};
@@ -59,12 +90,21 @@ public:
 			}
 		}
 	}
+	~list()
+	{
+		deletelist();
+	}
+
 	T get_first_item() const
 	{
+		if (base_ == 0)
+			throw listError(-4, std::string("in T get_first_item(): Attempt to call empty node *base_ in class list"));
 		return base_->val_;
 	}
 	T get_last_item() const
 	{
+		if (last_ == 0)
+			throw listError(-5, std::string("in T get_last_item(): Attempt to call empty node *last_ in class list"));
 		return last_->val_;
 	}
 	bool is_empty() const
@@ -108,13 +148,17 @@ public:
 
 	int deletelist() // return number of deleted elements
 	{
-		node *N;
-		if (base_ == 0)
-			return 0;
-		N = base_->next_;
-		delete base_;
-		base_ = N;
-		return 1 + deletelist();
+		int i = 0;
+		node *N = base_;
+		while (N != 0)
+		{
+			N = base_->next_;
+			delete base_;
+			base_ = N;
+			i++;
+		}
+		last_ = 0;
+		return i;
 	}
 
 	bool operator==(const list <T> &L) const
@@ -137,10 +181,30 @@ public:
 	{
 		if (base_ != L.base_)
 		{
-			list <T> new_list(L);
 			deletelist();
-			base_ = new_list.base_;
-			last_ = new_list.last_;
+			node *N;
+			last_ = base_ = 0;
+			if (L.base_ != 0)
+			{
+				N = L.base_;
+				add_item(L.base_->val_);
+				N = N->next_;
+				while (N != 0)
+				{
+					add_item(N->val_);
+					N = N->next_;
+				}
+			}
 		}
+		return *this;
+	}
+	list <T> &operator+(const list <T> &L) // add list L in the end of this list
+	{
+		list <T> L1(L);
+		last_->next_ = L1.base_;
+		last_ = L1.last_;
+		L1.base_ = 0;
+		L1.last_ = 0;
+		return *this;
 	}
 };
