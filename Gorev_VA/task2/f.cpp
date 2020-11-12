@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <string>
 
 class listError
 {
@@ -207,6 +209,19 @@ public:
 		L1.last_ = 0;
 		return *this;
 	}
+	std::ostream &operator<<(std::ostream& os, const list <T> &L)
+	{
+		iterator I = L.begin();
+		while (!I.is_last())
+		{
+			os << I.current_->val_;
+			I.go_next();
+			if (!I.is_last())
+			os << " ";
+		}
+		return os;
+	}
+	
 };
 
 int main(void)
@@ -334,5 +349,17 @@ int main(void)
 	
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
+	
+	list <int> L1, L2, L3;
+	L1.add_item(1);
+	L3 = L2 = L1;
+	L2.add_item(2);
+	L3 = L2;
+	L3.add_item(3);
+	//list <list <int>> LL;
+	//LL.add_item(L1);
+	//LL.add_item(L2);
+	//LL.add_item(L3);
+	std::cout << L1;
 	return 0;
 }
