@@ -44,8 +44,9 @@ ostream& operator<<(std::ostream& os, const Deque<T> & Deck){
 	}
 		
 } 
-
-/*template<typename T>
+/*template <typename T>
+ostream& operator<<(std::ostream& os, const Deque<T> & Deck);
+template<typename T>
 Dek<T>::Dek(T data){
 	size = 1;
 	Head = new Dek<T>::Node;
