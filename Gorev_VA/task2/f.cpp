@@ -64,12 +64,13 @@ public:
 		{
 			return !(current_ == 0);
 		}
-		friend iterator list <T>::begin();
+		friend iterator list <T>::begin() const;
 	};
-	iterator begin()
+	iterator begin() const
 	{
 		iterator I;
 		I.current_ = base_;
+		return I;
 	}
 
 	list() // create empty list
@@ -209,7 +210,7 @@ public:
 		L1.last_ = 0;
 		return *this;
 	}
-	friend std::ostream &operator<<(std::ostream& os, list <T> &L)
+	friend std::ostream &operator<<(std::ostream& os, const list <T> &L)
 	{
 		iterator I = L.begin();
 		while (I.is_valid())
@@ -350,6 +351,9 @@ int main(void)
 	std::cout << "---Delete L\n";
 	std::cout << "number of deleted elements in L: " << L.deletelist() << "\n";
 	
+	std::cout << "\n";
+	std::cout << "---Check operator <<: \n";
+	std::cout << "---L1 = (1);  L2 = (1, 2);  L3 = (1, 2, 3);  LL = (L1, L2, L3)\n";
 	list <int> L1, L2, L3;
 	L1.add_item(1);
 	L3 = L2 = L1;
@@ -360,6 +364,7 @@ int main(void)
 	LL.add_item(L1);
 	LL.add_item(L2);
 	LL.add_item(L3);
-	std::cout << LL.get_last_item() << "\n";
+	std::cout << "---LL: \n";
+	std::cout << LL << "\n";
 	return 0;
 }
