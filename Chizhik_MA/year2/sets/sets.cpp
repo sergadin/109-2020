@@ -27,7 +27,6 @@ IntSet::IntSet(const IntSet& set): sup_(set.sup_), inf_(set.inf_) {
 
 IntSet::~IntSet() {
 	free(list_);
-	free(cash_);
 }
 
 void IntSet::add(int a) {
