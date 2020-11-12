@@ -30,7 +30,7 @@ class Deque{
 	//	Deque(T); //конструктор узла 
 		void pop_front(); //удаляем первый элемент из head
 		void push_front(T data);
-		friend std::ostream& operator <<(std::ostream& os, Deque<T> const & Deck);
+		template <typename U> friend std::ostream& operator <<(std::ostream& os,const Deque<U>  & Deck);
 	//	void push_head(T data); //пушаем в хеду
 	//	void print(); 
 };

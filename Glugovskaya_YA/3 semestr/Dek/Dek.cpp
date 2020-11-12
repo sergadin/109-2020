@@ -5,30 +5,48 @@
 #include <iostream>
 
 template<typename T>
-Dek<T>::Dek(){
-	size = 0;
-	Head = nullptr;
-	Tail = nullptr;
+Deque<T>::Deque(){
+	size_ = 0;
+	Head_ = NULL;
+	Tail_ = NULL;
 }
 
 template<typename T>
-Dek<T>::~Dek(){
-	while (size) pop_front();
+Deque<T>::~Deque(){
+	while (size_) pop_front();
 }
 
 template<typename T>
-void Dek<T>::pop_front(){
+void Deque<T>::pop_front(){
 	
-	if (size <= 0){
+	if (size_ <= 0){
 		return;
 	}
-	Node *temp = Head;
-	Head = Head -> Next;
+	Node *temp = Head_;
+	Head_ = Head_ -> Next_;
 	delete temp;
-	size --;
+	size_ --;
 }
 
-template<typename T>
+template <typename T>
+void Deque<T>:: push_front(T data)
+{
+    Head_ = new Node(data, Head_, NULL);
+    size_++;
+}
+
+template <typename T>
+ostream& operator<<(std::ostream& os, const Deque<T> & Deck){
+	Deque<T>::Node<T>* current;
+	current = Deck.Head_;
+	for (int i = 0; i < Deck.size_; i++){
+	cout << current -> Deck.data_ << endl;
+	current = current -> Deck.Next_;
+	}
+		
+} 
+
+/*template<typename T>
 Dek<T>::Dek(T data){
 	size = 1;
 	Head = new Dek<T>::Node;
@@ -61,9 +79,9 @@ void Dek<T>::print(){
 		count ++;
 	}
 }
-
-template class Dek<int>;
-template class Dek<double>;
-template class Dek<char>;
-template class Dek<float>;
+*/
+template class Deque<int>;
+template class Deque<double>;
+template class Deque<char>;
+template class Deque<float>;
 
