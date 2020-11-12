@@ -1,9 +1,11 @@
-
+#include "text.h"
+template <typename T >
 List::List()
 {
 	base_.data = NULL;
 	base_.next = &base_;
 }
+template <typename T >
 void List::add(T value)
 		{
 			if(base_.data == NULL)
