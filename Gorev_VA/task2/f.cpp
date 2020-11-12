@@ -64,7 +64,7 @@ public:
 		{
 			return !(current_ == 0);
 		}
-		friend list;
+		friend iterator list <T>::begin();
 	};
 	iterator begin()
 	{
@@ -209,23 +209,20 @@ public:
 		L1.last_ = 0;
 		return *this;
 	}
-	tamplate <class U> friend std::ostream &operator<<(std::ostream& os, const list <U> &L);
-	
+	friend std::ostream &operator<<(std::ostream& os, list <T> &L)
+	{
+		iterator I = L.begin();
+		while (I.is_valid())
+		{
+			os << I.get_current_item();
+			if (!I.is_last())
+				os << " ";
+			I.go_next();
+		}
+		return os;
+	}
 };
 
-tamplate <class U>
-std::ostream &operator<<(std::ostream& os, const list <U> &L)
-{
-	iterator I = L.begin();
-	while (!I.is_last())
-	{
-		os << I.current_->val_;
-		I.go_next();
-		if (!I.is_last())
-		os << " ";
-	}
-	return os;
-}
 
 int main(void)
 {
@@ -347,7 +344,7 @@ int main(void)
 	}
 	catch (listError &err)
 	{
-		std::cout << "EXEPTION: Error code: " << err.get_code() << "; Reason: " << err.get_reason() << "\n";
+		std::cout << "ECXEPTION: Error code: " << err.get_code() << "; Reason: " << err.get_reason() << "\n";
 	}
 	
 	std::cout << "---Delete L\n";
@@ -359,10 +356,10 @@ int main(void)
 	L2.add_item(2);
 	L3 = L2;
 	L3.add_item(3);
-	//list <list <int>> LL;
-	//LL.add_item(L1);
-	//LL.add_item(L2);
-	//LL.add_item(L3);
-	//std::cout << L1;
+	list < list <int> > LL;
+	LL.add_item(L1);
+	LL.add_item(L2);
+	LL.add_item(L3);
+	std::cout << LL;
 	return 0;
 }
