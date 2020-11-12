@@ -1,10 +1,7 @@
 #include "text.h"
-template <typename T >
+/*template <typename T >
 List::List()
-{
-	base_.data = NULL;
-	base_.next = &base_;
-}
+
 template <typename T >
 void List::add(T value)
 		{
@@ -21,7 +18,7 @@ void List::add(T value)
 			last_ = new_element;
 		}
 
-/*void List::void del()
+void List::void del()
 {
 	
 }
