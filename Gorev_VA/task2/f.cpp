@@ -209,20 +209,23 @@ public:
 		L1.last_ = 0;
 		return *this;
 	}
-	std::ostream &operator<<(std::ostream& os, const list <T> &L)
-	{
-		iterator I = L.begin();
-		while (!I.is_last())
-		{
-			os << I.current_->val_;
-			I.go_next();
-			if (!I.is_last())
-			os << " ";
-		}
-		return os;
-	}
+	tamplate <class U> friend std::ostream &operator<<(std::ostream& os, const list <U> &L);
 	
 };
+
+tamplate <class U>
+std::ostream &operator<<(std::ostream& os, const list <U> &L)
+{
+	iterator I = L.begin();
+	while (!I.is_last())
+	{
+		os << I.current_->val_;
+		I.go_next();
+		if (!I.is_last())
+		os << " ";
+	}
+	return os;
+}
 
 int main(void)
 {
@@ -360,6 +363,6 @@ int main(void)
 	//LL.add_item(L1);
 	//LL.add_item(L2);
 	//LL.add_item(L3);
-	std::cout << L1;
+	//std::cout << L1;
 	return 0;
 }
