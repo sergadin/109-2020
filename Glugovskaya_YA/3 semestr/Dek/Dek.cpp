@@ -20,30 +20,75 @@ template<typename T>
 void Deque<T>::pop_front(){
 	
 	if (size_ <= 0){
-		return;
+		throw Error(-1, std::string("Дальше удалять нечего"));
 	}
 	Node *temp = Head_;
 	Head_ = Head_ -> Next_;
+	Head_ -> Prev_  = Tail_;
+	Tail_ -> Next_ = Head_;
+	delete temp;
+	size_ --;
+}
+
+template<typename T>
+void Deque<T>::pop_back(){
+	
+	if (size_ <= 0){
+		throw Error(-1, std::string("Дальше удалять нечего"));
+	}
+	Node *temp = Tail_;
+	Tail_ = Tail_ -> Prev_;
+	Tail_ -> Next_  = Head_;
+	Head_ -> Prev_ = Tail_;
 	delete temp;
 	size_ --;
 }
 
 template <typename T>
+void Deque<T>:: front(){
+	cout << "front: " << Head_ -> data_ << endl;
+}
+
+template <typename T>
+void Deque<T>:: back(){
+	cout << "back: " << Tail_ -> data_ << endl;
+}
+
+template <typename T>
 void Deque<T>:: push_front(T data)
 {
-	Head_ = new Node(data, Head_, NULL);
+	Head_ = new Node(data, Head_, Tail_);
+	
+	if (size_ == 0) {
+		Tail_= Head_;
+		Head_ -> Next_ = Head_ -> Prev_ = Head_;
+	}
+	else {
+		Tail_ -> Next_ = Head_;
+		(Head_ -> Next_) -> Prev_ = Head_;
+	}
     size_++;
 }
 
 template <typename T>
-ostream& operator<<(std::ostream& os, const Deque<T> & Deck){
-	typename  Deque<T>::Node* current = Deck.Head_;
-	for (int i = 0; i < Deck.size_; i++){
-	cout << current -> current.data_ << endl;
-	current = current -> Deck.Next_;
+void Deque<T>:: push_back(T data){
+	
+	Tail_ = new Node(data, Head_, Tail_);
+	
+	if (size_ == 0) {
+		Head_= Tail_;
+		Tail_ -> Next_ = Tail_ -> Prev_ = Tail_;
 	}
-		
-} 
+	else {
+		Head_ -> Next_ = Tail_;
+		(Tail_ -> Next_) -> Prev_ = Tail_;
+	}
+    size_++;
+}
+
+
+
+
 /*template <typename T>
 ostream& operator<<(std::ostream& os, const Deque<T> & Deck);
 template<typename T>
@@ -55,31 +100,20 @@ Dek<T>::Dek(T data){
 	Head -> data = data;
 }
 
-
-template<typename T>	
-void Dek<T>::push_head(T data){
-	Dek<T>::Node *temp = new Dek<T>::Node; //делаем новый узел
-	//заполняем нужные поля
-	temp -> data = data; 
-	temp -> Next = (Head -> Prev) -> Next;
-	temp -> Prev = (Head -> Prev);
-	(Head -> Prev) -> Next = temp; //Делаем от головы шаг назад, смотрим на указатель, который указывает на голову и присваиваем ему значение новой ячейки
-	Head -> Prev = temp; //указтель из головы на предыдущий, это новый элетемент
-	Head = temp; //теперь у нас новая голова
-	size ++;
-}
-
+*/
 template<typename T>
-void Dek<T>::print(){
+void Deque<T>::print(){
 	int count = 0;
-	Dek<T>::Node*current = Head; 
-	while (count != size){
-		cout << current -> data << endl;
-		current = current -> Next;
+	Deque<T>::Node*current = this->Head_;
+	cout << "----------New print----------" << endl;
+	while (count < (this->size_)){
+		cout << "Current " << current << "   Data "<< current -> data_ << "   Next " << current -> Next_ << "   Prev " << current ->Prev_  << endl;
+		current = current -> Next_;
+		cout << current << endl;
 		count ++;
 	}
 }
-*/
+
 template class Deque<int>;
 template class Deque<double>;
 template class Deque<char>;
