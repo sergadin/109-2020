@@ -1,6 +1,7 @@
 #include <string>
-#include <cstdio>
 #include <math.h>
+#include <iostream>
+#include <cstdio>
 
 using namespace std; 
 
@@ -9,36 +10,51 @@ class List
 {
 	private:
 		class ListItem
-		{
-			public:
-				T data;
-				ListItem *next;
-				ListItem *bef;
-		};
+                {
+                        public:
+                                T data;
+                                ListItem *next;
+                                ListItem *bef;
+                };
 
-		ListItem base_;
-		base_.data = nullptr;
+		ListItem *base_;
 		ListItem *current_;
 	public:
 		class Iterator
 		{
 			private:
 				ListItem *cur_;
-				Interator()
+
+				Iterator()
 				{
-					cur_ = new Listitem;
-					cur_ = data_.next;
-				} 
+					cur_= new ListItem;
+					cur_->data = current_->data;
+					cur_->next = current_ ->next;
+					cur_->bef = current_->bef;
+				}
+			        ~Iterator()
+				{
+					delete cur_;
+				}	
 			public:
-				Iterator& operator ++();
-				Iterator& operator --();
-				bool operator ==(const Iterator &right);
+				Iterator& operator ++()
+				{
+					cur_ = cur_->next;
+				}
+				Iterator& operator --()
+				{
+					cur_ = cur_->bef;
+				}
+				T get_now()
+				{
+					return cur_->data;
+				}
+
 
 		};
 
 		List();
 		~List();
-
 		Iterator begin()
 		{
 			Iterator i();
@@ -56,7 +72,7 @@ class List
 			go_next();
 			go_next();
 			current_->bef = p->next;
-			current = p;
+			current_ = p;
 		}
 		void del_el()
 		{
@@ -69,13 +85,26 @@ class List
 			delete prevel;
 
 		}
+		void del_all()
+		{
+
+			ListItem *elem = base_->next;
+			delete base_;
+			ListItem *m;
+			while (elem != 0)
+			{
+				m = elem->next_;
+				delete elem;
+				elem = m;
+			}
+		}
 		void go_next()
 		{
 			current_->next;
                         if(!current_.data)
-                        {
-                                current_ = base_->next;
-                        }
+                       	{
+                               	current_ = base_->next;
+                	}
 			
 		}
 		void go_prev()
@@ -94,42 +123,35 @@ class List
                         }
 			return current_->data;
 		}
-		void print() const;
+		void print() const
 		{
 			ListItem * p;
 			p = base_->next;
 			while (p != nullptr)
 			{
-				cout << p->data << "\t";
+				std::cout << p->data << "\t";
 				p = p->next;
 			}
-			cout << endl;
+			std::cout << std::endl;
 		}
 
-		List & List::operator =(const List &elem)
+		List<T> &operator =(const List &elem)
 		{
-			del_el();
-
-			if(elem.base_->next != nullptr)
+			if (base_ != elem.base_)
 			{
-
-			}
-			while (p != nullptr)
-			{
-				p1 = new Stack<T>;
-				p1->item = p->item;
-				p1->next = nullptr;
-				if (vershina == nullptr)
+				del_all();
+				elem.current_= elem.base_;
+				current_ = base_;
+				add_after(elem.current_->data);
+				elem.go_next();
+				go_next();
+				while (elem.current_ != 0)
 				{
-					vershina = p1;
-					t = p1;
+					add_after(elem.current_->data);
+					elem.go_next;
+					go_next;
 				}
-				else
-				{
-					t->next = p1;
-					t = t->next;
-				}
-				p = p->next;
+				
 			}
 			return *this;
 		}
@@ -146,4 +168,4 @@ class ListException
 		ListException(int code, string message);
 		string message() const;
 		int code() const;
-}
+};
