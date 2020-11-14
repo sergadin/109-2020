@@ -31,7 +31,7 @@ int main(void) {
 		cout << "emp2 = " << emp2 << endl;
 		emp2.clear();
 		cout << "After clear() method emp2 = " << emp2 << endl;
-		
+
 		emp2.max();
 	} catch(BitIntSetException& e) {
 		cerr << e << endl;
@@ -120,7 +120,7 @@ int main(void) {
 	if (!(Y <= X)) cout << "Y isn't the subset of X anymore\n" << endl;
 
 	// Sixth test (intersection & set is a subset of itself & more cache)
-	BitIntSet P = X * Y;	
+	BitIntSet P = X * Y;
 	cout << P[P.len() - 1] << " is the maximum of P" <<  endl;
 
 	cout << "We now create copy of P and modify it" << endl;
@@ -137,7 +137,7 @@ int main(void) {
 	P *= P;
 	cout << "A = " << A << endl;
 	cout << "P = " << P << endl;
-	
+
 	P *= A * A;
 	cout << "P = P * A = " << P << endl;
 	A = P;
@@ -162,7 +162,6 @@ int main(void) {
 	cout << "And N is its intersection with the segment [0, 200]" << endl;
 
 	BitIntSet SD = M ^ N;
-	cout << "M Δ Ν = ";
 
 	// Ninth test (iterator)
 	BitIntSet::iterator SD_Iterator = SD.start(SD.len() - 1, -1);
@@ -171,7 +170,7 @@ int main(void) {
 	SD_Iterator.begin();
 	SD_Iterator.next();
 	SD_Iterator_copy = SD_Iterator_copy;
-	
+
 	for (cout << "M Δ Ν (reversed): {"; !SD_Iterator_copy.at_begin(); SD_Iterator_copy.next_step()) {
 		cout << SD_Iterator_copy.curr() << ((SD_Iterator_copy.curr_index() > 0) ? ", " : "");
 	}
@@ -189,7 +188,13 @@ int main(void) {
 	for (cout << "{"; !SD_Even_Iterator.at_end(); SD_Even_Iterator.next_step()) {
 		cout << SD_Even_Iterator.curr() << ((SD_Even_Iterator.curr_index() < SD.len() - SD_Even_Iterator.step()) ? ", " : "");
 	}
-	cout << "}" << endl; 
+	cout << "}" << endl;
+
+	BitIntSet::iterator SD_E3 = SD.start(2, 3);
+	for (cout << "Every third element: {"; !SD_E3.at_end(); SD_E3.next_step()) {
+		cout << SD_E3.curr() << ((SD_E3.curr_index() < SD.len() - SD_E3.step()) ? ", " : "");
+	}
+	cout << "}" << endl;
 
 	return 0;
 }
