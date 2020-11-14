@@ -34,7 +34,8 @@ class StackList
 		Stack<T>* vershina;
 	public:
 		class Iterator
-		{	
+		{
+			friend class StackList<T>;
 			public:
 				Stack<T>* current_;
 
@@ -45,10 +46,10 @@ class StackList
 					if(lev != prav)
 						return true;
 				}
-				friend Iterator& operator ++(const Iterator & i)
+				friend Iterator& operator ++(Iterator & i)
 				{
-					current_ = current_->next;
-					return current_;
+					i.current_ = i.current_->next;
+					return i;
 				}
 				friend T & operator*(const Iterator & i)
 				{
@@ -56,14 +57,14 @@ class StackList
 				}
 		};
 
-		Iterator begin() const
+		Iterator begin()
 		{
 			Iterator i;
 			i.current_ = vershina;
 			return i;
 		}
 
-		Iterator end() const
+		Iterator end()
 		{
 			Iterator i;
 			i.current_ = vershina;
@@ -150,6 +151,15 @@ class StackList
 			}
 			return *this;
 		}
+
+		/*void p(StackList<T>& S)
+		{
+			Iterator i();
+			for(i = S.begin(); i != S.end(); ++i)
+			{
+
+			}
+		}*/
 };
 
 int main()
@@ -180,11 +190,13 @@ int main()
 		cout << "S"<< endl;
 		S.Print();
 
+		//S.p(S);
 		StackList<int>::Iterator i;
-		for(i = S.begin(); i != S.end(); ++i)
-		{
-
-		}
+                        for(i = S.begin(); i != S.end(); ++i)
+                        {
+				*i = 10;
+				cout << *i << endl;
+                 	}
 		cout << "S"<< endl;
 		S.Print();
 
