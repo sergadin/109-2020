@@ -33,11 +33,54 @@ class StackList
 	private:
 		Stack<T>* vershina;
 	public:
+		class Iterator
+		{	
+			public:
+				Stack<T>* current_;
+
+				Iterator();
+
+				friend bool operator!=(const Iterator & lev, const Iterator& prav)
+				{
+					if(lev != prav)
+						return true;
+				}
+				friend Iterator& operator ++(const Iterator & i)
+				{
+					current_ = current_->next;
+					return current_;
+				}
+				friend T & operator*(const Iterator & i)
+				{
+					return i.current_->item;
+				}
+		};
+
+		Iterator begin() const
+		{
+			Iterator i;
+			i.current_ = vershina;
+			return i;
+		}
+
+		Iterator end() const
+		{
+			Iterator i;
+			i.current_ = vershina;
+			while(i.current_ != nullptr)
+			{
+				i.current_=i.current_->next;
+				if(i.current_ == nullptr)
+					break;
+			}
+			return i;
+		}
+
 		StackList() 
 		{ 
-		vershina = nullptr; 
+			vershina = nullptr; 
 		}
-		
+
 		void Put(T i)// добавить
 		{
 			Stack<T>* p;
@@ -52,7 +95,7 @@ class StackList
 			if (vershina == nullptr)
 			{
 				throw StackListError(-1, std::string("empty"));
-		        }
+			}
 			else
 			{
 				Stack<T>* p;
@@ -71,7 +114,7 @@ class StackList
 			if (vershina == nullptr)
 			{
 				throw StackListError(-5, std::string("empty"));
-		        }
+			}
 			Stack<T>* p;
 			T item;
 			item = vershina->item;
@@ -112,38 +155,46 @@ class StackList
 int main()
 {
 	try
-        {
-	StackList<int> S;
-	S.Put(8);
-	S.Put(5);
-	S.Put(10);
-	S.Put(7);
-	cout << "S"<< endl;
-	S.Print();
-	
-	StackList<int> S1;
-	S1.Put(1);
-	S1.Put(2);
-	S1.Put(3);
-	cout << "S1"<< endl;
-	S1.Print();
-	
-	StackList<int> S5;
-	S5 = S;
-	cout << "S5"<< endl;
-	S5.Print();
-	
-	S.Del();
-	cout << "S"<< endl;
-	S.Print();
+	{
+		StackList<int> S;
+		S.Put(8);
+		S.Put(5);
+		S.Put(10);
+		S.Put(7);
+		cout << "S"<< endl;
+		S.Print();
 
-	StackList<int> L;
-	cout << "L"<< endl;
-	L.Print();
+		StackList<int> S1;
+		S1.Put(1);
+		S1.Put(2);
+		S1.Put(3);
+		cout << "S1"<< endl;
+		S1.Print();
+
+		StackList<int> S5;
+		S5 = S;
+		cout << "S5"<< endl;
+		S5.Print();
+
+		S.Del();
+		cout << "S"<< endl;
+		S.Print();
+
+		StackList<int>::Iterator i;
+		for(i = S.begin(); i != S.end(); ++i)
+		{
+
+		}
+		cout << "S"<< endl;
+		S.Print();
+
+		StackList<int> L;
+		cout << "L"<< endl;
+		L.Print();
 	}
 	catch(StackListError &err)
-        {
-                std::cout << err.get_reason() << std::endl;
-        }
+	{
+		std::cout << err.get_reason() << std::endl;
+	}
 	return 0;
 }
