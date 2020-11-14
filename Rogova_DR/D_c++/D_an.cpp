@@ -62,12 +62,12 @@ class List
 				Iterator& operator ++()
 				{
 					cur_ = cur_->next;
-					return cur_;
+					return this;
 				}
 				Iterator& operator --()
 				{
 					cur_ = cur_->bef;
-					return cur_;
+					return this;
 				}
 				T get_now()
 				{
@@ -79,7 +79,18 @@ class List
 
 		List()
 		{
-			base_ = nullptr;
+			base_ = new ListItem<T>;
+			base_->bef = base_;
+			base_->next = base_;
+			current_ = base_;
+
+		}
+		~List()
+		{
+			current_ = base_;		
+			del_all();
+			delete base_;
+			
 		}
 		Iterator begin()
 		{
@@ -88,11 +99,8 @@ class List
 		}
 		void add_after(T new_el)
 		{
-			cout<<"lals";
 			ListItem<T>* p;
-			cout<<"krrrr";
 			p = new ListItem<T>;
-			cout<<"lalala";
 			p->data = new_el;
 			p->next = base_;
 			p->bef = base_->bef;
@@ -102,27 +110,30 @@ class List
 		}
 		void del_el()
 		{
+			if(current_ == base_)
+				return;
 			ListItem<T> * prevel;
-			go_prev();
 			prevel = current_;
-			go_next();
-			prevel->next = current_->next;
-			current_ = prevel;
-			delete prevel;
+			current_->bef->next = current_->next;
+			current_->next->bef = current_->bef;
+			current_ = base_;
 
 		}
 		void del_all()
 		{
 
 			ListItem<T> *elem = base_->next;
-			delete base_;
 			ListItem<T> *m;
-			while (elem != 0)
+			current_ = base_;
+			while (elem != base_)
 			{
-				m = elem->next;
-				delete elem;
-				elem = m;
+				m = elem;
+				elem = elem -> next;
+				delete m;
 			}
+			base_->next = base_;
+			base_->bef = base_;
+
 		}
 		void go_next()
 		{
@@ -143,7 +154,7 @@ class List
 		}
 		T get_current()
 		{
-			if(!current_.data)
+			if(current_ == base_)
 			{
 				current_ = base_->next;
 			}
@@ -153,7 +164,7 @@ class List
 		{
 			ListItem<T> * p;
 			p = base_->next;
-			while (p != nullptr)
+			while (p != base_)
 			{
 				std::cout << p->data << "\t";
 				p = p->next;
@@ -161,40 +172,18 @@ class List
 			std::cout << std::endl;
 		}
 
-		/*List<T> &operator =(const List &elem)
-		  {
-		  if (base_ != elem.base_)
-		  {
-		  del_all();
-		  elem.current_= elem.base_;
-		  current_ = base_;
-		  add_after(elem.current_->data);
-		  elem.go_next();
-		  go_next();
-		  while (elem.current_ != 0)
-		  {
-		  add_after(elem.current_->data);
-		  elem.go_next;
-		  go_next;
-		  }
-
-		  }
-		  return *this;
-		  }*/
-
-		List<T>& operator=(const List<T>& right)// копирование
+		List<T>& operator=(const List<T>& right)//
 		{
 			ListItem<T>* p;
 			ListItem<T>* p1;
 			ListItem<T>* b;
-			b = right.base_;
+			del_all();
+			current_ = base_;
 			p = right.base_;
 			p = p->next;
-			while (p != b)
+			while (p != right.base_)
 			{
-				p1 = new ListItem<T>;
-				p1->data = p->data;
-				p1->next = nullptr;
+				add_after(p->data); 
 				p = p->next;
 			}
 			return *this;
@@ -212,10 +201,15 @@ int main()
 
 		S.add_after(10);
 		S.add_after(7);
-		cout << "S"<< endl;
-		//S.print();
+		int i = S.get_current();
 
-		/*List<int> S1;
+		cout<< i<<endl;
+		S.del_all();
+		S.print();
+
+		cout << "S"<< endl;
+
+	         List<int> S1;
 		  S1.add_after(2);
 		  S1.add_after(3);
 		  cout << "S1"<< endl;
@@ -232,7 +226,7 @@ int main()
 
 		  List<int> L;
 		  cout << "L"<< endl;
-		  L.print();*/
+		  L.print();
 	}
 	catch(ListException &err)
 	{
