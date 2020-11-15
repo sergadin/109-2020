@@ -59,20 +59,28 @@ class List
 					delete cur_;
 				}	
 			public:
-				Iterator& operator ++()
+				Iterator& operator ++(Iterator & i)
 				{
-					cur_ = cur_->next;
-					return this;
+					i.cur_ = i.cur_->next;
+					return i;
 				}
-				Iterator& operator --()
+				Iterator& operator --(Iterator & i)
 				{
-					cur_ = cur_->bef;
-					return this;
+					i.cur_ = i.cur_->bef;
+					return i;
 				}
 				T get_now()
 				{
 					return cur_->data;
 				}
+				bool operator ==(Iterator& right)
+				{
+					if(this == right)
+						return true;
+					else
+						return false;
+				}
+			
 
 
 		};
@@ -107,21 +115,31 @@ class List
 			current_ = p->bef;
 			current_->next = p;
 			base_->bef = p;
+			current_ = p;
+		}
+		bool is_empty()
+		{
+			if(base_->next == base_)
+				return true;
+			else
+				return false;
 		}
 		void del_el()
 		{
-			if(current_ == base_)
+			if(is_empty())
 				return;
 			ListItem<T> * prevel;
 			prevel = current_;
 			current_->bef->next = current_->next;
 			current_->next->bef = current_->bef;
-			current_ = base_;
+			current_ = base_->next;
+			delete prevel;
 
 		}
 		void del_all()
 		{
-
+			if(is_empty())
+				return;
 			ListItem<T> *elem = base_->next;
 			ListItem<T> *m;
 			current_ = base_;
@@ -155,9 +173,7 @@ class List
 		T get_current()
 		{
 			if(current_ == base_)
-			{
-				current_ = base_->next;
-			}
+				throw ListException(-2, std::string("error"));
 			return current_->data;
 		}
 		void print() const
@@ -186,6 +202,7 @@ class List
 				add_after(p->data); 
 				p = p->next;
 			}
+			current_ = base_->next;
 			return *this;
 		}
 
@@ -201,10 +218,13 @@ int main()
 
 		S.add_after(10);
 		S.add_after(7);
-		int i = S.get_current();
-
-		cout<< i<<endl;
-		S.del_all();
+		S.print();
+		for(int i = 0; i < 10; i++)
+		{
+			S.del_el();
+		}
+		S.print();
+		cout << "lalalal"<< endl;
 		S.print();
 
 		cout << "S"<< endl;
