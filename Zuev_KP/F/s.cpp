@@ -41,6 +41,12 @@ class StackList
 
 			Iterator();
 
+			Iterator& operator=(const Iterator & right)
+			{
+				current_ = right.current_;
+				return this;
+			}
+
 			friend bool operator!=(const Iterator & lev, const Iterator& prav)
 			{
 				if(lev != prav)
@@ -51,19 +57,20 @@ class StackList
 				i.current_ = i.current_->next;
 				return i;
 			}
-			friend T & operator*(const Iterator & i)
+		 	friend T & operator*(const Iterator & i)
 			{
 				return i.current_->item;
 			}
 		};
 
-		void begin()
+		Iterator begin()
 		{
 			Iterator i;
 			i.current_ = vershina;
+			return i;
 		}
 
-		void end()
+		Iterator end()
 		{
 			Iterator i;
 			i.current_ = vershina;
@@ -73,6 +80,7 @@ class StackList
 				if(i.current_ == nullptr)
 					break;
 			}
+			return i;
 		}
 
 		StackList() 
