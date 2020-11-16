@@ -152,7 +152,7 @@ class StackList
 
 		void p(StackList<T>& S)
 		{
-			Iterator i();
+			StackList<T>::Iterator i;
 			for(i = S.begin(); i != S.end(); ++i)
 			{
 
