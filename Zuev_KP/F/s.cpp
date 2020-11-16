@@ -44,7 +44,7 @@ class StackList
 			Iterator& operator=(const Iterator & right)
 			{
 				current_ = right.current_;
-				return this;
+				return *this;
 			}
 
 			friend bool operator!=(const Iterator & lev, const Iterator& prav)
