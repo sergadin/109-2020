@@ -44,6 +44,11 @@ class StackList
 				current_ = nullptr;
 			}
 
+			~Iterator()
+			{
+				current_ = nullptr;
+			}
+
 			Iterator& operator=(const Iterator & right)
 			{
 				current_ = right.current_;
@@ -91,6 +96,11 @@ class StackList
 		StackList() 
 		{ 
 			vershina = nullptr; 
+		}
+
+		~StackList()
+		{
+			delete vershina;
 		}
 
 		void Put(T i)// добавить
