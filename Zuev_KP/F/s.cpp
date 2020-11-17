@@ -95,7 +95,7 @@ class StackList
 
 		~StackList()
 		{
-			delete vershina;
+			Empty();
 		}
 
 		void Put(T i)// добавить
@@ -105,6 +105,22 @@ class StackList
 			p->item = i;
 			p->next = vershina;
 			vershina = p;
+		}
+
+		void Empty()
+		{
+			Stack<T>* p;
+			Stack<T>* p1;
+
+			p = vershina;
+
+			while (p != nullptr)
+			{
+				p1 = p;
+				p = p->next;
+				delete p1;
+			}
+			vershina = nullptr;
 		}
 
 		void Print()// вывод
