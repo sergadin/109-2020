@@ -35,42 +35,37 @@ class StackList
 	public:
 		class Iterator
 		{
-			friend class StackList<T>;
+			private:
+				friend class StackList<T>;
+				Stack<T>* current_;
 			public:
-			Stack<T>* current_;
+				Iterator()
+				{
+					current_ = nullptr;
+				}
 
-			Iterator()
-			{
-				current_ = nullptr;
-			}
+				Iterator& operator=(const Iterator & right)
+				{
+					current_ = right.current_;
+					return *this;
+				}
 
-			~Iterator()
-			{
-				current_ = nullptr;
-			}
-
-			Iterator& operator=(const Iterator & right)
-			{
-				current_ = right.current_;
-				return *this;
-			}
-
-			friend bool operator!=(const Iterator & lev, const Iterator& prav)
-			{
-				if(lev.current_ != prav.current_)
-					return true;
-				else
-					return false;
-			}
-			friend Iterator& operator ++(Iterator & i)
-			{
-				i.current_ = i.current_->next;
-				return i;
-			}
-			friend T & operator*(const Iterator & i)
-			{
-				return i.current_->item;
-			}
+				friend bool operator!=(const Iterator & lev, const Iterator& prav)
+				{
+					if(lev.current_ != prav.current_)
+						return true;
+					else
+						return false;
+				}
+				friend Iterator& operator ++(Iterator & i)
+				{
+					i.current_ = i.current_->next;
+					return i;
+				}
+				friend T & operator*(const Iterator & i)
+				{
+					return i.current_->item;
+				}
 		};
 
 		Iterator begin()
