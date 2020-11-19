@@ -10,13 +10,13 @@ int main()
     List <int> MyNumbers;
    
     MyNumbers.print();
-    
-    for (int i = 0; i < 10; i++)
+    MyNumbers.add_first(1);
+    for (int i = 2; i < 10; i++)
     {
       int z;
       cout << ">> ";
       cin >> z;
-      MyNumbers.add_after(z);
+      MyNumbers.add_after(i);
         
     }
     MyNumbers.print();
