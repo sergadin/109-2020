@@ -62,32 +62,10 @@ public:
     bool empty() const;
 
     T * front();
-    T const& front() const;
-
     T * back();
-    T const& back() const;
 
-    
-    
     T& operator[] (const size_t idx);
-    T const& operator[] (const size_t idx) const;
     
-    /*
-    typedef T* iterator;
-    typedef T* const const_iterator;
-
-    const_iterator begin() const; // cbegin
-    iterator begin();
-
-    const_iterator end() const; //cend()
-    iterator end();
-
-    const_iterator rbegin() const;
-    iterator rbegin();
-
-    const_iterator rend() const;
-    iterator rend();
-    */
     enum ERRORS
     {
         EMPTY = -10,

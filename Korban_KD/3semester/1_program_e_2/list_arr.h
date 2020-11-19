@@ -62,10 +62,7 @@ public:
     bool empty() const;
 
     T * front();
-
     T * back();
-
-    
     
     T& operator[] (const size_t idx);
     
