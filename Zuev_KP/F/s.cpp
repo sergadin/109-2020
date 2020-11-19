@@ -184,7 +184,7 @@ class StackList
 			return *this;
 		}
 
-		void p(StackList<T>& S)
+		void p(StackList<T>& S)// развернуть значения в массиве 
 		{
 			StackList<T>::Iterator i;
 			StackList<T>::Iterator i1;
