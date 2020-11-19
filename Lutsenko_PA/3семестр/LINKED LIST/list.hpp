@@ -36,10 +36,10 @@ class List
           if ( (is_empty()) | (item == base_) )
           {
              throw Error(3, std::string("нет предыдущего"));}
-             ListItem *p = base_;
-             while (p->next != item)
-             p = p->next;
-             return p;
+            go_first();
+             while (current_->next != item)
+                 go_next();
+             return current_;
         }
     
       public:
@@ -91,18 +91,17 @@ class List
         delete temp;
     }
     
-    void delete_this(ListItem *item) //удалить из списка
+    void delete_this() //удалить из списка текущий
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-        
-        if (item == base_)
+        if (current_ == base_)
         {
-            delete_first(item);
+            delete_first();
         }
         
-        ListItem* prev = prev(item);
-        prev->next = item->next;
-        delete item;
+        ListItem* prev = prev(current_);
+        prev->next = current_->next;
+        delete current_;
     }
     
     void delete_list() // очистить список
@@ -116,20 +115,20 @@ class List
         
         ListItem* get_last() //получить последний элемент списка
          {
-           ListItem* p = base_;
-           while (Next(p) != NULL)
-           p = p->next;
-           return p;
+             go_first();
+           while (current_->next != NULL)
+               go_next();
+           return current_;
          }
         
         int elem_count() //число элементов в списке
         {
-          ListItem* p = base_;
+          go_first();
           int count = 1;
-          while (Next(p) != NULL)
+          while (current_->next != NULL)
           {
               count++;
-              p = p->next;
+              go_next();
           }
           return count;
         }
@@ -139,18 +138,18 @@ class List
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
        
-        ListItem *p = base_;
-         while (p != NULL)
+        go_first();
+         while (current_ != NULL)
         {
-          std::cout << p->date << " ";
-          p = p->next;
+          std::cout << current_->data << " ";
+          go_next();
         }
         std::cout << std::endl;
     };
      
         
         
-    List operator+(const List& left, const List& right)
+/*    List operator+(const List& left, const List& right)
         {
             if (left.is_empty()) return & right;
             if (right.is_empty()) return & left;
@@ -170,7 +169,7 @@ class List
                 
             }
         }
-        
+        */
         
         
         
@@ -190,12 +189,12 @@ class List
         }
         
     
-     List operator=(const List &old){
+ /*    List operator=(const List &old){
    
-        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+         if (old.is_empty()) {throw Error(2, std::string("список  пуст"));}
       
         else{
-                int size = old.elem_count();
+                                    
                     this->~LinkedList();
                     ListItem *old, *last;
                     old = *old.base_;
@@ -213,7 +212,7 @@ class List
               return *this;
             }
             
-    
+ */
      
     
     void go_first() { current_= base_; };

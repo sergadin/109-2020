@@ -1,18 +1,19 @@
-
 #include <iostream>
 #include "list.hpp"
+#include <stdio.h>
+#include <cstring>
 
 using namespace std;
 
 int main()
 {
-    typedef List <double> MyNumbers;
+    List <int> MyNumbers;
    
     MyNumbers.print();
     
     for (int i = 0; i < 10; i++)
     {
-      double z;
+      int z;
       cout << ">> ";
       cin >> z;
       MyNumbers.add_after(z);
@@ -21,20 +22,20 @@ int main()
     MyNumbers.print();
     
     // Удаляем элементы, равные 0
-    ListItem *p = MyNumbers.getFirst();
+    MyNumbers.go_first();
     do {
-      if (MyNumbers.getValue(p) == 0)
-        p = MyNumbers.Delete(p);
+      if (MyNumbers.get_current() == 0)
+        MyNumbers.delete_this();
       else
-        p = MyNumbers.go_next();
-    } while (p != NULL);
+        MyNumbers.go_next();
+    } while (MyNumbers.get_current() != NULL);
     MyNumbers.print();
     cout << "В списке " << MyNumbers.elem_count() << " элементов" << endl;
     
     
-    list.delete_list();
-    list.Print();
-    cout << "В списке " << list.getCount() << " элементов" << endl;
+    MyNumbers.delete_list();
+    MyNumbers.print();
+    cout << "В списке " << MyNumbers.elem_count()<< " элементов" << endl;
     
     return 0;
 };
