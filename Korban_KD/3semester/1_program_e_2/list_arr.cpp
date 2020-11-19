@@ -212,28 +212,6 @@ T& list_arr<T>::operator[] (const size_t idx)
     return curr->data_[idx_arr];
 }
 
-template <typename T>
-T const& list_arr<T>::operator[] (const size_t idx) const 
-{
-    if(idx >= mem_size_ || idx < 0)
-    {
-        throw list_arr_exception(INDEX_ERR, "Wrong index");
-    }
-    
-    size_t cont = 0;
-    size_t idx_list = (size_t)idx/len_arr_;
-    size_t idx_arr = idx % len_arr_;
-    
-    node *curr = head_;
-    while(curr) 
-    {
-        if(cont == idx_list)
-            return curr->data_[idx_arr];
-        curr = curr->next_;
-        ++cont;
-    }
-    return curr->data_[idx_arr];
-}
 
 template <typename T>
 void list_arr<T>::expand(size_t  expd_size)
