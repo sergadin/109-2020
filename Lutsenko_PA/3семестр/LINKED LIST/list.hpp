@@ -29,6 +29,8 @@ class List
 
       ListItem base_;
       ListItem *current_;
+     
+        
       ListItem* prev(ListItem* item)
         {
           if ( (is_empty()) | (item == base_) )
@@ -112,13 +114,25 @@ class List
         }
     }
         
-        ListItem* get_last()
+        ListItem* get_last() //получить последний элемент списка
          {
            ListItem* p = base_;
            while (Next(p) != NULL)
            p = p->next;
            return p;
          }
+        
+        int elem_count() //число элементов в списке
+        {
+          ListItem* p = base_;
+          int count = 1;
+          while (Next(p) != NULL)
+          {
+              count++;
+              p = p->next;
+          }
+          return count;
+        }
     
     void print() // печать списка
         
@@ -134,64 +148,75 @@ class List
         std::cout << std::endl;
     };
      
-        List operator+( const List & left, const List & right)
+        
+        
+    List operator+(const List& left, const List& right)
         {
             if (left.is_empty()) return & right;
             if (right.is_empty()) return & left;
-            ListItem* r = right.base_;
-            ListItem* l = left.get_last();
-            
-            while (r->next != NULL)
+            if (! left.is_empty() | ! right.is_empty())
             {
-                current_= l;
-                left.add_after(r);
-                right.delete_first();
-                ListItem* r = right.base_;
+               ListItem* r = right.base_;
+               ListItem* l = left.get_last();
+            
+               while (r->next != NULL)
+                  {
+                    current_= l;
+                    left.add_after(r);
+                    right.delete_first();
+                    ListItem* r = right.base_;
+                   }
+                return & left;
+                
             }
-            return & left;
         }
+        
+        
+        
         
     friend  bool operator==( const List & left, const List & right)
         {
-            if (count.left != count.left) return 0;
-            ListItem *p1 = *left.base_;
-            ListItem *p2 = *right.base_;
-            k=0;
-            for (int i=1;i++;i==count.left)
+            if (left.elem_count() != right.elem_count()) return 0;
+            ListItem* r = right.base_;
+            ListItem* l = left.base_;
+            int k=0;
+            for (int i=1;i++;i == left.elem_count())
             {
-                if(p1 == p2)
+                if( r == l) k++;
+                r = r->next;
+                l = l->next;
+            }
+            if ( k == left.elem_count() ) return 1; else return 0;
         }
         
-    /*
-     List &List:: operator=(const List &old){
+    
+     List operator=(const List &old){
    
-            if(this != &old){
-                mySize = old.mySize;
-                if(old.mySize == 0)
-                    first = NULL;
+        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
       
-                else{
-                mySize = old.mySize;
+        else{
+                int size = old.elem_count();
                     this->~LinkedList();
                     ListItem *old, *last;
-                   old = origList.first;
+                    old = *old.base_;
                     last = new ListItem(old->data);
-                    first = last;
+                    base_ = last;
                     ListItem *temp;
                     while(old != NULL)
-                    { //cycle through origList
-                        temp = new Node(origPtr->data); //copy data in current node of origList
-                        lastPtr->next = temp;  //add temp to end of this list
-                        lastPtr = lastPtr->next; //advance lastPtr to end of this list
-                        origPtr = origPtr->next; //go to next node in origList
+                    {
+                        temp = new ListItem(old->data);
+                        last->next = temp;
+                        last = last->next;
+                        old = old->next;
                     }
-                }
+              }
+              return *this;
             }
-            return *this;
-        }
-     */
+            
     
-   void go_first() { current_= base_; };
+     
+    
+    void go_first() { current_= base_; };
     void go_next()  { current_= current_->next; };
     T get_current() {  return current_->data; };
       

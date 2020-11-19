@@ -5,15 +5,36 @@
 using namespace std;
 
 int main()
-{   typedef List<double> StudMarks;
+{
+    typedef List <double> MyNumbers;
    
-    List<int> list_of_integers;
-    List <IntList> list_of_list_of integers;
+    MyNumbers.print();
     
-    List<int>::Iterator i = list_of_integers.begin();
-    while (i.is_valid())
+    for (int i = 0; i < 10; i++)
     {
-        std::cout << i.get_current() << std::endl;
-        i.go_next();
+      double z;
+      cout << ">> ";
+      cin >> z;
+      MyNumbers.add_after(z);
+        
     }
+    MyNumbers.print();
+    
+    // Удаляем элементы, равные 0
+    ListItem *p = MyNumbers.getFirst();
+    do {
+      if (MyNumbers.getValue(p) == 0)
+        p = MyNumbers.Delete(p);
+      else
+        p = MyNumbers.go_next();
+    } while (p != NULL);
+    MyNumbers.print();
+    cout << "В списке " << MyNumbers.elem_count() << " элементов" << endl;
+    
+    
+    list.delete_list();
+    list.Print();
+    cout << "В списке " << list.getCount() << " элементов" << endl;
+    
+    return 0;
 };
