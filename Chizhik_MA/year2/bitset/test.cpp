@@ -1,15 +1,15 @@
 #include "bitset.hpp"
 using namespace std;
 
-int main() {
-	//First test (incorrect range)
+int main(void) {
+	// First test (incorrect range)
 	try {
 		BitIntSet small(-100, -200);
 	} catch(BitIntSetException& e) {
 		cerr << e << endl;
   	}
 
-	//Second test (trying to get min/max of empty sets)
+	// Second test (trying to get min/max of empty sets)
 	try {
 		BitIntSet emp(0, 4);
 		cout << "Set emp = " << emp << ((emp.empty()) ? " (it is empty)" : "") << endl;
@@ -31,13 +31,13 @@ int main() {
 		cout << "emp2 = " << emp2 << endl;
 		emp2.clear();
 		cout << "After clear() method emp2 = " << emp2 << endl;
-		
+
 		emp2.max();
 	} catch(BitIntSetException& e) {
 		cerr << e << endl;
 	}
 
-	//Third test (adding & min/max & left/right & checking if element belongs to the set & cache)
+	// Third test (adding & min/max & left/right & checking if element belongs to the set & cache)
 	BitIntSet Z(-200, 0);
 	Z.add(-45);
 	Z.add(656785);
@@ -45,13 +45,12 @@ int main() {
 	Z.add(0);
 	Z.add(3);
 	Z.add(-4789999);
+	cout << Z << endl;
 	cout << "Printing last element using the operator[]..." << endl;
 	cout << Z[Z.len() - 1] << endl;
-	Z.print_cache(1);
 	cout << "Adding -25" << endl;
 	Z.add(-25);
-	Z.print_cache(0);
-	cout << endl;
+	cout << Z << endl;
 
 	cout << "\nZ: " << Z << endl;
 	for (int j = 0; j < 5; j++) {
@@ -60,7 +59,7 @@ int main() {
 	cout << "Minimum of Z is " << Z.min() << " and maximum is " << Z.max() << endl;
 	cout << "Z's values belong to the segment [" << Z.left() << ", " << Z.right() << "]\n" << endl;
 
-	//Fourth test (adding & removing & assigning to itself)
+	// Fourth test (adding & removing & assigning to itself)
 	BitIntSet A = BitIntSet(0, 50);
 	for (int i = A.left(); i < A.right(); i += 2) {
 		A.add(i);
@@ -74,7 +73,8 @@ int main() {
 	cout << "A: " << A << endl;
 	cout << "A's values belong to the segment [" << A.left() << ", " << A.right() << "]" << endl;
 	A.add(46); // Trying to add element that is already in the set; nothing happens
-	A.remove(56); // Leads to showing warning message
+	int status = A.remove(56);
+	cout << "A.remove(56) returns " << status << endl;
 
 	cout << "Minimum of A is " << A.min() << " and maximum of A is " << A.max() << "\n" << endl;
 	BitIntSet B(40, 100);
@@ -82,7 +82,7 @@ int main() {
 		B.add(k);
 	}
 
-	//Fifth test (equal sets, subtraction, one set is the subset of another)
+	// Fifth test (equal sets, subtraction, one set is the subset of another)
 	BitIntSet X = BitIntSet(-100, 50);
 	const BitIntSet e(0, 0);
 	cout << ((X == e) ? "X is empty" : "X is not equal to empty set, hmm...") << endl;
@@ -95,10 +95,6 @@ int main() {
 		Y.add(b);
 	}
 	if (X == Y) cout << "X = Y" << endl;
-	cout << "X's ";
-	X.print_cache(0);
-	cout << "Y's ";
-	Y.print_cache(0);
 
 	cout << "Let's remove some elements from Y" << endl;
 	Y.remove(0);
@@ -123,18 +119,15 @@ int main() {
 
 	if (!(Y <= X)) cout << "Y isn't the subset of X anymore\n" << endl;
 
-	//Sixth test (intersection & set is a subset of itself & more cache)
-	BitIntSet P = X * Y;	
+	// Sixth test (intersection & set is a subset of itself & more cache)
+	BitIntSet P = X * Y;
 	cout << P[P.len() - 1] << " is the maximum of P" <<  endl;
 
 	cout << "We now create copy of P and modify it" << endl;
 	cout << endl;
 	BitIntSet copy = P;
-	copy.print_cache(0);
 	copy.add(3);
-	copy.print_cache(0);
 	copy.add(-8);
-	copy.print_cache(0);
 	cout << endl;
 
 	cout << "Length of X*Y is " << P.len() << ": " << P << endl;
@@ -142,16 +135,9 @@ int main() {
 		cout << "P is subset of P, that's great" << endl;
 	}
 	P *= P;
-	cout << "Let's now add and remove something small" << endl;
-	P.add(-500);
-	P.print_cache(0);
-	P.print_cache(1);
-	P.remove(-500);
-	P.print_cache(0);
-	P.print_cache(1);
 	cout << "A = " << A << endl;
 	cout << "P = " << P << endl;
-	
+
 	P *= A * A;
 	cout << "P = P * A = " << P << endl;
 	A = P;
@@ -159,12 +145,12 @@ int main() {
 	cout << "A = P now has " << A.len() << " element(s)" << endl;
 	cout << "A = " << A << "\n" << endl;
 
-	//Seventh test (union)
+	// Seventh test (union)
 	cout << "So, G = " << G << endl;
 	cout << "And X = " << X << endl;
 	cout << "Their union is " << (G + X) << "\n" << endl;
 
-	//Eighth test (symmetrical difference)
+	// Eighth test (symmetrical difference)
 	BitIntSet M(-100, 100), N(0, 200);
 	for (int i = M.left(); i <= M.right(); i += 2) {
 		M.add(i);
@@ -176,12 +162,37 @@ int main() {
 	cout << "And N is its intersection with the segment [0, 200]" << endl;
 
 	BitIntSet SD = M ^ N;
-	cout << "M Δ Ν = ";
 
-	//Ninth test (iteration over set with caching)
-	cout << "{";
-	for (int i = 0; i < SD.len(); i++) {
-		cout << SD[i] << ((i < SD.len() - 1) ? ", " : "");
+	// Ninth test (iterator)
+	BitIntSet::iterator SD_Iterator = SD.start(SD.len() - 1, -1);
+	BitIntSet::iterator SD_Iterator_copy = SD_Iterator;
+
+	SD_Iterator.begin();
+	SD_Iterator.next();
+	SD_Iterator_copy = SD_Iterator_copy;
+
+	for (cout << "M Δ Ν (reversed): {"; !SD_Iterator_copy.at_begin(); SD_Iterator_copy.next_step()) {
+		cout << SD_Iterator_copy.curr() << ((SD_Iterator_copy.curr_index() > 0) ? ", " : "");
+	}
+	cout << "}" << endl;
+
+	BitIntSet::iterator SD_Odd_Iterator = SD.start(1, 2);
+	cout << "Now, we'll print every second element of M Δ N:" << endl;
+	for (cout << "{"; !SD_Odd_Iterator.at_end(); SD_Odd_Iterator.next_step()) {
+		cout << SD_Odd_Iterator.curr() << ((SD_Odd_Iterator.curr_index() < SD.len() - SD_Odd_Iterator.step()) ? ", " : "");
+	}
+	cout << "}" << endl;
+
+	BitIntSet::iterator SD_Even_Iterator = SD.start(0, 2);
+	cout << "Now, we'll print all elements of M Δ N with even indices:" << endl;
+	for (cout << "{"; !SD_Even_Iterator.at_end(); SD_Even_Iterator.next_step()) {
+		cout << SD_Even_Iterator.curr() << ((SD_Even_Iterator.curr_index() < SD.len() - SD_Even_Iterator.step()) ? ", " : "");
+	}
+	cout << "}" << endl;
+
+	BitIntSet::iterator SD_E3 = SD.start(2, 3);
+	for (cout << "Every third element: {"; !SD_E3.at_end(); SD_E3.next_step()) {
+		cout << SD_E3.curr() << ((SD_E3.curr_index() < SD.len() - SD_E3.step()) ? ", " : "");
 	}
 	cout << "}" << endl;
 

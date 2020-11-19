@@ -1,31 +1,33 @@
 #include <iostream>
 #include <string>
 
-class Time 
+class PortrPart 
 {
 	private:
-		int size_;
-		int *MasofTime_ ;
-		int Met_;
+		std::string NameOfProgr_;
+		int *MasofOperInKat_ ;
+		double *MasofSumInEvKat_ ;
+		int SizeOfMasKat_;
+		
 	public:
-		Time(int size, int Met);
-		~Time();
-		void InEvent();
-		void GetMessage(const Time &obj);
-		friend bool operator <= (const Time &Sender, const Time &Getter);
-		friend std::ostream& operator<<(std::ostream &os, const Time& q);
-		Time & operator = (const Time & Getter);
+		PortrPart (const std::string& NameOfProgr, int SizeOfMasKat);
+		~PortrPart();
+		PortrPart& operator=(const PortrPart &Par);
+		void SpendMoney(int InWhatKat, double HowMuch);
+		friend bool Check(const PortrPart &Par1, const PortrPart &Par2);
+		friend bool operator <= (const PortrPart &Par1, const PortrPart &Par2);
+		friend std::ostream& operator<<(std::ostream &os, const PortrPart &Par);
 		
 };
 
 
-class TimeError
+class Error
 { 
 	private: 
 		int code_;
 		std::string reason_;
 	public:
-		TimeError(int code, const std::string& reason)
+		Error(int code, const std::string& reason)
 		{
 			code_ = code;
 			reason_ = reason;

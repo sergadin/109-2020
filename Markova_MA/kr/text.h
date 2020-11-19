@@ -5,49 +5,44 @@
 using namespace std;
 #define Max(a, b) ((a)>(b) ? (a) : (b))
 #define Min(a, b) ((a)<(b) ? (a) : (b))
-class UserException {
+template <typename T >
+class List
+{
 	private:
-		int code_;
-		
-	public:
-		UserException(int code)
+		class ListItem
 		{
-			code_ = code;
-			
-		}
-		int error();
-};
-int UserException::error()
-{
-	return code_;
-}
-/*
-string UserException::message() const {
-	return message_;
-}
-
-int UserException::code() const {
-	return code_;
-}
-*/
-
-class ZZ
-{
-	private:
-		int n_;
-		int k_;
-		//string s;
-		int *mas_;
-		ZZ();
+			public:
+			T data;
+			ListItem *next;
+		};
+	ListItem base_;
+	ListItem last_;
 	public:
-		ZZ (int k, int n); //создает пустой
-		void name (int temp); //события это числа
-		void message (ZZ &to);
-		bool operator <(const ZZ b);
-		void print() const;
-		~ZZ();
+		class Iterator
+		{
+			private:
+				ListItem *current;
+			public:
+				Iterator();
+				~Iterator();
+				//Iterator& operator +();
+				//Iterator& operator -();
+				//bool operator ==(const Iterator &right);
+
+		};
+
+		List();
+		~List();
+
+		void add(T value);
+		//void del();
+		//void go_next();
+		//void go_prev();
+		//T get_current();
+		//void print() const;
+		//void delite ();
+
+		//void operator =(const List &elem);
+		//bool operator ==(const List &elem);
+
 };
-
-
-
-

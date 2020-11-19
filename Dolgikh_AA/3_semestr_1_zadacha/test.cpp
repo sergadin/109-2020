@@ -10,6 +10,11 @@ int main()
 		Lamport b(3,1);
 		Lamport c(3,2);
 
+		for(int i = 0; i < 10; i++)
+		{
+		Lamport temp = a;
+		temp = a = temp = a = temp;
+		}
 		a.step();
 		c.step();
 		c.step();

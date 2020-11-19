@@ -19,7 +19,6 @@ class VectorError
 		}
 };
 
-
 class Vector 
 { 
 	private: 
@@ -33,7 +32,5 @@ class Vector
 		void rec(const Vector& prav);
 		friend bool operator<= (const Vector& lev, const Vector& prav);
 		Vector & operator=(const Vector & right);
-
 		friend std::ostream& operator<<(std::ostream &os, const Vector& q);
 };
-
