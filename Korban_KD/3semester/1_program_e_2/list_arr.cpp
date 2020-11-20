@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdexcept>
+#include <cmath>
 #include "list_arr.h"
+
 
 using namespace std;
 
@@ -119,7 +121,7 @@ T * list_arr<T>::front()
     if(head_ == nullptr)
         throw list_arr_exception(EMPTY, "Array is empty");
     T *temp = new T[len_arr_];
-    for(int i = 0; i < len_arr_; i++)
+    for(size_t i = 0; i < len_arr_; i++)
     {
         temp[i] = head_->data_[i];
     }
@@ -132,7 +134,7 @@ T * list_arr<T>:: back()
     if(tail_ == nullptr)
         throw list_arr_exception(EMPTY, "Array doesn't have a tail");
     T *temp = new T[len_arr_];
-    for(int i = 0; i < len_arr_; i++)
+    for(size_t i = 0; i < len_arr_; i++)
     {
         temp[i] = tail_->data_[i];
     }
@@ -192,7 +194,7 @@ size_t list_arr<T>::size() const
 template <typename T>
 T& list_arr<T>::operator[] (const size_t idx) 
 {
-    if(idx >= mem_size_ || idx < 0)
+    if(idx >= mem_size_)
     {
         throw list_arr_exception(INDEX_ERR, "Wrong index");
     }
@@ -216,9 +218,9 @@ T& list_arr<T>::operator[] (const size_t idx)
 template <typename T>
 void list_arr<T>::expand(size_t  expd_size)
 {
-    expd_size = (size_t)expd_size/len_arr_;
+    expd_size = ceil(expd_size/len_arr_);
     
-    for(int i = 0; i < expd_size; i++  )
+    for(size_t i = 0; i < expd_size; i++  )
     {
         if( this->empty() )
         {
@@ -240,13 +242,16 @@ int main(void)
     try
     {
         int *c;
-        list_arr<int> b;
+        list_arr<int> b = A;
+        
         for(int i  = 0; i < 10; i++)
         {
             A[i]  = i;
         }
         b = A;
         b[2] = 15651;
+        
+        
         cout << "oparator= cheak: " << b[2] <<endl;
         c = b.front();
         cout << "func front cheak: " << c[6] <<endl;

@@ -26,7 +26,7 @@ private:
         {
             data_ = new T[new_len_arr];
             
-            for(int i = 0; i < new_len_arr; i++)
+            for(size_t i = 0; i < new_len_arr; i++)
             {
                 data_[i] = new_data[i];
             }
