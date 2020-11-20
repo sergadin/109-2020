@@ -27,13 +27,14 @@ class List
         ListItem *next;
     };
     
-    ListItem base_ ;
+    ListItem *base_ = NULL;
+    
     ListItem *current_;
     
     
     ListItem* prev(ListItem* item)
     {
-        if ( (is_empty()) | (item == &base_) )
+        if ( (is_empty()) | (item == base_) )
         {
             throw Error(3, std::string("нет предыдущего"));}
         go_first();
@@ -53,13 +54,14 @@ public:
         void go_first();
         void go_next();
         T get_current();
+        void set_current(T item);
         // bool is_valid();
     };
     
     
     bool is_empty()  //пустота списка
     {
-        return ((&base_)->next == NULL );
+        return (base_== NULL );
     }
     
     
@@ -67,32 +69,27 @@ public:
     {
         ListItem *new_element = new ListItem;
         new_element->data = item;
-        new_element->next = &base_;
-      //  &base_ = new_element;
-        
+        new_element->next = base_;
+        base_ = new_element;
         go_first();
     }
     
     void construct(T item) //добавить в список после текущего
     {
-        if (is_empty())
-           {
-             go_first();
-           }
         ListItem *new_element = new ListItem;
         new_element->data = item;
-        new_element->next = current_->next;
-        current_->next= new_element;
-        go_next();
-        
+        if (is_empty())
+           {
+               new_element->next = NULL;
+               base_ =  new_element;
+               go_first();
+           }
+        else { add_after(item);}
     }
   
     void add_after(T item) //добавить в список после текущего
     {
-        if (is_empty())
-           {
-             go_first();
-           }
+       
         ListItem *new_element = new ListItem;
         new_element->data = item;
         new_element->next = current_->next;
@@ -104,30 +101,32 @@ public:
    void delete_first() //удалить первый
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-        ListItem *temp;
-        temp = &base_;
-     //   base_= base_.next;
+       ListItem *temp;
+          temp = base_;
+        base_= base_->next;
         delete temp;
     }
   
     void delete_this() //удалить из списка текущий
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-        if (current_ == &base_)
+        if (current_ == base_)
         {
             delete_first();
         }
-        
+        ListItem *temp;
+        temp = current_;
         ListItem* prevv = prev(current_);
         prevv->next = current_->next;
-        delete current_;
+        go_next();
+        
     }
     
     void delete_list() // очистить список
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-        ListItem* a = &base_;
-        while (a != NULL)
+     
+        while ((base_ != NULL)| ! (is_empty()))
         {
             delete_first();
         }
@@ -143,6 +142,7 @@ public:
     
     int elem_count() //число элементов в списке
     {
+        if (is_empty()) {return 0;}
         go_first();
         int count = 1;
         while (current_->next != NULL)
@@ -156,7 +156,7 @@ public:
     void print() // печать списка
     
     {
-        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+       if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         
         go_first();
         while (current_ != NULL)
@@ -235,11 +235,15 @@ public:
     
     
     
-    void go_first() { current_= &base_; };
-    void go_next()  { current_= current_->next; };
-//    T get_current() {  return current_->data; };
+    void go_first() { current_ = base_; }
+    void go_next()  { current_ = current_->next; }
+    T get_current() {  return current_->data; }
+    void set_current (T item)
+    {
+          go_first();
+          while (current_->data != item)
+            go_next();
+    }
     
     
 };
-
-
