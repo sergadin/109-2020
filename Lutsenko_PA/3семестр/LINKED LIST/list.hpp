@@ -29,7 +29,7 @@ class List
     
     ListItem *base_ = NULL;
     
-    ListItem *current_;
+    ListItem *current_ = NULL;
     
     
     ListItem* prev(ListItem* item)
@@ -56,6 +56,7 @@ public:
         T get_current();
         void set_current(T item);
         // bool is_valid();
+    
     };
     
     
@@ -107,20 +108,31 @@ public:
         delete temp;
     }
   
-    void delete_this() //удалить из списка текущий
+    void delete_after() //удалить из списка следующий
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         if (current_ == base_)
         {
             delete_first();
         }
-        ListItem *temp;
-        temp = current_;
-        ListItem* prevv = prev(current_);
-        prevv->next = current_->next;
-        go_next();
+        current_->next = current_->next->next;
+      
+      //  ListItem* prevv = prev(current_);
+       // prevv->next = current_->next;
+        delete current_->next;
+        //go_next();
         
     }
+    void delete_this() //удалить из списка текущий
+       {
+           if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+           if (current_ == base_)
+           {
+               delete_first();
+           }
+           current_ = prev(current_);
+           delete_after();
+       }
     
     void delete_list() // очистить список
     {
@@ -140,8 +152,8 @@ public:
         return current_;
     }
     
-    int elem_count() //число элементов в списке
-    {
+   int elem_count() //число элементов в списке
+    {   ListItem * save_current = current_;
         if (is_empty()) {return 0;}
         go_first();
         int count = 1;
@@ -150,12 +162,14 @@ public:
             count++;
             go_next();
         }
+        current_ = save_current;
         return count;
     }
     
     void print() // печать списка
     
-    {
+    {   ListItem * save_current = current_;
+        
        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         
         go_first();
@@ -165,6 +179,7 @@ public:
             go_next();
         }
         std::cout << std::endl;
+        current_ = save_current;
     }
     
     
@@ -194,18 +209,19 @@ public:
     
     
     friend  bool operator==( const List & left, const List & right)
-    {
-        if (left.elem_count() != right.elem_count()) return 0;
+    {   int left_quant =left.elem_count();
+        int right_quant =right.elem_count();
+        if (left_quant != right_quant) return 0;
         ListItem* r = right.base_;
         ListItem* l = left.base_;
         int k=0;
-        for (int i=1;i++;i == left.elem_count())
+        for (int i=1;i++;i == left_quant)
         {
             if( r == l) k++;
             r = r->next;
             l = l->next;
         }
-        if ( k == left.elem_count() ) return 1; else return 0;
+        if ( k ==  left_quant ) return 1; else return 0;
     }
     
     
@@ -237,12 +253,12 @@ public:
     
     void go_first() { current_ = base_; }
     void go_next()  { current_ = current_->next; }
-    T get_current() {  return current_->data; }
+    T get_current() {return current_->data;}
     void set_current (T item)
     {
           go_first();
           while (current_->data != item)
-            go_next();
+          go_next();
     }
     
     
