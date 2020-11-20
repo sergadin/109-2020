@@ -58,45 +58,58 @@ public:
     
     
     bool is_empty()  //пустота списка
-    {   ListItem* a = &base_;
-        return (a == NULL );
+    {
+        return ((&base_)->next == NULL );
     }
     
     
-    void add_first(T item) //добавить в начало
+   void add_first(T item) //добавить в начало
     {
         ListItem *new_element = new ListItem;
         new_element->data = item;
         new_element->next = &base_;
-        base_ = item;
+      //  &base_ = new_element;
         
+        go_first();
     }
     
-    void add_after(T item) //добавить в список после текущего
+    void construct(T item) //добавить в список после текущего
     {
+        if (is_empty())
+           {
+             go_first();
+           }
         ListItem *new_element = new ListItem;
         new_element->data = item;
-       
-        
         new_element->next = current_->next;
         current_->next= new_element;
         go_next();
         
-        if (item == current_->data)
-        {
-            throw Error(1, std::string("добавляемый элемент совпалает с предыдущим"));
-        }
+    }
+  
+    void add_after(T item) //добавить в список после текущего
+    {
+        if (is_empty())
+           {
+             go_first();
+           }
+        ListItem *new_element = new ListItem;
+        new_element->data = item;
+        new_element->next = current_->next;
+        current_->next= new_element;
+        go_next();
+        
     }
     
-    void delete_first() //удалить первый
+   void delete_first() //удалить первый
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         ListItem *temp;
-        temp =base_.next;
-        base_ = *temp;
+        temp = &base_;
+     //   base_= base_.next;
         delete temp;
     }
-    
+  
     void delete_this() //удалить из списка текущий
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
@@ -224,7 +237,7 @@ public:
     
     void go_first() { current_= &base_; };
     void go_next()  { current_= current_->next; };
-    T get_current() {  return current_->data; };
+//    T get_current() {  return current_->data; };
     
     
 };
