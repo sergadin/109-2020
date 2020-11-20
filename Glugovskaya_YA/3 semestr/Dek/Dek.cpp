@@ -86,7 +86,47 @@ void Deque<T>:: push_back(T data){
     size_++;
 }
 
+template <typename T>
+void Deque<T>:: copy(Deque<T>::Node* SydaCopy, Deque<T>::Node* OtsydaCopy){
+	SydaCopy -> data_ = OtsydaCopy -> data_;
+	//SydaCopy -> Next_ = OtsydaCopy -> Next_;
+	//SydaCopy -> Prev_ = OtsydaCopy -> Prev_;
+}
+	
+template <typename T>
+void Deque<T>::sort(){
+	Deque<T>::Node* PosMaxData = Head_;
+	Deque<T>::Node* current = Head_;
+	cout << "--------Сортируем---------" << endl;
+	for (int  i = 0; i < size_; i++){
+		PosMaxData = Head_;
+		current= Head_;
+		for (int  j = 0; j < size_ - i; j++){
+			cout << i << j << endl;
+			if ((PosMaxData -> data_) < (current -> data_)){
+				cout << "MaxData  " << current -> data_ << endl;
+				PosMaxData = current;
+			}
+			current = current -> Next_;
+		}
+		swap(current -> Prev_, PosMaxData);
+		print();
+	}
+}
+			
+			 
 
+	
+template <typename T>
+void Deque<T>:: swap(Deque<T>::Node* First, Deque<T>::Node* Second){
+	Deque<T>::Node* temp = new Node(0, NULL, NULL);
+	//if (First == Head_) Head_= Second;
+	//if (Second == Head_) Head_= First;
+	copy(temp, First);
+	copy(First, Second);
+	copy(Second, temp);
+	delete temp;
+}
 
 
 /*template <typename T>
@@ -109,10 +149,17 @@ void Deque<T>::print(){
 	while (count < (this->size_)){
 		cout << "Current " << current << "   Data "<< current -> data_ << "   Next " << current -> Next_ << "   Prev " << current ->Prev_  << endl;
 		current = current -> Next_;
-		cout << current << endl;
+		//cout << current << endl;
 		count ++;
 	}
 }
+
+//Deque
+
+
+
+
+
 
 template class Deque<int>;
 template class Deque<double>;
