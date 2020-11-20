@@ -39,7 +39,7 @@ class List
             throw Error(3, std::string("нет предыдущего"));}
         go_first();
         
-        while (current_->next != item)
+        while ((current_->next != item)&(current_->next != NULL))
             go_next();
         return current_;
     }
@@ -98,6 +98,7 @@ public:
         go_next();
         
     }
+  
     
    void delete_first() //удалить первый
     {
@@ -115,12 +116,10 @@ public:
         {
             delete_first();
         }
-        current_->next = current_->next->next;
-      
-      //  ListItem* prevv = prev(current_);
-       // prevv->next = current_->next;
-        delete current_->next;
-        //go_next();
+      if  ((current_->next->next != NULL)&(current_->next != NULL))
+      {  current_->next = current_->next->next;
+         delete current_->next;
+      }
         
     }
     void delete_this() //удалить из списка текущий
@@ -137,11 +136,12 @@ public:
     void delete_list() // очистить список
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-     
-        while ((base_ != NULL)| ! (is_empty()))
+        go_first();
+        while ( ! is_empty() )
         {
-            delete_first();
+            delete_this();
         }
+        base_ = NULL;
     }
     
     ListItem* get_last() //получить последний элемент списка
@@ -184,67 +184,75 @@ public:
     
     
     
-       List operator+ (const List & left)
+       List operator+ ( List & left) 
      {
-     if (left.is_empty()) return & *this;
-     if ((*this).is_empty()) return & left;
-     if (! left.is_empty() | ! (*this).is_empty())
-     {
-     ListItem* r = (*this).base_;
-     ListItem* l = left.get_last();
-     
-     while (r->next != NULL)
-     {
-     current_= l;
-     left.add_after(r);
-     (*this).delete_first();
-     ListItem* r = (*this).base_;
-     }
-     return & left;
-     
-     }
-     }
-     
-    
-    
-    
-    friend  bool operator==( const List & left, const List & right)
-    {   int left_quant =left.elem_count();
-        int right_quant =right.elem_count();
-        if (left_quant != right_quant) return 0;
-        ListItem* r = right.base_;
-        ListItem* l = left.base_;
-        int k=0;
-        for (int i=1;i++;i == left_quant)
-        {
-            if( r == l) k++;
-            r = r->next;
-            l = l->next;
-        }
-        if ( k ==  left_quant ) return 1; else return 0;
-    }
-    
-    
-    List operator=(const List &old){
         
-        if (old.is_empty()) {throw Error(2, std::string("список  пуст"));}
+      //  if ((! left.is_empty()) & (! (*this).is_empty()))
+       //   {
+            ListItem * save_currentl = left.current_;
+            ListItem * save_currentt = (*this).current_;
+            
+            left.current_= left.get_last();
+           (*this).current_= (*this).base_;
+           int count = (*this).elem_count();
+            while ( count > 1)
+              {
+                  left.add_after((*this).current_->data);
+                  left.go_next();
+                  (*this).go_next();
+                  count--;
+              }
+         left.current_ = save_currentl;
+         (*this).current_ = save_currentt;
+             return   left;
+     
+          // }
+   //     else {  if (left.is_empty()) return *this;
+     //          if ((*this).is_empty()) return left;}
+     }
+     
+    
+    friend  bool operator==(  List & left,  List & right)
+       {   int left_quant =left.elem_count();
+           int right_quant =right.elem_count();
+           if (left_quant != right_quant) return 0;
+           
+           ListItem* r = right.base_;
+           ListItem* l = left.base_;
+           int k=0;
+           for (int i=1;i <= left_quant ;i++)
+           {
+               if( r == l) k++;
+               r = r->next;
+               l = l->next;
+           }
+           if ( k ==  left_quant ) return 0; else return 0;
+       }
+    
+    
+    List operator=( List &old){
+        
+        if (old.base_ == NULL) {throw Error(2, std::string("список  пуст"));}
         
         else{
             
             this->~List();
-            ListItem *old, *last;
-            old = *old->base_;
-            last = new ListItem(old->data);
+            ListItem *prev, *last;
+            prev = old.base_;
+            last = new ListItem;
+            last->data = prev->data;
             base_ = last;
             ListItem *temp;
-            while(old != NULL)
+            while(prev != NULL)
             {
-                temp = new ListItem(old->data);
+                temp = new ListItem;
+                temp->data = prev->data;
                 last->next = temp;
                 last = last->next;
-                old = old->next;
+                prev = prev->next;
             }
         }
+        delete_first();
         return *this;
     }
     
