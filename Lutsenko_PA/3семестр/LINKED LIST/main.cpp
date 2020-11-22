@@ -28,15 +28,15 @@ int main()
     MyNumbers.set_current(7);
     MyNumbers.add_after(222);
     cout << "M : ";  MyNumbers.print();
+    MyNumbers.delete_this();
     if (MyNumbers == MyNumbers1) cout << "M и M1 равны" << endl;
        else cout << "M и M1 не равны" << endl;
     
-    MyNumbers.delete_this();
-    cout << "M : ";  MyNumbers.print();
- //  MyNumbers = MyNumbers1;
-   //  MyNumbers + MyNumbers1;
- //  cout << "M : ";  MyNumbers.print();
    
+    cout << "M : ";  MyNumbers.print();
+   MyNumbers = MyNumbers1;
+   cout << "M : ";  MyNumbers.print();
+ //  MyNumbers + MyNumbers1;
     
 
     cout << "В списке " << MyNumbers.elem_count() << " элементов" << endl;
@@ -55,9 +55,9 @@ int main()
  */
 
 
-  //  MyNumbers.delete_list();
- //  cout << "список M пуст? " << MyNumbers.is_empty() << endl;
-//   cout << "В списке " << MyNumbers.elem_count()<< " элементов" << endl;
+       MyNumbers.delete_list();
+  cout << "список M пуст? " << MyNumbers.is_empty() << endl;
+   cout << "В списке " << MyNumbers.elem_count()<< " элементов" << endl;
     
     return 0;
 };

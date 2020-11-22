@@ -31,6 +31,7 @@ class List
     
     ListItem *current_ = NULL;
     
+    int quant = 0;
     
     ListItem* prev(ListItem* item)
     {
@@ -60,22 +61,23 @@ public:
     };
     
     
-    bool is_empty()  //пустота списка
+    bool is_empty()  //пустота списка РАБОТАЕТ
     {
         return (base_== NULL );
     }
     
     
-   void add_first(T item) //добавить в начало
+   void add_first(T item) //добавить в начало  РАБОТАЕТ
     {
         ListItem *new_element = new ListItem;
         new_element->data = item;
         new_element->next = base_;
         base_ = new_element;
         go_first();
+        quant ++;
     }
     
-    void construct(T item) //добавить в список после текущего
+    void construct(T item) //добавить в список после текущего   РАБОТАЕТ
     {
         ListItem *new_element = new ListItem;
         new_element->data = item;
@@ -84,11 +86,12 @@ public:
                new_element->next = NULL;
                base_ =  new_element;
                go_first();
+               quant ++;
            }
         else { add_after(item);}
     }
   
-    void add_after(T item) //добавить в список после текущего
+    void add_after(T item) //добавить в список после текущего РАБОТАЕТ РАБОТАЕТ С ОШИБКАМИ ПРИ ВЫЗОВКЕ +
     {
        
         ListItem *new_element = new ListItem;
@@ -96,20 +99,21 @@ public:
         new_element->next = current_->next;
         current_->next= new_element;
         go_next();
-        
+        quant ++;
     }
   
     
-   void delete_first() //удалить первый
+   void delete_first() //удалить первый РАБОТАЕТ 
     {
-        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+        if (is_empty()) {throw Error(2, std::string("список  пуст"));} 
        ListItem *temp;
           temp = base_;
         base_= base_->next;
         delete temp;
+        quant --;
     }
   
-    void delete_after() //удалить из списка следующий
+    void delete_after() //удалить из списка следующий РАБОТАЕТ
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         if (current_ == base_)
@@ -122,7 +126,7 @@ public:
       }
         
     }
-    void delete_this() //удалить из списка текущий
+    void delete_this() //удалить из списка текущий  РАБОТАЕТ
        {
            if (is_empty()) {throw Error(2, std::string("список  пуст"));}
            if (current_ == base_)
@@ -133,18 +137,19 @@ public:
            delete_after();
        }
     
-    void delete_list() // очистить список
+    void delete_list() // очистить список РАБОТАЕТ С ОШИБКАМИ
     {
         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-        go_first();
-        while ( ! is_empty() )
-        {
-            delete_this();
-        }
-        base_ = NULL;
+        else{  go_first();
+              for (int i = 0;i < quant -2 ; i++)
+              {
+                  delete_first();
+              }
+            quant = 0;
+            base_ = NULL;}
     }
     
-    ListItem* get_last() //получить последний элемент списка
+    ListItem* get_last() //получить последний элемент списка РАБОТАЕТ
     {
         go_first();
         while (current_->next != NULL)
@@ -152,8 +157,8 @@ public:
         return current_;
     }
     
-   int elem_count() //число элементов в списке
-    {   ListItem * save_current = current_;
+   int elem_count() //число элементов в списке РАБОТАЕТ
+    {   /*ListItem * save_current = current_;
         if (is_empty()) {return 0;}
         go_first();
         int count = 1;
@@ -163,20 +168,22 @@ public:
             go_next();
         }
         current_ = save_current;
-        return count;
+        return count;*/
+        return quant;
     }
     
-    void print() // печать списка
+    void print() // печать списка  РАБОТАЕТ
     
     {   ListItem * save_current = current_;
         
        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         
         go_first();
-        while (current_ != NULL)
+  
+        for (int i = 0;i < quant -1 ; i++)
         {
             std::cout << current_->data << " ";
-            go_next();
+                       go_next();
         }
         std::cout << std::endl;
         current_ = save_current;
@@ -184,7 +191,7 @@ public:
     
     
     
-       List operator+ ( List & left) 
+    List operator+ ( List & left) // НЕ РАБОТАЕТ НО ЧТО-то ВЫВОДИт
      {
         
       //  if ((! left.is_empty()) & (! (*this).is_empty()))
@@ -212,7 +219,7 @@ public:
      }
      
     
-    friend  bool operator==(  List & left,  List & right)
+    friend  bool operator==(  List & left,  List & right) //РАБОТАЕТ
        {   int left_quant =left.elem_count();
            int right_quant =right.elem_count();
            if (left_quant != right_quant) return 0;
@@ -230,7 +237,7 @@ public:
        }
     
     
-    List operator=( List &old){
+    List operator=( List &old){ // РАБОТАЕТ
         
         if (old.base_ == NULL) {throw Error(2, std::string("список  пуст"));}
         
