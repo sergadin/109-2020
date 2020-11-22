@@ -19,7 +19,7 @@ private:
 	ListItem *last;
 	ListItem current;
 
-	int size;
+//	int size;
 
 public:
 
