@@ -49,7 +49,7 @@ BitIntSet& BitIntSet::operator=(const BitIntSet& B) {
 	free(list_);
 
 	list_ = (unsigned int *)malloc(sizeof(int) * size_);
-	
+
 	for (int i = 0; i < size_; i++) {
 		list_[i] = B.list_[i];
 	}
@@ -103,7 +103,7 @@ void BitIntSet::add(int a) {
 			list_ = (unsigned int *)realloc(list_, sizeof(int) * (size_ + shift));
 
 			for (int i = size_ - 1; i >= 0; i--) {
-				list_[i + shift] = list_[i]; 
+				list_[i + shift] = list_[i];
 			}
 			for (int j = 0; j < shift; j++) list_[j] = 0;
 
@@ -124,7 +124,7 @@ void BitIntSet::add(int a) {
 	}
 
 	int index_in_sub = (a - list_start_) % INT_CARDINALITY;
-	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);	
+	int elem_mask = 1 << (INT_CARDINALITY - index_in_sub - 1);
 	int index_of_subarr = (a - list_start_) / INT_CARDINALITY;
 
 	if (list_[index_of_subarr] & elem_mask) {
@@ -171,7 +171,7 @@ BitIntSet operator*(const BitIntSet& A, const BitIntSet& B) {
 		return A;
 	}
 
-	BitIntSet product = A;	
+	BitIntSet product = A;
 	for (BitIntSet::iterator I = A.start(); !I.at_end(); I.next()) {
 		if (!B.belongs(I.curr())) {
 			product.remove(I.curr());
@@ -194,7 +194,7 @@ BitIntSet operator+(const BitIntSet& A, const BitIntSet& B) {
 	if (B.len() > 1) {
 		sum.add(B.max());
 	}
-	
+
 	for (BitIntSet::iterator I = B.start(1); I.curr_index() < (B.len() - 1); I.next()) {
 		sum.add(I.curr());
 	}
@@ -210,7 +210,7 @@ BitIntSet operator-(const BitIntSet& A, const BitIntSet& B) {
 	if (B.empty()) {
 		return diff;
 	}
-	
+
 	for (BitIntSet::iterator I = B.start(); !I.at_end(); I.next()) {
 		if (diff.belongs(I.curr())) {
 			diff.remove(I.curr());
@@ -224,7 +224,7 @@ BitIntSet operator^(const BitIntSet& A, const BitIntSet& B) {
 		return BitIntSet(A.left(), A.right());
 	}
 	BitIntSet sym_diff = (A + B);
-	
+
 	for (BitIntSet::iterator I = A.start(); !I.at_end(); I.next()) {
 		if (B.belongs(I.curr())) {
 			sym_diff.remove(I.curr());
@@ -280,7 +280,7 @@ BitIntSet& BitIntSet::operator+=(const BitIntSet& B) {
 	if (B.len() > 1) {
 		this->add(B.max());
 	}
-	
+
 	for (BitIntSet::iterator I = B.start(1); I.curr_index() < B.len() - 1; I.next()) {
 		this->add(I.curr());
 	}
@@ -296,7 +296,7 @@ BitIntSet& BitIntSet::operator-=(const BitIntSet& B) {
 	if (B.empty()) {
 		return *this;
 	}
-	
+
 	for (BitIntSet::iterator I = B.start(); !I.at_end(); I.next()) {
 		if (this->belongs(I.curr())) {
 			this->remove(I.curr());
@@ -323,7 +323,7 @@ bool operator<=(const BitIntSet& A, const BitIntSet& B) {
 	if (A.len() > B.len()) {
 		return false;
 	}
-	
+
 	for (BitIntSet::iterator I = A.start(); !I.at_end(); I.next()) {
 		if (!B.belongs(I.curr())) {
 			return false;
@@ -345,7 +345,7 @@ bool operator==(const BitIntSet& A, const BitIntSet& B) {
 	return true;
 }
 
-ostream& operator<<(ostream& os, const BitIntSet& set) {	
+ostream& operator<<(ostream& os, const BitIntSet& set) {
 	os << "{";
 	for (BitIntSet::iterator I = set.start(); !I.at_end(); I.next()) {
 		os << I.curr();
@@ -378,7 +378,7 @@ BitIntSet::Iterator::Iterator(const BitIntSet* parent_set, int start_index, int 
 
 	curr_position_= parent_set_->list_start_ - 1;
 	curr_index_ = -1;
-	
+
 	while (curr_index_ < start_index) {
 		this->next();
 	}
@@ -413,7 +413,7 @@ int BitIntSet::Iterator::next() {
 		if (parent_set_->list_[i] == 0) {
 			continue;
 		}
-		
+
 		unsigned int bit_mask = 1 << (INT_CARDINALITY - 1);
 		for (int k = 0; k < INT_CARDINALITY; k++) {
 			if (i * INT_CARDINALITY + k < start_position) {
@@ -445,7 +445,7 @@ int BitIntSet::Iterator::prev() {
 		if (parent_set_->list_[i] == 0) {
 			continue;
 		}
-		
+
 		unsigned int bit_mask = 1;
 		for (int k = INT_CARDINALITY - 1; k >= 0; k--) {
 			if (i * INT_CARDINALITY + k > start_position) {
