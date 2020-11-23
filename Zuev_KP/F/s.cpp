@@ -94,10 +94,10 @@ class StackL
 			vershina = nullptr; 
 		}
 
-		/*~StackL()
-		  {
-		  Empty();
-		  }*/
+		~StackL()
+		{
+			Empty();
+		}
 
 		void Put(T i)// добавить
 		{
@@ -107,6 +107,11 @@ class StackL
 			p->next = vershina;
 			vershina = p;
 		}
+
+		void operator delete(void* p)
+                {
+                        free(p);
+                }
 
 		void Empty()
 		{
