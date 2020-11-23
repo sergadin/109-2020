@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 template <typename T>
@@ -93,10 +94,10 @@ class StackL
 			vershina = nullptr; 
 		}
 
-		~StackL()
-		{
-			Empty();
-		}
+		/*~StackL()
+		  {
+		  Empty();
+		  }*/
 
 		void Put(T i)// добавить
 		{
@@ -192,10 +193,27 @@ class StackL
 			int l = 1;
 			r = S.end();
 			for(i = S.begin(); i != r; ++i)
-               		{
-                        	l = l+1;
-                	}
+			{
+				l = l+1;
+			}
 			return l;
+		}
+
+		friend std::ostream& operator<< (std::ostream &out, const StackL<T>& S)
+		{	
+			if (S.vershina == nullptr)
+			{
+				throw StackLError(-6, std::string("empty"));
+			}
+			Stack<T>* p;
+			p = S.vershina;
+			while (p != nullptr)
+			{
+				cout << p->item << "\t";
+				p = p->next;
+			}
+			cout << endl;
+			return out;
 		}
 };
 
@@ -236,9 +254,6 @@ int main()
 		cout << "S"<< endl;
 		S.Print();
 
-
-
-
 		StackL<int>::Iterator i;
 		StackL<int>::Iterator i1;
 		StackL<int>::Iterator i5;
@@ -273,19 +288,16 @@ int main()
 			i = i5;
 			l = l-1;
 		}
-
-
-
-
 		cout << "S"<< endl;
+
 		S.Print();
-		
+
 		StackL<StackL<int>> E;
-		//E.Put(S);
-		//E.Put(S1);
-		//E.Put(S5);
-		//cout << "E"<< endl;
-		//E.Print();
+		E.Put(S);
+		E.Put(S1);
+		E.Put(S5);
+		cout << "E"<< endl;
+		std::cout << "\t" << E << endl;
 
 		StackL<int> L;
 		cout << "L"<< endl;
