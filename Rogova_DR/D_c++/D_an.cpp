@@ -43,42 +43,39 @@ class List
 		class Iterator
 		{
 			private:
+				friend class List<T>;
 				ListItem<T> *cur_;
-
-				Iterator()
-				{
-					cur_= new ListItem<T>;
-					current_ = base_;
-					current_.go_next();
-					cur_->data = current_->data;
-					cur_->next = current_ ->next;
-					cur_->bef = current_->bef;
-				}
-				~Iterator()
-				{
-					delete cur_;
-				}	
+	
 			public:
-				Iterator& operator ++(Iterator & i)
+				Iterator()
+                                {
+                                        cur_= nullptr;
+                                }
+				friend Iterator& operator ++(Iterator & i)
 				{
 					i.cur_ = i.cur_->next;
 					return i;
 				}
-				Iterator& operator --(Iterator & i)
+				friend Iterator& operator --(Iterator & i)
 				{
 					i.cur_ = i.cur_->bef;
 					return i;
 				}
-				T get_now()
+				friend T& operator*(const Iterator & i)
 				{
-					return cur_->data;
+					return i.cur_->data;
 				}
-				bool operator ==(Iterator& right)
+				friend bool operator !=(const Iterator& left, const Iterator right)
 				{
-					if(this == right)
+					if(left.cur_ != right.cur_)
 						return true;
 					else
 						return false;
+				}
+				Iterator& operator= (const Iterator & right)
+				{
+					cur_ = right.cur_;
+					return *this;
 				}
 			
 
@@ -102,7 +99,22 @@ class List
 		}
 		Iterator begin()
 		{
-			Iterator i();
+			Iterator i;
+			i.cur_ = base_;
+			++i;
+			return i;
+		}
+		Iterator end()
+		{
+			Iterator i;
+			i.cur_ = base_;
+			++i;
+			while(i.cur_ != base_)
+			{
+				i.cur_ = i.cur_->next;
+				if(i.cur_->next == nullptr)
+					break;
+			}
 			return i;
 		}
 		void add_after(T new_el)
@@ -205,6 +217,23 @@ class List
 			current_ = base_->next;
 			return *this;
 		}
+		friend std::ostream& operator<<(std::ostream &out, const List<T> &H)
+		{
+			ListItem<T> * p;
+                        p = H.base_->next;
+                        while (p != H.base_)
+                        {
+                                out << p->data << "\t";
+                                p = p->next;
+                        }
+			return out;
+		}
+		void operator delete[](void* ptr)
+		{
+			delete ptr;
+		
+		}
+
 
 
 };
@@ -247,6 +276,18 @@ int main()
 		  List<int> L;
 		  cout << "L"<< endl;
 		  L.print();
+		  List<int>::Iterator i;
+		  for(i = S1.begin(); i != S1.end(); ++i)
+		  {
+			  cout<< *i;
+		  }
+		  List<List<int>> H;
+		  S5.add_after(9);
+                  S5.add_after(3);
+		  H.add_after(S5);
+		  H.add_after(S1);
+		  std::cout << H<< "!!!!" <<endl;
+
 	}
 	catch(ListException &err)
 	{
