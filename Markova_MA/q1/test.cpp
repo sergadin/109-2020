@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <math.h>
 #include <string>
-#include "list.h"
+#include "text.h"
 using namespace std; 
 
 int main() {
