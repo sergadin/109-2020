@@ -39,4 +39,105 @@ void list<T>::del_first_elem()
 
 }
 
+//удаление последнего элемента
+template <class T>
+void list<T>::del_last_elem()
+{
+//        ListItem *item;
+//        item = last;
+        last = last->prev;
+}
+
+//шаг вперёд
+template <class T>
+void list<T>::go_next()
+{
+        current = current->next;
+}
+
+//шаг назад
+template <class T>
+void list<T>::go_back()
+{
+        current = current->prev;
+}
+
+template <class T>
+void list<T>::print()
+{
+//        ListItem *elem;
+//        elem  = get_first();
+	get_first();
+//проверка, что следующий элемент есть
+
+        while (current -> next != NULL)
+        {
+                printf ("%d\n", current->data);
+                go_next();
+        }
+}
+
+template <class T>
+void list<T>::get_first()
+{
+        ListItem *current = new ListItem;
+        current->prev = NULL;
+        current->data = first;
+        current->next = first->next;
+}
+
+template <class T>
+void list<T>::add_after_elem(T element, ListItem * item)
+{
+//if next || prev == null  ???
+        ListItem *new_item = new ListItem;
+
+        new_item->prev = *item->data;
+        new_item->data = element;
+        new_item->next = *item->next;
+
+        item->next = *element;
+        item->next->prev = *element; //надо проверить, что это работает
+}
+
+
+template <class T>
+void list<T>::add_before_elem(T element, ListItem *item)
+{
+//if next || prev == null  ???
+        ListItem *new_item = new ListItem;
+
+        new_item->prev = *item->prev;
+        new_item->data = element;
+        new_item->next = *item->data;
+
+        item->prev = *element;
+        item->prev->next = *element; //но это не точно, пусть пока так будет
+}
+
+
+template <class T>
+void list<T>::del_elem(ListItem *item)
+{
+//if next || prev == null  ???
+
+        item->prev->next = *item->next;
+        item->next->prev = *item->prev;
+
+}
+
+template <class T>
+void list<T>::swap_elem(ListItem *item, ListItem *elem)
+{
+//if next || prev == null  ???
+
+
+
+}
+
+template <class T>
+list<T> list<T>::operator = (const list<T> &other)
+{
+
+}
 
