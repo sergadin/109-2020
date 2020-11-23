@@ -5,62 +5,146 @@
 using namespace std;
 #define Max(a, b) ((a)>(b) ? (a) : (b))
 #define Min(a, b) ((a)<(b) ? (a) : (b))
-template <typename T >
-class List
-{
+template <typename T>
+struct list_node {
+	T data;
+	list_node *next;
+};
+
+template <typename T>
+class List {
+private:
+	list_node<T> *base_;
+	list_node<T> *current_;
+public:
+	class Iterator {
 	private:
-		class ListItem
-		{
-			public:
-			T data;
-			ListItem *next;
-		};
-	ListItem base_;
-	ListItem last_;
+		list_node<T> *cur_;
+		Iterator() {
+			cur_= new list_node<T>;
+			current_ = base_;
+			current_.go_next();
+			cur_->data = current_->data;
+			cur_->next = current_->next;
+		}
+		~Iterator() {
+			delete cur_;
+		}	
 	public:
-		class Iterator
-		{
-			private:
-				ListItem *current;
-			public:
-				Iterator();
-				~Iterator();
-				//Iterator& operator +();
-				//Iterator& operator -();
-				//bool operator ==(const Iterator &right);
-
-		};
-
-		List()
-		{
-			base_.data = NULL;
-			base_.next = &base_;
+		Iterator &operator++(Iterator &i) {
+			i.cur_ = i.cur_->next;
+			return i;
 		}
-
-		~List();
-
-		void add(T value)
-		{
-			if(base_.data == NULL)
-			{
-				base_.data = value;
-				last_ = base_;
-				return;
-			}
-			ListItem *new_element = new ListItem;
-			new_element.data = value;
-			new_element.next = last_.next;
-			last_.next = &new_element;
-			last_ = new_element;
+		T get_now() {
+			return cur_->data;
 		}
-		//void del();
-		//void go_next();
-		//void go_prev();
-		//T get_current();
-		//void print() const;
-		//void delite ();
-
-		//void operator =(const List &elem);
-		//bool operator ==(const List &elem);
-
+		bool operator ==(Iterator &now) {
+			if(this == now)
+				return true;
+			else
+				return false;
+		}
+	};
+	List() {
+		base_ = new list_node<T>;
+		base_->next = base_;
+		current_ = base_;
+	}
+	~List() {
+		current_ = base_;		
+		del_all();
+		delete base_;
+	}
+	Iterator begin() {
+		Iterator i();
+		return i;
+	}
+	void push_back(T new_el) {
+		list_node<T> *p = new list_node<T>, *help = base_->next;
+		p->data = new_el;
+		p->next = base_;
+		while(help->next != base_)
+			help = help->next;
+		current_ = help;
+		current_->next = p;
+		current_ = p;
+	}
+	bool is_empty() const {
+		if(base_->next == base_)
+			return true;
+		else
+			return false;
+	}
+	void del_cur() {
+		if(is_empty())
+			return;
+		list_node<T> *tmp = current_, *help = base_;
+		while(help->next != current_)
+			help = help->next;
+		help->next = current_->next;
+		current_ = base_->next;
+		delete tmp;
+	}
+	void del_all() {
+		if(is_empty())
+			return;
+		list_node<T> *help = base_->next;
+		list_node<T> *m;
+		current_ = base_;
+		while (help != base_) {
+			m = help;
+			help = help->next;
+			delete m;
+		}
+		base_->next = base_;
+	}
+	void go_next() {
+		current_ = current_->next;
+		if(current_== base_)
+			current_ = base_->next;
+	}
+	T get_current() {
+		if(current_ == base_)
+			throw ListException(-1, string("error"));
+		return current_->data;
+	}
+	void print() const {
+		if(is_empty()) {
+			cout << "List is empty!\n";
+			return;
+		}
+		list_node<T> *p;
+		p = base_->next;
+		while (p->next != base_) {
+			cout << p->data << "->";
+			p = p->next;
+		}
+		cout << p->data;
+		cout << endl;
+	}
+	List<T> &operator=(const List<T> &now) {
+		list_node<T> *p;
+		del_all();
+		current_ = base_;
+		p = now.base_->next;
+		while (p != now.base_) {
+			push_back(p->data); 
+			p = p->next;
+		}
+		current_ = base_->next;
+		return *this;
+	}
+};
+class ListException {
+private:
+	int code_;
+	string reason_;
+public:
+	ListException(int code, const string &reason) {
+		code_ = code;
+		reason_ = reason;
+	}
+	const string &get_error() const {
+		return reason_;
+	}
 };
