@@ -26,7 +26,7 @@ private:
         {
             data_ = new T[new_len_arr];
             
-            for(int i = 0; i < new_len_arr; i++)
+            for(size_t i = 0; i < new_len_arr; i++)
             {
                 data_[i] = new_data[i];
             }
@@ -41,7 +41,6 @@ private:
     node *tail_ = nullptr;
     
     size_t mem_size_ = 0;
-    size_t real_size_ = 0;
     size_t len_arr_ = 10;
     
 public:
@@ -56,20 +55,23 @@ public:
     void pop_back();
     void pop_front();
     void clear();
+    
     void expand(size_t expd_size);
+    void shrink(size_t  shrk_size);
     
     size_t size() const;
     bool empty() const;
 
     T * front();
     T * back();
-
+    
     T& operator[] (const size_t idx);
     
     enum ERRORS
     {
         EMPTY = -10,
-        INDEX_ERR
+        INDEX_ERR,
+        ERR_ARR_LEN
     };
     
 };

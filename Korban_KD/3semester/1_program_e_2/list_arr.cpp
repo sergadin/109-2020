@@ -10,7 +10,6 @@ template <typename T>
 list_arr<T>::list_arr()
 {
     mem_size_ = 10;
-    real_size_ = 0;
     head_ = tail_ = new node(len_arr_);
 }
 
@@ -18,9 +17,12 @@ list_arr<T>::list_arr()
 template <typename T>
 list_arr<T>::list_arr(size_t len)
 {
+    if(len == 0 )
+    {
+        throw list_arr_exception(ERR_ARR_LEN, "Size of block should be more than 0");
+    }
     mem_size_ = len;
     len_arr_ = len;
-    real_size_ = 0;
     head_ = tail_ = new node(len);
 }
 template <typename T>
@@ -37,14 +39,12 @@ list_arr<T>::list_arr(const list_arr<T> & that)
         tail_ = newNode;
         tmp = tmp->next_;
     }
-    real_size_ =  that.real_size_;
     len_arr_ = that.len_arr_;
     mem_size_ = that.mem_size_;
 }
 template <typename T>
 list_arr<T>::list_arr(list_arr<T> && that)
 {
-    real_size_ = that.real_size_;
     head_ = that.head_;
     tail_ = that.tail_;
     len_arr_ = that.len_arr_;
@@ -54,7 +54,6 @@ list_arr<T>::list_arr(list_arr<T> && that)
 template <typename T>
 list_arr <T>::~list_arr() 
 {
-    
     printf("dest_list\n");
     while(head_ != nullptr) 
     {
@@ -69,7 +68,6 @@ list_arr<T> & list_arr<T>::operator = (list_arr<T> && that)
     this->clear();
     
     mem_size_ = that.mem_size_;
-    real_size_ = that.real_size_;
     head_ = that.head_;
     tail_ = that.tail_;
     len_arr_ = that.len_arr_;
@@ -95,7 +93,6 @@ list_arr <T> & list_arr<T>::operator = (const list_arr<T> & that)
     }
     
     mem_size_ = that.mem_size_;
-    real_size_ =  that.real_size_;
     len_arr_ = that.len_arr_;
     return *this;
 }
@@ -110,7 +107,7 @@ void list_arr<T>::clear()
         delete tmp;
     }
     head_ = tail_ = nullptr;
-    real_size_ = 0;
+    mem_size_ = 0;
 }
 
 
@@ -132,7 +129,7 @@ template <typename T>
 T * list_arr<T>:: back() 
 {
     if(tail_ == nullptr)
-        throw list_arr_exception(EMPTY, "Array doesn't have a tail");
+        throw list_arr_exception(EMPTY, "Array is emptyn'");
     T *temp = new T[len_arr_];
     for(size_t i = 0; i < len_arr_; i++)
     {
@@ -153,10 +150,7 @@ void list_arr<T>::pop_front()
     if(head_ != nullptr)
         head_->prev_ = nullptr;
     else
-        tail_ = nullptr;
-    
-    real_size_ = real_size_ - len_arr_;
-    
+        tail_ = nullptr;    
     delete tmp;
     mem_size_ -= len_arr_;
 }
@@ -174,7 +168,6 @@ void list_arr<T>::pop_back()
         tail_->next_ = nullptr;
     else
         head_ = nullptr;
-    real_size_ = real_size_ - len_arr_;
     delete tmp;
     mem_size_ -= len_arr_;
 }
@@ -218,7 +211,7 @@ T& list_arr<T>::operator[] (const size_t idx)
 template <typename T>
 void list_arr<T>::expand(size_t  expd_size)
 {
-    expd_size = ceil(expd_size/len_arr_);
+    expd_size = (size_t)ceil( (double)expd_size/len_arr_);
     
     for(size_t i = 0; i < expd_size; i++  )
     {
@@ -234,13 +227,28 @@ void list_arr<T>::expand(size_t  expd_size)
     mem_size_ += expd_size*len_arr_;
 }
 
+template <typename T>
+void list_arr<T>::shrink(size_t shrk_size)
+{
+    if(head_ == nullptr)
+        throw list_arr_exception(EMPTY, "Array is empty");
+    
+    shrk_size = (size_t)ceil( (double)shrk_size/len_arr_);
+    
+    for(size_t i = 0; i < shrk_size; i++)
+    {
+        this->pop_back();
+    }
+    
+}
+
 
 int main(void) 
 {
-    list_arr<int> A;
-    
     try
     {
+        
+        list_arr<int> A ;
         int *c;
         list_arr<int> b = A;
         
@@ -250,7 +258,6 @@ int main(void)
         }
         b = A;
         b[2] = 15651;
-        
         
         cout << "oparator= cheak: " << b[2] <<endl;
         c = b.front();
@@ -269,7 +276,8 @@ int main(void)
         b.expand(40);
         b[29] = 1265;
         cout << "func expand cheak: b.size(): " << b.size() << " b[29]:" << b[29] << endl;
-        
+        b.shrink(39);
+        cout << "func shrink cheak: b.size(): " << b.size() << " " << b.empty() << endl;
         delete[] c;
         
         

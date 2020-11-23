@@ -5,18 +5,20 @@ using namespace std;
 
 int main(void) 
 {
-    list_arr<int> A;
-    
     try
     {
+        
+        list_arr<int> A ;
         int *c;
-        list_arr<int> b;
+        list_arr<int> b = A;
+        
         for(int i  = 0; i < 10; i++)
         {
             A[i]  = i;
         }
         b = A;
         b[2] = 15651;
+        
         cout << "oparator= cheak: " << b[2] <<endl;
         c = b.front();
         cout << "func front cheak: " << c[6] <<endl;
@@ -34,7 +36,8 @@ int main(void)
         b.expand(40);
         b[29] = 1265;
         cout << "func expand cheak: b.size(): " << b.size() << " b[29]:" << b[29] << endl;
-        
+        b.shrink(39);
+        cout << "func shrink cheak: b.size(): " << b.size() << " " << b.empty() << endl;
         delete[] c;
         
         
@@ -44,6 +47,5 @@ int main(void)
 		std::cout << "EXC  "<< err.get_reason() << std::endl;
     }
     return 0;
-    
 }
 

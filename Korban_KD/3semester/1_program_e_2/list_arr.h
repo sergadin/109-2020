@@ -41,7 +41,6 @@ private:
     node *tail_ = nullptr;
     
     size_t mem_size_ = 0;
-    size_t real_size_ = 0;
     size_t len_arr_ = 10;
     
 public:
@@ -56,7 +55,9 @@ public:
     void pop_back();
     void pop_front();
     void clear();
+    
     void expand(size_t expd_size);
+    void shrink(size_t  shrk_size);
     
     size_t size() const;
     bool empty() const;
@@ -69,7 +70,8 @@ public:
     enum ERRORS
     {
         EMPTY = -10,
-        INDEX_ERR
+        INDEX_ERR,
+        ERR_ARR_LEN
     };
     
 };
