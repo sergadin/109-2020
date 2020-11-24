@@ -35,16 +35,18 @@ public:
         void del_first_elem ();
         void del_last_elem ();
 
-        void add_after_elem (T value);
-        void add_before_elem (T value);
+        void add_after_elem (T value, ListItem *item);
+        void add_before_elem (T value, ListItem *item);
 
-        void del_elem (ListItem &item);
-        void swap_elem (ListItem &item, ListItem &elem);
+        void del_elem (ListItem *item);
+        void swap_elem (ListItem *item, ListItem *elem);
 
         void get_first();
         void go_next();
         void go_back();
         void print();
+
+	list operator = (const list & other);
 
 	list();
 	~list();
