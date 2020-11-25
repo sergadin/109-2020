@@ -10,15 +10,15 @@ int main(void)
         
         list_arr<int> A ;
         int *c;
-        list_arr<int> b = A;
-        
+        list_arr<int> b = list_arr<int>(10);
+        b = list_arr<int>(10);
+
         for(int i  = 0; i < 10; i++)
         {
             A[i]  = i;
         }
         b = A;
         b[2] = 15651;
-        
         cout << "oparator= cheak: " << b[2] <<endl;
         c = b.front();
         cout << "func front cheak: " << c[6] <<endl;
@@ -39,7 +39,6 @@ int main(void)
         b.shrink(39);
         cout << "func shrink cheak: b.size(): " << b.size() << " " << b.empty() << endl;
         delete[] c;
-        
         
     }
     catch (list_arr_exception &err)
