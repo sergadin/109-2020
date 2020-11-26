@@ -1,5 +1,7 @@
 #include "B_1.h"
 
+/*
+
 template <class T>
 list<T>::list()
 {
@@ -7,23 +9,24 @@ list<T>::list()
         current->next = NULL;
         current->prev = NULL;
         current->data = NULL;
-}
 
-/*template <class T>
-list<T>::list(int n)
-{
-	for (int i=0;i<n;i++)
-	{
-        	ListItem *current = new ListItem;
-        	current->next = NULL;
-        	current->prev = NULL;
-        	current->data = NULL;
-
-		go_next();
-	}
+	go_next();
 }
 */
 
+/*
+template <class T>
+list<T>::list(T item)
+{
+	ListItem *current = new ListItem;
+        current->next = NULL;
+        current->prev = NULL;
+        current->data = item;
+
+	go_next();
+}
+
+*/
 
 //добавление элемента в конец
 template <class T>
@@ -35,16 +38,16 @@ void list<T>::add_last_elem(T element)
         last = new_elem;
 }
 
-
 //добавление элемента в начало
 template <class T>
 void list<T>::add_first_elem(T element)
 {
         ListItem *new_elem = new ListItem;
-        new_elem ->data = element;
-        new_elem ->next = first;
-        first = new_elem;
-//go_next();
+        new_elem->data = element;
+	new_elem->prev = NULL;
+        new_elem->next = first;
+	first = new_elem;
+	get_first();
 }
 
 //удаление первого элемента
@@ -52,7 +55,6 @@ template <class T>
 void list<T>::del_first_elem()
 {
         first->data = first->next;//пока думаю над этим
-
 }
 
 //удаление последнего элемента
@@ -63,7 +65,6 @@ void list<T>::del_last_elem()
 //        item = last;
         last = last->prev;
 }
-
 //шаг вперёд
 template <class T>
 void list<T>::go_next()
@@ -86,11 +87,19 @@ void list<T>::print()
 	get_first();
 //проверка, что следующий элемент есть
 
-        while (current -> next != NULL)
-        {
-                printf ("%d\n", current->data);
-                go_next();
-        }
+	if (current->data == NULL)
+	{
+		printf ("Список пуст\n");
+	}
+	else
+	{
+
+       		while (current->next != NULL)
+	        {
+        	        printf ("%d\n", current->data);
+                	go_next();
+        	}
+	}
 }
 
 template <class T>
@@ -171,14 +180,17 @@ void list<T>::change_elem(ListItem *item, T elem)
 	item->data = elem;
 }
 
-template <class T>
+/*template <class T>
 list<T>::~list()
 {
 	get_first();
-
 	while (current->next != NULL)
         {
 		current = NULL;
 		go_next;
 	}
 }
+*/
+
+
+//удалить лишнее!!

@@ -1,6 +1,6 @@
 #include <iostream>
 
-template <typename T>
+template <class T>
 
 class list
 {
@@ -65,8 +65,24 @@ public:
 
 	list operator = (const list & other);
 
-	list();
-	~list();
+//	list<T>(T item);
+//	list();
+//	~list();
+
 
 //	list(int n);
 };
+
+
+class Exception
+{
+        private:
+                int code_;
+                std::string message_;
+        public:
+                Exception(int code, const std::string& message) : code_(code), message_(message){}
+                const std::string& message() const { return message_; }
+                int code() const { return code_; }
+};
+
+
