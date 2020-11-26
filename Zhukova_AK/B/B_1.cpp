@@ -9,6 +9,21 @@ list<T>::list()
         current->data = NULL;
 }
 
+/*template <class T>
+list<T>::list(int n)
+{
+	for (int i=0;i<n;i++)
+	{
+        	ListItem *current = new ListItem;
+        	current->next = NULL;
+        	current->prev = NULL;
+        	current->data = NULL;
+
+		go_next();
+	}
+}
+*/
+
 
 //добавление элемента в конец
 template <class T>
@@ -29,6 +44,7 @@ void list<T>::add_first_elem(T element)
         new_elem ->data = element;
         new_elem ->next = first;
         first = new_elem;
+//go_next();
 }
 
 //удаление первого элемента
@@ -115,7 +131,6 @@ void list<T>::add_before_elem(T element, ListItem *item)
         item->prev->next = *element; //но это не точно, пусть пока так будет
 }
 
-
 template <class T>
 void list<T>::del_elem(ListItem *item)
 {
@@ -138,6 +153,32 @@ void list<T>::swap_elem(ListItem *item, ListItem *elem)
 template <class T>
 list<T> list<T>::operator = (const list<T> &other)
 {
+	get_first();
+
+	while (this->next != NULL)
+        {
+                this->data = other.data;
+		go_next();
+        }
+        return *this;
+
 
 }
 
+template <class T>
+void list<T>::change_elem(ListItem *item, T elem)
+{
+	item->data = elem;
+}
+
+template <class T>
+list<T>::~list()
+{
+	get_first();
+
+	while (current->next != NULL)
+        {
+		current = NULL;
+		go_next;
+	}
+}

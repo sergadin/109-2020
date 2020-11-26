@@ -61,9 +61,12 @@ list_arr <T>::~list_arr()
         delete tmp;
     }
 }
+
 template <typename T>
 list_arr<T> & list_arr<T>::operator = (list_arr<T> && that)
 {
+    if(this->head_ == that.head_)
+        throw list_arr_exception(ASSIGMENT, "Can't assign argument to itself ");
     this->clear();
     
     mem_size_ = that.mem_size_;
@@ -71,12 +74,17 @@ list_arr<T> & list_arr<T>::operator = (list_arr<T> && that)
     tail_ = that.tail_;
     len_arr_ = that.len_arr_;
     
+    that.head_ = that.tail_ = nullptr;
+    
     return *this;
 }
 
 template <typename T>
 list_arr <T> & list_arr<T>::operator = (const list_arr<T> & that) 
 {
+    if(this->head_ == that.head_)
+        throw list_arr_exception(ASSIGMENT, "Can't assign argument to itself ");
+    
     this->clear();
     
     node *tmp = that.head_;

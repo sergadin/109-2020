@@ -25,7 +25,6 @@ int main(){
 		dek3.push_front(122);
 		dek3.push_front(123);
 		dek3.push_front(125);
-		dek3.push_front(128);
 		dek3.print();
 		//dek = dek3;
 
@@ -67,9 +66,13 @@ int main(){
 		it2 = dek.end();
 		it.print();
 		it2.print();
+		cout << "dek3" << endl;
+		dek3.print();
+		dek = dek3;
+		cout << "dek" << endl;
 		dek.print();
-		//dek.begin();
-	//	it.start(dek);
+		cout << dek << endl;	
+		
 	}
 	
 	catch (Error &err){

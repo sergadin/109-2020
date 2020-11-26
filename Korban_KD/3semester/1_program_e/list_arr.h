@@ -71,7 +71,8 @@ public:
     {
         EMPTY = -10,
         INDEX_ERR,
-        ERR_ARR_LEN
+        ERR_ARR_LEN,
+        ASSIGMENT
     };
     
 };

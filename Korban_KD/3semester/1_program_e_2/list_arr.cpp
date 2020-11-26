@@ -62,9 +62,12 @@ list_arr <T>::~list_arr()
         delete tmp;
     }
 }
+
 template <typename T>
 list_arr<T> & list_arr<T>::operator = (list_arr<T> && that)
 {
+    if(this->head_ == that.head_)
+        throw list_arr_exception(ASSIGMENT, "Can't assign argument to itself ");
     this->clear();
     
     mem_size_ = that.mem_size_;
@@ -72,12 +75,17 @@ list_arr<T> & list_arr<T>::operator = (list_arr<T> && that)
     tail_ = that.tail_;
     len_arr_ = that.len_arr_;
     
+    that.head_ = that.tail_ = nullptr;
+    
     return *this;
 }
 
 template <typename T>
 list_arr <T> & list_arr<T>::operator = (const list_arr<T> & that) 
 {
+    if(this->head_ == that.head_)
+        throw list_arr_exception(ASSIGMENT, "Can't assign argument to itself ");
+    
     this->clear();
     
     node *tmp = that.head_;
@@ -250,15 +258,15 @@ int main(void)
         
         list_arr<int> A ;
         int *c;
-        list_arr<int> b = A;
-        
+        list_arr<int> b = list_arr<int>(10);
+        b = list_arr<int>(10);
+
         for(int i  = 0; i < 10; i++)
         {
             A[i]  = i;
         }
         b = A;
         b[2] = 15651;
-        
         cout << "oparator= cheak: " << b[2] <<endl;
         c = b.front();
         cout << "func front cheak: " << c[6] <<endl;
@@ -279,7 +287,6 @@ int main(void)
         b.shrink(39);
         cout << "func shrink cheak: b.size(): " << b.size() << " " << b.empty() << endl;
         delete[] c;
-        
         
     }
     catch (list_arr_exception &err)
