@@ -94,6 +94,33 @@ class StackL
 			vershina = nullptr; 
 		}
 
+		StackL(const StackL& S)
+		{
+			Stack<T>* p;
+			Stack<T>* p1;
+			Stack<T>* t;
+			vershina = nullptr;
+			t = nullptr;
+			p = S.vershina;
+			while (p != nullptr)
+			{
+				p1 = new Stack<T>;
+				p1->item = p->item;
+				p1->next = nullptr;
+				if (vershina == nullptr)
+				{
+					vershina = p1;
+					t = p1;
+				}
+				else
+				{
+					t->next = p1;
+					t = t->next;
+				}
+				p = p->next;
+			}
+		}
+
 		~StackL()
 		{
 			Empty();
