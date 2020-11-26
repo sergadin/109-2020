@@ -108,11 +108,6 @@ class StackL
 			vershina = p;
 		}
 
-		void operator delete(void* p)
-                {
-                        free(p);
-                }
-
 		void Empty()
 		{
 			Stack<T>* p;
