@@ -1,5 +1,7 @@
 #include "B_1.h"
 
+using namespace std;
+
 /*
 
 template <class T>
@@ -80,10 +82,9 @@ void list<T>::go_back()
 }
 
 template <class T>
-void list<T>::print()
+void list<T>::print() const
 {
 //        ListItem *elem;
-//        elem  = get_first();
 	get_first();
 //проверка, что следующий элемент есть
 
