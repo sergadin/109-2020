@@ -1,7 +1,11 @@
 #include <stdio.h>
 
 typedef double (*Fun) (double x);
-int task(Fun f, Fun g, double x);
+void znach(Fun f, Fun g, double x);
+double f1(double x);
+double g1(double x);
+double f2(double x);
+double g2(double x);
 
 void znach(Fun f, Fun g, double x)
 {
