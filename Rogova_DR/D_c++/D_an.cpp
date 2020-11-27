@@ -1,4 +1,4 @@
-#include <string>
+
 #include <math.h>
 #include <iostream>
 #include <cstdio>
@@ -44,6 +44,7 @@ class List
 		{
 			private:
 				friend class List<T>;
+				friend class ListItem<T>;
 				ListItem<T> *cur_;
 
 			public:
@@ -51,12 +52,12 @@ class List
 				{
 					cur_= nullptr;
 				}
-				friend Iterator& operator ++(Iterator & i)
+				/*friend Iterator& operator ++(Iterator & i)
 				{
 					i.cur_ = i.cur_->next;
 					return i;
 				}
-				friend Iterator& operator --(Iterator & i)
+				Iterator& operator --(Iterator & i)
 				{
 					i.cur_ = i.cur_->bef;
 					return i;
@@ -64,7 +65,7 @@ class List
 				friend T& operator*(const Iterator & i)
 				{
 					return i.cur_->data;
-				}
+				}*/
 				friend bool operator !=(const Iterator& left, const Iterator right)
 				{
 					if(left.cur_ != right.cur_)
@@ -72,6 +73,21 @@ class List
 					else
 						return false;
 				}
+				void next_go(Iterator & i)
+                                {
+                                        i.cur_ = i.cur_->next;
+                                }
+				void bef_go(Iterator & i)
+                                {
+                                        i.cur_ = i.cur_->bef;
+                                }
+				T get_it(const Iterator & i)
+                                {
+                                        return i.cur_->data;
+                                }
+
+
+
 				Iterator& operator= (const Iterator & right)
 				{
 					cur_ = right.cur_;
@@ -122,14 +138,14 @@ class List
 		{
 			Iterator i;
 			i.cur_ = base_;
-			++i;
+			i.next_go(i);
 			return i;
 		}
 		Iterator end()
 		{
 			Iterator i;
 			i.cur_ = base_;
-			++i;
+			i.next_go(i);
 			while(i.cur_ != base_)
 			{
 				i.cur_ = i.cur_->next;
@@ -304,9 +320,9 @@ int main()
 		cout << "L"<< endl;
 		L.print();
 		List<int>::Iterator i;
-		for(i = S1.begin(); i != S1.end(); ++i)
+		for(i = S1.begin(); i != S1.end(); i.next_go(i))
 		{
-			cout<< *i;
+			cout<< i.get_it(i);
 		}
 		List<List<int>> H;
 		S5.add_after(9);
