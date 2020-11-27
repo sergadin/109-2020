@@ -6,30 +6,30 @@
 using namespace std; 
 class ListException
 {
-		private:
-			int code_;
-			std::string reason_;
-		public:
-			ListException(int code, const std::string& reason)
-			{
-				code_ = code;
-				reason_ = reason;
-			}
+	private:
+		int code_;
+		std::string reason_;
+	public:
+		ListException(int code, const std::string& reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
 
-			const std::string& get_reason() const
-			{
-				return reason_;
-			}
+		const std::string& get_reason() const
+		{
+			return reason_;
+		}
 
 };
 
 template <typename T>
 struct ListItem
-                {
-                                T data;
-                                ListItem *next;
-                                ListItem *bef;
-		};
+{
+	T data;
+	ListItem *next;
+	ListItem *bef;
+};
 
 
 template <typename T>
@@ -45,12 +45,12 @@ class List
 			private:
 				friend class List<T>;
 				ListItem<T> *cur_;
-	
+
 			public:
 				Iterator()
-                                {
-                                        cur_= nullptr;
-                                }
+				{
+					cur_= nullptr;
+				}
 				friend Iterator& operator ++(Iterator & i)
 				{
 					i.cur_ = i.cur_->next;
@@ -77,7 +77,7 @@ class List
 					cur_ = right.cur_;
 					return *this;
 				}
-			
+
 
 
 		};
@@ -90,12 +90,33 @@ class List
 			current_ = base_;
 
 		}
+		List(const List& A)
+		{
+			ListItem<T>* p;
+                        ListItem<T>* p1;
+                        ListItem<T>* b;
+			base_ = new ListItem<T>;
+			base_->next = base_;
+			base_->bef = base_;
+                        current_ = base_;
+                        p = A.base_;
+                        p = p->next;
+                        while (p != A.base_)
+                        {
+                                add_after(p->data);
+                                p = p->next;
+                        }
+                        current_ = base_->next;
+                        p = nullptr;
+                        p1 = nullptr;
+                        b = nullptr;
+		}
 		~List()
 		{
 			current_ = base_;		
 			del_all();
 			delete base_;
-			
+
 		}
 		Iterator begin()
 		{
@@ -140,6 +161,10 @@ class List
 		{
 			if(is_empty())
 				return;
+			if(current_ == base_)
+				current_=current_->next;
+			if(current_ == base_)
+				return;
 			ListItem<T> * prevel;
 			prevel = current_;
 			current_->bef->next = current_->next;
@@ -152,17 +177,20 @@ class List
 		{
 			if(is_empty())
 				return;
-			ListItem<T> *elem = base_->next;
 			ListItem<T> *m;
-			current_ = base_;
-			while (elem != base_)
+			current_ = base_->next;
+			while (current_ != base_)
 			{
-				m = elem;
-				elem = elem -> next;
+				m = current_;
+				current_ = current_->next;
 				delete m;
 			}
 			base_->next = base_;
 			base_->bef = base_;
+			/*current_ = base_->next;
+			  while(!is_empty())
+			  del_el();
+			  current_=base_;*/
 
 		}
 		void go_next()
@@ -197,6 +225,7 @@ class List
 				std::cout << p->data << "\t";
 				p = p->next;
 			}
+			p = nullptr;
 			std::cout << std::endl;
 		}
 
@@ -215,25 +244,23 @@ class List
 				p = p->next;
 			}
 			current_ = base_->next;
+			p = nullptr;
+			p1 = nullptr;
+			b = nullptr;
 			return *this;
 		}
 		friend std::ostream& operator<<(std::ostream &out, const List<T> &H)
 		{
 			ListItem<T> * p;
-                        p = H.base_->next;
-                        while (p != H.base_)
-                        {
-                                out << p->data << "\t";
-                                p = p->next;
-                        }
+			p = H.base_->next;
+			while (p != H.base_)
+			{
+				out << p->data << "\t";
+				p = p->next;
+			}
+			p = nullptr;
 			return out;
 		}
-		void operator delete[](void* ptr)
-		{
-			delete ptr;
-		
-		}
-
 
 
 };
@@ -258,35 +285,35 @@ int main()
 
 		cout << "S"<< endl;
 
-	         List<int> S1;
-		  S1.add_after(2);
-		  S1.add_after(3);
-		  cout << "S1"<< endl;
-		  S1.print();
+		List<int> S1;
+		S1.add_after(2);
+		S1.add_after(3);
+		cout << "S1"<< endl;
+		S1.print();
 
-		  List<int> S5;
-		  S5 = S;
-		  cout << "S5"<< endl;
-		  S5.print();
+		List<int> S5;
+		S5 = S;
+		cout << "S5"<< endl;
+		S5.print();
 
-		  S.del_all();
-		  cout << "S"<< endl;
-		  S.print();
+		S.del_all();
+		cout << "S"<< endl;
+		S.print();
 
-		  List<int> L;
-		  cout << "L"<< endl;
-		  L.print();
-		  List<int>::Iterator i;
-		  for(i = S1.begin(); i != S1.end(); ++i)
-		  {
-			  cout<< *i;
-		  }
-		  List<List<int>> H;
-		  S5.add_after(9);
-                  S5.add_after(3);
-		  H.add_after(S5);
-		  H.add_after(S1);
-		  std::cout << H<< "!!!!" <<endl;
+		List<int> L;
+		cout << "L"<< endl;
+		L.print();
+		List<int>::Iterator i;
+		for(i = S1.begin(); i != S1.end(); ++i)
+		{
+			cout<< *i;
+		}
+		List<List<int>> H;
+		S5.add_after(9);
+		S5.add_after(3);
+		H.add_after(S5);
+		H.add_after(S1);
+		std::cout << H<< "!!!!" <<endl;
 
 	}
 	catch(ListException &err)
