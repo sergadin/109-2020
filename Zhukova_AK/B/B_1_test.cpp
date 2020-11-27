@@ -1,17 +1,16 @@
 #include "B_1.h"
-
 using namespace std;
 
 int main(void)
 {
 
+	list<int> l;
 
+	l.print();
 
-	list <int> l;
-
-	l.add_first_elem(1);
-	l.add_first_elem(1);
-	l.add_first_elem(1);
+	/*l.add_first_elem(1);
+	l.add_first_elem(2);
+	l.add_first_elem(3);
 
 //	l.get_first();
 
@@ -22,6 +21,8 @@ int main(void)
 	}
 */
 	l.print();
+
+	printf ("P1\n");
 
 	return 0;
 

@@ -58,11 +58,12 @@ class StackL
 					else
 						return false;
 				}
-				friend Iterator& operator ++(Iterator & i)
+
+				void next1(Iterator & i)
 				{
 					i.current_ = i.current_->next;
-					return i;
 				}
+
 				friend T & operator*(const Iterator & i)
 				{
 					return i.current_->item;
@@ -92,6 +93,33 @@ class StackL
 		StackL() 
 		{ 
 			vershina = nullptr; 
+		}
+
+		StackL(const StackL& S)
+		{
+			Stack<T>* p;
+			Stack<T>* p1;
+			Stack<T>* t;
+			vershina = nullptr;
+			t = nullptr;
+			p = S.vershina;
+			while (p != nullptr)
+			{
+				p1 = new Stack<T>;
+				p1->item = p->item;
+				p1->next = nullptr;
+				if (vershina == nullptr)
+				{
+					vershina = p1;
+					t = p1;
+				}
+				else
+				{
+					t->next = p1;
+					t = t->next;
+				}
+				p = p->next;
+			}
 		}
 
 		~StackL()
@@ -192,7 +220,7 @@ class StackL
 			StackL<T>::Iterator r;
 			int l = 1;
 			r = S.end();
-			for(i = S.begin(); i != r; ++i)
+			for(i = S.begin(); i != r; i.next1(i))
 			{
 				l = l+1;
 			}
@@ -266,7 +294,7 @@ int main()
 		l = S.dlina(S);
 		m = l;
 		r = S.end();
-		for(i = S.begin(); i != r; ++i)
+		for(i = S.begin(); i != r; i.next1(i))
 		{
 			if ((l == m/2) || (l == (m+1)/2))
 				break;
@@ -274,7 +302,7 @@ int main()
 			i1 = S.begin();
 			for(k = 1; k != l; ++k)
 			{
-				++i1;
+				i1.next1(i1);
 			}
 			p = *i;
 			*i = *i1;
@@ -282,7 +310,7 @@ int main()
 			i = S.begin();
 			for(t = 1; t != l; ++t)
 			{
-				++i;
+				i.next1(i);
 			}
 			*i = p;
 			i = i5;
