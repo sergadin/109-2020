@@ -58,6 +58,7 @@ class StackL
 					else
 						return false;
 				}
+
 				void next1(Iterator & i)
 				{
 					i.current_ = i.current_->next;
