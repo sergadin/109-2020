@@ -54,11 +54,10 @@ int main(){
 		Deque<int>::Iterator it2 = dek.begin();
 		it2.parametrs(13, 1);
 		it.parametrs(10, 3);
-		cout << "Before" << endl;
 		it.print();
 		it2.print();
 		cout << "Middle" << endl;
-		it = it2 + 2;
+		it = it2 + 10;
 		it.print();
 		it = it - 3;
 		it.print();

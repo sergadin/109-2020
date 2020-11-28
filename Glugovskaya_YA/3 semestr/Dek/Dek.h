@@ -37,6 +37,14 @@ class Deque{
 					if (index == 0)	CurrentIt_ = Deque -> Head_;
 					if (index == 1) CurrentIt_ = Deque -> Tail_;
 				}
+
+
+				Iterator(const Deque<T> * Deque, int index){ // 0 - голова, 1-хвост 
+					OurIterDeque_ = Deque;
+					step_=1;
+					if (index == 0)	CurrentIt_ = Deque -> Head_;
+					if (index == 1) CurrentIt_ = Deque -> Tail_;
+				}
 					
 				public:
 				friend class Deque;
@@ -59,6 +67,8 @@ class Deque{
 					return *this;
 				} 	
 				Iterator& operator+(int n){
+					n = n%( OurIterDeque_ -> size_);
+					cout << n << endl;
 					for (int i=0; i < n; i++){
 						CurrentIt_ = CurrentIt_  -> Next_;
 					}
@@ -66,6 +76,7 @@ class Deque{
 				}	
 				
 				Iterator& operator-(int n){
+					n = n%( OurIterDeque_ -> size_);
 					for (int i=0; i < n; i++){
 						CurrentIt_ = CurrentIt_  -> Prev_;
 					}
@@ -81,7 +92,7 @@ class Deque{
 					CurrentIt_ = CurrentIt_  -> Prev_;
 					return *this;
 				}
-	
+		
 		};
 		Iterator begin(){
 			Iterator it(this, 0);
@@ -95,7 +106,21 @@ class Deque{
 			cout <<   it.CurrentIt_ << endl;	
 			return it;
 		}
-		
+	
+	
+		Iterator begin() const{
+			Iterator it(this, 0);
+			cout << "--------Вывод итератора-------" << endl;
+			cout <<   it.CurrentIt_ << endl;	
+			return it;
+		}
+		Iterator end() const{
+			Iterator it(this, 1);
+			cout << "--------Вывод итератора-------" << endl;
+			cout <<   it.CurrentIt_ << endl;	
+			return it;
+		}
+			
 					 
 		Deque(); //конструктор
 		~Deque(); //деструктор
@@ -108,7 +133,7 @@ class Deque{
 		void back(); //печатаем последний элемент
 		void sort(); //сортируем данные в деке пузырьком
 		//Deque<T>& operator=(const Deque<T>& right);
-		template <typename U> friend std::ostream& operator <<(std::ostream& os,Deque<U>& Deck);
+		template <typename U> friend std::ostream& operator <<(std::ostream& os,const Deque<U>& Deck);
 		int Deque_size();
 		Deque<T>& operator=(Deque<T>& riqht);
 
@@ -240,14 +265,12 @@ template <typename T>
 void Deque<T>::sort(){
 	Deque<T>::Node* PosMaxData = Head_;
 	Deque<T>::Node* current = Head_;
-	cout << "--------Сортируем---------" << endl;
+	//cout << "--------Сортируем---------" << endl;
 	for (int  i = 0; i < size_; i++){
 		PosMaxData = Head_;
 		current= Head_;
 		for (int  j = 0; j < size_ - i; j++){
-			cout << i << j << endl;
 			if ((PosMaxData -> data_) < (current -> data_)){
-				cout << "MaxData  " << current -> data_ << endl;
 				PosMaxData = current;
 			}
 			current = current -> Next_;
@@ -295,7 +318,7 @@ void Deque<T>::print(){
 }
 
 template <typename T>  
-std::ostream& operator <<(std::ostream& os,Deque<T>& Deck){ //почему-то все ломается, когда добавляю const
+std::ostream& operator <<(std::ostream& os,const Deque<T>& Deck){ 
 	typename Deque<T>::Iterator it = Deck.begin();
 	typename Deque<T>::Node*current = Deck.Head_;
 	cout << "--------------Печать дека-----------------------" << endl;
