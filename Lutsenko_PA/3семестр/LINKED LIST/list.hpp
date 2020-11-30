@@ -169,14 +169,14 @@ public:
         }
         current_ = save_current;
         return count;*/
-        return quant;
+        return quant - 1;
     }
     
     void print() // печать списка  РАБОТАЕТ
     
     {   ListItem * save_current = current_;
         
-       if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         
         go_first();
   
@@ -188,8 +188,30 @@ public:
         std::cout << std::endl;
         current_ = save_current;
     }
-    
-    
+
+    void sort() // ака пузырьковая сортировка
+    {
+        ListItem * save_current = current_;
+        
+        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+       
+        for(int i = 0; i < quant -2; ++i)
+        {      go_first();
+               go_next();
+            for(int r = 0; i < quant -2 - i -1; r++)
+            {
+                if(current_-> data > prev(current_)->data)
+                {
+                   
+                   T temp = current_-> data;
+                    current_-> data = prev(current_)->data;
+                    current_-> next -> data = temp;
+                }
+                go_next();
+            }
+        }
+         current_ = save_current;
+    }
     
     List operator+ ( List & left) // НЕ РАБОТАЕТ НО ЧТО-то ВЫВОДИт
      {
@@ -268,6 +290,7 @@ public:
     
     void go_first() { current_ = base_; }
     void go_next()  { current_ = current_->next; }
+    void go_back() {prev(current_);}
     T get_current() {return current_->data;}
     void set_current (T item)
     {

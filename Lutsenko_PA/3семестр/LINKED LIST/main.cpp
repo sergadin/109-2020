@@ -11,7 +11,7 @@ int main()
     List <int> MyNumbers1;
     cout << "списки пусты? " << (MyNumbers.is_empty() & MyNumbers1.is_empty())<< endl;
     
-    for (int i = 2; i < 10; i++)
+    for (int i = 1; i < 10; i++)
      {
       MyNumbers.construct(i);
       MyNumbers1.construct(i);
@@ -32,15 +32,18 @@ int main()
     if (MyNumbers == MyNumbers1) cout << "M и M1 равны" << endl;
        else cout << "M и M1 не равны" << endl;
     
-   
+
+    
     cout << "M : ";  MyNumbers.print();
    MyNumbers = MyNumbers1;
    cout << "M : ";  MyNumbers.print();
  //  MyNumbers + MyNumbers1;
     
 
-    cout << "В списке " << MyNumbers.elem_count() << " элементов" << endl;
-    
+    cout << "В списке " << MyNumbers.elem_count() << " элементов.А теперь отсортируем:" << endl;
+     
+    MyNumbers.sort();
+    cout << "M : ";  MyNumbers.print();
     
     
  /*     // Удаляем элементы, больше 5
