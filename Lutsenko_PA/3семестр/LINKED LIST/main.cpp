@@ -7,8 +7,8 @@ using namespace std;
 
 int main()
 {
-    List <int> MyNumbers;
-    List <int> MyNumbers1;
+    List <double> MyNumbers;
+    List <double> MyNumbers1;
     cout << "списки пусты? " << (MyNumbers.is_empty() & MyNumbers1.is_empty())<< endl;
     
     for (int i = 1; i < 10; i++)
@@ -40,7 +40,7 @@ int main()
  //  MyNumbers + MyNumbers1;
     
 
-    cout << "В списке " << MyNumbers.elem_count() << " элементов.А теперь отсортируем:" << endl;
+    cout << "В списке " << MyNumbers.elem_count() << " элементов.А теперь отсортируем в порядке убывания :" << endl;
      
     MyNumbers.sort();
     cout << "M : ";  MyNumbers.print();

@@ -190,28 +190,33 @@ public:
     }
 
     void sort() // ака пузырьковая сортировка
-    {
-        ListItem * save_current = current_;
+     {
+         ListItem * save_current = current_;
+         
+         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         
-        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
-       
-        for(int i = 0; i < quant -2; ++i)
-        {      go_first();
-               go_next();
-            for(int r = 0; i < quant -2 - i -1; r++)
-            {
-                if(current_-> data > prev(current_)->data)
-                {
-                   
-                   T temp = current_-> data;
-                    current_-> data = prev(current_)->data;
-                    current_-> next -> data = temp;
-                }
-                go_next();
-            }
-        }
-         current_ = save_current;
-    }
+         int k = 1;
+         while (k<=quant - 1)
+         {      go_first();
+                
+             for(int r = 0; r < quant - 2; r++)
+             {
+                 if(current_-> data < current_-> next -> data )
+                 {
+                    
+                    T temp = current_-> data;
+                     current_-> data = current_-> next -> data ;
+                     current_-> next -> data = temp;
+                 }
+                 //if (current_-> next -> next != NULL) { go_next();}
+                 go_next();
+                 
+             }
+             k++;
+         }
+          current_ = save_current;
+         
+     }
     
     List operator+ ( List & left) // НЕ РАБОТАЕТ НО ЧТО-то ВЫВОДИт
      {
@@ -255,7 +260,7 @@ public:
                r = r->next;
                l = l->next;
            }
-           if ( k ==  left_quant ) return 0; else return 0;
+           if ( k ==  left_quant ) return 0; else return 1;
        }
     
     
