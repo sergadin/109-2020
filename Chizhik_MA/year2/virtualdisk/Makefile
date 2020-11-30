@@ -8,7 +8,7 @@ run: disk.o test.o
 	g++ -o run disk.o test.o
 
 do-test: run
-	#valgrind ./run
-	./run
+	valgrind ./run
+	#./run
 clean: disk.o test.o
 	rm -rf *.o run vgcore.*
