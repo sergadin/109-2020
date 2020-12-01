@@ -11,14 +11,14 @@ VirtualDisk::File::File() {
 #ifdef DEBUG
 void VirtualDisk::printFAT() const {
 	for (int i = 0; i < FAT_SIZE_; i++) {
-		std::cout << i << ": " << table_[i] << "; " << std::endl;
+		std::cout << i << ": " << FAT_[i] << "; " << std::endl;
 	}
 }
 #endif
 
 VirtualDisk::VirtualDisk(unsigned int size, unsigned int cluster_size) : 
 			DISK_SIZE_(size), CLUSTER_SIZE_(cluster_size) {
-	if ((size % cluster_size != 0) || cluster_size < 2 || size < 32) {
+	if (cluster_size < 4 || size < 64) {
 		throw VirtualDiskException(1, "Incorrect disk parameters");
 	}
 	FAT_SIZE_ = DISK_SIZE_ / CLUSTER_SIZE_;
@@ -30,9 +30,9 @@ VirtualDisk::VirtualDisk(unsigned int size, unsigned int cluster_size) :
 	}
 
 	try {
-		table_ = new int[FAT_SIZE_];
+		FAT_ = new int[FAT_SIZE_];
 		for (int i = 0; i < FAT_SIZE_; i++) {
-			table_[i] = FREE_CLUSTER;
+			FAT_[i] = FREE_CLUSTER;
 		}
 	} catch (const std::bad_alloc& e) {
 		throw VirtualDiskException(3, "Can't create FAT");
@@ -49,7 +49,7 @@ VirtualDisk::VirtualDisk(unsigned int size, unsigned int cluster_size) :
 
 VirtualDisk::~VirtualDisk() {
 	delete[] disk_;
-	delete[] table_;
+	delete[] FAT_;
 	delete[] dir_;
 }
 
@@ -77,17 +77,17 @@ int VirtualDisk::bind_next_cluster(int last_cluster_index) {
 		return BAD_CLUSTER;
 	} 
 
-	if (last_cluster_index >= 0 && table_[last_cluster_index] != LAST_CLUSTER) {
+	if (last_cluster_index >= 0 && FAT_[last_cluster_index] != LAST_CLUSTER) {
 		return BAD_CLUSTER;
 	}
 
 	for (int i = 0; i < FAT_SIZE_; i++) {
-		if (table_[i] == FREE_CLUSTER) {
+		if (FAT_[i] == FREE_CLUSTER) {
 			if (last_cluster_index != FREE_CLUSTER) {
-				table_[last_cluster_index] = i;
+				FAT_[last_cluster_index] = i;
 			}
 
-			table_[i] = LAST_CLUSTER;
+			FAT_[i] = LAST_CLUSTER;
 			return i;
 		}
 	}
@@ -112,11 +112,11 @@ VirtualDisk::File* VirtualDisk::create(const std::string& name) {
 
 void VirtualDisk::rm(const std::string& name) {
 	FileObject *file = find(name);
-	int *current_cluster = table_ + file->start_;
+	int *current_cluster = FAT_ + file->start_;
 	int *next_cluster;
 
 	while (*current_cluster >= 0) {
-		next_cluster = table_ + *current_cluster;
+		next_cluster = FAT_ + *current_cluster;
 		*current_cluster = FREE_CLUSTER;
 		current_cluster = next_cluster;
 	}
@@ -146,12 +146,12 @@ void VirtualDisk::cp(const std::string& name, const std::string& copy_name) {
 
 	copy_address = create(copy_name);
 
-	
-	int current_src_cluster = table_[file->start_];
-	int current_dest_cluster = table_[copy_address->start_];
+
+	int current_src_cluster = file->start_;
+	int current_dest_cluster = copy_address->start_;
 
 	int k = 0;
-	while (current_src_cluster >= 0) {
+	while (current_src_cluster >= 0) {;
 		if (k > 0) {
 			if ((current_dest_cluster = bind_next_cluster(current_dest_cluster)) == BAD_CLUSTER) {
 				throw VirtualDiskException(9, "Unknown memory error");
@@ -162,15 +162,15 @@ void VirtualDisk::cp(const std::string& name, const std::string& copy_name) {
 			if (k >= file->len_) {
 				break;
 			}
-			disk_[CLUSTER_SIZE_ * table_[current_dest_cluster] + i] = disk_[CLUSTER_SIZE_ * table_[current_src_cluster] + i];
+			disk_[CLUSTER_SIZE_ * current_dest_cluster + i] = disk_[CLUSTER_SIZE_ * current_src_cluster + i];
 		}
-		current_src_cluster = table_[current_src_cluster];		
+		current_src_cluster = FAT_[current_src_cluster];		
 	}
 
-	files_amount_++;
 	if (k < file->len_ || current_src_cluster != LAST_CLUSTER) {
 		throw VirtualDiskException(10, "Reading the file has led to an error");
 	}
+	copy_address->len_ = file->len_;
 }
 
 void VirtualDisk::mv(const std::string& name, const std::string& new_name) {
@@ -182,6 +182,7 @@ void VirtualDisk::mv(const std::string& name, const std::string& new_name) {
 	FileObject *new_address = find(new_name, false);
 	if (new_address != NULL) {
 		rm(new_name);
+		files_amount_--;
 	}
 
 	file->name_ = new_name;
@@ -201,7 +202,7 @@ void VirtualDisk::write(const std::string& name, unsigned int start_position, un
 	int start_cluster_index = start_position / CLUSTER_SIZE_;
 	int current_cluster = file->start_;
 	for (int k = 0; k < start_cluster_index; k++) {
-		switch(table_[current_cluster]) {
+		switch(current_cluster) {
 			case LAST_CLUSTER:
 				current_cluster = bind_next_cluster(current_cluster);
 				break;
@@ -209,7 +210,7 @@ void VirtualDisk::write(const std::string& name, unsigned int start_position, un
 			case FREE_CLUSTER:
 				throw VirtualDiskException(11, "Unknown memory allocation error");
 			default:
-				current_cluster = table_[current_cluster];
+				current_cluster = FAT_[current_cluster];
 		}
 	}
 
@@ -238,7 +239,7 @@ void VirtualDisk::read(const std::string& name, unsigned int start_position, uns
 	int start_cluster_index = start_position / CLUSTER_SIZE_;
 	int current_cluster = file->start_;
 	for (int k = 0; k < start_cluster_index; k++) {
-		current_cluster = table_[current_cluster];
+		current_cluster = FAT_[current_cluster];
 	}
 
 	int curr_shift_inside_cluster = start_position % CLUSTER_SIZE_;
@@ -248,8 +249,17 @@ void VirtualDisk::read(const std::string& name, unsigned int start_position, uns
 		curr_shift_inside_cluster++;
 		if (curr_shift_inside_cluster == CLUSTER_SIZE_) {
 			curr_shift_inside_cluster = 0;
-			current_cluster = table_[current_cluster];
+			current_cluster = FAT_[current_cluster];
 		}
+	}
+}
+
+void VirtualDisk::del(const std::string& name, unsigned int bytes_amount) {
+	FileObject* file = find(name);
+	if (file->len_ >= bytes_amount) {
+		file->len_ -= bytes_amount;
+	} else {
+		file->len_ = 0;
 	}
 }
 

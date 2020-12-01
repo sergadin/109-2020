@@ -5,9 +5,9 @@
 
 #define DEBUG
 
-#define FREE_CLUSTER -1
-#define LAST_CLUSTER -2
-#define BAD_CLUSTER -3
+#define LAST_CLUSTER -1
+#define FREE_CLUSTER -2
+#define BAD_CLUSTER -9
 
 // Файловый контейнер, реализованный по аналогии с файловой системой FAT
 class VirtualDisk {
@@ -20,7 +20,7 @@ class VirtualDisk {
 				// Количество байт в файле
 				unsigned int len_;
 
-				// Тип файла
+				// Тип файла (еще не используется)
 				// 0 - обычный файл, 1 - директория
 				// unsigned int type_;
 
@@ -54,12 +54,12 @@ class VirtualDisk {
 		const unsigned int CLUSTER_SIZE_;
 
 		// Таблица ссылок между блоками (FAT)
-		int* table_;
+		int* FAT_;
 
 		// Размер таблицы FAT
 		unsigned int FAT_SIZE_;
 	
-		// Массив описаний файлов
+		// Массив описаний файлов (корневая директория)
 		FileObject* dir_;
 
 		// Текущее количество файлов в системе
@@ -73,8 +73,10 @@ class VirtualDisk {
 		// Если last_cluster_index равен FREE_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит
 		int bind_next_cluster(int last_cluster_index);
 	public:
-		// Конструтор
+		// Конструктор
 		// Параметры по умолчанию: размер диска - 50 МБ, размер кластера - 4 КБ
+		// Размеру кластера разрешается не делить размер диска; в таких случаях появляется память, которая не может быть использована для хранения информации
+		// Минимальный размер диска - 64 байта, кластера - 4 байта
 		VirtualDisk(unsigned int size = (50 << 20), unsigned int cluster_size = 4096);
 
 		// Деструктор
@@ -93,22 +95,33 @@ class VirtualDisk {
 		void cp(const std::string& name, const std::string& copy_name);
 
 		// Переименование файла с именем old_name 
-		// Если другой файл имеет имя, на которое меняется имя файла с текущим именем old_name, то он будет утерян
+		// Если другой файл имеет имя new_name, то он будет утерян
 		void mv(const std::string& old_name, const std::string& new_name);
 
-		// Получение длины файла
+		// Получение длины файла с именем name
+		// Если такого файла нет, вызывается исключение
 		int wc(const std::string& name) const;
 
-		// Записать заданное количество байт
+		// Записать bytes_amount байт из to_write в файл с именем name, начиная с позиции start_position
+		// Подразумевается, что память на все требуемые байты выделена
+		// Запись по смещению, превосходящему длину файла, не считается исключительной ситуацией;
+		// однако в этом случае не определено значение предшествующих байт в файле
 		void write(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* to_write);
 
-		// Прочтение заданного количества байт
+		// Прочтение bytes_amount байт из файла с именем name в dest, начиная с позиции start_position
+		// Если последний байт, который нужно прочитать, выходит за границы файла, вызывается исключение
 		void read(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const;
 
-		// Получение списка существующих файлов
+		// Удаление последних bytes_amount байтов
+		// Все кластеры, принадлежащие файлу, остаются в цепочке
+		// Если длина файла меньше bytes_amount, она обнуляется
+		void del(const std::string& name, unsigned int bytes_amount);
+
+		// Вывод списка существующих на диске файлов в поток os (по умолчанию - std::cout)
 		void ls(std::ostream& os = std::cout) const;
 
 		#ifdef DEBUG
+		// Отладочная печать таблицы FAT
 		void printFAT() const;
 		#endif
 };

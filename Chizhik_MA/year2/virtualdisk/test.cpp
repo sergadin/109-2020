@@ -2,7 +2,7 @@
 using namespace std;
 
 int main(void) {
-	VirtualDisk disk(1 << 5, 2);
+	VirtualDisk disk(1 << 6, 5);
 	disk.create("1");
 	disk.create("hello.txt");
 
@@ -34,7 +34,19 @@ int main(void) {
 	}
 	cout << endl;
 
+	disk.cp("hello.txt", "hello2.txt");
+	cout << "SUCCESS" << endl;
+	try {
+		for (int i = 0; i < 10; i++) {
+			disk.write("hello2.txt", 5 + i * 5, 5, bytearray);
+		}
+	} catch (VirtualDiskException& e) {
+		cerr << e << endl;
+	}
+
 	disk.ls();
+	disk.del("hello2.txt", 32);
+	cout << disk.wc("hello2.txt") << endl;
 	disk.printFAT();
 	return 0;
 }
