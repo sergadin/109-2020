@@ -58,9 +58,9 @@ int main(void) {
 	disk.del("hello2.txt", 32);
 	cout << "New length of hello2.txt = " << disk.wc("hello2.txt") << endl;
 
-	disk.read("hello2.txt", 0, disk.wc("hello2.txt"), buffer2);
-	cout << "So, let's read hello2.txt:" << endl;
-	for (int i = 0; i < disk.wc("hello2.txt"); i++) {
+	disk.read("hello2.txt", 4, disk.wc("hello2.txt") - 4, buffer2);
+	cout << "So, let's read hello2.txt since 5th byte:" << endl;
+	for (int i = 0; i < disk.wc("hello2.txt") - 4; i++) {
 		fprintf(stdout, "%u ", buffer2[i]);
 	}
 	cout << endl;
