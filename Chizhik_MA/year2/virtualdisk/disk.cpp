@@ -4,6 +4,10 @@ VirtualDisk::File::File() {
 	start_ = -1;
 	len_ = 0;
 	name_ = "";
+
+	creation_time_ = 0;
+	mod_time_ = 0;
+
 	//type_ = 0;
 	//parent_ = -1;
 }
@@ -108,6 +112,9 @@ VirtualDisk::File* VirtualDisk::create(const std::string& name) {
 
 	dir_[files_amount_].start_ = bind_next_cluster(FREE_CLUSTER);
 	dir_[files_amount_].name_ = name;
+
+	dir_[files_amount_].creation_time_ = time(NULL);
+	dir_[files_amount_].mod_time_ = time(NULL);
 	files_amount_++;
 
 	return dir_ + (files_amount_ - 1);
@@ -148,7 +155,6 @@ void VirtualDisk::cp(const std::string& name, const std::string& copy_name) {
 	}
 
 	copy_address = create(copy_name);
-
 
 	int current_src_cluster = file->start_;
 	int current_dest_cluster = copy_address->start_;
@@ -238,6 +244,7 @@ void VirtualDisk::write(const std::string& name, unsigned int start_position, un
 	int a = file->len_;
 	int b = start_position + bytes_amount;
 	file->len_ = (a >= b) ? a : b;
+	file->mod_time_ = time(NULL);
 }
 
 void VirtualDisk::read(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const {
@@ -292,6 +299,7 @@ void VirtualDisk::del(const std::string& name, unsigned int bytes_amount) {
 	}
 
 	file->len_ = new_len;
+	file->mod_time_ = time(NULL);
 }
 
 void VirtualDisk::ls(std::ostream& os) const {

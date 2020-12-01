@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 
 #define DEBUG
 
@@ -32,9 +33,9 @@ class VirtualDisk {
 				std::string name_;
 		
 				// Время создания
-				// const unsigned int creation_time_;
+				time_t creation_time_;
 				// Время последнего изменения
-				// unsigned int mod_time_;
+				time_t mod_time_;
 			public:	
 				// Конструктор
 				File();
