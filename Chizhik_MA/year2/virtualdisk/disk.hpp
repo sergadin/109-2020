@@ -113,7 +113,8 @@ class VirtualDisk {
 		void read(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const;
 
 		// Удаление последних bytes_amount байтов
-		// Все кластеры, принадлежащие файлу, остаются в цепочке
+		// Если какие-то кластеры, принадлежащие файлу, полностью освобождаются от байтов, 
+		// соответствующих файлу, они становятся доступными для выделения
 		// Если длина файла меньше bytes_amount, она обнуляется
 		void del(const std::string& name, unsigned int bytes_amount);
 
