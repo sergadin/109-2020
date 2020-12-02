@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <climits>
 
 #define DEBUG
 
@@ -64,13 +65,13 @@ class VirtualDisk {
 		FileObject* dir_;
 
 		// Текущее количество файлов в системе
-		int files_amount_;
+		unsigned int files_amount_;
 
 		// Найти запись о файле в корневой директории по его имени
 		// Если параметр required равен true и файла с таким именем не находится, вызывается исключение
 		FileObject* find(const std::string& name, bool required = true) const;
 
-		// Выделить новый кластер под файл
+		// Выделить новый кластер под файл с последним кластером, имеющим индекс last_cluster_index
 		// Если last_cluster_index равен FREE_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит
 		int bind_next_cluster(int last_cluster_index);
 	public:
@@ -101,7 +102,7 @@ class VirtualDisk {
 
 		// Получение длины файла с именем name
 		// Если такого файла нет, вызывается исключение
-		int wc(const std::string& name) const;
+		unsigned int wc(const std::string& name) const;
 
 		// Записать bytes_amount байт из to_write в файл с именем name, начиная с позиции start_position
 		// Подразумевается, что память на все требуемые байты выделена

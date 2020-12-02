@@ -197,7 +197,7 @@ void VirtualDisk::mv(const std::string& name, const std::string& new_name) {
 	file->name_ = new_name;
 }
 
-int VirtualDisk::wc(const std::string& name) const {
+unsigned int VirtualDisk::wc(const std::string& name) const {
 	FileObject *file = find(name);
 	return file->len_;
 }
@@ -208,9 +208,9 @@ void VirtualDisk::write(const std::string& name, unsigned int start_position, un
 		file = create(name);
 	}
 
-	int start_cluster_index = start_position / CLUSTER_SIZE_;
+	unsigned int start_cluster_index = start_position / CLUSTER_SIZE_;
 	int current_cluster = file->start_;
-	for (int k = 0; k < start_cluster_index; k++) {
+	for (unsigned int k = 0; k < start_cluster_index; k++) {
 		if (FAT_[current_cluster] >= 0) {
 			current_cluster = FAT_[current_cluster];
 			continue;
@@ -228,9 +228,9 @@ void VirtualDisk::write(const std::string& name, unsigned int start_position, un
 		throw VirtualDiskException(9, "Memory allocation error");
 	}
 
-	int curr_shift_inside_cluster = start_position % CLUSTER_SIZE_;
+	unsigned int curr_shift_inside_cluster = start_position % CLUSTER_SIZE_;
 
-	for (int i = 0; i < bytes_amount; i++, curr_shift_inside_cluster++) {
+	for (unsigned int i = 0; i < bytes_amount; i++, curr_shift_inside_cluster++) {
 		if (curr_shift_inside_cluster == CLUSTER_SIZE_) {
 			curr_shift_inside_cluster = 0;
 			if ((current_cluster = bind_next_cluster(current_cluster)) == BAD_CLUSTER) {	
@@ -241,27 +241,35 @@ void VirtualDisk::write(const std::string& name, unsigned int start_position, un
 		disk_[CLUSTER_SIZE_ * current_cluster + curr_shift_inside_cluster] = to_write[i];
 	}
 
-	int a = file->len_;
-	int b = start_position + bytes_amount;
+	unsigned int a = file->len_;
+	unsigned int b = start_position + bytes_amount;
 	file->len_ = (a >= b) ? a : b;
 	file->mod_time_ = time(NULL);
 }
 
 void VirtualDisk::read(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const {
 	FileObject* file = find(name);
+	if (start_position > UINT_MAX / 2 || bytes_amount > UINT_MAX / 2) {
+		unsigned int max = (start_position >= bytes_amount) ? start_position : bytes_amount;
+		unsigned int min = (max == start_position) ? bytes_amount : start_position;
+		unsigned int halfed_index = min + ( (max - min) / 2 );
+		if (halfed_index > UINT_MAX / 2) {
+			throw VirtualDiskException(12, "Too big parameters");
+		}
+	}
 	if (start_position + bytes_amount > file->len_) {
 		throw VirtualDiskException(11, "File has been read till its end, required information doesn't exist");
 	}
 
-	int start_cluster_index = start_position / CLUSTER_SIZE_;
+	unsigned int start_cluster_index = start_position / CLUSTER_SIZE_;
 	int current_cluster = file->start_;
-	for (int k = 0; k < start_cluster_index; k++) {
+	for (unsigned int k = 0; k < start_cluster_index; k++) {
 		current_cluster = FAT_[current_cluster];
 	}
 
-	int curr_shift_inside_cluster = start_position % CLUSTER_SIZE_;
+	unsigned int curr_shift_inside_cluster = start_position % CLUSTER_SIZE_;
 
-	for (int i = 0; i < bytes_amount; i++) {
+	for (unsigned int i = 0; i < bytes_amount; i++) {
 		if (curr_shift_inside_cluster == CLUSTER_SIZE_) {
 			curr_shift_inside_cluster = 0;
 			current_cluster = FAT_[current_cluster];
@@ -274,12 +282,12 @@ void VirtualDisk::read(const std::string& name, unsigned int start_position, uns
 
 void VirtualDisk::del(const std::string& name, unsigned int bytes_amount) {
 	FileObject* file = find(name);
-	int new_len = (file->len_ >= bytes_amount) ? (file->len_ - bytes_amount) : 0;
-	int curr_clusterchain_len = file->len_ / CLUSTER_SIZE_;
-	int upd_clusterchain_len = new_len / CLUSTER_SIZE_;
+	unsigned int new_len = (file->len_ >= bytes_amount) ? (file->len_ - bytes_amount) : 0;
+	unsigned int curr_clusterchain_len = file->len_ / CLUSTER_SIZE_;
+	unsigned int upd_clusterchain_len = new_len / CLUSTER_SIZE_;
 
 	if (curr_clusterchain_len - upd_clusterchain_len > 0) {
-		int i = 0;
+		unsigned int i = 0;
 			
 		int current_cluster = file->start_;
 		int next_cluster;

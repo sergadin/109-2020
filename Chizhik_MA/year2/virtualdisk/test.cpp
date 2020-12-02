@@ -68,6 +68,12 @@ int main(void) {
 	cout << "Now we'll try to delete 100 bytes of hello2.txt" << endl;
 	disk.del("hello2.txt", 100);
 	cout << "New length of hello2.txt = " << disk.wc("hello2.txt") << endl;
+
+	try {
+		disk.read("hello.txt", UINT_MAX / 2 + 187, UINT_MAX - 5, buffer2);
+	} catch (VirtualDiskException& e) {
+		cerr << e << endl;
+	}
 	
 	disk.printFAT();
 	return 0;
