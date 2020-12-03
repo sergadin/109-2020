@@ -37,7 +37,6 @@ class StackL
 		class Iterator
 		{
 			private:
-				friend class StackL<T>;
 				Stackitem<T>* current_;
 			public:
 				Iterator()
