@@ -12,13 +12,13 @@ private:
         node *next_ = nullptr, *prev_ = nullptr;
         node(size_t size_of_arr)
         {
-            data_ = new T[size_of_arr];
+            data_ = new T[size_of_arr]();
             next_ = nullptr;
             prev_ = nullptr;
         }
         node(size_t size_of_arr,node* new_next, node* new_prev)
         {
-            data_ = new T[size_of_arr];
+            data_ = new T[size_of_arr]();
             next_ = new_next;
             prev_ = new_prev;
         }
@@ -33,7 +33,7 @@ private:
         }
         ~node()
         {
-            printf("dest_node\n");
+            //printf("dest_node\n");
             delete[] data_;
         }
     };
@@ -49,7 +49,7 @@ public:
     list_arr(const list_arr<T> & that);
     list_arr(list_arr<T> && that);
     list_arr<T> & operator = (const list_arr<T> & that);
-    list_arr<T> & operator = (list_arr<T> && that);
+    //list_arr<T> & operator = (list_arr<T> && that);
     ~list_arr();
     
     void pop_back();
@@ -66,6 +66,10 @@ public:
     T * back();
     
     T& operator[] (const size_t idx);
+    const T& operator[] (const size_t idx) const;
+    
+    template <typename Y>
+    friend std::ostream& operator<<(std::ostream &os,const list_arr<Y> & out);
     
     enum ERRORS
     {
