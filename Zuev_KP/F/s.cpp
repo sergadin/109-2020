@@ -37,6 +37,7 @@ class StackL
 		class Iterator
 		{
 			private:
+				friend class StackL<T>;
 				Stackitem<T>* current_;
 			public:
 				Iterator()
@@ -67,8 +68,6 @@ class StackL
 				{
 					return i.current_->item;
 				}
-				friend Iterator StackL <T>::begin();
-				friend Iterator StackL <T>::end();
 		};
 
 		Iterator begin()
