@@ -59,18 +59,14 @@ class StackL
 						return false;
 				}
 
-				//void next1(Iterator & i)
 				void next1()
 				{
-					//i.current_ = i.current_->next;
 					current_ = current_->next;
 				}
 
 				friend T & operator*(const Iterator & i)
-				//friend T & operator*()
 				{
 					return i.current_->item;
-					//return current_->item;
 				}
 				friend Iterator StackL <T>::begin();
 				friend Iterator StackL <T>::end();
