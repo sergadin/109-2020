@@ -4,10 +4,10 @@
 using namespace std;
 
 template <typename T>
-struct Stack
+struct Stackitem
 {
 	T item;
-	Stack* next;
+	Stackitem* next;
 };
 
 class StackLError
@@ -32,13 +32,13 @@ template <typename T>
 class StackL
 {
 	private:
-		Stack<T>* vershina;
+		Stackitem<T>* vershina;
 	public:
 		class Iterator
 		{
 			private:
 				friend class StackL<T>;
-				Stack<T>* current_;
+				Stackitem<T>* current_;
 			public:
 				Iterator()
 				{
@@ -68,6 +68,8 @@ class StackL
 				{
 					return i.current_->item;
 				}
+				friend Iterator StackL <T>::begin();
+				friend Iterator StackL <T>::end();
 		};
 
 		Iterator begin()
@@ -80,13 +82,7 @@ class StackL
 		Iterator end()
 		{
 			Iterator i;
-			i.current_ = vershina;
-			while(i.current_ != nullptr)
-			{
-				i.current_=i.current_->next;
-				if(i.current_->next == nullptr)
-					break;
-			}
+			i.current_ = nullptr;
 			return i;
 		}
 
@@ -97,15 +93,15 @@ class StackL
 
 		StackL(const StackL& S)
 		{
-			Stack<T>* p;
-			Stack<T>* p1;
-			Stack<T>* t;
+			Stackitem<T>* p;
+			Stackitem<T>* p1;
+			Stackitem<T>* t;
 			vershina = nullptr;
 			t = nullptr;
 			p = S.vershina;
 			while (p != nullptr)
 			{
-				p1 = new Stack<T>;
+				p1 = new Stackitem<T>;
 				p1->item = p->item;
 				p1->next = nullptr;
 				if (vershina == nullptr)
@@ -129,8 +125,8 @@ class StackL
 
 		void Put(T i)// добавить
 		{
-			Stack<T>* p;
-			p = new Stack<T>;
+			Stackitem<T>* p;
+			p = new Stackitem<T>;
 			p->item = i;
 			p->next = vershina;
 			vershina = p;
@@ -138,8 +134,8 @@ class StackL
 
 		void Empty()
 		{
-			Stack<T>* p;
-			Stack<T>* p1;
+			Stackitem<T>* p;
+			Stackitem<T>* p1;
 
 			p = vershina;
 
@@ -160,7 +156,7 @@ class StackL
 			}
 			else
 			{
-				Stack<T>* p;
+				Stackitem<T>* p;
 				p = vershina;
 				while (p != nullptr)
 				{
@@ -177,7 +173,7 @@ class StackL
 			{
 				throw StackLError(-5, std::string("empty"));
 			}
-			Stack<T>* p;
+			Stackitem<T>* p;
 			T item;
 			item = vershina->item;
 			p = vershina;
@@ -187,16 +183,16 @@ class StackL
 
 		StackL<T>& operator=(const StackL<T>& right)// копирование
 		{
-			Stack<T>* p;
-			Stack<T>* p1;
-			Stack<T>* t;
+			Stackitem<T>* p;
+			Stackitem<T>* p1;
+			Stackitem<T>* t;
 			Empty();
 			vershina = nullptr;
 			t = nullptr;
 			p = right.vershina;
 			while (p != nullptr)
 			{
-				p1 = new Stack<T>;
+				p1 = new Stackitem<T>;
 				p1->item = p->item;
 				p1->next = nullptr;
 				if (vershina == nullptr)
@@ -218,7 +214,7 @@ class StackL
 		{
 			StackL<T>::Iterator i;
 			StackL<T>::Iterator r;
-			int l = 1;
+			int l = 0;
 			r = S.end();
 			for(i = S.begin(); i != r; i.next1(i))
 			{
@@ -233,7 +229,7 @@ class StackL
 			{
 				throw StackLError(-6, std::string("empty"));
 			}
-			Stack<T>* p;
+			Stackitem<T>* p;
 			p = S.vershina;
 			while (p != nullptr)
 			{
@@ -244,96 +240,3 @@ class StackL
 			return out;
 		}
 };
-
-int main()
-{
-	try
-	{
-		StackL<int> S;
-		S.Put(8);
-		S.Put(5);
-		S.Put(10);
-		S.Put(7);
-		cout << "S"<< endl;
-		S.Print();
-
-		StackL<int> S1;
-		S1.Put(1);
-		S1.Put(2);
-		S1.Put(3);
-		cout << "S1"<< endl;
-		S1.Print();
-
-		StackL<int> S5;
-		S5 = S;
-		cout << "S5"<< endl;
-		S5.Print();
-
-		S.Del();
-		cout << "S"<< endl;
-		S.Print();
-
-		S.Put(1);
-		S.Put(4);
-		S.Put(6);
-		S.Put(9);
-		S.Put(15);
-		S.Put(19);
-		cout << "S"<< endl;
-		S.Print();
-
-		StackL<int>::Iterator i;
-		StackL<int>::Iterator i1;
-		StackL<int>::Iterator i5;
-		StackL<int>::Iterator r;
-		int l;
-		int k;
-		int p;
-		int t;
-		int m;
-		l = S.dlina(S);
-		m = l;
-		r = S.end();
-		for(i = S.begin(); i != r; i.next1(i))
-		{
-			if ((l == m/2) || (l == (m+1)/2))
-				break;
-			p = 0;
-			i1 = S.begin();
-			for(k = 1; k != l; ++k)
-			{
-				i1.next1(i1);
-			}
-			p = *i;
-			*i = *i1;
-			i5 = i;
-			i = S.begin();
-			for(t = 1; t != l; ++t)
-			{
-				i.next1(i);
-			}
-			*i = p;
-			i = i5;
-			l = l-1;
-		}
-		cout << "S"<< endl;
-
-		S.Print();
-
-		StackL<StackL<int>> E;
-		E.Put(S);
-		E.Put(S1);
-		E.Put(S5);
-		cout << "E"<< endl;
-		std::cout << "\t" << E << endl;
-
-		StackL<int> L;
-		cout << "L"<< endl;
-		L.Print();
-	}
-	catch(StackLError &err)
-	{
-		std::cout << err.get_reason() << std::endl;
-	}
-	return 0;
-}
