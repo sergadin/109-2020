@@ -52,7 +52,7 @@ int main()
 		l = S.dlina(S);
                 m = l;
                 r = S.end();
-                for(i = S.begin(); i != r; i.next1(i))
+                for(i = S.begin(); i != r; i.next1())
                 {
                         if ((l == m/2) || (l == (m+1)/2))
                                 break;
@@ -60,7 +60,7 @@ int main()
                         i1 = S.begin();
                         for(k = 1; k != l; ++k)
                         {
-                                i1.next1(i1);
+                                i1.next1();
                         }
                         p = *i;
                         *i = *i1;
@@ -68,7 +68,7 @@ int main()
                         i = S.begin();
                         for(t = 1; t != l; ++t)
                         {
-                                i.next1(i);
+                                i.next1();
                         }
                         *i = p;
                         i = i5;
