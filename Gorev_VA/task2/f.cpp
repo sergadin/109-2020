@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstdlib>
-#include <string>
 
 class listError
 {
@@ -225,9 +223,51 @@ public:
 };
 
 
+template <class T>
+class queue
+{
+private:
+	list <T> L_;
+public:
+	queue() {   }
+	queue(const queue <T> &Q)
+	{
+		L_ = Q.L_;
+	}
+	~queue()
+	{
+		L_.deletelist();
+	}
+	int add_item(const T item) // add item to the end of the queue
+	// return 0 if queue is empty
+	// return 1 if queue is not empty
+	{
+		return L_.add_item(item);
+	}
+	int del_item() // delete item from the beginning of the queue
+	// return 0 if queue is empty
+	// return 1 if queue is not empty
+	{
+		return L_.del_item();
+	}
+	bool operator==(const queue <T> &Q) const
+	{
+		return (L_ == Q.L_);
+	}
+	queue <T> &operator=(const queue <T> &Q)
+	{
+		L_ = Q.L_;
+		return *this;
+	}
+	friend std::ostream &operator<<(std::ostream& os, const queue <T> &Q)
+	{
+		return (os << Q.L_);
+	}
+};
+
 int main(void)
 {
-	std::cout << "---Create \"list <int> L\"\n";
+	/*std::cout << "---Create \"list <int> L\"\n";
 	list <int> L;
 	std::cout << "---Add items 1, 2, 3 in L\n";
 	L.add_item(1);
@@ -365,6 +405,20 @@ int main(void)
 	LL.add_item(L2);
 	LL.add_item(L3);
 	std::cout << "---LL: \n";
-	std::cout << LL << "\n";
+	std::cout << LL << "\n";*/
+	
+	queue <int> Q;
+	Q.add_item(1);
+	Q.add_item(2);
+	Q.add_item(3); 
+	Q.del_item();
+	std::cout << Q << "\n";
+	std::cout << (Q == Q) << "\n";
+	queue <int> QQ;
+	QQ.add_item(1);
+	QQ.add_item(2);
+	QQ.add_item(3);
+	Q = QQ;
+	std::cout << Q << "\n";
 	return 0;
 }
