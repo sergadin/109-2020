@@ -2,25 +2,24 @@
 using namespace std;
 
 int main(void) {
-	VirtualDisk disk(1 << 6, 5);
-	disk.create("1");
-	disk.create("hello.txt");
+	VirtualDisk disk;
+	VirtualDisk::File *one, *hello, *hello2, *bye, *root;
 
-	try {
-		disk.create("bye.txt");
-	} catch (VirtualDiskException& e) {
-		cerr << e << endl;
-	}
+	one = disk.create("1");
+	hello = disk.create("hello.txt");
+	bye = disk.create("bye", 1);
 
-	disk.mv("1", "2");
-	disk.ls();
-	disk.rm("2");
+	root = disk.open("/");
 
-	try {
-		disk.rm("file_that_does_not_exist.pdf");
-	} catch (VirtualDiskException& e) {
-		cerr << e << endl;
-	}
+	cout << "Directory \"bye\":" << endl;
+	bye->ls();
+	
+	one->mv("2");
+
+	cout << "Root:" << endl;
+	root->ls();
+
+	one->rm();
 
 	unsigned char bytearray[] = {245, 34, 87, 98, 123};	
 	unsigned char read_buffer[4];
@@ -28,20 +27,20 @@ int main(void) {
 
 	int len = 5;
 	
-	disk.write("hello.txt", 0, len, bytearray);
+	hello->write(0, len, bytearray);
 
 	cout << "Now we'll read 4 last bytes of the file hello.txt" << endl;
-	disk.read("hello.txt", 1, 4, read_buffer);
+	hello->read(1, 4, read_buffer);
 	for (int i = 0; i < 4; i++) {
 		fprintf(stdout, "%u ", read_buffer[i]);
 	}
 	cout << endl;
 
-	disk.cp("hello.txt", "hello2.txt");
-	cout << disk.wc("hello2.txt") << endl;
+	hello2 = disk.cp(hello, "hello2.txt");
+	cout << hello->wc() << endl;
 
 	for (int i = 0; i < 9; i++) {
-		disk.write("hello2.txt", 5 + i * 5, 5, bytearray);
+		hello2->write(5 + i * 5, 5, bytearray);
 	}
 
 	try {
@@ -50,31 +49,43 @@ int main(void) {
 		cerr << e << endl;
 	}
 
-	disk.ls();	
-	cout << "Length of hello2.txt = " << disk.wc("hello2.txt") << endl;
-	disk.printFAT();
+	cout << "Root now:" << endl;
+	root->ls();
+
+	cout << "Length of hello2.txt = " << hello2->wc() << endl;
+	//disk.printFAT();
 
 	cout << "Now we'll delete 32 bytes of hello2.txt" << endl;
-	disk.del("hello2.txt", 32);
-	cout << "New length of hello2.txt = " << disk.wc("hello2.txt") << endl;
+	hello2->del(32);
+	cout << "New length of hello2.txt = " << hello2->wc() << endl;
 
-	disk.read("hello2.txt", 4, disk.wc("hello2.txt") - 4, buffer2);
+	hello2->read(4, hello2->wc() - 4, buffer2);
 	cout << "So, let's read hello2.txt since 5th byte:" << endl;
-	for (int i = 0; i < disk.wc("hello2.txt") - 4; i++) {
+	for (int i = 0; i < hello2->wc() - 4; i++) {
 		fprintf(stdout, "%u ", buffer2[i]);
 	}
 	cout << endl;
 
+	hello2->mv("bye/hello3");
+	root->ls();
+
 	cout << "Now we'll try to delete 100 bytes of hello2.txt" << endl;
-	disk.del("hello2.txt", 100);
-	cout << "New length of hello2.txt = " << disk.wc("hello2.txt") << endl;
+	hello2->del(100);
+	cout << "New length of hello2.txt = " << hello2->wc() << endl;
 
 	try {
-		disk.read("hello.txt", UINT_MAX / 2 + 187, UINT_MAX - 5, buffer2);
+		hello->read(UINT_MAX / 2 + 187, UINT_MAX - 5, buffer2);
 	} catch (VirtualDiskException& e) {
 		cerr << e << endl;
 	}
 	
-	disk.printFAT();
+	//disk.printFAT();
+
+	delete hello;
+	delete hello2;
+	delete bye;
+	delete one;
+	delete root;
+
 	return 0;
 }

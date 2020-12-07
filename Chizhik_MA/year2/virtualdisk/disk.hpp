@@ -8,43 +8,79 @@
 #define DEBUG
 
 #define LAST_CLUSTER -1
-#define FREE_CLUSTER -2
 #define BAD_CLUSTER -9
 
 // Файловый контейнер, реализованный по аналогии с файловой системой FAT
 class VirtualDisk {
 	public:
-		class File {
+		const static unsigned int RECORD_SIZE = 64;
+		class FileObj {
 			private:
+				// Ссылка на диск 
+				VirtualDisk* parent_disk_;
+
 				// Индекс первого кластера файла
-				int start_;
-		
+				int *start_;
+			
 				// Количество байт в файле
-				unsigned int len_;
+				unsigned int *len_;
 
-				// Тип файла (еще не используется)
+				// Тип файла
 				// 0 - обычный файл, 1 - директория
-				// unsigned int type_;
-
-				// Расположение файла (иерархическая система еще не реализована)
-				// -1 - корневая директория, неотрицательное значение - индекс директории в FAT
-				// int parent_;
-		
+				unsigned char *type_;
+			
 				// Имя файла
-				std::string name_;
-		
+				char *name_;
+			
 				// Время создания
-				time_t creation_time_;
+				time_t *creation_time_;
 				// Время последнего изменения
-				time_t mod_time_;
-			public:	
-				// Конструктор
-				File();
+				time_t *mod_time_;
+
+				// Создание объекта для работы с существующим файлом по его файловой записи
+				// При вызове конструктора корректность указателя подразумевается
+				FileObj(VirtualDisk* disk, void* file_record);
+			public:
+				// Деструктор
+				~FileObj() {}
+
+				// Получение строки с именем файла
+				// На возвращаемую строку динамически выделяется память, необходим вызов free() по окончании использования строки
+				char *name() const;
+
+				// Удаление файла
+				void rm();
+
+				// Получение длины файла
+				unsigned int wc() const;
+
+				// Записать bytes_amount байт из to_write, начиная с позиции start_position
+				// Подразумевается, что память на все требуемые байты выделена
+				// Запись по смещению, превосходящему длину файла, не считается исключительной ситуацией;
+				// однако в этом случае не определено значение предшествующих байт в файле
+				void write(unsigned int start_position, unsigned int bytes_amount, unsigned char* to_write);
+
+				// Прочтение bytes_amount байт в dest, начиная с позиции start_position в файле
+				// Если последний байт, который нужно прочитать, выходит за границы файла, вызывается исключение
+				void read(unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const;
+
+				// Удаление последних bytes_amount байтов
+				// Если какие-то кластеры, принадлежащие файлу, полностью освобождаются от байтов, 
+				// соответствующих файлу, они становятся доступными для выделения
+				// Если длина файла меньше bytes_amount, она обнуляется
+				void del(unsigned int bytes_amount);
+
+				// Переименование файла
+				// Если другой файл располагается по адресу new_path, то он будет утерян
+				void mv(const char *new_path);
+
+				// Вывод списка файлов директории в поток os (по умолчанию в std::cout)
+				void ls(std::ostream& os = std::cout);
 
 				// Объявление класса VirtualDisk дружественным
 				friend class VirtualDisk;
 		};
-		typedef typename VirtualDisk::File FileObject;
+		typedef typename VirtualDisk::FileObj File;
 	private:
 		// Указатель на выделенную память (виртуальный диск)
 		unsigned char* disk_;
@@ -60,19 +96,13 @@ class VirtualDisk {
 
 		// Размер таблицы FAT
 		unsigned int FAT_SIZE_;
-	
-		// Массив описаний файлов (корневая директория)
-		FileObject* dir_;
 
-		// Текущее количество файлов в системе
-		unsigned int files_amount_;
-
-		// Найти запись о файле в корневой директории по его имени
+		// Найти файл по его пути
 		// Если параметр required равен true и файла с таким именем не находится, вызывается исключение
-		FileObject* find(const std::string& name, bool required = true) const;
+		File* find(const char *path, bool required = true);
 
 		// Выделить новый кластер под файл с последним кластером, имеющим индекс last_cluster_index
-		// Если last_cluster_index равен FREE_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит
+		// Если last_cluster_index равен LAST_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит
 		int bind_next_cluster(int last_cluster_index);
 	public:
 		// Конструктор
@@ -84,44 +114,19 @@ class VirtualDisk {
 		// Деструктор
 		~VirtualDisk();
 
-		// Создание файла
-		// Если файл с таким именем уже есть, будет вызвано исключение
-		FileObject* create(const std::string& name);
+		// Открытие файла (получение указателя на объект для работы с файлом)
+		File* open(const char *path);
 
-		// Удаление файла с именем name
-		// Если файла с таким именем нет, будет вызвано исключение
-		void rm(const std::string& name);
+		// Создание файла по адресу path
+		// Если файл с таким путем уже есть, будет вызвано исключение
+		// Если type = 1, создается директория, в которой первые две записи 
+		// занимаются файлами . и .. (нулевой длины)
+		// Возвращает указатель на объект для работы с файлом
+		File* create(const char *path, unsigned char type = 0);
 
-		// Копирование файла
+		// Копирование файла file
 		// Если другой файл носит имя, которым предполагается назвать копию, то он будет перезаписан
-		void cp(const std::string& name, const std::string& copy_name);
-
-		// Переименование файла с именем old_name 
-		// Если другой файл имеет имя new_name, то он будет утерян
-		void mv(const std::string& old_name, const std::string& new_name);
-
-		// Получение длины файла с именем name
-		// Если такого файла нет, вызывается исключение
-		unsigned int wc(const std::string& name) const;
-
-		// Записать bytes_amount байт из to_write в файл с именем name, начиная с позиции start_position
-		// Подразумевается, что память на все требуемые байты выделена
-		// Запись по смещению, превосходящему длину файла, не считается исключительной ситуацией;
-		// однако в этом случае не определено значение предшествующих байт в файле
-		void write(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* to_write);
-
-		// Прочтение bytes_amount байт из файла с именем name в dest, начиная с позиции start_position
-		// Если последний байт, который нужно прочитать, выходит за границы файла, вызывается исключение
-		void read(const std::string& name, unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const;
-
-		// Удаление последних bytes_amount байтов
-		// Если какие-то кластеры, принадлежащие файлу, полностью освобождаются от байтов, 
-		// соответствующих файлу, они становятся доступными для выделения
-		// Если длина файла меньше bytes_amount, она обнуляется
-		void del(const std::string& name, unsigned int bytes_amount);
-
-		// Вывод списка существующих на диске файлов в поток os (по умолчанию - std::cout)
-		void ls(std::ostream& os = std::cout) const;
+		File* cp(const File* file, const char *copy_path);
 
 		#ifdef DEBUG
 		// Отладочная печать таблицы FAT
