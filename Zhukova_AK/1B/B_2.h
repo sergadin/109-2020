@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdio>
+
 
 template <class T>
 
@@ -141,25 +143,25 @@ public:
 		current = current->prev;
 	}
 
-        void print() const
+        void print()
 	{
         	ListItem *elem;
 	        get_first();
 //проверка, что следующий элемент есть
-
+/*
 	        if (current->data == NULL)
   	        {
   	              printf ("Список пуст\n");
 	        }
 	        else
 	        {
-
+*/
                         while (current->next != NULL)
   	                {
-	                        printf ("%d\n", current->data);
+	                        printf ("%t\n", current->data);
 	                        go_next();
 	                }
- 	        }
+ //	        }
 	}
 
 
