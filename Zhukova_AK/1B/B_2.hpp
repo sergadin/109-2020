@@ -16,9 +16,11 @@ private:
                 ListItem *prev;
         };
 
+	ListItem *current;
+
         ListItem *first = NULL;
         ListItem *last = NULL;
-        ListItem *current = NULL;
+//        ListItem *current = NULL;
 
         ListItem *next (ListItem *element)
         {
@@ -31,9 +33,30 @@ private:
         }
 
 public:
-        int p;
+//        int p;
+	list()
+	{
+		ListItem *new_elem = new ListItem;
+		//add_first_elem (new_elem->data);
+		//add_last_elem (new_elem->data);
 
-        void add_first_elem (T element)
+	//	new_elem->data = element;
+                new_elem->prev = first;
+                new_elem->next = last;
+                first = new_elem;
+		last = new_elem;
+	}
+
+        list(T elem)
+        {
+                current->data = elem;
+                first->data = current->data;
+                last->data = current->data;
+                first->next = last;
+                last->prev = first;
+        }
+
+        void add_first_elem (T element) //добавляет элемент в начало списка +++
         {
                 ListItem *new_elem = new ListItem;
                 new_elem->data = element;
@@ -46,9 +69,14 @@ public:
         void add_last_elem (T element)
         {
                 ListItem *new_elem = new ListItem;
-                new_elem ->data = element;
-                new_elem ->prev = last;
+                new_elem->data = element;
+                new_elem->prev = last;
+		new_elem->next = NULL;
                 last = new_elem;
+
+	printf ("P25\n");
+
+		get_first();
         }
 
         void change_elem(ListItem *item, T elem)
@@ -124,13 +152,23 @@ public:
                 get_first();
 //проверка, что следующий элемент есть
 
-                while (current != NULL)
-                {
-                        cout << current->data << "\t";
-			printf ("\n");
-                        go_next();
-                }
+		if (current == NULL)
+		{
+			printf ("Список пуст\n");
+		}
+		else
+		{
 
+
+                	while (current != NULL)
+                	{
+                        	cout << current->data << "\t";
+				printf ("\n");
+                	        go_next();
+                	}
+
+
+		}
 		cout << endl;
 
         }
