@@ -1,3 +1,4 @@
+#include <sstream>
 #include "disk.hpp"
 using namespace std;
 
@@ -13,6 +14,28 @@ int main(void) {
 	five = disk.create("bye/goodbye/5.txt");
 
 	root = disk.open("/");
+
+    try
+    {
+        stringstream path_ss;
+        path_ss << "/";
+        for(int k = 200; k < 210; k++) {
+            path_ss << k << "/";
+            cout << "Creating directory: " << path_ss.str() << endl;
+            VirtualDisk::File *dummy_file = disk.create(path_ss.str().c_str(), 1);
+            delete dummy_file;
+            root->ls();
+        }
+        path_ss << "/filename.txt";
+        cout << path_ss.str() << endl;
+        VirtualDisk::File *file = disk.create(path_ss.str().c_str());
+        delete file;
+        return 0;
+	} catch (VirtualDiskException& e) {
+		cerr << e << endl;
+        return -1;
+	}
+
 
 	cout << "Directory \"bye\":" << endl;
 	bye->ls();
