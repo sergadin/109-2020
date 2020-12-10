@@ -89,7 +89,7 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required, int prohib
 	int plen = strlen(path);
 
 	if (prohibited_parent_fcluster == 0) {
-		throw VirtualDiskException(23, "Can't copy root foolder");
+		throw VirtualDiskException(23, "Can't copy root folder");
 	} 
 
 	if ((plen == 1 && (path[0] == '/' || path[0] == '.')) || strcmp(path, "..") == 0) {
@@ -114,6 +114,7 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required, int prohib
 
 	if (path[0] == '/') {
 		i++;
+		curr_dir_start++;
 	}
 
 	for (; i < plen; i++, name_len++) {
@@ -131,16 +132,27 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required, int prohib
 		}
 
 		const char *curr_name = path + curr_dir_start;
-		int dir_shift = 0;
+		int dir_shift = 0, current_file_name;
 
 		void *tmp_p = disk_ + parent_cluster * CLUSTER_SIZE_;
 		char *filename = (char *)tmp_p;
 
-		while (strncmp(curr_name, filename, name_len) != 0) {
+		while (true) {
 			if (*filename == 0) {
 				eos = true;
 				break;
 			}
+
+			current_file_name = 0;
+			for (int i = 0; i < 12; i++) {
+				if (filename[i] != 0) {
+					current_file_name++;
+				}
+			}
+
+			if (name_len == current_file_name && strncmp(curr_name, filename, name_len) == 0) {
+				break;
+			}	
 
 			filename += RECORD_SIZE;
 			dir_shift += RECORD_SIZE;

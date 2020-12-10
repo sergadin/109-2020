@@ -10,35 +10,25 @@ int main(void) {
 	one = disk.create("1");
 	hello = disk.create("hello.txt");
 	bye = disk.create("/bye", 1);
-	goodbye = disk.create("bye/goodbye/", 1);
+	goodbye = disk.create("/bye/goodbye/");
 	five = disk.create("bye/goodbye/5.txt");
 
 	root = disk.open("/");
 
-    try
-    {
-        stringstream path_ss;
-        path_ss << "/";
-        for(int k = 200; k < 210; k++) {
-            path_ss << k << "/";
-            cout << "Creating directory: " << path_ss.str() << endl;
-            VirtualDisk::File *dummy_file = disk.create(path_ss.str().c_str(), 1);
-            delete dummy_file;
-            root->ls();
-        }
-        path_ss << "/filename.txt";
-        cout << path_ss.str() << endl;
-        VirtualDisk::File *file = disk.create(path_ss.str().c_str());
-        delete file;
-        return 0;
+	try {
+		stringstream path_ss;
+		path_ss << "/";
+		for(int k = 0; k < 1000; k++) {
+			path_ss << k << "/";
+			VirtualDisk::File *dummy_file = disk.create(path_ss.str().c_str());
+			delete dummy_file;
+		}
+		path_ss << "filename.txt";
+		VirtualDisk::File *file = disk.create(path_ss.str().c_str());
+		delete file;
 	} catch (VirtualDiskException& e) {
 		cerr << e << endl;
-        return -1;
 	}
-
-
-	cout << "Directory \"bye\":" << endl;
-	bye->ls();
 	
 	try {
 		one->ls();
