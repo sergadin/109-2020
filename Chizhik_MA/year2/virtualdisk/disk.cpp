@@ -533,6 +533,7 @@ void VirtualDisk::FileObj::mv(const char *new_path) {
 	File *new_address = parent_disk_->find(new_path, false, *start_);
 
 	if (new_address != NULL && *new_address->type_ == 1) {
+		delete new_address;
 		throw VirtualDiskException(-2, "Moving to existing directory is prohibited at the moment");
 	}
 
