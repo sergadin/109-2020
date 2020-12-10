@@ -44,8 +44,8 @@ int main(void) {
 
 	one->mv("2");
 
-	//cout << "Root:" << endl;
-	//root->ls();
+	cout << "Root:" << endl;
+	root->ls();
 
 	one->rm();
 
@@ -69,7 +69,7 @@ int main(void) {
 	cat = disk.create("bye/goodbye/project/pictures2/cat.webp");
 
 	//disk.printFAT(16);
-	//root->ls();
+	root->ls();
 
 	pr_copy = disk.cp(project, "backup");
 	try {
@@ -118,8 +118,8 @@ int main(void) {
 		cerr << e << endl;
 	}
 
-	//cout << "Root now:" << endl;
-	//root->ls();
+	cout << "Root now:" << endl;
+	root->ls();
 
 	cout << "Length of hello2.txt = " << hello2->wc() << endl;
 	//disk.printFAT(32);
@@ -145,7 +145,7 @@ int main(void) {
 		cerr << e << endl;
 	}
 
-	//root->ls();
+	root->ls();
 
 	cout << "Now we'll try to delete 100 bytes of hello2.txt" << endl;
 	hello2->del(100);
