@@ -488,6 +488,10 @@ VirtualDisk::File* VirtualDisk::cp(File *file, const char *copy_path) {
 
 	File *copy_address = find(copy_path, false, *file->start_);
 
+	if (copy_address != NULL && *copy_address->type_ == 1) {
+		throw VirtualDiskException(-1, "Copying to existing catalogue is prohibited at the moment");
+	}
+
 	if (copy_address != NULL && file->start_ == copy_address->start_) {
 		delete copy_address;
 		throw VirtualDiskException(14, "Can't copy file to itself");
