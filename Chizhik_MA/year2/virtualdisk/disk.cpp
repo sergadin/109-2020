@@ -82,11 +82,15 @@ VirtualDisk::~VirtualDisk() {
 	delete[] FAT_;
 }
 
-VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
+VirtualDisk::File* VirtualDisk::find(const char *path, bool required, int prohibited_parent_fcluster) {
 	File *file = NULL;
 	bool eos = false; // End of search
 	
 	int plen = strlen(path);
+
+	if (prohibited_parent_fcluster == 0) {
+		throw VirtualDiskException(23, "Can't copy root foolder");
+	} 
 
 	if ((plen == 1 && (path[0] == '/' || path[0] == '.')) || strcmp(path, "..") == 0) {
 		return new FileObj(this, disk_);
@@ -158,6 +162,10 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
 			break;
 		} else {
 			File curr_file = FileObj(this, filename);
+			if (*curr_file.start_ == prohibited_parent_fcluster) {
+				throw VirtualDiskException(24, "Can't copy folder to itself");
+			}
+
 			if (i == plen - 1) {
 				if (type == 1 && *(curr_file.type_) == 0) {
 					throw VirtualDiskException(6, "File you're searching is not directory");
@@ -430,7 +438,7 @@ void VirtualDisk::copy_file(void *to_copy, void *to_fill, void *parent_r, unsign
 		}
 	
 		*dest.len_ = *src.len_;	
-	} else { // Должно быть исключение, если копируется папка-предок в потомка
+	} else {
 		int src_shift = 2 * RECORD_SIZE;
 		int dest_shift = 2 * RECORD_SIZE;
 		unsigned char *curr_src_file_r = disk_ + current_src_cluster * CLUSTER_SIZE_ + 2 * RECORD_SIZE;
@@ -478,7 +486,7 @@ VirtualDisk::File* VirtualDisk::cp(File *file, const char *copy_path) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	File *copy_address = find(copy_path, false);
+	File *copy_address = find(copy_path, false, *file->start_);
 
 	if (copy_address != NULL && file->start_ == copy_address->start_) {
 		delete copy_address;

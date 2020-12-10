@@ -99,7 +99,9 @@ class VirtualDisk {
 
 		// Найти файл по его пути
 		// Если параметр required равен true и файла с таким именем не находится, вызывается исключение
-		File* find(const char *path, bool required = true);
+		// Параметр prohibited_parent_fcluster содержит номер первого кластера директории, которая не должна содержать данного файла.
+		// Если она будет содержаться в пути к файлу, будет вызвано исключение
+		File* find(const char *path, bool required = true, int prohibited_parent_fcluster = -1);
 
 		// Выделить новый кластер под файл с последним кластером, имеющим индекс last_cluster_index
 		// Если last_cluster_index равен LAST_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит

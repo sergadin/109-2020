@@ -54,11 +54,16 @@ int main(void) {
 
 	pr_copy = disk.cp(project, "backup");
 	try {
-		pr_copy->ls();
+		disk.cp(root, "bye");
 	} catch (VirtualDiskException& e) {
 		cerr << e << endl;
-		cout << pr_copy->wc() << endl;
-	}	
+	}
+
+	try {
+		disk.cp(bye, "bye/goodbye");
+	} catch (VirtualDiskException& e) {
+		cerr << e << endl;
+	}
 
 	unsigned char bytearray[] = {245, 34, 87, 98, 123};	
 	unsigned char read_buffer[4];
