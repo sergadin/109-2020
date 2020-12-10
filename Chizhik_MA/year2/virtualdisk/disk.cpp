@@ -518,9 +518,13 @@ void VirtualDisk::FileObj::mv(const char *new_path) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	File *new_address = parent_disk_->find(new_path, false);
+	File *new_address = parent_disk_->find(new_path, false, *start_);
 
-	if (new_address != NULL && new_address->start_ == this->start_) {
+	if (new_address != NULL && *new_address->type_ == 1) {
+		throw VirtualDiskException(-2, "Moving to existing directory is prohibited at the moment");
+	}
+
+	if (new_address != NULL && *new_address->start_ == *start_) {
 		delete new_address;
 		return;
 	} else if (new_address != NULL) {
