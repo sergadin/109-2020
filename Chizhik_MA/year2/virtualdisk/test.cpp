@@ -18,7 +18,7 @@ int main(void) {
 	try {
 		stringstream path_ss;
 		path_ss << "/";
-		for(int k = 0; k < 1000; k++) {
+		for(int k = 0; k < 10; k++) {
 			path_ss << k << "/";
 			VirtualDisk::File *dummy_file = disk.create(path_ss.str().c_str());
 			delete dummy_file;
@@ -32,6 +32,12 @@ int main(void) {
 	
 	try {
 		one->ls();
+	} catch (VirtualDiskException& e) {
+		cerr << e << endl;
+	}
+
+	try {
+		goodbye->mv("bye");
 	} catch (VirtualDiskException& e) {
 		cerr << e << endl;
 	}
