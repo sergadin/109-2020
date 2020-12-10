@@ -17,7 +17,7 @@ class VirtualDisk {
 		class FileObj {
 			private:
 				// Ссылка на диск 
-				VirtualDisk* parent_disk_;
+				VirtualDisk *parent_disk_;
 
 				// Индекс первого кластера файла
 				int *start_;
@@ -46,7 +46,7 @@ class VirtualDisk {
 
 				// Получение строки с именем файла
 				// На возвращаемую строку динамически выделяется память, необходим вызов free() по окончании использования строки
-				char *name() const;
+				char* name() const;
 
 				// Удаление файла
 				void rm();
@@ -83,7 +83,7 @@ class VirtualDisk {
 		typedef typename VirtualDisk::FileObj File;
 	private:
 		// Указатель на выделенную память (виртуальный диск)
-		unsigned char* disk_;
+		unsigned char *disk_;
 
 		// Объем диска (в байтах)
 		const unsigned int DISK_SIZE_;
@@ -92,7 +92,7 @@ class VirtualDisk {
 		const unsigned int CLUSTER_SIZE_;
 
 		// Таблица ссылок между блоками (FAT)
-		int* FAT_;
+		int *FAT_;
 
 		// Размер таблицы FAT
 		unsigned int FAT_SIZE_;
@@ -104,6 +104,14 @@ class VirtualDisk {
 		// Выделить новый кластер под файл с последним кластером, имеющим индекс last_cluster_index
 		// Если last_cluster_index равен LAST_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит
 		int bind_next_cluster(int last_cluster_index);
+
+		// Вспомогательная функция для копирования файлов
+		// В функцию подаются указатели на файловые записи копируемого файла и свободной файловой записи, а также (при рекурсивном копировании) запись родителя создаваемой копии и глубина рекурсии
+		void copy_file(void *file, void *copy_path, void *parent_r = NULL, unsigned int depth = 1);
+
+		// Функция добавления стандартных файловых записей папки
+		// На вход подаются номера первых кластеров папки и ее родителя
+		void add_default_dir_records(int start, int parent_start);
 	public:
 		// Конструктор
 		// Параметры по умолчанию: размер диска - 50 МБ, размер кластера - 4 КБ
@@ -126,11 +134,11 @@ class VirtualDisk {
 
 		// Копирование файла file
 		// Если другой файл носит имя, которым предполагается назвать копию, то он будет перезаписан
-		File* cp(const File* file, const char *copy_path);
+		File* cp(File* file, const char *copy_path);
 
 		#ifdef DEBUG
 		// Отладочная печать таблицы FAT
-		void printFAT() const;
+		void printFAT(int amount) const;
 		#endif
 };
 

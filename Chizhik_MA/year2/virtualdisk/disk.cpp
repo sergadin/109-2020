@@ -27,8 +27,8 @@ VirtualDisk::FileObj::FileObj(VirtualDisk *disk, void *file_record) {
 }
 
 #ifdef DEBUG
-void VirtualDisk::printFAT() const {
-	for (int i = 0; i < FAT_SIZE_; i++) {
+void VirtualDisk::printFAT(int amount) const {
+	for (int i = 0; i < FAT_SIZE_ && i < amount; i++) {
 		std::cout << i << ": " << FAT_[i] << "; " << std::endl;
 	}
 }
@@ -86,7 +86,6 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
 	File *file = NULL;
 	bool eos = false; // End of search
 	
-	std::cout << path << std::endl;
 	int plen = strlen(path);
 
 	if ((plen == 1 && (path[0] == '/' || path[0] == '.')) || strcmp(path, "..") == 0) {
@@ -94,7 +93,7 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
 	}
 
 	if (plen == 0 || path[0] == 5) {
-		throw VirtualDiskException(5, "Incorrect path");
+		throw VirtualDiskException(4, "Incorrect path");
 	}
 
 	unsigned char type = (path[plen - 1] == '/') ? 1 : 0;
@@ -106,7 +105,7 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
 	}
 
 	if (plen > 0 && path[plen - 1] == '/') {
-		throw VirtualDiskException(5, "Incorrect path");
+		throw VirtualDiskException(4, "Incorrect path");
 	}
 
 	if (path[0] == '/') {
@@ -123,7 +122,8 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
 		}
 
 		if (name_len == 0 || name_len > 12 || path[i] == 5) {
-			throw VirtualDiskException(22, "There's incorrect filename in the path");
+			delete file;
+			throw VirtualDiskException(5, "There's incorrect filename in the path");
 		}
 
 		const char *curr_name = path + curr_dir_start;
@@ -160,12 +160,12 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required) {
 			File curr_file = FileObj(this, filename);
 			if (i == plen - 1) {
 				if (type == 1 && *(curr_file.type_) == 0) {
-					throw VirtualDiskException(23, "File you're searching is not directory");
+					throw VirtualDiskException(6, "File you're searching is not directory");
 				}
 				file = new FileObj(this, filename);
 				break;
 			} else if (*(curr_file.type_) == 0) {
-				throw VirtualDiskException(5, "Incorrect path");
+				throw VirtualDiskException(4, "Incorrect path");
 			}
 
 			parent_cluster = *(curr_file.start_);
@@ -210,17 +210,22 @@ int VirtualDisk::bind_next_cluster(int last_cluster_index) {
 
 VirtualDisk::File* VirtualDisk::create(const char *path, unsigned char type) {
 	if (strlen(path) == 0 || path[0] == 5) {
-		throw VirtualDiskException(5, "Impossible filename");
+		throw VirtualDiskException(8, "Impossible filename");
 	}
 
 	File *file = find(path, false);
 	if (file != NULL) {
 		delete file;
-		throw VirtualDiskException(8, "File already exists");
+		throw VirtualDiskException(9, "File already exists");
 	}
 
 	char *dir_path;
 	int filename_len = 0, plen = strlen(path);
+
+	if (path[plen - 1] == '/') {
+		plen--;
+		type = 1;
+	}
 
 	while(filename_len < plen && path[plen - filename_len - 1] != '/') {
 		filename_len++;
@@ -228,9 +233,9 @@ VirtualDisk::File* VirtualDisk::create(const char *path, unsigned char type) {
 
 	if (filename_len < 3) {
 		const char *filename = path + plen - filename_len;
-		bool is_impossible = strcmp(filename, ".") == 0 || strcmp(filename, "..") == 0;
+		bool is_impossible = strcmp(filename, ".") == 0 || strcmp(filename, "..") == 0 || filename_len == 0;
 		if (is_impossible) {
-			throw VirtualDiskException(5, "Impossible filename");
+			throw VirtualDiskException(8, "Impossible filename");
 		}
 	}
 
@@ -241,8 +246,12 @@ VirtualDisk::File* VirtualDisk::create(const char *path, unsigned char type) {
 		dir_path = (char *)malloc(plen - filename_len + 1);
 		strncpy(dir_path, path, plen - filename_len);
 		dir_path[plen - filename_len] = 0;
-		parent_dir = find(dir_path);
+		parent_dir = find(dir_path, false);
+
 		free(dir_path);
+		if (parent_dir == NULL) {
+			throw VirtualDiskException(10, "Parent directory for file doesn't exist");
+		}
 	}
 
 	int dir_shift = 0, parent_cluster = *(parent_dir->start_);
@@ -291,35 +300,39 @@ VirtualDisk::File* VirtualDisk::create(const char *path, unsigned char type) {
 	*(file->mod_time_) = time(NULL);
 
 	if (type == 1) {
-		unsigned char* file_start = disk_ + *(file->start_) * CLUSTER_SIZE_;
-		File one_dot = FileObj(this, file_start);
-		File two_dots = FileObj(this, file_start + RECORD_SIZE);
-
-		one_dot.name_[0] = two_dots.name_[0] = two_dots.name_[1] = '.';
-
-		*one_dot.len_ = *two_dots.len_ = 0;
-
-		*one_dot.start_ = *file->start_;
-		*two_dots.start_ = *parent_dir->start_;
-
-		*one_dot.type_ = *two_dots.type_ = 1;
-
-		*one_dot.creation_time_ = *one_dot.mod_time_ = time(NULL);
-		*two_dots.creation_time_ = *two_dots.mod_time_ = time(NULL);
+		add_default_dir_records(*file->start_, *parent_dir->start_);
 	}
 
 	delete parent_dir;
 	return file;
 }
 
+void VirtualDisk::add_default_dir_records(int start, int parent_start) {
+	unsigned char* file_start = disk_ + start * CLUSTER_SIZE_;
+	File one_dot = FileObj(this, file_start);
+	File two_dots = FileObj(this, file_start + RECORD_SIZE);
+
+	one_dot.name_[0] = two_dots.name_[0] = two_dots.name_[1] = '.';
+
+	*one_dot.len_ = *two_dots.len_ = 0;
+
+	*one_dot.start_ = start;
+	*two_dots.start_ = parent_start;
+
+	*one_dot.type_ = *two_dots.type_ = 1;
+
+	*one_dot.creation_time_ = *one_dot.mod_time_ = time(NULL);
+	*two_dots.creation_time_ = *two_dots.mod_time_ = time(NULL);
+}
+
 void VirtualDisk::FileObj::rm() {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "File was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 
 	if (*type_ == 1) {
 		if (strcmp(name_, ".") == 0 || strcmp(name_, "..") == 0) {
-			throw VirtualDiskException(26, "Can't delete directory which is . or ..");
+			throw VirtualDiskException(12, "Can't delete directory which is . or ..");
 		}
 
 		int dir_shift = 0, current_cluster = *start_;
@@ -348,6 +361,8 @@ void VirtualDisk::FileObj::rm() {
 				}
 			}
 		}
+
+		delete curr_file;
 	}
 
 	int curr_cluster = *start_, next_cluster;
@@ -369,70 +384,130 @@ void VirtualDisk::FileObj::rm() {
 	
 }
 
-VirtualDisk::File* VirtualDisk::cp(const File* file, const char *copy_path) {
+void VirtualDisk::copy_file(void *to_copy, void *to_fill, void *parent_r, unsigned int depth) {
+	File src = FileObj(this, to_copy), dest = FileObj(this, to_fill), parent = FileObj(this, parent_r);
+
+	if (depth > 1) {
+		for (int i = 0; i < 12; i++) {
+			dest.name_[i] = src.name_[i];
+		}
+
+		*dest.len_ = 0;
+		*dest.start_ = bind_next_cluster(LAST_CLUSTER);
+		*dest.type_ = *src.type_;
+
+		*dest.creation_time_ = time(NULL);
+		*dest.mod_time_ = time(NULL);
+
+		if (*src.type_ == 1) {
+			add_default_dir_records(*dest.start_, *parent.start_);
+		}
+	}
+
+	int current_src_cluster = *(src.start_);
+	int current_dest_cluster = *(dest.start_);
+
+	if (*src.type_ == 0) {
+		int k = 0;
+		while (current_src_cluster > 0) {
+			if (k > 0) {
+				if ((current_dest_cluster = bind_next_cluster(current_dest_cluster)) == BAD_CLUSTER) {
+					throw VirtualDiskException(16, "Memory allocation error");
+				}
+			}
+	
+			for (int i = 0; i < CLUSTER_SIZE_; i++, k++) {
+				if (k >= *src.len_) {
+					break;
+				}
+				disk_[CLUSTER_SIZE_ * current_dest_cluster + i] = disk_[CLUSTER_SIZE_ * current_src_cluster + i];
+			}
+			current_src_cluster = FAT_[current_src_cluster];
+		}
+	
+		if (k < *src.len_ || current_src_cluster != LAST_CLUSTER) {
+			throw VirtualDiskException(17, "File was damaged");
+		}
+	
+		*dest.len_ = *src.len_;	
+	} else { // Должно быть исключение, если копируется папка-предок в потомка
+		int src_shift = 2 * RECORD_SIZE;
+		int dest_shift = 2 * RECORD_SIZE;
+		unsigned char *curr_src_file_r = disk_ + current_src_cluster * CLUSTER_SIZE_ + 2 * RECORD_SIZE;
+		unsigned char *curr_dest_file_r = disk_ + current_dest_cluster * CLUSTER_SIZE_ + 2 * RECORD_SIZE;
+		while (true) {
+			if (*curr_src_file_r == 0) {
+				break;
+			} else if (*curr_src_file_r != 5) {
+				copy_file(curr_src_file_r, curr_dest_file_r, dest.name_, depth + 1);	
+
+				dest_shift += RECORD_SIZE;
+				curr_dest_file_r += RECORD_SIZE;
+			}
+
+			src_shift += RECORD_SIZE;
+			curr_src_file_r += RECORD_SIZE;	
+
+			if (src_shift == CLUSTER_SIZE_) {
+				src_shift = 0;
+				if (FAT_[current_src_cluster] > 0) {
+					current_src_cluster = FAT_[current_src_cluster];
+					curr_src_file_r = disk_ + current_src_cluster * CLUSTER_SIZE_;
+				} else {
+					break;
+				}
+			}
+
+			if (dest_shift == CLUSTER_SIZE_) {
+				dest_shift = 0;
+				current_dest_cluster = bind_next_cluster(current_dest_cluster);
+				curr_dest_file_r = disk_ + current_dest_cluster * CLUSTER_SIZE_;
+			}
+		}
+	}
+}
+
+VirtualDisk::File* VirtualDisk::cp(File *file, const char *copy_path) {
 	if (file == NULL) {
-		throw VirtualDiskException(26, "Nothing to copy");
+		throw VirtualDiskException(13, "Nothing to copy");
 	}
 
 	void *buffer_p = file->name_;
 	unsigned char *name = (unsigned char *)buffer_p;
 	if (name[0] == 5 || name[0] == 0) {
-		throw VirtualDiskException(24, "File has been deleted");
-	}
-
-	if (*(file->type_) == 1) {
-		throw VirtualDiskException(-1, "This option is not available now");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 
 	File *copy_address = find(copy_path, false);
 
 	if (copy_address != NULL && file->start_ == copy_address->start_) {
 		delete copy_address;
-		throw VirtualDiskException(25, "Can't copy file to itself");
+		throw VirtualDiskException(14, "Can't copy file to itself");
 	} else if (copy_address != NULL) {
 		copy_address->rm();
 		delete copy_address;
 	}
 
-	copy_address = create(copy_path);
+	copy_address = create(copy_path, *(file->type_));
 
-	int current_src_cluster = *(file->start_);
-	int current_dest_cluster = *(copy_address->start_);
-
-	int k = 0;
-	while (current_src_cluster >= 0) {
-		if (k > 0) {
-			if ((current_dest_cluster = bind_next_cluster(current_dest_cluster)) == BAD_CLUSTER) {
-				throw VirtualDiskException(9, "Memory allocation error");
-			}
-		}
-
-		for (int i = 0; i < CLUSTER_SIZE_; i++, k++) {
-			if (k >= *(file->len_)) {
-				break;
-			}
-			disk_[CLUSTER_SIZE_ * current_dest_cluster + i] = disk_[CLUSTER_SIZE_ * current_src_cluster + i];
-		}
-		current_src_cluster = FAT_[current_src_cluster];	
+	try {
+		copy_file(file->name_, copy_address->name_);	
+	} catch (VirtualDiskException& e) {
+		delete copy_address;
+		throw e;
+		return NULL;
 	}
-
-	if (k < *(file->len_) || current_src_cluster != LAST_CLUSTER) {
-		throw VirtualDiskException(10, "File was damaged");
-	}
-
-	*(copy_address->len_) = *(file->len_);
+	
 	return copy_address;
 }
 
 void VirtualDisk::FileObj::mv(const char *new_path) {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "File was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	std::cout << new_path << std::endl;
 	File *new_address = parent_disk_->find(new_path, false);
 
-	std::cout << "or not..." << std::endl;
 	if (new_address != NULL && new_address->start_ == this->start_) {
 		delete new_address;
 		return;
@@ -462,18 +537,18 @@ void VirtualDisk::FileObj::mv(const char *new_path) {
 
 unsigned int VirtualDisk::FileObj::wc() const {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "File was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 	return *len_;
 }
 
 void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes_amount, unsigned char* to_write) {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "File was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 
 	if (*type_ == 1) {
-		throw VirtualDiskException(13, "Directories can't be edited using write() method");
+		throw VirtualDiskException(15, "Directories can't be edited using write() method");
 	}
 
 	unsigned int start_cluster_index = start_position / parent_disk_->CLUSTER_SIZE_;
@@ -488,12 +563,12 @@ void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes
 				current_cluster = parent_disk_->bind_next_cluster(current_cluster);
 				break;
 			default:
-				throw VirtualDiskException(9, "Memory allocation error");	
+				throw VirtualDiskException(16, "Memory allocation error");	
 		}
 	}
 
 	if (current_cluster <= 0) {
-		throw VirtualDiskException(9, "Memory allocation error");
+		throw VirtualDiskException(16, "Memory allocation error");
 	}
 
 	unsigned int curr_shift_inside_cluster = start_position % parent_disk_->CLUSTER_SIZE_;
@@ -502,7 +577,7 @@ void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes
 		if (curr_shift_inside_cluster == parent_disk_->CLUSTER_SIZE_) {
 			curr_shift_inside_cluster = 0;
 			if ((current_cluster = parent_disk_->bind_next_cluster(current_cluster)) == BAD_CLUSTER) {	
-				throw VirtualDiskException(9, "Memory allocation error");
+				throw VirtualDiskException(16, "Memory allocation error");
 			}
 		}
 
@@ -517,11 +592,11 @@ void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes
 
 void VirtualDisk::FileObj::read(unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "File was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 
 	if (*type_ == 1) {
-		throw VirtualDiskException(14, "Directories can't be read using read() method");
+		throw VirtualDiskException(18, "Directories can't be read using read() method");
 	}
 
 	if (start_position > UINT_MAX / 2 || bytes_amount > UINT_MAX / 2) {
@@ -529,11 +604,11 @@ void VirtualDisk::FileObj::read(unsigned int start_position, unsigned int bytes_
 		unsigned int min = (max == start_position) ? bytes_amount : start_position;
 		unsigned int halfed_index = min + ( (max - min) / 2 );
 		if (halfed_index > UINT_MAX / 2) {
-			throw VirtualDiskException(12, "Too big parameters");
+			throw VirtualDiskException(19, "Too big parameters");
 		}
 	}
 	if (start_position + bytes_amount > *len_) {
-		throw VirtualDiskException(11, "File has been read till its end, required information doesn't exist");
+		throw VirtualDiskException(20, "File has been read till its end, required information doesn't exist");
 	}
 
 	unsigned int start_cluster_index = start_position / parent_disk_->CLUSTER_SIZE_;
@@ -557,7 +632,11 @@ void VirtualDisk::FileObj::read(unsigned int start_position, unsigned int bytes_
 
 void VirtualDisk::FileObj::del(unsigned int bytes_amount) {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "File was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
+	}
+
+	if (*type_ == 1) {
+		throw VirtualDiskException(21, "Directories can't be edited using del() method");
 	}
 
 	unsigned int new_len = (*len_ >= bytes_amount) ? (*len_ - bytes_amount) : 0;
@@ -597,30 +676,46 @@ char *VirtualDisk::FileObj::name() const {
 
 void VirtualDisk::FileObj::ls(std::ostream& os) {
 	if (name_[0] == 5 || name_[0] == 0) {
-		throw VirtualDiskException(24, "Directory was deleted");
+		throw VirtualDiskException(11, "File has been deleted");
 	}
 
 	if (*type_ == 0) {
-		throw VirtualDiskException(25, "Directory was expected, ordinary file given");
+		throw VirtualDiskException(22, "Directory was expected, ordinary file given");
 	}
 
 	int current_cluster = *start_;
 	void *tmp_p = parent_disk_->disk_ + current_cluster * parent_disk_->CLUSTER_SIZE_;
 	char *curr_file_r = (char *)tmp_p, *filename;
 	int dir_shift = 0;
-	File *curr_file = NULL;
+	int k = 0;
 	while (true) {
 		if (curr_file_r[0] == 0) {
 			break;
 		} else if (curr_file_r[0] != 5) {
+			void *buffer_p = curr_file_r + 12 + 2 * sizeof(int);
+			unsigned char *type = (unsigned char *)buffer_p;
+			File current = FileObj(parent_disk_, curr_file_r);
+			if (*current.type_ == 1 && k >= 2) {
+				os << "/--------------------" << std::endl;
+			}
 			for (int i = 0; i < 12; i++) {
-				if (!curr_file_r[i]) {
+				if (!current.name_[i]) {
 					break;
 				}
-				os << curr_file_r[i];
+				os << current.name_[i];
+			}
+
+			#ifdef DEBUG_EXTENDED
+			os << " (first cluster = " << *current.start_ << ")";
+			#endif
+
+			if (*current.type_ == 1 && k >= 2) {
+				os << ":" << std::endl;	
+				current.ls(os);
+				os << "--------------------/" << std::endl;
 			}
 			os << std::endl;
-		}
+	}
 
 		dir_shift += VirtualDisk::RECORD_SIZE;
 		curr_file_r += VirtualDisk::RECORD_SIZE;
@@ -635,8 +730,9 @@ void VirtualDisk::FileObj::ls(std::ostream& os) {
 				break;
 			}
 		}
+
+		k++;
 	}
-	os << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, const VirtualDiskException& e) {
