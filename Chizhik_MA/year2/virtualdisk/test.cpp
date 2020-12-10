@@ -40,7 +40,7 @@ int main(void) {
 		goodbye->mv("bye");
 	} catch (VirtualDiskException& e) {
 		cerr << e << endl;
-	}
+	}	
 
 	one->mv("2");
 
@@ -67,6 +67,12 @@ int main(void) {
 	hat2 = disk.create("bye/goodbye/project/pictures/hat.png");
 
 	cat = disk.create("bye/goodbye/project/pictures2/cat.webp");
+
+	try {
+		project->mv("/../bye/./goodbye/../backup1");
+	} catch (VirtualDiskException& e) {
+		cerr << e << endl;
+	}
 
 	//disk.printFAT(16);
 	root->ls();
