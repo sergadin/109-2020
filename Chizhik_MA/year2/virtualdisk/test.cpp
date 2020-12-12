@@ -7,9 +7,9 @@ int main(void) {
 	VirtualDisk::File *one, *hello, *hello2, *bye, *goodbye, *five, *root;
 	VirtualDisk::File *project, *pr_copy, *index, *styles, *script, *pictures, *pictures2, *hat, *hat2, *cat;
 
-	one = disk.create("1");
+	one = disk.create("1", FILE_T);
 	hello = disk.create("hello.txt");
-	bye = disk.create("/bye", 1);
+	bye = disk.create("/bye", DIR_T);
 	goodbye = disk.create("/bye/goodbye/");
 	five = disk.create("bye/goodbye/5.txt");
 
@@ -55,13 +55,13 @@ int main(void) {
 		cerr << e << endl;
 	}
 
-	project = disk.create("bye/goodbye/project", 1);
+	project = disk.create("bye/goodbye/project/");
 	index = disk.create("bye/goodbye/project/index.php");
 	styles = disk.create("bye/goodbye/project/main.css");
 	script = disk.create("bye/goodbye/project/script.js");
 
-	pictures = disk.create("bye/goodbye/project/pictures/", 1);
-	pictures2 = disk.create("bye/goodbye/project/pictures2", 1);
+	pictures = disk.create("bye/goodbye/project/pictures/", DIR_T);
+	pictures2 = disk.create("/bye/goodbye/project/pictures2/", DIR_T);
 
 	hat = disk.create("bye/goodbye/project/pictures/hat.jpg");
 	hat2 = disk.create("bye/goodbye/project/pictures/hat.png");

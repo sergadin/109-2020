@@ -91,11 +91,11 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required, int prohib
 		throw VirtualDiskException(4, "Incorrect path");
 	}
 
-	unsigned char type = (path[plen - 1] == '/') ? 1 : 0;
+	unsigned char type = (path[plen - 1] == '/') ? DIR_T : FILE_T;
 	int parent_cluster = 0, curr_dir_start = 0;
 	int name_len = 0, i = 0;
 
-	if (type == 1) {
+	if (type == DIR_T) {
 		plen--;
 	}
 
@@ -170,12 +170,12 @@ VirtualDisk::File* VirtualDisk::find(const char *path, bool required, int prohib
 			}
 
 			if (i == plen - 1) {
-				if (type == 1 && *(curr_file.type_) == 0) {
+				if (type == DIR_T && *curr_file.type_ == FILE_T) {
 					throw VirtualDiskException(6, "File you're searching is not directory");
 				}
 				file = new FileObj(this, filename);
 				break;
-			} else if (*(curr_file.type_) == 0) {
+			} else if (*curr_file.type_ == FILE_T) {
 				throw VirtualDiskException(4, "Incorrect path");
 			}
 
@@ -235,7 +235,7 @@ VirtualDisk::File* VirtualDisk::create(const char *path, unsigned char type) {
 
 	if (path[plen - 1] == '/') {
 		plen--;
-		type = 1;
+		type = DIR_T;
 	}
 
 	while(filename_len < plen && path[plen - filename_len - 1] != '/') {
@@ -317,7 +317,7 @@ void VirtualDisk::fill_r_with_def_vals(File *file, File *parent, unsigned char t
 	*file->creation_time_ = time(NULL);
 	*file->mod_time_ = time(NULL);
 
-	if (type == 1) {
+	if (type == DIR_T) {
 		add_default_dir_records(*file->start_, *parent->start_);
 	}
 }
@@ -334,7 +334,7 @@ void VirtualDisk::add_default_dir_records(int start, int parent_start) {
 	*one_dot.start_ = start;
 	*two_dots.start_ = parent_start;
 
-	*one_dot.type_ = *two_dots.type_ = 1;
+	*one_dot.type_ = *two_dots.type_ = DIR_T;
 
 	*one_dot.creation_time_ = *one_dot.mod_time_ = time(NULL);
 	*two_dots.creation_time_ = *two_dots.mod_time_ = time(NULL);
@@ -345,7 +345,7 @@ void VirtualDisk::FileObj::rm() {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	if (*type_ == 1) {
+	if (*type_ == DIR_T) {
 		if (strcmp(name_, ".") == 0 || strcmp(name_, "..") == 0) {
 			throw VirtualDiskException(12, "Can't delete directory which is . or ..");
 		}
@@ -413,7 +413,7 @@ void VirtualDisk::copy_file(void *to_copy, void *to_fill, void *parent_r, unsign
 	int current_src_cluster = *(src.start_);
 	int current_dest_cluster = *(dest.start_);
 
-	if (*src.type_ == 0) {
+	if (*src.type_ == FILE_T) {
 		int k = 0;
 		while (current_src_cluster > 0) {
 			if (k > 0) {
@@ -486,7 +486,7 @@ VirtualDisk::File* VirtualDisk::cp(File *file, const char *copy_path) {
 
 	File *copy_address = find(copy_path, false, *file->start_);
 
-	if (copy_address != NULL && *copy_address->type_ == 1) {
+	if (copy_address != NULL && *copy_address->type_ == DIR_T) {
 		throw VirtualDiskException(-1, "Copying to existing catalogue is prohibited at the moment");
 	}
 
@@ -522,7 +522,7 @@ void VirtualDisk::FileObj::mv(const char *new_path) {
 
 	File *new_address = parent_disk_->find(new_path, false, *start_);
 
-	if (new_address != NULL && *new_address->type_ == 1) {
+	if (new_address != NULL && *new_address->type_ == DIR_T) {
 		delete new_address;
 		throw VirtualDiskException(-2, "Moving to existing directory is prohibited at the moment");
 	}
@@ -566,7 +566,7 @@ void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	if (*type_ == 1) {
+	if (*type_ == DIR_T) {
 		throw VirtualDiskException(15, "Directories can't be edited using write() method");
 	}
 
@@ -614,7 +614,7 @@ void VirtualDisk::FileObj::read(unsigned int start_position, unsigned int bytes_
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	if (*type_ == 1) {
+	if (*type_ == DIR_T) {
 		throw VirtualDiskException(18, "Directories can't be read using read() method");
 	}
 
@@ -654,7 +654,7 @@ void VirtualDisk::FileObj::del(unsigned int bytes_amount) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	if (*type_ == 1) {
+	if (*type_ == DIR_T) {
 		throw VirtualDiskException(21, "Directories can't be edited using del() method");
 	}
 
@@ -696,7 +696,7 @@ void VirtualDisk::FileObj::ls(std::ostream& os) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
-	if (*type_ == 0) {
+	if (*type_ == FILE_T) {
 		throw VirtualDiskException(22, "Directory was expected, ordinary file given");
 	}
 
@@ -712,7 +712,7 @@ void VirtualDisk::FileObj::ls(std::ostream& os) {
 			void *buffer_p = curr_file_r + 12 + 2 * sizeof(int);
 			unsigned char *type = (unsigned char *)buffer_p;
 			File current = FileObj(parent_disk_, curr_file_r);
-			if (*current.type_ == 1 && k >= 2) {
+			if (*current.type_ == DIR_T && k >= 2) {
 				os << "/--------------------" << std::endl;
 			}
 			for (int i = 0; i < 12; i++) {
@@ -726,7 +726,7 @@ void VirtualDisk::FileObj::ls(std::ostream& os) {
 			os << " (first cluster = " << *current.start_ << ")";
 			#endif
 
-			if (*current.type_ == 1 && k >= 2) {
+			if (*current.type_ == DIR_T && k >= 2) {
 				os << ":" << std::endl;	
 				current.ls(os);
 				os << "--------------------/" << std::endl;
