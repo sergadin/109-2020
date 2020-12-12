@@ -10,9 +10,13 @@
 #define LAST_CLUSTER -1
 #define BAD_CLUSTER -9
 
+#define FILE_T 0
+#define DIR_T 1
+
 // Файловый контейнер, реализованный по аналогии с файловой системой FAT
 class VirtualDisk {
 	public:
+		// Размер (в байтах) файловой записи
 		const static unsigned int RECORD_SIZE = 64;
 		class FileObj {
 			private:
@@ -26,7 +30,6 @@ class VirtualDisk {
 				unsigned int *len_;
 
 				// Тип файла
-				// 0 - обычный файл, 1 - директория
 				unsigned char *type_;
 			
 				// Имя файла
@@ -44,9 +47,12 @@ class VirtualDisk {
 				// Деструктор
 				~FileObj() {}
 
-				// Получение строки с именем файла
-				// На возвращаемую строку динамически выделяется память, необходим вызов free() по окончании использования строки
-				char* name() const;
+				// Получение строки с именем файла по адресу dest
+				// Память считается выделенной по меньшей мере на 13 байт (12 символов - длина имени + символ конца строки)
+				void name(char *dest) const;
+
+				// Проверка на то, является ли файл удаленным или перемещенным
+				bool isAbsent() const;
 
 				// Удаление файла
 				void rm();
@@ -97,13 +103,16 @@ class VirtualDisk {
 		// Размер таблицы FAT
 		unsigned int FAT_SIZE_;
 
-		// Найти файл по его пути
+		// Нахождение файла по его пути
 		// Если параметр required равен true и файла с таким именем не находится, вызывается исключение
 		// Параметр prohibited_parent_fcluster содержит номер первого кластера директории, которая не должна содержать данного файла.
 		// Если она будет содержаться в пути к файлу, будет вызвано исключение
 		File* find(const char *path, bool required = true, int prohibited_parent_fcluster = -1);
 
-		// Выделить новый кластер под файл с последним кластером, имеющим индекс last_cluster_index
+		// Нахождение родительского каталога для файла, который должен располагаться по адресу path
+		File* find_parent(const char *path, int prohibited_parent_fcluster);
+
+		// Выделение нового кластера под файл с последним кластером, имеющим индекс last_cluster_index
 		// Если last_cluster_index равен LAST_CLUSTER, подразумевается, что кластер выделяется для нового файла, и привязки к уже существующей цепочке не происходит
 		int bind_next_cluster(int last_cluster_index);
 
@@ -114,6 +123,10 @@ class VirtualDisk {
 		// Функция добавления стандартных файловых записей папки
 		// На вход подаются номера первых кластеров папки и ее родителя
 		void add_default_dir_records(int start, int parent_start);
+
+		// Заполнение файловой записи значениями по умолчанию:
+		// нулевой длиной, 
+		void fill_r_with_def_vals(File *file, File *parent = NULL, unsigned char type = FILE_T);
 	public:
 		// Конструктор
 		// Параметры по умолчанию: размер диска - 50 МБ, размер кластера - 4 КБ
@@ -132,7 +145,7 @@ class VirtualDisk {
 		// Если type = 1, создается директория, в которой первые две записи 
 		// занимаются файлами . и .. (нулевой длины)
 		// Возвращает указатель на объект для работы с файлом
-		File* create(const char *path, unsigned char type = 0);
+		File* create(const char *path, unsigned char type = FILE_T);
 
 		// Копирование файла file
 		// Если другой файл носит имя, которым предполагается назвать копию, то он будет перезаписан

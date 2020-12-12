@@ -61,17 +61,8 @@ VirtualDisk::VirtualDisk(unsigned int size, unsigned int cluster_size) :
 		for (int i = 1; i < FAT_SIZE_; i++) {
 			FAT_[i] = 0;
 		}
-		
-		File one_dot = FileObj(this, disk_);
-		File two_dots = FileObj(this, disk_ + RECORD_SIZE);
 
-		one_dot.name_[0] = two_dots.name_[0] = two_dots.name_[1] = '.';
-
-		*one_dot.len_ = *two_dots.len_ = 0;
-		*one_dot.start_ = *two_dots.start_ = 0;
-		*one_dot.type_ = *two_dots.type_ = 1;
-		*one_dot.creation_time_ = *one_dot.mod_time_ = time(NULL);
-		*two_dots.creation_time_ = *two_dots.mod_time_ = time(NULL);
+		add_default_dir_records(0, 0);
 	} catch (const std::bad_alloc& e) {
 		throw VirtualDiskException(3, "Can't create FAT");
 	}
@@ -312,19 +303,23 @@ VirtualDisk::File* VirtualDisk::create(const char *path, unsigned char type) {
 		}
 	}
 
-	*(file->len_) = 0;
-	*(file->start_) = bind_next_cluster(LAST_CLUSTER);
-	*(file->type_) = type;
-
-	*(file->creation_time_) = time(NULL);
-	*(file->mod_time_) = time(NULL);
-
-	if (type == 1) {
-		add_default_dir_records(*file->start_, *parent_dir->start_);
-	}
+	fill_r_with_def_vals(file, parent_dir, type);
 
 	delete parent_dir;
 	return file;
+}
+
+void VirtualDisk::fill_r_with_def_vals(File *file, File *parent, unsigned char type) {
+	*file->len_ = 0;
+	*file->start_ = bind_next_cluster(LAST_CLUSTER);
+	*file->type_ = type;
+
+	*file->creation_time_ = time(NULL);
+	*file->mod_time_ = time(NULL);
+
+	if (type == 1) {
+		add_default_dir_records(*file->start_, *parent->start_);
+	}
 }
 
 void VirtualDisk::add_default_dir_records(int start, int parent_start) {
@@ -412,16 +407,7 @@ void VirtualDisk::copy_file(void *to_copy, void *to_fill, void *parent_r, unsign
 			dest.name_[i] = src.name_[i];
 		}
 
-		*dest.len_ = 0;
-		*dest.start_ = bind_next_cluster(LAST_CLUSTER);
-		*dest.type_ = *src.type_;
-
-		*dest.creation_time_ = time(NULL);
-		*dest.mod_time_ = time(NULL);
-
-		if (*src.type_ == 1) {
-			add_default_dir_records(*dest.start_, *parent.start_);
-		}
+		fill_r_with_def_vals(&dest, &parent, *src.type_);
 	}
 
 	int current_src_cluster = *(src.start_);
@@ -525,8 +511,12 @@ VirtualDisk::File* VirtualDisk::cp(File *file, const char *copy_path) {
 	return copy_address;
 }
 
+bool VirtualDisk::FileObj::isAbsent() const {
+	return (name_[0] == 5 || name_[0] == 0);
+}
+
 void VirtualDisk::FileObj::mv(const char *new_path) {
-	if (name_[0] == 5 || name_[0] == 0) {
+	if (isAbsent()) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
@@ -565,14 +555,14 @@ void VirtualDisk::FileObj::mv(const char *new_path) {
 }
 
 unsigned int VirtualDisk::FileObj::wc() const {
-	if (name_[0] == 5 || name_[0] == 0) {
+	if (isAbsent()) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 	return *len_;
 }
 
 void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes_amount, unsigned char* to_write) {
-	if (name_[0] == 5 || name_[0] == 0) {
+	if (isAbsent()) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
@@ -620,7 +610,7 @@ void VirtualDisk::FileObj::write(unsigned int start_position, unsigned int bytes
 }
 
 void VirtualDisk::FileObj::read(unsigned int start_position, unsigned int bytes_amount, unsigned char* dest) const {
-	if (name_[0] == 5 || name_[0] == 0) {
+	if (isAbsent()) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
@@ -660,7 +650,7 @@ void VirtualDisk::FileObj::read(unsigned int start_position, unsigned int bytes_
 }
 
 void VirtualDisk::FileObj::del(unsigned int bytes_amount) {
-	if (name_[0] == 5 || name_[0] == 0) {
+	if (isAbsent()) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
@@ -696,15 +686,13 @@ void VirtualDisk::FileObj::del(unsigned int bytes_amount) {
 	*mod_time_ = time(NULL);
 }
 
-char *VirtualDisk::FileObj::name() const {
-	char *name = (char *)malloc(13);
-	strncpy(name, name_, 12);
-	name[12] = 0;
-	return name;
+void VirtualDisk::FileObj::name(char *dest) const {
+	strncpy(dest, name_, 12);
+	dest[12] = 0;
 }
 
 void VirtualDisk::FileObj::ls(std::ostream& os) {
-	if (name_[0] == 5 || name_[0] == 0) {
+	if (isAbsent()) {
 		throw VirtualDiskException(11, "File has been deleted");
 	}
 
