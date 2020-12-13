@@ -36,7 +36,7 @@ void VirtualDisk::printFAT(int amount) const {
 
 VirtualDisk::VirtualDisk(unsigned int size, unsigned int cluster_size) : 
 			DISK_SIZE_(size), CLUSTER_SIZE_(cluster_size) {
-	if (cluster_size % 512 != 0 || size < 2048) {
+	if (cluster_size == 0 || cluster_size % 512 != 0 || size < 2048) {
 		throw VirtualDiskException(1, "Incorrect disk parameters");
 	}
 	FAT_SIZE_ = DISK_SIZE_ / CLUSTER_SIZE_;
