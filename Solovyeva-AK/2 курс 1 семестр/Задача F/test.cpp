@@ -12,8 +12,10 @@ int main(){
     for(int i = 0; i < 5; i++){
         a.push(i);
     }
-    Iterator<int> last(a.end());
-    for(Iterator<int> it(a.begin()); it != last; ++it) {
+    stack<int>::Iterator last;
+    stack<int>::Iterator it;
+    last = a.end();
+    for(it = a.begin(); it != last; ++it) {
         cout<< *it;
     }
     return 0;
