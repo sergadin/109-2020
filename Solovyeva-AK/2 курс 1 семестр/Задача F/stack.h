@@ -69,6 +69,7 @@ class stack {
         bool operator ==(const stack &other) const;
         stack operator +(const stack &other);
         void print() const;
+        void check_top_elem() const;
         bool checkVoid() const;
         void push(T n);
         T pop();
@@ -180,6 +181,18 @@ stack<T> stack<T>::operator +(const stack &other) {
         p = p->next;
     }
     return tmp;
+}
+
+template<class T>
+void stack<T>::check_top_elem() const {
+    if (topElem_ == nullptr) {
+        cout << "stack is empty." << endl;
+    } else {
+        list_item<T>* p;
+        p = topElem_;
+        cout << p->data << "\t";
+        cout << endl;
+    }
 }
 
 template<class T>
