@@ -20,7 +20,6 @@ private:
 
         ListItem *first = NULL;
         ListItem *last = NULL;
-//        ListItem *current = NULL;
 
         ListItem *next (ListItem *element)
         {
@@ -37,10 +36,8 @@ public:
 	list()
 	{
 		ListItem *new_elem = new ListItem;
-		//add_first_elem (new_elem->data);
-		//add_last_elem (new_elem->data);
 
-	//	new_elem->data = element;
+		//new_elem->data = NULL;
                 new_elem->prev = first;
                 new_elem->next = last;
                 first = new_elem;
@@ -49,105 +46,122 @@ public:
 
         list(T elem)
         {
-                current->data = elem;
-                first->data = current->data;
-                last->data = current->data;
-                first->next = last;
-                last->prev = first;
+                ListItem *new_elem = new ListItem;
+                new_elem->data = elem;
+                new_elem->prev = first;
+                new_elem->next = last;
+                first = new_elem;
+                last = new_elem;
         }
 
-        void add_first_elem (T element) //добавляет элемент в начало списка +++
+        void add_first_elem (T element) //добавляет элемент в начало списка +
         {
                 ListItem *new_elem = new ListItem;
                 new_elem->data = element;
                 new_elem->prev = NULL;
                 new_elem->next = first;
+		first->prev = new_elem;
                 first = new_elem;
                 get_first();
         }
 
-        void add_last_elem (T element)
+        void add_last_elem (T element)//добавляет элемент в конец списка +
         {
                 ListItem *new_elem = new ListItem;
                 new_elem->data = element;
                 new_elem->prev = last;
 		new_elem->next = NULL;
+		last->next = new_elem;
                 last = new_elem;
 
-	printf ("P25\n");
+	//printf ("P25\n");
 
 		get_first();
         }
 
-        void change_elem(ListItem *item, T elem)
+        void change_elem(T elem)//меняет значение текущего элемента +
         {
-                item->data = elem;
+                current->data = elem;
         }
 
-        void del_first_elem ();
-        //...
+        void del_first_elem ()//удаляет первый элемент +
+        {
+                first = first->next;
+                first->prev = NULL;
+	}
 
-        void del_last_elem ()
+        void del_last_elem ()//удаляет последний элемент +
         {
                 last = last->prev;
+		last->next = NULL;
         }
 
-        void add_after_elem (T element, ListItem *item)
+        void add_after_current (T element)//добавляет элемент после текущего +
         {
         //if next || prev == null  ???
                 ListItem *new_item = new ListItem;
-                new_item->prev = *item->prev;
+
+                new_item->prev = current;
                 new_item->data = element;
-                new_item->next = *item->data;
-                item->prev = *element;
-                item->prev->next = *element; //но это не точно
+                new_item->next = current->next;
+
+		go_next();
+                current->prev = new_item;
+		go_back();
+		go_back();
+                current->next = new_item;
         }
 
-        void add_before_elem (T element, ListItem *item)
+        void add_before_current (T element)//добавляет элемент перед текущим +
         {
                 //if next || prev == null  ???
                 ListItem *new_item = new ListItem;
 
-                new_item->prev = *item->prev;
+                new_item->prev = current->prev;
                 new_item->data = element;
-                new_item->next = *item->data;
-                item->prev = *element;
-                item->prev->next = *element; //но это не точно,$
+                new_item->next = current;
+
+                current->prev = new_item;
+                go_back();
+                go_back();
+                current->next = new_item;
         }
 
 
-        void del_elem (ListItem *item)
+        void del_current_elem ()//удаляет текущий элемент +
         {
 //if next || prev == null  ???
 
-                item->prev->next = *item->next;
-                item->next->prev = *item->prev;
-
+		go_back();
+		current->next = current->next->next;
+		go_next();
+		current->prev = current->prev->prev;
         }
 
-        void swap_elem (ListItem *item, ListItem *elem);
-        //...
-
-
-        void get_first()
+        void swap_elem ()//меняет местами текущий и следующий элементы
         {
-//                current->data = first;
-  //              current->prev = NULL;
+		T help;
+		help = current->data;
+		current->data = current->next->data;
+		current->next->data = help;
+	}
+
+        void get_first()//возвращается в начало списка +
+        {
 	          current = first;
-    //            current->next = first->next;
         }
 
-        void go_next()
+        void go_next()//переход к следующему элементу +
         {
                 current = current->next;
         }
 
-        void go_back()
+        void go_back()//переход к предыдущему элементу +
         {
                 current = current->prev;
         }
 
-        void print()
+        void print() //печатает список +
         {
                 get_first();
 //проверка, что следующий элемент есть
@@ -174,14 +188,18 @@ public:
         }
 
 
-        list operator = (const list & other)
+        list operator = (const list & other)// +-
         {
                 get_first();
 
-                while (this->next != NULL)
+                while (other.current != NULL)
                 {
-                        this->data = other.data;
-                        go_next();
+
+			this->add_last_elem(other.current->data);
+			//this->current = other.current;
+			//this->next = other.next;
+                        //this->data = other.data;
+			go_next();
                 }
                 return *this;
 
