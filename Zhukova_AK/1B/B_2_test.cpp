@@ -3,7 +3,7 @@
 int main(void)
 
 {
-	list<int> l(3), m(678);
+	list<int> l(3), m(468);
 
 //        l.p = 10;
 	printf ("Создали список l:\n");
@@ -34,14 +34,18 @@ int main(void)
 	l.add_after_current(87);
 	l.add_before_current(289);
 //	l.del_first_elem();
-
 	printf ("Ещё добавили элементы в l:\n");
 	l.print();
 
+	m.add_first_elem(872);
 	m = l;
 
-	printf("Создали список m:\n");
+	printf("Создали список m=l:\n");
 	m.print();
+
+	m.clear_list();
+	printf("Удалили список m:\n");
+        m.print();
 
 	l.add_first_elem(-75);
         l.get_first();

@@ -37,7 +37,7 @@ public:
 	{
 		ListItem *new_elem = new ListItem;
 
-		//new_elem->data = NULL;
+		new_elem = NULL;
                 new_elem->prev = first;
                 new_elem->next = last;
                 first = new_elem;
@@ -86,14 +86,24 @@ public:
 
         void del_first_elem ()//удаляет первый элемент +
         {
-                first = first->next;
-                first->prev = NULL;
+		first = first->next;
+		first->prev = NULL;
 	}
 
         void del_last_elem ()//удаляет последний элемент +
         {
                 last = last->prev;
 		last->next = NULL;
+        }
+
+        void clear_list ()//удаляет список+
+        {
+                get_first();
+		while (first->next != NULL)
+                {
+			del_first_elem();
+		}
+		first = NULL;
         }
 
         void add_after_current (T element)//добавляет элемент после текущего +
@@ -127,7 +137,6 @@ public:
                 current->next = new_item;
         }
 
-
         void del_current_elem ()//удаляет текущий элемент +
         {
 //if next || prev == null  ???
@@ -138,7 +147,7 @@ public:
 		current->prev = current->prev->prev;
         }
 
-        void swap_elem ()//меняет местами текущий и следующий элементы
+        void swap_elem ()//меняет местами текущий и следующий элементы +
         {
 		T help;
 		help = current->data;
@@ -165,45 +174,41 @@ public:
         {
                 get_first();
 //проверка, что следующий элемент есть
-
 		if (current == NULL)
 		{
 			printf ("Список пуст\n");
 		}
 		else
 		{
-
-
                 	while (current != NULL)
                 	{
                         	cout << current->data << "\t";
 				printf ("\n");
                 	        go_next();
                 	}
-
-
 		}
 		cout << endl;
-
         }
 
-
-        list operator = (const list & other)// +-
+        list operator = ( list & other)// - :(
         {
-                get_first();
-
-                while (other.current != NULL)
-                {
-
-			this->add_last_elem(other.current->data);
-			//this->current = other.current;
-			//this->next = other.next;
-                        //this->data = other.data;
-			go_next();
+		this->clear_list();
+		ListItem *current_;
+		current_ = other.first;
+                ListItem *new_elem = new ListItem;
+                new_elem->data = current_->data;
+                new_elem->prev = other.first;
+                new_elem->next = other.last;
+                this->first = new_elem;
+                this->last = new_elem;
+//printf("first=%d\n", new_elem->data);
+                while (current_->next != NULL)
+               	{
+			current_ = current_->next;
+			this->add_last_elem (current_->data);
+//			current_ = current_->next;
                 }
                 return *this;
-
-
         }
 
 //      list();
