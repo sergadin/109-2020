@@ -42,11 +42,13 @@ int main(void)
 
 	printf("Создали список m=l:\n");
 	m.print();
-
+/*
 	m.clear_list();
 	printf("Удалили список m:\n");
         m.print();
 
+	m = l;
+*/
 	l.add_first_elem(-75);
         l.get_first();
         l.go_next();
@@ -63,7 +65,16 @@ int main(void)
 	printf ("Поменяли местами элементы из l:\n");
 	l.print();
 
+	m = m + l;
+	printf ("Приписали к списку m список l:\n");
+        m.print();
 
-printf ("Программа завершила свою работу без ошибок!\n");
+	printf ("В списке l %d элементов, в m - %d\n\n", l.number_of_items(), m.number_of_items());
+
+	m.sort_list();
+	printf ("Отсортировали список m:\n");
+	m.print();
+
+	printf ("Программа завершила свою работу без ошибок!\n");
 	return 0;
 }

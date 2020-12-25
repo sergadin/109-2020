@@ -190,7 +190,41 @@ public:
 		cout << endl;
         }
 
-        list operator = ( list & other)// - :(
+	int number_of_items ()// количество элементов в списке +
+	{
+		int n = 0;
+
+		get_first();
+		while (current != NULL)
+                {
+			n = n + 1;
+			go_next();
+		}
+
+		return n;
+	}
+
+	void sort_list ()//сортировка элементов списка
+	{
+		int n, i, j;
+		n = number_of_items ();
+
+		for (i=0; i<n-1; i++)
+		{
+			get_first();
+
+			for (j=1; j<n; j++)
+			{
+				if (current->data > current->next->data)
+				{
+					swap_elem();
+				}
+				go_next();
+			}
+		}
+	}
+
+        list operator = (const list & other)// +
         {
 		this->clear_list();
 		ListItem *current_;
@@ -211,9 +245,19 @@ public:
                 return *this;
         }
 
-//      list();
-//      ~list();
+	list operator + ( list & other)
+	{
 
+		ListItem *current_;
+                current_ = other.first;
+
+		while (current_->next != NULL)
+                {
+			this->add_last_elem (current_->data);
+			current_ = current_->next;
+		}
+		return *this;
+	}
 };
 
 
