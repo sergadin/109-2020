@@ -11,6 +11,10 @@ public:
 	string key_;
 	T val_;
 	
+	slot()
+	{
+		
+	}
 	slot(string key, T val)
 	{
 		key_ = key;
@@ -54,7 +58,7 @@ public:
 	}
 	~node()
 	{
-		cout << "\"~slot()\" occured\n";
+		cout << "\"~node()\" occured\n";
 		delete[] cur_;
 		delete[] next_;
 		n_ = 0;
@@ -89,7 +93,7 @@ public:
 
 int main(void)
 {
-	slot <int> N("str", 4);
+	slot <int> N();
 	
 	return 0;
 }
