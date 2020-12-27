@@ -23,10 +23,11 @@ private:
 		{
 			cout << "\"~slot()\" occured\n";
 		}
+		friend node;
 	};
 	
-	slot *cur_;  // array of current slots
-	slot *next_; // array of next slots
+	slot cur_;  // array of current slots
+	slot next_; // array of next slots
 	int n_;    // number of current slots
 public:
 	node()
@@ -41,21 +42,6 @@ public:
 		delete[] cur_;
 		delete[] next_;
 		n_ = 0;
-	}
-	int add_slot(string str, T val)
-	{
-		if (n_ <= M)
-			return 0;
-		cur_[n_].key_ = str;
-		cur_[n_].val_ = val;
-		n_++;
-		return 1;
-	}
-	int get_sth()
-	{
-		if (n_)
-			return cur_[0].val_;
-		return 0;
 	}
 };
 /*class Btree
@@ -87,8 +73,7 @@ public:
 
 int main(void)
 {
-	node <int> N;
-	N.add_slot("str", 4);
-	cout << N.get_sth();
+	node <int> N();
+	
 	return 0;
 }
