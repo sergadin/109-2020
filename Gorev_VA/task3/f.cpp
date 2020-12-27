@@ -87,7 +87,7 @@ public:
 
 int main(void)
 {
-	node <int> N();
+	node <int> N;
 	N.add_slot("str", 4);
 	cout << N.get_sth();
 	return 0;
