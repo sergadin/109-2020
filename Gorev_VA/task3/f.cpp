@@ -5,7 +5,23 @@ using namespace std;
 const int M = 4;
 
 template <class T>
-class node
+class slot
+{
+public:
+	string key_;
+	T val_;
+	
+	slot(string key, T val)
+	{
+		key_ = key;
+		val_ = val;
+	}
+	~slot()
+	{
+		cout << "\"~slot()\" occured\n";
+	}
+};
+/*class node
 {
 private:
 	class slot
@@ -43,7 +59,7 @@ public:
 		delete[] next_;
 		n_ = 0;
 	}
-};
+};*/
 /*class Btree
 {
 private:
@@ -73,7 +89,7 @@ public:
 
 int main(void)
 {
-	node <int> N();
+	slot <int> N("str", 4);
 	
 	return 0;
 }
