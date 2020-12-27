@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string.h>
-using namespace std;
+//using namespace std;
 
 const int M = 4;
 
@@ -8,92 +8,59 @@ template <class T>
 class slot
 {
 public:
-	string key_;
+	std::string key_;
 	T val_;
 	
 	slot()
 	{
-		
+		//nothing
 	}
-	slot(string key, T val)
+	slot(std::string key, T val)
 	{
 		key_ = key;
 		val_ = val;
 	}
 	~slot()
 	{
-		cout << "\"~slot()\" occured\n";
+		std::cout << "\"~slot()\" occured\n";
+	}
+	int sth()
+	{
+		return 0;
 	}
 };
-/*class node
+
+template <class T>
+class node
 {
 private:
-	class slot
-	{
-	public:
-		string key_;
-		T val_;
-		
-		slot(string key, T val)
-		{
-			key_ = key;
-			val_ = val;
-		}
-		~slot()
-		{
-			cout << "\"~slot()\" occured\n";
-		}
-		friend node;
-	};
-	
-	slot cur_;  // array of current slots
-	slot next_; // array of next slots
+	slot <T> *cur_;  // array of current slots
+	slot <T> *next_; // array of next slots
 	int n_;    // number of current slots
 public:
 	node()
 	{
-		cur_ = new slot[M];
-		next_ = new slot[M + 1];
+		cur_ = new slot<T>[M];
+		next_ = new slot<T>[M + 1];
 		n_ = 0;
 	}
 	~node()
 	{
-		cout << "\"~node()\" occured\n";
+		std::cout << "\"~node()\" occured\n";
 		delete[] cur_;
 		delete[] next_;
 		n_ = 0;
 	}
-};*/
-/*class Btree
-{
-private:
-	class node
+	int sth()
 	{
-	private:
-		class slot
-{
-public:
-	string key_;
-	T val_;
+		return 0;
+	}
 	
-	slot(string key, T val)
-	{
-		key_ = key;
-		val_ = val;
-	}
-	~slot()
-	{
-		cout << "\"~slot()\" occured\n";
-	}
 };
-	};
-	node ver_;
-public:
-};*/
 
 int main(void)
 {
-	slot <int> N();
-	
+	node <int> N;
+	N.sth();
 	return 0;
 }
