@@ -76,6 +76,7 @@ public:
 	}
 	void sth()
 	{
+		
 		for (int i = 0; i < n_; i++)
 			std::cout << cur_[i].key_ << " " << cur_[i].val_ << "\n";
 	}
@@ -200,11 +201,33 @@ public:
 		write_in(root_, 1);
 	}
 	
-	void sth()
+	node <T> *find_node(std::string key)
 	{
-		for (int i = 0; i < root_->next_node_[0]->n_; i++)
-			std::cout << root_->next_node_[0]->cur_[i].key_ << " " << root_->next_node_[0]->cur_[i].val_ <<"; ";
-		std::cout << "\n";
+		node <T> *res;
+		res = root_;
+		while(1)
+		{
+			int i = 0;
+			int n = res->n_;
+			for ( ; i < n; i++)
+			{
+				if (key == res->cur_[i].key_)
+					return res;
+				if (key < res->cur_[i].key_)
+					if (res->next_node_ == 0)
+						return 0;
+					else
+					{
+						res = res->next_node_[i];
+						break;
+					}
+			}
+			if (i >= n)
+				if (res->next_node_ == 0)
+					return 0;
+				else
+					res = res->next_node_[i];
+		}
 	}
 };
 
@@ -230,5 +253,6 @@ int main(void)
 	Tr.add_slot("stroka98", 98);
 	
 	Tr.write();
+	std::cout << Tr.find_node("stroka1")->cur_[0].val_;
 	return 0;
 }
