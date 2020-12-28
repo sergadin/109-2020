@@ -225,7 +225,7 @@ int main(void)
 	Tr.add_slot("stroka95", 95);
 	Tr.add_slot("stroka96", 96);
 	Tr.add_slot("stroka97", 97);
-	Tr.add_slot("stroka98", 98);
+	//Tr.add_slot("stroka98", 98);
 	
 	Tr.write();
 	return 0;
