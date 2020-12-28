@@ -125,7 +125,6 @@ public:
 	{
 		if (cur_node->n_ > (2 * M))
 		{
-			std::cout << "debug occured, n_ = " << cur_node->n_ << ", 2 * M = " << 2 * M << ", M = " << M << "\n";
 			node <T> *left, *right;
 			left = cur_node;
 			right = new node <T>;
@@ -148,6 +147,7 @@ public:
 				left->prev_node_->next_node_[0] = left;
 				left->prev_node_->next_node_[1] = right;
 				left->prev_node_->prev_node_ = 0;
+				root_ = left->prev_node_;
 			}
 			else
 			{
@@ -167,8 +167,7 @@ public:
 						break;
 					}
 			}
-			
-			//debug(left->prev_node_);
+			debug(left->prev_node_);
 		}
 	}
 	void add_slot(std::string key, T val)
@@ -176,12 +175,29 @@ public:
 		debug(add_slot_in(key, val, root_));
 	}
 	
-	
+	void write_in(node <T> *cur_node, int n)
+	{
+		for (int j = 0; j < n; j++)
+			std::cout << "* ";
+		std::cout << ": ";
+		for (int i = 0; i < cur_node->n_; i++)
+		{
+			std::cout << cur_node->cur_[i].key_ << " " << cur_node->cur_[i].val_ <<"; ";
+		}
+		std::cout << "\n";
+		if (cur_node->next_node_ != 0)
+			for (int i = 0; i <= cur_node->n_; i++)
+				write_in(cur_node->next_node_[i], n + 1);
+	}
+	void write()
+	{
+		write_in(root_, 1);
+	}
 	
 	void sth()
 	{
-		for (int i = 0; i < root_->n_; i++)
-			std::cout << root_->cur_[i].key_ << " " << root_->cur_[i].val_ <<"\n";
+		for (int i = 0; i < root_->next_node_[1]->n_; i++)
+			std::cout << root_->next_node_[1]->cur_[i].key_ << " " << root_->next_node_[1]->cur_[i].val_ <<"\n";
 	}
 };
 
@@ -191,8 +207,10 @@ int main(void)
 	Tr.add_slot("stroka1", 1);
 	Tr.add_slot("stroka5", 5);
 	Tr.add_slot("stroka3", 3);
-	//Tr.add_slot("stroka4", 4);
-	//Tr.add_slot("stroka2", 2);
-	Tr.sth();
+	Tr.add_slot("stroka4", 4);
+	Tr.add_slot("stroka2", 2);
+	Tr.add_slot("stroka115", 115);
+	Tr.write();
+	//Tr.sth();
 	return 0;
 }
