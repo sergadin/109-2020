@@ -22,7 +22,7 @@ public:
 	}
 	~slot()
 	{
-		std::cout << "\"~slot()\" occured\n";
+		//std::cout << "\"~slot()\" occured\n";
 	}
 	int sth()
 	{
@@ -48,7 +48,7 @@ public:
 	}
 	~node()
 	{
-		std::cout << "\"~node()\" occured\n";
+		//std::cout << "\"~node()\" occured\n";
 		if (cur_ != 0)
 			delete[] cur_;
 		n_ = 0;
@@ -123,6 +123,7 @@ public:
 	}
 	void debug(node <T> *cur_node)
 	{
+		
 		if (cur_node->n_ > (2 * M))
 		{
 			node <T> *left, *right;
@@ -132,10 +133,12 @@ public:
 			for (int i = 0; i < M; i++)
 				right->cur_[i] = left->cur_[M + 1 + i];
 			if (left->next_node_ != 0)
+			{
+				right->next_node_ = new node <T>*[2 * M + 2];
 				for (int i = 0; i <= M; i++)
 					right->next_node_[i] = left->next_node_[M + 1 + i];
+			}
 			right->prev_node_ = left->prev_node_;
-			
 			if (left->prev_node_ == 0)
 			{
 				left->prev_node_ = new node <T>;
@@ -152,7 +155,7 @@ public:
 			else
 			{
 				for (int i = 0; i <= (left->prev_node_->n_); i++)
-					if ((i == left->prev_node_->n_) || (left->cur_[M].key_ < left->prev_node_->cur_[M].key_))
+					if ((i == left->prev_node_->n_) || (left->cur_[M].key_ < left->prev_node_->cur_[i].key_))
 					{
 						for (int j = left->prev_node_->n_ - 1; j >= i; j--)
 						{
@@ -164,6 +167,7 @@ public:
 						for (int j = left->prev_node_->n_; j >= i + 1; j--)
 							left->prev_node_->next_node_[j + 1] = left->prev_node_->next_node_[j];
 						left->prev_node_->next_node_[i + 1] = right;
+						left->prev_node_->n_++;
 						break;
 					}
 			}
@@ -196,8 +200,9 @@ public:
 	
 	void sth()
 	{
-		for (int i = 0; i < root_->next_node_[1]->n_; i++)
-			std::cout << root_->next_node_[1]->cur_[i].key_ << " " << root_->next_node_[1]->cur_[i].val_ <<"\n";
+		for (int i = 0; i < root_->next_node_[0]->n_; i++)
+			std::cout << root_->next_node_[0]->cur_[i].key_ << " " << root_->next_node_[0]->cur_[i].val_ <<"; ";
+		std::cout << "\n";
 	}
 };
 
@@ -210,7 +215,18 @@ int main(void)
 	Tr.add_slot("stroka4", 4);
 	Tr.add_slot("stroka2", 2);
 	Tr.add_slot("stroka115", 115);
+	Tr.add_slot("stroka12", 12);
+	Tr.add_slot("stroka22", 22);
+	Tr.add_slot("stroka9", 9);
+	Tr.add_slot("stroka91", 91);
+	Tr.add_slot("stroka92", 92);
+	Tr.add_slot("stroka93", 93);
+	Tr.add_slot("stroka94", 94);
+	Tr.add_slot("stroka95", 95);
+	Tr.add_slot("stroka96", 96);
+	Tr.add_slot("stroka97", 97);
+	Tr.add_slot("stroka98", 98);
+	
 	Tr.write();
-	//Tr.sth();
 	return 0;
 }
