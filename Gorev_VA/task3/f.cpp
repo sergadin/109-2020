@@ -109,7 +109,7 @@ public:
 			return 0;
 		}
 		for (int i = 0; i <= cur_node->n_; i++)
-			if ((i == cur_node->n_) || (key < cur_node->cur_[i]->key_))
+			if ((i == cur_node->n_) || (key < cur_node->cur_[i].key_))
 			{
 				if (cur_node->next_node_ == 0)
 					cur_node->add_slot(key, val);
@@ -127,8 +127,8 @@ int main(void)
 {
 	node <int> N;
 	N.add_slot("stroka1", 1);
-	N.add_slot("stroka2", 2);
 	N.add_slot("stroka3", 3);
+	N.add_slot("stroka2", 2);
 	N.sth();
 	
 	return 0;
