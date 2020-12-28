@@ -123,8 +123,9 @@ public:
 	}
 	void debug(node <T> *cur_node)
 	{
-		if (cur_node->n_ > (2 * M));
+		if (cur_node->n_ > (2 * M))
 		{
+			std::cout << "debug occured, n_ = " << cur_node->n_ << ", 2 * M = " << 2 * M << ", M = " << M << "\n";
 			node <T> *left, *right;
 			left = cur_node;
 			right = new node <T>;
@@ -180,7 +181,7 @@ public:
 	void sth()
 	{
 		for (int i = 0; i < root_->n_; i++)
-			std::cout << root_->cur_[i].key_ << " " << root_->cur_[i].val_ << "\n";
+			std::cout << root_->cur_[i].key_ << " " << root_->cur_[i].val_ <<"\n";
 	}
 };
 
@@ -188,11 +189,10 @@ int main(void)
 {
 	B_tree <int> Tr;
 	Tr.add_slot("stroka1", 1);
-	Tr.add_slot("stroka3", 3);
 	Tr.add_slot("stroka5", 5);
-	Tr.add_slot("stroka4", 4);
+	Tr.add_slot("stroka3", 3);
+	//Tr.add_slot("stroka4", 4);
 	//Tr.add_slot("stroka2", 2);
 	Tr.sth();
-	
 	return 0;
 }
