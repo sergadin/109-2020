@@ -96,8 +96,8 @@ public:
 	int delete_B_tree(node <T> *root)
 	{
 		if (root->next_node_ != 0)
-		for (int i = 0; i <= root_->n_; i++)
-			delete_B_tree(root->next_node_[i]);
+			for (int i = 0; i <= root_->n_; i++)
+				delete_B_tree(root->next_node_[i]);
 		delete root;
 		return 0;
 	}
@@ -121,11 +121,62 @@ public:
 					return add_slot_in(key, val, cur_node->next_node_[i]);
 			}
 	}
-	int add_slot(std::string key, T val)
+	void debug(node <T> *cur_node)
 	{
-		add_slot_in(key, val, root_);
-		return 0;
+		if (cur_node->n_ > (2 * M));
+		{
+			node <T> *left, *right;
+			left = cur_node;
+			right = new node <T>;
+			left->n_ = right->n_ = M;
+			for (int i = 0; i < M; i++)
+				right->cur_[i] = left->cur_[M + 1 + i];
+			if (left->next_node_ != 0)
+				for (int i = 0; i <= M; i++)
+					right->next_node_[i] = left->next_node_[M + 1 + i];
+			right->prev_node_ = left->prev_node_;
+			
+			if (left->prev_node_ == 0)
+			{
+				left->prev_node_ = new node <T>;
+				right->prev_node_ = left->prev_node_;
+				left->prev_node_->n_ = 1;
+				left->prev_node_->cur_[0].key_ = left->cur_[M].key_;
+				left->prev_node_->cur_[0].val_ = left->cur_[M].val_;
+				left->prev_node_->next_node_ = new node <T>*[2 * M + 2];
+				left->prev_node_->next_node_[0] = left;
+				left->prev_node_->next_node_[1] = right;
+				left->prev_node_->prev_node_ = 0;
+			}
+			else
+			{
+				for (int i = 0; i <= (left->prev_node_->n_); i++)
+					if ((i == left->prev_node_->n_) || (left->cur_[M].key_ < left->prev_node_->cur_[M].key_))
+					{
+						for (int j = left->prev_node_->n_ - 1; j >= i; j--)
+						{
+							left->prev_node_->cur_[j + 1].key_ = left->prev_node_->cur_[j].key_;
+							left->prev_node_->cur_[j + 1].val_ = left->prev_node_->cur_[j].val_;
+						}
+						left->prev_node_->cur_[i].key_ = left->cur_[M].key_;
+						left->prev_node_->cur_[i].val_ = left->cur_[M].val_;
+						for (int j = left->prev_node_->n_; j >= i + 1; j--)
+							left->prev_node_->next_node_[j + 1] = left->prev_node_->next_node_[j];
+						left->prev_node_->next_node_[i + 1] = right;
+						break;
+					}
+			}
+			
+			//debug(left->prev_node_);
+		}
 	}
+	void add_slot(std::string key, T val)
+	{
+		debug(add_slot_in(key, val, root_));
+	}
+	
+	
+	
 	void sth()
 	{
 		for (int i = 0; i < root_->n_; i++)
@@ -138,7 +189,9 @@ int main(void)
 	B_tree <int> Tr;
 	Tr.add_slot("stroka1", 1);
 	Tr.add_slot("stroka3", 3);
-	Tr.add_slot("stroka2", 2);
+	Tr.add_slot("stroka5", 5);
+	Tr.add_slot("stroka4", 4);
+	//Tr.add_slot("stroka2", 2);
 	Tr.sth();
 	
 	return 0;
