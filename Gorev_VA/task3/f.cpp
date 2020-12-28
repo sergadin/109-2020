@@ -75,7 +75,7 @@ public:
 	void sth()
 	{
 		for (int i = 0; i < n_; i++)
-		std::cout << cur_[i].key_ << " " << cur_[i].val_ << "\n";
+			std::cout << cur_[i].key_ << " " << cur_[i].val_ << "\n";
 	}
 };
 
@@ -101,35 +101,45 @@ public:
 		delete root;
 		return 0;
 	}
-	int add_slot_in(std::string key, T val, node <T> *cur_node)
+	
+	node <T> *add_slot_in(std::string key, T val, node <T> *cur_node)
 	{
 		if (cur_node->n_ == 0)
 		{
 			cur_node->add_slot(key, val);
-			return 0;
+			return cur_node;
 		}
 		for (int i = 0; i <= cur_node->n_; i++)
 			if ((i == cur_node->n_) || (key < cur_node->cur_[i].key_))
 			{
 				if (cur_node->next_node_ == 0)
-					cur_node->add_slot(key, val);
-				else
 				{
-					add_slot_in(key, val, cur_node->next_node[i]);
+					cur_node->add_slot(key, val);
+					return cur_node;
 				}
-				return 0;
+				else
+					return add_slot_in(key, val, cur_node->next_node_[i]);
 			}
 	}
-	
+	int add_slot(std::string key, T val)
+	{
+		add_slot_in(key, val, root_);
+		return 0;
+	}
+	void sth()
+	{
+		for (int i = 0; i < root_->n_; i++)
+			std::cout << root_->cur_[i].key_ << " " << root_->cur_[i].val_ << "\n";
+	}
 };
 
 int main(void)
 {
-	node <int> N;
-	N.add_slot("stroka1", 1);
-	N.add_slot("stroka3", 3);
-	N.add_slot("stroka2", 2);
-	N.sth();
+	B_tree <int> Tr;
+	Tr.add_slot("stroka1", 1);
+	Tr.add_slot("stroka3", 3);
+	Tr.add_slot("stroka2", 2);
+	Tr.sth();
 	
 	return 0;
 }
