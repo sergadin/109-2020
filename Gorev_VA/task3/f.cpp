@@ -51,10 +51,12 @@ public:
 		//std::cout << "\"~node()\" occured\n";
 		if (cur_ != 0)
 			delete[] cur_;
+		cur_ = 0;
 		n_ = 0;
 		prev_node_ = 0;
 		if (next_node_ != 0)
 			delete[] next_node_;
+		next_node_ = 0;
 	}
 	int add_slot(std::string key, T val)
 	{
@@ -93,12 +95,12 @@ public:
 	{
 		delete_B_tree(root_);
 	}
-	int delete_B_tree(node <T> *root)
+	int delete_B_tree(node <T> *cur_node)
 	{
-		if (root->next_node_ != 0)
-			for (int i = 0; i <= root_->n_; i++)
-				delete_B_tree(root->next_node_[i]);
-		delete root;
+		if (cur_node->next_node_ != 0)
+			for (int i = 0; i <= cur_node->n_; i++)
+				delete_B_tree(cur_node->next_node_[i]);
+		delete cur_node;
 		return 0;
 	}
 	
@@ -225,7 +227,7 @@ int main(void)
 	Tr.add_slot("stroka95", 95);
 	Tr.add_slot("stroka96", 96);
 	Tr.add_slot("stroka97", 97);
-	//Tr.add_slot("stroka98", 98);
+	Tr.add_slot("stroka98", 98);
 	
 	Tr.write();
 	return 0;
