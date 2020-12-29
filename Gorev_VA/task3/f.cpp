@@ -126,7 +126,6 @@ public:
 	}
 	void debug(node <T> *cur_node)
 	{
-		
 		if (cur_node->n_ > (2 * M))
 		{
 			node <T> *left, *right;
@@ -229,6 +228,69 @@ public:
 					res = res->next_node_[i];
 		}
 	}
+	
+	node <T> *del_slot_in()
+	
+	int del_slot(std::string key)
+	{
+		node <T> *cur_node = find_node(key);
+		int num = 0;
+		if (cur_node == 0)
+			return 0;
+		for ( ; ; num++)
+			if (key == cur_node->cur_[num].key_)
+				break;
+		
+		node <T> *down_node = cur_node;
+		if (down_node->next_node_ != 0)
+		{
+			down_node = down_node->next_node_[num];
+			while (down_node->next_node_ != 0)
+				down_node = down_node->next_node_[down_node->n_];
+			cur_node->cur_[num].key_ = down_node->cur_[down_node->n_ - 1].key_;
+			cur_node->cur_[num].val_ = down_node->cur_[down_node->n_ - 1].val_;
+			num = down_node->n_ - 1;
+		}
+		else
+		{
+			for (int i = num + 1; i < cur_node->n_; i++)
+			{
+				cur_node->cur_[i - 1].key_ = cur_node->cur_[i].key_;
+				cur_node->cur_[i - 1].val_ = cur_node->cur_[i].val_;
+			}
+			num = cur_node->n_ - 1;
+		}
+		
+		if ((down_node->prev_node_ != 0) && (down_node->n_ == M))
+		{
+			if (down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ > M)
+			{
+				for (int i = cur_node->n_ - 1; i > 0; i--)
+				{
+					down_node->cur_[i].key_ = down_node->cur_[i - 1].key_;
+					down_node->cur_[i].val_ = down_node->cur_[i - 1].val_;
+				}
+				down_node->cur_[0].key_ = down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].key_;
+				down_node->cur_[0].val_ = down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].val_;
+				down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].key_ = down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ - 1].key_;
+				down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].val_ = down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ - 1].val_;
+				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_--;
+			}
+			else
+			{
+				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[M].key_ = down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].key_;
+				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[M].val_ = down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].val_;
+				for (int i = M + 1; i < 2 * M; i++)
+				{
+					down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[i].key_ = down_node->cur_[i - M - 1].key_;
+					down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[i].val_ = down_node->cur_[i - M - 1].val_;
+				}
+				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ = 2 * M;
+				down_node->prev_node_->n_--;
+			}
+		}
+		down_node->n_--;
+	}
 };
 
 int main(void)
@@ -253,6 +315,6 @@ int main(void)
 	Tr.add_slot("stroka98", 98);
 	
 	Tr.write();
-	std::cout << Tr.find_node("stroka1")->cur_[0].val_;
+	Tr.del_slot("stroka3");
 	return 0;
 }
