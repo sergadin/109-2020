@@ -259,7 +259,7 @@ public:
 			num = cur_node->n_ - 1;
 		}
 		
-		/*if ((down_node->prev_node_ != 0) && (down_node->n_ == M))
+		if ((down_node->prev_node_ != 0) && (down_node->n_ == M))
 		{
 			if (down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ > M)
 			{
@@ -273,7 +273,7 @@ public:
 				down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].key_ = down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ - 1].key_;
 				down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].val_ = down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ - 1].val_;
 				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_--;
-			}
+			}/*
 			else
 			{
 				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->cur_[M].key_ = down_node->prev_node_->cur_[down_node->prev_node_->n_ - 1].key_;
@@ -285,9 +285,9 @@ public:
 				}
 				down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ = 2 * M;
 				down_node->prev_node_->n_--;
-			}
+			}*/
 		}
-		down_node->n_--;*/
+		down_node->n_--;
 	}
 };
 
@@ -313,6 +313,8 @@ int main(void)
 	Tr.add_slot("stroka98", 98);
 	
 	Tr.write();
-	Tr.del_slot("stroka3");
+	std::cout << "\n\n;";
+	Tr.del_slot("stroka98");
+	Tr.write();
 	return 0;
 }
