@@ -229,8 +229,6 @@ public:
 		}
 	}
 	
-	node <T> *del_slot_in()
-	
 	int del_slot(std::string key)
 	{
 		node <T> *cur_node = find_node(key);
