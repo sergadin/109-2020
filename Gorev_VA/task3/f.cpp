@@ -259,7 +259,7 @@ public:
 			num = cur_node->n_ - 1;
 		}
 		
-		if ((down_node->prev_node_ != 0) && (down_node->n_ == M))
+		/*if ((down_node->prev_node_ != 0) && (down_node->n_ == M))
 		{
 			if (down_node->prev_node_->next_node_[down_node->prev_node_->n_ - 1]->n_ > M)
 			{
@@ -287,7 +287,7 @@ public:
 				down_node->prev_node_->n_--;
 			}
 		}
-		down_node->n_--;
+		down_node->n_--;*/
 	}
 };
 
