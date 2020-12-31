@@ -1,0 +1,4 @@
+z53: z5_3_test.c z5_3.h z5_3.c
+	gcc -o z53 z5_3_test.c z5_3.c -lm
+
+
