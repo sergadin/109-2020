@@ -4,6 +4,18 @@
 
 using namespace std;
 
+class Exception
+{
+        private:
+                int code_;
+                std::string message_;
+        public:
+                Exception(int code, const std::string& message) : code_(code), message_(message){}
+                const std::string& message() const { return message_; }
+                int code() const { return code_; }
+};
+
+
 template <class T>
 class list
 {
@@ -62,7 +74,6 @@ public:
                 new_elem->next = first;
 		first->prev = new_elem;
                 first = new_elem;
-                get_first();
         }
 
         void add_last_elem (T element)//добавляет элемент в конец списка +
@@ -75,8 +86,6 @@ public:
                 last = new_elem;
 
 	//printf ("P25\n");
-
-		get_first();
         }
 
         void change_elem(T elem)//меняет значение текущего элемента +
@@ -86,29 +95,42 @@ public:
 
         void del_first_elem ()//удаляет первый элемент +
         {
-		first = first->next;
-		first->prev = NULL;
+                if (first != NULL)
+                {
+			first = first->next;
+			first->prev = NULL;
+		}
 	}
 
         void del_last_elem ()//удаляет последний элемент +
         {
-                last = last->prev;
-		last->next = NULL;
+		if (last != NULL)
+		{
+                	last = last->prev;
+			last->next = NULL;
+		}
         }
 
         void clear_list ()//удаляет список+
         {
-                get_first();
-		while (first->next != NULL)
-                {
-			del_first_elem();
+		if (first != NULL)
+		{
+                	get_first();
+			while (first->next != NULL)
+                	{
+				del_first_elem();
+			}
+			first = NULL;
 		}
-		first = NULL;
         }
 
-        void add_after_current (T element)//добавляет элемент после текущего +
+        void add_after_current (T element)//добавляет элемент после текущего, но не после последнего +
         {
-        //if next || prev == null  ???
+		if (current == NULL || current->next == NULL)
+		{
+			throw Exception (1, std::string("Нельзя вставить элемент после текущего\n"));
+		}
+
                 ListItem *new_item = new ListItem;
 
                 new_item->prev = current;
@@ -124,7 +146,12 @@ public:
 
         void add_before_current (T element)//добавляет элемент перед текущим +
         {
-                //if next || prev == null  ???
+                if (current == NULL || current->prev == NULL)
+                {
+                        throw Exception (2, std::string("Нельзя вставить элемент перед текущим\n"));
+                }
+
+
                 ListItem *new_item = new ListItem;
 
                 new_item->prev = current->prev;
@@ -139,7 +166,10 @@ public:
 
         void del_current_elem ()//удаляет текущий элемент +
         {
-//if next || prev == null  ???
+                if (current == NULL || current->next == NULL || current->prev == NULL)
+                {
+                        throw Exception (3, std::string("Нет текущего\n"));
+                }
 
 		go_back();
 		current->next = current->next->next;
@@ -149,6 +179,11 @@ public:
 
         void swap_elem ()//меняет местами текущий и следующий элементы +
         {
+                if (current == NULL || current->next == NULL)
+                {
+                        throw Exception (4, std::string("Нет текущего или следующего\n"));
+                }
+
 		T help;
 		help = current->data;
 		current->data = current->next->data;
@@ -160,20 +195,36 @@ public:
 	          current = first;
         }
 
+        void get_last()//возвращается в конец списка +
+        {
+                  current = last;
+        }
+
         void go_next()//переход к следующему элементу +
         {
+
+                if (current == NULL)
+                {
+                        throw Exception (5, std::string("Нет следующего\n"));
+                }
+
                 current = current->next;
         }
 
         void go_back()//переход к предыдущему элементу +
         {
+                if (current == NULL)
+                {
+                        throw Exception (6, std::string("Нет предыдущего\n"));
+                }
+
                 current = current->prev;
         }
 
         void print() //печатает список +
         {
                 get_first();
-//проверка, что следующий элемент есть
+
 		if (current == NULL)
 		{
 			printf ("Список пуст\n");
@@ -204,10 +255,15 @@ public:
 		return n;
 	}
 
-	void sort_list ()//сортировка элементов списка
+	void sort_list ()//сортировка элементов списка +
 	{
 		int n, i, j;
 		n = number_of_items ();
+
+                if (n == 0)
+                {
+                        throw Exception (7, std::string("Список пуст\n"));
+                }
 
 		for (i=0; i<n-1; i++)
 		{
@@ -249,6 +305,7 @@ public:
 	{
 
 		ListItem *current_;
+
                 current_ = other.first;
 
 		while (current_->next != NULL)
@@ -258,26 +315,10 @@ public:
 		}
 		return *this;
 	}
+
+	~list()
+	{
+		clear_list();
+	}
 };
-
-
-class Exception
-{
-        private:
-                int code_;
-                std::string message_;
-        public:
-                Exception(int code, const std::string& message) : code_(code), message_(message){}
-                const std::string& message() const { return message_; }
-                int code() const { return code_; }
-};
-
-
-
-
-
-
-
-
-
 
