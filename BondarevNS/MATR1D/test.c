@@ -10,6 +10,7 @@ int main(void)
 	FILE *input;
 	int nrow = 7, ncol = 8;
 	int res;
+	int tr = 7;
 	double el;
 	double ** matrix = malloc(nrow * sizeof(double *));
 	if((input = fopen("input.txt", "r")) == NULL)
@@ -24,12 +25,12 @@ int main(void)
 	{
 		for(int j = 0; j < ncol; j ++)
 		{
-			if(fscanf(input1, "%lf", &el) != 1)
+			if(fscanf(input, "%lf", &el) != 1)
 				return -1;
 			matrix[i][j] = el;
 		}
 	}
-	res = frank(matrix, nrow, ncol);
+	res = rank(matrix, nrow, ncol);
 
 	
 	printf("my:\n%d\ncorrect:\n%d\n", res, tr);
