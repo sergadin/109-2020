@@ -1,5 +1,4 @@
 #include "B_2.hpp"
-#include "BP.h"
 
 int main(void)
 
