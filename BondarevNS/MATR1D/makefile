@@ -9,7 +9,7 @@ rank.o: rank.c rank.h
 testM.o: test.c rank.h
 #	gcc -c test.c 
 
-a.out: testM.o rank.o
+a.out: test.o rank.o
 	gcc test.o rank.o -lm
 
 do-test: a.out
