@@ -1,0 +1,2 @@
+this is a test message from input1
+this is a test message from input2
