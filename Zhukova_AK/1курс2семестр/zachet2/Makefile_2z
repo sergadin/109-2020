@@ -1,0 +1,7 @@
+2z: zachet2.c zachet2.h zachet2_func.c
+	gcc -o 2z zachet2.c zachet2_func.c
+
+
+
+
+

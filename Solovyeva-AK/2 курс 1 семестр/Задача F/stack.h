@@ -5,8 +5,8 @@
 using namespace std;
 
 template<typename T>
-struct list{
-    list<T> *next;
+struct list_item{
+    list_item<T> *next;
     T data;
 };
 
@@ -14,10 +14,54 @@ struct list{
 template<typename T>
 class stack {
     private:
-        list<T> *topElem;
+        //list_item<T> *topElem_;
     public:
-        list<T>* begin();
-        list<T>* end();
+        list_item<T> *topElem_;
+        class Iterator {
+            private:
+                friend class stack<T>;
+                list_item<T> *current_;
+            public:
+                Iterator () {
+                    current_ = nullptr;
+                }
+                Iterator& operator=(const Iterator &it)
+				{
+					current_ = it.current_;
+					return *this;
+				}
+                
+
+                void operator ++() {
+                    if (current_ != nullptr) current_ = current_->next;
+                    return;
+                }
+                bool operator !=(const Iterator &it) {
+                    if(current_ != it.current_) return true;
+                    return false;
+                }
+                bool operator ==(const Iterator &it) {
+                    if(current_ == it.current_) return true;
+                    return false;
+                }
+                friend T& operator *(const Iterator &it) {
+                    return it.current_->data;
+                }
+        };
+        Iterator begin() {
+            Iterator tmp;
+            tmp.current_ = topElem_;
+            return tmp;
+        }
+        Iterator end(){
+            Iterator tmp;
+            tmp.current_ = topElem_;
+            if(tmp.current_ == nullptr) return tmp;
+            while(tmp.current_->next != nullptr){
+                tmp.current_ = tmp.current_->next;
+            }
+            return tmp;
+        } 
         
         stack();
         stack(T elem);
@@ -27,23 +71,11 @@ class stack {
         bool operator ==(const stack &other) const;
         stack operator +(const stack &other);
         void print() const;
+        void check_top_elem() const;
         bool checkVoid() const;
         void push(T n);
         T pop();
         void clean();
-};
-
-template<typename T>
-class Iterator{
-    private:
-        list<T> *current;
-    public:
-        Iterator (list<T>* other);
-        Iterator (Iterator &other);
-        void operator ++();
-        bool operator !=(const Iterator &it);
-        bool operator ==(const Iterator &it);
-        T& operator *();
 };
 
 class UserException {
@@ -56,84 +88,37 @@ class UserException {
 		int code() const;
 };
 
-template<typename T>
-Iterator<T>::Iterator(list<T> *other){
-    current = other;
-}
-
-template<typename T>
-list<T>* stack<T>::begin() {
-    return topElem;
-}
-
-template<typename T>
-list<T>* stack<T>::end() {
-    list<T>* p = topElem;
-    if(p == nullptr) return topElem;
-    while(p->next != nullptr){
-        p = p->next;
-    }
-}
-
-template<typename T>
-Iterator<T>::Iterator (Iterator &other){
-    current = other.current;
-}
-
-template<typename T>
-void Iterator<T>::operator ++(){
-    if (current != nullptr) current=current->next;
-    return;
-}
-
-template<typename T>
-bool Iterator<T>::operator !=(const Iterator &it){
-    if(current != it.current) return true;
-    return false;
-}
-
-template<typename T>
-bool Iterator<T>::operator ==(const Iterator &it){
-    if(current == it.current) return true;
-    return false;
-}
-
-template<typename T>
-T& Iterator<T>::operator *(){
-    return current->data;
-}
-
 
 template<typename T>
 stack<T>::stack() {
-    topElem = nullptr;
+    topElem_ = nullptr;
 }
 
 
 template<class T>
 stack<T>::stack(T elem) {
-    topElem = nullptr;
+    topElem_ = nullptr;
     push(elem);
 }
 template<class T>
 stack<T>::stack(const stack<T> &other) {
-    list<T>* p;
-    list<T>* p2;
-    list<T>* p3;
+    list_item<T>* p;
+    list_item<T>* p2;
+    list_item<T>* p3;
 
-    topElem = nullptr;
+    topElem_ = nullptr;
     p3 = nullptr;
 
-    p = other.topElem;
+    p = other.topElem_;
     while (p != nullptr) {
-        p2 = (list<T>*)malloc(sizeof(list<T>));
+        p2 = (list_item<T>*)malloc(sizeof(list_item<T>));
         if (!p2) {
             throw UserException(2, "Memory Allocation Error");
         }
         p2->data = p->data;
         p2->next = nullptr;
-        if (topElem == nullptr) {
-            topElem = p2;
+        if (topElem_ == nullptr) {
+            topElem_ = p2;
             p3 = p2;
         } else {
             p3->next = p2;
@@ -152,14 +137,14 @@ template<class T>
 void stack<T>::operator =(const stack<T> &other) {
     if (!checkVoid()) clean();
 
-    list<T>* p;
-    list<T>* p2;
-    list<T>* p3;
+    list_item<T>* p;
+    list_item<T>* p2;
+    list_item<T>* p3;
 
-    topElem = nullptr;
+    topElem_ = nullptr;
     p3 = nullptr;
 
-    p = other.topElem;
+    p = other.topElem_;
     while (p != nullptr)
     {
         push(p->data);
@@ -167,12 +152,13 @@ void stack<T>::operator =(const stack<T> &other) {
     }
 }
 
+
 template<class T>
 bool stack<T>::operator ==(const stack &other) const {
-    list<T> p;
-    list<T> p2;
-    p = topElem;
-    p2 = other.topElem;
+    list_item<T> p;
+    list_item<T> p2;
+    p = topElem_;
+    p2 = other.topElem_;
     while(p != nullptr && p2 != nullptr) {
         if (p->data != p2->data) return false;
         p = p->next;
@@ -185,13 +171,13 @@ bool stack<T>::operator ==(const stack &other) const {
 template<class T>
 stack<T> stack<T>::operator +(const stack &other) {
     stack<T> tmp;
-    list<T> *p = this->topElem;
+    list_item<T> *p = this->topElem_;
     while (p != nullptr)
     {
         tmp.push(p->data);
         p = p->next;
     }
-    p = other.topElem;
+    p = other.topElem_;
     while (p != nullptr)
     {
         tmp.push(p->data);
@@ -201,12 +187,24 @@ stack<T> stack<T>::operator +(const stack &other) {
 }
 
 template<class T>
-void stack<T>::print() const {
-    if (topElem == nullptr) {
+void stack<T>::check_top_elem() const {
+    if (topElem_ == nullptr) {
         cout << "stack is empty." << endl;
     } else {
-        list<T>* p;
-        p = topElem;
+        list_item<T>* p;
+        p = topElem_;
+        cout << p->data << "\t";
+        cout << endl;
+    }
+}
+
+template<class T>
+void stack<T>::print() const {
+    if (topElem_ == nullptr) {
+        cout << "stack is empty." << endl;
+    } else {
+        list_item<T>* p;
+        p = topElem_;
         while (p != nullptr) {
             cout << p->data << "\t";
             p = p->next;
@@ -217,40 +215,54 @@ void stack<T>::print() const {
 
 template<class T>
 bool stack<T>::checkVoid() const {
-    if (topElem == nullptr) return true;
+    if (topElem_ == nullptr) return true;
     else return false;
 }
 
 template<class T>
 void stack<T>::push(T n) {
-    list<T>* p;
-    p = (list<T>*)malloc(sizeof(list<T>));
+    list_item<T>* p;
+    p = (list_item<T>*)malloc(sizeof(list_item<T>));
     if(!p) {
         throw UserException(3, "Memory Allocation Error");
     }
     p->data = n;
-    p->next = topElem;
-    topElem = p;
+    p->next = topElem_;
+    topElem_ = p;
 }
+
+template<>
+void stack<stack<int>>::push(stack<int> n) {
+    list_item<stack<int>>* p = (list_item<stack<int>>*)malloc(sizeof(list_item<stack<int>>));
+    if(!p) {
+        throw UserException(3, "Memory Allocation Error");
+    }
+    p->data.topElem_ = nullptr;
+    p->data = n;
+    p->next = topElem_;
+    topElem_ = p;
+}
+
+
 
 template<class T>
 T stack<T>::pop() {
     if(checkVoid()) return 0;
-    list<T>* p2;
+    list_item<T>* p2;
     T data;
-    data = topElem->data;
-    p2 = topElem;
-    topElem = topElem->next;
+    data = topElem_->data;
+    p2 = topElem_;
+    topElem_ = topElem_->next;
     free(p2);
     return data;
 }
 
 template<class T>
 void stack<T>::clean(){
-    list<T>* p;
-    list<T>* p2;
+    list_item<T>* p;
+    list_item<T>* p2;
 
-    p = topElem;
+    p = topElem_;
     
     while (p != nullptr)
     {
@@ -258,9 +270,30 @@ void stack<T>::clean(){
         p = p->next;
         free(p2); 
     }
-    topElem = nullptr;
+    topElem_ = nullptr;
 }
 
+template<>
+void stack<stack<int>>::clean(){
+    list_item<stack<int>>* p;
+    list_item<stack<int>>* p2;
+
+    p = topElem_;
+    
+    while (p != nullptr)
+    {
+        p2 = p;
+        p = p->next;
+        p2->data.clean();
+        free(p2);
+    }
+    topElem_ = nullptr;
+}
+
+template <typename T>
+void free_memory(T tmp){
+    
+}
 
 
 
