@@ -128,29 +128,40 @@ class Deque{
 					 
 		Deque(); //конструктор
 		~Deque(); //деструктор
-		Deque(const Deque &D){
-			//Deque<T>* D2 = new Deque<T>;  
-		/*	Head_ = new Node(D.Head_ -> data_,D.Head_ -> Next_, D.Head_ -> Prev_);   
-			Node * current = D.Head_;
-			push_front(555555555);
-			for(int i=0; i<D.size_; i++){
-				this -> push_back(current -> data_);
-				current = current -> Next_;
-				cout << current -> data_ << endl;
-				
-				cout << "Print in cycle " << *this << endl;
+		Deque(const Deque &D){	
+			this -> Head_=NULL;	
+			this -> Tail_ =NULL;
+			this -> size_ = 0;	
+			Node *p=D.Head_;	
+			for (int i=0; i<D.size_; i++){	
+			  push_front(p->data_);
+			  p=p->Next_;	
+			}
+			/*cout << "(Copy constr)" << endl;
+			Node* A;
+			Node* B;
+			Node* C = nullptr;
+			Head_ = nullptr;
+			A = D.Head_;
+			while (A != D.Tail_){
+				B = new Node(A->data_, nullptr, nullptr);
+				if (Head_== nullptr){
+					Head_ = A;
+					C = B;
+				}
+				else {
+					C -> Next_=B;
+					C = C -> Next_;
+				}
+				A = A-> Next_;
 			}*/
-			cout << "(Copy constr)" << endl;
-			Head_ = D.Head_;
-			Tail_=D.Tail_;
-			size_ = D.size_;
 		};
 	
 		void pop_front(); //удаляем первый элемент из head
 		void pop_back(); //удаляем в хвосте
 		void push_front(T data); //заталкиваем в голову
 		void push_back(T data);
-		void print(); //простите, у меня пока так и не получилось нормально оператор перегрузить
+		void print(); 
 		void front();// печатаем первый элемент
 		void back(); //печатаем последний элемент
 		void sort(); //сортируем данные в деке пузырьком
@@ -162,7 +173,7 @@ class Deque{
 };
 template <typename T>
 Deque<T>& Deque<T>::operator =(Deque<T>& right){
-	while (this -> size_) this -> pop_front(); //выглядит страшно, но на this.pop_front() ругается и требует так делать
+	while (this -> size_) this -> pop_front();
 	//cout << "-- " <<typeid(&right).name() <<"   -------" << endl; 
 	Iterator it = right.end();
 	cout << right.size_ << endl;	
