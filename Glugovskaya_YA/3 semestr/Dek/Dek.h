@@ -13,14 +13,10 @@ class Deque{
 				Node *Next_;
 				Node *Prev_;
 				Node(T data, Node *Next = NULL, Node *Prev = NULL){ //конструктор узла  
-					cout <<"(В узле1)" << "Next  " << Next << "  " << "Prev " << Prev << "data" << data << endl;		
 					data_  = data;
-					cout << "Переносим Next" << endl;
 					Next_ = Next;
-					cout << "Переносим Prev" << endl;  
 					Prev_ = Prev;
-					cout << "(В узле2)" << "    Next_" << Next_ << "    Prev_" << Prev_ <<" data_ " << data_ << "data" << data << endl;
-				}
+					}
 		};
 		Node *Head_;
 		Node *Tail_;
@@ -72,7 +68,7 @@ class Deque{
 				} 	
 				Iterator& operator+(int n){
 					n = n%( OurIterDeque_ -> size_);
-					cout << n << endl;
+					//cout << n << endl;
 					for (int i=0; i < n; i++){
 						CurrentIt_ = CurrentIt_  -> Next_;
 					}
@@ -176,9 +172,8 @@ Deque<T>& Deque<T>::operator =(Deque<T>& right){
 	while (this -> size_) this -> pop_front();
 	//cout << "-- " <<typeid(&right).name() <<"   -------" << endl; 
 	Iterator it = right.end();
-	cout << right.size_ << endl;	
+	
 	for (int i=0; i < right.size_ ; i++){
-		cout << "i " <<i << endl;
 		push_front(it.CurrentIt_ -> data_);
 		it--; 
 	}
@@ -257,28 +252,20 @@ void Deque<T>:: back(){
 template <typename T>
 void Deque<T>:: push_front(T data)
 {
-	cout <<"\n\nFail1  " <<"Head " << Head_ << "   Tail " << Tail_ << "data  " << data << "  end data" << endl;
 	Head_ = new Node(data, Head_, Tail_);
-	cout << "data afHead" << data << endl;	
-	cout <<"HeadP_F: " << Head_ << endl;
-	
-	cout <<"Fail2  " << data << endl;
 	
 	if (size_ == 0) {
 		Tail_= Head_;
 		Head_ -> Next_ = Head_ -> Prev_ = Head_;
-		cout << "P_F in size =0" << " Head " << Head_ << "    Tail " << Tail_ <<endl;
 	}
-	//cout <<"Fail3" << endl;
+	
 	else {
 		Tail_ -> Next_ = Head_;
 		(Head_ -> Next_) -> Prev_ = Head_;
-		cout << "P_F in size !=0" << " Head " << Head_ << "    Tail " << Tail_ <<endl;
 	}
-	cout <<"Fail4  " << data << endl;
-	//cout << this << endl;
+	
 	size_++;
-	cout << "pykP_F" << endl;
+	
 }
 
 template <typename T>

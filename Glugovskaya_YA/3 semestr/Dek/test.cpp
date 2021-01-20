@@ -72,14 +72,14 @@ int main(){
 		cout << "dek" << endl;
 		dek.print();
 		cout << "Dek\n" << dek << endl;
-		cout << "_______________________Очередь очередей ________________________ " << endl; 
+		cout << "_______________________________________Очередь очередей ______________________________ " << endl; 
 		Deque <Deque<int> > A;
-		cout << "A\n" << A << endl; 
+		
 		cout << dek << endl;
 		A.push_front(dek);
 		
 		cout << A << endl;
-		cout << "pyk" << endl;
+		
 	}
 	
 	catch (Error &err){
