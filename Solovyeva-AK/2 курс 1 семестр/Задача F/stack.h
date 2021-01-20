@@ -14,8 +14,9 @@ struct list_item{
 template<typename T>
 class stack {
     private:
-        list_item<T> *topElem_;
+        //list_item<T> *topElem_;
     public:
+        list_item<T> *topElem_;
         class Iterator {
             private:
                 friend class stack<T>;
@@ -29,6 +30,7 @@ class stack {
 					current_ = it.current_;
 					return *this;
 				}
+                
 
                 void operator ++() {
                     if (current_ != nullptr) current_ = current_->next;
@@ -150,6 +152,7 @@ void stack<T>::operator =(const stack<T> &other) {
     }
 }
 
+
 template<class T>
 bool stack<T>::operator ==(const stack &other) const {
     list_item<T> p;
@@ -228,6 +231,20 @@ void stack<T>::push(T n) {
     topElem_ = p;
 }
 
+template<>
+void stack<stack<int>>::push(stack<int> n) {
+    list_item<stack<int>>* p = (list_item<stack<int>>*)malloc(sizeof(list_item<stack<int>>));
+    if(!p) {
+        throw UserException(3, "Memory Allocation Error");
+    }
+    p->data.topElem_ = nullptr;
+    p->data = n;
+    p->next = topElem_;
+    topElem_ = p;
+}
+
+
+
 template<class T>
 T stack<T>::pop() {
     if(checkVoid()) return 0;
@@ -256,6 +273,27 @@ void stack<T>::clean(){
     topElem_ = nullptr;
 }
 
+template<>
+void stack<stack<int>>::clean(){
+    list_item<stack<int>>* p;
+    list_item<stack<int>>* p2;
+
+    p = topElem_;
+    
+    while (p != nullptr)
+    {
+        p2 = p;
+        p = p->next;
+        p2->data.clean();
+        free(p2);
+    }
+    topElem_ = nullptr;
+}
+
+template <typename T>
+void free_memory(T tmp){
+    
+}
 
 
 

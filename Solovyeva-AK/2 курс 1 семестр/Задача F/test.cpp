@@ -24,6 +24,6 @@ int main(){
     tmp.push(b);
     tmp.push(a);
     tmp.pop().print();
-    tmp.pop().print();
+    tmp.pop().print();  
     return 0;
 }
