@@ -27,6 +27,8 @@ int main()
     cout << "M : "; MyNumbers.print();
     MyNumbers.set_current(7);
     MyNumbers.add_after(222);
+    MyNumbers.set_current(9);
+    MyNumbers.add_after(222);
     cout << "M : ";  MyNumbers.print();
     MyNumbers.delete_this();
     if (MyNumbers == MyNumbers1) cout << "M и M1 равны" << endl;
@@ -34,33 +36,22 @@ int main()
     
 
     
+    MyNumbers = MyNumbers1;
     cout << "M : ";  MyNumbers.print();
-   MyNumbers = MyNumbers1;
-   cout << "M : ";  MyNumbers.print();
- //  MyNumbers + MyNumbers1;
-    
 
     cout << "В списке " << MyNumbers.elem_count() << " элементов.А теперь отсортируем в порядке убывания :" << endl;
-     
     MyNumbers.sort();
     cout << "M : ";  MyNumbers.print();
     
-    
- /*     // Удаляем элементы, больше 5
-    MyNumbers.go_first();
-    do {
-        if (MyNumbers.get_current() < 5 )
-        MyNumbers.delete_this();
-      else
-        MyNumbers.go_next();
-    } while (!MyNumbers.is_empty());
-    MyNumbers.print();
- */
+    cout << " А теперь сложим М1 и М:" << endl;
+    cout << "M1 : "; MyNumbers1.print();
+    cout << "M : ";  MyNumbers.print();
+    (MyNumbers1+MyNumbers).print();
 
 
-       MyNumbers.delete_list();
-  cout << "список M пуст? " << MyNumbers.is_empty() << endl;
-   cout << "В списке " << MyNumbers.elem_count()<< " элементов" << endl;
+    MyNumbers.delete_list();
+    cout << "список M пуст? " << MyNumbers.is_empty() << endl;
+  
     
     return 0;
 };
