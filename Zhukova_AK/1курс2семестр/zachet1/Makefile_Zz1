@@ -1,0 +1,2 @@
+a.out: Zhukova_z1_test.c Zhukova_z1.h Zhukova_z1.c
+	gcc -o a.out Zhukova_z1_test.c Zhukova_z1.c
