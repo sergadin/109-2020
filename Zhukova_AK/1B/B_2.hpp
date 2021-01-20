@@ -17,18 +17,17 @@ private:
         };
 
 	ListItem *current;
-
         ListItem *first = NULL;
         ListItem *last = NULL;
 
-        ListItem *next (ListItem *element)
+        ListItem *next ()
         {
-                return element->next;
+                return current->next;
         }
 
-        ListItem *prev (ListItem *element)
+        ListItem *prev ()
         {
-                return element->prev;
+                return current->prev;
         }
 
 public:
