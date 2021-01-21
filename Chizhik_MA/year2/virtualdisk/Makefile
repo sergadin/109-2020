@@ -11,4 +11,4 @@ do-test: run
 	valgrind ./run
 	#./run
 clean: disk.o test.o
-	rm -rf *.o run vgcore.*
+	rm -rf vgcore.* run *.o

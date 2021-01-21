@@ -1,6 +1,7 @@
 #ifndef list_arr_H
 #define list_arr_H
 
+
 template <typename T>
 class list_arr 
 {
@@ -95,6 +96,4 @@ class list_arr_exception
 		}
 };
 
-
-
-#endif 
+#endif
