@@ -163,7 +163,7 @@ class list
 			k.curr_ = last_; 
 			k.f_ = first_;
 			k.l_ = last_;
-                        k.previous_cell();
+                        
 			return k;
 		}
 
@@ -364,11 +364,8 @@ int main()
 		for(i = spisok2.begin(); i != spisok2.end(); ++i) {
 			if (*i!=1) *i = 10;
 		        cout << *i << ' ';
-	        }
-		if (*i!=1){
-		       	*i = 10;
-		       	cout << *i << endl;		
-		}
+	        } cout << endl;
+		
 	}
 	catch(iskl &exc)
 	{
