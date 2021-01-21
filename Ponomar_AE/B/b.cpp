@@ -357,9 +357,8 @@ int main()
                 
 		cout << "iterator" << endl;
                 for(i = spisok2.begin(); i != spisok2.end(); ++i) {
-                    cout<< *i << ' ';
-		}
-		cout << *i << endl;
+                    cout<< ++(*i) << ' ';
+		} cout << endl;
                
 		for(i = spisok2.begin(); i != spisok2.end(); ++i) {
 			if (*i!=1) *i = 10;
