@@ -70,7 +70,7 @@ class list
 					curr_ = curr_->next;
 					if(curr_== l_)
 					{
-						curr_ = curr_->ptevious;
+						curr_ = curr_->previous;
 					}
 				}
 
@@ -83,16 +83,19 @@ class list
 					}
 				}
 
-				TYPE get_cell()
-				{
-					return curr_->data;
-				}
-
+				friend TYPE& operator *(const iterator_cell &i) {
+                                     return i.curr_->data;
+                                }
 				iterator_cell& operator= (const iterator_cell & right)
 				{
 					curr_ = right.curr_;
 					return *this;
 				}
+
+				void operator ++() {
+                                    if (curr_ != nullptr) curr_ = curr_->next;
+                                    return;
+                                }
 		};
 
 		list()
@@ -148,18 +151,19 @@ class list
 		{
 			iterator_cell k;
 			k.curr_ = first_;
-			k.f_ = first_;
+                        k.f_ = first_;
 			k.l_ = last_;
-			k.next_go();
+			k.next_cell();
 			return k;
 		}
 
 		iterator_cell end()
 		{
 			iterator_cell k;
-			k.curr_ = first_; 
+			k.curr_ = last_; 
 			k.f_ = first_;
 			k.l_ = last_;
+                        k.previous_cell();
 			return k;
 		}
 
@@ -348,12 +352,28 @@ int main()
 		spisok4 = spisok1;
 		cout << "spisok4 (=spisok1)"<< endl;
 		spisok4.print();
+
+                list<int>::iterator_cell i;
+                
+		cout << "iterator" << endl;
+                for(i = spisok2.begin(); i != spisok2.end(); ++i) {
+                    cout<< *i << ' ';
+		}
+		cout << *i << endl;
+               
+		for(i = spisok2.begin(); i != spisok2.end(); ++i) {
+			if (*i!=1) *i = 10;
+		        cout << *i << ' ';
+	        }
+		if (*i!=1){
+		       	*i = 10;
+		       	cout << *i << endl;		
+		}
 	}
 	catch(iskl &exc)
 	{
 		std::cout << "ERROR : " << exc.message() << std::endl;
 	}
-	return 0;
 	return 0;
 }
 
