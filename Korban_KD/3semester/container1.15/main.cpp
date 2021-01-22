@@ -1,0 +1,1033 @@
+#include <iostream>
+#include <ctime>
+#include <iomanip>
+#include <cstring>
+
+class AVLTree 
+{
+private:
+      class Node 
+      {
+      public:
+          int val = 0;
+          double dval = 0;
+          int * intarr = nullptr;
+          double *darr = nullptr;
+          char *string = nullptr; 
+          
+          char *key = nullptr;
+          
+		// the height of this node from the deepest point
+          int height;
+          Node *left_child = nullptr;
+          Node *parent = nullptr;
+          Node *right_child = nullptr;
+        
+          
+          Node();
+          ~Node();
+          Node(const Node & that);
+          Node(const char *key ,const int val);
+          Node(const char *key ,const double dval);
+          Node(const char *key ,const char* string);
+          Node(const char *key , const int* valarr);
+          
+		// calculate the balance point.
+          int getBalance();
+          
+          void removeParent();
+          Node *setLeftChild(Node *newLeft);
+          Node *setRightChild(Node *newRight);
+          int updateHeight();
+	};
+    
+    Node *root = nullptr;
+    
+private:
+    void delete_all(Node * A);
+    void deleteSubtree(Node *subtree, int depth, int level, bool first);
+    
+    void balanceAtNode(Node *n);
+	Node *findNode(const char *key);
+    
+	void printSubtree(Node *subtree, int depth,
+    int offset, bool first=1 );
+    int spacing(int offset);
+    
+	void rotateLeft(Node *n);
+	void rotateRight(Node *n);
+    
+	void setRoot(Node *n);
+
+    void copytree(Node & A,const Node  & B);
+
+public:
+    AVLTree();
+    ~AVLTree();
+    AVLTree(const AVLTree & that);
+    
+    AVLTree operator = (const AVLTree & that);
+    
+    int getInt(const char* key) ;
+    double getDouble(const char* key);
+    char * getString(const char* key) ;
+    
+    
+    int getHeight();
+    
+    bool insert( const char *key, const int val);
+    bool insert(const char *key,const double val);
+    bool insert(const char *key,const char* string);
+    bool insert(const char *key,const int* val);
+    
+    bool remove(const char* key);
+    
+    void print();
+    
+    
+    enum ERRORS
+    {
+        NO_KEY = -10,
+        NO_STRING,
+    };
+    
+   
+}; 
+
+class AvlTree_exeption
+{ 
+	private: 
+		int code_;
+		std::string reason_;
+	public:
+		AvlTree_exeption(int code, const std::string& reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
+
+		const std::string& get_reason() const 
+		{ 
+			return reason_; 
+		}
+};
+
+
+
+AVLTree::Node::Node(const char *key ,const int val) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    this->val = val;
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::Node(const char *key ,const double dval) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    this->dval = dval;
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::Node(const char *key , const char* string) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    
+    this->string =  new char[strlen(string) + 1];
+    strcpy(this->string, string);
+    
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::Node(const char *key , const int* valarr) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    
+    int length = *(&valarr + 1) - valarr;
+    this->intarr =  new int[length];
+    for (int i = 0; i < length; i++)
+    {
+        this->intarr[i] = valarr[i];
+    }
+    
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::~Node()
+{
+    delete[] key;
+    delete[] intarr;
+    delete[] darr;
+    delete[] string;
+}
+
+AVLTree::Node::Node(const Node & that)
+{
+    this->val = that.val;
+    this->dval = that.dval;
+    
+    if(that.intarr != nullptr)
+    {
+        int length = *(&that.intarr + 1) - that.intarr;
+        this->intarr =  new int[length];
+        for (int i = 0; i < length; i++)
+        {
+            this->intarr[i] = that.intarr[i];
+        }
+    }
+    
+    if(that.intarr != nullptr)
+    {
+        int length = *(&that.darr + 1) - that.darr;
+        this->darr =  new double[length];
+        for (int i = 0; i < length; i++)
+        {
+            this->darr[i] = that.darr[i];
+        }
+    }
+    
+    if(that.string != nullptr)
+    {
+        this->string =  new char[strlen(that.string) + 1];
+        strcpy(this->string, that.string);
+    }
+    
+    this->key =  new char[strlen(that.key) + 1];
+    strcpy(this->key, that.key);
+    
+    this->height = that.height;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+    
+}
+
+// returns balance 
+//negative if right side is deeper 
+//0 if deapth are the same 
+//positive f left side is deeper 
+int AVLTree::Node::getBalance() 
+{
+
+    int result;
+    if (left_child == nullptr)
+        if (right_child == nullptr)
+            result = 0;
+        else
+            result = -right_child->height-1;
+        
+        else if (right_child == nullptr)
+            result = left_child->height+1;
+        
+        else
+            result = left_child->height-right_child->height;
+        return result;
+} 
+
+
+
+void AVLTree::Node::removeParent() 
+{
+    parent = nullptr;
+} 
+
+
+AVLTree::Node *AVLTree::Node::setLeftChild(Node *newLeft) 
+{
+    if (newLeft != nullptr)
+        newLeft->parent = this;
+    left_child = newLeft;
+    updateHeight();
+    return left_child;
+} 
+
+
+AVLTree::Node *AVLTree::Node::setRightChild(Node *newRight) 
+{
+
+    if (newRight != nullptr)
+        newRight->parent = this;
+    right_child = newRight;
+    updateHeight();
+    return right_child;
+} 
+
+int AVLTree::Node::updateHeight() 
+{
+
+    if (left_child == nullptr)
+
+        if (right_child == nullptr)
+            height = 0;
+        
+        else
+            height = right_child->height+1;
+        
+        else if (right_child == nullptr)
+            height = left_child->height+1;
+        
+        else if (left_child->height > right_child->height)
+            height = left_child->height+1;
+        
+        else
+            height = right_child->height+1;
+        return height;
+} 
+
+
+AVLTree::AVLTree() 
+{
+    root = nullptr;
+}
+
+AVLTree::~AVLTree()
+{
+    printf("destructor for AVLtree was Called\n");
+    //delete_all(root);
+    
+    while (root!=nullptr) 
+        remove(root->key);
+        
+}
+
+void AVLTree::delete_all(Node * n) 
+{
+    if(n)
+    {
+        delete_all(n->left_child);
+        delete_all(n->right_child);
+        delete n;
+    }
+}
+
+AVLTree::AVLTree(const  AVLTree & that)
+{
+    this->root = new Node(*that.root);
+    this->root->parent  = nullptr;
+    
+    copytree(*this->root, *that.root);
+}
+
+AVLTree AVLTree::operator = (const AVLTree & that)
+{
+    
+    if(that.root == this->root)
+        return that;
+    
+    delete_all(this->root);
+    
+    this->root = new Node(*that.root);
+    this->root->parent  = nullptr;
+    
+    copytree(*this->root, *that.root);
+    
+    
+    return *this;
+}
+
+void AVLTree::copytree(Node & A ,const Node & B)
+{
+    //if(&B !=nullptr)
+    {
+        if(B.left_child)
+        {
+            A.left_child = new Node(*B.left_child);
+            A.left_child->parent = &A;
+            
+            //printf("left %s\n",A.left_child->key);
+            copytree(*A.left_child, *B.left_child);
+        }
+        else
+            A.left_child = nullptr;
+        
+        if(B.right_child)
+        {
+            A.right_child = new Node(*B.right_child);
+            A.right_child->parent = &A;
+            
+           //printf("right %s\n",A.right_child->key);
+            copytree(*A.right_child, *B.right_child);
+        }
+        else
+            A.right_child = nullptr;
+        
+    }
+}
+
+
+int AVLTree::getInt(const char* key) 
+{ 
+    Node *temp = findNode(key);
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+    return temp->val; 
+}
+double AVLTree::getDouble(const char* key)
+{ 
+    Node *temp = findNode(key);
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+        
+    return temp->dval;
+}
+
+char * AVLTree::getString(const char* key) 
+{ 
+    Node *temp = findNode(key);
+        
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+        
+    if(temp->string == nullptr)
+    {
+        throw AvlTree_exeption(NO_STRING, "in this key string is empty");
+    }
+        
+    char *copy = new char[strlen(temp->string) + 1];
+    strcpy(copy, temp->string);
+    return copy; 
+}
+
+
+// balance the subtree
+void AVLTree::balanceAtNode(Node *n) 
+{
+
+    //get current balance, if its bad on left side 
+    //rotate it right adjusting the subtree left, if required
+    int bal = n->getBalance();
+    if (bal > 1) 
+    {
+        if (n->left_child->getBalance() < 0)
+            rotateLeft(n->left_child);
+        rotateRight(n);
+
+    //otherwise its bad on right side 
+    //rotate it left adjusting the subtree right, if required
+    }
+    else if (bal < -1) 
+    {
+        if (n->right_child->getBalance() > 0)
+            rotateRight(n->right_child);
+        rotateLeft(n);
+    }
+}
+
+// Find the node containing the data.
+AVLTree::Node *AVLTree::findNode(const char* key) 
+{
+
+    Node *temp = root;
+    while (temp != nullptr) 
+    {
+        if (strcmp(temp->key, key) == 0)
+            break;
+        else if (strcmp(temp->key, key) < 0)
+            temp = temp->left_child;
+        else
+            temp = temp->right_child;
+    } 
+    return temp;
+} 
+
+int AVLTree::getHeight()
+{
+    return root->height;
+} 
+
+bool AVLTree::insert(const char *key,int val) 
+{
+    
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+
+            
+            } 
+            //key is already in the tree
+            else
+            {
+                if(temp->val == val)
+                    return false;
+                
+                temp->val = val;
+                return true;
+            }
+        } 
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	}
+  } 
+  return true;
+}
+
+bool AVLTree::insert(const char *key,double val) 
+{
+
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+            
+            } 
+            //key is already in the tree
+            else
+            {
+                if(abs(temp->dval - val) < 1e-10)
+                    return false;
+                
+                temp->dval = val;
+                return true;
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
+bool AVLTree::insert(const char *key,const char* val) 
+{
+
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+                
+            
+            } 
+            //key is already in the tree
+            else
+            {
+                if(temp->string == nullptr)
+                {
+                    temp->string =  new char[strlen(val) + 1];
+                    strcpy(temp->string, val);
+                    return true;
+                }
+                if(strcmp(val, temp->string) == 0)
+                    return false;
+                
+                delete temp->string;
+                temp->string =  new char[strlen(val) + 1];
+                strcpy(temp->string, val);
+                return true;
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
+bool AVLTree::insert(const char *key,const int* val) 
+{
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+
+            } 
+            //key is already in the tree
+            else
+            {
+                delete temp->intarr;
+                int length = *(&val + 1) - val;
+                temp->intarr =  new int[length];
+                for (int i = 0; i < length; i++)
+                {
+                    temp->intarr[i] = val[i];
+                }
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
+
+void AVLTree::print() 
+{
+
+    if (root == nullptr)
+	std::cout << "Tree is empty!" <<
+		std::endl;
+        else if (root->height > 4)
+            std::cout << "Not currently supported!" <<
+		std::endl;
+        else 
+        {
+            int max = root->height;
+            for (int depth = 0; depth <= max; depth++) 
+            {
+                printSubtree(root, depth, max-depth+1, true);
+                std::cout << std::endl;
+            } 
+            
+        } 
+} 
+
+// leftmost branch will have first true  
+// the level counts up from the bottom
+// for the line we are doing. the depth is how
+// many layers to skip over
+void AVLTree::printSubtree(Node *subtree, int depth,
+	int level, bool first) 
+{
+    if (depth > 0) 
+    {
+        if (subtree == nullptr) 
+        {
+            printSubtree(subtree, depth-1, level, first);
+            printSubtree(subtree, depth-1, level, false);
+        } 
+        else 
+        {
+            printSubtree(subtree->left_child, depth-1,level, first);
+            printSubtree(subtree->right_child, depth-1,level, false);
+        } 
+    } 
+    else 
+        if (subtree == nullptr)
+            std::cout << std::setw((first)?
+            spacing(level)/2:spacing(level)) << "-";
+
+        else
+            std::cout << std::setw((first)?
+            spacing(level)/2:spacing(level)) <<
+            subtree->key << '(' << subtree->val << ')';
+} 
+
+// remove the value from the tree.
+// Returns:
+//		 true: if removal is successful
+//		 false: if item is not found in the tree
+//
+bool AVLTree::remove(const char* key) 
+{
+
+    Node *toBeRemoved = findNode(key);
+    if (toBeRemoved == nullptr)
+        return false;
+
+    enum {left, right} side;
+    Node *p = toBeRemoved->parent;
+    if (p != nullptr &&
+        p->left_child == toBeRemoved)
+        side = left;
+    else
+        side = right;
+    if (toBeRemoved->left_child == nullptr)
+        if (toBeRemoved->right_child == nullptr) 
+        {
+            if (p == nullptr) 
+            {
+                setRoot(nullptr);
+                delete toBeRemoved;
+            } 
+            else 
+            {
+                if (side == left)
+                    p->setLeftChild(nullptr);
+                else
+                    p->setRightChild(nullptr);
+                delete toBeRemoved;
+                p->updateHeight();
+                balanceAtNode(p);
+                
+            } 
+
+        }
+        else 
+        {
+
+            if (p == nullptr) 
+            {
+                setRoot(toBeRemoved->right_child);
+                delete toBeRemoved;
+            } 
+            else 
+            {
+                if (side == left)
+                    p->setLeftChild(toBeRemoved->
+                    right_child);
+                else
+                    p->setRightChild(toBeRemoved->
+                    right_child);
+                delete toBeRemoved;
+                p->updateHeight();
+                balanceAtNode(p);
+                
+            } 
+        }
+        else if (toBeRemoved->right_child ==nullptr) 
+        {
+
+            if (p == nullptr) 
+            {
+                setRoot(toBeRemoved->left_child);
+                delete toBeRemoved;
+            } 
+            else
+            {
+                if(side == left)
+                    p->setLeftChild(toBeRemoved->left_child);
+                else
+                    p->setRightChild(toBeRemoved->left_child);
+                delete toBeRemoved;
+                p->updateHeight();
+                balanceAtNode(p);
+                
+            }
+        } 
+        else 
+        {
+            Node *replacement;
+            Node *replacement_parent;
+            Node *temp_node;
+            int bal = toBeRemoved->getBalance();
+            if (bal > 0) 
+            {
+                if (toBeRemoved->left_child->right_child == nullptr) 
+                {
+                    replacement = toBeRemoved->left_child;
+                    replacement->setRightChild(
+                        toBeRemoved->right_child);
+                    temp_node = replacement;
+                } 
+                else 
+                {
+                    replacement = toBeRemoved->left_child->right_child;
+                    while (replacement->right_child !=nullptr)
+                        replacement = replacement->right_child;
+                    replacement_parent = replacement->parent;
+                    replacement_parent->setRightChild(replacement->left_child);
+                    temp_node = replacement_parent;
+                    replacement->setLeftChild(toBeRemoved->left_child);
+                    replacement->setRightChild(toBeRemoved->right_child);
+                    
+                }
+
+
+                
+            } 
+            else 
+                if (toBeRemoved->right_child->left_child == nullptr) 
+                {
+                    replacement = toBeRemoved->right_child;
+                    replacement->setLeftChild(
+                        toBeRemoved->left_child);
+                    temp_node = replacement;
+                } 
+                else 
+                {
+                    replacement = toBeRemoved->
+                    right_child->left_child;
+                    while (replacement->left_child !=nullptr)
+                        replacement = replacement->left_child;
+                    replacement_parent = replacement->parent;
+                    replacement_parent->setLeftChild(replacement->right_child);
+                    temp_node = replacement_parent;
+                    replacement->setLeftChild(
+                        toBeRemoved->left_child);
+                    replacement->setRightChild(
+                        toBeRemoved->right_child);
+                    
+                }
+            if (p == nullptr)
+                setRoot(replacement);
+            else if (side == left)
+                p->setLeftChild(replacement);
+            else
+                p->setRightChild(replacement);
+            delete toBeRemoved;
+            balanceAtNode(temp_node);
+        }
+        return true;
+} 
+
+void AVLTree::rotateLeft(Node *n) 
+{
+
+    enum {left, right} side;
+    Node *p = n->parent;
+    if (p != nullptr && p->left_child == n)
+        side = left;
+    else
+        side = right;
+    
+    Node *temp = n->right_child;
+    n->setRightChild(temp->left_child);
+    temp->setLeftChild(n);
+
+    if (p == nullptr)
+        setRoot(temp);
+    else if (side == left)
+        p->setLeftChild(temp);
+    else
+        p->setRightChild(temp);
+} 
+
+void AVLTree::rotateRight(Node *n) 
+{
+    enum {left, right} side;
+    Node *p = n->parent;
+    if (p != nullptr && p->left_child == n)
+        side = left;
+    else
+        side = right;
+
+    Node *temp = n->left_child;
+    n->setLeftChild(temp->right_child);
+    temp->setRightChild(n);
+
+    if (p == nullptr)
+        setRoot(temp);
+    else if (side == left)
+        p->setLeftChild(temp);
+    else
+        p->setRightChild(temp);
+}
+
+
+void AVLTree::setRoot(Node *n) 
+{
+  root = n;
+  if (root != nullptr)
+	root->removeParent();
+} 
+
+// default spacing for element. Each
+// higher level doubles the preceeding
+int AVLTree::spacing(int level) 
+{
+  int result = 6;
+  for (int i = 0; i < level; i++)
+	result += result;
+  return result;
+} 
+
+
+int main() 
+{
+    try
+    {
+        double data[20];
+        int data2[20];
+        srand(time(0));
+        AVLTree tree;
+        
+        const char *basekey = "11212112";
+        
+        for (int i = 0; i < 20; i++) 
+        {
+            //char * str;
+            data[i] = rand()%100;
+            //sprintf(str, "%d");
+            if(!tree.insert(basekey + i,data[i]))
+                break;
+            std::cout << "Adding " << i << " " <<data[i] << 
+            " ##############################################################" << std::endl;
+            //tree.print();
+        }
+        
+        for (int i = 0; i < 20; i++) 
+        {
+            //char * str;
+            data2[i] = rand()%100;
+            //sprintf(str, "%d");
+            if(!tree.insert(basekey + i,data2[i]))
+                break;
+            std::cout << "Adding " << i << " " <<data2[i] << 
+            " ##############################################################" << std::endl;
+            //tree.print();
+            
+        }
+        for (int i = 0; i < 20; i++) 
+        {
+            //char * str;
+            data2[i] = rand()%100;
+            //sprintf(str, "%d");
+            if(!tree.insert(basekey + i,basekey + i))
+                break;
+            //std::cout << "Adding " << i << " " <<data2[i] << 
+            //" ##############################################################" << std::endl;
+            //tree.print();
+        }
+
+        {
+            char *str;
+            AVLTree A;
+            printf("1######################################\n");
+            A = tree;
+            //A.print();
+            printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt(basekey));
+            printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getDouble(basekey));
+            printf("%s^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", 
+            str = A.getString(basekey));
+            delete[] str;
+            printf("2######################################\n");
+            //A.insert(basekey, data2);
+        }
+        
+        for (int i = 0; i < 10; i++) {
+            std::cout << "Removing " << basekey + i << std::endl;
+            std::cout << tree.remove(basekey + i) << 
+            " ##############################################################" << std::endl;
+            //tree.print();
+            
+        }
+    }
+    catch (AvlTree_exeption &err)
+    {
+		std::cout << "EXC  "<< err.get_reason() << std::endl;
+    }
+    return 0;
+} 

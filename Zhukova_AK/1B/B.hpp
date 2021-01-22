@@ -29,6 +29,7 @@ private:
         };
 
 	ListItem *current;
+
         ListItem *first = NULL;
         ListItem *last = NULL;
 
@@ -46,43 +47,43 @@ public:
 //        int p;
 	list()
 	{
-		ListItem *new_elem = new ListItem;
+		ListItem *new_item = new ListItem;
 
-		new_elem = NULL;
-                new_elem->prev = first;
-                new_elem->next = last;
-                first = new_elem;
-		last = new_elem;
+		new_item = NULL;
+                new_item->prev = first;
+                new_item->next = last;
+                first = new_item;
+		last = new_item;
 	}
 
         list(T elem)
         {
-                ListItem *new_elem = new ListItem;
-                new_elem->data = elem;
-                new_elem->prev = first;
-                new_elem->next = last;
-                first = new_elem;
-                last = new_elem;
+                ListItem *new_item = new ListItem;
+                new_item->data = elem;
+                new_item->prev = first;
+                new_item->next = last;
+                first = new_item;
+                last = new_item;
         }
 
         void add_first_elem (T element) //добавляет элемент в начало списка +
         {
-                ListItem *new_elem = new ListItem;
-                new_elem->data = element;
-                new_elem->prev = NULL;
-                new_elem->next = first;
-		first->prev = new_elem;
-                first = new_elem;
+                ListItem *new_item = new ListItem;
+                new_item->data = element;
+                new_item->prev = NULL;
+                new_item->next = first;
+		first->prev = new_item;
+                first = new_item;
         }
 
         void add_last_elem (T element)//добавляет элемент в конец списка +
         {
-                ListItem *new_elem = new ListItem;
-                new_elem->data = element;
-                new_elem->prev = last;
-		new_elem->next = NULL;
-		last->next = new_elem;
-                last = new_elem;
+                ListItem *new_item = new ListItem;
+                new_item->data = element;
+                new_item->prev = last;
+		new_item->next = NULL;
+		last->next = new_item;
+                last = new_item;
 
 	//printf ("P25\n");
         }
@@ -282,14 +283,18 @@ public:
         list operator = (const list & other)// +
         {
 		this->clear_list();
+
 		ListItem *current_;
 		current_ = other.first;
-                ListItem *new_elem = new ListItem;
-                new_elem->data = current_->data;
-                new_elem->prev = other.first;
-                new_elem->next = other.last;
-                this->first = new_elem;
-                this->last = new_elem;
+
+                ListItem *new_item = new ListItem;
+
+                new_item->data = current_->data;
+                new_item->prev = other.first;
+                new_item->next = other.last;
+
+                this->first = new_item;
+                this->last = new_item;
 //printf("first=%d\n", new_elem->data);
                 while (current_->next != NULL)
                	{
@@ -320,4 +325,5 @@ public:
 		clear_list();
 	}
 };
+
 
