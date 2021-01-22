@@ -1,808 +1,952 @@
 #include <iostream>
 #include <ctime>
 #include <iomanip>
+#include <cstring>
 
-// **************************************************
-// Adelson-Velskii and Landis dynamically balanced
-// tree class.
 class AVLTree 
 {
-  
 private:
-    template <typename T>
-	class Node 
-	{
-	  private:
-          T data;
-          char *key;
-		// The height of this node from the deepest
-		// point.
+      class Node 
+      {
+      public:
+          int val = 0;
+          double dval = 0;
+          int * intarr = nullptr;
+          double *darr = nullptr;
+          char *string = nullptr; 
+          
+          char *key = nullptr;
+          
+		// the height of this node from the deepest point
           int height;
-		// A pointer to the left subtree.
-          Node *left_child;
-		// A pointer to the node's parent.
-          Node *parent;
-		// A pointer to the right subtree.
-          Node *right_child;
+          Node *left_child = nullptr;
+          Node *parent = nullptr;
+          Node *right_child = nullptr;
         
-	  public:
-
-          Node(char *key ,T val);
-		// Calculate the balance point.
+          
+          Node();
+          ~Node();
+          Node(const Node & that);
+          Node(const char *key ,const int val);
+          Node(const char *key ,const double dval);
+          Node(const char *key ,const char* string);
+          Node(const char *key , const int* valarr);
+          
+		// calculate the balance point.
           int getBalance();
-		// Get the actual data.
-          char *getKey();
-          T getData();
-		// Get the height.
-          int getHeight();
-		// Get the left subtree.
-          Node *getLeftChild();
-		// Get the node's parent.
-          Node *getParent();
-		// Get the right subtree.
-          Node *getRightChild();
-		// Remove the node's parent.
+          
           void removeParent();
-		// Set the left subtree.
           Node *setLeftChild(Node *newLeft);
-		// Set the right subtree.
           Node *setRightChild(Node *newRight);
-		// Set the node's height.
           int updateHeight();
 	};
-    template <typename U>
-    Node<U> *root;
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  // Private methods to process the tree.
-  private:
-	// Balance the subtree.
-	void balanceAtNode(Node *n);
-	// Find the node containing the data.
-	Node *findNode(char *key);
-	// Print the subtree.
+    
+    Node *root = nullptr;
+    
+private:
+    void delete_all(Node * A);
+    void deleteSubtree(Node *subtree, int depth, int level, bool first);
+    
+    void balanceAtNode(Node *n);
+	Node *findNode(const char *key);
+    
 	void printSubtree(Node *subtree, int depth,
-		int offset, bool first=True );
-	// Rotate the subtree left.
+    int offset, bool first=1 );
+    int spacing(int offset);
+    
 	void rotateLeft(Node *n);
-	// Rotate the subtree left.
 	void rotateRight(Node *n);
-	// Set the root.
+    
 	void setRoot(Node *n);
-	// Figure out the default spacing for element.
-	int spacing(int offset);
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  // Public methods to process the tree.
-  public:
-	// Constructor to create an empty tree.
-      AVLTree();
-	// Constructor to populate the tree with one node.
-      template <typename U>
-      AVLTree(char *key, U val);
-	// Get the tree's height.
-      int getHeight();
-	// Insert the value into the tree
-      template <typename U>
-      bool insert(char *key, U val);
-	// Print the tree.
-      void print();
-	// Remove the value from the tree.
-      bool remove(int val);
-}; // AVLTree
+    void copytree(Node & A,const Node  & B);
 
-// **************************************************
-// AVLTree's Node subclass methods.
+public:
+    AVLTree();
+    ~AVLTree();
+    AVLTree(const AVLTree & that);
+    
+    AVLTree operator = (const AVLTree & that);
+    
+    int getInt(const char* key) { return findNode(key)->val; }
+    double getDouble(const char* key) { return findNode(key)->dval; }
+    char * getString(const char* key) 
+    { 
+        char *A = findNode(key)->string;
+        char *copy = new char[strlen(A) + 1];
+        strcpy(copy, A);
+        return copy; 
+    }
+    
+    int getHeight();
+    
+    bool insert( const char *key, const int val);
+    bool insert(const char *key,const double val);
+    bool insert(const char *key,const char* string);
+    bool insert(const char *key,const int* val);
+    
+    bool remove(const char* key);
+    
+    void print();
+    
+    
+   
+}; 
 
-// --------------------------------------------------
-// Constructor initializing the data.
-template <typename T>
-AVLTree::Node::Node(char *key ,T val) 
+
+AVLTree::Node::Node(const char *key ,const int val) 
 {
-    data = val;
-    this->key= key 
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    this->val = val;
     height = 0;
     parent = nullptr;
     left_child = nullptr;
     right_child = nullptr;
-} // Node
+}
 
-// --------------------------------------------------
-// Calculate the balance point. Negative, when the
-// right side is deeper. Zero, when both sides are
-// the same. Positive, when the left side is deeper.
+AVLTree::Node::Node(const char *key ,const double dval) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    this->dval = dval;
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::Node(const char *key , const char* string) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    
+    this->string =  new char[strlen(string) + 1];
+    strcpy(this->string, string);
+    
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::Node(const char *key , const int* valarr) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
+    
+    int length = *(&valarr + 1) - valarr;
+    this->intarr =  new int[length];
+    for (int i = 0; i < length; i++)
+    {
+        this->intarr[i] = valarr[i];
+    }
+    
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::~Node()
+{
+    delete[] key;
+    delete[] intarr;
+    delete[] darr;
+    delete[] string;
+}
+
+AVLTree::Node::Node(const Node & that)
+{
+    this->val = that.val;
+    this->dval = that.dval;
+    
+    if(that.intarr != nullptr)
+    {
+        int length = *(&that.intarr + 1) - that.intarr;
+        this->intarr =  new int[length];
+        for (int i = 0; i < length; i++)
+        {
+            this->intarr[i] = that.intarr[i];
+        }
+    }
+    
+    if(that.intarr != nullptr)
+    {
+        int length = *(&that.darr + 1) - that.darr;
+        this->darr =  new double[length];
+        for (int i = 0; i < length; i++)
+        {
+            this->darr[i] = that.darr[i];
+        }
+    }
+    
+    if(that.string != nullptr)
+    {
+        this->string =  new char[strlen(that.string) + 1];
+        strcpy(this->string, that.string);
+    }
+    
+    this->key =  new char[strlen(that.key) + 1];
+    strcpy(this->key, that.key);
+    
+    this->height = that.height;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+    
+}
+
+// returns balance 
+//negative if right side is deeper 
+//0 if deapth are the same 
+//positive f left side is deeper 
 int AVLTree::Node::getBalance() 
 {
 
-  // If we don't have a left subtree, check the
-  // right.
     int result;
     if (left_child == nullptr)
-	// If neither subtree exists, return zero.
         if (right_child == nullptr)
             result = 0;
-
-	// Otherwise, the right subtree exists so make
-	// it's height negative and subtract one.
         else
             result = -right_child->height-1;
-
-  // Otherwise, we have a left subtree so if we
-  // don't have a right one, return the left's
-  // height plus one.
+        
         else if (right_child == nullptr)
             result = left_child->height+1;
-
-  // Otherwise, both subtrees exist so subtract
-  // them to return the difference.
+        
         else
             result = left_child->height-right_child->height;
         return result;
-} // getBalancetemplate <typename U>
+} 
 
-// --------------------------------------------------
-// Get the actual data.
-template <typename T>
-T AVLTree::Node::getData() 
-{
-    return data;
-} // getData
 
-char * AVLTree::Node::getKey() 
-{
-    return data;
-} // getData
 
-// --------------------------------------------------
-// Get the height.
-int AVLTree::Node::getHeight() 
-{
-    return height;
-} // getHeight
-
-// --------------------------------------------------
-// Get the left subtree.
-AVLTree::Node *AVLTree::Node::getLeftChild() 
-{
-    return left_child;
-} // getLeftChild
-
-// --------------------------------------------------
-// Get the node's parent.
-AVLTree::Node *AVLTree::Node::getParent() 
-{
-    return parent;
-} // getParent
-
-// --------------------------------------------------
-// Get the right subtree.
-AVLTree::Node *AVLTree::Node::getRightChild() 
-{
-    return right_child;
-} // getRightChild
-
-// --------------------------------------------------
-// Remove the node's parent.
 void AVLTree::Node::removeParent() 
 {
     parent = nullptr;
-} // removeParent
+} 
 
-// --------------------------------------------------
-// Set the left subtree.
+
 AVLTree::Node *AVLTree::Node::setLeftChild(Node *newLeft) 
 {
-  // If there is a left node, set it's parent to
-  // be us. In any event, make it our left subtree
-  // and update the height.
     if (newLeft != nullptr)
         newLeft->parent = this;
     left_child = newLeft;
     updateHeight();
     return left_child;
-} // setLeftChild
+} 
 
-// --------------------------------------------------
-// Set the right subtree.
+
 AVLTree::Node *AVLTree::Node::setRightChild(Node *newRight) 
 {
 
-  // If there is a right node, set it's parent to
-  // be us. In any event, make it our right subtree
-  // and update the height.
     if (newRight != nullptr)
         newRight->parent = this;
     right_child = newRight;
     updateHeight();
     return right_child;
-} // setRightChild
+} 
 
-// --------------------------------------------------
-// Set the node's height.
 int AVLTree::Node::updateHeight() 
 {
 
-  // If we don't have a left subtree, check the
-  // right.
     if (left_child == nullptr)
 
-	// If we don't have either subtree, the height
-	// is zero.
         if (right_child == nullptr)
             height = 0;
-
-	// Otherwise, we only have the right subtree so
-	// our height is one more than it's height.
+        
         else
             height = right_child->height+1;
-
-  // Otherwise, the left subtree exists so if we
-  // don't have a right one, our height is one
-  // more than it's height.
+        
         else if (right_child == nullptr)
             height = left_child->height+1;
-
-  // Otherwise, we have both subtree's so if the
-  // left's height is greater than the right, our
-  // height is one more than it.
+        
         else if (left_child->height > right_child->height)
             height = left_child->height+1;
-
-  // Otherwise, the right subtree's height will be
-  // used so our height is one more than it.
+        
         else
             height = right_child->height+1;
         return height;
-} // updateHeight
+} 
 
-// **************************************************
-// AVLTree class methods.
 
-// --------------------------------------------------
-// Constructor to create an empty tree.
 AVLTree::AVLTree() 
 {
     root = nullptr;
-} // AVLTree
+}
 
-// --------------------------------------------------
-// Constructor to populate the tree with one node.
-template <typename U>
-AVLTree::AVLTree(char* key, U val) 
+AVLTree::~AVLTree()
 {
-    root = new Node(key, val);
-} // AVLTree
+    printf("destructor for AVLtree was Called\n");
+    //delete_all(root);
+    
+    while (root!=nullptr) 
+        remove(root->key);
+        
+}
 
-// --------------------------------------------------
-// Balance the subtree.
+void AVLTree::delete_all(Node * n) 
+{
+    if(n)
+    {
+        delete_all(n->left_child);
+        delete_all(n->right_child);
+        delete n;
+    }
+}
+
+AVLTree::AVLTree(const  AVLTree & that)
+{
+    this->root = new Node(*that.root);
+    this->root->parent  = nullptr;
+    
+    copytree(*this->root, *that.root);
+}
+
+AVLTree AVLTree::operator = (const AVLTree & that)
+{
+    
+    if(that.root == this->root)
+        return that;
+    
+    delete_all(this->root);
+    
+    this->root = new Node(*that.root);
+    this->root->parent  = nullptr;
+    
+    copytree(*this->root, *that.root);
+    
+    
+    return *this;
+}
+
+void AVLTree::copytree(Node & A ,const Node & B)
+{
+    //if(&B !=nullptr)
+    {
+        if(B.left_child)
+        {
+            A.left_child = new Node(*B.left_child);
+            A.left_child->parent = &A;
+            
+            //printf("left %s\n",A.left_child->key);
+            copytree(*A.left_child, *B.left_child);
+        }
+        else
+            A.left_child = nullptr;
+        
+        if(B.right_child)
+        {
+            A.right_child = new Node(*B.right_child);
+            A.right_child->parent = &A;
+            
+           //printf("right %s\n",A.right_child->key);
+            copytree(*A.right_child, *B.right_child);
+        }
+        else
+            A.right_child = nullptr;
+        
+    }
+}
+
+
+// balance the subtree
 void AVLTree::balanceAtNode(Node *n) 
 {
 
-  // Get the current balance and if it is bad
-  // enough on the left side, rotate it right
-  // adjusting the subtree left, if required.
+    //get current balance, if its bad on left side 
+    //rotate it right adjusting the subtree left, if required
     int bal = n->getBalance();
     if (bal > 1) 
     {
-        if (n->getLeftChild()->getBalance() < 0)
-            rotateLeft(n->getLeftChild());
+        if (n->left_child->getBalance() < 0)
+            rotateLeft(n->left_child);
         rotateRight(n);
 
-  // Otherwise, if the balance is bad enough on
-  // the right side, rotate it left adjusting the
-  // subtree right, if required.
+    //otherwise its bad on right side 
+    //rotate it left adjusting the subtree right, if required
     }
     else if (bal < -1) 
     {
-        if (n->getRightChild()->getBalance() > 0)
-            rotateRight(n->getRightChild());
+        if (n->right_child->getBalance() > 0)
+            rotateRight(n->right_child);
         rotateLeft(n);
-    } // if
-} // balanceAtNode
+    }
+}
 
-// --------------------------------------------------
 // Find the node containing the data.
-AVLTree::Node *AVLTree::findNode(char* key) 
+AVLTree::Node *AVLTree::findNode(const char* key) 
 {
 
-  // While nodes remain, if we found the right
-  // node, exit the loop. If the value we want
-  // is less than the current, check the left
-  // subtree, otherwise, the right.
     Node *temp = root;
     while (temp != nullptr) 
     {
-        if (key == temp->getKey())
+        if (strcmp(temp->key, key) == 0)
             break;
-        else if (strcmp(temp->getKey(), key))
-            temp = temp->getLeftChild();
+        else if (strcmp(temp->key, key) < 0)
+            temp = temp->left_child;
         else
-            temp = temp->getRightChild();
-    } // while
+            temp = temp->right_child;
+    } 
     return temp;
-} // findNode
+} 
 
-// --------------------------------------------------
-// Get the tree's height.
-int AVLTree::getHeight() 
+int AVLTree::getHeight()
 {
-    return root->getHeight();
-} // getHeight
+    return root->height;
+} 
 
-// --------------------------------------------------
-// Insert the value into the tree.
-// Returns:
-//		 true: If addition is successful
-//		 false: If item already exists
-//
-template <typename U>
-bool AVLTree::insert(char *key,U val) 
+bool AVLTree::insert(const char *key,int val) 
 {
-
-  // If the tree is empty, add the new node as the
-  // root.
+    
+    //check if tree is empty
     if (root == nullptr)
         root = new Node(key, val);
 
-  // Otherwise, we need to find the insertion point.
+    //  finding the insertion point 
     else 
     {
-
-	// Starting at the tree root search for the
-	// insertion point, until we have added the
-	// new node.
         Node *added_node = nullptr;
         Node *temp = root;
         while (temp != nullptr && added_node == nullptr) 
         {
 
-	  // If the value is less than the current
-	  // node's value, go left. If there isn't a
-	  // left subtree, insert the node, otherwise,
-	  // it is next to check.
-            if ( strcmp(temp->getKey(), key) ) 
+            if ( strcmp(temp->key, key) < 0 ) 
             {
-                if (temp->getLeftChild() == nullptr) 
+                if (temp->left_child == nullptr) 
                 {
                     added_node = temp->setLeftChild(
                         new Node(key, val));
                 } else
-                    temp = temp->getLeftChild();
+                    temp = temp->left_child;
 
-	  // Otherwise, if the value is greater than
-	  // the current node's value, go right. If
-	  // there isn't a right subtree, insert the
-	  // node, otherwise, it is next to check.
             } 
-            else if ( strcmp(key, temp->getKey()) ) 
+            else if ( strcmp(key, temp->key) < 0 ) 
             {
-                if (temp->getRightChild() == nullptr)
+                if (temp->right_child == nullptr)
                 {
                     added_node = temp->setRightChild(new Node(key, val));
                 } 
                 else
-                    temp = temp->getRightChild();
+                    temp = temp->right_child;
 
-	  // Otherwise, the value is already in the
-	  // tree so abort.
-            } else
-                return false;
-        } // while
-
-	// From the new node upwards to the root,
-	// updated the height and make sure the
-	// subtree is balanced.
+            
+            } 
+            //key is already in the tree
+            else
+            {
+                temp->val = val;
+                return true;
+            }
+        } 
+	//from the new node update height
 	temp = added_node;
     while(temp != nullptr) 
     {
         temp->updateHeight();
         balanceAtNode(temp);
-        temp = temp->getParent();
-	} // while
-  } // if
+        temp = temp->parent;
+	}
+  } 
   return true;
-} // insert
+}
 
-// --------------------------------------------------
-// Print the tree in this pattern complaining if
-// too deep or empty.
-//			  08			  
-//	  04			  12
-//  02	  06	  10	  14
-//01  03  05  07  09  11  13  15
+bool AVLTree::insert(const char *key,double val) 
+{
+
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+            
+            } 
+            //key is already in the tree
+            else
+            {
+                temp->dval = val;
+                return true;
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
+bool AVLTree::insert(const char *key,const char* val) 
+{
+
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+                
+            
+            } 
+            //key is already in the tree
+            else
+            {
+                delete temp->string;
+                temp->string =  new char[strlen(val) + 1];
+                strcpy(temp->string, val);
+                return true;
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
+bool AVLTree::insert(const char *key,const int* val) 
+{
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val));
+                } 
+                else
+                    temp = temp->right_child;
+
+            } 
+            //key is already in the tree
+            else
+            {
+                delete temp->intarr;
+                int length = *(&val + 1) - val;
+                temp->intarr =  new int[length];
+                for (int i = 0; i < length; i++)
+                {
+                    temp->intarr[i] = val[i];
+                }
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
+
 void AVLTree::print() 
 {
 
-  // If the tree is empty, say so.
     if (root == nullptr)
 	std::cout << "Tree is empty!" <<
 		std::endl;
-
-  // Otherwise, if the tree has a height more than 4
-  // (5 rows), it is too wide.
-        else if (root->getHeight() > 4)
+        else if (root->height > 4)
             std::cout << "Not currently supported!" <<
 		std::endl;
-
-  // Otherwise, set up to display the tree. Get
-  // the maximum depth and for each possible
-  // level, output that level's elements and
-  // finish off the line.
         else 
         {
-            int max = root->getHeight();
+            int max = root->height;
             for (int depth = 0; depth <= max; depth++) 
             {
                 printSubtree(root, depth, max-depth+1, true);
                 std::cout << std::endl;
-            } // for
+            } 
             
-        } // if
-} // print
+        } 
+} 
 
-// --------------------------------------------------
-// Print the subtree.  The leftmost branch will have
-// first true. The level counts up from the bottom
-// for the line we are doing. The depth is how
-// many layers to skip over.
+// leftmost branch will have first true  
+// the level counts up from the bottom
+// for the line we are doing. the depth is how
+// many layers to skip over
 void AVLTree::printSubtree(Node *subtree, int depth,
-	int level, bool first) {
+	int level, bool first) 
+{
+    if (depth > 0) 
+    {
+        if (subtree == nullptr) 
+        {
+            printSubtree(subtree, depth-1, level, first);
+            printSubtree(subtree, depth-1, level, false);
+        } 
+        else 
+        {
+            printSubtree(subtree->left_child, depth-1,level, first);
+            printSubtree(subtree->right_child, depth-1,level, false);
+        } 
+    } 
+    else 
+        if (subtree == nullptr)
+            std::cout << std::setw((first)?
+            spacing(level)/2:spacing(level)) << "-";
 
-  // If we need to go deeper in the subtree, do so.
-  // If the subtree is empty, pass it down, otherwise
-  // pass both left and right subtrees.
-  if (depth > 0) {
-	if (subtree == nullptr) {
-	  printSubtree(subtree, depth-1, level, first);
-	  printSubtree(subtree, depth-1, level, false);
-	} else {
-	  printSubtree(subtree->getLeftChild(), depth-1,
-		  level, first);
-	  printSubtree(subtree->getRightChild(), depth-1,
-		  level, false);
-	} // if
+        else
+            std::cout << std::setw((first)?
+            spacing(level)/2:spacing(level)) <<
+            subtree->key << '(' << subtree->val << ')';
+} 
 
-  // Otherwise, if the subtree is empty, display
-  // an empty element. The leftmost element only
-  // needs half the spacing.
-  } else if (subtree == nullptr)
-	std::cout << std::setw((first)?
-		spacing(level)/2:spacing(level)) << "-";
-
-  // Otherwise, we have a live element so display
-  // it. Once more, use half spacing for the
-  // leftmost element.
-  else
-	std::cout << std::setw((first)?
-		spacing(level)/2:spacing(level)) <<
-		subtree->getData();
-} // printSubtree
-
-// --------------------------------------------------
-// Remove the value from the tree.
+// remove the value from the tree.
 // Returns:
-//		 true: If removal is successful
-//		 false: If item is not found in the tree
+//		 true: if removal is successful
+//		 false: if item is not found in the tree
 //
-bool AVLTree::remove(int val) {
+bool AVLTree::remove(const char* key) 
+{
 
-  // Find the node to delete and if none, exit.
-  Node *toBeRemoved = findNode(val);
-  if (toBeRemoved == nullptr)
-	return false;
+    Node *toBeRemoved = findNode(key);
+    if (toBeRemoved == nullptr)
+        return false;
 
-  // Get the parent and set the side the node is
-  // on of the parent.
-  enum {left, right} side;
-  Node *p = toBeRemoved->getParent();
-  if (p != nullptr &&
-	  p->getLeftChild() == toBeRemoved)
-	side = left;
-  else
-	side = right;
+    enum {left, right} side;
+    Node *p = toBeRemoved->parent;
+    if (p != nullptr &&
+        p->left_child == toBeRemoved)
+        side = left;
+    else
+        side = right;
+    if (toBeRemoved->left_child == nullptr)
+        if (toBeRemoved->right_child == nullptr) 
+        {
+            if (p == nullptr) 
+            {
+                setRoot(nullptr);
+                delete toBeRemoved;
+            } 
+            else 
+            {
+                if (side == left)
+                    p->setLeftChild(nullptr);
+                else
+                    p->setRightChild(nullptr);
+                delete toBeRemoved;
+                p->updateHeight();
+                balanceAtNode(p);
+                
+            } 
 
-  // If the node to be removed doesn't have a left
-  // subtree, check it's right subtree to figure
-  // out our next move.
-  if (toBeRemoved->getLeftChild() == nullptr)
+        }
+        else 
+        {
 
-	// If we don't have any subtrees, we are the
-	// leaf so our parent doesn't need us.
-	if (toBeRemoved->getRightChild() == nullptr) {
+            if (p == nullptr) 
+            {
+                setRoot(toBeRemoved->right_child);
+                delete toBeRemoved;
+            } 
+            else 
+            {
+                if (side == left)
+                    p->setLeftChild(toBeRemoved->
+                    right_child);
+                else
+                    p->setRightChild(toBeRemoved->
+                    right_child);
+                delete toBeRemoved;
+                p->updateHeight();
+                balanceAtNode(p);
+                
+            } 
+        }
+        else if (toBeRemoved->right_child ==nullptr) 
+        {
 
-	  // If we don't have a parent, the tree is now
-	  // empty so change the root to null and delete
-	  // our node.
-	  if (p == nullptr) {
-		setRoot(nullptr);
-		delete toBeRemoved;
+            if (p == nullptr) 
+            {
+                setRoot(toBeRemoved->left_child);
+                delete toBeRemoved;
+            } 
+            else
+            {
+                if(side == left)
+                    p->setLeftChild(toBeRemoved->left_child);
+                else
+                    p->setRightChild(toBeRemoved->left_child);
+                delete toBeRemoved;
+                p->updateHeight();
+                balanceAtNode(p);
+                
+            }
+        } 
+        else 
+        {
+            Node *replacement;
+            Node *replacement_parent;
+            Node *temp_node;
+            int bal = toBeRemoved->getBalance();
+            if (bal > 0) 
+            {
+                if (toBeRemoved->left_child->right_child == nullptr) 
+                {
+                    replacement = toBeRemoved->left_child;
+                    replacement->setRightChild(
+                        toBeRemoved->right_child);
+                    temp_node = replacement;
+                } 
+                else 
+                {
+                    replacement = toBeRemoved->left_child->right_child;
+                    while (replacement->right_child !=nullptr)
+                        replacement = replacement->right_child;
+                    replacement_parent = replacement->parent;
+                    replacement_parent->setRightChild(replacement->left_child);
+                    temp_node = replacement_parent;
+                    replacement->setLeftChild(toBeRemoved->left_child);
+                    replacement->setRightChild(toBeRemoved->right_child);
+                    
+                }
 
-	  // Otherwise, change the parent so it doesn't
-	  // point to us, delete ourself, update the
-	  // parent's height, and rebalance the tree.
-	  } else {
-		if (side == left)
-		  p->setLeftChild(nullptr);
-		else
-		  p->setRightChild(nullptr);
-		delete toBeRemoved;
-		p->updateHeight();
-		balanceAtNode(p);
-	  } // if
 
-	// Otherwise, there is a right subtree so use
-	// it to replace ourself.
-	} else {
+                
+            } 
+            else 
+                if (toBeRemoved->right_child->left_child == nullptr) 
+                {
+                    replacement = toBeRemoved->right_child;
+                    replacement->setLeftChild(
+                        toBeRemoved->left_child);
+                    temp_node = replacement;
+                } 
+                else 
+                {
+                    replacement = toBeRemoved->
+                    right_child->left_child;
+                    while (replacement->left_child !=nullptr)
+                        replacement = replacement->left_child;
+                    replacement_parent = replacement->parent;
+                    replacement_parent->setLeftChild(replacement->right_child);
+                    temp_node = replacement_parent;
+                    replacement->setLeftChild(
+                        toBeRemoved->left_child);
+                    replacement->setRightChild(
+                        toBeRemoved->right_child);
+                    
+                }
+            if (p == nullptr)
+                setRoot(replacement);
+            else if (side == left)
+                p->setLeftChild(replacement);
+            else
+                p->setRightChild(replacement);
+            delete toBeRemoved;
+            balanceAtNode(temp_node);
+        }
+        return true;
+} 
 
-	  // If we don't have a parent, the tree is now
-	  // the right subtree and delete our node.
-	  if (p == nullptr) {
-		setRoot(toBeRemoved->getRightChild());
-		delete toBeRemoved;
+void AVLTree::rotateLeft(Node *n) 
+{
 
-	  // Otherwise, change the parent so it doesn't
-	  // point to us, delete ourself, update the
-	  // parent's height, and rebalance the tree.
-	  } else {
-		if (side == left)
-		  p->setLeftChild(toBeRemoved->
-			  getRightChild());
-		else
-		  p->setRightChild(toBeRemoved->
-			  getRightChild());
-		delete toBeRemoved;
-		p->updateHeight();
-		balanceAtNode(p);
-	  } // if
-	} // if
+    enum {left, right} side;
+    Node *p = n->parent;
+    if (p != nullptr && p->left_child == n)
+        side = left;
+    else
+        side = right;
+    
+    Node *temp = n->right_child;
+    n->setRightChild(temp->left_child);
+    temp->setLeftChild(n);
 
-  // Otherwise, we have a left subtree so check the
-  // right one of the node being removed to decide
-  // what is next. If there isn't a right subtree,
-  // the left one will replace ourself.
-  else if (toBeRemoved->getRightChild() ==
-	  nullptr) {
+    if (p == nullptr)
+        setRoot(temp);
+    else if (side == left)
+        p->setLeftChild(temp);
+    else
+        p->setRightChild(temp);
+} 
 
-	// If we don't have a parent, the tree is now
-	// the left subtree and delete our node.
-	if (p == nullptr) {
-	  setRoot(toBeRemoved->getLeftChild());
-	  delete toBeRemoved;
+void AVLTree::rotateRight(Node *n) 
+{
+    enum {left, right} side;
+    Node *p = n->parent;
+    if (p != nullptr && p->left_child == n)
+        side = left;
+    else
+        side = right;
 
-	// Otherwise, change the parent so it doesn't
-	// point to us, delete ourself, update the
-	// parent's height, and rebalance the tree.
-	} else {
-	  if(side == left)
-		p->setLeftChild(toBeRemoved->
-			getLeftChild());
-	  else
-		p->setRightChild(toBeRemoved->
-			getLeftChild());
-	  delete toBeRemoved;
-	  p->updateHeight();
-	  balanceAtNode(p);
-	} // if
+    Node *temp = n->left_child;
+    n->setLeftChild(temp->right_child);
+    temp->setRightChild(n);
 
-  // Otherwise, the node to remove has both subtrees
-  // so decide the best method to remove it.
-  } else {
+    if (p == nullptr)
+        setRoot(temp);
+    else if (side == left)
+        p->setLeftChild(temp);
+    else
+        p->setRightChild(temp);
+}
 
-	// Check the balance to see which way to go.
-	// If the left side is deeper, modify it.
-	Node *replacement;
-	Node *replacement_parent;
-	Node *temp_node;
-	int bal = toBeRemoved->getBalance();
-	if (bal > 0) {
 
-	  // If the right subtree of the node's
-	  // left subtree is empty, we can move the
-	  // node's right subtree there.
-	  if (toBeRemoved->getLeftChild()->
-		  getRightChild() == nullptr) {
-		replacement = toBeRemoved->getLeftChild();
-		replacement->setRightChild(
-			toBeRemoved->getRightChild());
-		temp_node = replacement;
-
-	  // Otherwise, find the right most empty subtree
-	  // of our node's left subtree and it's
-	  // parent. This is our replacement. Make it's
-	  // parent point to it's left child instead
-	  // of itself. It is now free to replace the
-	  // deleted node. Copy both of the deleted
-	  // nodes subtrees into the replacement leaving
-	  // fixing up the parent below.
-	  } else {
-		replacement = toBeRemoved->
-			getLeftChild()->getRightChild();
-		while (replacement->getRightChild() !=
-			nullptr)
-		  replacement = replacement->getRightChild();
-		replacement_parent = replacement->getParent();
-		replacement_parent->setRightChild(
-			replacement->getLeftChild());
-		temp_node = replacement_parent;
-		replacement->setLeftChild(
-			toBeRemoved->getLeftChild());
-		replacement->setRightChild(
-			toBeRemoved->getRightChild());
-	  } // if
-
-	// Otherwise, we are going to modify the right
-	// side so, if the left subtree of the node's
-	// right subtree is empty, we can move the
-	// node's left subtree there.
-	} else if (toBeRemoved->getRightChild()->
-		getLeftChild() == nullptr) {
-	  replacement = toBeRemoved->getRightChild();
-	  replacement->setLeftChild(
-		  toBeRemoved->getLeftChild());
-	  temp_node = replacement;
-
-	// Otherwise, find the left most empty subtree
-	// of our node's right subtree and it's
-	// parent. This is our replacement. Make it's
-	// parent point to it's right child instead
-	// of itself. It is now free to replace the
-	// deleted node. Copy both of the deleted
-	// nodes subtrees into the replacement leaving
-	// fixing up the parent below.
-	} else {
-	  replacement = toBeRemoved->
-		  getRightChild()->getLeftChild();
-	  while (replacement->getLeftChild() !=
-		  nullptr)
-		replacement = replacement->getLeftChild();
-	  replacement_parent = replacement->getParent();
-	  replacement_parent->setLeftChild(
-		  replacement->getRightChild());
-	  temp_node = replacement_parent;
-	  replacement->setLeftChild(
-		  toBeRemoved->getLeftChild());
-	  replacement->setRightChild(
-		  toBeRemoved->getRightChild());
-	} // if
-
-	// Fix the parent to point to the new root.
-	// If there isn't a parent, update the actual
-	// tree root. Otherwise, there is a parent so
-	// if we were the left subtree, update it,
-	// otherwise, the right. In all cases, delete
-	// the node and rebalance the tree.
-	if (p == nullptr)
-	  setRoot(replacement);
-	else if (side == left)
-	  p->setLeftChild(replacement);
-	else
-	  p->setRightChild(replacement);
-	delete toBeRemoved;
-	balanceAtNode(temp_node);
-  } // if
-  return true;
-} // remove
-
-// --------------------------------------------------
-// Rotate the subtree left.
-void AVLTree::rotateLeft(Node *n) {
-
-  // Get the node's parent and if it exists and the
-  // node was it's left subtree, remember we are
-  // processing the left, otherwise, the right.
-  enum {left, right} side;
-  Node *p = n->getParent();
-  if (p != nullptr && p->getLeftChild() == n)
-	side = left;
-  else
-	side = right;
-
-  // Get the node's right subtree as the new root
-  // and that subtree's left subtree. Make that
-  // left subtree the node's new right. Put our
-  // original node as the left subtree of our
-  // new root.
-  Node *temp = n->getRightChild();
-  n->setRightChild(temp->getLeftChild());
-  temp->setLeftChild(n);
-
-  // Fix the original parent to point to the new
-  // root. If there isn't a parent, update the
-  // actual tree root. Otherwise, there is a
-  // parent so if we were the left subtree, update
-  // it, otherwise, the right.
-  if (p == nullptr)
-	setRoot(temp);
-  else if (side == left)
-	p->setLeftChild(temp);
-  else
-	p->setRightChild(temp);
-} // rotateLeft
-
-// --------------------------------------------------
-// Rotate the subtree left.
-void AVLTree::rotateRight(Node *n) {
-
-  // Get the node's parent and if it exists and the
-  // node was it's left subtree, remember we are
-  // processing the left, otherwise, the right.
-  enum {left, right} side;
-  Node *p = n->getParent();
-  if (p != nullptr && p->getLeftChild() == n)
-	side = left;
-  else
-	side = right;
-
-  // Get the node's left subtree as the new root
-  // and that subtree's right subtree. Make that
-  // right subtree the node's new left. Put our
-  // original node as the right subtree of our
-  // new root.
-  Node *temp = n->getLeftChild();
-  n->setLeftChild(temp->getRightChild());
-  temp->setRightChild(n);
-
-  // Fix the original parent to point to the new
-  // root. If there isn't a parent, update the
-  // actual tree root. Otherwise, there is a
-  // parent so if we were the left subtree, update
-  // it, otherwise, the right.
-  if (p == nullptr)
-	setRoot(temp);
-  else if (side == left)
-	p->setLeftChild(temp);
-  else
-	p->setRightChild(temp);
-} // rotateRight
-
-// --------------------------------------------------
-// Set the root. Change the tree root to the node
-// and if it exists, remove it's parent.
-void AVLTree::setRoot(Node *n) {
+void AVLTree::setRoot(Node *n) 
+{
   root = n;
   if (root != nullptr)
 	root->removeParent();
-} // setRoot
+} 
 
-// --------------------------------------------------
-// Figure out the default spacing for element. Each
-// higher level doubles the preceeding. The bottom
-// level is one.
-int AVLTree::spacing(int level) {
-  int result = 2;
+// default spacing for element. Each
+// higher level doubles the preceeding
+int AVLTree::spacing(int level) 
+{
+  int result = 6;
   for (int i = 0; i < level; i++)
 	result += result;
   return result;
-} // spacing
+} 
 
-// **************************************************
-// Test the class.
-int main() {
 
-  // Allocate an array to keep track of the data we
-  // add to the tree, initialize the random numbers,
-  // allocate an empty tree.
-  int data[10];
+int main() 
+{
+
+  double data[20];
+  int data2[20];
   srand(time(0));
-  AVLTree *tree = new AVLTree();
+  AVLTree tree;
 
-  // Insert 10 unique random numbers into the tree.
-  // For each number we are adding, attempt to insert
-  // a random number, until it works because it is
-  // unique. Afterwards, display the new number and
-  // the current state of the tree.
-  for (int i = 0; i < 10; i++) {
-	while (!tree->insert(data[i] = rand()%100));
-	std::cout << "Adding " << data[i] << std::endl;
-	tree->print();
-  } // for
+  for (int i = 0; i < 20; i++) 
+  {
+    //char * str;
+    data[i] = rand()%100;
+    //sprintf(str, "%d");
+	if(!tree.insert("1234dada5ddawdwdadsadawdadwadw67890" + i,data[i]))
+        break;
+	std::cout << "Adding " << i << " " <<data[i] << 
+	" ##############################################################" << std::endl;
+	//tree.print();
+  }
+  
+  for (int i = 0; i < 20; i++) 
+  {
+    //char * str;
+    data2[i] = rand()%100;
+    //sprintf(str, "%d");
+	if(!tree.insert("1234dada5ddawdwdadsadawdadwadw67890" + i,data2[i]))
+        break;
+	std::cout << "Adding " << i << " " <<data2[i] << 
+	" ##############################################################" << std::endl;
+	//tree.print();
+  }
+  
+  for (int i = 0; i < 20; i++) 
+  {
+    //char * str;
+    data2[i] = rand()%100;
+    //sprintf(str, "%d");
+	if(!tree.insert("1234dada5ddawdwdadsadawdadwadw67890" + i,"1234dada5ddawdwdadsadawdadwadw67890" + i))
+        break;
+	//std::cout << "Adding " << i << " " <<data2[i] << 
+	//" ##############################################################" << std::endl;
+	//tree.print();
+  }
+  
+  
+  {
+      char *str;
+      AVLTree A;
+      printf("1######################################\n");
+      A = tree;
+      //A.print();
+      printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt("1234dada5ddawdwdadsadawdadwadw67890"));
+      printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getDouble("1234dada5ddawdwdadsadawdadwadw67890"));
+      printf("%s^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", str = A.getString("1234dada5ddawdwdadsadawdadwadw67890"));
+      delete str;
+      printf("2######################################\n");
+      //A.insert("1234dada5ddawdwdadsadawdadwadw67890", data2);
+      
+  }
 
-  // Remove each of the numbers by displaying the
-  // number being removed, performing the removal,
-  // and displaying the current state of the tree.
+  
   for (int i = 0; i < 10; i++) {
-	std::cout << "Removing " << data[i] << std::endl;
-	tree->remove(data[i]);
-	tree->print();
+	std::cout << "Removing " << "1234dada5ddawdwdadsadawdadwadw67890" + i << std::endl;
+	std::cout << tree.remove("1234dada5ddawdwdadsadawdadwadw67890" + i) << 
+	" ##############################################################" << std::endl;
+	//tree.print();
   } // for
-  return 0;
+  
+return 0;
 } // main 
