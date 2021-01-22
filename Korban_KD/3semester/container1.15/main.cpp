@@ -68,15 +68,10 @@ public:
     
     AVLTree operator = (const AVLTree & that);
     
-    int getInt(const char* key) { return findNode(key)->val; }
-    double getDouble(const char* key) { return findNode(key)->dval; }
-    char * getString(const char* key) 
-    { 
-        char *A = findNode(key)->string;
-        char *copy = new char[strlen(A) + 1];
-        strcpy(copy, A);
-        return copy; 
-    }
+    int getInt(const char* key) ;
+    double getDouble(const char* key);
+    char * getString(const char* key) ;
+    
     
     int getHeight();
     
@@ -90,8 +85,33 @@ public:
     void print();
     
     
+    enum ERRORS
+    {
+        NO_KEY = -10,
+        NO_STRING,
+    };
+    
    
 }; 
+
+class AvlTree_exeption
+{ 
+	private: 
+		int code_;
+		std::string reason_;
+	public:
+		AvlTree_exeption(int code, const std::string& reason)
+		{
+			code_ = code;
+			reason_ = reason;
+		}
+
+		const std::string& get_reason() const 
+		{ 
+			return reason_; 
+		}
+};
+
 
 
 AVLTree::Node::Node(const char *key ,const int val) 
@@ -350,6 +370,46 @@ void AVLTree::copytree(Node & A ,const Node & B)
 }
 
 
+int AVLTree::getInt(const char* key) 
+{ 
+    Node *temp = findNode(key);
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+    return temp->val; 
+}
+double AVLTree::getDouble(const char* key)
+{ 
+    Node *temp = findNode(key);
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+        
+    return temp->dval;
+}
+
+char * AVLTree::getString(const char* key) 
+{ 
+    Node *temp = findNode(key);
+        
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+        
+    if(temp->string == nullptr)
+    {
+        throw AvlTree_exeption(NO_STRING, "in this key string is empty");
+    }
+        
+    char *copy = new char[strlen(temp->string) + 1];
+    strcpy(copy, temp->string);
+    return copy; 
+}
+
+
 // balance the subtree
 void AVLTree::balanceAtNode(Node *n) 
 {
@@ -435,6 +495,9 @@ bool AVLTree::insert(const char *key,int val)
             //key is already in the tree
             else
             {
+                if(temp->val == val)
+                    return false;
+                
                 temp->val = val;
                 return true;
             }
@@ -487,6 +550,9 @@ bool AVLTree::insert(const char *key,double val)
             //key is already in the tree
             else
             {
+                if(abs(temp->dval - val) < 1e-10)
+                    return false;
+                
                 temp->dval = val;
                 return true;
             }
@@ -541,6 +607,15 @@ bool AVLTree::insert(const char *key,const char* val)
             //key is already in the tree
             else
             {
+                if(temp->string == nullptr)
+                {
+                    temp->string =  new char[strlen(val) + 1];
+                    strcpy(temp->string, val);
+                    return true;
+                }
+                if(strcmp(val, temp->string) == 0)
+                    return false;
+                
                 delete temp->string;
                 temp->string =  new char[strlen(val) + 1];
                 strcpy(temp->string, val);
@@ -882,71 +957,77 @@ int AVLTree::spacing(int level)
 
 int main() 
 {
+    try
+    {
+        double data[20];
+        int data2[20];
+        srand(time(0));
+        AVLTree tree;
+        
+        const char *basekey = "11212112";
+        
+        for (int i = 0; i < 20; i++) 
+        {
+            //char * str;
+            data[i] = rand()%100;
+            //sprintf(str, "%d");
+            if(!tree.insert(basekey + i,data[i]))
+                break;
+            std::cout << "Adding " << i << " " <<data[i] << 
+            " ##############################################################" << std::endl;
+            //tree.print();
+        }
+        
+        for (int i = 0; i < 20; i++) 
+        {
+            //char * str;
+            data2[i] = rand()%100;
+            //sprintf(str, "%d");
+            if(!tree.insert(basekey + i,data2[i]))
+                break;
+            std::cout << "Adding " << i << " " <<data2[i] << 
+            " ##############################################################" << std::endl;
+            //tree.print();
+            
+        }
+        for (int i = 0; i < 20; i++) 
+        {
+            //char * str;
+            data2[i] = rand()%100;
+            //sprintf(str, "%d");
+            if(!tree.insert(basekey + i,basekey + i))
+                break;
+            //std::cout << "Adding " << i << " " <<data2[i] << 
+            //" ##############################################################" << std::endl;
+            //tree.print();
+        }
 
-  double data[20];
-  int data2[20];
-  srand(time(0));
-  AVLTree tree;
-
-  for (int i = 0; i < 20; i++) 
-  {
-    //char * str;
-    data[i] = rand()%100;
-    //sprintf(str, "%d");
-	if(!tree.insert("1234dada5ddawdwdadsadawdadwadw67890" + i,data[i]))
-        break;
-	std::cout << "Adding " << i << " " <<data[i] << 
-	" ##############################################################" << std::endl;
-	//tree.print();
-  }
-  
-  for (int i = 0; i < 20; i++) 
-  {
-    //char * str;
-    data2[i] = rand()%100;
-    //sprintf(str, "%d");
-	if(!tree.insert("1234dada5ddawdwdadsadawdadwadw67890" + i,data2[i]))
-        break;
-	std::cout << "Adding " << i << " " <<data2[i] << 
-	" ##############################################################" << std::endl;
-	//tree.print();
-  }
-  
-  for (int i = 0; i < 20; i++) 
-  {
-    //char * str;
-    data2[i] = rand()%100;
-    //sprintf(str, "%d");
-	if(!tree.insert("1234dada5ddawdwdadsadawdadwadw67890" + i,"1234dada5ddawdwdadsadawdadwadw67890" + i))
-        break;
-	//std::cout << "Adding " << i << " " <<data2[i] << 
-	//" ##############################################################" << std::endl;
-	//tree.print();
-  }
-  
-  
-  {
-      char *str;
-      AVLTree A;
-      printf("1######################################\n");
-      A = tree;
-      //A.print();
-      printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt("1234dada5ddawdwdadsadawdadwadw67890"));
-      printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getDouble("1234dada5ddawdwdadsadawdadwadw67890"));
-      printf("%s^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", str = A.getString("1234dada5ddawdwdadsadawdadwadw67890"));
-      delete str;
-      printf("2######################################\n");
-      //A.insert("1234dada5ddawdwdadsadawdadwadw67890", data2);
-      
-  }
-
-  
-  for (int i = 0; i < 10; i++) {
-	std::cout << "Removing " << "1234dada5ddawdwdadsadawdadwadw67890" + i << std::endl;
-	std::cout << tree.remove("1234dada5ddawdwdadsadawdadwadw67890" + i) << 
-	" ##############################################################" << std::endl;
-	//tree.print();
-  } // for
-  
-return 0;
-} // main 
+        {
+            char *str;
+            AVLTree A;
+            printf("1######################################\n");
+            A = tree;
+            //A.print();
+            printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt(basekey));
+            printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getDouble(basekey));
+            printf("%s^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", 
+            str = A.getString(basekey));
+            delete[] str;
+            printf("2######################################\n");
+            //A.insert(basekey, data2);
+        }
+        
+        for (int i = 0; i < 10; i++) {
+            std::cout << "Removing " << basekey + i << std::endl;
+            std::cout << tree.remove(basekey + i) << 
+            " ##############################################################" << std::endl;
+            //tree.print();
+            
+        }
+    }
+    catch (AvlTree_exeption &err)
+    {
+		std::cout << "EXC  "<< err.get_reason() << std::endl;
+    }
+    return 0;
+} 
