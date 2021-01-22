@@ -15,6 +15,9 @@ private:
           double *darr = nullptr;
           char *string = nullptr; 
           
+          int len_int = 0;
+          int len_double = 0;
+          
           char *key = nullptr;
           
 		// the height of this node from the deepest point
@@ -30,7 +33,8 @@ private:
           Node(const char *key ,const int val);
           Node(const char *key ,const double dval);
           Node(const char *key ,const char* string);
-          Node(const char *key , const int* valarr);
+          Node(const char *key , const int* valarr, int n);
+          Node(const char *key , const double* valarr, int n);
           
 		// calculate the balance point.
           int getBalance();
@@ -70,7 +74,9 @@ public:
     
     int getInt(const char* key) ;
     double getDouble(const char* key);
-    char * getString(const char* key) ;
+    char *getString(const char* key);
+    int *getIntArray(const char* key);
+    double *getDoubleArray(const char* key) ;
     
     
     int getHeight();
@@ -78,7 +84,8 @@ public:
     bool insert( const char *key, const int val);
     bool insert(const char *key,const double val);
     bool insert(const char *key,const char* string);
-    bool insert(const char *key,const int* val);
+    bool insert(const char *key,const int* val, int n);
+    bool insert(const char *key, const double* val, int n );
     
     bool remove(const char* key);
     
@@ -89,6 +96,7 @@ public:
     {
         NO_KEY = -10,
         NO_STRING,
+        NO_INT_ARR,
     };
     
    
@@ -150,18 +158,34 @@ AVLTree::Node::Node(const char *key , const char* string)
     right_child = nullptr;
 }
 
-AVLTree::Node::Node(const char *key , const int* valarr) 
+AVLTree::Node::Node(const char *key , const int* valarr, int n) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
     
-    int length = *(&valarr + 1) - valarr;
-    this->intarr =  new int[length];
-    for (int i = 0; i < length; i++)
+    this->intarr =  new int[n];
+    for (int i = 0; i < n; i++)
     {
         this->intarr[i] = valarr[i];
     }
+    this->len_int = n;
+    height = 0;
+    parent = nullptr;
+    left_child = nullptr;
+    right_child = nullptr;
+}
+
+AVLTree::Node::Node(const char *key , const double* valarr, int n) 
+{
+    this->key =  new char[strlen(key) + 1];
+    strcpy(this->key, key);
     
+    this->darr =  new double[n];
+    for (int i = 0; i < n; i++)
+    {
+        this->darr[i] = valarr[i];
+    }
+    this->len_double = n;
     height = 0;
     parent = nullptr;
     left_child = nullptr;
@@ -183,22 +207,22 @@ AVLTree::Node::Node(const Node & that)
     
     if(that.intarr != nullptr)
     {
-        int length = *(&that.intarr + 1) - that.intarr;
-        this->intarr =  new int[length];
-        for (int i = 0; i < length; i++)
+        this->intarr =  new int[that.len_int];
+        for (int i = 0; i < that.len_int; i++)
         {
             this->intarr[i] = that.intarr[i];
         }
+        this->len_int = that.len_int;
     }
     
     if(that.intarr != nullptr)
     {
-        int length = *(&that.darr + 1) - that.darr;
-        this->darr =  new double[length];
-        for (int i = 0; i < length; i++)
+        this->darr =  new double[that.len_double];
+        for (int i = 0; i < that.len_double; i++)
         {
             this->darr[i] = that.darr[i];
         }
+        this->len_double = that.len_double;
     }
     
     if(that.string != nullptr)
@@ -406,6 +430,42 @@ char * AVLTree::getString(const char* key)
         
     char *copy = new char[strlen(temp->string) + 1];
     strcpy(copy, temp->string);
+    return copy; 
+}
+
+int *AVLTree::getIntArray(const char* key) 
+{
+    Node *temp = findNode(key);
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+    
+    if(temp->intarr == nullptr)
+    {
+        throw AvlTree_exeption(NO_INT_ARR, "in this key int array is empty");
+    }
+    int *copy = new int[temp->len_int];
+    for (int i = 0; i < temp->len_int; i++)
+        copy[i] = temp->intarr[i];
+    return copy; 
+}
+
+double *AVLTree::getDoubleArray(const char* key) 
+{
+    Node *temp = findNode(key);
+    if(!temp)
+    {
+        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+    }
+    
+    if(temp->darr == nullptr)
+    {
+        throw AvlTree_exeption(NO_INT_ARR, "in this key double array is empty");
+    }
+    double *copy = new double[temp->len_double];
+    for (int i = 0; i < temp->len_double; i++)
+        copy[i] = temp->darr[i];
     return copy; 
 }
 
@@ -635,11 +695,11 @@ bool AVLTree::insert(const char *key,const char* val)
   return true;
 }
 
-bool AVLTree::insert(const char *key,const int* val) 
+bool AVLTree::insert(const char *key, const int* val, int n ) 
 {
     //check if tree is empty
     if (root == nullptr)
-        root = new Node(key, val);
+        root = new Node(key, val, n);
 
     //  finding the insertion point 
     else 
@@ -653,7 +713,7 @@ bool AVLTree::insert(const char *key,const int* val)
                 if (temp->left_child == nullptr) 
                 {
                     added_node = temp->setLeftChild(
-                        new Node(key, val));
+                        new Node(key, val, n));
                 } else
                     temp = temp->left_child;
             } 
@@ -661,7 +721,7 @@ bool AVLTree::insert(const char *key,const int* val)
             {
                 if (temp->right_child == nullptr)
                 {
-                    added_node = temp->setRightChild(new Node(key, val));
+                    added_node = temp->setRightChild(new Node(key, val, n));
                 } 
                 else
                     temp = temp->right_child;
@@ -670,13 +730,24 @@ bool AVLTree::insert(const char *key,const int* val)
             //key is already in the tree
             else
             {
-                delete temp->intarr;
-                int length = *(&val + 1) - val;
-                temp->intarr =  new int[length];
-                for (int i = 0; i < length; i++)
+                if(temp->intarr == nullptr)
                 {
-                    temp->intarr[i] = val[i];
+                    temp->intarr = new int[n];
+                    for (int i = 0; i < n; i++)
+                        temp->intarr[i] = val[i];
+                    
+                    temp->len_int = n;
+                    
+                    return true;
                 }
+                delete[] temp->intarr;
+                temp->intarr = new int[n];
+                for (int i = 0; i < n; i++)
+                    temp->intarr[i] = val[i];
+                
+                temp->len_int = n;
+                
+                return true;
             }
         } 
 
@@ -691,6 +762,75 @@ bool AVLTree::insert(const char *key,const int* val)
   } 
   return true;
 }
+
+bool AVLTree::insert(const char *key, const double* val, int n ) 
+{
+    //check if tree is empty
+    if (root == nullptr)
+        root = new Node(key, val, n);
+
+    //  finding the insertion point 
+    else 
+    {
+        Node *added_node = nullptr;
+        Node *temp = root;
+        while (temp != nullptr && added_node == nullptr) 
+        {
+            if ( strcmp(temp->key, key) < 0 ) 
+            {
+                if (temp->left_child == nullptr) 
+                {
+                    added_node = temp->setLeftChild(
+                        new Node(key, val, n));
+                } else
+                    temp = temp->left_child;
+            } 
+            else if ( strcmp(key, temp->key) < 0 ) 
+            {
+                if (temp->right_child == nullptr)
+                {
+                    added_node = temp->setRightChild(new Node(key, val, n));
+                } 
+                else
+                    temp = temp->right_child;
+
+            } 
+            //key is already in the tree
+            else
+            {
+                if(temp->darr == nullptr)
+                {
+                    temp->darr = new double[n];
+                    for (int i = 0; i < n; i++)
+                        temp->darr[i] = val[i];
+                    
+                    temp->len_double = n;
+                    
+                    return true;
+                }
+                delete[] temp->darr;
+                temp->darr = new double[n];
+                for (int i = 0; i < n; i++)
+                    temp->darr[i] = val[i];
+                
+                temp->len_double = n;
+                
+                return true;
+            }
+        } 
+
+	//from the new node update height
+	temp = added_node;
+    while(temp != nullptr) 
+    {
+        temp->updateHeight();
+        balanceAtNode(temp);
+        temp = temp->parent;
+	} 
+  } 
+  return true;
+}
+
 
 
 void AVLTree::print() 
@@ -964,9 +1104,11 @@ int main()
         srand(time(0));
         AVLTree tree;
         
-        const char *basekey = "11212112";
+        const char *basekey = "112112";
         
-        for (int i = 0; i < 20; i++) 
+        int nuber_of_iter = 5;
+        
+        for (int i = 0; i < nuber_of_iter; i++) 
         {
             //char * str;
             data[i] = rand()%100;
@@ -978,7 +1120,7 @@ int main()
             //tree.print();
         }
         
-        for (int i = 0; i < 20; i++) 
+        for (int i = 0; i < nuber_of_iter; i++) 
         {
             //char * str;
             data2[i] = rand()%100;
@@ -990,11 +1132,8 @@ int main()
             //tree.print();
             
         }
-        for (int i = 0; i < 20; i++) 
+        for (int i = 0; i < nuber_of_iter; i++) 
         {
-            //char * str;
-            data2[i] = rand()%100;
-            //sprintf(str, "%d");
             if(!tree.insert(basekey + i,basekey + i))
                 break;
             //std::cout << "Adding " << i << " " <<data2[i] << 
@@ -1003,21 +1142,36 @@ int main()
         }
 
         {
-            char *str;
-            AVLTree A;
             printf("1######################################\n");
+            char *str;
+            int *temp;
+            double *temp2;
+            AVLTree A;
             A = tree;
-            //A.print();
+            
             printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt(basekey));
             printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getDouble(basekey));
+            
             printf("%s^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", 
             str = A.getString(basekey));
+            
+            A.insert(basekey, data2, nuber_of_iter);
+            temp = A.getIntArray(basekey);
+            
+            printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", temp[1]);
+            
+            A.insert(basekey, data, nuber_of_iter);
+            temp2 = A.getDoubleArray(basekey);
+            printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", temp2[1]);
+            
+            delete[] temp2;
+            delete[] temp;
             delete[] str;
+            tree = A;
             printf("2######################################\n");
-            //A.insert(basekey, data2);
         }
         
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < nuber_of_iter; i++) {
             std::cout << "Removing " << basekey + i << std::endl;
             std::cout << tree.remove(basekey + i) << 
             " ##############################################################" << std::endl;
