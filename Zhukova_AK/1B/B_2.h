@@ -1,3 +1,5 @@
+/*
+
 #include <iostream>
 #include <cstdio>
 
@@ -18,7 +20,7 @@ private:
         ListItem *first = NULL;
         ListItem *last = NULL;
         ListItem *current = NULL;
-/*
+
         ListItem (int n)
         {
                 for (int i=0;i<n;i++)
@@ -31,7 +33,7 @@ private:
                         go_next();
                 }
         }
-*/
+
 
 
         ListItem *next (ListItem *element)
@@ -155,7 +157,7 @@ public:
 	        }
 	        else
 	        {
-*/
+
                         while (current->next != NULL)
   	                {
 	                        printf ("%t\n", current->data);
@@ -187,7 +189,7 @@ public:
 
 //      list(int n);
 };
-
+*/
 
 class Exception
 {
@@ -202,12 +204,5 @@ class Exception
 
 
 //#include "B_1.cpp"
-
-
-
-
-
-
-
 
 
