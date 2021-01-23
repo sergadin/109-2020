@@ -46,7 +46,7 @@ class List //наш основной класс
 			public:
 				Iterator() //просто конструктор
 				{
-					cur_ = nullptr;
+					cur_ = root_;
 				}
 				friend bool operator !=(const Iterator& left, const Iterator& right) //оператор неравенства
 				{
@@ -110,7 +110,6 @@ class List //наш основной класс
 		Iterator start() //итератор на начальную позицию
 		{
 			Iterator i;
-			i.cur_ = root_;
 			i.iter_forward(i);
 			return i;
 		}
