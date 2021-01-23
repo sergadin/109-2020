@@ -1,7 +1,12 @@
 #include <iostream>
+#include <cstring>
+#include <string>
 #include <ctime>
 #include <iomanip>
-#include <cstring>
+#include <fstream>
+
+
+void trim(std::string &str);
 
 class AVLcontainer 
 {
@@ -91,12 +96,15 @@ public:
     
     void print();
     
+    bool readFile(std::ifstream & infile);
+    
     
     enum ERRORS
     {
         NO_KEY = -10,
         NO_STRING,
         NO_INT_ARR,
+        NO_DOUBLE_ARR,
     };
     
    
@@ -461,7 +469,7 @@ double *AVLcontainer::getDoubleArray(const char* key)
     
     if(temp->darr == nullptr)
     {
-        throw AvlTree_exeption(NO_INT_ARR, "in this key double array is empty");
+        throw AvlTree_exeption(NO_DOUBLE_ARR, "in this key double array is empty");
     }
     double *copy = new double[temp->len_double];
     for (int i = 0; i < temp->len_double; i++)
@@ -1094,6 +1102,40 @@ int AVLcontainer::spacing(int level)
   return result;
 } 
 
+void trim(std::string &str)
+{
+    int i=0;
+
+    //left trim
+    while (isspace(str[i])!=0)
+        i++;
+    str = str.substr(i,str.length()-i);
+
+    //right trim
+    i=str.length()-1;
+    while (isspace(str[i])!=0)
+        i--;
+    str = str.substr(0,i+1);
+}
+
+
+bool AVLcontainer::readFile(std::ifstream  & infile)
+{
+    std::string line;
+    while(getline(infile, line)) 
+    {
+        std::string key(line, 0, line.find('='));
+        std::string value(line,line.find('=') + 1);
+        
+        trim(key);
+        trim(value);
+
+        
+        insert( key.c_str(), value.c_str());
+    }
+    return true;
+}
+
 
 int main() 
 {
@@ -1103,6 +1145,22 @@ int main()
         int data2[20];
         srand(time(0));
         AVLcontainer tree;
+        
+        std::ifstream myfile;
+        myfile.open("test.txt");
+        
+        if(!myfile.is_open()) 
+        {
+            std::cout << "File error"<< std::endl;
+            return 1;
+        }
+        
+        char * test;
+        tree.readFile(myfile);
+        test = tree.getString("a");
+        std::cout << test << std::endl;
+        delete[] test;
+        
         
         const char *basekey = "112112";
         
