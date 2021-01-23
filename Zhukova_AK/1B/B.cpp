@@ -8,7 +8,7 @@ int main(void)
 
 		list<int> l(3), m(468);
 
-//	        l.p = 10;
+//        l.p = 10;
 		printf ("Создали список l:\n");
         	l.print();
 
@@ -21,7 +21,7 @@ int main(void)
 		printf ("Добавили элементы в список l:\n");
         	l.print();
 
-		//printf ("P1\n");
+//printf ("P1\n");
 
 		l.get_first();
 		l.go_next();
@@ -36,9 +36,7 @@ int main(void)
         	l.go_next();
 		l.add_after_current(87);
 		l.add_before_current(289);
-
-		//l.del_first_elem();
-
+//l.del_first_elem();
 		printf ("Ещё добавили элементы в l:\n");
 		l.print();
 
@@ -84,3 +82,5 @@ int main(void)
 
 	return 0;
 }
+
+
