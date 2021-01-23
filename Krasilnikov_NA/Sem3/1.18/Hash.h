@@ -24,7 +24,7 @@ public:
 		}
 	};
 
-	List<pair*> table[65536];
+	List<pair*> table[8192];
 
 	void fill(string filename)
 	{
@@ -51,7 +51,8 @@ public:
 				t = stod(temp.erase(0, number));
 			}
 			else t = temp.erase(0, number);*/
-			table[key(k)].push_back(&pair(k, t));
+			pair* te = new pair(k, t);
+			table[key(k)].push_back(te);
 		}
 	}
 
@@ -69,7 +70,8 @@ public:
 
 	void insert(string k, T v)
 	{
-		table[key(k)].push_back(&pair(k, v));
+		pair* te = new pair(k, v);
+		table[key(k)].push_back(te);
 	}
 };
 
