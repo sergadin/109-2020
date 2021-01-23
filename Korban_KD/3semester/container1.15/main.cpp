@@ -105,6 +105,7 @@ public:
         NO_STRING,
         NO_INT_ARR,
         NO_DOUBLE_ARR,
+        W_FORMAT,
     };
     
    
@@ -1129,9 +1130,67 @@ bool AVLcontainer::readFile(std::ifstream  & infile)
         
         trim(key);
         trim(value);
-
         
-        insert( key.c_str(), value.c_str());
+        std::string type(value, 0, value.find(' '));
+        //std::cout << type << std::endl;
+        if (type == "int")  
+        {
+            value = value.substr(value.find(' ') );
+            trim(value);
+            insert( key.c_str(), std::stoi(value));
+        }
+        else if(type == "int")
+        {
+            value = value.substr(value.find(' ') );
+            trim(value);
+            insert( key.c_str(), std::stod(value));
+        }
+        else if(type == "char*")
+        {
+            value = value.substr(value.find(' ') );
+            trim(value);
+            insert( key.c_str(), value.c_str());
+        }
+        else if(type.substr(0, value.find('[')) == "int")
+        {
+            
+            int n = std::stoi(type.substr(value.find('[') + 1));
+            
+            int *arr = new int[n];
+
+            for( int i = 0; i < n; i++)
+            {
+                
+                value = value.substr(value.find(' ') );
+                trim(value);
+                arr[i] = std::stoi(value);
+            }
+            insert( key.c_str(), arr, n);
+            delete[] arr;
+        }
+        else if(type.substr(0, value.find('[')) == "double")
+        {
+            
+            int n = std::stoi(type.substr(value.find('[') + 1));
+            
+            double *arr = new double[n];
+
+            for( int i = 0; i < n; i++)
+            {
+                
+                value = value.substr(value.find(' ') );
+                trim(value);
+                arr[i] = std::stod(value);
+            }
+            insert( key.c_str(), arr, n);
+            delete[] arr;
+        }
+        else
+        {
+            throw AvlTree_exeption(W_FORMAT, "wrong format");
+        }
+        
+                
     }
     return true;
 }
@@ -1160,6 +1219,16 @@ int main()
         test = tree.getString("a");
         std::cout << test << std::endl;
         delete[] test;
+        
+        int * int_arr;
+        int_arr = tree.getIntArray("a");
+        std::cout << int_arr[0] << std::endl;
+        delete[] int_arr;
+        
+        double *double_arr;
+        double_arr = tree.getDoubleArray("a");
+        std::cout << double_arr[0] << std::endl;
+        delete[] double_arr;
         
         
         const char *basekey = "112112";
