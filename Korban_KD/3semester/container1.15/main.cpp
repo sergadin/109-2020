@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <cstring>
 
-class AVLTree 
+class AVLcontainer 
 {
 private:
       class Node 
@@ -66,11 +66,11 @@ private:
     void copytree(Node & A,const Node  & B);
 
 public:
-    AVLTree();
-    ~AVLTree();
-    AVLTree(const AVLTree & that);
+    AVLcontainer();
+    ~AVLcontainer();
+    AVLcontainer(const AVLcontainer & that);
     
-    AVLTree operator = (const AVLTree & that);
+    AVLcontainer operator = (const AVLcontainer & that);
     
     int getInt(const char* key) ;
     double getDouble(const char* key);
@@ -122,7 +122,7 @@ class AvlTree_exeption
 
 
 
-AVLTree::Node::Node(const char *key ,const int val) 
+AVLcontainer::Node::Node(const char *key ,const int val) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -133,7 +133,7 @@ AVLTree::Node::Node(const char *key ,const int val)
     right_child = nullptr;
 }
 
-AVLTree::Node::Node(const char *key ,const double dval) 
+AVLcontainer::Node::Node(const char *key ,const double dval) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -144,7 +144,7 @@ AVLTree::Node::Node(const char *key ,const double dval)
     right_child = nullptr;
 }
 
-AVLTree::Node::Node(const char *key , const char* string) 
+AVLcontainer::Node::Node(const char *key , const char* string) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -158,7 +158,7 @@ AVLTree::Node::Node(const char *key , const char* string)
     right_child = nullptr;
 }
 
-AVLTree::Node::Node(const char *key , const int* valarr, int n) 
+AVLcontainer::Node::Node(const char *key , const int* valarr, int n) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -175,7 +175,7 @@ AVLTree::Node::Node(const char *key , const int* valarr, int n)
     right_child = nullptr;
 }
 
-AVLTree::Node::Node(const char *key , const double* valarr, int n) 
+AVLcontainer::Node::Node(const char *key , const double* valarr, int n) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -192,7 +192,7 @@ AVLTree::Node::Node(const char *key , const double* valarr, int n)
     right_child = nullptr;
 }
 
-AVLTree::Node::~Node()
+AVLcontainer::Node::~Node()
 {
     delete[] key;
     delete[] intarr;
@@ -200,7 +200,7 @@ AVLTree::Node::~Node()
     delete[] string;
 }
 
-AVLTree::Node::Node(const Node & that)
+AVLcontainer::Node::Node(const Node & that)
 {
     this->val = that.val;
     this->dval = that.dval;
@@ -245,7 +245,7 @@ AVLTree::Node::Node(const Node & that)
 //negative if right side is deeper 
 //0 if deapth are the same 
 //positive f left side is deeper 
-int AVLTree::Node::getBalance() 
+int AVLcontainer::Node::getBalance() 
 {
 
     int result;
@@ -265,13 +265,13 @@ int AVLTree::Node::getBalance()
 
 
 
-void AVLTree::Node::removeParent() 
+void AVLcontainer::Node::removeParent() 
 {
     parent = nullptr;
 } 
 
 
-AVLTree::Node *AVLTree::Node::setLeftChild(Node *newLeft) 
+AVLcontainer::Node *AVLcontainer::Node::setLeftChild(Node *newLeft) 
 {
     if (newLeft != nullptr)
         newLeft->parent = this;
@@ -281,7 +281,7 @@ AVLTree::Node *AVLTree::Node::setLeftChild(Node *newLeft)
 } 
 
 
-AVLTree::Node *AVLTree::Node::setRightChild(Node *newRight) 
+AVLcontainer::Node *AVLcontainer::Node::setRightChild(Node *newRight) 
 {
 
     if (newRight != nullptr)
@@ -291,7 +291,7 @@ AVLTree::Node *AVLTree::Node::setRightChild(Node *newRight)
     return right_child;
 } 
 
-int AVLTree::Node::updateHeight() 
+int AVLcontainer::Node::updateHeight() 
 {
 
     if (left_child == nullptr)
@@ -314,12 +314,12 @@ int AVLTree::Node::updateHeight()
 } 
 
 
-AVLTree::AVLTree() 
+AVLcontainer::AVLcontainer() 
 {
     root = nullptr;
 }
 
-AVLTree::~AVLTree()
+AVLcontainer::~AVLcontainer()
 {
     printf("destructor for AVLtree was Called\n");
     //delete_all(root);
@@ -329,7 +329,7 @@ AVLTree::~AVLTree()
         
 }
 
-void AVLTree::delete_all(Node * n) 
+void AVLcontainer::delete_all(Node * n) 
 {
     if(n)
     {
@@ -339,7 +339,7 @@ void AVLTree::delete_all(Node * n)
     }
 }
 
-AVLTree::AVLTree(const  AVLTree & that)
+AVLcontainer::AVLcontainer(const  AVLcontainer & that)
 {
     this->root = new Node(*that.root);
     this->root->parent  = nullptr;
@@ -347,7 +347,7 @@ AVLTree::AVLTree(const  AVLTree & that)
     copytree(*this->root, *that.root);
 }
 
-AVLTree AVLTree::operator = (const AVLTree & that)
+AVLcontainer AVLcontainer::operator = (const AVLcontainer & that)
 {
     
     if(that.root == this->root)
@@ -364,7 +364,7 @@ AVLTree AVLTree::operator = (const AVLTree & that)
     return *this;
 }
 
-void AVLTree::copytree(Node & A ,const Node & B)
+void AVLcontainer::copytree(Node & A ,const Node & B)
 {
     //if(&B !=nullptr)
     {
@@ -394,7 +394,7 @@ void AVLTree::copytree(Node & A ,const Node & B)
 }
 
 
-int AVLTree::getInt(const char* key) 
+int AVLcontainer::getInt(const char* key) 
 { 
     Node *temp = findNode(key);
     if(!temp)
@@ -403,7 +403,7 @@ int AVLTree::getInt(const char* key)
     }
     return temp->val; 
 }
-double AVLTree::getDouble(const char* key)
+double AVLcontainer::getDouble(const char* key)
 { 
     Node *temp = findNode(key);
     if(!temp)
@@ -414,7 +414,7 @@ double AVLTree::getDouble(const char* key)
     return temp->dval;
 }
 
-char * AVLTree::getString(const char* key) 
+char * AVLcontainer::getString(const char* key) 
 { 
     Node *temp = findNode(key);
         
@@ -433,7 +433,7 @@ char * AVLTree::getString(const char* key)
     return copy; 
 }
 
-int *AVLTree::getIntArray(const char* key) 
+int *AVLcontainer::getIntArray(const char* key) 
 {
     Node *temp = findNode(key);
     if(!temp)
@@ -451,7 +451,7 @@ int *AVLTree::getIntArray(const char* key)
     return copy; 
 }
 
-double *AVLTree::getDoubleArray(const char* key) 
+double *AVLcontainer::getDoubleArray(const char* key) 
 {
     Node *temp = findNode(key);
     if(!temp)
@@ -471,7 +471,7 @@ double *AVLTree::getDoubleArray(const char* key)
 
 
 // balance the subtree
-void AVLTree::balanceAtNode(Node *n) 
+void AVLcontainer::balanceAtNode(Node *n) 
 {
 
     //get current balance, if its bad on left side 
@@ -495,7 +495,7 @@ void AVLTree::balanceAtNode(Node *n)
 }
 
 // Find the node containing the data.
-AVLTree::Node *AVLTree::findNode(const char* key) 
+AVLcontainer::Node *AVLcontainer::findNode(const char* key) 
 {
 
     Node *temp = root;
@@ -511,12 +511,12 @@ AVLTree::Node *AVLTree::findNode(const char* key)
     return temp;
 } 
 
-int AVLTree::getHeight()
+int AVLcontainer::getHeight()
 {
     return root->height;
 } 
 
-bool AVLTree::insert(const char *key,int val) 
+bool AVLcontainer::insert(const char *key,int val) 
 {
     
     //check if tree is empty
@@ -574,7 +574,7 @@ bool AVLTree::insert(const char *key,int val)
   return true;
 }
 
-bool AVLTree::insert(const char *key,double val) 
+bool AVLcontainer::insert(const char *key,double val) 
 {
 
     //check if tree is empty
@@ -630,7 +630,7 @@ bool AVLTree::insert(const char *key,double val)
   return true;
 }
 
-bool AVLTree::insert(const char *key,const char* val) 
+bool AVLcontainer::insert(const char *key,const char* val) 
 {
 
     //check if tree is empty
@@ -695,7 +695,7 @@ bool AVLTree::insert(const char *key,const char* val)
   return true;
 }
 
-bool AVLTree::insert(const char *key, const int* val, int n ) 
+bool AVLcontainer::insert(const char *key, const int* val, int n ) 
 {
     //check if tree is empty
     if (root == nullptr)
@@ -763,7 +763,7 @@ bool AVLTree::insert(const char *key, const int* val, int n )
   return true;
 }
 
-bool AVLTree::insert(const char *key, const double* val, int n ) 
+bool AVLcontainer::insert(const char *key, const double* val, int n ) 
 {
     //check if tree is empty
     if (root == nullptr)
@@ -833,7 +833,7 @@ bool AVLTree::insert(const char *key, const double* val, int n )
 
 
 
-void AVLTree::print() 
+void AVLcontainer::print() 
 {
 
     if (root == nullptr)
@@ -858,7 +858,7 @@ void AVLTree::print()
 // the level counts up from the bottom
 // for the line we are doing. the depth is how
 // many layers to skip over
-void AVLTree::printSubtree(Node *subtree, int depth,
+void AVLcontainer::printSubtree(Node *subtree, int depth,
 	int level, bool first) 
 {
     if (depth > 0) 
@@ -890,7 +890,7 @@ void AVLTree::printSubtree(Node *subtree, int depth,
 //		 true: if removal is successful
 //		 false: if item is not found in the tree
 //
-bool AVLTree::remove(const char* key) 
+bool AVLcontainer::remove(const char* key) 
 {
 
     Node *toBeRemoved = findNode(key);
@@ -1033,7 +1033,7 @@ bool AVLTree::remove(const char* key)
         return true;
 } 
 
-void AVLTree::rotateLeft(Node *n) 
+void AVLcontainer::rotateLeft(Node *n) 
 {
 
     enum {left, right} side;
@@ -1055,7 +1055,7 @@ void AVLTree::rotateLeft(Node *n)
         p->setRightChild(temp);
 } 
 
-void AVLTree::rotateRight(Node *n) 
+void AVLcontainer::rotateRight(Node *n) 
 {
     enum {left, right} side;
     Node *p = n->parent;
@@ -1077,7 +1077,7 @@ void AVLTree::rotateRight(Node *n)
 }
 
 
-void AVLTree::setRoot(Node *n) 
+void AVLcontainer::setRoot(Node *n) 
 {
   root = n;
   if (root != nullptr)
@@ -1086,7 +1086,7 @@ void AVLTree::setRoot(Node *n)
 
 // default spacing for element. Each
 // higher level doubles the preceeding
-int AVLTree::spacing(int level) 
+int AVLcontainer::spacing(int level) 
 {
   int result = 6;
   for (int i = 0; i < level; i++)
@@ -1102,7 +1102,7 @@ int main()
         double data[20];
         int data2[20];
         srand(time(0));
-        AVLTree tree;
+        AVLcontainer tree;
         
         const char *basekey = "112112";
         
@@ -1146,7 +1146,7 @@ int main()
             char *str;
             int *temp;
             double *temp2;
-            AVLTree A;
+            AVLcontainer A;
             A = tree;
             
             printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt(basekey));
