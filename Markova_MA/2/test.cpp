@@ -175,7 +175,7 @@ int main() {
 		for(int i = 1; i <= 5; ++i)
 			test.push_back(i);
 		test.print();
-		for(int i = 0; i <= 8; ++i)//тут взяли больше удалений, чем есть в списке!
+		for(int i = 0; i <= 8; ++i)//тут взяли больше удалений, чем есть в списке
 			test.del_cur();
 		test.print();
 		
