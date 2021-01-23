@@ -30,34 +30,6 @@ private:
 	list_node<T> *base_;
 	list_node<T> *current_;
 public:
-	class Iterator {
-	private:
-		list_node<T> *cur_;
-		Iterator() {
-			cur_= new list_node<T>;
-			current_ = base_;
-			current_.go_next();
-			cur_->data = current_->data;
-			cur_->next = current_->next;
-		}
-		~Iterator() {
-			delete cur_;
-		}	
-	public:
-		Iterator &operator++(Iterator &i) {
-			i.cur_ = i.cur_->next;
-			return i;
-		}
-		T get_now() {
-			return cur_->data;
-		}
-		bool operator ==(Iterator &now) {
-			if(this == now)
-				return true;
-			else
-				return false;
-		}
-	};
 	List() {
 		base_ = new list_node<T>;
 		base_->next = base_;
@@ -68,8 +40,43 @@ public:
 		del_all();
 		delete base_;
 	}
+	class Iterator {
+	private:
+		list_node<T> *cur_ = nullptr;
+	public:
+		Iterator() = default;
+		Iterator &operator++(int em) {
+			cur_ = cur_->next;
+			return *this;
+		}
+		T get_now() {
+			return cur_->data;
+		}
+		void set(list_node<T> *new_node) {
+			cur_ = new_node;
+		}
+		Iterator &operator =(Iterator it){
+			cur_ = it.cur_;
+			return *(this);
+		}
+		bool operator ==(T x) {
+			if(cur_->data == x)
+				return true;
+			else
+				return false;
+		}
+		bool operator !=(Iterator it) {
+			return cur_ != it.cur_;
+		}
+	};
 	Iterator begin() {
-		Iterator i();
+		Iterator i;
+		i.set(base_->next);
+		return i;
+	}
+	Iterator end() {
+		Iterator i;
+		i.set(base_);
 		return i;
 	}
 	void push_back(T new_el) {
@@ -121,6 +128,17 @@ public:
 			throw ListException(-1, string("error"));
 		return current_->data;
 	}
+	void advance(T new_el, int pos) {
+		if(pos <= 0) return;
+		list_node<T> *p = new list_node<T>, *help = base_, *tmp;
+		p->data = new_el;
+		for(int i = 1; i < pos; ++i)
+			help = help->next;
+		tmp = help->next;
+		help->next = p;
+		p->next = tmp;
+		current_ = p;
+	}
 	void print() const {
 		if(is_empty()) {
 			cout << "List is empty!\n";
@@ -152,30 +170,46 @@ public:
 
 int main() {
 	try {
-		/////Test1: (Добавляем 5 элементов = i от 1, затем удаляем 8 элементов)
+		cout << "Test1\n";
 		List<int> test;
 		for(int i = 1; i <= 5; ++i)
 			test.push_back(i);
 		test.print();
-		for(int i = 0; i <= 8; ++i)//тут взяли больше удалений, чем есть в списке!
+		for(int i = 0; i <= 8; ++i)//тут взяли больше удалений, чем есть в списке
 			test.del_cur();
 		test.print();
-		cout << "___________________________\n";
-		//// Test2: (тестируем оператор присваивания) лист test теперь пустой
+		
+		cout << "Test2\n";//лист test теперь пустой
 		for(int i = 1; i <= 5; ++i)
 			test.push_back(i);
 		test.print();
 		List<int> test2;
 		test2 = test;
 		test2.print();
-		cout << "___________________________\n";
-		//////Test3: (тестируем удаление всех элементов)
+		
+		cout << "Test3\n";
 		test.del_all();
 		test.print();
-		cout << "___________________________\n";
-		////Test4: (Попробуем-ка вывести пустой список)
+		
+		cout << "Test4\n";
+		List<int> not_last;
+		not_last.print();
+		cout << "Test5\n";
 		List<int> last;
-		last.print();
+		last.advance(6, 1);
+		last.advance(5, 1);
+		last.advance(4, 1);
+		last.advance(3, 1);
+		last.advance(2, 1);
+		last.advance(1, 1);
+		List<int>::Iterator it = last.begin();
+		for(int i = 1; it != last.end(); it++, i++) {
+			cout << it.get_now() << ") ";
+			if(it == i)
+				cout << "+\n";
+			else
+				cout << "-\n";
+		}
 	}
 	catch(ListException &err) {
 		cout << err.get_error() << endl;
