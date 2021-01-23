@@ -13,14 +13,10 @@ class Deque{
 				Node *Next_;
 				Node *Prev_;
 				Node(T data, Node *Next = NULL, Node *Prev = NULL){ //конструктор узла  
-					cout <<"(В узле1)" << "Next  " << Next << "  " << "Prev " << Prev << "data" << data << endl;		
 					data_  = data;
-					cout << "Переносим Next" << endl;
 					Next_ = Next;
-					cout << "Переносим Prev" << endl;  
 					Prev_ = Prev;
-					cout << "(В узле2)" << "    Next_" << Next_ << "    Prev_" << Prev_ <<" data_ " << data_ << "data" << data << endl;
-				}
+					}
 		};
 		Node *Head_;
 		Node *Tail_;
@@ -72,7 +68,7 @@ class Deque{
 				} 	
 				Iterator& operator+(int n){
 					n = n%( OurIterDeque_ -> size_);
-					cout << n << endl;
+					//cout << n << endl;
 					for (int i=0; i < n; i++){
 						CurrentIt_ = CurrentIt_  -> Next_;
 					}
@@ -128,29 +124,40 @@ class Deque{
 					 
 		Deque(); //конструктор
 		~Deque(); //деструктор
-		Deque(const Deque &D){
-			//Deque<T>* D2 = new Deque<T>;  
-		/*	Head_ = new Node(D.Head_ -> data_,D.Head_ -> Next_, D.Head_ -> Prev_);   
-			Node * current = D.Head_;
-			push_front(555555555);
-			for(int i=0; i<D.size_; i++){
-				this -> push_back(current -> data_);
-				current = current -> Next_;
-				cout << current -> data_ << endl;
-				
-				cout << "Print in cycle " << *this << endl;
+		Deque(const Deque &D){	
+			this -> Head_=NULL;	
+			this -> Tail_ =NULL;
+			this -> size_ = 0;	
+			Node *p=D.Head_;	
+			for (int i=0; i<D.size_; i++){	
+			  push_front(p->data_);
+			  p=p->Next_;	
+			}
+			/*cout << "(Copy constr)" << endl;
+			Node* A;
+			Node* B;
+			Node* C = nullptr;
+			Head_ = nullptr;
+			A = D.Head_;
+			while (A != D.Tail_){
+				B = new Node(A->data_, nullptr, nullptr);
+				if (Head_== nullptr){
+					Head_ = A;
+					C = B;
+				}
+				else {
+					C -> Next_=B;
+					C = C -> Next_;
+				}
+				A = A-> Next_;
 			}*/
-			cout << "(Copy constr)" << endl;
-			Head_ = D.Head_;
-			Tail_=D.Tail_;
-			size_ = D.size_;
 		};
 	
 		void pop_front(); //удаляем первый элемент из head
 		void pop_back(); //удаляем в хвосте
 		void push_front(T data); //заталкиваем в голову
 		void push_back(T data);
-		void print(); //простите, у меня пока так и не получилось нормально оператор перегрузить
+		void print(); 
 		void front();// печатаем первый элемент
 		void back(); //печатаем последний элемент
 		void sort(); //сортируем данные в деке пузырьком
@@ -162,12 +169,11 @@ class Deque{
 };
 template <typename T>
 Deque<T>& Deque<T>::operator =(Deque<T>& right){
-	while (this -> size_) this -> pop_front(); //выглядит страшно, но на this.pop_front() ругается и требует так делать
+	while (this -> size_) this -> pop_front();
 	//cout << "-- " <<typeid(&right).name() <<"   -------" << endl; 
 	Iterator it = right.end();
-	cout << right.size_ << endl;	
+	
 	for (int i=0; i < right.size_ ; i++){
-		cout << "i " <<i << endl;
 		push_front(it.CurrentIt_ -> data_);
 		it--; 
 	}
@@ -246,28 +252,20 @@ void Deque<T>:: back(){
 template <typename T>
 void Deque<T>:: push_front(T data)
 {
-	cout <<"\n\nFail1  " <<"Head " << Head_ << "   Tail " << Tail_ << "data  " << data << "  end data" << endl;
 	Head_ = new Node(data, Head_, Tail_);
-	cout << "data afHead" << data << endl;	
-	cout <<"HeadP_F: " << Head_ << endl;
-	
-	cout <<"Fail2  " << data << endl;
 	
 	if (size_ == 0) {
 		Tail_= Head_;
 		Head_ -> Next_ = Head_ -> Prev_ = Head_;
-		cout << "P_F in size =0" << " Head " << Head_ << "    Tail " << Tail_ <<endl;
 	}
-	//cout <<"Fail3" << endl;
+	
 	else {
 		Tail_ -> Next_ = Head_;
 		(Head_ -> Next_) -> Prev_ = Head_;
-		cout << "P_F in size !=0" << " Head " << Head_ << "    Tail " << Tail_ <<endl;
 	}
-	cout <<"Fail4  " << data << endl;
-	//cout << this << endl;
+	
 	size_++;
-	cout << "pykP_F" << endl;
+	
 }
 
 template <typename T>
