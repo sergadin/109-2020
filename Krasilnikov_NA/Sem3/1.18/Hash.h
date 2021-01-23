@@ -24,7 +24,21 @@ public:
 		}
 	};
 
-	List<pair*> table[65536];
+	~Hash()
+	{
+		for (int j = 0; j < 8192; j++)
+		{
+			auto i = table[j].begin();
+			i++;
+			while (i != table[j].begin())
+			{
+				delete i.cur->data;
+				i++;
+			}
+		}
+	}
+
+	List<pair*> table[8192];
 
 	void fill(string filename)
 	{
@@ -51,7 +65,8 @@ public:
 				t = stod(temp.erase(0, number));
 			}
 			else t = temp.erase(0, number);*/
-			table[key(k)].push_back(&pair(k, t));
+			pair* te = new pair(k, t);
+			table[key(k)].push_back(te);
 		}
 	}
 
@@ -69,7 +84,8 @@ public:
 
 	void insert(string k, T v)
 	{
-		table[key(k)].push_back(&pair(k, v));
+		pair* te = new pair(k, v);
+		table[key(k)].push_back(te);
 	}
 };
 
