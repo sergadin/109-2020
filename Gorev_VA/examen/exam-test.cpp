@@ -18,9 +18,9 @@ int main()
     PrintGraph(stdout, root);
 
     // you may insert your solution here
-   // printf("\n-\n-\n-\n");
-    //Node *root1 = Copy(root, 1000);
-    //PrintGraph(stdout, root1);
+    printf("\n-\n-\n-\n");
+    Node *root1 = Copy(root, 1000);
+    PrintGraph(stdout, root1);
              
     DeleteGraph(root, maxId);
     //DeleteGraph(root1, maxId + 1000);

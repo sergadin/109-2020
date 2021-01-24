@@ -75,18 +75,14 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->right);
 }
 
-/*Node *Copy(Node *root_, int incr_)
+Node *Copy(Node *root_, int incr_)
 {
 	incr_++;
 	incr_--;
 	Node *root = nullptr;
-    if (root_ == nullptr)
-    	return nullptr;
-	root = new Node;
-    root->id = root_->id + incr_;
-    root->left = Copy(root_->left, incr_);
-    root->right = Copy(root_->right, incr_);
-    return root;
-}*/
+	if (root_ == nullptr)
+		return nullptr;
+	return root_;
+}
 
 
