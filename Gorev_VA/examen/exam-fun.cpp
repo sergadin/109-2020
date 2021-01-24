@@ -79,6 +79,8 @@ Node *Copy(Node *root, int incr)
 {
 	Node *newroot;
 	incr++;
+	root->id++;
+	root->id--;
 	return newroot;
 }
 
