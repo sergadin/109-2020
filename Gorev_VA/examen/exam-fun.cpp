@@ -100,6 +100,7 @@ Node *Copy(Node *root_, int incr_)
 	}
 	else
 	{
+		printf("%d\n", GetNode(root->help, root_->id));
 		root = GetNode(root->help, root_->id);
 	}
 	return root;
