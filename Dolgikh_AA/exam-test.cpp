@@ -13,13 +13,17 @@ int main()
        printf("cannot process file %s\n", fname);
        return -1;
     }
+    int inc = 2;
+    Node *newroot;
+    newroot = CopyNodeWithIncrement(root, inc);
 
     // test print of the graph
-    PrintGraph(stdout, root);
+    PrintGraph(stdout, newroot);
 
     // you may insert your solution here
              
     DeleteGraph(root, maxId);
+    DeleteGraph(newroot, maxId+inc);
     return 0;
 }
 

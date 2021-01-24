@@ -1,4 +1,4 @@
-#ifndef EXAM_TEST 
+#ifndef EXAM_TEST
 #define EXAM_TEST
 
 #include <stdio.h>
@@ -10,7 +10,6 @@ struct Node
 {
     int id;       // id of this vertex
     Node *left, *right;  // pointers to siblings
-  
 	// simplest constuctor
     Node() { left = right = nullptr; }
 };
@@ -24,6 +23,8 @@ Node * GetNode (Node * p, int id);
 // maxId will be the maximal id among all graph nodes
 Node * ReadGraph(char * fname, int &maxId);
 
+Node * CopyNodeWithIncrement(Node * oldnode, int increment);
+
 
 // delete the graph  (like destructor)
 void  DeleteGraph(Node *root, int maxId);
@@ -34,11 +35,3 @@ void PrintGraph(FILE *f, Node* root);
 
 
 #endif // EXAM_TEST
-
-
-
-
-
-
-
-
