@@ -1,4 +1,20 @@
-#include "exam-test.h"
+//h file
+#ifndef EXAM_TEST 
+#define EXAM_TEST
+
+#include <stdio.h>
+#include <new>
+
+
+// graph node structure
+struct Node
+{
+    int id;       // id of this vertex
+    Node* left, * right;  // pointers to siblings
+
+    // simplest constuctor
+    Node() { left = right = nullptr; }
+};
 
 Node * GetNode (Node * p, int id)
 {
@@ -47,8 +63,6 @@ Node * ReadGraph(char * fname, int &maxId)
        if (dir[0] == 'R') p->right = q;
     }
     fclose(f);
-    root->Root = root;
-    root->max = maxId;
     return root;
 }
 
@@ -77,37 +91,25 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->right);
 }
 
-Node * GetPrevNode (Node * p, int id)
+
+int main()
 {
-   Node *q;
-   if (!p) return nullptr;
-   if ((p->id == id) && (p->ind)) return p;
-   q = GetNode(p->left, id); 
-   return (q)? q : GetNode(p->right, id); 
+    Node* root;
+    int maxId;
+    char fname[64];
+    printf("data file name: ");
+    char* s = fgets(fname, 64, stdin);
+    root = ReadGraph(fname, maxId);
+    if (!root || !s) {
+        printf("cannot process file %s\n", fname);
+        return -1;
+    }
+
+    // test print of the graph
+    PrintGraph(stdout, root);
+
+    // you may insert your solution here
+
+    DeleteGraph(root, maxId);
+    return 0;
 }
-
-Node *Copy(Node *root_, int incr_)
-{
-	incr_++;
-	incr_--;
-	Node *root = nullptr;
-	if (root_ == nullptr)
-		return root;
-//	if (root_->ind == 0)
-//	{
-		root_->ind = 1;
-		root = new Node;
-		root->Root = root_->Root;
-		root->id = root_->id + incr_;
-		root->left = Copy(root_->left, incr_);
-		root->right = Copy(root_->right, incr_);
-//	}
-	/*else
-	{
-		root->Root = root_->Root;
-		root = GetPrevNode(root->Root, root_->id);
-	}*/
-	return root;
-}
-
-
