@@ -77,7 +77,7 @@ void PrintGraph(FILE *f, Node* root)
 
 Node *Copy(Node *root, int incr)
 {
-	inrc++;
+	incr++;
 	return root;
 }
 
