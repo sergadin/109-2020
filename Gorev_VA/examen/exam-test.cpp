@@ -23,6 +23,7 @@ int main()
     PrintGraph(stdout, root1);
              
     DeleteGraph(root, maxId);
+    DeleteGraph(root1, maxId + 1);
     return 0;
 }
 
