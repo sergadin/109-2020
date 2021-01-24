@@ -74,7 +74,7 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->left);
    PrintGraph(f, root->right);
 }
-Node * AddInc (Node * Newroot, Node * root, int increment)
+/*Node * AddInc (Node * Newroot, Node * root, int increment)
 {
     Node * now = GetNode(Newroot, root->id + increment);
     if (!now)
@@ -82,7 +82,7 @@ Node * AddInc (Node * Newroot, Node * root, int increment)
 
     }
 }
-
+*/
 Node * CopyEl(Node * here, Node * all, Node * root, int increment)
 {
     if (!root)
