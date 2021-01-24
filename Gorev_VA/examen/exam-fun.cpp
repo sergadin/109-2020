@@ -84,8 +84,21 @@ Node *Copy(Node *root_, int incr_)
 	Node *root = nullptr;
 	if (root_ == nullptr)
 		return root;
-	
-	return root_;
+	if (root_->ind == 0)
+	{
+		root_->ind = 1;
+		root = new Node;
+		root->Root = root_->Root;
+		root->id = root_->id + incr_;
+		root->left = Copy(root_->left, incr_);
+		root->right = Copy(root_->right, incr_);
+	}
+	else
+	{
+		root->Root = root_->Root;
+		root = GetNode(root->Root, root_->id);
+	}
+	return root;
 }
 
 

@@ -12,6 +12,7 @@ struct Node
     Node *left, *right;  // pointers to siblings
     Node *Root;
     int max = -1;
+    int ind = 0;
 	// simplest constuctor
     Node() { left = right = Root = nullptr; }
 };
