@@ -21,7 +21,7 @@ int main()
 
     int inc = 10;
 
-    Node * rootInc = CopyInc(root, inc, maxId);
+    Node * rootInc = CopyInc(root, inc);
 
     PrintGraph(stdout, rootInc);
 
