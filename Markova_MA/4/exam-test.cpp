@@ -1,5 +1,5 @@
 #include "exam-test.h"
-
+#define _CRT_SECURE_NO_WARNINGS
 
 int main()
 {
