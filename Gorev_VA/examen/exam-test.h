@@ -13,8 +13,6 @@ struct Node
   
 	// simplest constuctor
     Node() { left = right = nullptr; }
-    
-    friend Node *Copy(Node *root, int incr);
 };
 
 
@@ -33,6 +31,9 @@ void  DeleteGraph(Node *root, int maxId);
 
 // print the graph  (nodes and their left and right siblings)
 void PrintGraph(FILE *f, Node* root);
+
+
+Node *Copy(Node *root, int incr);
 
 #endif // EXAM_TEST
 
