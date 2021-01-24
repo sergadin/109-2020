@@ -1,20 +1,4 @@
-//h file
-#ifndef EXAM_TEST 
-#define EXAM_TEST
-
-#include <stdio.h>
-#include <new>
-
-
-// graph node structure
-struct Node
-{
-    int id;       // id of this vertex
-    Node* left, * right;  // pointers to siblings
-
-    // simplest constuctor
-    Node() { left = right = nullptr; }
-};
+#include "exam-test.h"
 
 Node * GetNode (Node * p, int id)
 {
@@ -66,6 +50,17 @@ Node * ReadGraph(char * fname, int &maxId)
     return root;
 }
 
+Node * CopyNodeWithIncrement(Node * oldnode, int increment)
+{
+	//fprintf(stdout, "Начали копировать узел номер %d \n", oldnode->id);
+	Node *newnode = new Node;
+	//fprintf(stdout, "Создали новый узел\n");
+	newnode->id = (oldnode->id) + increment;
+	if(oldnode->left) newnode->left = CopyNodeWithIncrement(oldnode->left, increment);
+	if(oldnode->right) newnode->right = CopyNodeWithIncrement(oldnode->right, increment);
+	return newnode;
+}
+
 void  DeleteGraph(Node *root, int maxId)
 {
    if (!root) return;
@@ -89,27 +84,4 @@ void PrintGraph(FILE *f, Node* root)
    fputc('\n',f);
    PrintGraph(f, root->left);
    PrintGraph(f, root->right);
-}
-
-
-int main()
-{
-    Node* root;
-    int maxId;
-    char fname[64];
-    printf("data file name: ");
-    char* s = fgets(fname, 64, stdin);
-    root = ReadGraph(fname, maxId);
-    if (!root || !s) {
-        printf("cannot process file %s\n", fname);
-        return -1;
-    }
-
-    // test print of the graph
-    PrintGraph(stdout, root);
-
-    // you may insert your solution here
-
-    DeleteGraph(root, maxId);
-    return 0;
 }
