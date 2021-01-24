@@ -11,6 +11,7 @@ struct Node
     int id;       // id of this vertex
     Node *left, *right;  // pointers to siblings
     Node *Root;
+    int max = -1;
 	// simplest constuctor
     Node() { left = right = Root = nullptr; }
 };
