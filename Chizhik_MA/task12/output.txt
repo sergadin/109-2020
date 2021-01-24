@@ -24,3 +24,6 @@
 4 - 3 parents:
 1	2	3	
 
+9 - 2 parents:
+5	6	
+
