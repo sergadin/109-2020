@@ -84,8 +84,8 @@ Node *Copy(Node *root_, int incr_)
 	if (root_ == nullptr)
 		return root;
 	printf("%d %d\n", root, root_->id);
-	//if (root_->ind == 0)
-	//{
+	if (root_->ind == 0)
+	{
 		root_->ind = 1;
 		root = new Node;
 		if (root_->help == 0)
@@ -95,12 +95,12 @@ Node *Copy(Node *root_, int incr_)
 		root->id = root_->id + incr_;
 		root->left = Copy(root_->left, incr_);
 		root->right = Copy(root_->right, incr_);
-	//}
-//	else
-//	{
-//		printf("%d\n", GetNode(root->help, root_->id));
-//		root = GetNode(root->help, root_->id);
-//	}
+	}
+	else
+	{
+		printf("%d\n", GetNode(root->help, root_->id));
+		root = GetNode(root->help, root_->id);
+	}
 	return root;
 }
 
