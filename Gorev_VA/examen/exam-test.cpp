@@ -18,7 +18,7 @@ int main()
     PrintGraph(stdout, root);
 
     // you may insert your solution here
-    std::cout << "\n-\n-\n-\n";
+    printf("\n-\n-\n-\n");
     Node *root1 = Copy(root, 1);
     PrintGraph(stdout, root1);
              
