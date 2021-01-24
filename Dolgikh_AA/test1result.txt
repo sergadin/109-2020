@@ -1,0 +1,25 @@
+data file name: 1 L 2
+1 R 3
+2 L 4
+2 R 5
+3 L 6
+3 R 7
+5 L 8
+5 R 9
+6 L 9
+6 R 10
+9 L 11
+9 L 12
+node   3  L->  4  R->  5  
+node   4  L->  6  R->  7  
+node   6  
+node   7  L-> 10  R-> 11  
+node  10  
+node  11  L-> 13  
+node  13  
+node   5  L->  8  R->  9  
+node   8  L-> 11  R-> 12  
+node  11  L-> 13  
+node  13  
+node  12  
+node   9  
