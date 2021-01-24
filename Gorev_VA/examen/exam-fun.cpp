@@ -54,8 +54,6 @@ Node * ReadGraph(char * fname, int &maxId)
 void  DeleteGraph(Node *root, int maxId)
 {
     if (!root) return;
-	if (root->help)
-   	delete root->help;
    Node **nodes = new Node*[maxId + 1];
    for (int i=0; i<=maxId; i++) {
       nodes[i] = GetNode(root, i);
