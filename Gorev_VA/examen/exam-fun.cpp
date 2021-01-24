@@ -97,7 +97,7 @@ Node *Copy(Node *root_, int incr_)
 	}
 	else
 	{
-		root = GetNode(root_->help, root_->id);
+		root = GetNode(root_->help, root->id);
 	}
 	return root;
 }
