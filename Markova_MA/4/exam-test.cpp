@@ -18,7 +18,7 @@ int main()
     PrintGraph(stdout, root);
 
     // you may insert your solution here
-
+	printf("\n");
     int inc = 10;
 
     Node * rootInc = CopyInc(root, inc);
