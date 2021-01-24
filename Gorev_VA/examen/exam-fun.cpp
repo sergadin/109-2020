@@ -54,7 +54,9 @@ Node * ReadGraph(char * fname, int &maxId)
 
 void  DeleteGraph(Node *root, int maxId)
 {
-   if (!root) return;
+    if (!root) return;
+	if (root->help)
+   	delete root->help;
    Node **nodes = new Node*[maxId + 1];
    for (int i=0; i<=maxId; i++) {
       nodes[i] = GetNode(root, i);
@@ -77,15 +79,6 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->right);
 }
 
-Node * GetPrevNode (Node * p, int id)
-{
-   Node *q;
-   if (!p) return nullptr;
-   if ((p->id == id) && (p->ind)) return p;
-   q = GetNode(p->left, id); 
-   return (q)? q : GetNode(p->right, id); 
-}
-
 Node *Copy(Node *root_, int incr_)
 {
 	incr_++;
@@ -93,20 +86,22 @@ Node *Copy(Node *root_, int incr_)
 	Node *root = nullptr;
 	if (root_ == nullptr)
 		return root;
-//	if (root_->ind == 0)
-//	{
+	if (root_->ind == 0)
+	{
 		root_->ind = 1;
 		root = new Node;
-		root->Root = root_->Root;
+		if (root_->help == 0)
+			{
+				root_->help = root;
+			}
 		root->id = root_->id + incr_;
 		root->left = Copy(root_->left, incr_);
 		root->right = Copy(root_->right, incr_);
-//	}
-	/*else
+	}
+	else
 	{
-		root->Root = root_->Root;
-		root = GetPrevNode(root->Root, root_->id);
-	}*/
+		root = GetNode(root->help, root_->id);
+	}
 	return root;
 }
 

@@ -10,7 +10,7 @@ struct Node
 {
     int id;       // id of this vertex
     Node *left, *right;  // pointers to siblings
-    Node *Root;
+    Node *help = nullptr;
     int max = -1;
     int ind = 0;
 	// simplest constuctor
