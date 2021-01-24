@@ -77,6 +77,15 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->right);
 }
 
+Node * GetPrevNode (Node * p, int id)
+{
+   Node *q;
+   if (!p) return nullptr;
+   if ((p->id == id) && (p->ind)) return p;
+   q = GetNode(p->left, id); 
+   return (q)? q : GetNode(p->right, id); 
+}
+
 Node *Copy(Node *root_, int incr_)
 {
 	incr_++;
@@ -96,7 +105,7 @@ Node *Copy(Node *root_, int incr_)
 	else
 	{
 		root->Root = root_->Root;
-		root = GetNode(root->Root, root_->id);
+		root = GetPrevNode(root->Root, root_->id);
 	}
 	return root;
 }
