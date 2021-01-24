@@ -78,7 +78,7 @@ void PrintGraph(FILE *f, Node* root)
 Node *Copy(Node *root_, int incr_)
 {
 	incr_++;
-	incr_--
+	incr_--;
 	Node *root = nullptr;
     if (root_ == nullptr)
     	return nullptr;
