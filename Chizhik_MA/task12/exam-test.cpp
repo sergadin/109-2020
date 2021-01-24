@@ -28,6 +28,8 @@ int main()
     nodes_parents = new int[maxId];
     ranks = new int[maxId];
 
+    // Если потомок одновременно и левый, и правый, считается, что он левый (и единственный)
+
     for (int i = 0; i < maxId; i++) {
 	ranks[i] = CountParents(root, i, nodes_parents);
 	for (int k = 0; k < ranks[i]; k++) {
