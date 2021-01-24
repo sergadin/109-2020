@@ -74,5 +74,37 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->left);
    PrintGraph(f, root->right);
 }
+Node * AddInc (Node * Newroot, Node * root, int increment)
+{
+    Node * now = GetNode(Newroot, root->id + increment);
+    if (!now)
+    {
 
+    }
+}
 
+Node * CopyEl(Node * here, Node * all, Node * root, int increment)
+{
+    if (!root)
+    {
+        return nullptr;
+    }
+    Node * q = GetNode(all, root->id + increment);
+    if (!q)
+    {
+        here = new Node;
+        here->id = root->id + increment;
+        here->left = CopyEl(nullptr, all, root ->left, increment);
+        here->right = CopyEl(nullptr, all, root ->right, increment);
+        return here;
+    }
+    return q;
+}
+
+Node * CopyInc(Node * root, int increment)
+{
+    Node * Newroot = nullptr;
+
+    Newroot = CopyEl(Newroot, Newroot, root, increment);
+    return Newroot;
+}

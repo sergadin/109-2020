@@ -32,6 +32,9 @@ void  DeleteGraph(Node *root, int maxId);
 // print the graph  (nodes and their left and right siblings)
 void PrintGraph(FILE *f, Node* root);
 
+//Copy graph with increment
+Node * CopyInc(Node * root, int increment, int maxId);
+
 
 #endif // EXAM_TEST
 

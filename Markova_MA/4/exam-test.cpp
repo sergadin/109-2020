@@ -1,5 +1,5 @@
 #include "exam-test.h"
-#define _CRT_SECURE_NO_WARNINGS
+
 
 int main()
 {
@@ -18,8 +18,15 @@ int main()
     PrintGraph(stdout, root);
 
     // you may insert your solution here
-             
+
+    int inc = 10;
+
+    Node * rootInc = CopyInc(root, inc, maxId);
+
+    PrintGraph(stdout, rootInc);
+
     DeleteGraph(root, maxId);
+    DeleteGraph(rootInc, maxId + inc);
     return 0;
 }
 
