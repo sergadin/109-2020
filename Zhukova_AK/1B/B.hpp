@@ -44,7 +44,7 @@ private:
         }
 
 public:
-//	int p;
+//        int p;
 	list()
 	{
 		ListItem *new_item = new ListItem;
@@ -85,7 +85,7 @@ public:
 		last->next = new_item;
                 last = new_item;
 
-		//printf ("P25\n");
+	//printf ("P25\n");
         }
 
         void change_elem(T elem)//меняет значение текущего элемента +
@@ -283,17 +283,9 @@ public:
         list operator = (const list & other)// +
         {
 		this->clear_list();
+
 		ListItem *current_;
 		current_ = other.first;
-
-                ListItem *new_elem = new ListItem;
-                new_elem->data = current_->data;
-                new_elem->prev = other.first;
-                new_elem->next = other.last;
-                this->first = new_elem;
-                this->last = new_elem;
-//printf("first=%d\n", new_elem->data);
-//=======
 
                 ListItem *new_item = new ListItem;
 
@@ -303,10 +295,7 @@ public:
 
                 this->first = new_item;
                 this->last = new_item;
-
-		//printf("first=%d\n", new_elem->data);
-//>>>>>>> почему-то не сохранилось:Zhukova_AK/1B/B.hpp
-
+//printf("first=%d\n", new_elem->data);
                 while (current_->next != NULL)
                	{
 			current_ = current_->next;
@@ -336,4 +325,5 @@ public:
 		clear_list();
 	}
 };
+
 

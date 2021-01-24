@@ -1,14 +1,9 @@
 #include <iostream>
-#include <cstring>
-#include <string>
 #include <ctime>
 #include <iomanip>
-#include <fstream>
+#include <cstring>
 
-
-void trim(std::string &str);
-
-class AVLcontainer 
+class Tree 
 {
 private:
       class Node 
@@ -25,7 +20,6 @@ private:
           
           char *key = nullptr;
           
-		// the height of this node from the deepest point
           int height;
           Node *left_child = nullptr;
           Node *parent = nullptr;
@@ -41,8 +35,8 @@ private:
           Node(const char *key , const int* valarr, int n);
           Node(const char *key , const double* valarr, int n);
           
-		// calculate the balance point.
-          int getBalance();
+		
+		int getBalance();
           
           void removeParent();
           Node *setLeftChild(Node *newLeft);
@@ -59,8 +53,7 @@ private:
     void balanceAtNode(Node *n);
 	Node *findNode(const char *key);
     
-	void printSubtree(Node *subtree, int depth,
-    int offset, bool first=1 );
+	void printSubtree(Node *subtree, int depth, int offset, bool first=1 );
     int spacing(int offset);
     
 	void rotateLeft(Node *n);
@@ -71,11 +64,11 @@ private:
     void copytree(Node & A,const Node  & B);
 
 public:
-    AVLcontainer();
-    ~AVLcontainer();
-    AVLcontainer(const AVLcontainer & that);
+    Tree();
+    ~Tree();
+    Tree(const Tree & that);
     
-    AVLcontainer operator = (const AVLcontainer & that);
+    Tree operator = (const Tree & that);
     
     int getInt(const char* key) ;
     double getDouble(const char* key);
@@ -96,28 +89,24 @@ public:
     
     void print();
     
-    bool readFile(std::ifstream & infile);
-    
     
     enum ERRORS
     {
         NO_KEY = -10,
         NO_STRING,
         NO_INT_ARR,
-        NO_DOUBLE_ARR,
-        W_FORMAT,
     };
     
    
 }; 
 
-class AvlTree_exeption
+class My_exeption
 { 
 	private: 
 		int code_;
 		std::string reason_;
 	public:
-		AvlTree_exeption(int code, const std::string& reason)
+		My_exeption(int code, const std::string& reason)
 		{
 			code_ = code;
 			reason_ = reason;
@@ -131,7 +120,7 @@ class AvlTree_exeption
 
 
 
-AVLcontainer::Node::Node(const char *key ,const int val) 
+Tree::Node::Node(const char *key ,const int val) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -142,7 +131,7 @@ AVLcontainer::Node::Node(const char *key ,const int val)
     right_child = nullptr;
 }
 
-AVLcontainer::Node::Node(const char *key ,const double dval) 
+Tree::Node::Node(const char *key ,const double dval) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -153,7 +142,7 @@ AVLcontainer::Node::Node(const char *key ,const double dval)
     right_child = nullptr;
 }
 
-AVLcontainer::Node::Node(const char *key , const char* string) 
+Tree::Node::Node(const char *key , const char* string) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -167,7 +156,7 @@ AVLcontainer::Node::Node(const char *key , const char* string)
     right_child = nullptr;
 }
 
-AVLcontainer::Node::Node(const char *key , const int* valarr, int n) 
+Tree::Node::Node(const char *key , const int* valarr, int n) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -184,7 +173,7 @@ AVLcontainer::Node::Node(const char *key , const int* valarr, int n)
     right_child = nullptr;
 }
 
-AVLcontainer::Node::Node(const char *key , const double* valarr, int n) 
+Tree::Node::Node(const char *key , const double* valarr, int n) 
 {
     this->key =  new char[strlen(key) + 1];
     strcpy(this->key, key);
@@ -201,7 +190,7 @@ AVLcontainer::Node::Node(const char *key , const double* valarr, int n)
     right_child = nullptr;
 }
 
-AVLcontainer::Node::~Node()
+Tree::Node::~Node()
 {
     delete[] key;
     delete[] intarr;
@@ -209,7 +198,7 @@ AVLcontainer::Node::~Node()
     delete[] string;
 }
 
-AVLcontainer::Node::Node(const Node & that)
+Tree::Node::Node(const Node & that)
 {
     this->val = that.val;
     this->dval = that.dval;
@@ -250,11 +239,7 @@ AVLcontainer::Node::Node(const Node & that)
     
 }
 
-// returns balance 
-//negative if right side is deeper 
-//0 if deapth are the same 
-//positive f left side is deeper 
-int AVLcontainer::Node::getBalance() 
+int Tree::Node::getBalance() 
 {
 
     int result;
@@ -274,13 +259,13 @@ int AVLcontainer::Node::getBalance()
 
 
 
-void AVLcontainer::Node::removeParent() 
+void Tree::Node::removeParent() 
 {
     parent = nullptr;
 } 
 
 
-AVLcontainer::Node *AVLcontainer::Node::setLeftChild(Node *newLeft) 
+Tree::Node *Tree::Node::setLeftChild(Node *newLeft) 
 {
     if (newLeft != nullptr)
         newLeft->parent = this;
@@ -290,7 +275,7 @@ AVLcontainer::Node *AVLcontainer::Node::setLeftChild(Node *newLeft)
 } 
 
 
-AVLcontainer::Node *AVLcontainer::Node::setRightChild(Node *newRight) 
+Tree::Node *Tree::Node::setRightChild(Node *newRight) 
 {
 
     if (newRight != nullptr)
@@ -300,7 +285,7 @@ AVLcontainer::Node *AVLcontainer::Node::setRightChild(Node *newRight)
     return right_child;
 } 
 
-int AVLcontainer::Node::updateHeight() 
+int Tree::Node::updateHeight() 
 {
 
     if (left_child == nullptr)
@@ -323,22 +308,18 @@ int AVLcontainer::Node::updateHeight()
 } 
 
 
-AVLcontainer::AVLcontainer() 
+Tree::Tree() 
 {
     root = nullptr;
 }
 
-AVLcontainer::~AVLcontainer()
+Tree::~Tree()
 {
-    printf("destructor for AVLtree was Called\n");
-    //delete_all(root);
-    
     while (root!=nullptr) 
-        remove(root->key);
-        
+        remove(root->key);      
 }
 
-void AVLcontainer::delete_all(Node * n) 
+void Tree::delete_all(Node * n) 
 {
     if(n)
     {
@@ -348,7 +329,7 @@ void AVLcontainer::delete_all(Node * n)
     }
 }
 
-AVLcontainer::AVLcontainer(const  AVLcontainer & that)
+Tree::Tree(const  Tree & that)
 {
     this->root = new Node(*that.root);
     this->root->parent  = nullptr;
@@ -356,7 +337,7 @@ AVLcontainer::AVLcontainer(const  AVLcontainer & that)
     copytree(*this->root, *that.root);
 }
 
-AVLcontainer AVLcontainer::operator = (const AVLcontainer & that)
+Tree Tree::operator = (const Tree & that)
 {
     
     if(that.root == this->root)
@@ -373,10 +354,8 @@ AVLcontainer AVLcontainer::operator = (const AVLcontainer & that)
     return *this;
 }
 
-void AVLcontainer::copytree(Node & A ,const Node & B)
+void Tree::copytree(Node & A ,const Node & B)
 {
-    //if(&B !=nullptr)
-    {
         if(B.left_child)
         {
             A.left_child = new Node(*B.left_child);
@@ -399,42 +378,41 @@ void AVLcontainer::copytree(Node & A ,const Node & B)
         else
             A.right_child = nullptr;
         
-    }
 }
 
 
-int AVLcontainer::getInt(const char* key) 
+int Tree::getInt(const char* key) 
 { 
     Node *temp = findNode(key);
     if(!temp)
     {
-        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+        throw My_exeption(NO_KEY, "this key doesn't exist");
     }
     return temp->val; 
 }
-double AVLcontainer::getDouble(const char* key)
+double Tree::getDouble(const char* key)
 { 
     Node *temp = findNode(key);
     if(!temp)
     {
-        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+        throw My_exeption(NO_KEY, "this key doesn't exist");
     }
         
     return temp->dval;
 }
 
-char * AVLcontainer::getString(const char* key) 
+char * Tree::getString(const char* key) 
 { 
     Node *temp = findNode(key);
         
     if(!temp)
     {
-        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+        throw My_exeption(NO_KEY, "this key doesn't exist");
     }
         
     if(temp->string == nullptr)
     {
-        throw AvlTree_exeption(NO_STRING, "in this key string is empty");
+        throw My_exeption(NO_STRING, "in this key string is empty");
     }
         
     char *copy = new char[strlen(temp->string) + 1];
@@ -442,17 +420,17 @@ char * AVLcontainer::getString(const char* key)
     return copy; 
 }
 
-int *AVLcontainer::getIntArray(const char* key) 
+int *Tree::getIntArray(const char* key) 
 {
     Node *temp = findNode(key);
     if(!temp)
     {
-        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+        throw My_exeption(NO_KEY, "this key doesn't exist");
     }
     
     if(temp->intarr == nullptr)
     {
-        throw AvlTree_exeption(NO_INT_ARR, "in this key int array is empty");
+        throw My_exeption(NO_INT_ARR, "in this key int array is empty");
     }
     int *copy = new int[temp->len_int];
     for (int i = 0; i < temp->len_int; i++)
@@ -460,17 +438,17 @@ int *AVLcontainer::getIntArray(const char* key)
     return copy; 
 }
 
-double *AVLcontainer::getDoubleArray(const char* key) 
+double *Tree::getDoubleArray(const char* key) 
 {
     Node *temp = findNode(key);
     if(!temp)
     {
-        throw AvlTree_exeption(NO_KEY, "this key doesn't exist");
+        throw My_exeption(NO_KEY, "this key doesn't exist");
     }
     
     if(temp->darr == nullptr)
     {
-        throw AvlTree_exeption(NO_DOUBLE_ARR, "in this key double array is empty");
+        throw My_exeption(NO_INT_ARR, "in this key double array is empty");
     }
     double *copy = new double[temp->len_double];
     for (int i = 0; i < temp->len_double; i++)
@@ -478,23 +456,16 @@ double *AVLcontainer::getDoubleArray(const char* key)
     return copy; 
 }
 
-
-// balance the subtree
-void AVLcontainer::balanceAtNode(Node *n) 
+void Tree::balanceAtNode(Node *n) 
 {
 
-    //get current balance, if its bad on left side 
-    //rotate it right adjusting the subtree left, if required
     int bal = n->getBalance();
     if (bal > 1) 
     {
         if (n->left_child->getBalance() < 0)
             rotateLeft(n->left_child);
         rotateRight(n);
-
-    //otherwise its bad on right side 
-    //rotate it left adjusting the subtree right, if required
-    }
+	}
     else if (bal < -1) 
     {
         if (n->right_child->getBalance() > 0)
@@ -503,8 +474,7 @@ void AVLcontainer::balanceAtNode(Node *n)
     }
 }
 
-// Find the node containing the data.
-AVLcontainer::Node *AVLcontainer::findNode(const char* key) 
+Tree::Node *Tree::findNode(const char* key) 
 {
 
     Node *temp = root;
@@ -520,19 +490,16 @@ AVLcontainer::Node *AVLcontainer::findNode(const char* key)
     return temp;
 } 
 
-int AVLcontainer::getHeight()
+int Tree::getHeight()
 {
     return root->height;
 } 
 
-bool AVLcontainer::insert(const char *key,int val) 
+bool Tree::insert(const char *key,int val) 
 {
-    
-    //check if tree is empty
     if (root == nullptr)
         root = new Node(key, val);
 
-    //  finding the insertion point 
     else 
     {
         Node *added_node = nullptr;
@@ -561,7 +528,6 @@ bool AVLcontainer::insert(const char *key,int val)
 
             
             } 
-            //key is already in the tree
             else
             {
                 if(temp->val == val)
@@ -571,7 +537,7 @@ bool AVLcontainer::insert(const char *key,int val)
                 return true;
             }
         } 
-	//from the new node update height
+	
 	temp = added_node;
     while(temp != nullptr) 
     {
@@ -583,15 +549,14 @@ bool AVLcontainer::insert(const char *key,int val)
   return true;
 }
 
-bool AVLcontainer::insert(const char *key,double val) 
+bool Tree::insert(const char *key,double val) 
 {
 
-    //check if tree is empty
-    if (root == nullptr)
+    if (root == nullptr){
         root = new Node(key, val);
-
-    //  finding the insertion point 
-    else 
+	}
+    
+	else 
     {
         Node *added_node = nullptr;
         Node *temp = root;
@@ -616,10 +581,9 @@ bool AVLcontainer::insert(const char *key,double val)
                     temp = temp->right_child;
             
             } 
-            //key is already in the tree
             else
             {
-                if(abs(temp->dval - val) < 1e-10)
+                if(abs(temp->dval - val) < 1e-5)
                     return false;
                 
                 temp->dval = val;
@@ -627,7 +591,6 @@ bool AVLcontainer::insert(const char *key,double val)
             }
         } 
 
-	//from the new node update height
 	temp = added_node;
     while(temp != nullptr) 
     {
@@ -639,14 +602,14 @@ bool AVLcontainer::insert(const char *key,double val)
   return true;
 }
 
-bool AVLcontainer::insert(const char *key,const char* val) 
+bool Tree::insert(const char *key,const char* val) 
 {
 
-    //check if tree is empty
+   
     if (root == nullptr)
+	{
         root = new Node(key, val);
-
-    //  finding the insertion point 
+	} 
     else 
     {
         Node *added_node = nullptr;
@@ -659,21 +622,23 @@ bool AVLcontainer::insert(const char *key,const char* val)
                 {
                     added_node = temp->setLeftChild(
                         new Node(key, val));
-                } else
+                } 
+				else {
                     temp = temp->left_child;
-            } 
+				}
+			} 
             else if ( strcmp(key, temp->key) < 0 ) 
             {
                 if (temp->right_child == nullptr)
                 {
                     added_node = temp->setRightChild(new Node(key, val));
                 } 
-                else
+                else {
                     temp = temp->right_child;
-                
+				}
             
             } 
-            //key is already in the tree
+            
             else
             {
                 if(temp->string == nullptr)
@@ -683,8 +648,9 @@ bool AVLcontainer::insert(const char *key,const char* val)
                     return true;
                 }
                 if(strcmp(val, temp->string) == 0)
+				{
                     return false;
-                
+                }
                 delete temp->string;
                 temp->string =  new char[strlen(val) + 1];
                 strcpy(temp->string, val);
@@ -692,7 +658,6 @@ bool AVLcontainer::insert(const char *key,const char* val)
             }
         } 
 
-	//from the new node update height
 	temp = added_node;
     while(temp != nullptr) 
     {
@@ -704,14 +669,13 @@ bool AVLcontainer::insert(const char *key,const char* val)
   return true;
 }
 
-bool AVLcontainer::insert(const char *key, const int* val, int n ) 
+bool Tree::insert(const char *key, const int* val, int n ) 
 {
-    //check if tree is empty
     if (root == nullptr)
-        root = new Node(key, val, n);
-
-    //  finding the insertion point 
-    else 
+    {
+		root = new Node(key, val, n);
+	}
+	else 
     {
         Node *added_node = nullptr;
         Node *temp = root;
@@ -736,7 +700,6 @@ bool AVLcontainer::insert(const char *key, const int* val, int n )
                     temp = temp->right_child;
 
             } 
-            //key is already in the tree
             else
             {
                 if(temp->intarr == nullptr)
@@ -760,7 +723,6 @@ bool AVLcontainer::insert(const char *key, const int* val, int n )
             }
         } 
 
-	//from the new node update height
 	temp = added_node;
     while(temp != nullptr) 
     {
@@ -772,13 +734,12 @@ bool AVLcontainer::insert(const char *key, const int* val, int n )
   return true;
 }
 
-bool AVLcontainer::insert(const char *key, const double* val, int n ) 
+bool Tree::insert(const char *key, const double* val, int n ) 
 {
-    //check if tree is empty
     if (root == nullptr)
-        root = new Node(key, val, n);
-
-    //  finding the insertion point 
+    {
+		root = new Node(key, val, n);
+	}
     else 
     {
         Node *added_node = nullptr;
@@ -791,9 +752,12 @@ bool AVLcontainer::insert(const char *key, const double* val, int n )
                 {
                     added_node = temp->setLeftChild(
                         new Node(key, val, n));
-                } else
+                } 
+				else
+				{
                     temp = temp->left_child;
-            } 
+				} 
+			}
             else if ( strcmp(key, temp->key) < 0 ) 
             {
                 if (temp->right_child == nullptr)
@@ -803,9 +767,8 @@ bool AVLcontainer::insert(const char *key, const double* val, int n )
                 else
                     temp = temp->right_child;
 
-            } 
-            //key is already in the tree
-            else
+            }
+			else
             {
                 if(temp->darr == nullptr)
                 {
@@ -828,7 +791,6 @@ bool AVLcontainer::insert(const char *key, const double* val, int n )
             }
         } 
 
-	//from the new node update height
 	temp = added_node;
     while(temp != nullptr) 
     {
@@ -842,16 +804,17 @@ bool AVLcontainer::insert(const char *key, const double* val, int n )
 
 
 
-void AVLcontainer::print() 
+void Tree::print() 
 {
 
     if (root == nullptr)
-	std::cout << "Tree is empty!" <<
-		std::endl;
-        else if (root->height > 4)
-            std::cout << "Not currently supported!" <<
-		std::endl;
-        else 
+	{
+		printf("Tree is empty!");
+    }    
+	else if (root->height > 4)
+            printf("Not currently supported!");
+        
+	else 
         {
             int max = root->height;
             for (int depth = 0; depth <= max; depth++) 
@@ -863,11 +826,7 @@ void AVLcontainer::print()
         } 
 } 
 
-// leftmost branch will have first true  
-// the level counts up from the bottom
-// for the line we are doing. the depth is how
-// many layers to skip over
-void AVLcontainer::printSubtree(Node *subtree, int depth,
+void Tree::printSubtree(Node *subtree, int depth,
 	int level, bool first) 
 {
     if (depth > 0) 
@@ -894,26 +853,26 @@ void AVLcontainer::printSubtree(Node *subtree, int depth,
             subtree->key << '(' << subtree->val << ')';
 } 
 
-// remove the value from the tree.
-// Returns:
-//		 true: if removal is successful
-//		 false: if item is not found in the tree
-//
-bool AVLcontainer::remove(const char* key) 
+
+bool Tree::remove(const char* key) 
 {
 
     Node *toBeRemoved = findNode(key);
     if (toBeRemoved == nullptr)
+	{
         return false;
-
+	}
     enum {left, right} side;
     Node *p = toBeRemoved->parent;
-    if (p != nullptr &&
-        p->left_child == toBeRemoved)
+    if (p != nullptr && p->left_child == toBeRemoved)
+	{
         side = left;
-    else
+    }
+	else
+	{
         side = right;
-    if (toBeRemoved->left_child == nullptr)
+    }
+	if (toBeRemoved->left_child == nullptr)
         if (toBeRemoved->right_child == nullptr) 
         {
             if (p == nullptr) 
@@ -1017,17 +976,14 @@ bool AVLcontainer::remove(const char* key)
                 } 
                 else 
                 {
-                    replacement = toBeRemoved->
-                    right_child->left_child;
+                    replacement = toBeRemoved->right_child->left_child;
                     while (replacement->left_child !=nullptr)
                         replacement = replacement->left_child;
                     replacement_parent = replacement->parent;
                     replacement_parent->setLeftChild(replacement->right_child);
                     temp_node = replacement_parent;
-                    replacement->setLeftChild(
-                        toBeRemoved->left_child);
-                    replacement->setRightChild(
-                        toBeRemoved->right_child);
+                    replacement->setLeftChild(toBeRemoved->left_child);
+                    replacement->setRightChild(toBeRemoved->right_child);
                     
                 }
             if (p == nullptr)
@@ -1042,7 +998,7 @@ bool AVLcontainer::remove(const char* key)
         return true;
 } 
 
-void AVLcontainer::rotateLeft(Node *n) 
+void Tree::rotateLeft(Node *n) 
 {
 
     enum {left, right} side;
@@ -1064,7 +1020,7 @@ void AVLcontainer::rotateLeft(Node *n)
         p->setRightChild(temp);
 } 
 
-void AVLcontainer::rotateRight(Node *n) 
+void Tree::rotateRight(Node *n) 
 {
     enum {left, right} side;
     Node *p = n->parent;
@@ -1086,114 +1042,20 @@ void AVLcontainer::rotateRight(Node *n)
 }
 
 
-void AVLcontainer::setRoot(Node *n) 
+void Tree::setRoot(Node *n) 
 {
   root = n;
   if (root != nullptr)
 	root->removeParent();
 } 
 
-// default spacing for element. Each
-// higher level doubles the preceeding
-int AVLcontainer::spacing(int level) 
+int Tree::spacing(int level) 
 {
   int result = 6;
   for (int i = 0; i < level; i++)
 	result += result;
   return result;
 } 
-
-void trim(std::string &str)
-{
-    int i=0;
-
-    //left trim
-    while (isspace(str[i])!=0)
-        i++;
-    str = str.substr(i,str.length()-i);
-
-    //right trim
-    i=str.length()-1;
-    while (isspace(str[i])!=0)
-        i--;
-    str = str.substr(0,i+1);
-}
-
-
-bool AVLcontainer::readFile(std::ifstream  & infile)
-{
-    std::string line;
-    while(getline(infile, line)) 
-    {
-        std::string key(line, 0, line.find('='));
-        std::string value(line,line.find('=') + 1);
-        
-        trim(key);
-        trim(value);
-        
-        std::string type(value, 0, value.find(' '));
-        //std::cout << type << std::endl;
-        if (type == "int")  
-        {
-            value = value.substr(value.find(' ') );
-            trim(value);
-            insert( key.c_str(), std::stoi(value));
-        }
-        else if(type == "int")
-        {
-            value = value.substr(value.find(' ') );
-            trim(value);
-            insert( key.c_str(), std::stod(value));
-        }
-        else if(type == "char*")
-        {
-            value = value.substr(value.find(' ') );
-            trim(value);
-            insert( key.c_str(), value.c_str());
-        }
-        else if(type.substr(0, value.find('[')) == "int")
-        {
-            
-            int n = std::stoi(type.substr(value.find('[') + 1));
-            
-            int *arr = new int[n];
-
-            for( int i = 0; i < n; i++)
-            {
-                
-                value = value.substr(value.find(' ') );
-                trim(value);
-                arr[i] = std::stoi(value);
-            }
-            insert( key.c_str(), arr, n);
-            delete[] arr;
-        }
-        else if(type.substr(0, value.find('[')) == "double")
-        {
-            
-            int n = std::stoi(type.substr(value.find('[') + 1));
-            
-            double *arr = new double[n];
-
-            for( int i = 0; i < n; i++)
-            {
-                
-                value = value.substr(value.find(' ') );
-                trim(value);
-                arr[i] = std::stod(value);
-            }
-            insert( key.c_str(), arr, n);
-            delete[] arr;
-        }
-        else
-        {
-            throw AvlTree_exeption(W_FORMAT, "wrong format");
-        }
-        
-                
-    }
-    return true;
-}
 
 
 int main() 
@@ -1203,48 +1065,22 @@ int main()
         double data[20];
         int data2[20];
         srand(time(0));
-        AVLcontainer tree;
+        Tree tree;
         
-        std::ifstream myfile;
-        myfile.open("test.txt");
-        
-        if(!myfile.is_open()) 
-        {
-            std::cout << "File error"<< std::endl;
-            return 1;
-        }
-        
-        char * test;
-        tree.readFile(myfile);
-        test = tree.getString("a");
-        std::cout << test << std::endl;
-        delete[] test;
-        
-        int * int_arr;
-        int_arr = tree.getIntArray("a");
-        std::cout << int_arr[0] << std::endl;
-        delete[] int_arr;
-        
-        double *double_arr;
-        double_arr = tree.getDoubleArray("a");
-        std::cout << double_arr[0] << std::endl;
-        delete[] double_arr;
-        
-        
-        const char *basekey = "112112";
+        const char *basekey = "111323123d112";
         
         int nuber_of_iter = 5;
         
         for (int i = 0; i < nuber_of_iter; i++) 
         {
-            //char * str;
+			
             data[i] = rand()%100;
-            //sprintf(str, "%d");
+			
             if(!tree.insert(basekey + i,data[i]))
                 break;
             std::cout << "Adding " << i << " " <<data[i] << 
-            " ##############################################################" << std::endl;
-            //tree.print();
+            " " << std::endl;
+			
         }
         
         for (int i = 0; i < nuber_of_iter; i++) 
@@ -1255,7 +1091,7 @@ int main()
             if(!tree.insert(basekey + i,data2[i]))
                 break;
             std::cout << "Adding " << i << " " <<data2[i] << 
-            " ##############################################################" << std::endl;
+            " " << std::endl;
             //tree.print();
             
         }
@@ -1263,52 +1099,50 @@ int main()
         {
             if(!tree.insert(basekey + i,basekey + i))
                 break;
-            //std::cout << "Adding " << i << " " <<data2[i] << 
-            //" ##############################################################" << std::endl;
-            //tree.print();
+				
         }
 
         {
-            printf("1######################################\n");
+            printf("1\n");
             char *str;
             int *temp;
             double *temp2;
-            AVLcontainer A;
+            Tree A;
             A = tree;
             
-            printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getInt(basekey));
-            printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", A.getDouble(basekey));
+            printf("%d \n", A.getInt(basekey));
+            printf("%lf \n", A.getDouble(basekey));
             
-            printf("%s^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", 
+            printf("%s \n", 
             str = A.getString(basekey));
             
             A.insert(basekey, data2, nuber_of_iter);
             temp = A.getIntArray(basekey);
             
-            printf("%d^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", temp[1]);
+            printf("%d \n", temp[1]);
             
             A.insert(basekey, data, nuber_of_iter);
             temp2 = A.getDoubleArray(basekey);
-            printf("%lf^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", temp2[1]);
+            printf("%lf \n", temp2[1]);
             
             delete[] temp2;
             delete[] temp;
             delete[] str;
             tree = A;
-            printf("2######################################\n");
+            printf("2 \n");
         }
         
         for (int i = 0; i < nuber_of_iter; i++) {
             std::cout << "Removing " << basekey + i << std::endl;
             std::cout << tree.remove(basekey + i) << 
-            " ##############################################################" << std::endl;
+            "  " << std::endl;
             //tree.print();
             
         }
     }
-    catch (AvlTree_exeption &err)
+    catch (My_exeption &err)
     {
-		std::cout << "EXC  "<< err.get_reason() << std::endl;
+		std::cout << "  "<< err.get_reason() << std::endl;
     }
     return 0;
 } 

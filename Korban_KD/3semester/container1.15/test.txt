@@ -1,0 +1,6 @@
+a = int 123
+a = char* abc
+a = int[2] 123 456
+a = double[2] 789.123 456.789
+
+dadw
