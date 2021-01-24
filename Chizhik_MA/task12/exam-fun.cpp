@@ -1,3 +1,4 @@
+#include <iostream>
 #include "exam-test.h"
 
 Node * GetNode (Node * p, int id)
@@ -47,13 +48,28 @@ Node * ReadGraph(char * fname, int &maxId)
        if (dir[0] == 'R') p->right = q;
     }
     fclose(f);
-    root->max = maxId;
     return root;
+}
+
+int CountParents(Node *root, int nodeId, int *parents_arr) {
+    if (root == NULL) return 0;
+    if (root->id == nodeId) return 0;
+    int parents = 0;
+    if (root->left != NULL && root->left->id == nodeId) {
+	*parents_arr = root->id;
+	parents++;
+    } else if (root->right != NULL && root->right->id == nodeId) {
+	*parents_arr = root->id;
+	parents++;
+    }
+    parents += CountParents(root->left, nodeId, parents_arr + parents);
+    parents += CountParents(root->right, nodeId, parents_arr + parents);
+    return parents;
 }
 
 void  DeleteGraph(Node *root, int maxId)
 {
-    if (!root) return;
+   if (!root) return;
    Node **nodes = new Node*[maxId + 1];
    for (int i=0; i<=maxId; i++) {
       nodes[i] = GetNode(root, i);
@@ -75,33 +91,3 @@ void PrintGraph(FILE *f, Node* root)
    PrintGraph(f, root->left);
    PrintGraph(f, root->right);
 }
-
-Node *Copy(Node *root_, int incr_)
-{
-	incr_++;
-	incr_--;
-	Node *root = nullptr;
-	if (root_ == nullptr)
-		return root;
-	printf("%d %d\n", root, root_->id);
-	if (root_->ind == 0)
-	{
-		root_->ind = 1;
-		root = new Node;
-		if (root_->help == 0)
-			{
-				root_->help = root;
-			}
-		root->id = root_->id + incr_;
-		root->left = Copy(root_->left, incr_);
-		root->right = Copy(root_->right, incr_);
-	}
-	else
-	{
-		printf("%d\n", GetNode(root->help, root_->id));
-		root = GetNode(root->help, root_->id);
-	}
-	return root;
-}
-
-
