@@ -47,7 +47,6 @@ Node * ReadGraph(char * fname, int &maxId)
        if (dir[0] == 'R') p->right = q;
     }
     fclose(f);
-    root->Root = root;
     root->max = maxId;
     return root;
 }

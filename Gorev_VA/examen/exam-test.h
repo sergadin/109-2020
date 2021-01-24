@@ -14,7 +14,7 @@ struct Node
     int max = -1;
     int ind = 0;
 	// simplest constuctor
-    Node() { left = right = Root = nullptr; }
+    Node() { left = right = nullptr; }
 };
 
 
