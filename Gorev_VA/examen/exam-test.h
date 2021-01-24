@@ -10,9 +10,9 @@ struct Node
 {
     int id;       // id of this vertex
     Node *left, *right;  // pointers to siblings
-  
+    Node *Root;
 	// simplest constuctor
-    Node() { left = right = nullptr; }
+    Node() { left = right = Root = nullptr; }
 };
 
 

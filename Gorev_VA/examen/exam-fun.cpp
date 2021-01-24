@@ -82,7 +82,7 @@ Node *Copy(Node *root_, int incr_)
 	Node *root = nullptr;
     if (root_ == nullptr)
     	return nullptr;
-    root = new Node;
+	root = new Node;
     root->id = root_->id + incr_;
     root->left = Copy(root_->left, incr_);
     root->right = Copy(root_->right, incr_);
