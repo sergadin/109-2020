@@ -16,8 +16,8 @@ def mse_loss(y_true, y_pred):
 class OurNeuralNetwork:
   '''
   Нейронная сеть с:
-    - 2 входами
-    - скрытым слоем с 2 нейронами (h1, h2)
+    - 10 входами
+    - скрытым слоем с 10 нейронами (h1, h2)
     - выходной слой с 1 нейроном (o1)
   '''
   def __init__(self):
@@ -42,17 +42,12 @@ class OurNeuralNetwork:
     return o1
 
   def train(self, data, all_y_trues):
-    '''
-    - data - массив numpy (n x 2) numpy, n = к-во наблюдений в наборе. 
-    - all_y_trues - массив numpy с n элементами.
-      Элементы all_y_trues соответствуют наблюдениям в data.
-    '''
     learn_rate = 0.1
     epochs = 1000 # сколько раз пройти по всему набору данных 
 
     for epoch in range(epochs):
       for x, y_true in zip(data, all_y_trues):
-        # --- Прямой проход (эти значения нам понадобятся позже)
+        # Прямой проход (эти значения нам понадобятся позже)
         sum_h1 = self.w1 * x[0] + self.w2 * x[1] + self.b1
         h1 = sigmoid(sum_h1)
 
@@ -63,8 +58,7 @@ class OurNeuralNetwork:
         o1 = sigmoid(sum_o1)
         y_pred = o1
 
-        # --- Считаем частные производные.
-        # --- Имена: d_L_d_w1 = "частная производная L по w1"
+        # Считаем частные производные
         d_L_d_ypred = -2 * (y_true - y_pred)
 
         # Нейрон o1
@@ -85,7 +79,7 @@ class OurNeuralNetwork:
         d_h2_d_w4 = x[1] * deriv_sigmoid(sum_h2)
         d_h2_d_b2 = deriv_sigmoid(sum_h2)
 
-        # --- Обновляем веса и пороги
+        # Обновляем веса и пороги
         # Нейрон h1
         self.w1 -= learn_rate * d_L_d_ypred * d_ypred_d_h1 * d_h1_d_w1
         self.w2 -= learn_rate * d_L_d_ypred * d_ypred_d_h1 * d_h1_d_w2
@@ -101,7 +95,7 @@ class OurNeuralNetwork:
         self.w6 -= learn_rate * d_L_d_ypred * d_ypred_d_w6
         self.b3 -= learn_rate * d_L_d_ypred * d_ypred_d_b3
 
-      # --- Считаем полные потери в конце каждой эпохи
+      # Считаем полные потери в конце каждой эпохи
       if epoch % 10 == 0:
         y_preds = np.apply_along_axis(self.feedforward, 1, data)
         loss = mse_loss(all_y_trues, y_preds)
@@ -109,16 +103,16 @@ class OurNeuralNetwork:
 
 # Определим набор данных
 data = np.array([
-  [-2, -1],  # Алиса Вес (минус 135)	 Рост (минус 66)
-  [25, 6],   # Боб
-  [17, 4],   # Чарли
-  [-15, -6], # Диана
+  [-2, -1],  
+  [25, 6],   
+  [17, 4],   
+  [-15, -6], 
 ])
 all_y_trues = np.array([
-  1, # Алиса
-  0, # Боб
-  0, # Чарли
-  1, # Диана
+  1, 
+  0, 
+  0, 
+  1, 
 ])
 
 # Обучаем нашу нейронную сеть!
@@ -126,7 +120,7 @@ network = OurNeuralNetwork()
 network.train(data, all_y_trues)
 
 # Делаем пару предсказаний
-emily = np.array([-7, -3]) # 128 фунтов (52.35 кг), 63 дюйма (160 см)
-frank = np.array([20, 2])  # 155 pounds (63.4 кг), 68 inches (173 см)
-print("Эмили: %.3f" % network.feedforward(emily)) # 0.951 - Ж
-print("Фрэнк: %.3f" % network.feedforward(frank)) # 0.039 - М
+e = np.array([-7, -3]) 
+f = np.array([20, 2])  
+print("e: %.3f" % network.feedforward(e)) 
+print("f: %.3f" % network.feedforward(f)) 

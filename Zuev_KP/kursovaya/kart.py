@@ -1,5 +1,3 @@
-import numpy as np
-
 class Deck():
     deck = [None] * 36;
     def __init__(self):
@@ -36,27 +34,16 @@ if __name__ == '__main__':
         t = int(input('Вы (введите число): '));
         card = deck.get(t-1);
         print(card, end='.\n');
-        hand[i] = t;    
+        hand[i] = t;
     for i in range(1, 11):
         card = deck.get(hand[i]-1);
         print('Вы взяли карты', card, end='.\n');
     
-    neurons = [None] * 36;
-    data = np.array([
-        [-2, -1],  # Алиса Вес (минус 135)	 Рост (минус 66)
-        [25, 6],   # Боб
-        [17, 4],   # Чарли
-        [-15, -6], # Диана
-    ])
-    #двумерный массив 10/36(i = 1)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    neurons = [[None] * 37] * 11;
+    for i in range(1, 11):
+         for j in range(1, 37):
+             if j == hand[i]:
+                 neurons[i][j] = 1;
+             else:
+                 neurons[i][j] = 0;
+         print(neurons[i]);
