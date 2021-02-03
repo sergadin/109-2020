@@ -1,9 +1,9 @@
 class Deck():
-    deck = [None] * 36;
+    deck = [None] * 32;
     def __init__(self):
         for i in range(1, 5):
-            for j in range(6, 15):
-                self.deck[(i - 1) * 9 + (j - 5) - 1] = Card(i, j);
+            for j in range(7, 15):
+                self.deck[(i - 1) * 8 + (j - 6) - 1] = Card(i, j);
     def get(self, i):
         try:
             answer = {
@@ -39,9 +39,9 @@ if __name__ == '__main__':
         card = deck.get(hand[i]-1);
         print('Вы взяли карты', card, end='.\n');
     
-    neurons = [[None] * 37] * 11;
+    neurons = [[None] * 33] * 11;
     for i in range(1, 11):
-         for j in range(1, 37):
+         for j in range(1, 33):
              if j == hand[i]:
                  neurons[i][j] = 1;
              else:
