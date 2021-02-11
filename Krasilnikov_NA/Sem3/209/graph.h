@@ -6,36 +6,37 @@
 class Graph;
 
 class Node {
-   friend class Graph;
-   int id;
-   Node *next;
+	friend class Graph;
+	int id;
+	Node *next;
 
-public:
-   Node(int _id, Node *_next) { id = _id; next = _next; }
+	public:
+	Node(int _id, Node *_next) { id = _id; next = _next; }
 };                               
 
 
 class Graph {
-   // array of start nodes and length of this array
-   Node **start;
-   int nStartNodes;
-public:
-    
-   Graph() { nStartNodes = 0; start = nullptr; }
-   ~Graph();
+	// array of start nodes and length of this array
+	Node **start;
+	int nStartNodes;
+	public:
 
-   // Initializtion for tests
-   int LoadForTest1();
-   int LoadForTest2();
-   int LoadForTest3();
-   int LoadForTest4();
-   int LoadForTest5();
+	Graph() { nStartNodes = 0; start = nullptr; }
+	~Graph();
 
-   // Attention! 
-   // Print function does not work for graphs with loops !!!
-   // It falls into infinite cycle. 
-   // You sould correct it for using with such graphs !!!
-   void Print(FILE *f, const char *text); 
+	// Initializtion for tests
+	int LoadForTest1();
+	int LoadForTest2();
+	int LoadForTest3();
+	int LoadForTest4();
+	int LoadForTest5();
+
+	// Attention! 
+	// Print function does not work for graphs with loops !!!
+	// It falls into infinite cycle. 
+	// You sould correct it for using with such graphs !!!
+	void Print(FILE *f, const char *text);
+	void Find_parts(FILE *f);
 };
 
 

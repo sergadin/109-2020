@@ -1,7 +1,10 @@
-
 #include <stdio.h>
 #include "stack.h"
 #include "graph.h"
+#include <algorithm>
+#include <vector>
+
+using namespace std;
 
 
 int Graph::LoadForTest1()
@@ -47,7 +50,7 @@ int Graph::LoadForTest3()
     start = new Node*[nStartNodes];
     Node * p6 = new Node(6, nullptr);
     Node * p5 = new Node(5, p6);
-    Node * p7 = new Node(6, p6);
+    Node * p7 = new Node(7, p6);
     Node * p4 = new Node(4, p5);
     Node * p3 = new Node(3, p4);
     Node * p2 = new Node(2, p3);
@@ -121,6 +124,42 @@ Graph::~Graph()
        }
     }
     while (s.Pop(p)) delete p;
+    delete[] start;
 }
 
-
+void Graph::Find_parts(FILE *f)
+{
+	vector<int> ids;
+	vector<int> ids_temp;
+	for(int i = 0; i<nStartNodes; i++)
+	{
+		int check = 0;
+		Node* temp = start[i] -> next;
+		while (temp)
+		{
+			if(find(ids.begin(), ids.end(), temp -> id) != ids.end())
+			{
+				if(find(ids_temp.begin(), ids_temp.end(), temp -> id) == ids_temp.end())
+				{
+					check = 1;
+				}
+				break;
+			}
+			else
+			{
+				ids.push_back(temp -> id);
+				ids_temp.push_back(temp -> id);
+			}
+			temp = temp -> next;
+		}
+		if(check == 0)
+		{
+			fprintf(f, "\n\n New part of graph has started, its start nodes \n %d", start[i] -> id);
+		}
+		else
+		{
+			fprintf(f, "%d", start[i] -> id);
+		}
+		ids_temp.clear();
+	}
+}
