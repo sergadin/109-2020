@@ -30,39 +30,40 @@ class Card():
         self.Num   = j;
  
     
-def pravila1(a, b, c, n1, n2, n3): #если 1 ходит первым
+def pravila1(a, b, c, n): #если 1 ходит первым
     s = int;
     s = 0;
     for i in range(1, 33):
         if (a[i] == 1):
-            n1 = i;
+            n[1] = i;
             neurons1[i] = 0;
             break
     for i in range(1, 33):
-        if (mast(i) == mast(n1)) & (b[i] == 1):
-            n2 = i;
+        if (mast(i) == mast(n[1])) & (b[i] == 1):
+            n[2] = i;
             neurons2[i] = 0;
             break
         s = s+1;
     if s == 32:
         for i in range(1, 33):
             if (b[i] == 1):
-                n2 = i;
+                n[2] = i;
                 neurons2[i] = 0;
                 break
     s = 0;
     for i in range(1, 33):
-        if (mast(i) == mast(n1)) & (c[i] == 1):
-            n3 = i;
+        if (mast(i) == mast(n[1])) & (c[i] == 1):
+            n[3] = i;
             neurons3[i] = 0;
             break
         s = s+1;
     if s == 32:
         for i in range(1, 33):
             if (c[i] == 1):
-                n3 = i;
+                n[3] = i;
                 neurons3[i] = 0;
                 break
+    return n;
         
         
         
@@ -99,15 +100,17 @@ def mast(a):
         
 def kinut(a, b, c): #что кинуть(правила)
     s = step(1);
-    n1 = 0;
-    n2 = 0;
-    n3 = 0;
+    n = [None] * 4;
+    for i in range(1, 4):
+        n[i] = 0
     if (s == 1):
-        pravila1(a, b, c, n1, n2, n3);
-        print(n1);
-        print(n2);
-        print(n3);
-        sravnit1(n1, n2, n3);
+        n = pravila1(a, b, c, n);
+        print(n);
+        sravnit1(n[1], n[2], n[3]);
+    if (s == 2):
+        print(n);
+    if (s == 3):
+        print(n);
 
 def step(a): #чей ход и кто следующий
     s = random.randint(1, 3)
@@ -140,11 +143,10 @@ def sravnit1(a, b, c): #сравнивает карты
             s2 = s2+1;
     if (mast(b) != mast(a)) & (mast(c) != mast(a)):
         s1 = s1+1;
-    
-    if (s1 < s2) & (s1 < s3):
-        print('');
+    if (s1 <= s2) & (s1 <= s3):
+        print('1');
     else:
-        print('');
+        print('0');
  
     
      
