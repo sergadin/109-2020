@@ -5,9 +5,6 @@ Figure::Figure(char pos, char type) : position_(pos) {
 	colour_ = type >> 3;
 }
 
-//std::cout << "Hello, type of square " << i << " is " << squares_[i].type_ << std::endl;
-//std::cout << "Colour of " << i << " is " << squares_[i].colour_ << std::endl;
-
 void Figure::possible_turns(FILE* f) {
 	if (type_ == BISHOP) {
 		char rk = position_ % 8;
@@ -56,16 +53,16 @@ void Bishop::possible_turns(FILE* f) {
 	char square_name[3];
 	square_name[2] = 0;
 
-	for (char k = rk - min, l = file - min; k < 8 && l < 8; k++, l++) {
-		if (k == rk) continue;
+	for (char k = file - min, l = rk - min; k < 8 && l < 8; k++, l++) {
+		if (k == file && l == rk) continue;
 		square_name[0] = files[k];
 		square_name[1] = ranks[l];
 
 		fprintf(f, "%s\n", square_name);
 	}
 
-	for (char k = rk + alt_min, l = file - alt_min; k >= 0 && l < 8; k--, l++) {
-		if (k == rk) continue;
+	for (char k = file - alt_min, l = rk + alt_min; k < 8 && l >= 0; k++, l--) {
+		if (k == file && l == rk) continue;
 		square_name[0] = files[k];
 		square_name[1] = ranks[l];
 

@@ -11,4 +11,4 @@ do-test: run
 	valgrind ./run
 clean: planner.o test.o
 	cat output.txt
-	rm -rf *.o *.vgcore
+	rm -rf *.o vgcore.* run
