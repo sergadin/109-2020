@@ -8,56 +8,92 @@ Figure::Figure(char pos, char type) : position_(pos) {
 //std::cout << "Hello, type of square " << i << " is " << squares_[i].type_ << std::endl;
 //std::cout << "Colour of " << i << " is " << squares_[i].colour_ << std::endl;
 
-void Bishop::possible_turns(FILE* file) {
-	char hor = position_ % 8;
-	char ver = (position_ % 16) >> 3;
+void Figure::possible_turns(FILE* f) {
+	if (type_ == BISHOP) {
+		char rk = position_ % 8;
+		char file = position_ >> 3;
 
-	std::cout << "Hi there! hor = " << hor << ", ver = " << ver << std::endl;
+		std::cout << "Hi there! rk = " << (int)rk << ", file = " << (int)file << std::endl;
 
-	char alt_min = ((7 - hor) < ver) ? (7 - hor) : ver; // число клеток, которое можно пройти по диагонали наверх налево
-	char min = (hor < ver) ? hor : ver;
+		char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
+		char min = (rk < file) ? rk : file;
 
-	char square_name[3];
-	square_name[2] = 0;
+		std::cout << "min = " << (int)min << ", alt_min = " << (int)alt_min << std::endl;
+		std::cout << "rk - min = " << (int)(rk - min) << ", file - min = " << (int)(file - min) << std::endl;	
+		std::cout << "rk + alt_min = " << (int)(rk + alt_min) << ", file - alt_min = " << (int)(file - alt_min) << std::endl;	
+		
 
-	for (char k = hor - min, l = ver - min; k < 8 && l < 8; k++, l++) {
-		if (k == hor) continue;
-		square_name[0] = files[k];
-		square_name[1] = ranks[k];
+		char square_name[3];
+		square_name[2] = 0;
 
-		fprintf(file, "%s\n", square_name);
-	}
+		for (char k = file - min, l = rk - min; k < 8 && l < 8; k++, l++) {
+			if (k == file && l == rk) continue;
+			square_name[0] = files[k];
+			square_name[1] = ranks[l];
 
-	for (char k = hor + alt_min, l = ver - alt_min; k >= 0 && l < 8; k--, l++) {
-		if (k == hor) continue;
-		square_name[0] = files[k];
-		square_name[1] = ranks[k];
+			fprintf(f, "%s\n", square_name);
+		}
 
-		fprintf(file, "%s\n", square_name);
+		for (char k = file - alt_min, l = rk + alt_min; k < 8 && l >= 0; k++, l--) {
+			if (k == file && l == rk) continue;
+			square_name[0] = files[k];
+			square_name[1] = ranks[l];
+
+			fprintf(f, "%s\n", square_name);
+		}
 	}
 }
 
-void Rook::possible_turns(FILE* file) {
-	char hor = position_ % 8;
-	char ver = position_ >> 3;
+void Bishop::possible_turns(FILE* f) {
+	char rk = position_ % 8;
+	char file = position_ >> 3;
+
+	std::cout << "Hi there! rk = " << (int)rk << ", file = " << (int)file << std::endl;
+
+	char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
+	char min = (rk < file) ? rk : file;
+
+	char square_name[3];
+	square_name[2] = 0;
+
+	for (char k = rk - min, l = file - min; k < 8 && l < 8; k++, l++) {
+		if (k == rk) continue;
+		square_name[0] = files[k];
+		square_name[1] = ranks[l];
+
+		fprintf(f, "%s\n", square_name);
+	}
+
+	for (char k = rk + alt_min, l = file - alt_min; k >= 0 && l < 8; k--, l++) {
+		if (k == rk) continue;
+		square_name[0] = files[k];
+		square_name[1] = ranks[l];
+
+		fprintf(f, "%s\n", square_name);
+	}
+}
+
+void Rook::possible_turns(FILE* f) {
+	char rk = position_ % 8;
+	char file = position_ >> 3;
 
 	char square_name[3];
 	square_name[2] = 0;
 
 	for (char k = 0; k < 8; k++) {
-		if (k == ver) continue;
-		square_name[1] = ranks[hor];
+		if (k == file) continue;
 		square_name[0] = files[k];
+		square_name[1] = ranks[rk];
 
-		fprintf(file, "%s\n", square_name);
+		fprintf(f, "%s\n", square_name);
 	}
 
 	for (char k = 0; k < 8; k++) {
-		if (k == hor) continue;
+		if (k == rk) continue;
+		square_name[0] = files[rk];
 		square_name[1] = ranks[k];
-		square_name[0] = files[hor];
 
-		fprintf(file, "%s\n", square_name);
+		fprintf(f, "%s\n", square_name);
 	}
 }
 

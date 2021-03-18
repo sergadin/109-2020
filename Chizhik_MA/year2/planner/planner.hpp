@@ -23,7 +23,7 @@ class Figure {
 		FigureType type() { return (FigureType)type_; }
 		bool colour() { return colour_; }
 		virtual char getCost() { return -1; }
-		virtual void possible_turns(FILE* file) {}
+		virtual void possible_turns(FILE* file);
 };
 
 class Pawn : public Figure {
