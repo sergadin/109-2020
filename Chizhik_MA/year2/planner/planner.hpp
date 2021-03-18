@@ -35,7 +35,7 @@ class Pawn : public Figure {
 
 class Knight : public Figure {
 	public:
-		void possible_turns(FILE* file) {}
+		void possible_turns(FILE* file);
 		char getCost() { return 3; }
 };
 
@@ -53,13 +53,13 @@ class Rook : public Figure {
 
 class Queen : public Figure {
 	public:
-		void possible_turns(FILE* file) {} // Объединение методов от rook и bishop
+		void possible_turns(FILE* file);  // Объединение методов от rook и bishop
 		char getCost() { return 9; }
 };
 
 class King : public Figure {
 	public:
-		void possible_turns(FILE* file) {}
+		void possible_turns(FILE* file);
 		char getCost() { return 100; }
 };
 
