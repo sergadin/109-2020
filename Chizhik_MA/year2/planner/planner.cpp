@@ -5,41 +5,6 @@ Figure::Figure(char pos, char type) : position_(pos) {
 	colour_ = type >> 3;
 }
 
-void Figure::possible_turns(FILE* f) {
-	if (type_ == BISHOP) {
-		char rk = position_ % 8;
-		char file = position_ >> 3;
-
-		//std::cout << "rk = " << (int)rk << ", file = " << (int)file << std::endl;
-
-		char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
-		char min = (rk < file) ? rk : file;
-
-		//std::cout << "min = " << (int)min << ", alt_min = " << (int)alt_min << std::endl;
-		//std::cout << "rk - min = " << (int)(rk - min) << ", file - min = " << (int)(file - min) << std::endl;	
-		//std::cout << "rk + alt_min = " << (int)(rk + alt_min) << ", file - alt_min = " << (int)(file - alt_min) << std::endl;	
-
-		char square_name[3];
-		square_name[2] = 0;
-
-		for (char k = file - min, l = rk - min; k < 8 && l < 8; k++, l++) {
-			if (k == file && l == rk) continue;
-			square_name[0] = files[k];
-			square_name[1] = ranks[l];
-
-			fprintf(f, "%s\n", square_name);
-		}
-
-		for (char k = file - alt_min, l = rk + alt_min; k < 8 && l >= 0; k++, l--) {
-			if (k == file && l == rk) continue;
-			square_name[0] = files[k];
-			square_name[1] = ranks[l];
-
-			fprintf(f, "%s\n", square_name);
-		}
-	}
-}
-
 void Pawn::possible_turns(FILE *f) { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
 	char rk = position_ % 8;
 	char file = position_ >> 3;
@@ -90,9 +55,14 @@ void Knight::possible_turns(FILE *f) {
 void Bishop::possible_turns(FILE *f) {
 	char rk = position_ % 8;
 	char file = position_ >> 3;
+	//std::cout << "rk = " << (int)rk << ", file = " << (int)file << std::endl;
 
 	char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
 	char min = (rk < file) ? rk : file;
+
+	//std::cout << "min = " << (int)min << ", alt_min = " << (int)alt_min << std::endl;
+	//std::cout << "rk - min = " << (int)(rk - min) << ", file - min = " << (int)(file - min) << std::endl;	
+	//std::cout << "rk + alt_min = " << (int)(rk + alt_min) << ", file - alt_min = " << (int)(file - alt_min) << std::endl;
 
 	char square_name[3];
 	square_name[2] = 0;
@@ -131,7 +101,7 @@ void Rook::possible_turns(FILE *f) {
 
 	for (char k = 0; k < 8; k++) {
 		if (k == rk) continue;
-		square_name[0] = files[rk];
+		square_name[0] = files[file];
 		square_name[1] = ranks[k];
 
 		fprintf(f, "%s\n", square_name);
@@ -158,7 +128,7 @@ void Queen::possible_turns(FILE *f) {
 
 	for (char k = 0; k < 8; k++) {
 		if (k == rk) continue;
-		square_name[0] = files[rk];
+		square_name[0] = files[file];
 		square_name[1] = ranks[k];
 
 		fprintf(f, "%s\n", square_name);
@@ -212,6 +182,6 @@ char Position::get_figure_info(char index) {
 	return squares_[index];
 }
 
-void Figure::print_position(std::ostream& os) {
-	os << files[position_ >> 3] << ranks[position_ % 8];
+void Figure::print_position(FILE *f) {
+	fprintf(f, "%c%c", files[position_ >> 3], ranks[position_ % 8]);
 }

@@ -20,45 +20,51 @@ class Figure {
 		Figure(char pos = -1, char t = 0);
 		~Figure() {}
 		char position() { return position_; }
-		void print_position(std::ostream& os);
+		void print_position(FILE *f);
 		FigureType type() { return (FigureType)type_; }
 		bool colour() { return colour_; }
 		virtual char getCost() { return -1; }
-		virtual void possible_turns(FILE* file);
+		virtual void possible_turns(FILE* file) {}
 };
 
 class Pawn : public Figure {
 	public:
+		Pawn(char pos = -1, char t = 0) : Figure(pos, t) {}
 		void possible_turns(FILE* file);
 		char getCost() { return 1; }
 };
 
 class Knight : public Figure {
 	public:
+		Knight(char pos = -1, char t = 0) : Figure(pos, t) {}
 		void possible_turns(FILE* file);
 		char getCost() { return 3; }
 };
 
 class Bishop : public Figure {
 	public:
+		Bishop(char pos = -1, char t = 0) : Figure(pos, t) {}
 		void possible_turns(FILE* file);
 		char getCost() { return 3; }
 };
 
 class Rook : public Figure {
 	public:
+		Rook(char pos = -1, char t = 0) : Figure(pos, t) {}
 		void possible_turns(FILE* file);
 		char getCost() { return 5; }
 };
 
 class Queen : public Figure {
 	public:
-		void possible_turns(FILE* file);  // Объединение методов от rook и bishop
+		Queen(char pos = -1, char t = 0) : Figure(pos, t) {}
+		void possible_turns(FILE* file);
 		char getCost() { return 9; }
 };
 
 class King : public Figure {
 	public:
+		King(char pos = -1, char t = 0) : Figure(pos, t) {}
 		void possible_turns(FILE* file);
 		char getCost() { return 100; }
 };
