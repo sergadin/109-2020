@@ -29,7 +29,7 @@ class Figure {
 
 class Pawn : public Figure {
 	public:
-		void possible_turns(FILE* file) {}
+		void possible_turns(FILE* file);
 		char getCost() { return 1; }
 };
 

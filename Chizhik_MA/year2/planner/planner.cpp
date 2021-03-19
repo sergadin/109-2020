@@ -10,15 +10,14 @@ void Figure::possible_turns(FILE* f) {
 		char rk = position_ % 8;
 		char file = position_ >> 3;
 
-		std::cout << "Hi there! rk = " << (int)rk << ", file = " << (int)file << std::endl;
+		//std::cout << "rk = " << (int)rk << ", file = " << (int)file << std::endl;
 
 		char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
 		char min = (rk < file) ? rk : file;
 
-		std::cout << "min = " << (int)min << ", alt_min = " << (int)alt_min << std::endl;
-		std::cout << "rk - min = " << (int)(rk - min) << ", file - min = " << (int)(file - min) << std::endl;	
-		std::cout << "rk + alt_min = " << (int)(rk + alt_min) << ", file - alt_min = " << (int)(file - alt_min) << std::endl;	
-		
+		//std::cout << "min = " << (int)min << ", alt_min = " << (int)alt_min << std::endl;
+		//std::cout << "rk - min = " << (int)(rk - min) << ", file - min = " << (int)(file - min) << std::endl;	
+		//std::cout << "rk + alt_min = " << (int)(rk + alt_min) << ", file - alt_min = " << (int)(file - alt_min) << std::endl;	
 
 		char square_name[3];
 		square_name[2] = 0;
@@ -40,6 +39,31 @@ void Figure::possible_turns(FILE* f) {
 		}
 	}
 }
+
+void Pawn::possible_turns(FILE *f) { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
+	char rk = position_ % 8;
+	char file = position_ >> 3;
+
+	char min_file = (file > 0) ? (file - 1) : 0;
+
+	char coef = 1 - colour_ * 2; // если пешка белая, то 1, иначе - -1
+	bool can_jump = (colour_ == 0 && rk == 1) || (colour_ == 1 && rk == 6);
+
+
+	char square_name[3];
+	square_name[2] = 0;
+
+	for (char k = min_file; (k <= (file + 1)) && (k < 8); k++) {
+		char max_prom = (1 + (char)can_jump * (1 - fabs(k - file))); // Если k == file, max_prom[otion] зависит от того, находится ли пешка в начальной позиции;
+									   // если fabs(k - file) == 1, то продвинуться в любом случае можно только на одну горизонталь
+		for (char l = 1; l <= max_prom; l++) {
+			square_name[0] = files[k];
+			square_name[1] = ranks[rk + l * coef];
+
+			fprintf(f, "%s\n", square_name);
+		}
+	}
+} // считается, что пешка не может находиться на поле превращения - иначе позиция некорректна
 
 void Knight::possible_turns(FILE *f) {
 	char rk = position_ % 8;
@@ -66,8 +90,6 @@ void Knight::possible_turns(FILE *f) {
 void Bishop::possible_turns(FILE *f) {
 	char rk = position_ % 8;
 	char file = position_ >> 3;
-
-	std::cout << "Hi there! rk = " << (int)rk << ", file = " << (int)file << std::endl;
 
 	char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
 	char min = (rk < file) ? rk : file;
