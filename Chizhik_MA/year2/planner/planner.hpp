@@ -3,7 +3,8 @@
 #include <cmath>
 
 typedef enum {EMPTY = 0, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} FigureType;
-typedef enum {WHITE = 0, BLACK} Turn;
+typedef enum {WHITE = 0, BLACK} Colour;
+typedef char Square;
 
 const std::string files = "abcdefgh";
 const std::string ranks = "12345678";
@@ -13,72 +14,66 @@ class Position;
 class Figure {
 	friend class Position;
 	protected:
-		bool colour_; // белая фигура - 0, черная - 1
+		Colour colour_; // белая фигура - 0, черная - 1
 		FigureType type_;
-		char position_;
+		Square square_;
+		const char static_cost_;
 	public:
-		Figure(char pos = -1, char t = 0);
+		Figure(Square sq, Colour colour, FigureType type = EMPTY, char st_cost = 0);
 		~Figure() {}
-		char position() { return position_; }
-		void print_position(FILE *f);
+		Square square() { return square_; }
+		void print_square(FILE *f);
 		FigureType type() { return (FigureType)type_; }
-		bool colour() { return colour_; }
-		virtual char getCost() { return -1; }
-		virtual void possible_turns(FILE* file) {}
+		Colour colour() { return colour_; }
+		char getCost() { return static_cost_; }
+		virtual void possible_moves(FILE* file) {}
 };
 
 class Pawn : public Figure {
 	public:
-		Pawn(char pos = -1, char t = 0) : Figure(pos, t) {}
-		void possible_turns(FILE* file);
-		char getCost() { return 1; }
+		Pawn(Square sq, Colour col = WHITE) : Figure(sq, col, PAWN, 1) {}
+		void possible_moves(FILE* file);
 };
 
 class Knight : public Figure {
 	public:
-		Knight(char pos = -1, char t = 0) : Figure(pos, t) {}
-		void possible_turns(FILE* file);
-		char getCost() { return 3; }
+		Knight(Square sq, Colour col = WHITE) : Figure(sq, col, KNIGHT, 3) {}
+		void possible_moves(FILE* file);
 };
 
 class Bishop : public Figure {
 	public:
-		Bishop(char pos = -1, char t = 0) : Figure(pos, t) {}
-		void possible_turns(FILE* file);
-		char getCost() { return 3; }
+		Bishop(Square sq, Colour col = WHITE) : Figure(sq, col, BISHOP, 3) {}
+		void possible_moves(FILE* file);
 };
 
 class Rook : public Figure {
 	public:
-		Rook(char pos = -1, char t = 0) : Figure(pos, t) {}
-		void possible_turns(FILE* file);
-		char getCost() { return 5; }
+		Rook(Square sq, Colour col = WHITE) : Figure(sq, col, ROOK, 5) {}
+		void possible_moves(FILE* file);
 };
 
 class Queen : public Figure {
 	public:
-		Queen(char pos = -1, char t = 0) : Figure(pos, t) {}
-		void possible_turns(FILE* file);
-		char getCost() { return 9; }
+		Queen(Square sq, Colour col = WHITE) : Figure(sq, col, QUEEN, 9) {}
+		void possible_moves(FILE* file);
 };
 
 class King : public Figure {
 	public:
-		King(char pos = -1, char t = 0) : Figure(pos, t) {}
-		void possible_turns(FILE* file);
-		char getCost() { return 100; }
+		King(Square sq, Colour col = WHITE) : Figure(sq, col, KING, 100) {}
+		void possible_moves(FILE* file);
 };
 
 class Position {
 	private:
-		Turn turn_;
-		char squares_[64];
+		Colour turn_;
+		Square squares_[64];
 		char are_kings_touched_; // младший разряд для белого, второй - для черного
 		char are_rooks_touched_; // от младшего к 4-му в порядке a1-h1-a8-h8
 	public:
-		Position(char *sqs, char akt = 0, char art = 0, Turn t = WHITE);
-		char get_figure_info(char index);
-		//bool Move(char from, char to);
+		Position(char *sqs, char akt = 0, char art = 0, Colour turn = WHITE);
+		char get_figure_info(Square sq);
 };
 
 class Aim {
@@ -88,6 +83,7 @@ class Aim {
 		char target_square_; // координата целевой клетки
 		const bool is_capture_; // является ли целью взятие фигуры, расположенной на этой клетке
 	public:
-		Aim(Position pos, char sf, char tc, bool ic) : position_(pos), selected_figure_(sf), target_square_(tc), is_capture_(ic) {}
+		Aim(Position pos, char sf, char tc, bool ic) 
+			: position_(pos), selected_figure_(sf), target_square_(tc), is_capture_(ic) {}
 		~Aim();
 };

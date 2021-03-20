@@ -1,26 +1,23 @@
 #include "planner.hpp"
 
-Figure::Figure(char pos, char type) : position_(pos) {
-	type_ = (FigureType)(type % 8);
-	colour_ = type >> 3;
-}
+Figure::Figure(Square sq, Colour colour, FigureType type, char st_cost) 
+	: square_(sq), colour_(colour), type_(type), static_cost_(st_cost) {}
 
-void Pawn::possible_turns(FILE *f) { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
-	char rk = position_ % 8;
-	char file = position_ >> 3;
+void Pawn::possible_moves(FILE *f) { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
+	char rk = square_ % 8;
+	char file = square_ >> 3;
 
 	char min_file = (file > 0) ? (file - 1) : 0;
 
 	char coef = 1 - colour_ * 2; // если пешка белая, то 1, иначе - -1
 	bool can_jump = (colour_ == 0 && rk == 1) || (colour_ == 1 && rk == 6);
 
-
 	char square_name[3];
 	square_name[2] = 0;
 
 	for (char k = min_file; (k <= (file + 1)) && (k < 8); k++) {
 		char max_prom = (1 + (char)can_jump * (1 - fabs(k - file))); // Если k == file, max_prom[otion] зависит от того, находится ли пешка в начальной позиции;
-									   // если fabs(k - file) == 1, то продвинуться в любом случае можно только на одну горизонталь
+									     // если fabs(k - file) == 1, то продвинуться в любом случае можно только на одну горизонталь
 		for (char l = 1; l <= max_prom; l++) {
 			square_name[0] = files[k];
 			square_name[1] = ranks[rk + l * coef];
@@ -30,9 +27,9 @@ void Pawn::possible_turns(FILE *f) { // пока передвижение на �
 	}
 } // считается, что пешка не может находиться на поле превращения - иначе позиция некорректна
 
-void Knight::possible_turns(FILE *f) {
-	char rk = position_ % 8;
-	char file = position_ >> 3;
+void Knight::possible_moves(FILE *f) {
+	char rk = square_ % 8;
+	char file = square_ >> 3;
 
 	char min_file = (file > 2) ? (file - 2) : 0;
 
@@ -52,9 +49,9 @@ void Knight::possible_turns(FILE *f) {
 	}
 }
 
-void Bishop::possible_turns(FILE *f) {
-	char rk = position_ % 8;
-	char file = position_ >> 3;
+void Bishop::possible_moves(FILE *f) {
+	char rk = square_ % 8;
+	char file = square_ >> 3;
 	//std::cout << "rk = " << (int)rk << ", file = " << (int)file << std::endl;
 
 	char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
@@ -84,9 +81,9 @@ void Bishop::possible_turns(FILE *f) {
 	}
 }
 
-void Rook::possible_turns(FILE *f) {
-	char rk = position_ % 8;
-	char file = position_ >> 3;
+void Rook::possible_moves(FILE *f) {
+	char rk = square_ % 8;
+	char file = square_ >> 3;
 
 	char square_name[3];
 	square_name[2] = 0;
@@ -108,9 +105,9 @@ void Rook::possible_turns(FILE *f) {
 	}
 }
 
-void Queen::possible_turns(FILE *f) {
-	char rk = position_ % 8;
-	char file = position_ >> 3;
+void Queen::possible_moves(FILE *f) {
+	char rk = square_ % 8;
+	char file = square_ >> 3;
 
 	char alt_min = ((7 - rk) < file) ? (7 - rk) : file;
 	char min = (rk < file) ? rk : file;
@@ -151,9 +148,9 @@ void Queen::possible_turns(FILE *f) {
 	}
 }
 
-void King::possible_turns(FILE *f) {
-	char rk = position_ % 8;
-	char file = position_ >> 3;
+void King::possible_moves(FILE *f) {
+	char rk = square_ % 8;
+	char file = square_ >> 3;
 
 	char square_name[3];
 	square_name[2] = 0;
@@ -172,16 +169,17 @@ void King::possible_turns(FILE *f) {
 	}
 }
 
-Position::Position(char *sqs, char akt, char art, Turn t) : are_kings_touched_(akt), are_rooks_touched_(art), turn_(t) {
+Position::Position(char *sqs, char akt, char art, Colour t) 
+	: are_kings_touched_(akt), are_rooks_touched_(art), turn_(t) {
 	for (int i = 0; i < 64; i++) {
 		squares_[i] = sqs[i];
 	}
 }
 
-char Position::get_figure_info(char index) {
-	return squares_[index];
+char Position::get_figure_info(Square square) {
+	return squares_[square];
 }
 
-void Figure::print_position(FILE *f) {
-	fprintf(f, "%c%c", files[position_ >> 3], ranks[position_ % 8]);
+void Figure::print_square(FILE *f) {
+	fprintf(f, "%c%c", files[square_ >> 3], ranks[square_ % 8]);
 }
