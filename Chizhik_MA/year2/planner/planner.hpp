@@ -4,7 +4,10 @@
 
 typedef enum {EMPTY = 0, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} FigureType;
 typedef enum {WHITE = 0, BLACK} Colour;
+
 typedef char Square;
+typedef Square FigureInfo;
+typedef const char Cost;
 
 const std::string files = "abcdefgh";
 const std::string ranks = "12345678";
@@ -17,15 +20,15 @@ class Figure {
 		Colour colour_; // белая фигура - 0, черная - 1
 		FigureType type_;
 		Square square_;
-		const char static_cost_;
+		Cost static_cost_;
 	public:
-		Figure(Square sq, Colour colour, FigureType type = EMPTY, char st_cost = 0);
+		Figure(Square sq, Colour colour, FigureType type = EMPTY, Cost st_cost = 0);
 		~Figure() {}
 		Square square() const { return square_; }
 		void print_square(FILE *f) const;
 		FigureType type() const { return (FigureType)type_; }
 		Colour colour() const { return colour_; }
-		char getCost() const { return static_cost_; }
+		Cost getCost() const { return static_cost_; }
 		virtual void possible_moves(FILE* file) const {}
 };
 
@@ -72,18 +75,18 @@ class Position {
 		char are_kings_touched_; // младший разряд для белого, второй - для черного
 		char are_rooks_touched_; // от младшего к 4-му в порядке a1-h1-a8-h8
 	public:
-		Position(char *sqs, char akt = 0, char art = 0, Colour turn = WHITE);
-		char get_figure_info(Square sq) const;
+		Position(Square *sqs, char akt = 0, char art = 0, Colour turn = WHITE);
+		FigureInfo get_figure_info(Square sq) const;
 };
 
 class Aim {
 	private:
 		const Position position_;
-		const char selected_figure_; // координата клетки с основной фигурой
-		char target_square_; // координата целевой клетки
+		const Square selected_figure_; // координата клетки с основной фигурой
+		Square target_square_; // координата целевой клетки
 		const bool is_capture_; // является ли целью взятие фигуры, расположенной на этой клетке
 	public:
-		Aim(Position pos, char sf, char tc, bool ic) 
+		Aim(Position pos, Square sf, Square tc, bool ic) 
 			: position_(pos), selected_figure_(sf), target_square_(tc), is_capture_(ic) {}
 		~Aim();
 };

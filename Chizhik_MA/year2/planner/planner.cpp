@@ -1,6 +1,6 @@
 #include "planner.hpp"
 
-Figure::Figure(Square sq, Colour colour, FigureType type, char st_cost) 
+Figure::Figure(Square sq, Colour colour, FigureType type, Cost st_cost) 
 	: square_(sq), colour_(colour), type_(type), static_cost_(st_cost) {}
 
 void Pawn::possible_moves(FILE *f) const { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
