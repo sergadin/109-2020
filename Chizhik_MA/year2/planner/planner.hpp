@@ -21,48 +21,48 @@ class Figure {
 	public:
 		Figure(Square sq, Colour colour, FigureType type = EMPTY, char st_cost = 0);
 		~Figure() {}
-		Square square() { return square_; }
-		void print_square(FILE *f);
-		FigureType type() { return (FigureType)type_; }
-		Colour colour() { return colour_; }
-		char getCost() { return static_cost_; }
-		virtual void possible_moves(FILE* file) {}
+		Square square() const { return square_; }
+		void print_square(FILE *f) const;
+		FigureType type() const { return (FigureType)type_; }
+		Colour colour() const { return colour_; }
+		char getCost() const { return static_cost_; }
+		virtual void possible_moves(FILE* file) const {}
 };
 
 class Pawn : public Figure {
 	public:
 		Pawn(Square sq, Colour col = WHITE) : Figure(sq, col, PAWN, 1) {}
-		void possible_moves(FILE* file);
+		void possible_moves(FILE* file) const;
 };
 
 class Knight : public Figure {
 	public:
 		Knight(Square sq, Colour col = WHITE) : Figure(sq, col, KNIGHT, 3) {}
-		void possible_moves(FILE* file);
+		void possible_moves(FILE* file) const;
 };
 
 class Bishop : public Figure {
 	public:
 		Bishop(Square sq, Colour col = WHITE) : Figure(sq, col, BISHOP, 3) {}
-		void possible_moves(FILE* file);
+		void possible_moves(FILE* file) const;
 };
 
 class Rook : public Figure {
 	public:
 		Rook(Square sq, Colour col = WHITE) : Figure(sq, col, ROOK, 5) {}
-		void possible_moves(FILE* file);
+		void possible_moves(FILE* file) const;
 };
 
 class Queen : public Figure {
 	public:
 		Queen(Square sq, Colour col = WHITE) : Figure(sq, col, QUEEN, 9) {}
-		void possible_moves(FILE* file);
+		void possible_moves(FILE* file) const;
 };
 
 class King : public Figure {
 	public:
 		King(Square sq, Colour col = WHITE) : Figure(sq, col, KING, 100) {}
-		void possible_moves(FILE* file);
+		void possible_moves(FILE* file) const;
 };
 
 class Position {
@@ -73,7 +73,7 @@ class Position {
 		char are_rooks_touched_; // от младшего к 4-му в порядке a1-h1-a8-h8
 	public:
 		Position(char *sqs, char akt = 0, char art = 0, Colour turn = WHITE);
-		char get_figure_info(Square sq);
+		char get_figure_info(Square sq) const;
 };
 
 class Aim {

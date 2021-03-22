@@ -3,7 +3,7 @@
 Figure::Figure(Square sq, Colour colour, FigureType type, char st_cost) 
 	: square_(sq), colour_(colour), type_(type), static_cost_(st_cost) {}
 
-void Pawn::possible_moves(FILE *f) { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
+void Pawn::possible_moves(FILE *f) const { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
 	char rk = square_ % 8;
 	char file = square_ >> 3;
 
@@ -27,7 +27,7 @@ void Pawn::possible_moves(FILE *f) { // пока передвижение на �
 	}
 } // считается, что пешка не может находиться на поле превращения - иначе позиция некорректна
 
-void Knight::possible_moves(FILE *f) {
+void Knight::possible_moves(FILE *f) const {
 	char rk = square_ % 8;
 	char file = square_ >> 3;
 
@@ -49,7 +49,7 @@ void Knight::possible_moves(FILE *f) {
 	}
 }
 
-void Bishop::possible_moves(FILE *f) {
+void Bishop::possible_moves(FILE *f) const {
 	char rk = square_ % 8;
 	char file = square_ >> 3;
 	//std::cout << "rk = " << (int)rk << ", file = " << (int)file << std::endl;
@@ -81,7 +81,7 @@ void Bishop::possible_moves(FILE *f) {
 	}
 }
 
-void Rook::possible_moves(FILE *f) {
+void Rook::possible_moves(FILE *f) const {
 	char rk = square_ % 8;
 	char file = square_ >> 3;
 
@@ -105,7 +105,7 @@ void Rook::possible_moves(FILE *f) {
 	}
 }
 
-void Queen::possible_moves(FILE *f) {
+void Queen::possible_moves(FILE *f) const {
 	char rk = square_ % 8;
 	char file = square_ >> 3;
 
@@ -148,7 +148,7 @@ void Queen::possible_moves(FILE *f) {
 	}
 }
 
-void King::possible_moves(FILE *f) {
+void King::possible_moves(FILE *f) const {
 	char rk = square_ % 8;
 	char file = square_ >> 3;
 
@@ -176,10 +176,10 @@ Position::Position(char *sqs, char akt, char art, Colour t)
 	}
 }
 
-char Position::get_figure_info(Square square) {
+char Position::get_figure_info(Square square) const {
 	return squares_[square];
 }
 
-void Figure::print_square(FILE *f) {
+void Figure::print_square(FILE *f) const {
 	fprintf(f, "%c%c", files[square_ >> 3], ranks[square_ % 8]);
 }
