@@ -1,4 +1,4 @@
-﻿// Copyright 2020 <Derezzed>
+
 
 #ifndef INCLUDE_HASH_TABLE_HPP_
 #define INCLUDE_HASH_TABLE_HPP_
