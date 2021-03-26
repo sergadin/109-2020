@@ -1,10 +1,7 @@
 #include "planner.hpp"
 
 Figure::Figure(char sq, Colour colour, FigureType type, Cost st_cost) 
-	: square_(sq), static_cost_(st_cost) {
-	figinfo_.figtype = (char)type;
-	figinfo_.colour = (char)colour;
-}
+	: square_(sq), static_cost_(st_cost), figinfo_(type, colour) {}
 
 void Pawn::possible_moves(FILE *f) const { // пока передвижение на соседнюю вертикаль считаем потенциально возможным, не обращая внимание на наличие или отсутствие там фигур
 	char rk = square_.rank;
@@ -45,7 +42,6 @@ void Knight::possible_moves(FILE *f) const {
 void Bishop::possible_moves(FILE *f) const {
 	char rk = square_.rank;
 	char file = square_.file;
-	//std::cout << "rk = " << (int)rk << ", file = " << (int)file << std::endl;
 
 	char alt_min = ((7 - rk) < file) ? (7 - rk) : file; // число клеток, которое можно пройти по диагонали наверх налево
 	char min = (rk < file) ? rk : file;
@@ -124,12 +120,12 @@ void King::possible_moves(FILE *f) const {
 	}
 }
 
-Position::Position(char *sqs, char akt, char art, Colour t) 
-	: are_kings_touched_(akt), are_rooks_touched_(art), turn_(t) {
+Position::Position(char *sqs, char are_kings_touched, char are_rooks_touched, Colour turn) 
+	: turn_(turn), touched_(are_kings_touched, are_rooks_touched) {
 	for (int i = 0; i < 64; i++) {
-		squares_[i].colour = sqs[i] >> 3;
 		squares_[i].figtype = sqs[i] % 8;
-	}
+		squares_[i].colour = sqs[i] >> 3;
+	}	
 }
 
 FigureInfo Position::get_figure_info(Square square) const {
