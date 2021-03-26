@@ -44,6 +44,8 @@ private:
 
 public:
 
+	int p;
+
 	void add_first_elem (T value);
         void add_last_elem (T value);
 
@@ -61,7 +63,7 @@ public:
         void get_first();
         void go_next();
         void go_back();
-        void print();
+        void print() const;
 
 	list operator = (const list & other);
 

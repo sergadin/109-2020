@@ -91,7 +91,7 @@ public:
         else { add_after(item);}
     }
   
-    void add_after(T item) //добавить в список после текущего РАБОТАЕТ РАБОТАЕТ С ОШИБКАМИ ПРИ ВЫЗОВКЕ +
+    void add_after(T item) //добавить в список после текущего 
     {
        
         ListItem *new_element = new ListItem;
@@ -123,6 +123,7 @@ public:
       if  ((current_->next->next != NULL)&(current_->next != NULL))
       {  current_->next = current_->next->next;
          delete current_->next;
+         quant --;
       }
         
     }
@@ -176,11 +177,11 @@ public:
     
     {   ListItem * save_current = current_;
         
-       if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+        if (is_empty()) {throw Error(2, std::string("список  пуст"));}
         
         go_first();
   
-        for (int i = 0;i < quant -1 ; i++)
+        for (int i = 0;i < quant  ; i++)
         {
             std::cout << current_->data << " ";
                        go_next();
@@ -188,31 +189,62 @@ public:
         std::cout << std::endl;
         current_ = save_current;
     }
+
+    void sort() // ака пузырьковая сортировка
+     {
+         ListItem * save_current = current_;
+         
+         if (is_empty()) {throw Error(2, std::string("список  пуст"));}
+        
+         int k = 1;
+         while (k<=quant )
+         {      go_first();
+                
+             for(int r = 0; r < quant - 1; r++)
+             {
+                 if(current_-> data < current_-> next -> data )
+                 {
+                    
+                    T temp = current_-> data;
+                     current_-> data = current_-> next -> data ;
+                     current_-> next -> data = temp;
+                 }
+                 //if (current_-> next -> next != NULL) { go_next();}
+                 go_next();
+                 
+             }
+             k++;
+         }
+          current_ = save_current;
+         
+     }
+
     
-    
-    
-    List operator+ ( List & left) // НЕ РАБОТАЕТ НО ЧТО-то ВЫВОДИт
+   friend  List operator+ (  List  &left,  List  &right) //  РАБОТАЕТ this = правый
      {
         
-      //  if ((! left.is_empty()) & (! (*this).is_empty()))
-       //   {
-            ListItem * save_currentl = left.current_;
-            ListItem * save_currentt = (*this).current_;
+      if ( left.is_empty() &  right.is_empty())  {throw Error(4, std::string("списки пусты"));}
+       
+            ListItem * save_current_left = left.current_;
+            ListItem * save_current_right = right.current_;
             
-            left.current_= left.get_last();
-           (*this).current_= (*this).base_;
-           int count = (*this).elem_count();
-            while ( count > 1)
+           left.current_= left.get_last();
+           right.go_first();
+           int k = 1;
+           while (k <= right.quant )
               {
-                  left.add_after((*this).current_->data);
-                  left.go_next();
-                  (*this).go_next();
-                  count--;
+                  left.add_after(right.current_->data);
+                  right.go_next();
+                  
+                  k++;
+                 // left.print();
+                  
               }
-         left.current_ = save_currentl;
-         (*this).current_ = save_currentt;
-             return   left;
-     
+    
+         left.current_ = save_current_left;
+         right.current_ = save_current_right;
+         return   left;
+       
           // }
    //     else {  if (left.is_empty()) return *this;
      //          if ((*this).is_empty()) return left;}
@@ -233,7 +265,8 @@ public:
                r = r->next;
                l = l->next;
            }
-           if ( k ==  left_quant ) return 0; else return 0;
+           
+           if ( k ==  left_quant ) return 0; else return 1;
        }
     
     
@@ -259,6 +292,7 @@ public:
                 prev = prev->next;
             }
         }
+        (*this).quant =old.quant;
         delete_first();
         return *this;
     }
@@ -268,6 +302,7 @@ public:
     
     void go_first() { current_ = base_; }
     void go_next()  { current_ = current_->next; }
+    void go_back() {prev(current_);}
     T get_current() {return current_->data;}
     void set_current (T item)
     {

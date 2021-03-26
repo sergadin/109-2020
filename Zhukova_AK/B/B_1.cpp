@@ -1,4 +1,3 @@
-#include "B_1.h"
 
 /*
 
@@ -54,7 +53,7 @@ void list<T>::add_first_elem(T element)
 template <class T>
 void list<T>::del_first_elem()
 {
-        first->data = first->next;//пока думаю над этим
+//        first->data = first->next;//пока думаю над этим
 }
 
 //удаление последнего элемента
@@ -80,26 +79,25 @@ void list<T>::go_back()
 }
 
 template <class T>
-void list<T>::print()
+void list<T>::print() const
 {
 //        ListItem *elem;
-//        elem  = get_first();
-	get_first();
+//	get_first();
 //проверка, что следующий элемент есть
 
-	if (current->data == NULL)
-	{
-		printf ("Список пуст\n");
-	}
-	else
-	{
-
-       		while (current->next != NULL)
-	        {
-        	        printf ("%d\n", current->data);
-                	go_next();
-        	}
-	}
+//	if (current->data == NULL)
+//	{
+//		printf ("Список пуст\n");
+//	}
+//	else
+//	{
+//
+//       		while (current->next != NULL)
+//	        {
+//        	        printf ("%d\n", current->data);
+//                	go_next();
+//        	}
+//	}
 }
 
 template <class T>
@@ -107,7 +105,7 @@ void list<T>::get_first()
 {
         ListItem *current = new ListItem;
         current->prev = NULL;
-        current->data = first;
+//        current->data = first;
         current->next = first->next;
 }
 
@@ -117,12 +115,12 @@ void list<T>::add_after_elem(T element, ListItem * item)
 //if next || prev == null  ???
         ListItem *new_item = new ListItem;
 
-        new_item->prev = *item->data;
-        new_item->data = element;
-        new_item->next = *item->next;
+//        new_item->prev = *item->data;
+//       new_item->data = element;
+//        new_item->next = *item->next;
 
-        item->next = *element;
-        item->next->prev = *element; //надо проверить, что это работает
+//        item->next = *element;
+//        item->next->prev = *element; //надо проверить, что это работает
 }
 
 
@@ -132,12 +130,12 @@ void list<T>::add_before_elem(T element, ListItem *item)
 //if next || prev == null  ???
         ListItem *new_item = new ListItem;
 
-        new_item->prev = *item->prev;
-        new_item->data = element;
-        new_item->next = *item->data;
+//        new_item->prev = *item->prev;
+//        new_item->data = element;
+//        new_item->next = *item->data;
 
-        item->prev = *element;
-        item->prev->next = *element; //но это не точно, пусть пока так будет
+//        item->prev = *element;
+//        item->prev->next = *element; //но это не точно, пусть пока так будет
 }
 
 template <class T>
@@ -145,8 +143,8 @@ void list<T>::del_elem(ListItem *item)
 {
 //if next || prev == null  ???
 
-        item->prev->next = *item->next;
-        item->next->prev = *item->prev;
+//        item->prev->next = *item->next;
+//        item->next->prev = *item->prev;
 
 }
 
@@ -164,11 +162,11 @@ list<T> list<T>::operator = (const list<T> &other)
 {
 	get_first();
 
-	while (this->next != NULL)
-        {
-                this->data = other.data;
-		go_next();
-        }
+//	while (this->next != NULL)
+//        {
+//                this->data = other.data;
+//		go_next();
+//        }
         return *this;
 
 

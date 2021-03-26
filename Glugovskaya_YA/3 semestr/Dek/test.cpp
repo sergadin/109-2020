@@ -25,6 +25,7 @@ int main(){
 		dek3.push_front(122);
 		dek3.push_front(123);
 		dek3.push_front(125);
+		dek3.push_back(120);
 		dek3.print();
 		//dek = dek3;
 
@@ -54,11 +55,10 @@ int main(){
 		Deque<int>::Iterator it2 = dek.begin();
 		it2.parametrs(13, 1);
 		it.parametrs(10, 3);
-		cout << "Before" << endl;
 		it.print();
 		it2.print();
 		cout << "Middle" << endl;
-		it = it2 + 2;
+		it = it2 + 10;
 		it.print();
 		it = it - 3;
 		it.print();
@@ -68,10 +68,17 @@ int main(){
 		it2.print();
 		cout << "dek3" << endl;
 		dek3.print();
-		dek = dek3;
+		//dek = dek3;
 		cout << "dek" << endl;
 		dek.print();
-		cout << dek << endl;	
+		cout << "Dek\n" << dek << endl;
+		cout << "_______________________________________Очередь очередей ______________________________ " << endl; 
+		Deque <Deque<int> > A;
+		
+		cout << dek << endl;
+		A.push_front(dek);
+		
+		cout << A << endl;
 		
 	}
 	

@@ -1,0 +1,2 @@
+z4: z4_sin_test.c z4_sin.h z4_sin.c
+	gcc -o z4 z4_sin_test.c z4_sin.c -lm

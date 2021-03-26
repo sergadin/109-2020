@@ -1,0 +1,2 @@
+z21: Zhukova_z2_1_test.c Zhukova_z2_1.h Zhukova_z2_1.c
+	gcc -o z21 Zhukova_z2_1_test.c Zhukova_z2_1.c -lm

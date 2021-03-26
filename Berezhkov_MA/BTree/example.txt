@@ -1,0 +1,40 @@
+# type: int
+a = -1
+b = +1
+c = 1
+d = 1e3 # 1000
+e = 1000e-3 # 1
+# invalid = 1234e-3
+
+# type: float
+f = 1.
+g = 3.14
+h = 1.e3 # 1000 but float
+i = 1234.e-3 # 1.234
+
+# type: string
+j = ""
+k = "hello, world!"
+l = "escape \\ \" nyaa"
+m = "multiline
+strings"
+
+# type: ints
+n = | | # also floats
+o = | 1 |
+p = | 1 2 3 |
+q = | 1
+      2
+      3 |
+
+# type: floats
+r = | | # actually ints, but that’s special case when we check types
+s = | 1. |
+t = | 1 2 3. |
+u = | 1
+      2.
+      3 |
+
+# reassign
+x = 7331
+x = 1337
