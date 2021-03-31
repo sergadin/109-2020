@@ -19,6 +19,7 @@ typedef enum {EMPTY = 0, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} FigureType;
  */ 
 typedef enum {WHITE = 0, BLACK} Colour;
 
+const std::string digits = "0123456789";
 const std::string files = "abcdefgh";
 const std::string ranks = "12345678";
 
@@ -32,6 +33,7 @@ typedef struct Square {
 	unsigned rank: 3;
 
 	// Конструктор без параметров
+	// Cоздает координату a1
 	Square() {
 		file = 0;
 		rank = 0;
@@ -49,6 +51,9 @@ typedef struct Square {
 	char to_char() {
 		return file * 8 + rank;
 	}
+
+	// Печать координаты в файл f в человекочитаемом формате 
+	void print_name(FILE *f);
 } Square;
 
 /* Тип и цвет фигуры
@@ -57,19 +62,27 @@ typedef struct Square {
  * colour - цвет фигуры
  */
 typedef struct FigureInfo {
-	unsigned figtype: 3; // от 0 до 6
-	unsigned colour: 1; // белая фигура - 0, черная - 1
+	unsigned figtype_: 3; // от 0 до 6
+	unsigned colour_: 1; // белая фигура - 0, черная - 1
 
 	// Конструктор без параметров
 	FigureInfo() {
-		figtype = 0;
-		colour = 0;
+		figtype_ = 0;
+		colour_ = 0;
+	}
+
+	Colour colour() {
+		return (Colour)colour_;
+	}
+
+	FigureType figtype() {
+		return (FigureType)figtype_;
 	}
 
 	// Конструктор, получающий в качестве входных данных тип и цвет
 	FigureInfo(FigureType type, Colour col) {
-		figtype = (char)type;
-		colour = (char)col;
+		figtype_ = (char)type;
+		colour_ = (char)col;
 	}	
 } FigureInfo;
 
@@ -117,75 +130,66 @@ class Figure {
 		// Тип и цвет фигуры
 		FigureInfo figinfo_;
 
-		// Координата фигуры
-		Square square_;
-
 		// Номинальная стоимость фигуры
 		Cost static_cost_;
 	public:
 		// Конструктор
-		Figure(char sq, Colour colour, FigureType type = EMPTY, Cost st_cost = 0);
+		Figure(Colour colour, FigureType type = EMPTY, Cost st_cost = 0);
 
 		// Деструктор
 		~Figure() {}
 
-		// Получение координаты фигуры
-		Square square() const { return square_; }
-
-		// Печать координаты фигуры в файл f в человекочитаемом виде
-		void print_fig_square_name(FILE *f) const;
-
 		// Получение типа фигуры
-		FigureType type() const { return (FigureType)figinfo_.figtype; }
+		FigureType type() const { return (FigureType)figinfo_.figtype_; }
 
 		// Получение цвета фигуры
-		Colour colour() const { return (Colour)figinfo_.colour; }
+		Colour colour() const { return (Colour)figinfo_.colour_; }
 
 		// Получение номинальной стоимости фигуры
 		Cost getCost() const { return static_cost_; }
 
-		// Вывод в файл f полей, на которые ближайшим ходом потенциально может пойти фигура
+		// Вывод в файл f полей, на которые ближайшим ходом потенциально может пойти фигура с поля start_sq
 		// (все фигуры совершают ходы будто на пустой доске; при этом для пешек считаются возможными не только ходы по прямой,
 		// но и взятия в любую сторону)
-		virtual void possible_moves(FILE* file) const {}
+		virtual void possible_moves(FILE* file, Square start_sq) const = 0;
 };
 
 /* Далее - классы для всех возможных типов фигур, наследующие Figure */
 
 class Pawn : public Figure {
 	public:
-		Pawn(char sq, Colour col = WHITE) : Figure(sq, col, PAWN, 1) {}
-		void possible_moves(FILE* file) const;
+		Pawn(Colour col = WHITE) : Figure(col, PAWN, 1) {}
+		void possible_moves(FILE* file, Square start_sq) const;
 };
 
 class Knight : public Figure {
 	public:
-		Knight(char sq, Colour col = WHITE) : Figure(sq, col, KNIGHT, 3) {}
-		void possible_moves(FILE* file) const;
+		Knight(Colour col = WHITE) : Figure(col, KNIGHT, 3) {}
+		void possible_moves(FILE* file, Square start_sq) const;
 };
 
 class Bishop : public Figure {
 	public:
-		Bishop(char sq, Colour col = WHITE) : Figure(sq, col, BISHOP, 3) {}
-		void possible_moves(FILE* file) const;
+		Bishop(Colour col = WHITE) : Figure(col, BISHOP, 3) {}
+		void possible_moves(FILE* file, Square start_sq) const;
 };
 
 class Rook : public Figure {
 	public:
-		Rook(char sq, Colour col = WHITE) : Figure(sq, col, ROOK, 5) {}
-		void possible_moves(FILE* file) const;
+		Rook(Colour col = WHITE) : Figure(col, ROOK, 5) {}
+		void possible_moves(FILE* file, Square start_sq) const;
 };
 
 class Queen : public Figure {
 	public:
-		Queen(char sq, Colour col = WHITE) : Figure(sq, col, QUEEN, 9) {}
-		void possible_moves(FILE* file) const;
+		Queen(Colour col = WHITE) : Figure(col, QUEEN, 9) {}
+		void possible_moves(FILE* file, Square start_sq) const;
 };
 
 class King : public Figure {
 	public:
-		King(char sq, Colour col = WHITE) : Figure(sq, col, KING, 100) {}
-		void possible_moves(FILE* file) const;
+		King(Colour col = WHITE) : Figure(col, KING, 100) {}
+		void possible_moves(FILE* file, Square start_sq) const;
 };
 
 class Position {
@@ -197,17 +201,38 @@ class Position {
 		FigureInfo squares_[64];
 
 		// Информация о том, предшествовали ли полученной позиции ходы королей и ладей
-		Touched touched_; 
+		Touched touched_;
+
+		// Поле, на котором ближайшим ходом можно совершить взятие на проходе
+		Square en_passant_;
+
+		// Число полуходов без взятий и ходов пешками
+		unsigned char halfmove_clock_;
+
+		// Номер хода
+		unsigned short fullmove_number_;
 	public:
 		// Конструктор
 		// sqs - массив, содержащий информацию о типе и цвете фигур:
 		// последние три бита в sqs[i] выделяются под тип фигуры, четвертый справа бит - под цвет;
-		// are_kings_touched и are_rooks_touched являются в сущности теми же переменными, что используются для создания структуры Touched
-		// turn - очередность хода
-		Position(char *sqs, char are_kings_touched = 0, char are_rooks_touched = 0, Colour turn = WHITE);
+		// are_kings_touched и are_rooks_touched являются в сущности теми же переменными, что используются для создания структуры Touched;
+		// turn - очередность хода;
+		// en_passant - координата клетки, на которую возможно совершить ход со взятием на проходе (только если оно действительно возможно; иначе указывается клетка a1);
+		// halfmove_clock - число полуходов без взятий и ходов пешками
+		// fullmove_number - номер хода
+		Position(char *sqs, char are_kings_touched = 0, char are_rooks_touched = 0, Colour turn = WHITE, char en_passant = 0, unsigned short halfmove_clock = 0, unsigned short fullmove_number = 1);
+
+		// Конструктор, восстанавливающий позицию из ее FEN-представления
+		// FEN - строка в формате FEN
+		//Position(const char *FEN) {}
 
 		// Получение структуры с типом и цветом фигуры по координате sq соответствующей клетки
 		FigureInfo get_figure_info(Square sq) const;
+
+		// Записывает в строку buffer позицию в формате FEN
+		// Необходимо не менее 85-90 байт, т.к. возможны позиции по типу 1nb1k1r1/r1q1n1b1/1p1p1p1p/p1p1p1p1/1P1P1P1P/P1P1P1P1/1B1N1RB1/R1Q1K1N1 w - - 18 18,
+		// где описание самой доски занимает 71 байт
+		void to_FEN(char *buffer) const;
 };
 
 class Aim {
