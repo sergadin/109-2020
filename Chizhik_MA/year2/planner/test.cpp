@@ -5,7 +5,7 @@ using namespace std;
 
 int main(void) {
 	FILE *output;
-	Square squares[64];
+	char squares[64];
 	for (int i = 0; i < 64; i++) {
 		squares[i] = 0;
 	}
@@ -26,66 +26,67 @@ int main(void) {
 	Position sample_position(squares);
 
 	// White pawn
-	Pawn wpawn(57, (Colour)(sample_position.get_figure_info(57) >> 3));
+	Square wpawn_sq = Square(57);
+	Pawn wpawn(sample_position.get_figure_info(wpawn_sq).colour());
 	fprintf(output, "%s pawn's position is ", (wpawn.colour() ? "Black" : "White"));
-	wpawn.print_square(output);
-	fprintf(output, "\n");
+	wpawn_sq.print_name(output);
 	fprintf(output, "And its possible turns are:\n");
-	wpawn.possible_moves(output);
+	wpawn.possible_moves(output, wpawn_sq);
 	fprintf(output, "\n");
 
 	// Black pawn
-	Pawn bpawn(10, (Colour)(sample_position.get_figure_info(10) >> 3));
+	Square bpawn_sq = Square(10);
+	Pawn bpawn(sample_position.get_figure_info(bpawn_sq).colour());
 	fprintf(output, "%s pawn's position is ", (bpawn.colour() ? "Black" : "White"));
-	bpawn.print_square(output);
-	fprintf(output, "\n");
+	bpawn_sq.print_name(output);
 	fprintf(output, "And its possible turns are:\n");
-	bpawn.possible_moves(output);
+	bpawn.possible_moves(output, bpawn_sq);
 	fprintf(output, "\n");
 
 	// White knight
-	Knight knight(53, (Colour)(sample_position.get_figure_info(53) >> 3));
+	Square knight_sq = Square(53);
+	Knight knight(sample_position.get_figure_info(knight_sq).colour());
 	fprintf(output, "%s knight's position is ", (knight.colour() ? "Black" : "White"));
-	knight.print_square(output);
+	knight_sq.print_name(output);
 	fprintf(output, "\n");
 	fprintf(output, "And its possible turns are:\n");
-	knight.possible_moves(output);
+	knight.possible_moves(output, knight_sq);
 	fprintf(output, "\n");
 
 	// Black bishop
-	Bishop bishop(20, (Colour)(sample_position.get_figure_info(20) >> 3));
+	Square bishop_sq = Square(20);
+	Bishop bishop(sample_position.get_figure_info(bishop_sq).colour());
 	fprintf(output, "%s bishop's position is ", (bishop.colour() ? "Black" : "White"));
-	bishop.print_square(output);
-	fprintf(output, "\n");
+	bishop_sq.print_name(output);
 	fprintf(output, "And its possible turns are:\n");
-	bishop.possible_moves(output);
+	bishop.possible_moves(output, bishop_sq);
 	fprintf(output, "\n");
 
 	// White rook
-	Rook rook(3, (Colour)(sample_position.get_figure_info(3) >> 3));
+	Square rook_sq = Square(3);
+	Rook rook(sample_position.get_figure_info(rook_sq).colour());
 	fprintf(output, "%s rook's position is ", (rook.colour() ? "Black" : "White"));
-	rook.print_square(output);
-	fprintf(output, "\n");
+	rook_sq.print_name(output);
 	fprintf(output, "And its possible turns are:\n");
-	rook.possible_moves(output);
+	rook.possible_moves(output, rook_sq);
 	fprintf(output, "\n");
 
 	// Black queen
-	Queen queen(30, (Colour)(sample_position.get_figure_info(30) >> 3));
+	Square queen_sq = Square(30);
+	Queen queen(sample_position.get_figure_info(queen_sq).colour());
 	fprintf(output, "%s queen's position is ", (queen.colour() ? "Black" : "White"));
-	queen.print_square(output);
-	fprintf(output, "\n");
+	queen_sq.print_name(output);
 	fprintf(output, "And its possible turns are:\n");
-	queen.possible_moves(output);
+	queen.possible_moves(output, queen_sq);
 	fprintf(output, "\n");
 
 	// Black king
-	King king(33, (Colour)(sample_position.get_figure_info(33) >> 3));
+	Square king_sq = Square(33);
+	King king(sample_position.get_figure_info(king_sq).colour());
 	fprintf(output, "%s king's position is ", (king.colour() ? "Black" : "White"));
-	king.print_square(output);
-	fprintf(output, "\n");
+	king_sq.print_name(output);
 	fprintf(output, "And its possible turns are:\n");
-	king.possible_moves(output);
+	king.possible_moves(output, king_sq);
 	fprintf(output, "\n");
 
 	fclose(output);
