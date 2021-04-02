@@ -1,6 +1,25 @@
 #include <iostream>
+#include <cstdlib>
 #include <cstring>
 #include <cmath>
+
+class PositionException {
+	private:
+		// Код ошибки
+		const int error_code_;
+		// Сообщение для пользователя
+		const std::string reason_;
+	public:
+		// Конструктор исключения
+		PositionException(int code, const std::string& message): error_code_(code), reason_(message) {}
+		// Получение кода ошибки
+		int code() const { return error_code_; }
+		// Получение сообщения
+		const std::string& message() const { return reason_; }
+
+		// Оператор форматированного вывода ошибки
+		friend std::ostream& operator<<(std::ostream& os, const PositionException& e);
+};
 
 /* Тип фигуры, расположенной в данной клетке:
  * 0 - фигура отсутствует
@@ -20,6 +39,8 @@ typedef enum {EMPTY = 0, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING} FigureType;
 typedef enum {WHITE = 0, BLACK} Colour;
 
 const std::string digits = "0123456789";
+const std::string b_figures = "epnbrqk";
+const std::string w_figures = "EPNBRQK";
 const std::string files = "abcdefgh";
 const std::string ranks = "12345678";
 
@@ -48,12 +69,12 @@ typedef struct Square {
 
 	// Преобразование Square в номер клетки (от 0 до 63)
 	// Нумерация клеток доски - снизу вверх, слева направо (a1 -> a8, b1 -> b8, ...)
-	char to_char() {
+	char to_char() const {
 		return file * 8 + rank;
 	}
 
 	// Печать координаты в файл f в человекочитаемом формате 
-	void print_name(FILE *f);
+	void print_name(FILE *f) const;
 } Square;
 
 /* Тип и цвет фигуры
@@ -71,11 +92,11 @@ typedef struct FigureInfo {
 		colour_ = 0;
 	}
 
-	Colour colour() {
+	Colour colour() const {
 		return (Colour)colour_;
 	}
 
-	FigureType figtype() {
+	FigureType type() const {
 		return (FigureType)figtype_;
 	}
 
@@ -111,14 +132,14 @@ typedef struct Touched {
 	// Конструктор
 	// Младший разряд are_kings_touched для белого, второй - для черного короля
 	// От младшего к 4-му разряду are_rooks_touched - булевые значения, отвечающие за то, ходили ли ладьи со стартовыми позициями a1-h1-a8-h8 соответственно
-	Touched (char are_kings_touched, char are_rooks_touched) {
+	Touched (unsigned char are_kings_touched, unsigned char are_rooks_touched) {
 		w_king = are_kings_touched & 1;
-		b_king = are_kings_touched & 2;
+		b_king = (are_kings_touched & 2) >> 1;
 
-		lw_rook =  are_rooks_touched & 1;
-		rw_rook =  are_rooks_touched & 2;
-		lb_rook =  are_rooks_touched & 4;
-		rb_rook =  are_rooks_touched & 8;
+		lw_rook = are_rooks_touched & 1;
+		rw_rook = (are_rooks_touched & 2) >> 1;
+		lb_rook = (are_rooks_touched & 4) >> 2;
+		rb_rook = (are_rooks_touched & 8) >> 3;
 	}
 } Touched;
 
@@ -220,19 +241,25 @@ class Position {
 		// en_passant - координата клетки, на которую возможно совершить ход со взятием на проходе (только если оно действительно возможно; иначе указывается клетка a1);
 		// halfmove_clock - число полуходов без взятий и ходов пешками
 		// fullmove_number - номер хода
-		Position(char *sqs, char are_kings_touched = 0, char are_rooks_touched = 0, Colour turn = WHITE, char en_passant = 0, unsigned short halfmove_clock = 0, unsigned short fullmove_number = 1);
+		Position(unsigned char *sqs, unsigned char are_kings_touched = 0, unsigned char are_rooks_touched = 0, Colour turn = WHITE, unsigned char en_passant = 0, unsigned short halfmove_clock = 0, unsigned short fullmove_number = 1);
 
 		// Конструктор, восстанавливающий позицию из ее FEN-представления
-		// FEN - строка в формате FEN
+		// FEN - строка в формате FEN (возможно, будет введен класс FEN)
 		//Position(const char *FEN) {}
 
 		// Получение структуры с типом и цветом фигуры по координате sq соответствующей клетки
 		FigureInfo get_figure_info(Square sq) const;
 
 		// Записывает в строку buffer позицию в формате FEN
-		// Необходимо не менее 85-90 байт, т.к. возможны позиции по типу 1nb1k1r1/r1q1n1b1/1p1p1p1p/p1p1p1p1/1P1P1P1P/P1P1P1P1/1B1N1RB1/R1Q1K1N1 w - - 18 18,
-		// где описание самой доски занимает 71 байт
-		void to_FEN(char *buffer) const;
+		// Длина буфера должна быть не менее 90 байт, чтобы иметь возможность записать позицию, т.к. возможны позиции а-ля
+		// 1nb1k1r1/r1q1n1b1/1p1p1p1p/p1p1p1p1/1P1P1P1P/P1P1P1P1/1B1N1RB1/R1Q1K1N1 w - - 18 18,
+		// где описание самой доски занимает 71 байт;
+		// то есть максимальная длина раздела с положением фигур - 71, с очередью хода - 1, с информацией о возможности рокировки - 4,
+		// с полем, где возможно взятие на проходе - 2, с числом полуходов с последнего взятия или хода пешкой и числом ходов - по 3,
+		// на пробелы-разделители - 5. Итого 89 символов + символ конца строки
+		// Позиция может быть описана и меньшим количеством символов, однако в случае, если буфер меньше 90 символов, стабильная работа программы не гарантирована
+		// Возвращаемое значение - длина строки с FEN-записью позиции
+		int to_FEN(char *buffer) const;
 };
 
 class Aim {
@@ -259,6 +286,7 @@ class Aim {
 
 /* Вывод в файл f координаты клетки
  * Параметры:
+ * f - файл, куда выводится координата
  * file - номер горизонтали
  * rank - номер вертикали
  */
