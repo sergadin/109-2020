@@ -3,7 +3,9 @@
 #include <cstring>
 #include <cmath>
 
-class PositionException {
+#define DEBUG
+
+class PlannerException {
 	private:
 		// Код ошибки
 		const int error_code_;
@@ -11,14 +13,24 @@ class PositionException {
 		const std::string reason_;
 	public:
 		// Конструктор исключения
-		PositionException(int code, const std::string& message): error_code_(code), reason_(message) {}
+		PlannerException(int code, const std::string& message): error_code_(code), reason_(message) {}
 		// Получение кода ошибки
 		int code() const { return error_code_; }
 		// Получение сообщения
 		const std::string& message() const { return reason_; }
 
 		// Оператор форматированного вывода ошибки
-		friend std::ostream& operator<<(std::ostream& os, const PositionException& e);
+		friend std::ostream& operator<<(std::ostream& os, const PlannerException& e);
+};
+
+class FENException : public PlannerException {
+	public:
+		FENException(int code, const std::string& message): PlannerException(code, message) {}
+};
+
+class PositionException : public PlannerException {
+	public:
+		PositionException(int code, const std::string& message): PlannerException(code, message) {}
 };
 
 /* Тип фигуры, расположенной в данной клетке:
@@ -241,11 +253,11 @@ class Position {
 		// en_passant - координата клетки, на которую возможно совершить ход со взятием на проходе (только если оно действительно возможно; иначе указывается клетка a1);
 		// halfmove_clock - число полуходов без взятий и ходов пешками
 		// fullmove_number - номер хода
-		Position(unsigned char *sqs, unsigned char are_kings_touched = 0, unsigned char are_rooks_touched = 0, Colour turn = WHITE, unsigned char en_passant = 0, unsigned short halfmove_clock = 0, unsigned short fullmove_number = 1);
+		Position(unsigned char *sqs, unsigned char are_kings_touched = 3, unsigned char are_rooks_touched = 15, Colour turn = WHITE, unsigned char en_passant = 0, unsigned short halfmove_clock = 0, unsigned short fullmove_number = 1);
 
 		// Конструктор, восстанавливающий позицию из ее FEN-представления
-		// FEN - строка в формате FEN (возможно, будет введен класс FEN)
-		//Position(const char *FEN) {}
+		// FEN - строка в формате FEN
+		Position(const std::string& FEN);
 
 		// Получение структуры с типом и цветом фигуры по координате sq соответствующей клетки
 		FigureInfo get_figure_info(Square sq) const;
@@ -291,3 +303,5 @@ class Aim {
  * rank - номер вертикали
  */
 void print_square_name(FILE *f, char file, char rank);
+
+std::ostream& operator<<(std::ostream& os, const PlannerException& e);

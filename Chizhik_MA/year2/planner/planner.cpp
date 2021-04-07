@@ -124,11 +124,11 @@ void King::possible_moves(FILE *f, Square start_sq) const {
 Position::Position(unsigned char *sqs, unsigned char are_kings_touched, unsigned char are_rooks_touched, Colour turn, unsigned char en_passant, unsigned short halfmove, unsigned short fullmove) 
 	: turn_(turn), touched_(are_kings_touched, are_rooks_touched), en_passant_(en_passant), halfmove_clock_(halfmove), fullmove_number_(fullmove) {
 	if (halfmove > 200) {
-		throw PositionException(1, "Halfmove clock is incorrect");
+		throw PlannerException(1, "Halfmove clock is incorrect");
 	}
 
 	if (fullmove > 300) {
-		throw PositionException(2, "It seems, fullmove number is incorrect");
+		throw PlannerException(2, "It seems, fullmove number is incorrect");
 	}
 
 	for (int i = 0; i < 64; i++) {
@@ -136,7 +136,7 @@ Position::Position(unsigned char *sqs, unsigned char are_kings_touched, unsigned
 		squares_[i].colour_ = (sqs[i] & (1 << 3)) >> 3;
 
 		if (squares_[i].figtype_ == 7) {
-			throw PositionException(3, "Incorrect figure type");
+			throw PlannerException(3, "Incorrect figure type");
 		}
 	}	
 }
@@ -231,4 +231,125 @@ int Position::to_FEN(char *buffer) const {
 
 	buffer[carriage_index] = 0;
 	return carriage_index;
+}
+
+Position::Position(const std::string& FEN): touched_(3, 15) {
+	int carriage_index = 0;
+	int empty_squares_left = 0;
+
+	for (int rank = 7; rank >= 0; rank--) {
+		int file = 0;
+		while (file < 8) {
+			FigureInfo *current_square = squares_ + (file * 8 + rank);
+			int curr_symbol_index = b_figures.find(tolower(FEN[carriage_index]), 1);
+			if (curr_symbol_index != std::string::npos) {
+				current_square->figtype_ = curr_symbol_index;
+				current_square->colour_ = (char)((FEN[carriage_index] == tolower(FEN[carriage_index])) ? BLACK : WHITE);
+				file++;
+			} else if (digits.find(FEN[carriage_index], 1) != std::string::npos) {
+				int curr_value = digits.find(FEN[carriage_index], 1);
+				if (curr_value <= 8 - file) {
+					empty_squares_left = curr_value;
+					do {
+						current_square->figtype_ = 0;
+						current_square->colour_ = 0;
+
+						file++;
+						current_square = squares_ + (file * 8 + rank);
+					} while (--empty_squares_left > 0);
+				} else {
+					throw FENException(1, "Incorrect number of squares");
+				}
+			} else {
+				throw FENException(2, "Unexpected symbol");
+			}
+			carriage_index++;
+		}
+
+		if (rank > 0 && FEN[carriage_index] != '/') {
+			throw FENException(3, "\'/\' as a separator of ranks' descriptions was expected");
+		} else if (rank == 0 && FEN[carriage_index] != ' ') {
+			throw FENException(4, "\'Spacebar\' was expected");
+		}
+		carriage_index++;
+	}
+
+	switch (FEN[carriage_index++]) {
+		case 'w':
+			turn_ = WHITE;
+			break;
+		case 'b':
+			turn_ = BLACK;
+			break;
+		default:
+			throw FENException(2, "Unexpected symbol");
+	}
+
+	if (FEN[carriage_index++] != ' ') {
+		throw FENException(4, "\'Spacebar\' was expected");
+	}
+
+	if (FEN[carriage_index] == '-') {
+		touched_.w_king = touched_.b_king = 1;
+		carriage_index++;
+	} else {
+		if (FEN[carriage_index] == 'K') {
+			touched_.w_king = touched_.rw_rook = 0;
+			carriage_index++;
+		}
+
+		if (FEN[carriage_index] == 'Q') {
+			touched_.w_king = touched_.lw_rook = 0;
+			carriage_index++;
+		}
+
+		if (FEN[carriage_index] == 'k') {
+			touched_.b_king = touched_.rb_rook = 0;
+			carriage_index++;
+		}
+
+		if (FEN[carriage_index] == 'q') {
+			touched_.b_king = touched_.lb_rook = 0;
+			carriage_index++;
+		}
+	}
+
+	if (FEN[carriage_index++] != ' ') {
+		throw FENException(4, "\'Spacebar\' was expected");
+	}
+
+	if (ranks.find(FEN[carriage_index]) != std::string::npos && files.find(FEN[carriage_index + 1]) != std::string::npos && FEN[carriage_index + 2] == ' ') {
+		en_passant_.rank = ranks.find(FEN[carriage_index]);
+		en_passant_.file = files.find(FEN[carriage_index + 1]);
+		carriage_index += 3;
+	} else if (FEN[carriage_index] == '-' && FEN[carriage_index + 1] == ' ') {
+		en_passant_.rank = en_passant_.file = 0;
+		carriage_index += 2;
+	} else {
+		throw FENException(2, "Unexpected symbol");
+	}
+
+	if (sscanf(FEN.c_str() + carriage_index, "%hhu", &halfmove_clock_) != 1 || halfmove_clock_ > 200) {
+		throw FENException(5, "Invalid FEN");
+	}
+
+	int length = 1;
+	while (halfmove_clock_ >= pow(10, length)) {
+		length++;
+	}
+	carriage_index += length;
+
+	if (FEN[carriage_index++] != ' ') {
+		throw FENException(4, "\'Spacebar\' was expected");
+	}
+
+	if (sscanf(FEN.c_str() + carriage_index, "%hu", &fullmove_number_) != 1 || fullmove_number_ > 999) {
+		std::cout << "halfmove_clock_: " << halfmove_clock_ << std::endl;
+		throw FENException(5, "Invalid FEN");
+	}
+}
+
+std::ostream& operator<<(std::ostream& os, const PlannerException& e) {
+	os << "Error " << e.code() << ": " << e.message() << std::endl;
+	return os;
 }
