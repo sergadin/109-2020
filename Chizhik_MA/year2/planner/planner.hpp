@@ -12,26 +12,29 @@ class PlannerException {
 		const int error_code_;
 		// Сообщение для пользователя
 		const std::string reason_;
+		// Тип исключения (по умолчанию - пустая строка)
+		const std::string type_;
 	public:
 		// Конструктор исключения
-		PlannerException(int code, const std::string& message): error_code_(code), reason_(message) {}
+		PlannerException(int code, const std::string& message, const std::string& type = "") : error_code_(code), reason_(message), type_(type) {}
 		// Получение кода ошибки
 		int code() const { return error_code_; }
 		// Получение сообщения
 		const std::string& message() const { return reason_; }
-
-		// Оператор форматированного вывода ошибки
+		
+		// Операторы форматированного вывода ошибки
 		friend std::ostream& operator<<(std::ostream& os, const PlannerException& e);
+		friend FILE* operator<<(FILE *f, const PlannerException& e);
 };
 
 class FENException : public PlannerException {
 	public:
-		FENException(int code, const std::string& message): PlannerException(code, message) {}
+		FENException(int code, const std::string& message): PlannerException(code, message, "FEN") {}
 };
 
 class PositionException : public PlannerException {
 	public:
-		PositionException(int code, const std::string& message): PlannerException(code, message) {}
+		PositionException(int code, const std::string& message): PlannerException(code, message, "Position") {}
 };
 
 /* Тип фигуры, расположенной в данной клетке:
@@ -299,3 +302,4 @@ class Aim {
 void print_square_name(FILE *f, char file, char rank);
 
 std::ostream& operator<<(std::ostream& os, const PlannerException& e);
+FILE* operator<<(FILE *f, const PlannerException& e);
