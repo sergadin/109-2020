@@ -248,6 +248,7 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 	int empty_squares_left = 0;
 
 	for (int rank = 7; rank >= 0; rank--) {
+		bool digit_is_previous = 0;
 		int file = 0;
 		while (file < 8) {
 			FigureInfo *current_square = squares_ + (file * 8 + rank);
@@ -256,7 +257,8 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 				current_square->figtype_ = curr_symbol_index;
 				current_square->colour_ = (char)((FEN[carriage_index] == tolower(FEN[carriage_index])) ? BLACK : WHITE);
 				file++;
-			} else if (digits.find(FEN[carriage_index], 1) != std::string::npos) {
+				digit_is_previous = 0;
+			} else if (digits.find(FEN[carriage_index], 1) != std::string::npos && !digit_is_previous) {
 				int curr_value = digits.find(FEN[carriage_index], 1);
 				if (curr_value <= 8 - file) {
 					empty_squares_left = curr_value;
@@ -267,19 +269,22 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 						file++;
 						current_square = squares_ + (file * 8 + rank);
 					} while (--empty_squares_left > 0);
+					digit_is_previous = 1;
 				} else {
 					throw FENException(1, "Incorrect number of squares");
 				}
+			} else if (digit_is_previous) {
+				throw FENException(2, "Two digits in a row are prohibited");
 			} else {
-				throw FENException(2, "Unexpected symbol");
+				throw FENException(3, "Unexpected symbol");
 			}
 			carriage_index++;
 		}
 
 		if (rank > 0 && FEN[carriage_index] != '/') {
-			throw FENException(3, "\'/\' as a separator of ranks' descriptions was expected");
+			throw FENException(4, "\'/\' as a separator of ranks' descriptions was expected");
 		} else if (rank == 0 && FEN[carriage_index] != ' ') {
-			throw FENException(4, "\'Spacebar\' was expected");
+			throw FENException(5, "\'Spacebar\' was expected");
 		}
 		carriage_index++;
 	}
@@ -292,11 +297,11 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 			turn_ = BLACK;
 			break;
 		default:
-			throw FENException(2, "Unexpected symbol");
+			throw FENException(3, "Unexpected symbol");
 	}
 
 	if (FEN[carriage_index++] != ' ') {
-		throw FENException(4, "\'Spacebar\' was expected");
+		throw FENException(5, "\'Spacebar\' was expected");
 	}
 
 	if (FEN[carriage_index] == '-') {
@@ -325,7 +330,7 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 	}
 
 	if (FEN[carriage_index++] != ' ') {
-		throw FENException(4, "\'Spacebar\' was expected");
+		throw FENException(5, "\'Spacebar\' was expected");
 	}
 
 	if (ranks.find(FEN[carriage_index]) != std::string::npos && files.find(FEN[carriage_index + 1]) != std::string::npos && FEN[carriage_index + 2] == ' ') {
@@ -336,11 +341,11 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 		en_passant_.rank = en_passant_.file = 0;
 		carriage_index += 2;
 	} else {
-		throw FENException(2, "Unexpected symbol");
+		throw FENException(3, "Unexpected symbol");
 	}
 
 	if (sscanf(FEN.c_str() + carriage_index, "%hhu", &halfmove_clock_) != 1 || halfmove_clock_ > 200) {
-		throw FENException(5, "Invalid FEN");
+		throw FENException(6, "Invalid FEN");
 	}
 
 	int length = 1;
@@ -350,16 +355,21 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 	carriage_index += length;
 
 	if (FEN[carriage_index++] != ' ') {
-		throw FENException(4, "\'Spacebar\' was expected");
+		throw FENException(5, "\'Spacebar\' was expected");
 	}
 
 	if (sscanf(FEN.c_str() + carriage_index, "%hu", &fullmove_number_) != 1 || fullmove_number_ > 999) {
 		std::cout << "halfmove_clock_: " << halfmove_clock_ << std::endl;
-		throw FENException(5, "Invalid FEN");
+		throw FENException(6, "Invalid FEN");
 	}
 }
 
 std::ostream& operator<<(std::ostream& os, const PlannerException& e) {
-	os << "Error " << e.code() << ": " << e.message() << std::endl;
+	os << e.type_ << ((e.type_ == "") ? "E" : " e") << "rror " << e.code() << ": " << e.message() << std::endl;
 	return os;
+}
+
+FILE* operator<<(FILE *f, const PlannerException& e) {
+	fprintf(f, "%s%srror %d: %s\n", e.type_.c_str(), ((e.type_ == "") ? "E" : " e"), e.code(), e.message().c_str());
+	return f;
 }
