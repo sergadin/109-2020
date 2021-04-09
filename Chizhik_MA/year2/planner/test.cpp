@@ -13,7 +13,11 @@ int main(void) {
 	const std::string FEN_4 = "r4rk1/pb1npp1p/1p4pP/2ppP3/3P3R/N1P3P1/PP1QNPq1/R3K3 w Q - 3 20";
 	const std::string Carlsen_FEN_1 = "rnbqk2r/pp2p1bp/2p2Ppn/3p4/3P4/2PB1N2/PP3PPP/RNBQK2R b KQkq - 0 7";
 	const std::string Carlsen_FEN_2 = "r1bq1rk1/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10";
-
+	
+	const std::string incorrect_FEN_1 = "r1bq1rk1/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 250 10"; // halfmove clock is overflown
+	const std::string incorrect_FEN_2 = "r1bq1ek1/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10"; // unexpected symbol: 'e'
+	const std::string incorrect_FEN_3 = "r1b1k4/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10"; // incorrect amount of squares
+	const std::string incorrect_FEN_4 = "r1bq1rk1/p2n1pbp/2pp1npB/1p2p21/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10"; // two digits in a row in the description of the 5th rank
 	for (int i = 0; i < 64; i++) {
 		squares[i] = 0;
 	}
@@ -142,6 +146,35 @@ int main(void) {
 	Position from_carlsen_fen_2(Carlsen_FEN_2);
 	fen = from_carlsen_fen_2.to_FEN();
 	fprintf(output, "After chain Carlsen_FEN_2 -> Position -> FEN:\n%s\n", fen.c_str());
+
+	// Exceptions
+	try {
+		fprintf(output, "Incorrect FEN 1:\n%s\n", incorrect_FEN_1.c_str());
+		Position from_incorrect_fen_1(incorrect_FEN_1);
+	} catch (FENException& e) {
+		output << e; 
+	}
+
+	try {
+		fprintf(output, "Incorrect FEN 2:\n%s\n", incorrect_FEN_2.c_str());
+		Position from_incorrect_fen_2(incorrect_FEN_2);
+	} catch (FENException& e) {
+		output << e; 
+	}
+
+	try {
+		fprintf(output, "Incorrect FEN 3:\n%s\n", incorrect_FEN_3.c_str());
+		Position from_incorrect_fen_3(incorrect_FEN_3);
+	} catch (FENException& e) {
+		output << e; 
+	}
+
+	try {
+		fprintf(output, "Incorrect FEN 4:\n%s\n", incorrect_FEN_4.c_str());
+		Position from_incorrect_fen_4(incorrect_FEN_4);
+	} catch (FENException& e) {
+		output << e; 
+	}
 
 	fclose(output);
 	return 0;
