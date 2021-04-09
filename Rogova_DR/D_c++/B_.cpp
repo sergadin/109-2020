@@ -39,6 +39,7 @@ class List
 
 		ListItem<T> *base_;
 		ListItem<T> *current_;
+		ListItem<T> *top_;
 	public:
 		class Iterator
 		{
@@ -47,12 +48,14 @@ class List
 				friend class ListItem<T>;
 				ListItem<T> *cur_;
 				ListItem<T> *b_;
+				ListItem<T> *p_;
 
 			public:
 				Iterator()
 				{
 					cur_= nullptr;
 					b_ = nullptr;
+					p_ = nullptr;
 				}
 				friend bool operator !=(const Iterator& left, const Iterator right)
 				{
@@ -64,9 +67,9 @@ class List
 				void next_go()
                                 {
                                         cur_ = cur_->next;
-					if(cur_== b_)
+					if(cur_== p_)
 		                        {
-                		                cur_ = cur_->next;
+                		                cur_ = cur_->bef;
                        			}
 
                                 }
@@ -75,7 +78,7 @@ class List
                                         cur_ = cur_->bef;
 					if(cur_== b_)
                                         {
-                                                cur_ = cur_->bef;
+                                                cur_ = cur_->next;
                                         }
 
 
@@ -100,8 +103,11 @@ class List
 		List()
 		{
 			base_ = new ListItem<T>;
+			top_ = new ListItem<T>;
 			base_->bef = base_;
-			base_->next = base_;
+			base_->next = top_;
+			top_->next = top_;
+			top_->bef = base_;
 			current_ = base_;
 
 		}
@@ -111,12 +117,15 @@ class List
                         ListItem<T>* p1;
                         ListItem<T>* b;
 			base_ = new ListItem<T>;
-			base_->next = base_;
+			top_ = new ListItem<T>;
+			base_->next = top_;
 			base_->bef = base_;
+			top_ ->bef = base_;
+			top_->next = top_;
                         current_ = base_;
                         p = A.base_;
                         p = p->next;
-                        while (p != A.base_)
+                        while (p != A.top_)
                         {
                                 add_after(p->data);
                                 p = p->next;
@@ -128,6 +137,7 @@ class List
 			current_ = base_;		
 			del_all();
 			delete base_;
+			delete top_;
 
 		}
 		Iterator begin()
@@ -135,14 +145,16 @@ class List
 			Iterator i;
 			i.cur_ = base_;
 			i.b_ = base_;
+			i.p_ = top_;
 			i.next_go();
 			return i;
 		}
 		Iterator end()
 		{
 			Iterator i;
-			i.cur_ = base_->bef; 
+			i.cur_ = top_; 
 			i.b_ = base_;
+			i.p_ = top_;
 			return i;
 		}
 		void add_after(T new_el)
@@ -150,16 +162,23 @@ class List
 			ListItem<T>* p;
 			p = new ListItem<T>;
 			p->data = new_el;
-			p->next = base_;
-			p->bef = base_->bef;
+			p->next = top_;
+			p->bef = top_->bef;
+			top_->bef = p;
 			current_ = p->bef;
 			current_->next = p;
-			base_->bef = p;
 			current_ = p;
 		}
 		bool is_empty()
 		{
-			if(base_->next == base_)
+			if(base_->next == top_)
+				return true;
+			else
+				return false;
+		}
+		bool is_end()
+		{
+			if(current_ == top_)
 				return true;
 			else
 				return false;
@@ -170,6 +189,8 @@ class List
 				return;
 			if(current_ == base_)
 				current_=current_->next;
+			if(current_ == top_)
+				current_ = current_ ->bef;
 			if(current_ == base_)
 				return;
 			ListItem<T> * prevel;
@@ -186,22 +207,24 @@ class List
 				return;
 			ListItem<T> *m;
 			current_ = base_->next;
-			while (current_ != base_)
+			while (current_ != top_)
 			{
 				m = current_;
 				current_ = current_->next;
 				delete m;
 			}
-			base_->next = base_;
+			base_->next = top_;
 			base_->bef = base_;
+			top_->bef = base_;
+			top_->next = top_;
 
 		}
 		void go_next()
 		{
 			current_ = current_->next;
-			if(current_== base_)
+			if(current_== top_)
 			{
-				current_ = base_->next;
+				current_ = top_->bef;
 			}
 
 		}
@@ -210,12 +233,14 @@ class List
 			current_ = current_->bef;
 			if(current_ == base_)
 			{
-				current_ = base_->bef;
+				current_ = base_->next;
 			}
 		}
 		T get_current()
 		{
 			if(current_ == base_)
+				throw ListException(-2, std::string("error"));
+			if(current_ == top_)
 				throw ListException(-2, std::string("error"));
 			return current_->data;
 		}
@@ -223,7 +248,7 @@ class List
 		{
 			ListItem<T> * p;
 			p = base_->next;
-			while (p != base_)
+			while (p != top_)
 			{
 				std::cout << p->data << "\t";
 				p = p->next;
@@ -231,6 +256,7 @@ class List
 			p = nullptr;
 			std::cout << std::endl;
 		}
+	
 
 		List<T>& operator=(const List<T>& right)//
 		{
@@ -241,7 +267,7 @@ class List
 			current_ = base_;
 			p = right.base_;
 			p = p->next;
-			while (p != right.base_)
+			while (p != right.top_)
 			{
 				add_after(p->data); 
 				p = p->next;
@@ -253,7 +279,7 @@ class List
 		{
 			ListItem<T> * p;
 			p = H.base_->next;
-			while (p != H.base_)
+			while (p != H.top_)
 			{
 				out << p->data << "\t";
 				p = p->next;
@@ -271,7 +297,6 @@ int main()
 	try
 	{
 		List<int> S;
-
 		S.add_after(10);
 		S.add_after(7);
 		S.print();
@@ -303,10 +328,6 @@ int main()
 		cout << "L"<< endl;
 		L.print();
 		List<int>::Iterator i;
-		for(i = S1.begin(); i != S1.end(); i.next_go())
-		{
-			cout<< i.get_it();
-		}
 		List<List<int>> H;
 		S5.add_after(9);
 		S5.add_after(3);
