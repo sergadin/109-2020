@@ -145,7 +145,14 @@ FigureInfo Position::get_figure_info(Square square) const {
 	return squares_[square.to_char()];
 }
 
-int Position::to_FEN(char *buffer) const {
+std::string Position::to_FEN() const {
+	// Длина буфера должна быть не менее 90 байт, чтобы иметь возможность записать позицию, т.к. возможны позиции а-ля
+	// 1nb1k1r1/r1q1n1b1/1p1p1p1p/p1p1p1p1/1P1P1P1P/P1P1P1P1/1B1N1RB1/R1Q1K1N1 w - - 18 18,
+	// где описание самой доски занимает 71 байт;
+	// то есть максимальная длина раздела с положением фигур - 71, с очередью хода - 1, с информацией о возможности рокировки - 4,
+	// с полем, где возможно взятие на проходе - 2, с числом полуходов с последнего взятия или хода пешкой и числом ходов - по 3,
+	// на пробелы-разделители - 5. Итого - 89 символов + символ конца строки
+	char *buffer = (char *)malloc(90);
 	int empty_sqs_counter = 0;
 	int carriage_index = 0; // перед каким по счету символом установлена "каретка"
 
@@ -200,37 +207,40 @@ int Position::to_FEN(char *buffer) const {
 	}
 	buffer[carriage_index++] = ' ';
 
-	unsigned short hfmv_c = halfmove_clock_;
-	unsigned char digits_amount_in_hfmv_c = 1;
-	while ((hfmv_c /= 10) > 0) {
-		digits_amount_in_hfmv_c++;
+	unsigned short halfmoves = halfmove_clock_;
+	unsigned char digits_amount_in_halfmoves = 1;
+	while ((halfmoves /= 10) > 0) {
+		digits_amount_in_halfmoves++;
 	}
 
-	hfmv_c = halfmove_clock_;
-	for (int i = 1; i <= digits_amount_in_hfmv_c; i++) {
-		int power = pow(10, digits_amount_in_hfmv_c - i);
-		int next_digit = (hfmv_c / power);
-		hfmv_c %= power;
+	halfmoves = halfmove_clock_;
+	for (int i = 1; i <= digits_amount_in_halfmoves; i++) {
+		int power = pow(10, digits_amount_in_halfmoves - i);
+		int next_digit = (halfmoves / power);
+		halfmoves %= power;
 		buffer[carriage_index++] = digits[next_digit];
 	}
 	buffer[carriage_index++] = ' ';
 
-	unsigned short mvs_amt = fullmove_number_;
-	unsigned char digits_amount_in_mvs_amt = 1;
-	while ((mvs_amt /= 10) > 0) {
-		digits_amount_in_mvs_amt++;
+	unsigned short fullmoves = fullmove_number_;
+	unsigned char digits_amount_in_fullmoves = 1;
+	while ((fullmoves /= 10) > 0) {
+		digits_amount_in_fullmoves++;
 	}
 
-	mvs_amt = fullmove_number_;
-	for (int i = 1; i <= digits_amount_in_mvs_amt; i++) {
-		int power = pow(10, digits_amount_in_mvs_amt - i);
-		int next_digit = (mvs_amt / power);
-		mvs_amt %= power;
+	fullmoves = fullmove_number_;
+	for (int i = 1; i <= digits_amount_in_fullmoves; i++) {
+		int power = pow(10, digits_amount_in_fullmoves - i);
+		int next_digit = (fullmoves / power);
+		fullmoves %= power;
 		buffer[carriage_index++] = digits[next_digit];
 	}
 
 	buffer[carriage_index] = 0;
-	return carriage_index;
+
+	std::string FEN(buffer);
+	free(buffer);
+	return FEN;
 }
 
 Position::Position(const std::string& FEN): touched_(3, 15) {

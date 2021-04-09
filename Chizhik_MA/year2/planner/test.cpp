@@ -10,6 +10,7 @@ int main(void) {
 	const std::string FEN_1 = "1nb1k1r1/r1q1n1b1/1p1p1p1p/p1p1p1p1/1P1P1P1P/P1P1P1P1/1B1N1RB1/R1Q1K1N1 w - - 18 18";
 	const std::string FEN_2 = "1r1q1rk1/pb2bppp/2p1pn2/8/3P1Q2/P3PN2/2B2PPP/R1B2RK1 b - - 4 16";
 	const std::string FEN_3 = "r2qk2r/1p1nb1p1/p2ppn1p/4p3/4P3/2N1BN2/PPP2PPP/1R1QK2R w Kkq - 2 12";
+	const std::string FEN_4 = "r4rk1/pb1npp1p/1p4pP/2ppP3/3P3R/N1P3P1/PP1QNPq1/R3K3 w Q - 3 20";
 	const std::string Carlsen_FEN_1 = "rnbqk2r/pp2p1bp/2p2Ppn/3p4/3P4/2PB1N2/PP3PPP/RNBQK2R b KQkq - 0 7";
 	const std::string Carlsen_FEN_2 = "r1bq1rk1/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10";
 
@@ -107,37 +108,41 @@ int main(void) {
 	fprintf(output, "\n");
 
 	//Position to FEN
-	char *fen = (char *)malloc(100);
-	sample_position.to_FEN(fen);
-	fprintf(output, "This position in FEN: %s\n", fen);
+	std::string fen = "";
+	fen = sample_position.to_FEN();
+	fprintf(output, "This position in FEN: %s\n", fen.c_str());
 
 	//FEN to Position and back
 	fprintf(output, "FEN_1:\n%s\n", FEN_1.c_str());
 	Position from_fen_1(FEN_1);
-	from_fen_1.to_FEN(fen);
-	fprintf(output, "After chain FEN_1 -> Position -> FEN:\n%s\n", fen);
+	fen = from_fen_1.to_FEN();
+	fprintf(output, "After chain FEN_1 -> Position -> FEN:\n%s\n", fen.c_str());
 
 	fprintf(output, "FEN_2:\n%s\n", FEN_2.c_str());
 	Position from_fen_2(FEN_2);
-	from_fen_2.to_FEN(fen);
-	fprintf(output, "After chain FEN_2 -> Position -> FEN:\n%s\n", fen);
+	fen = from_fen_2.to_FEN();
+	fprintf(output, "After chain FEN_2 -> Position -> FEN:\n%s\n", fen.c_str());
 	
 	fprintf(output, "FEN_3:\n%s\n", FEN_3.c_str());
 	Position from_fen_3(FEN_3);
-	from_fen_3.to_FEN(fen);
-	fprintf(output, "After chain FEN_3 -> Position -> FEN:\n%s\n", fen);
+	fen = from_fen_3.to_FEN();
+	fprintf(output, "After chain FEN_3 -> Position -> FEN:\n%s\n", fen.c_str());
+	
+	fprintf(output, "FEN_4:\n%s\n", FEN_4.c_str());
+	Position from_fen_4(FEN_4);
+	fen = from_fen_4.to_FEN();
+	fprintf(output, "After chain FEN_4 -> Position -> FEN:\n%s\n", fen.c_str());
 	
 	fprintf(output, "Carlsen_FEN_1:\n%s\n", Carlsen_FEN_1.c_str());
 	Position from_carlsen_fen_1(Carlsen_FEN_1);
-	from_carlsen_fen_1.to_FEN(fen);
-	fprintf(output, "After chain Carlsen_FEN_1 -> Position -> FEN:\n%s\n", fen);
+	fen = from_carlsen_fen_1.to_FEN();
+	fprintf(output, "After chain Carlsen_FEN_1 -> Position -> FEN:\n%s\n", fen.c_str());
 	
 	fprintf(output, "Carlsen_FEN_2:\n%s\n", Carlsen_FEN_2.c_str());
 	Position from_carlsen_fen_2(Carlsen_FEN_2);
-	from_carlsen_fen_2.to_FEN(fen);
-	fprintf(output, "After chain Carlsen_FEN_2 -> Position -> FEN:\n%s\n", fen);
+	fen = from_carlsen_fen_2.to_FEN();
+	fprintf(output, "After chain Carlsen_FEN_2 -> Position -> FEN:\n%s\n", fen.c_str());
 
-	free(fen);
 	fclose(output);
 	return 0;
 }
