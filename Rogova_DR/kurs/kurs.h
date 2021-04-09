@@ -17,7 +17,9 @@ private:
    };
    GrafNode first;
 public:
-   Graf();
+   Graf()
+   {	   
+   };
   ~Graf ();
   int EdgeValueL(GrafNode * first, GrafNode * second);
 
@@ -33,12 +35,12 @@ public:
   GrafIterator (Graf<T>*);
 
   void Root ();
-  void CreateParent();
+  void CreateParent(T value, int Edge);
   void NextParent();
   void PreviousPar ();
   void FirstParent ();
   void LastParent ();
-  void CreateSon (); 
+  void CreateSon (T value, int Edge); 
   void NextSon();
   void PreviousSon (); 
   void FirstSon (); 
