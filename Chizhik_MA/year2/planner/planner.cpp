@@ -247,119 +247,123 @@ Position::Position(const std::string& FEN): touched_(3, 15) {
 	int carriage_index = 0;
 	int empty_squares_left = 0;
 
-	for (int rank = 7; rank >= 0; rank--) {
-		bool digit_is_previous = 0;
-		int file = 0;
-		while (file < 8) {
-			FigureInfo *current_square = squares_ + (file * 8 + rank);
-			int curr_symbol_index = b_figures.find(tolower(FEN[carriage_index]), 1);
-			if (curr_symbol_index != std::string::npos) {
-				current_square->figtype_ = curr_symbol_index;
-				current_square->colour_ = (char)((FEN[carriage_index] == tolower(FEN[carriage_index])) ? BLACK : WHITE);
-				file++;
-				digit_is_previous = 0;
-			} else if (digits.find(FEN[carriage_index], 1) != std::string::npos && !digit_is_previous) {
-				int curr_value = digits.find(FEN[carriage_index], 1);
-				if (curr_value <= 8 - file) {
-					empty_squares_left = curr_value;
-					do {
-						current_square->figtype_ = 0;
-						current_square->colour_ = 0;
+	try {
+		for (int rank = 7; rank >= 0; rank--) {
+			bool digit_is_previous = 0;
+			int file = 0;
+			while (file < 8) {
+				FigureInfo *current_square = squares_ + (file * 8 + rank);
+				int curr_symbol_index = b_figures.find(tolower(FEN.at(carriage_index)), 1);
+				if (curr_symbol_index != std::string::npos) {
+					current_square->figtype_ = curr_symbol_index;
+					current_square->colour_ = (char)((FEN.at(carriage_index) == tolower(FEN.at(carriage_index))) ? BLACK : WHITE);
+					file++;
+					digit_is_previous = 0;
+				} else if (digits.find(FEN.at(carriage_index), 1) != std::string::npos && !digit_is_previous) {
+					int curr_value = digits.find(FEN.at(carriage_index), 1);
+					if (curr_value <= 8 - file) {
+						empty_squares_left = curr_value;
+						do {
+							current_square->figtype_ = 0;
+							current_square->colour_ = 0;
 
-						file++;
-						current_square = squares_ + (file * 8 + rank);
-					} while (--empty_squares_left > 0);
-					digit_is_previous = 1;
+							file++;
+							current_square = squares_ + (file * 8 + rank);
+						} while (--empty_squares_left > 0);
+						digit_is_previous = 1;
+					} else {
+						throw FENException(1, "Incorrect number of squares");
+					}
+				} else if (digit_is_previous) {
+					throw FENException(2, "Two digits in a row are prohibited");
 				} else {
-					throw FENException(1, "Incorrect number of squares");
+					throw FENException(3, "Unexpected symbol");
 				}
-			} else if (digit_is_previous) {
-				throw FENException(2, "Two digits in a row are prohibited");
-			} else {
-				throw FENException(3, "Unexpected symbol");
+				carriage_index++;
+			}
+
+			if (rank > 0 && FEN.at(carriage_index) != '/') {
+				throw FENException(4, "\'/\' as a separator of ranks' descriptions was expected");
+			} else if (rank == 0 && FEN.at(carriage_index) != ' ') {
+				throw FENException(5, "\'Spacebar\' was expected");
 			}
 			carriage_index++;
 		}
 
-		if (rank > 0 && FEN[carriage_index] != '/') {
-			throw FENException(4, "\'/\' as a separator of ranks' descriptions was expected");
-		} else if (rank == 0 && FEN[carriage_index] != ' ') {
+		switch (FEN.at(carriage_index++)) {
+			case 'w':
+				turn_ = WHITE;
+				break;
+			case 'b':
+				turn_ = BLACK;
+				break;
+			default:
+				throw FENException(3, "Unexpected symbol");
+		}
+
+		if (FEN.at(carriage_index++) != ' ') {
 			throw FENException(5, "\'Spacebar\' was expected");
 		}
-		carriage_index++;
-	}
 
-	switch (FEN[carriage_index++]) {
-		case 'w':
-			turn_ = WHITE;
-			break;
-		case 'b':
-			turn_ = BLACK;
-			break;
-		default:
+		if (FEN.at(carriage_index) == '-') {
+			touched_.w_king = touched_.b_king = 1;
+			carriage_index++;
+		} else {
+			if (FEN.at(carriage_index) == 'K') {
+				touched_.w_king = touched_.rw_rook = 0;
+				carriage_index++;
+			}
+
+			if (FEN.at(carriage_index) == 'Q') {
+				touched_.w_king = touched_.lw_rook = 0;
+				carriage_index++;
+			}
+
+			if (FEN.at(carriage_index) == 'k') {
+				touched_.b_king = touched_.rb_rook = 0;
+				carriage_index++;
+			}
+
+			if (FEN.at(carriage_index) == 'q') {
+				touched_.b_king = touched_.lb_rook = 0;
+				carriage_index++;
+			}
+		}
+
+		if (FEN.at(carriage_index++) != ' ') {
+			throw FENException(5, "\'Spacebar\' was expected");
+		}
+
+		if (ranks.find(FEN.at(carriage_index)) != std::string::npos && files.find(FEN.at(carriage_index + 1)) != std::string::npos && FEN.at(carriage_index + 2) == ' ') {
+			en_passant_.rank = ranks.find(FEN.at(carriage_index));
+			en_passant_.file = files.find(FEN.at(carriage_index + 1));
+			carriage_index += 3;
+		} else if (FEN.at(carriage_index) == '-' && FEN.at(carriage_index + 1) == ' ') {
+			en_passant_.rank = en_passant_.file = 0;
+			carriage_index += 2;
+		} else {
 			throw FENException(3, "Unexpected symbol");
-	}
-
-	if (FEN[carriage_index++] != ' ') {
-		throw FENException(5, "\'Spacebar\' was expected");
-	}
-
-	if (FEN[carriage_index] == '-') {
-		touched_.w_king = touched_.b_king = 1;
-		carriage_index++;
-	} else {
-		if (FEN[carriage_index] == 'K') {
-			touched_.w_king = touched_.rw_rook = 0;
-			carriage_index++;
 		}
 
-		if (FEN[carriage_index] == 'Q') {
-			touched_.w_king = touched_.lw_rook = 0;
-			carriage_index++;
+		if ((FEN.size() - 1 < carriage_index) || sscanf(FEN.c_str() + carriage_index, "%hhu", &halfmove_clock_) != 1 || halfmove_clock_ > 200) {
+			throw FENException(6, "Invalid FEN");
 		}
 
-		if (FEN[carriage_index] == 'k') {
-			touched_.b_king = touched_.rb_rook = 0;
-			carriage_index++;
+		int length = 1;
+		while (halfmove_clock_ >= pow(10, length)) {
+			length++;
+		}
+		carriage_index += length;
+
+		if (FEN.at(carriage_index++) != ' ') {
+			throw FENException(5, "\'Spacebar\' was expected");
 		}
 
-		if (FEN[carriage_index] == 'q') {
-			touched_.b_king = touched_.lb_rook = 0;
-			carriage_index++;
+		if ((FEN.size() - 1 < carriage_index) || sscanf(FEN.c_str() + carriage_index, "%hu", &fullmove_number_) != 1 || fullmove_number_ > 999) {
+			std::cout << "halfmove_clock_: " << halfmove_clock_ << std::endl;
+			throw FENException(6, "Invalid FEN");
 		}
-	}
-
-	if (FEN[carriage_index++] != ' ') {
-		throw FENException(5, "\'Spacebar\' was expected");
-	}
-
-	if (ranks.find(FEN[carriage_index]) != std::string::npos && files.find(FEN[carriage_index + 1]) != std::string::npos && FEN[carriage_index + 2] == ' ') {
-		en_passant_.rank = ranks.find(FEN[carriage_index]);
-		en_passant_.file = files.find(FEN[carriage_index + 1]);
-		carriage_index += 3;
-	} else if (FEN[carriage_index] == '-' && FEN[carriage_index + 1] == ' ') {
-		en_passant_.rank = en_passant_.file = 0;
-		carriage_index += 2;
-	} else {
-		throw FENException(3, "Unexpected symbol");
-	}
-
-	if (sscanf(FEN.c_str() + carriage_index, "%hhu", &halfmove_clock_) != 1 || halfmove_clock_ > 200) {
-		throw FENException(6, "Invalid FEN");
-	}
-
-	int length = 1;
-	while (halfmove_clock_ >= pow(10, length)) {
-		length++;
-	}
-	carriage_index += length;
-
-	if (FEN[carriage_index++] != ' ') {
-		throw FENException(5, "\'Spacebar\' was expected");
-	}
-
-	if (sscanf(FEN.c_str() + carriage_index, "%hu", &fullmove_number_) != 1 || fullmove_number_ > 999) {
-		std::cout << "halfmove_clock_: " << halfmove_clock_ << std::endl;
+	} catch (std::out_of_range& e) {
 		throw FENException(6, "Invalid FEN");
 	}
 }

@@ -76,6 +76,12 @@ typedef struct Square {
 		rank = 0;
 	}
 
+	// Конструктор копирования
+	Square(const Square& sq) {
+		file = sq.file;
+		rank = sq.rank;
+	}
+
 	// Конструктор, получающий в качестве входных данных число типа char
 	// 3 младших бита sq  - номер горизонтали, 4-6 биты - номер вертикали
 	Square(char sq) {
@@ -270,6 +276,21 @@ class Position {
 		// Возвращаемое значение - строка с записью позиции в формате FEN
 		std::string to_FEN() const;
 };
+
+//class Path {
+//	private:
+//		SquareNode *start_position;
+//		SquareNode *destination;
+//	public:
+//		Path(Square start, Square finish);
+//}
+
+//struct SquareNode {
+//	Square value_;
+//	SquareNode *next_;
+//	SquareNode *previous_;
+//	SquareNode(Square value) : value_(value) {}
+//}
 
 class Aim {
 	private:

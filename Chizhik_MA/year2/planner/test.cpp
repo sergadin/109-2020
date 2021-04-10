@@ -18,6 +18,8 @@ int main(void) {
 	const std::string incorrect_FEN_2 = "r1bq1ek1/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10"; // unexpected symbol: 'e'
 	const std::string incorrect_FEN_3 = "r1b1k4/p2n1pbp/2pp1npB/1p2p3/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10"; // incorrect amount of squares
 	const std::string incorrect_FEN_4 = "r1bq1rk1/p2n1pbp/2pp1npB/1p2p21/3PP3/2NB1P2/PPPQN1PP/R3K2R w KQ - 4 10"; // two digits in a row in the description of the 5th rank
+	const std::string cut_FEN = "r1bq1rk1/p2n1p";
+
 	for (int i = 0; i < 64; i++) {
 		squares[i] = 0;
 	}
@@ -172,6 +174,13 @@ int main(void) {
 	try {
 		fprintf(output, "Incorrect FEN 4:\n%s\n", incorrect_FEN_4.c_str());
 		Position from_incorrect_fen_4(incorrect_FEN_4);
+	} catch (FENException& e) {
+		output << e; 
+	}
+
+	try {
+		fprintf(output, "Cut FEN:\n%s\n", cut_FEN.c_str());
+		Position from_cut_fen(cut_FEN);
 	} catch (FENException& e) {
 		output << e; 
 	}
