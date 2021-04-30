@@ -46,7 +46,6 @@ def read_sqlite_trick():
         if (sqlite_connection):
             sqlite_connection.close()
             
-            
 def insert_varible_into_hand(k, card, game_k):
     try:
         sqlite_connection = sqlite3.connect('Game.db')
@@ -90,10 +89,6 @@ def read_sqlite_hand():
     finally:
         if (sqlite_connection):
             sqlite_connection.close()
-            
-            
-            
-            
             
 class Deck():
     deck = [None] * 32
