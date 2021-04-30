@@ -1,7 +1,100 @@
+import numpy as np
 import random
+import sqlite3
 
-#глобальные переменные neurons1 neurons2 neurons3
+def insert_varible_into_trick(trick_k, game_k, move, firsthand, card1, card2, card3, winner):
+    try:
+        sqlite_connection = sqlite3.connect('Game.db')
+        cursor = sqlite_connection.cursor()
 
+        sqlite_insert_with_param = """INSERT INTO Trick
+                              (trick_k, game_k, move, firsthand, card1, card2, card3, winner)
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?);"""
+
+        data = (trick_k, game_k, move, firsthand, card1, card2, card3, winner)
+        cursor.execute(sqlite_insert_with_param, data)
+        sqlite_connection.commit()
+
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Ошибка", error)
+    finally:
+        if sqlite_connection:
+            sqlite_connection.close()
+            
+def read_sqlite_trick():
+    try:
+        sqlite_connection= sqlite3.connect('Game.db')
+        cursor = sqlite_connection.cursor()
+        
+        if (cursor.fetchall() == None):
+            return 0
+        
+        sqlite_select_query = """SELECT count(*) from Trick"""
+        cursor.execute(sqlite_select_query)
+        
+        rows = cursor.fetchone()
+        
+        cursor.close()
+        
+        return rows
+
+    except sqlite3.Error as error:
+        print("Ошибка", error)
+    finally:
+        if (sqlite_connection):
+            sqlite_connection.close()
+            
+            
+def insert_varible_into_hand(k, card, game_k):
+    try:
+        sqlite_connection = sqlite3.connect('Game.db')
+        cursor = sqlite_connection.cursor()
+
+        sqlite_insert_with_param = """INSERT INTO Hand
+                              (k, card, game_k)
+                              VALUES (?, ?, ?);"""
+
+        data = (k, card, game_k)
+        cursor.execute(sqlite_insert_with_param, data)
+        sqlite_connection.commit()
+
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Ошибка", error)
+    finally:
+        if sqlite_connection:
+            sqlite_connection.close()
+            
+def read_sqlite_hand():
+    try:
+        sqlite_connection= sqlite3.connect('Game.db')
+        cursor = sqlite_connection.cursor()
+        
+        if (cursor.fetchall() == None):
+            return 0
+        
+        sqlite_select_query = """SELECT count(*) from Hand"""
+        cursor.execute(sqlite_select_query)
+        
+        rows = cursor.fetchone()
+        
+        cursor.close()
+        
+        return rows
+
+    except sqlite3.Error as error:
+        print("Ошибка", error)
+    finally:
+        if (sqlite_connection):
+            sqlite_connection.close()
+            
+            
+            
+            
+            
 class Deck():
     deck = [None] * 32
     def __init__(self):
@@ -31,111 +124,72 @@ class Card():
     def __init__(self, i, j):
         self.Mastb = i
         self.Num   = j
- 
-def pravila1(a, b, c, n): #если 1 ходит первым
-    s = int
-    s = 0
-    for i in range(1, 33):
-        if (a[i] == 1):
-            n[1] = i
-            neurons1[i] = 0
-            break
-    for i in range(1, 33):
-        if (mast(i) == mast(n[1])) & (b[i] == 1):
-            n[2] = i
-            neurons2[i] = 0
-            break
-        s = s+1
-    if s == 32:
+
+class Player():
+    def __init__(self, deck):
+        self.deck = deck
+    
+    def Sdelaykhod(self, m):
+        s = int
+        s = 0
+        p = int
+        p = 0
+        l = int
+        l = 0
+        i = int
+        i = 0
+        data = []
+        for k in range(1, 33):
+            if (self.deck[k] == 1):
+                data.append(k)
+                l = l+1
+            if (mast(k) == m) & (self.deck[k] == 1):
+                p = p+1
+        if (p == 0) | (m == 0):
+            i = random.randint(0, l-1)
+            s = data[i]
+            self.deck[data[i]] = 0
+        else:
+            while i >= 0:
+                i = random.randint(0, l-1)
+                if (mast(data[i]) == m):
+                    s = data[i]
+                    self.deck[data[i]] = 0
+                    break
+        return s
+    
+    def Poluchi(self, k, m):
+        hand = [None] * 11
+        for i in range(1+(k-1)*10, 11+(k-1)*10):
+            hand[i-(k-1)*10] = m[i]
+        for i in range(1, 11):
+             for j in range(1, 33):
+                 if (j == hand[i]):
+                     self.deck[j] = 1
+                 if (j != hand[i]) & (self.deck[j] != 1):
+                     self.deck[j] = 0
+        return self.deck
+    
+    def uznay(self):
+        return 1
+    
+    def Recording(self):
+        l = str(read_sqlite_hand())
+        s = int    
+        if (l == '0'):
+            s = 0
+            l = int(l)
+        else:
+            l = l[1:-1+len(l)-1]
+            l = int(l)
+            s = l
         for i in range(1, 33):
-            if (b[i] == 1):
-                n[2] = i
-                neurons2[i] = 0
-                break
-    s = 0
-    for i in range(1, 33):
-        if (mast(i) == mast(n[1])) & (c[i] == 1):
-            n[3] = i
-            neurons3[i] = 0
-            break
-        s = s+1
-    if s == 32:
-        for i in range(1, 33):
-            if (c[i] == 1):
-                n[3] = i
-                neurons3[i] = 0
-                break
-    return n
-        
-def pravila2(a, b, c, n): #если 2 ходит первым
-    s = int
-    s = 0
-    for i in range(1, 33):
-        if (b[i] == 1):
-            n[2] = i
-            neurons2[i] = 0
-            break
-    for i in range(1, 33):
-        if (mast(i) == mast(n[2])) & (c[i] == 1):
-            n[3] = i
-            neurons3[i] = 0
-            break
-        s = s+1
-    if s == 32:
-        for i in range(1, 33):
-            if (c[i] == 1):
-                n[3] = i
-                neurons3[i] = 0
-                break
-    s = 0
-    for i in range(1, 33):
-        if (mast(i) == mast(n[2])) & (a[i] == 1):
-            n[1] = i
-            neurons1[i] = 0
-            break
-        s = s+1
-    if s == 32:
-        for i in range(1, 33):
-            if (a[i] == 1):
-                n[1] = i
-                neurons1[i] = 0
-                break
-    return n
-        
-def pravila3(a, b, c, n): #если 3 ходит первым
-    s = int
-    s = 0
-    for i in range(1, 33):
-        if (c[i] == 1):
-            n[3] = i
-            neurons3[i] = 0
-            break
-    for i in range(1, 33):
-        if (mast(i) == mast(n[3])) & (a[i] == 1):
-            n[1] = i
-            neurons1[i] = 0
-            break
-        s = s+1
-    if s == 32:
-        for i in range(1, 33):
-            if (a[i] == 1):
-                n[1] = i
-                neurons1[i] = 0
-                break
-    s = 0
-    for i in range(1, 33):
-        if (mast(i) == mast(n[3])) & (b[i] == 1):
-            n[2] = i
-            neurons2[i] = 0
-            break
-        s = s+1
-    if s == 32:
-        for i in range(1, 33):
-            if (b[i] == 1):
-                n[2] = i
-                neurons2[i] = 0
-                break
-    return n
+            if (self.deck[i] == 1):
+                s = s+1
+                insert_varible_into_hand(s, i, l/10+1)
+                
+    def Print(self):
+        print(self.deck, '\n')
 
 def sravnit1(a, b, c, s): #сравнивает карты 1
     if (mast(b) == mast(a)) & (mast(c) == mast(a)):
@@ -239,26 +293,6 @@ def mast(a):
         return(3)
     if (a>=25) & (a<=32):
         return(4)                        
-
-def kinut(a, b, c, s): #что кинуть(правила)
-    n = [None] * 4
-    for i in range(1, 4):
-        n[i] = 0
-    if (s[4] == 1):
-        n = pravila1(a, b, c, n)
-        print(n)
-        s = sravnit1(n[1], n[2], n[3], s)
-        return s
-    if (s[4] == 2):
-        n = pravila2(a, b, c, n)
-        print(n)
-        s = sravnit2(n[1], n[2], n[3], s)
-        return s
-    if (s[4] == 3):
-        n = pravila3(a, b, c, n)
-        print(n)
-        s = sravnit3(n[1], n[2], n[3], s)
-        return s
     
 if __name__ == '__main__':
     deck = Deck()
@@ -266,51 +300,65 @@ if __name__ == '__main__':
     for i in range(1, 4):
         otvet[i] = 0
     otvet[4] = random.randint(1, 3) #чей ход
-    s = 1
-    t = [None] * 33
-    l = list(range(1, 33))
-    random.shuffle(l)
-    for j in l:
-        t[s] = j
-        s = s+1
-    hand1 = [None] * 11
-    hand2 = [None] * 11
-    hand3 = [None] * 11
-    for i in range(1, 11):
-        hand1[i] = t[i]
-        print(hand1[i], end='.\n')
-        card = deck.get(hand1[i]-1)
-        print(card, end='.\n')
-    global neurons1
+    r = np.random.permutation(33)
+    for i in range(0, 33):
+        if (r[i] == 0):
+            r[i] = r[0]
+            r[0] = 0
+            break
+    
     neurons1 = [None] * 33
-    for i in range(1, 11):
-         for j in range(1, 33):
-             if (j == hand1[i]):
-                 neurons1[j] = 1
-             if (j != hand1[i]) & (neurons1[j] != 1):
-                 neurons1[j] = 0
-    print(neurons1)
-    for i in range(11, 21):
-        hand2[i-10] = t[i]
-    global neurons2
     neurons2 = [None] * 33
-    for i in range(1, 11):
-         for j in range(1, 33):
-             if (j == hand2[i]):
-                 neurons2[j] = 1
-             if (j != hand2[i]) & (neurons2[j] != 1):
-                 neurons2[j] = 0
-    for i in range(21, 31):
-        hand3[i-20] = t[i]
-    global neurons3
     neurons3 = [None] * 33
+    
+    player1 = Player(neurons1)
+    player1.Poluchi(1, r)
+    player1.Print()
+    player1.Recording()
+    
+    player2 = Player(neurons2)
+    player2.Poluchi(2, r)
+    
+    player3 = Player(neurons3)
+    player3.Poluchi(3, r)
+    
+    l = str(read_sqlite_trick())
+    s = int    
+    if (l == '0'):
+        s = 0
+        l = int(l)
+    else:
+        l = l[1:-1+len(l)-1]
+        l = int(l)
+        s = l
+        
     for i in range(1, 11):
-         for j in range(1, 33):
-             if (j == hand3[i]):
-                 neurons3[j] = 1
-             if (j != hand3[i]) & (neurons3[j] != 1):
-                 neurons3[j] = 0
-    for i in range(1, 11):
-        print (otvet)
-        otvet = kinut (neurons1, neurons2, neurons3, otvet)
+        if (otvet[4] == 1):
+            k1 = player1.Sdelaykhod(0)
+            k2 = player2.Sdelaykhod(mast(k1))
+            k3 = player3.Sdelaykhod(mast(k1))
+            print (k1, k2, k3, '*1 ходит 1-м') 
+            otvet = sravnit1(k1, k2, k3, otvet)
+            s = s+1
+            insert_varible_into_trick(s, l/10+1, i, 1, k1, k2, k3, otvet[4])
+            continue
+        if (otvet[4] == 2):
+            k2 = player2.Sdelaykhod(0) 
+            k3 = player3.Sdelaykhod(mast(k2))
+            k1 = player1.Sdelaykhod(mast(k2))
+            print (k1, k2, k3, '*2 ходит 1-м') 
+            otvet = sravnit2(k1, k2, k3, otvet)
+            s = s+1
+            insert_varible_into_trick(s, l/10+1, i, 2, k1, k2, k3, otvet[4])
+            continue
+        if (otvet[4] == 3):
+            k3 = player3.Sdelaykhod(0)
+            k1 = player1.Sdelaykhod(mast(k3))
+            k2 = player2.Sdelaykhod(mast(k3))
+            print (k1, k2, k3, '*3 ходит 1-м') 
+            otvet = sravnit3(k1, k2, k3, otvet)
+            s = s+1
+            insert_varible_into_trick(s, l/10+1, i, 3, k1, k2, k3, otvet[4])
+            continue
+                 
     print('Ответ', otvet[1], otvet[2], otvet[3])
