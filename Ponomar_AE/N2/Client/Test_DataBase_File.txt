@@ -1,0 +1,12 @@
+6
+Mat_anal_1_sem 80 120 10 20
+Mat_anal_2_sem 90 130 15 30
+Diff_geom_3_sem 70 150 0 10
+Comp_geom_3_sem 20 20 0 5
+Angl_yaz_2_sem 0 30 10 20
+Mat_anal_4_sem 90 130 15 30
+4
+Ivanov_I_I 2 1 1 0 0 1 0 0 1
+Petrov_A_A 1 1 1 0 0 1 0 2
+Sidorov_V_V 2 1 1 0 0 1 0 3 1
+Smirnov_S_V 1 1 2 0 0 0 1 4
