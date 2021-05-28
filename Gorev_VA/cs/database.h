@@ -1,7 +1,6 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <algorithm>
 
 #define MAXLEN 10
 class Base
@@ -53,14 +52,38 @@ public:
 	}
 	int map_eq(std::vector <int> m1, std::vector <int> m2)
 	{
-		if ((m1.size() < 2) || (m2.size() < 2) || (m1.size() % 2) || (m2.size() % 2))
+		if ((m1.size() < 2) || (m2.size() < 2) || !(m1.size() % 2) || !(m2.size() % 2))
 			return -1;
 		if (m1.size() != m2.size())
 			return 0;
 		if (m1[0] != m2[0])
 			return 0;
+		
 		std::vector <int> mm1 = m1, mm2 = m2;
-		sort(mm1.begin(), mm1.end());
+		int s = (m1.size() - 1) / 2;
+		for (int i = 0; i < s; i++)
+		{
+			for (int j = 0; j < s; j++)
+			{
+				if (mm1[1 + 2*i] == mm2[1 + 2*j])
+					if (mm1[2 + 2*i] != mm2[2 + 2*j])
+						return 0;
+					else
+					{
+						mm1.erase(mm1.begin() + 1 + 2*i, mm1.begin() + 3 + 2*i);
+						mm2.erase(mm2.begin() + 1 + 2*j, mm2.begin() + 3 + 2*j);
+						s--;
+						i--;
+						break;
+					}
+				if (i == s - 1)
+					return 0;
+			}
+		}
+		if (s)
+			return 0;
+		return 1;
+		
 	}
 	/*int find_map(std::vector <int> m)
 	{

@@ -1,7 +1,6 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <algorithm>
 
 #define MAXLEN 10
 class Base
@@ -53,14 +52,38 @@ public:
 	}
 	int map_eq(std::vector <int> m1, std::vector <int> m2)
 	{
-		if ((m1.size() < 2) || (m2.size() < 2) || (m1.size() % 2) || (m2.size() % 2))
+		if ((m1.size() < 2) || (m2.size() < 2) || !(m1.size() % 2) || !(m2.size() % 2))
 			return -1;
 		if (m1.size() != m2.size())
 			return 0;
 		if (m1[0] != m2[0])
 			return 0;
+		
 		std::vector <int> mm1 = m1, mm2 = m2;
-		sort(mm1.begin(), mm1.end());
+		int s = (m1.size() - 1) / 2;
+		for (int i = 0; i < s; i++)
+		{
+			for (int j = 0; j < s; j++)
+			{
+				if (mm1[1 + 2*i] == mm2[1 + 2*j])
+					if (mm1[2 + 2*i] != mm2[2 + 2*j])
+						return 0;
+					else
+					{
+						mm1.erase(mm1.begin() + 1 + 2*i, mm1.begin() + 3 + 2*i);
+						mm2.erase(mm2.begin() + 1 + 2*j, mm2.begin() + 3 + 2*j);
+						s--;
+						i--;
+						break;
+					}
+				if (i == s - 1)
+					return 0;
+			}
+		}
+		if (s)
+			return 0;
+		return 1;
+		
 	}
 	/*int find_map(std::vector <int> m)
 	{
@@ -84,16 +107,19 @@ int main()
 	std::cout << B.num << ", " << B.name[1] << ", " << B.hash_name[4][0] << "\n";
 	std::cout << B.num << ", " << B.name[2] << ", " << B.hash_name[3][1] << "\n";
 	
-	std::vector <int> m;
+	std::vector <int> m, mm;
 	m.resize(5);
+	mm.resize(5);
 	m[0] = 5, m[1] = 4, m[2] = 3, m[3] = 2, m[4] = 1;
-	std::vector <int> mm = m;
-	sort(mm.begin()+1, mm.end()-1);
-	std::cout << m[0] << m[1] << m[2] << m[3] << m[4] << "\n";
-	std::cout << mm[0] << mm[1] << mm[2] << mm[3] << mm[4] << "\n";
-	m.erase(m.begin(),m.begin()+5);
-	std::cout << m.size() << "\n";
-	std::cout << m[0] << m[1] << m[2] << m[3] << m[4] << "\n";
+	mm[0] = 5, mm[1] = 2, mm[2] = 1, mm[3] = 4, mm[4] = 3;
+	std::cout << B.map_eq(m, mm) << "\n";
+	m[0] = 5, m[1] = 4, m[2] = 3, m[3] = 2, m[4] = 1;
+	mm[0] = 5, mm[1] = 2, mm[2] = 1, mm[3] = 4, mm[4] = 4;
+	std::cout << B.map_eq(m, mm) << "\n";
+	m[0] = 5, m[1] = 4, m[2] = 3, m[3] = 2, m[4] = 1;
+	mm[0] = 5, mm[1] = 1, mm[2] = 1, mm[3] = 4, mm[4] = 3;
+	std::cout << B.map_eq(m, mm) << "\n";
+	//std::cout << m[0] << m[1] << m[2] << m[3] << m[4] << "\n";
 	
 	return 0;
 }
