@@ -83,7 +83,6 @@ public:
 		if (s)
 			return 0;
 		return 1;
-		
 	}
 	/*int find_map(std::vector <int> m)
 	{
