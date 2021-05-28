@@ -21,3 +21,8 @@ public:
 	}
 };
 
+int main()
+{
+	Base B;
+	return 0;
+}
