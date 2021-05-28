@@ -84,5 +84,16 @@ int main()
 	std::cout << B.num << ", " << B.name[1] << ", " << B.hash_name[4][0] << "\n";
 	std::cout << B.num << ", " << B.name[2] << ", " << B.hash_name[3][1] << "\n";
 	
+	std::vector <int> m;
+	m.resize(5);
+	m[0] = 5, m[1] = 4, m[2] = 3, m[3] = 2, m[4] = 1;
+	std::vector <int> mm = m;
+	sort(mm.begin()+1, mm.end()-1);
+	std::cout << m[0] << m[1] << m[2] << m[3] << m[4] << "\n";
+	std::cout << mm[0] << mm[1] << mm[2] << mm[3] << mm[4] << "\n";
+	m.erase(m.begin(),m.begin()+2);
+	std::cout << m.size() << "\n";
+	std::cout << m[0] << m[1] << m[2] << m[3] << m[4] << "\n";
+	
 	return 0;
 }
