@@ -21,6 +21,7 @@ public:
 	}
 };
 
+
 int main()
 {
 	Base B;
