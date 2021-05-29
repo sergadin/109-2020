@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
         if ( strcmp(buf, "add_detail") == 0)
         {
         	bzero( buf, sizeof(buf));
+        	printf("%s\n", buf );
 			read(ms, buf, sizeof(buf));
 		}
         close( ms ); /* закрываем соединение с клиентом */
