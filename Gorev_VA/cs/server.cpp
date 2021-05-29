@@ -33,8 +33,9 @@ int main(int argc, char *argv[])
         ms = accept( as, 0, 0 ); /* выбираем первое соединение из очереди */
         bzero( buf, sizeof(buf)); /* обнуляем буфер сообщения */
         read(ms, buf, sizeof(buf)); /* читаем сообщение от клиента */
-        if ( strcmp(buf, "add_detail") == 0 )
-        	close( ms ); /* закрываем соединение с клиентом */
+        if ( strcmp(buf, "add_detail") )
+        	read(ms, buf, sizeof(buf));
+        close( ms ); /* закрываем соединение с клиентом */
         printf("message is = %s\n", buf );
         if ( strcmp(buf, "quit") == 0 ) break;
     }
