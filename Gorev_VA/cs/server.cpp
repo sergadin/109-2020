@@ -7,12 +7,14 @@
 #include <strings.h>
 #include <unistd.h>
 #include <string.h>
+#include "database.h"
 
 int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
     char buf[1024]; /* буфер для приема сообщений от клиентов */
+    Base B;
 
     as = socket(AF_INET, SOCK_STREAM, 0 ); /* Создаем сокет для работы по TCP/IP */
 
@@ -28,9 +30,12 @@ int main(int argc, char *argv[])
 
     /* цикл обработки клиентов */
     while( 1 ) {
+    	printf("%d %d\n", as, ms);
         ms = accept( as, 0, 0 ); /* выбираем первое соединение из очереди */
+        printf("%d %d\n", as, ms);
         bzero( buf, sizeof(buf)); /* обнуляем буфер сообщения */
         read(ms, buf, sizeof(buf)); /* читаем сообщение от клиента */
+        printf("%d %d\n", as, ms);
         close( ms ); /* закрываем соединение с клиентом */
         printf("message is = %s\n", buf );
         if ( strcmp(buf, "quit") == 0 ) break;
