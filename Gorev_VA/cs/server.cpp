@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
         read(ms, buf, sizeof(buf)); /* читаем сообщение от клиента */
         if ( strcmp(buf, "add_detail") == 0)
         {
-        	ms = accept( as, 0, 0 );
         	bzero( buf, sizeof(buf));
 			read(ms, buf, sizeof(buf));
 		}
