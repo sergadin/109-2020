@@ -30,13 +30,11 @@ int main(int argc, char *argv[])
 
     /* цикл обработки клиентов */
     while( 1 ) {
-    	printf("%d %d\n", as, ms);
         ms = accept( as, 0, 0 ); /* выбираем первое соединение из очереди */
-        printf("%d %d\n", as, ms);
         bzero( buf, sizeof(buf)); /* обнуляем буфер сообщения */
         read(ms, buf, sizeof(buf)); /* читаем сообщение от клиента */
-        printf("%d %d\n", as, ms);
-        close( ms ); /* закрываем соединение с клиентом */
+        if ( strcmp(buf, "add_detail") == 0 )
+        	close( ms ); /* закрываем соединение с клиентом */
         printf("message is = %s\n", buf );
         if ( strcmp(buf, "quit") == 0 ) break;
     }
