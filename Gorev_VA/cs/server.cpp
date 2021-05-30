@@ -95,8 +95,15 @@ int main(int argc, char *argv[])
                         B.add_detail(det_name, det_quant);
                     }
                 }
+            
+            // показать компоненты базы
+            if (strcmp(mes, "show_details") == 0)
+                B.show_details();
+            if (strcmp(mes, "show_maps") == 0)
+                B.show_maps();
+            if (strcmp(mes, "show_base") == 0)
+                B.show_base();
 
-            B.show_base();
             if (cur[0] == 0) break;
         }
     }

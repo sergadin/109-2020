@@ -96,11 +96,29 @@ public:
 		for (int j = 0; j < hash_map[i].size(); j++)
 			if ()
 	}*/
-	int show_base()
+	int show_details()
 	{
 		std::cout << "    List of details:\n";
 		for (int I = 0; I < num; I++)
-			std::cout << "    " << I << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
+			std::cout << "    " << I + 1 << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
+		return 0;
+	}
+	int show_maps()
+	{
+		std::cout << "    List of maps:\n";
+		for (int I = 0; I < map.size(); I++)
+		{
+			std::cout << "    " << I + 1 << ") Name: " << name[map[I][0]] << ":\n";
+			for (int i = 1; i < map[I].size(); i++)
+				std::cout << "      " << i << ". Name:" << name[map[I][i]] << ", quant: " << quant[map[I][i]] << "\n";
+		}
+			
+		return 0;
+	}
+	int show_base()
+	{
+		show_details();
+		show_maps();
 		return 0;
 	}
 };
