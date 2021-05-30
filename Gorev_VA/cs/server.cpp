@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in server;
     char buf[1024]; /* буфер дл€ приема сообщений от клиентов */
     char mes[1024];
+    char *cur;
     Base B;
 
     as = socket(AF_INET, SOCK_STREAM, 0 ); /* —оздаем сокет дл€ работы по TCP/IP */
@@ -38,10 +39,11 @@ int main(int argc, char *argv[])
         close(ms); // закрываем соединение с клиентом
         printf("message is = %s\n", buf);
 
+        cur = buf;
         while (1)
         {
             bzero(mes, sizeof(mes));
-            if (sscanf(buf, "%s", &mes) != 1)
+            if (sscanf(cur, "%s", &mes) != 1)
                 break;
             printf("mes = %s\n", mes);
             if (strcmp(mes, "quit") == 0) close(as);
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
             {
 
             }*/
+            cur = cur + strlen(mes);
         }
         
 
