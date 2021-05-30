@@ -9,7 +9,7 @@
 #include <string.h>
 #include "database.h"
 
-char *scan_next(char *buf, char* &mes)
+char *scan_next(char *buf, char* mes)
 {
     printf("dfghjkjhgfghjklkjhg");
     char *cur = buf;
