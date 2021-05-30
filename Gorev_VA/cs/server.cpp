@@ -9,21 +9,6 @@
 #include <string.h>
 #include "database.h"
 
-char *scan_next(char *buf, char* mes)
-{
-    printf("dfghjkjhgfghjklkjhg");
-    char *cur;
-    cur = buf;
-    bzero(mes, sizeof(mes));
-    if (cur[0] == 0) return cur;
-    while (cur[0] == ' ') cur = cur + 1;
-    sscanf(cur, "%s", &mes);
-    cur = cur + strlen(mes);
-    if (cur[0] == 0) return cur;
-    while (cur[0] == ' ') cur = cur + 1;
-    return cur;
-}
-
 int main(int argc, char *argv[])
 {
     int as, ms;
@@ -62,14 +47,11 @@ int main(int argc, char *argv[])
         printf("%s\n", cur);
         while (1)
         {
-            //cur = scan_next(cur, mes);
-
             bzero(mes, sizeof(mes));
-            if (cur[0] == 0) { printf("A...\n"); break; }
+            if (cur[0] == 0) break;
             while (cur[0] == ' ') cur = cur + 1;
             sscanf(cur, "%s", &mes);
             cur = cur + strlen(mes);
-            if (cur[0] == 0) { printf("B...\n"); break; }
             while (cur[0] == ' ') cur = cur + 1;
 
             printf("mes = %s, size = %d\n", mes, strlen(mes));
@@ -83,7 +65,7 @@ int main(int argc, char *argv[])
                     printf("mes = %s, size = %d\n", mes, strlen(mes));
                 }*/
 
-            if (cur[0] == 0) { printf("C...\n"); break; }
+            if (cur[0] == 0) break;
         }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
