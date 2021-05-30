@@ -9,6 +9,8 @@
 #include <string.h>
 #include "database.h"
 
+
+
 int main(int argc, char *argv[])
 {
     int as, ms;
@@ -42,18 +44,20 @@ int main(int argc, char *argv[])
         sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 256; i++)
         {
             bzero(mes, sizeof(mes));
-            if (sscanf(cur, "%s", &mes) != 1)
-                break;
-            printf("mes = %s\n", mes);
-            
-            /*if (strcmp(mes, "add_detail") == 0)
-            {
-
-            }*/
+            sscanf(cur, "%s", &mes);
+            printf("mes = %s, size = %d\n", mes, strlen(mes));
             cur = cur + strlen(mes);
+            if (cur[0] == 0) break;
+            while (cur[0] != ' ') cur = cur + 1;
+            if (i == 255)
+            {
+                close(as);
+                return -1;
+            }
+            if (cur[0] == 0) break;
         }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
