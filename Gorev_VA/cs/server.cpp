@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
-        printf("$c %d\n", cur[0], cur[0]);
+        printf("%c %d\n", cur[0], cur[0]);
 
         while (1)
         {
