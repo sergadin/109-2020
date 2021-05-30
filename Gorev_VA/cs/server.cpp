@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
                     // читаем название детали / сообщение об окончинии добавления
                     bzero(mes, sizeof(mes));
                     if (cur[0] == 0) { 
-                        printf("|%c %d %s|\n", cur[0], cur[0], cur, );
+                        printf("|%c %d %s|\n", cur[0], cur[0], cur);
                         close(as); return -1; }
                     while (cur[0] == ' ') cur = cur + 1;
                     sscanf(cur, "%s", &mes);
@@ -77,14 +77,14 @@ int main(int argc, char *argv[])
                         std::string det_name(mes);
 
                         if (cur[0] == 0) {
-                            printf("||%c %d %s||\n", cur[0], cur[0], cur, );
+                            printf("||%c %d %s||\n", cur[0], cur[0], cur);
                             close(as); return -1;
                         }
                     
                         // читаем количество делалей
                         int det_quant;
                         if (sscanf(cur, "%d", &det_quant) != 1) {
-                            printf("|||%c %d %s|||\n", cur[0], cur[0], cur, );
+                            printf("|||%c %d %s|||\n", cur[0], cur[0], cur);
                             close(as); return -1;
                         }
                         while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
