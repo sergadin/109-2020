@@ -12,7 +12,8 @@
 char *scan_next(char *buf, char* mes)
 {
     printf("dfghjkjhgfghjklkjhg");
-    char *cur = buf;
+    char *cur;
+    cur = buf;
     bzero(mes, sizeof(mes));
     if (cur[0] == 0) return cur;
     while (cur[0] == ' ') cur = cur + 1;
@@ -57,6 +58,7 @@ int main(int argc, char *argv[])
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
+        printf("$c %d\n", cur[0], cur[0]);
 
         while (1)
         {
