@@ -50,10 +50,9 @@ int main(int argc, char *argv[])
         close(ms); // закрываем соединение с клиентом
         printf("message is = %s\n", buf);
 
-        sscanf(buf, "%s", &mes);
+        cur = scan_next(buf, mes);
         if (strcmp(mes, "quit") == 0) break;
-        cur = buf;
-        while (cur[0] == ' ') cur = cur + 1;
+
         while (1)
         {
             cur = scan_next(cur, mes);
