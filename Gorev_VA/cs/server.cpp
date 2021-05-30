@@ -9,7 +9,18 @@
 #include <string.h>
 #include "database.h"
 
-
+char *scan_next(char *buf, char *mes)
+{
+    char *cur = buf;
+    if (cur[0] == 0) return cur;
+    while (cur[0] == ' ') cur = cur + 1;
+    bzero(buf, sizeof(buf));
+    sscanf(cur, "%s", &mes);
+    cur = cur + strlen(mes);
+    if (cur[0] == 0) return cur;
+    while (cur[0] == ' ') cur = cur + 1;
+    return cur;
+}
 
 int main(int argc, char *argv[])
 {
@@ -19,9 +30,7 @@ int main(int argc, char *argv[])
     char mes[1024];
     char *cur;
     Base B;
-
     as = socket(AF_INET, SOCK_STREAM, 0 ); /* —оздаем сокет дл€ работы по TCP/IP */
-
     /* «аполн€ем структуру адреса, на котором будет работать сервер */
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; /* любой сетевой интерфейс */
@@ -45,20 +54,21 @@ int main(int argc, char *argv[])
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
-        for (int i = 0; i < 256; i++)
+        for (1)
         {
-            bzero(mes, sizeof(mes));
-            sscanf(cur, "%s", &mes);
+            cur = scan_next(cur, mes);
             printf("mes = %s, size = %d\n", mes, strlen(mes));
-            cur = cur + strlen(mes);
+
+            /*if (strcmp(mes, "add_detail") == 0)
+                while (1)
+                {
+                    bzero(mes, sizeof(mes));
+                    sscanf(cur, "%s", &mes);
+                    if 
+                    printf("mes = %s, size = %d\n", mes, strlen(mes));
+                }*/
+
             if (cur[0] == 0) break;
-            while (cur[0] == ' ') cur = cur + 1;
-            if (cur[0] == 0) break;
-            if (i == 255)
-            {
-                close(as);
-                return -1;
-            }
         }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключатьс€ */
