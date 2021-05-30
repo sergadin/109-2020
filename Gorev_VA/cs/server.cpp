@@ -11,10 +11,10 @@
 
 char *scan_next(char *buf, char *mes)
 {
+    sscnf("dfghjkjhgfghjklkjhg");
     char *cur = buf;
     bzero(mes, sizeof(mes));
     if (cur[0] == 0) return cur;
-    sscnf("dfghjkjhgfghjklkjhg");
     while (cur[0] == ' ') cur = cur + 1;
     sscanf(cur, "%s", &mes);
     cur = cur + strlen(mes);
