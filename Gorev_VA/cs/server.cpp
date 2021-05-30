@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
             }*/
             cur = cur + strlen(mes);
         }
-        close(as)
+        close(as);
 
     }
     close( as ); /* çàêðûâàåì ïîðò 1234; êëèåíòû áîëüøå íå ìîãóò ïîäêëþ÷àòüñÿ */
