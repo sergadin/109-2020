@@ -9,21 +9,6 @@
 #include <string.h>
 #include "database.h"
 
-char* scan_next(char* buf, char* mes)
-{
-    char* cur;
-    cur = buf;
-
-    bzero(mes, sizeof(mes));
-    if (cur[0] == 0) return cur;
-    while (cur[0] == ' ') cur = cur + 1;
-    sscanf(cur, "%s", &mes);
-    cur = cur + strlen(mes);
-    while (cur[0] == ' ') cur = cur + 1;
-
-    return cur;
-}
-
 int main(int argc, char *argv[])
 {
     int as, ms;
@@ -58,16 +43,15 @@ int main(int argc, char *argv[])
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
 
+        // цикл обработки одного сообщения
         while (1)
         {
-            /*bzero(mes, sizeof(mes));
+            bzero(mes, sizeof(mes));
             if (cur[0] == 0) break;
             while (cur[0] == ' ') cur = cur + 1;
             sscanf(cur, "%s", &mes);
             cur = cur + strlen(mes);
-            while (cur[0] == ' ') cur = cur + 1;*/
-
-            cur = scan_next(cur, mes);
+            while (cur[0] == ' ') cur = cur + 1;
             printf("mes = %s, size = %d\n", mes, strlen(mes));
 
             /*if (strcmp(mes, "add_detail") == 0)
