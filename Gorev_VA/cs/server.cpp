@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
         printf("%c %d\n", cur[0], cur[0]);
-
+        printf("%s\n", cur);
         while (1)
         {
             //cur = scan_next(cur, mes);
