@@ -12,7 +12,7 @@
 char *scan_next(char *buf, char *mes)
 {
     char *cur = buf;
-    bzero(buf, sizeof(buf));
+    bzero(mes, sizeof(mes));
     if (cur[0] == 0) return cur;
     while (cur[0] == ' ') cur = cur + 1;
     sscanf(cur, "%s", &mes);
