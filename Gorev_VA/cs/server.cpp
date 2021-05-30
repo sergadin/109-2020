@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
             // добавление карты
             if (strcmp(mes, "add_map") == 0)
             {
-                std::vector <string> map;
+                std::vector <std::string> map;
                 map.resize(1);
 
                 // читаем название первой детали
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
                     while (cur[0] == ' ') cur = cur + 1;
-                    std::string det_name(mes);
+                    std::string det_name1(mes);
                     map.resize(map.size() + 2);
                     map[map.size() - 2] = det_name1;
                     if (strcmp(mes, "end") == 0)
@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 
                         // читаем количество деталей
                         bzero(mes, sizeof(mes));
-                        if (sscanf(cur, "%s", &dmes) != 1) { close(as); return -1; }
+                        if (sscanf(cur, "%s", &mes) != 1) { close(as); return -1; }
                         while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
                         while (cur[0] == ' ') cur = cur + 1;
                         printf("quant = %s\n", mes);
