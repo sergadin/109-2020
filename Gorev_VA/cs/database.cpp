@@ -41,14 +41,18 @@ public:
 	{
 		if (q < 0)
 			return 0;
-		if (find_detail(str) != -1)
-			return -1;
+		int I = find_detail(str);
+		if (I != -1)
+		{
+			quant[I] += q;
+			return q;
+		}
 		num++;
 		name.push_back(str);
 		hash_name[ind(str)].push_back(num - 1);
 		quant.push_back(q);
 		
-		return 0;
+		return q;
 	}
 	int map_eq(std::vector <int> m1, std::vector <int> m2)
 	{
@@ -83,7 +87,6 @@ public:
 		if (s)
 			return 0;
 		return 1;
-		
 	}
 	/*int find_map(std::vector <int> m)
 	{
@@ -93,6 +96,13 @@ public:
 		for (int j = 0; j < hash_map[i].size(); j++)
 			if ()
 	}*/
+	int show_base()
+	{
+		std::cout << "    List of details:\n";
+		for (int I = 0; I < num; I++)
+			std::cout << "    " << I << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
+		return 0;
+	}
 };
 
 
