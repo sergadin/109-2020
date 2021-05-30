@@ -62,7 +62,16 @@ int main(int argc, char *argv[])
 
         while (1)
         {
-            cur = scan_next(cur, mes);
+            //cur = scan_next(cur, mes);
+
+            bzero(mes, sizeof(mes));
+            if (cur[0] == 0) break;
+            while (cur[0] == ' ') cur = cur + 1;
+            sscanf(cur, "%s", &mes);
+            cur = cur + strlen(mes);
+            if (cur[0] == 0) break;
+            while (cur[0] == ' ') cur = cur + 1;
+
             printf("mes = %s, size = %d\n", mes, strlen(mes));
 
             /*if (strcmp(mes, "add_detail") == 0)
