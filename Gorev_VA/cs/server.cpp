@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
-        for (1)
+        while (1)
         {
             cur = scan_next(cur, mes);
             printf("mes = %s, size = %d\n", mes, strlen(mes));
