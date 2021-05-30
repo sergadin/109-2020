@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
         printf("message is = %s\n", buf);
 
         cur = scan_next(buf, mes);
+        printf("mmmmmessage is = %s\n", buf);
         if (strcmp(mes, "quit") == 0) break;
 
         while (1)
