@@ -62,9 +62,7 @@ int main(int argc, char *argv[])
                 {
                     // читаем название детали / сообщение об окончинии добавления
                     bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) { 
-                        printf("|%c %d %s|\n", cur[0], cur[0], cur);
-                        close(as); return -1; }
+                    if (cur[0] == 0) { close(as); return -1; }
                     while (cur[0] == ' ') cur = cur + 1;
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
@@ -76,17 +74,11 @@ int main(int argc, char *argv[])
                         printf("    new detail = %s, ", mes);
                         std::string det_name(mes);
 
-                        if (cur[0] == 0) {
-                            printf("||%c %d %s||\n", cur[0], cur[0], cur);
-                            close(as); return -1;
-                        }
+                        if (cur[0] == 0) { close(as); return -1; }
                     
-                        // читаем количество делалей
+                        // читаем количество деталей
                         int det_quant;
-                        if (sscanf(cur, "%d", &det_quant) != 1) {
-                            printf("|||%c %d %s|||\n", cur[0], cur[0], cur);
-                            close(as); return -1;
-                        }
+                        if (sscanf(cur, "%d", &det_quant) != 1) { close(as); return -1; }
                         while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
                         while (cur[0] == ' ') cur = cur + 1;
                         printf("quant = %d\n", det_quant);
@@ -96,6 +88,56 @@ int main(int argc, char *argv[])
                     }
                 }
             
+            // добавление карты
+            if (strcmp(mes, "add_map") == 0)
+            {
+                std::vector <string> map;
+                map.resize(1);
+
+                // читаем название первой детали
+                bzero(mes, sizeof(mes));
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%s", &mes);
+                cur = cur + strlen(mes);
+                while (cur[0] == ' ') cur = cur + 1;
+                std::string det_name0(mes);
+                map[1] = det_name0;
+
+                while (1)
+                {
+                    // читаем название детали / сообщение об окончинии добавления
+                    bzero(mes, sizeof(mes));
+                    if (cur[0] == 0) { close(as); return -1; }
+                    while (cur[0] == ' ') cur = cur + 1;
+                    sscanf(cur, "%s", &mes);
+                    cur = cur + strlen(mes);
+                    while (cur[0] == ' ') cur = cur + 1;
+                    std::string det_name(mes);
+                    map.resize(map.size() + 2);
+                    map[map.size() - 2] = det_name1;
+                    if (strcmp(mes, "end") == 0)
+                        break;
+                    else
+                    {
+                        printf("    detail = %s, ", mes);
+                        if (cur[0] == 0) { close(as); return -1; }
+
+                        // читаем количество деталей
+                        bzero(mes, sizeof(mes));
+                        if (sscanf(cur, "%s", &dmes) != 1) { close(as); return -1; }
+                        while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                        while (cur[0] == ' ') cur = cur + 1;
+                        printf("quant = %s\n", mes);
+                        std::string det_quant1(mes);
+                        map[map.size() - 1] = det_quant1;
+                    }
+                }
+
+                // добавляем карту в базу
+                B.add_map(map);
+            }
+
             // показать компоненты базы
             if (strcmp(mes, "show_details") == 0)
                 B.show_details();

@@ -61,7 +61,7 @@ public:
 	int map_eq(std::vector <int> m1, std::vector <int> m2)
 	{
 		if ((m1.size() < 2) || (m2.size() < 2) || !(m1.size() % 2) || !(m2.size() % 2))
-			return -1;
+			return -2;
 		if (m1.size() != m2.size())
 			return 0;
 		if (m1[0] != m2[0])
@@ -94,7 +94,7 @@ public:
 	}
 	int find_map(std::vector <int> m)
 	{
-		if (m.size() < 2) return -2;
+		if ((m.size() < 2) || !(m.size() % 2)) return -2;
 		int i = ind(m);
 		for (int j = 0; j < hash_map[i].size(); j++)
 			if (map_eq(m, map[hash_map[i][j]]))
@@ -105,6 +105,45 @@ public:
 	{
 		int f = find_map(m);
 		if (f != -1) return f;
+		map.push_back(m);
+		hash_map[ind(m)].push_back(map.size() - 1);
+		return map.size() - 1;
+	}
+	int find_map(std::vector <std::string> M)
+	{
+		if ((M.size() < 3) || !(M.size() % 2)) return -2;
+		std::vector <int> m;
+		m.resize(M.size());
+		m[0] = find_detail(M[0]);
+		if (m[0] == -1) return -1;
+		for (int i = 1; i <= (M.size() - 1) / 2; i++)
+		{
+			m[2*i - 1] = find_detail(M[2*i - 1]);
+			if (m[2*i - 1] == -1) return -1;
+			
+			for (int d = 1, j = M[2*i].length() - 1; j >= 0; d *= 10, j--)
+				m[2*i] += d * (M[2*i][j] - '0');
+		}
+		return find_map(m);
+	}
+	int add_map(std::vector <std::string> M)
+	{
+		if ((M.size() < 3) || !(M.size() % 2)) return -2;
+		add_detail(M[0], 0);
+		for (int i = 1; i <= (M.size() - 1) / 2; i++)
+			add_detail(M[2*i - 1], 0);
+		int f = find_map(M);
+		if (f != -1) return f;
+		
+		std::vector <int> m;
+		m.resize(M.size());
+		m[0] = find_detail(M[0]);
+		for (int i = 1; i <= (M.size() - 1) / 2; i++)
+		{
+			m[2*i - 1] = find_detail(M[2*i - 1]);
+			for (int d = 1, j = M[2*i].length() - 1; j >= 0; d *= 10, j--)
+				m[2*i] += d * (M[2*i][j] - '0');
+		}
 		map.push_back(m);
 		hash_map[ind(m)].push_back(map.size() - 1);
 		return map.size() - 1;
@@ -127,7 +166,6 @@ public:
 			for (int i = 1; i <= (map[I].size() - 1) / 2; i++)
 				std::cout << "      " << i << ". Name: " << name[map[I][2*i - 1]] << ", quant: " << map[I][2*i] << "\n";
 		}
-			
 		return 0;
 	}
 	int show_base()
