@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
                 {
                     // читаем название детали / сообщение об окончинии добавления
                     bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) break;
+                    if (cur[0] == 0) { close(as); return -1; }
                     while (cur[0] == ' ') cur = cur + 1;
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
