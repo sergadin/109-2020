@@ -42,6 +42,13 @@ int main(int argc, char *argv[])
         printf("message is = %s\n", buf);
 
         sscanf(buf, "%s", &mes);
+        int a[256];
+        a[0] = mes[0];
+        a[1] = mes[1];
+        a[2] = mes[2];
+        a[3] = mes[3];
+        a[4] = mes[4];
+        printf("%d %d %d %d %d %c %c %c %c %c", a[0], a[1], a[2], a[3], a[4], mes[0], mes[1], mes[2], mes[3], mes[4]);
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         for (int i = 0; i < 256; i++)
