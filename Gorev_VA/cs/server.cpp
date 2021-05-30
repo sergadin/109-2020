@@ -9,6 +9,21 @@
 #include <string.h>
 #include "database.h"
 
+char* scan_next(char* buf, char* mes)
+{
+    char* cur;
+    cur = buf;
+
+    bzero(mes, sizeof(mes));
+    if (cur[0] == 0) return cur;
+    while (cur[0] == ' ') cur = cur + 1;
+    sscanf(cur, "%s", &mes);
+    cur = cur + strlen(mes);
+    while (cur[0] == ' ') cur = cur + 1;
+
+    return cur;
+}
+
 int main(int argc, char *argv[])
 {
     int as, ms;
@@ -39,30 +54,32 @@ int main(int argc, char *argv[])
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        printf("mmmmmessage is = %s\n", mes);
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
-        printf("%c %d\n", cur[0], cur[0]);
-        printf("%s\n", cur);
+
         while (1)
         {
-            bzero(mes, sizeof(mes));
+            /*bzero(mes, sizeof(mes));
             if (cur[0] == 0) break;
             while (cur[0] == ' ') cur = cur + 1;
             sscanf(cur, "%s", &mes);
             cur = cur + strlen(mes);
-            while (cur[0] == ' ') cur = cur + 1;
+            while (cur[0] == ' ') cur = cur + 1;*/
 
+            cur = scan_next(cur, mes);
             printf("mes = %s, size = %d\n", mes, strlen(mes));
 
             /*if (strcmp(mes, "add_detail") == 0)
                 while (1)
                 {
                     bzero(mes, sizeof(mes));
+                    if (cur[0] == 0) break;
+                    while (cur[0] == ' ') cur = cur + 1;
                     sscanf(cur, "%s", &mes);
-                    if 
-                    printf("mes = %s, size = %d\n", mes, strlen(mes));
+                    cur = cur + strlen(mes);
+                    while (cur[0] == ' ') cur = cur + 1;
+                    printf("detail = %s, size = %d\n", mes, strlen(mes));
                 }*/
 
             if (cur[0] == 0) break;
