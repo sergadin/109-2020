@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
                         // читаем количество делалей
                         int det_quant;
                         sscanf(cur, "%d", &det_quant);
-                        while (cur[0] != ' ') cur = cur + 1;
+                        while ((cur[0] != ' ') || (cur[0] != 0)) cur = cur + 1;
                         while (cur[0] == ' ') cur = cur + 1;
                         printf("quant = %d\n", det_quant);
                     }
