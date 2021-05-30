@@ -42,13 +42,6 @@ int main(int argc, char *argv[])
         printf("message is = %s\n", buf);
 
         sscanf(buf, "%s", &mes);
-        /*int a[256];
-        a[0] = mes[0];
-        a[1] = mes[1];
-        a[2] = mes[2];
-        a[3] = mes[3];
-        a[4] = mes[4];
-        printf("%d %d %d %d %d %c %c %c %c %c", a[0], a[1], a[2], a[3], a[4], mes[0], mes[1], mes[2], mes[3], mes[4]);*/
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
@@ -60,12 +53,12 @@ int main(int argc, char *argv[])
             cur = cur + strlen(mes);
             if (cur[0] == 0) break;
             while (cur[0] == ' ') cur = cur + 1;
+            if (cur[0] == 0) break;
             if (i == 255)
             {
                 close(as);
                 return -1;
             }
-            if (cur[0] == 0) break;
         }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
