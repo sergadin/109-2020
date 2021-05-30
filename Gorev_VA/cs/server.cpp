@@ -54,23 +54,36 @@ int main(int argc, char *argv[])
             sscanf(cur, "%s", &mes);
             cur = cur + strlen(mes);
             while (cur[0] == ' ') cur = cur + 1;
-            printf("mes = %s, size = %d\n", mes, strlen(mes));
+            printf("  command = %s, size = %d\n", mes, strlen(mes));
 
             // добавление деталей
             if (strcmp(mes, "add_details") == 0)
                 while (1)
                 {
-                    // читаем название детали
+                    // читаем название детали / сообщение об окончинии добавления
                     bzero(mes, sizeof(mes));
                     if (cur[0] == 0) break;
                     while (cur[0] == ' ') cur = cur + 1;
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
                     while (cur[0] == ' ') cur = cur + 1;
-                    printf("detail = %s, size = %d\n", mes, strlen(mes));
-                    std::string det_name(mes);
-                    std::cout << det_name << " " << det_name.length() << "\n";
-                    break;
+                    if ((cur[0] == 0) || (strcmp(mes, "end") == 0))
+                        break;
+                    else
+                    {
+                        printf("    new detail = %s, ", mes);
+                        std::string det_name(mes);
+
+                        if (cur[0] == 0) return -1;
+                    
+                        // читаем количество делалей
+                        int det_quant;
+                        sscanf(cur, "%d", &det_quant);
+                        while (cur[0] != ' ') cur = cur + 1;
+                        while (cur[0] == ' ') cur = cur + 1;
+                        printf("quant = %d\n", mes, strlen(mes));
+                    }
+                    
                 }
 
             if (cur[0] == 0) break;
