@@ -15,6 +15,7 @@ public:
 	int ind(std::string str) { return (str.length() % MAXLEN); }
 	int ind(std::vector <int> m) { return (m.size() % MAXLEN); }
 	
+	
 	Base()
 	{
 		num = 0;
@@ -29,6 +30,8 @@ public:
 			hash_map[i].resize(0);
 		}
 	}
+	
+	
 	int find_detail(std::string str)
 	{
 		int i = ind(str);
@@ -39,8 +42,7 @@ public:
 	}
 	int add_detail(std::string str, int q)
 	{
-		if (q < 0)
-			return 0;
+		if (q < 0) return 0;
 		int I = find_detail(str);
 		if (I != -1)
 		{
@@ -54,6 +56,8 @@ public:
 		
 		return q;
 	}
+	
+	
 	int map_eq(std::vector <int> m1, std::vector <int> m2)
 	{
 		if ((m1.size() < 2) || (m2.size() < 2) || !(m1.size() % 2) || !(m2.size() % 2))
@@ -88,14 +92,25 @@ public:
 			return 0;
 		return 1;
 	}
-	/*int find_map(std::vector <int> m)
+	int find_map(std::vector <int> m)
 	{
-		if (m.size() < 2)
-			return -1;
+		if (m.size() < 2) return -2;
 		int i = ind(m);
 		for (int j = 0; j < hash_map[i].size(); j++)
-			if ()
-	}*/
+			if (map_eq(m, map[hash_map[i][j]]))
+				return hash_map[i][j];
+		return -1;
+	}
+	int add_map(std::vector <int> m)
+	{
+		int f = find_map(m);
+		if (f != -1) return f;
+		map.push_back(m);
+		hash_map[ind(m)].push_back(map.size() - 1);
+		return map.size() - 1;
+	}
+	
+	
 	int show_details()
 	{
 		std::cout << "    List of details:\n";
@@ -109,8 +124,8 @@ public:
 		for (int I = 0; I < map.size(); I++)
 		{
 			std::cout << "    " << I + 1 << ") Name: " << name[map[I][0]] << ":\n";
-			for (int i = 1; i < map[I].size(); i++)
-				std::cout << "      " << i << ". Name:" << name[map[I][i]] << ", quant: " << quant[map[I][i]] << "\n";
+			for (int i = 1; i <= (map[I].size() - 1) / 2; i++)
+				std::cout << "      " << i << ". Name: " << name[map[I][2*i - 1]] << ", quant: " << map[I][2*i] << "\n";
 		}
 			
 		return 0;
