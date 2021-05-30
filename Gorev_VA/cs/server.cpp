@@ -102,8 +102,8 @@ int main(int argc, char *argv[])
                 cur = cur + strlen(mes);
                 while (cur[0] == ' ') cur = cur + 1;
                 std::string det_name0(mes);
-                map[1] = det_name0;
-                std::cout << "<" << map[1] << ">";
+                map[0] = det_name0;
+                //std::cout << "<" << map[1] << ">";
 
                 while (1)
                 {
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
                 }
 
                 // добавляем карту в базу
-                std::cout << "<" << map[1] << ">";
+                //std::cout << "<" << map[1] << ">";
                 B.add_map(map);
             }
 
