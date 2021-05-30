@@ -113,13 +113,13 @@ int main(int argc, char *argv[])
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
                     while (cur[0] == ' ') cur = cur + 1;
-                    std::string det_name1(mes);
-                    map.resize(map.size() + 2);
-                    map[map.size() - 2] = det_name1;
                     if (strcmp(mes, "end") == 0)
                         break;
                     else
                     {
+                        std::string det_name1(mes);
+                        map.resize(map.size() + 2);
+                        map[map.size() - 2] = det_name1;
                         printf("    detail = %s, ", mes);
                         if (cur[0] == 0) { close(as); return -1; }
 
