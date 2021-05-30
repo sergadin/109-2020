@@ -62,7 +62,9 @@ int main(int argc, char *argv[])
                 {
                     // читаем название детали / сообщение об окончинии добавления
                     bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) { close(as); return -1; }
+                    if (cur[0] == 0) { 
+                        printf("|%c %d %s|\n", cur[0], cur[0], cur, );
+                        close(as); return -1; }
                     while (cur[0] == ' ') cur = cur + 1;
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
@@ -74,11 +76,17 @@ int main(int argc, char *argv[])
                         printf("    new detail = %s, ", mes);
                         std::string det_name(mes);
 
-                        if (cur[0] == 0) { close(as); return -1; }
+                        if (cur[0] == 0) {
+                            printf("||%c %d %s||\n", cur[0], cur[0], cur, );
+                            close(as); return -1;
+                        }
                     
                         // читаем количество делалей
                         int det_quant;
-                        if (sscanf(cur, "%d", &det_quant) != 1) { close(as); return -1; };
+                        if (sscanf(cur, "%d", &det_quant) != 1) {
+                            printf("|||%c %d %s|||\n", cur[0], cur[0], cur, );
+                            close(as); return -1;
+                        }
                         while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
                         while (cur[0] == ' ') cur = cur + 1;
                         printf("quant = %d\n", det_quant);
