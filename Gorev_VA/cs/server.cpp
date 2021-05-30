@@ -103,6 +103,7 @@ int main(int argc, char *argv[])
                 while (cur[0] == ' ') cur = cur + 1;
                 std::string det_name0(mes);
                 map[1] = det_name0;
+                std::cout << map[1];
 
                 while (1)
                 {
