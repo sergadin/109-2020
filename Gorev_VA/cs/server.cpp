@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
                     sscanf(cur, "%s", &mes);
                     cur = cur + strlen(mes);
                     while (cur[0] == ' ') cur = cur + 1;
-                    if ((cur[0] == 0) || (strcmp(mes, "end") == 0))
+                    if (strcmp(mes, "end") == 0)
                         break;
                     else
                     {
