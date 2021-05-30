@@ -29,15 +29,29 @@ int main(int argc, char *argv[])
     listen(as, 5); /* сокет as используется для приема соединений; 5 - длина очереди */
 
     /* цикл обработки клиентов */
-    while( 1 ) {
-    	if ( strcmp(buf, "add_detail") != 0)
-      	  ms = accept( as, 0, 0 ); /* выбираем первое соединение из очереди */
-        bzero( buf, sizeof(buf)); /* обнуляем буфер сообщения */
-        read(ms, buf, sizeof(buf)); /* читаем сообщение от клиента */
-        close( ms ); /* закрываем соединение с клиентом */
-        printf("message is = %s\n", buf );
-        if ( strcmp(buf, "quit") == 0 ) break;
+    while( 1 )
+	{
+        ms = accept(as, 0, 0); // выбираем первое соединение из очереди 
+        bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
+        read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
+        close(ms); // закрываем соединение с клиентом
+        printf("message is = %s\n", buf);
+
+        mes[1024];
+        bzero(mes, sizeof(mes));
+        sscanf(buf, "%s", &mes);
+        printf("mes = %s\n", mes);
+        if (strcmp(mes, "quit") == 0) break;
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
     return 0;
 }
+
+/*
+ms = accept(as, 0, 0); // выбираем первое соединение из очереди 
+bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
+read(ms, buf, sizeof(buf)); // читаем сообщение от клиента 
+close(ms); // закрываем соединение с клиентом
+printf("message is = %s\n", buf);
+if (strcmp(buf, "quit") == 0) break;
+*/
