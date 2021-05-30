@@ -91,7 +91,6 @@ int main(int argc, char *argv[])
                         while (cur[0] == ' ') cur = cur + 1;
                         printf("quant = %d\n", det_quant);
                     }
-                    
                 }
 
             if (cur[0] == 0) break;
