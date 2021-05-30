@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
                         sscanf(cur, "%d", &det_quant);
                         while (cur[0] != ' ') cur = cur + 1;
                         while (cur[0] == ' ') cur = cur + 1;
-                        printf("quant = %d\n", mes, strlen(mes));
+                        printf("quant = %d\n", det_quant);
                     }
                     
                 }
