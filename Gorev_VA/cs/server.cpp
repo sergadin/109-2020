@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
         printf("%d %d %d %d %d %c %c %c %c %c", a[0], a[1], a[2], a[3], a[4], mes[0], mes[1], mes[2], mes[3], mes[4]);*/
         if (strcmp(mes, "quit") == 0) break;
         cur = buf;
+        while (cur[0] == ' ') cur = cur + 1;
         for (int i = 0; i < 256; i++)
         {
             bzero(mes, sizeof(mes));
