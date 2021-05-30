@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "database.h"
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -46,6 +47,7 @@ int main(int argc, char *argv[])
         // цикл обработки одного сообщения
         while (1)
         {
+            // читаем первую команду
             bzero(mes, sizeof(mes));
             if (cur[0] == 0) break;
             while (cur[0] == ' ') cur = cur + 1;
@@ -54,9 +56,11 @@ int main(int argc, char *argv[])
             while (cur[0] == ' ') cur = cur + 1;
             printf("mes = %s, size = %d\n", mes, strlen(mes));
 
-            /*if (strcmp(mes, "add_detail") == 0)
+            // добавление деталей
+            if (strcmp(mes, "add_details") == 0)
                 while (1)
                 {
+                    // читаем название детали
                     bzero(mes, sizeof(mes));
                     if (cur[0] == 0) break;
                     while (cur[0] == ' ') cur = cur + 1;
@@ -64,7 +68,10 @@ int main(int argc, char *argv[])
                     cur = cur + strlen(mes);
                     while (cur[0] == ' ') cur = cur + 1;
                     printf("detail = %s, size = %d\n", mes, strlen(mes));
-                }*/
+                    std::string det_name(mes);
+                    std::cout << det_name << " " << det_name.length() << "\n";
+                    break;
+                }
 
             if (cur[0] == 0) break;
         }
