@@ -65,11 +65,11 @@ int main(int argc, char *argv[])
             //cur = scan_next(cur, mes);
 
             bzero(mes, sizeof(mes));
-            if (cur[0] == 0) break;
+            if (cur[0] == 0) { printf("A...\n"); break; };
             while (cur[0] == ' ') cur = cur + 1;
             sscanf(cur, "%s", &mes);
             cur = cur + strlen(mes);
-            if (cur[0] == 0) break;
+            if (cur[0] == 0) { printf("B...\n"); break };
             while (cur[0] == ' ') cur = cur + 1;
 
             printf("mes = %s, size = %d\n", mes, strlen(mes));
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
                     printf("mes = %s, size = %d\n", mes, strlen(mes));
                 }*/
 
-            if (cur[0] == 0) break;
+            if (cur[0] == 0) { printf("C...\n"); break };
         }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
