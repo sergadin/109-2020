@@ -140,6 +140,23 @@ int main(int argc, char *argv[])
                 B.add_map(map);
             }
 
+            // можно ли создать деталь по карте №...
+            if (strcmp(mes, "can_build_#") == 0)
+            {
+                // читаем номер карты (порядок с единицы)
+                int map_num;
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%d", &map_num);
+                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                while (cur[0] == ' ') cur = cur + 1;
+
+                // считаем сколько деталей можно создать
+                int det_kol = B.can_build(map_num - 1);
+                if (det_kol < 0) { close(as); return -1; }
+                printf("can build %d details '%s'\n", det_kol, name[map[map_num - 1][0]]);
+            }
+
             // показать компоненты базы
             if (strcmp(mes, "show_details") == 0)
                 B.show_details();
