@@ -32,6 +32,27 @@ public:
 	}
 	
 	
+	std::vector <int> convert_map(std::vector <std::string> M)
+	{
+		std::vector <int> m;
+		m.resize((M.size() > 0) ? M.size() : 1);
+		if ((M.size() < 2) || !(M.size() % 2))
+		{
+			m[0] = -2;
+			return m;
+		}
+		
+		m[0] = find_detail(M[0]);
+		for (int i = 1; i <= (M.size() - 1) / 2; i++)
+		{
+			m[2*i - 1] = find_detail(M[2*i - 1]);
+			for (int d = 1, j = M[2*i].length() - 1; j >= 0; d *= 10, j--)
+				m[2*i] += d * (M[2*i][j] - '0');
+		}
+		return m;
+	}
+	
+	
 	int find_detail(std::string str)
 	{
 		int i = ind(str);
@@ -40,7 +61,7 @@ public:
 				return hash_name[i][j];
 		return -1;
 	}
-	int add_detail(std::string str, int q)
+	int add_detail(std::string str, int q = 0)
 	{
 		if (q < 0) return 0;
 		int I = find_detail(str);
@@ -111,39 +132,25 @@ public:
 	}
 	int find_map(std::vector <std::string> M)
 	{
-		if ((M.size() < 3) || !(M.size() % 2)) return -2;
 		std::vector <int> m;
-		m.resize(M.size());
-		m[0] = find_detail(M[0]);
-		if (m[0] == -1) return -1;
+		m = convert_map(M);
+		if (m[0] < 0) return m[0];
+		
 		for (int i = 1; i <= (M.size() - 1) / 2; i++)
-		{
-			m[2*i - 1] = find_detail(M[2*i - 1]);
 			if (m[2*i - 1] == -1) return -1;
-			
-			for (int d = 1, j = M[2*i].length() - 1; j >= 0; d *= 10, j--)
-				m[2*i] += d * (M[2*i][j] - '0');
-		}
 		return find_map(m);
 	}
 	int add_map(std::vector <std::string> M)
 	{
 		if ((M.size() < 3) || !(M.size() % 2)) return -2;
-		add_detail(M[0], 0);
+		add_detail(M[0]);
 		for (int i = 1; i <= (M.size() - 1) / 2; i++)
-			add_detail(M[2*i - 1], 0);
+			add_detail(M[2*i - 1]);
 		int f = find_map(M);
 		if (f != -1) return f;
 		
 		std::vector <int> m;
-		m.resize(M.size());
-		m[0] = find_detail(M[0]);
-		for (int i = 1; i <= (M.size() - 1) / 2; i++)
-		{
-			m[2*i - 1] = find_detail(M[2*i - 1]);
-			for (int d = 1, j = M[2*i].length() - 1; j >= 0; d *= 10, j--)
-				m[2*i] += d * (M[2*i][j] - '0');
-		}
+		m = convert_map(M);
 		map.push_back(m);
 		hash_map[ind(m)].push_back(map.size() - 1);
 		return map.size() - 1;
@@ -173,5 +180,31 @@ public:
 		show_details();
 		show_maps();
 		return 0;
+	}
+	
+	
+	int can_build(int nn)
+	{
+		int n = nn - 1;
+		if ((n >= map.size()) || (n < 0)) return -1;
+		
+		int kol = 0;
+		for (int i = 0; i < num; i++)
+			if (kol < quant[i]) kol = quant[i];
+		
+		for (int i = 1; i <= (map[n].size() - 1) / 2; i++)
+			if (quant[map[n][2*i - 1]] < map[n][2*i]) return 0;
+			else (kol > (quant[map[n][2*i - 1]] / map[n][2*i])) ? kol = quant[map[n][2*i - 1]] / map[n][2*i] : 0;
+		return kol;
+	}
+	int can_build(std::vector <int> m)
+	{
+		int n = find_map(m);
+		return can_build(n + 1);
+	}
+	int can_build(std::vector <std::string> M)
+	{
+		int n = find_map(M);
+		return can_build(n + 1);
 	}
 };

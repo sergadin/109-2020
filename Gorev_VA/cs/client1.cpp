@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "database1.h"
+#include "database.h"
 
 int main(int argc, char* argv[])
 {

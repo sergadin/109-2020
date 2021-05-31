@@ -7,7 +7,7 @@
 #include <strings.h>
 #include <unistd.h>
 #include <string.h>
-#include "database1.h"
+#include "database.h"
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     /* Заполняем структуру адреса, на котором будет работать сервер */
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; /* любой сетевой интерфейс */
-    server.sin_port = htons(1235); /* порт */
+    server.sin_port = htons(1231); /* порт */
 
     /* сопоставляем адрес с сокетом */
     bind(as, (struct sockaddr *) &server, sizeof(server));
@@ -138,6 +138,24 @@ int main(int argc, char *argv[])
                 // добавляем карту в базу
                 //std::cout << "<" << map[1] << ">";
                 B.add_map(map);
+            }
+
+            // можно ли создать деталь по карте №...
+            if (strcmp(mes, "can_build_#") == 0)
+            {
+                // читаем номер карты (порядок с единицы)
+                int map_num;
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%d", &map_num);
+                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                while (cur[0] == ' ') cur = cur + 1;
+
+                // считаем сколько деталей можно создать
+                int det_kol = B.can_build(map_num);
+                printf("%d %d", det_kol, map_num);
+                if (det_kol < 0) { close(as); return -1; }
+                std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
             }
 
             // показать компоненты базы
