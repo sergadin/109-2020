@@ -206,7 +206,7 @@ int main(int argc, char *argv[])
                 // считаем сколько деталей можно создать
                 int det_kol = B.can_build(map);
                 if (det_kol < 0) { close(as); return -1; }
-                std::cout << "    can build " << det_kol << " details '" << B.name[map[0]] << "'\n";
+                std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
             }
 
             // показать компоненты базы
