@@ -1,15 +1,27 @@
 #include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <sstream>
+#include <vector>
+
+struct Map
+{
+	int res;
+	struct Comp
+	{
+		int num;
+		int quant;
+	};
+	std::vector < Map::Comp > comp;
+	
+};
 
 int main()
 {
-	char *str ="ABC DEF";
-	
-	char mes[20];
-	sscanf(str+4, "%s", &mes);
-	std::cout << mes << strlen(mes);
-	
+	struct Map M;
+	M.res = 2;
+	M.comp.resize(2);
+	M.comp[0].num = 0;
+	M.comp[0].quant = 2;
+	M.comp[1].num = 1;
+	M.comp[1].quant = 3;
+	std::cout << M.res << " " << M.comp[0].num << " " << M.comp[0].quant << " " << M.comp[1].num << " " << M.comp[1].quant;
 	return 0;
 }
