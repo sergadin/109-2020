@@ -77,7 +77,16 @@ public:
 		
 		return q;
 	}
-	
+	int del_detail(std::string str, int q = 0)
+	{
+		if (q < 0) return 0;
+		int I = find_detail(str);
+		if (I == -1) return -1;
+		if (quant[I] < q)
+			return -1;
+		quant[I] -= q;
+		return q;
+	}
 	
 	int map_eq(std::vector <int> m1, std::vector <int> m2)
 	{
@@ -183,7 +192,7 @@ public:
 	}
 	
 	
-	int can_build(int nn)
+	int can_build_map(int nn)
 	{
 		int n = nn - 1;
 		if ((n >= map.size()) || (n < 0)) return -1;
@@ -197,21 +206,21 @@ public:
 			else (kol > (quant[map[n][2*i - 1]] / map[n][2*i])) ? kol = quant[map[n][2*i - 1]] / map[n][2*i] : 0;
 		return kol;
 	}
-	int can_build(std::vector <int> m)
+	int can_build_map(std::vector <int> m)
 	{
 		int n = find_map(m);
-		return can_build(n + 1);
+		return can_build_map(n + 1);
 	}
-	int can_build(std::vector <std::string> M)
+	int can_build_map(std::vector <std::string> M)
 	{
 		int n = find_map(M);
-		return can_build(n + 1);
+		return can_build_map(n + 1);
 	}
 	
 	
-	int build(int nn, int kol)
+	int build_map(int nn, int kol)
 	{
-		int c = can_build(nn);
+		int c = can_build_map(nn);
 		int n = nn - 1;
 		if (c <= 0) return c;
 		if ((kol > c) || (kol < 0)) return -3;
@@ -221,4 +230,32 @@ public:
 			quant[map[n][2*i - 1]] -= kol * map[n][2*i];
 		return c;
 	}
+	
+	
+	/*int can_build(int nn)
+	{
+		int n = nn - 1;
+		if ((n < 0) || (n >= num)) return -2;
+		int max_kol = 0;
+		int num = -1;
+		for (int j = 0; j < map.size(); j++)
+			if ()
+		for (int j = 0; j < map.size(); j++)
+		{
+			if (map[j][0] == n)
+			{
+				int kol = 0;
+				for (int i = 0; i < num; i++)
+					if (kol < quant[i]) kol = quant[i];
+				
+				for (int i = 1; i <= (map[j].size() - 1) / 2; i++)
+				if ((quant[map[j][2*i - 1]] + can_build(map[j][2*i - 1])) < map[j][2*i]) return 0;
+				else 
+					if (kol > ((quant[map[j][2*i - 1]] + can_build(map[j][2*i - 1])) / map[j][2*i]))
+						kol = (quant[map[j][2*i - 1]] + can_build(map[j][2*i - 1])) / map[j][2*i];
+				if (max_kol < kol) max_kol = kol;
+			}
+		}
+		return max_kol;
+	}*/
 };

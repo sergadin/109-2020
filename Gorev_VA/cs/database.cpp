@@ -11,7 +11,7 @@
 int main()
 {
 	Base B;
-	std::string S = "AAA";
+	/*std::string S = "AAA";
 	B.add_detail(S, 78);
 	B.add_detail("BBBB", 200);
 	B.add_detail("CCC", 300);
@@ -52,6 +52,21 @@ int main()
 	
 	std::vector <std::string> VV(5);
 	VV[0] = "CCC", VV[1] = "AAA", VV[2] = "20", VV[3] = "BBBB", VV[4] = "47";
-	std::cout << B.can_build(B.map[1]) << " " << B.can_build(VV);
+	std::cout << B.can_build_map(B.map[1]) << " " << B.can_build_map(VV);
+	
+	
+	B.show_details();*/
+	
+	B.add_detail("AAA", 12);
+	B.add_detail("BBB", 10);
+	B.add_detail("CCC", 10);
+	std::vector <int> M(5);
+	M[0] = 2, M[1] = 0, M[2] = 2, M[3] = 1, M[4] = 3;
+	std::vector <int> MM(3);
+	MM[0] = 1, MM[1] = 0, MM[2] = 2;
+	B.add_map(M);
+	B.add_map(MM);
+	B.show_base();
+	std::cout << "\n\n\n";
 	return 0;
 }

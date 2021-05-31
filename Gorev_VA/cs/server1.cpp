@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     /* Заполняем структуру адреса, на котором будет работать сервер */
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; /* любой сетевой интерфейс */
-    server.sin_port = htons(1231); /* порт */
+    server.sin_port = htons(1230); /* порт */
 
     /* сопоставляем адрес с сокетом */
     bind(as, (struct sockaddr *) &server, sizeof(server));
@@ -136,12 +136,11 @@ int main(int argc, char *argv[])
                 }
 
                 // добавляем карту в базу
-                //std::cout << "<" << map[1] << ">";
                 B.add_map(map);
             }
 
             // можно ли создать деталь по карте №...
-            if (strcmp(mes, "can_build_#") == 0)
+            if (strcmp(mes, "can_build_map_#") == 0)
             {
                 // читаем номер карты (порядок с единицы)
                 int map_num;
@@ -152,10 +151,87 @@ int main(int argc, char *argv[])
                 while (cur[0] == ' ') cur = cur + 1;
 
                 // считаем сколько деталей можно создать
-                int det_kol = B.can_build(map_num);
-                printf("%d %d", det_kol, map_num);
+                int det_kol = B.can_build_map(map_num);
                 if (det_kol < 0) { close(as); return -1; }
                 std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
+            }
+
+            // можно ли создать деталь по карте ...
+            if (strcmp(mes, "can_build_map") == 0)
+            {
+                std::vector <std::string> map;
+                map.resize(1);
+
+                // читаем название первой детали
+                bzero(mes, sizeof(mes));
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%s", &mes);
+                cur = cur + strlen(mes);
+                while (cur[0] == ' ') cur = cur + 1;
+                std::string det_name0(mes);
+                map[0] = det_name0;
+                //std::cout << "<" << map[1] << ">";
+
+                while (1)
+                {
+                    // читаем название детали / сообщение об окончинии добавления
+                    bzero(mes, sizeof(mes));
+                    if (cur[0] == 0) { close(as); return -1; }
+                    while (cur[0] == ' ') cur = cur + 1;
+                    sscanf(cur, "%s", &mes);
+                    cur = cur + strlen(mes);
+                    while (cur[0] == ' ') cur = cur + 1;
+                    if (strcmp(mes, "end") == 0)
+                        break;
+                    else
+                    {
+                        std::string det_name1(mes);
+                        map.resize(map.size() + 2);
+                        map[map.size() - 2] = det_name1;
+                        printf("    detail = %s, ", mes);
+                        if (cur[0] == 0) { close(as); return -1; }
+
+                        // читаем количество деталей
+                        bzero(mes, sizeof(mes));
+                        if (sscanf(cur, "%s", &mes) != 1) { close(as); return -1; }
+                        while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                        while (cur[0] == ' ') cur = cur + 1;
+                        printf("quant = %s\n", mes);
+                        std::string det_quant1(mes);
+                        map[map.size() - 1] = det_quant1;
+                    }
+                }
+
+                // считаем сколько деталей можно создать
+                int det_kol = B.can_build_map(map);
+                if (det_kol < 0) { close(as); return -1; }
+                std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
+            }
+
+            // создать деталь по карте
+            if (strcmp(mes, "build_map_#") == 0)
+            {
+                // читаем номер карты (порядок с единицы)
+                int map_num;
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%d", &map_num);
+                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                while (cur[0] == ' ') cur = cur + 1;
+
+                // читаем количество деталей которые надо создать 
+                int map_kol;
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%d", &map_kol);
+                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                while (cur[0] == ' ') cur = cur + 1;
+
+                // считаем сколько деталей можно создать
+                int det_kol = B.build_map(map_num, map_kol);
+                if (det_kol < 0) { close(as); return -1; }
+                std::cout << "    builded " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
             }
 
             // показать компоненты базы
