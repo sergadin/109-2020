@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
                 int det_kol = B.can_build(map_num - 1);
                 printf("%d", det_kol);
                 if (det_kol < 0) { close(as); return -1; }
-                printf("can build %d details '%s'\n", det_kol, B.name[B.map[map_num - 1][0]]);
+                std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
             }
 
             // показать компоненты базы
