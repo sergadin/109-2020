@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
                 // считаем сколько деталей можно создать
                 int det_kol = B.can_build(map_num - 1);
                 if (det_kol < 0) { close(as); return -1; }
-                printf("can build %d details '%s'\n", det_kol, name[map[map_num - 1][0]]);
+                printf("can build %d details '%s'\n", det_kol, B.name[B.map[map_num - 1][0]]);
             }
 
             // показать компоненты базы
