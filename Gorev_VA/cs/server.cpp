@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
                 while (cur[0] == ' ') cur = cur + 1;
 
                 // считаем сколько деталей можно создать
-                int det_kol = B.can_build(map_num - 1);
+                int det_kol = B.can_build(map_num);
                 printf("%d %d", det_kol, map_num);
                 if (det_kol < 0) { close(as); return -1; }
                 std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
