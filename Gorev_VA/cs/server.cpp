@@ -209,6 +209,31 @@ int main(int argc, char *argv[])
                 std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
             }
 
+            // создать деталь по карте
+            if (strcmp(mes, "build_#") == 0)
+            {
+                // читаем номер карты (порядок с единицы)
+                int map_num;
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%d", &map_num);
+                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                while (cur[0] == ' ') cur = cur + 1;
+
+                // читаем количество деталей которые надо создать 
+                int map_kol;
+                if (cur[0] == 0) { close(as); return -1; }
+                while (cur[0] == ' ') cur = cur + 1;
+                sscanf(cur, "%d", &map_kol);
+                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
+                while (cur[0] == ' ') cur = cur + 1;
+
+                // считаем сколько деталей можно создать
+                int det_kol = B.build(map_num, map_kol);
+                if (det_kol < 0) { close(as); return -1; }
+                std::cout << "    builded " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
+            }
+
             // показать компоненты базы
             if (strcmp(mes, "show_details") == 0)
                 B.show_details();

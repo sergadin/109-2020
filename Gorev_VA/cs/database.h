@@ -207,4 +207,18 @@ public:
 		int n = find_map(M);
 		return can_build(n + 1);
 	}
+	
+	
+	int build(int nn, int kol)
+	{
+		int c = can_build(nn);
+		int n = nn - 1;
+		if (c <= 0) return c;
+		if ((kol > c) || (kol < 0)) return -3;
+		
+		quant[map[n][0]] += kol;
+		for (int i = 1; i <= (map[n].size() - 1) / 2; i++)
+			quant[map[n][2*i - 1]] -= kol * map[n][2*i];
+		return c;
+	}
 };
