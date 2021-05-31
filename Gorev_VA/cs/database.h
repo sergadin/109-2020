@@ -16,7 +16,7 @@ struct Map
 		int num;
 		int quant;
 	};
-	std::vector < Map::Comp > comp(0);
+	std::vector < Map::Comp > comp;
 	
 	int size() { return comp.size(); }
 	void resize(int n) { comp.resize(n); }
@@ -119,7 +119,7 @@ public:
 			for (int j = 0; j < s; j++)
 			{
 				if (mm1.comp[i].num == mm2.comp[j].num)
-					if (mm1.comp[i].quant != mm2[j].quant)
+					if (mm1.comp[i].quant != mm2.comp[j].quant)
 						return 0;
 					else
 					{
@@ -242,7 +242,7 @@ public:
 		if (c <= 0) return c;
 		if ((kol > c) || (kol < 0)) return -3;
 		
-		quant[map[n][0]] += kol;
+		quant[map[n].comp[0].num] += kol;
 		for (int i = 0; i < map[n].size(); i++)
 			quant[map[n].comp[i].num] -= kol * map[n].comp[i].quant;
 		return c;
