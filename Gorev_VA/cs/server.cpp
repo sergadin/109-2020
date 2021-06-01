@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
                 }
 
                 for (int i = 0; i < map.size(); i++)
-                    std::cout << "~~~~" << map[0] << "\n";
+                    std::cout << "~~~~" << map[i] << "\n";
                 // добавляем карту в базу
                 B.add_map(map);
             }
