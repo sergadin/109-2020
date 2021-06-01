@@ -69,6 +69,10 @@ int main()
 	B.add_map(M);
 	B.add_map(MM);
 	B.show_base();
+	
+	std::cout << B.can_build_map(1) << "\n";
+	std::cout << B.build_map(1, 3);
+	B.show_details();
 	std::cout << "\n\n\n";
 	return 0;
 }

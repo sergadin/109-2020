@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         close(ms); // закрываем соединение с клиентом
-        printf("message is = %s\n, Size = ", buf, strlen(buf));
+        printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
