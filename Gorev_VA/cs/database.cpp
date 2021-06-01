@@ -60,10 +60,12 @@ int main()
 	B.add_detail("AAA", 12);
 	B.add_detail("BBB", 10);
 	B.add_detail("CCC", 10);
-	std::vector <int> M(5);
-	M[0] = 2, M[1] = 0, M[2] = 2, M[3] = 1, M[4] = 3;
-	std::vector <int> MM(3);
-	MM[0] = 1, MM[1] = 0, MM[2] = 2;
+	struct Map M;
+	M.resize(2);
+	M.res = 2, M.comp[0].num = 0, M.comp[0].quant = 2, M.comp[1].num = 1, M.comp[1].quant = 3;
+	struct Map MM;
+	MM.resize(1);
+	MM.res = 1, MM.comp[0].num = 0, MM.comp[0].quant = 2;
 	B.add_map(M);
 	B.add_map(MM);
 	B.show_base();

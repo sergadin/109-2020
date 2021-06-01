@@ -139,7 +139,7 @@ public:
 	}
 	int find_map(struct Map m) // найти номер карты в базе
 	{
-		if ((m.size() < 2) || !(m.res < 0)) return -2;
+		if ((m.size() < 1) || (m.res < 0) || (m.res >= num)) return -2;
 		int i = ind(m);
 		for (int j = 0; j < hash_map[i].size(); j++)
 			if (map_eq(m, map[hash_map[i][j]]))
