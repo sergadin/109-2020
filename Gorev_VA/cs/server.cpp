@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         close(ms); // закрываем соединение с клиентом
-        printf("message is = %s\n", buf);
+        printf("message is = %s\n, Size = ", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
@@ -134,8 +134,6 @@ int main(int argc, char *argv[])
                     }
                 }
 
-                for (int i = 0; i < map.size(); i++)
-                    std::cout << "~~~~" << map[i] << "\n";
                 // добавляем карту в базу
                 B.add_map(map);
             }
