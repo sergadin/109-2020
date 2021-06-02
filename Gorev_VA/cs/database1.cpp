@@ -82,18 +82,6 @@ int main()
 	char c[1024] = "database.txt";
 	std::cout << c[11] << "," << int(c[12]) << ",\n";
 	B.read_from_file(c);
-	
-	char buf[1024] = "AAA BBB";
-	char *cur = buf;
-	char mes[1024];
-	
-	scan_next(cur, "%s", mes);
-	std:: cout << buf << "," << cur << "," << mes << ",\n"; 
-	scan_next(cur, "%s", mes);
-	std:: cout << buf << "," << cur << "," << mes << ",\n";
-	scan_next(cur, "%s", mes);
-	std:: cout << buf << "," << cur << "," << mes << ",\n";
-	
 	//delete [] mes;
 	return 0;
 }

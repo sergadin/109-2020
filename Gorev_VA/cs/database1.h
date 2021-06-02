@@ -18,7 +18,7 @@ struct Map
 		int quant;
 	};
 	std::vector < Map::Comp > comp;
-	
+
 	int size() { return comp.size(); }
 	void resize(int n) { comp.resize(n); }
 };
@@ -36,7 +36,7 @@ public:
 	std::vector < std::vector <int> > hash_map;
 	int ind(std::string str) { return (str.length() % MAXLEN); }
 	int ind(struct Map m) { return (m.size() % MAXLEN); }
-	
+
 	Base()
 	{
 		num = 0;
@@ -51,7 +51,7 @@ public:
 			hash_map[i].resize(0);
 		}
 	}
-	
+
 	// Конвертация карты в виде вектора строк в карту в виде структуры
 	struct Map convert_map(std::vector <std::string> M)
 	{
@@ -67,7 +67,7 @@ public:
 		}
 	}
 
-	
+
 	int find_detail(std::string str) //  найти номер детали в базе по названию
 	{
 		int i = ind(str);
@@ -89,7 +89,7 @@ public:
 		name.push_back(str);
 		hash_name[ind(str)].push_back(num - 1);
 		quant.push_back(q);
-		
+
 		return q;
 	}
 	int del_detail(std::string str, int q = 0) // удалить из базы q деталей str
@@ -102,7 +102,7 @@ public:
 		quant[I] -= q;
 		return q;
 	}
-	
+
 	int map_eq(struct Map m1, struct Map m2) // проверка карт на равенство
 	{
 		// если данные не соответствуют базе возвращаем -1
@@ -111,7 +111,7 @@ public:
 		// если есть отличие в каких-то деталях возвращаем 0
 		if ((m1.size() != m2.size()) || (m1.res != m2.res))
 			return 0;
-		
+
 		// если это одна и та же карта возвращаем 1
 		struct Map mm1 = m1, mm2 = m2;
 		int s = m1.size();
@@ -160,7 +160,7 @@ public:
 		struct Map m;
 		m = convert_map(M);
 		if (m.res < 0) return m.res;
-		
+
 		for (int i = 0; i < m.size(); i++)
 			if (m.comp[i].num < 0) return m.comp[i].num;
 		return find_map(m);
@@ -170,18 +170,18 @@ public:
 		if ((M.size() < 3) || !(M.size() % 2)) return -2;
 		add_detail(M[0]);
 		for (int i = 1; i <= (M.size() - 1) / 2; i++)
-			add_detail(M[2*i - 1]);
+			add_detail(M[2 * i - 1]);
 		int f = find_map(M);
 		if (f != -1) return f;
-		
+
 		struct Map m;
 		m = convert_map(M);
 		map.push_back(m);
 		hash_map[ind(m)].push_back(map.size() - 1);
 		return map.size() - 1;
 	}
-	
-	
+
+
 	int show_details() // показать список деталей
 	{
 		std::cout << "    List of details:\n";
@@ -206,20 +206,20 @@ public:
 		show_maps();
 		return 0;
 	}
-	
-	
+
+
 	int can_build_map(int nn) // можно ли построить деталь по карте номер nn (nn = 1, 2, ...)
 	{
 		int n = nn - 1;
 		if ((n >= map.size()) || (n < 0)) return -1;
-		
+
 		int kol = 0;
 		for (int i = 0; i < num; i++)
 			if (kol < quant[i]) kol = quant[i];
-		
+
 		for (int i = 0; i < map[n].size(); i++)
 			if (quant[map[n].comp[i].num] < map[n].comp[i].quant) return 0;
-			else 
+			else
 				if (kol > (quant[map[n].comp[i].num] / map[n].comp[i].quant))
 					kol = quant[map[n].comp[i].num] / map[n].comp[i].quant;
 		return kol;
@@ -234,8 +234,8 @@ public:
 		int n = find_map(M);
 		return can_build_map(n + 1);
 	}
-	
-	
+
+
 	int build_map(int nn, int kol) // построить kol деталей по карте номер nn (nn = 1, 2, ...)
 	{
 		int c = can_build_map(nn);
@@ -249,34 +249,31 @@ public:
 		return c;
 	}
 
-	int read_from_file(char *file_name)
-	{
-		std::ifstream in(file_name);
-		if (in.is_open())
-		{
-			int i = 1;
-			std::string str;
-			while (in >> str)
-			{
-				std::cout << i << ") " << str << "\n";
-				i++;
-			}
-		}
-		in.close();
-		std::cout << "It's done\n";
-		return 0;
-	}
+	int read_from(std::istream& in);
 };
 
-//
-int scan_next(char*& cur, char* type, char mes[])
+
+
+// прочитать следующее слово
+int scan_next(char*& cur, char mes[])
 {
 	for (int i = 0; i < strlen(mes); i++)
 		mes[i] = 0;
 	while (cur[0] == ' ') cur = cur + 1;
 	if (cur[0] == 0) return -1;
-	sscanf(cur, type, mes);
+	sscanf(cur, "%s", mes);
 	cur = cur + strlen(mes);
+	while (cur[0] == ' ') cur = cur + 1;
+
+	return 0;
+}
+
+int scan_next(char*& cur, int& num)
+{
+	while (cur[0] == ' ') cur = cur + 1;
+	if (cur[0] == 0) return -1;
+	sscanf(cur, "%d", &num);
+	while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
 	while (cur[0] == ' ') cur = cur + 1;
 
 	return 0;

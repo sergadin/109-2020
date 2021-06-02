@@ -47,12 +47,7 @@ int main(int argc, char *argv[])
         while (1)
         {
             // читаем первую команду
-            bzero(mes, sizeof(mes));
-            if (cur[0] == 0) break;
-            while (cur[0] == ' ') cur = cur + 1;
-            sscanf(cur, "%s", &mes);
-            cur = cur + strlen(mes);
-            while (cur[0] == ' ') cur = cur + 1;
+            scan_next(cur, mes);
             printf("  command = %s, size = %d\n", mes, strlen(mes));
 
             // добавление деталей
@@ -60,29 +55,21 @@ int main(int argc, char *argv[])
                 while (1)
                 {
                     // читаем название детали / сообщение об окончинии добавления
-                    bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) { close(as); return -1; }
-                    while (cur[0] == ' ') cur = cur + 1;
-                    sscanf(cur, "%s", &mes);
-                    cur = cur + strlen(mes);
-                    while (cur[0] == ' ') cur = cur + 1;
+                    if (scan_next(cur, mes) == -1) { close(as); return -1; }
+
                     if (strcmp(mes, "end") == 0)
                         break;
                     else
                     {
                         printf("    new detail = %s, ", mes);
-                        std::string det_name(mes);
 
-                        if (cur[0] == 0) { close(as); return -1; }
-                    
                         // читаем количество деталей
                         int det_quant;
-                        if (sscanf(cur, "%d", &det_quant) != 1) { close(as); return -1; }
-                        while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                        while (cur[0] == ' ') cur = cur + 1;
+                        if (scan_next(cur, det_quant) == -1) { close(as); return -1; }
                         printf("quant = %d\n", det_quant);
 
                         // добавляем детали в базу
+                        std::string det_name(mes);
                         B.add_detail(det_name, det_quant);
                     }
                 }
@@ -94,25 +81,14 @@ int main(int argc, char *argv[])
                 map.resize(1);
 
                 // читаем название первой детали
-                bzero(mes, sizeof(mes));
-                if (cur[0] == 0) { close(as); return -1; }
-                while (cur[0] == ' ') cur = cur + 1;
-                sscanf(cur, "%s", &mes);
-                cur = cur + strlen(mes);
-                while (cur[0] == ' ') cur = cur + 1;
+                if (scan_next(cur, mes) == -1) { close(as); return -1; }
                 std::string det_name0(mes);
                 map[0] = det_name0;
-                //std::cout << "<" << map[1] << ">";
 
                 while (1)
                 {
                     // читаем название детали / сообщение об окончинии добавления
-                    bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) { close(as); return -1; }
-                    while (cur[0] == ' ') cur = cur + 1;
-                    sscanf(cur, "%s", &mes);
-                    cur = cur + strlen(mes);
-                    while (cur[0] == ' ') cur = cur + 1;
+                    if (scan_next(cur, mes) == -1) { close(as); return -1; }
                     if (strcmp(mes, "end") == 0)
                         break;
                     else
@@ -121,13 +97,9 @@ int main(int argc, char *argv[])
                         map.resize(map.size() + 2);
                         map[map.size() - 2] = det_name1;
                         printf("    detail = %s, ", mes);
-                        if (cur[0] == 0) { close(as); return -1; }
 
                         // читаем количество деталей
-                        bzero(mes, sizeof(mes));
-                        if (sscanf(cur, "%s", &mes) != 1) { close(as); return -1; }
-                        while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                        while (cur[0] == ' ') cur = cur + 1;
+                        if (scan_next(cur, mes) == -1) { close(as); return -1; }
                         printf("quant = %s\n", mes);
                         std::string det_quant1(mes);
                         map[map.size() - 1] = det_quant1;
@@ -143,11 +115,7 @@ int main(int argc, char *argv[])
             {
                 // читаем номер карты (порядок с единицы)
                 int map_num;
-                if (cur[0] == 0) { close(as); return -1; }
-                while (cur[0] == ' ') cur = cur + 1;
-                sscanf(cur, "%d", &map_num);
-                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                while (cur[0] == ' ') cur = cur + 1;
+                if (scan_next(cur, map_num) == -1) { close(as); return -1; }
 
                 // считаем сколько деталей можно создать
                 int det_kol = B.can_build_map(map_num);
@@ -160,27 +128,16 @@ int main(int argc, char *argv[])
             {
                 std::vector <std::string> map;
                 map.resize(1);
-
+                
                 // читаем название первой детали
-                bzero(mes, sizeof(mes));
-                if (cur[0] == 0) { close(as); return -1; }
-                while (cur[0] == ' ') cur = cur + 1;
-                sscanf(cur, "%s", &mes);
-                cur = cur + strlen(mes);
-                while (cur[0] == ' ') cur = cur + 1;
+                if (scan_next(cur, mes) == -1) { close(as); return -1; }
                 std::string det_name0(mes);
                 map[0] = det_name0;
-                //std::cout << "<" << map[1] << ">";
 
                 while (1)
                 {
                     // читаем название детали / сообщение об окончинии добавления
-                    bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) { close(as); return -1; }
-                    while (cur[0] == ' ') cur = cur + 1;
-                    sscanf(cur, "%s", &mes);
-                    cur = cur + strlen(mes);
-                    while (cur[0] == ' ') cur = cur + 1;
+                    if (scan_next(cur, mes) == -1) { close(as); return -1; }
                     if (strcmp(mes, "end") == 0)
                         break;
                     else
@@ -189,13 +146,9 @@ int main(int argc, char *argv[])
                         map.resize(map.size() + 2);
                         map[map.size() - 2] = det_name1;
                         printf("    detail = %s, ", mes);
-                        if (cur[0] == 0) { close(as); return -1; }
 
                         // читаем количество деталей
-                        bzero(mes, sizeof(mes));
-                        if (sscanf(cur, "%s", &mes) != 1) { close(as); return -1; }
-                        while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                        while (cur[0] == ' ') cur = cur + 1;
+                        if (scan_next(cur, mes) == -1) { close(as); return -1; }
                         printf("quant = %s\n", mes);
                         std::string det_quant1(mes);
                         map[map.size() - 1] = det_quant1;
@@ -213,19 +166,11 @@ int main(int argc, char *argv[])
             {
                 // читаем номер карты (порядок с единицы)
                 int map_num;
-                if (cur[0] == 0) { close(as); return -1; }
-                while (cur[0] == ' ') cur = cur + 1;
-                sscanf(cur, "%d", &map_num);
-                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                while (cur[0] == ' ') cur = cur + 1;
+                if (scan_next(cur, map_num) == -1) { close(as); return -1; }
 
                 // читаем количество деталей которые надо создать 
                 int map_kol;
-                if (cur[0] == 0) { close(as); return -1; }
-                while (cur[0] == ' ') cur = cur + 1;
-                sscanf(cur, "%d", &map_kol);
-                while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                while (cur[0] == ' ') cur = cur + 1;
+                if (scan_next(cur, map_kol) == -1) { close(as); return -1; }
 
                 // считаем сколько деталей можно создать
                 int det_kol = B.build_map(map_num, map_kol);
