@@ -37,9 +37,10 @@ int main(int argc, char *argv[])
         close(ms); // закрываем соединение с клиентом
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
-        cur = buf;
-        scan_next(cur, mes);
+        bzero(mes, sizeof(mes));
+        sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0) break;
+        cur = buf;
         while (cur[0] == ' ') cur = cur + 1;
 
         // цикл обработки одного сообщения
