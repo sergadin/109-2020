@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
         while (1)
         {
             // читаем первую команду
-            scan_next(cur, "%s", mes);
+            scan_next(cur, mes);
             printf("  command = %s, size = %d\n", mes, strlen(mes));
 
             // добавление деталей
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
                 while (1)
                 {
                     // читаем название детали / сообщение об окончинии добавления
-                    if (scan_next(cur, "%s", mes) == -1) { close(as); return -1; }
+                    if (scan_next(cur, mes) == -1) { close(as); return -1; }
 
                     if (strcmp(mes, "end") == 0)
                         break;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
                         // читаем количество деталей
                         int det_quant;
-                        if (scan_next(cur, "%d", det_quant) == -1) { close(as); return -1; }
+                        if (scan_next(cur, det_quant) == -1) { close(as); return -1; }
                         printf("quant = %d\n", det_quant);
 
                         // добавляем детали в базу

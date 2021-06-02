@@ -269,14 +269,25 @@ public:
 };
 
 //
-int scan_next(char*& cur, char* type, char mes[])
+int scan_next(char*& cur, char mes[])
 {
 	for (int i = 0; i < strlen(mes); i++)
 		mes[i] = 0;
 	while (cur[0] == ' ') cur = cur + 1;
 	if (cur[0] == 0) return -1;
-	sscanf(cur, type, mes);
+	sscanf(cur, "%s", mes);
 	cur = cur + strlen(mes);
+	while (cur[0] == ' ') cur = cur + 1;
+
+	return 0;
+}
+
+int scan_next(char*& cur, int& num)
+{
+	while (cur[0] == ' ') cur = cur + 1;
+	if (cur[0] == 0) return -1;
+	sscanf(cur, "%d", num);
+	while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
 	while (cur[0] == ' ') cur = cur + 1;
 
 	return 0;
