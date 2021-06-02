@@ -22,7 +22,8 @@ int f(std::istream &in)
 int main()
 {
 	std::ifstream in("database.txt");
-	f(in);
+	Base B;
+	B.read_from(in);
 	
 	return 0;
 }

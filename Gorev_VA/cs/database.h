@@ -239,7 +239,6 @@ public:
 	int build_map(int nn, int kol) // построить kol деталей по карте номер nn (nn = 1, 2, ...)
 	{
 		int c = can_build_map(nn);
-		std::cout << "~~" << c << "\n";
 		int n = nn - 1;
 		if (c <= 0) return c;
 		if ((kol > c) || (kol < 0)) return -3;
@@ -249,7 +248,7 @@ public:
 		return c;
 	}
 
-	int read_from(std::istream& in);
+	int do(std::istream& in);
 };
 
 
