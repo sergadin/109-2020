@@ -9,6 +9,8 @@
 #include <string.h>
 #include "database.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 int main(int argc, char *argv[])
 {
