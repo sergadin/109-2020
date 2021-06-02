@@ -87,8 +87,8 @@ int main()
 	char ch[1024] = "CCC AAA 1 BBB 22 end   BBB AAA 2 end";
 	std::istringstream ssin(ch);
 	
-	B.read_from(in);
-	B.read_from(sin);
-	B.read_from(ssin);
+	B.do_from(in);
+	B.do_from(sin);
+	B.do_from(ssin);
 	return 0;
 }

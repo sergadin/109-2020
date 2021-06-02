@@ -1,4 +1,4 @@
-int Base::do(std::istream& in)
+int Base::do_from(std::istream& in)
 {
     // цикл обработки одного сообщения
     while (1)

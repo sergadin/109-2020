@@ -248,7 +248,7 @@ public:
 		return c;
 	}
 
-	int do(std::istream& in);
+	int do_from(std::istream& in);
 };
 
 

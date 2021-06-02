@@ -23,7 +23,7 @@ int main()
 {
 	std::ifstream in("database.txt");
 	Base B;
-	B.read_from(in);
+	B.do_from(in);
 	
 	return 0;
 }

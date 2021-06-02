@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         while (cur[0] == ' ') cur = cur + 1;
 
         std::istringstream in(buf);
-        if (B.do(in) < 0) { close(as); return -1; }
+        if (B.do_from(in) < 0) { close(as); return -1; }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
     return 0;
