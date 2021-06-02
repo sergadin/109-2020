@@ -286,7 +286,7 @@ int scan_next(char*& cur, int& num)
 {
 	while (cur[0] == ' ') cur = cur + 1;
 	if (cur[0] == 0) return -1;
-	sscanf(cur, "%d", num);
+	sscanf(cur, "%d", &num);
 	while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
 	while (cur[0] == ' ') cur = cur + 1;
 
