@@ -28,7 +28,7 @@ int Base::do_from(std::istream& in)
 
                     // добавляем детали в базу
                     std::string det_name(mes);
-                    B.add_detail(det_name, det_quant);
+                    add_detail(det_name, det_quant);
                 }
             }
 
