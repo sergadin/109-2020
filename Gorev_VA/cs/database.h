@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #define MAXLEN 10
 
@@ -247,32 +248,22 @@ public:
 			quant[map[n].comp[i].num] -= kol * map[n].comp[i].quant;
 		return c;
 	}
-	
-	
-	/*int can_build(int nn)
+
+	int read_from_file(char *file_name)
 	{
-		int n = nn - 1;
-		if ((n < 0) || (n >= num)) return -2;
-		int max_kol = 0;
-		int num = -1;
-		for (int j = 0; j < map.size(); j++)
-			if ()
-		for (int j = 0; j < map.size(); j++)
+		std::ifstream in(file_name);
+		if (in.is_open())
 		{
-			if (map[j][0] == n)
+			int i = 1;
+			std::string str;
+			while (in >> str)
 			{
-				int kol = 0;
-				for (int i = 0; i < num; i++)
-					if (kol < quant[i]) kol = quant[i];
-				
-				for (int i = 1; i <= (map[j].size() - 1) / 2; i++)
-				if ((quant[map[j][2*i - 1]] + can_build(map[j][2*i - 1])) < map[j][2*i]) return 0;
-				else 
-					if (kol > ((quant[map[j][2*i - 1]] + can_build(map[j][2*i - 1])) / map[j][2*i]))
-						kol = (quant[map[j][2*i - 1]] + can_build(map[j][2*i - 1])) / map[j][2*i];
-				if (max_kol < kol) max_kol = kol;
+				std::cout << i << ") " << str << "\n";
+				i++;
 			}
 		}
-		return max_kol;
-	}*/
+		in.close();
+		std::cout << "It's done\n";
+		return 0;
+	}
 };

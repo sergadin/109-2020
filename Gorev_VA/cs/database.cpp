@@ -74,5 +74,9 @@ int main()
 	std::cout << B.build_map(1, 3);
 	B.show_details();
 	std::cout << "\n\n\n";
+	
+	char *c = "database.txt";
+	B.read_from_file(c);
+	
 	return 0;
 }
