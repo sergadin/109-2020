@@ -1,27 +1,28 @@
 #include <iostream>
 #include <vector>
+#include "database.h"
+#include <sstream>
 
-struct Map
+int f(char *buf, char *&mes)
 {
-	int res;
-	struct Comp
-	{
-		int num;
-		int quant;
-	};
-	std::vector < Map::Comp > comp;
 	
-};
+	scanf(buf, "%s", mes);
+	return 0;
+}
 
 int main()
 {
-	struct Map M;
-	M.res = 2;
-	M.comp.resize(2);
-	M.comp[0].num = 0;
-	M.comp[0].quant = 2;
-	M.comp[1].num = 1;
-	M.comp[1].quant = 3;
-	std::cout << M.res << " " << M.comp[0].num << " " << M.comp[0].quant << " " << M.comp[1].num << " " << M.comp[1].quant;
+	char buf[1024] = "Hellow world\n";
+	char *cur = buf;
+	char mes[1024];
+	//mes = new char[1024];
+	std::cout << buf;
+	
+	std::cout << mes << "\n";
+	f(buf, mes);
+	std::cout << mes << "\n";
+	sscanf(buf, "%s", &mes);
+	std::cout << mes << "\n";
+	
 	return 0;
 }
