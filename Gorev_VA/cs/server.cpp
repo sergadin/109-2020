@@ -47,12 +47,7 @@ int main(int argc, char *argv[])
         while (1)
         {
             // читаем первую команду
-            bzero(mes, sizeof(mes));
-            if (cur[0] == 0) break;
-            while (cur[0] == ' ') cur = cur + 1;
-            sscanf(cur, "%s", &mes);
-            cur = cur + strlen(mes);
-            while (cur[0] == ' ') cur = cur + 1;
+            scan_next(cur, "%s", mes);
             printf("  command = %s, size = %d\n", mes, strlen(mes));
 
             // добавление деталей
@@ -60,29 +55,21 @@ int main(int argc, char *argv[])
                 while (1)
                 {
                     // читаем название детали / сообщение об окончинии добавления
-                    bzero(mes, sizeof(mes));
-                    if (cur[0] == 0) { close(as); return -1; }
-                    while (cur[0] == ' ') cur = cur + 1;
-                    sscanf(cur, "%s", &mes);
-                    cur = cur + strlen(mes);
-                    while (cur[0] == ' ') cur = cur + 1;
+                    if (scan_next(cur, "%s", mes) == -1) { close(as); return -1; }
+
                     if (strcmp(mes, "end") == 0)
                         break;
                     else
                     {
                         printf("    new detail = %s, ", mes);
-                        std::string det_name(mes);
 
-                        if (cur[0] == 0) { close(as); return -1; }
-                    
                         // читаем количество деталей
                         int det_quant;
-                        if (sscanf(cur, "%d", &det_quant) != 1) { close(as); return -1; }
-                        while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-                        while (cur[0] == ' ') cur = cur + 1;
+                        if (scan_next(cur, "%d", det_quant) == -1) { close(as); return -1; }
                         printf("quant = %d\n", det_quant);
 
                         // добавляем детали в базу
+                        std::string det_name(mes);
                         B.add_detail(det_name, det_quant);
                     }
                 }
