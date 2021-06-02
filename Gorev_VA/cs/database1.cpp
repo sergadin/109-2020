@@ -2,8 +2,12 @@
 #include <string>
 #include <iostream>
 
-#include <vector>
-#include <string>
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+#include <unistd.h>
+#include <string.h>
 #include <iostream>
 
 #include "database.h"
@@ -60,13 +64,36 @@ int main()
 	B.add_detail("AAA", 12);
 	B.add_detail("BBB", 10);
 	B.add_detail("CCC", 10);
-	std::vector <int> M(5);
-	M[0] = 2, M[1] = 0, M[2] = 2, M[3] = 1, M[4] = 3;
-	std::vector <int> MM(3);
-	MM[0] = 1, MM[1] = 0, MM[2] = 2;
+	struct Map M;
+	M.resize(2);
+	M.res = 2, M.comp[0].num = 0, M.comp[0].quant = 2, M.comp[1].num = 1, M.comp[1].quant = 3;
+	struct Map MM;
+	MM.resize(1);
+	MM.res = 1, MM.comp[0].num = 0, MM.comp[0].quant = 2;
 	B.add_map(M);
 	B.add_map(MM);
 	B.show_base();
+	
+	std::cout << B.can_build_map(1) << "\n";
+	std::cout << B.build_map(1, 3);
+	B.show_details();
 	std::cout << "\n\n\n";
+	
+	char c[1024] = "database.txt";
+	std::cout << c[11] << "," << int(c[12]) << ",\n";
+	B.read_from_file(c);
+	
+	char buf[1024] = "AAA BBB";
+	char *cur = buf;
+	char mes[1024];
+	
+	scan_next(cur, "%s", mes);
+	std:: cout << buf << "," << cur << "," << mes << ",\n"; 
+	scan_next(cur, "%s", mes);
+	std:: cout << buf << "," << cur << "," << mes << ",\n";
+	scan_next(cur, "%s", mes);
+	std:: cout << buf << "," << cur << "," << mes << ",\n";
+	
+	//delete [] mes;
 	return 0;
 }

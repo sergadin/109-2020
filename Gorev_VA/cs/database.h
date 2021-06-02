@@ -267,3 +267,17 @@ public:
 		return 0;
 	}
 };
+
+//
+int scan_next(char*& cur, char* type, char mes[])
+{
+	for (int i = 0; i < strlen(mes); i++)
+		mes[i] = 0;
+	while (cur[0] == ' ') cur = cur + 1;
+	if (cur[0] == 0) return -1;
+	sscanf(cur, type, mes);
+	cur = cur + strlen(mes);
+	while (cur[0] == ' ') cur = cur + 1;
+
+	return 0;
+}

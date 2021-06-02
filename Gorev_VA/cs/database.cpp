@@ -2,8 +2,12 @@
 #include <string>
 #include <iostream>
 
-#include <vector>
-#include <string>
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+#include <unistd.h>
+#include <string.h>
 #include <iostream>
 
 #include "database.h"
@@ -75,8 +79,21 @@ int main()
 	B.show_details();
 	std::cout << "\n\n\n";
 	
-	char *c = "database.txt";
+	char c[1024] = "database.txt";
+	std::cout << c[11] << "," << int(c[12]) << ",\n";
 	B.read_from_file(c);
 	
+	char buf[1024] = "AAA BBB";
+	char *cur = buf;
+	char mes[1024];
+	
+	scan_next(cur, "%s", mes);
+	std:: cout << buf << "," << cur << "," << mes << ",\n"; 
+	scan_next(cur, "%s", mes);
+	std:: cout << buf << "," << cur << "," << mes << ",\n";
+	scan_next(cur, "%s", mes);
+	std:: cout << buf << "," << cur << "," << mes << ",\n";
+	
+	//delete [] mes;
 	return 0;
 }

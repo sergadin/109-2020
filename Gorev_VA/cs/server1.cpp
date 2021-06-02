@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; /* любой сетевой интерфейс */
     server.sin_port = htons(1230); /* порт */
-
     /* сопоставляем адрес с сокетом */
     bind(as, (struct sockaddr *) &server, sizeof(server));
 
@@ -36,7 +35,7 @@ int main(int argc, char *argv[])
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         close(ms); // закрываем соединение с клиентом
-        printf("message is = %s\n", buf);
+        printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
@@ -153,7 +152,7 @@ int main(int argc, char *argv[])
                 // считаем сколько деталей можно создать
                 int det_kol = B.can_build_map(map_num);
                 if (det_kol < 0) { close(as); return -1; }
-                std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
+                std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1].res] << "'\n";
             }
 
             // можно ли создать деталь по карте ...
@@ -231,7 +230,7 @@ int main(int argc, char *argv[])
                 // считаем сколько деталей можно создать
                 int det_kol = B.build_map(map_num, map_kol);
                 if (det_kol < 0) { close(as); return -1; }
-                std::cout << "    builded " << det_kol << " details '" << B.name[B.map[map_num - 1][0]] << "'\n";
+                std::cout << "    builded " << det_kol << " details '" << B.name[B.map[map_num - 1].res] << "'\n";
             }
 
             // показать компоненты базы
