@@ -1,10 +1,11 @@
 int Base::do_from(std::istream& in)
 {
+    char mes[1024];
     // цикл обработки одного сообщения
     while (1)
     {
         // читаем первую команду
-        scan_next(cur, mes);
+        in >> mes;
         printf("  command = %s, size = %d\n", mes, strlen(mes));
 
         // добавление деталей
@@ -12,7 +13,7 @@ int Base::do_from(std::istream& in)
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (scan_next(cur, mes) == -1) { return -1; }
+                in >> mes;
 
                 if (strcmp(mes, "end") == 0)
                     break;
@@ -22,7 +23,7 @@ int Base::do_from(std::istream& in)
 
                     // читаем количество деталей
                     int det_quant;
-                    if (scan_next(cur, det_quant) == -1) { return -1; }
+                    in >> det_quant;
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу

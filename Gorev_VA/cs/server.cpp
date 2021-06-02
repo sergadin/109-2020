@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in server;
     char buf[1024]; /* буфер дл€ приема сообщений от клиентов */
     char mes[1024];
-    char *cur;
+    //char *cur;
     Base B;
     as = socket(AF_INET, SOCK_STREAM, 0 ); /* —оздаем сокет дл€ работы по TCP/IP */
     /* «аполн€ем структуру адреса, на котором будет работать сервер */
@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0) break;
-        cur = buf;
-        while (cur[0] == ' ') cur = cur + 1;
+        //cur = buf;
+        //while (cur[0] == ' ') cur = cur + 1;
 
         std::istringstream in(buf);
         if (B.do_from(in) < 0) { close(as); return -1; }
