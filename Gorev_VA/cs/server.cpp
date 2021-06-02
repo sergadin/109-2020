@@ -7,7 +7,10 @@
 #include <strings.h>
 #include <unistd.h>
 #include <string.h>
+
 #include "database.h"
+#include "server.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
