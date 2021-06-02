@@ -1,24 +1,27 @@
 #include <iostream>
-#include <vector>
-#include "database.h"
+#include <fstream>
 #include <sstream>
 
-int f(char buf[], char mes[])
+#include <strings.h>
+#include "database.h"
+
+int f(std::istream in)
 {
-	sscanf(buf, "%s", mes);
+	int i = 1;
+	std::string str;
+	while (in >> str)
+	{
+		std::cout << i << ") " << str << "\n";
+		i++;
+	}
+	std::cout << "It's done\n";
 	return 0;
 }
 
 int main()
 {
-	char buf[1024] = "Hellow world\n";
-	char *cur = buf;
-	char mes[1024];
-	
-	f(buf, mes);
-	std::cout << mes;
-	
-	
+	std::ifstream in("database.txt");
+	f(in);
 	
 	return 0;
 }

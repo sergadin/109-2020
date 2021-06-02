@@ -268,7 +268,9 @@ public:
 	}
 };
 
-//
+
+
+// прочитать следующее слово
 int scan_next(char*& cur, char mes[])
 {
 	for (int i = 0; i < strlen(mes); i++)
