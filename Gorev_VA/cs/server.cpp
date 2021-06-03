@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     }
     // костыль из кода сергея александровича
     int on = 1;
-    if (setsockopt(sa, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) == -1) {
+    if (setsockopt(as, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) == -1) {
         perror("Ошибка при вызове setsockopt");
     }
     // Заполняем структуру адреса, на котором будет работать сервер
