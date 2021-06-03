@@ -73,6 +73,24 @@ int main(int argc, char* argv[])
             int er_code = 0;
             sscanf(mes, "%d", &er_code);
             
+            if ((er_code > 0) || (er_code < -16)) std::cout << "Unknown error\n";
+            if (er_code == -1) std::cout << "Error in: add_details - reading name of detail\n";
+            if (er_code == -2) std::cout << "Error in: add_details - reading quant of detail\n";
+            if (er_code == -3) std::cout << "Error in: add_map - reading name of result detail\n";
+            if (er_code == -4) std::cout << "Error in: add_map - reading name of component detail\n";
+            if (er_code == -5) std::cout << "Error in: add_map - reading quant of component detail\n";
+            if (er_code == -6) std::cout << "Error in: can_build_map_# - reading of number of map\n";
+            if (er_code == -7) std::cout << "Error in: can_build_map_# - calculating of number of details that can be builded\n";
+            if (er_code == -8) std::cout << "Error in: can_build_map - reading name of result detail\n";
+            if (er_code == -9) std::cout << "Error in: can_build_map - reading name of component detail\n";
+            if (er_code == -10) std::cout << "Error in: can_build_map - reading quant of component detail\n";
+            if (er_code == -11) std::cout << "Error in: can_build_map - calculating of number of details that can be builded\n";
+            if (er_code == -12) std::cout << "Error in: build_map_# - reading number of map\n";
+            if (er_code == -13) std::cout << "Error in: build_map_# - reading number of details that must be builded\n";
+            if (er_code == -14) std::cout << "Error in: build_map_# - calculating number of details that must be builded\n";
+            if (er_code == -15) std::cout << "Error in: read_from_file - reading name of file\n";
+            if (er_code == -16) std::cout << "Error in: read_from_file - finding file\n";
+
             break;
         }
         std::cout << "  Command: " << mes << "\n";

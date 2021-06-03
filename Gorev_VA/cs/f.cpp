@@ -4,7 +4,6 @@
 
 #include <strings.h>
 #include "database.h"
-#include "server.h"
 
 int f(std::istream &in)
 {
@@ -36,6 +35,13 @@ int main()
 	
 	if (out.is_open())
 		ff(out);
+	
+	std::cout << "\n\n\n\n\n";
+	
+	char mes[1024];
+	int i = 123;
+	sprintf(mes, "%d", i);
+	std::cout << mes;
 	
 	return 0;
 }
