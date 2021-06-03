@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     }
 
     // цикл обработки клиентов
-    while( er_code == 0 )
+    while( 1 )
 	{
         socklen_t size;
         size = sizeof(client);
@@ -78,12 +78,15 @@ int main(int argc, char *argv[])
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
+        std::cout << er_code << "\n";
         if (er_code < 0)
         { 
             char cer_code[1024];
-            bzero(mes, sizeof(mes));
+            bzero(cer_code, sizeof(cer_code));
             sprintf(cer_code, "%d", er_code);
+            std::cout << cer_code << "\n";
             write(ms, cer_code, sizeof(cer_code));
+            er_code = 0;
         }
 
         close(ms); // закрываем соединение с клиентом
