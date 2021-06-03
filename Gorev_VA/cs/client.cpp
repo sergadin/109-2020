@@ -73,6 +73,7 @@ int main(int argc, char* argv[])
             int er_code = 0;
             sscanf(mes, "%d", &er_code);
             
+            std::cout << "  ";
             if ((er_code > 0) || (er_code < -16)) std::cout << "Unknown error\n";
             if (er_code == -1) std::cout << "Error in: add_details - reading name of detail\n";
             if (er_code == -2) std::cout << "Error in: add_details - reading quant of detail\n";
@@ -93,7 +94,29 @@ int main(int argc, char* argv[])
 
             break;
         }
+
         std::cout << "  Command: " << mes << "\n";
+
+
+        if (strcmp(mes, "add_details") == 0)
+        {
+            std::cout << "Start additing details\n";
+        }
+        if (strcmp(mes, "add_details_name") == 0)
+        {
+            bzero(mes, sizeof(mes));
+            read(s, mes, sizeof(mes));
+
+            std::cout << "  Detail's name:  " << mes << "\n";
+        }
+        if (strcmp(mes, "add_details_quant") == 0)
+        {
+            bzero(mes, sizeof(mes));
+            read(s, mes, sizeof(mes));
+
+            std::cout << "  Detail's quant: " << mes << "\n";
+        }
+
     }
 
     close(s);

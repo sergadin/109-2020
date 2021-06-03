@@ -78,14 +78,14 @@ int main(int argc, char *argv[])
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
-        std::cout << "er_code is " << er_code << "\n";
+        //std::cout << "er_code is " << er_code << "\n";
         if (er_code < 0)
         { 
             char cer_code[1024];
             bzero(cer_code, sizeof(cer_code));
-            std::cout << "cer_code1 is " << cer_code << "\n";
+            //std::cout << "cer_code1 is " << cer_code << "\n";
             sprintf(cer_code, "%d", er_code);
-            std::cout << "cer_code2 is " << cer_code << "\n";
+            //std::cout << "cer_code2 is " << cer_code << "\n";
             write(ms, cer_code, sizeof(cer_code));
             er_code = 0;
         }

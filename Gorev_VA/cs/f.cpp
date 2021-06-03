@@ -38,10 +38,10 @@ int main()
 	
 	std::cout << "\n\n\n\n\n";
 	
-	char mes[1024];
-	int i = 123;
-	sprintf(mes, "%d", i);
-	std::cout << mes;
+	char buf[1024] = "Hellow world!";
+	int len = strlen(buf) + 1;
+	char* p = (char*)&len;
+	std::cout << *p;
 	
 	return 0;
 }
