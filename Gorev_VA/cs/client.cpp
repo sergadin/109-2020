@@ -59,6 +59,14 @@ int main(int argc, char* argv[])
             std::cout << "The server has shut down\n";
             break;
         }
+
+        if (strcmp(mes, "error") == 0)
+        {
+            std::cout << "Error ";
+            bzero(mes, sizeof(mes));
+            read(s, mes, sizeof(mes));
+
+        }
         std::cout << "  Command: " << mes << "\n";
     }
 
