@@ -22,8 +22,6 @@ int f(std::istream &in)
 int main()
 {
 	std::ifstream in("database.txt");
-	Base B;
-	B.do_from(in);
-	
+	f(in);
 	return 0;
 }
