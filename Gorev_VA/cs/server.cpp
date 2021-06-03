@@ -57,7 +57,8 @@ int main(int argc, char *argv[])
     // цикл обработки клиентов
     while( 1 )
 	{
-        int size = sizeof(client);
+        socklen_t size;
+        size = sizeof(client);
         ms = accept(as, (struct sockaddr*)&client, &size); // выбираем первое соединение из очереди
         if (ms < 0)
         {
