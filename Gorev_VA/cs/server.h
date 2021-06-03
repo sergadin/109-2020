@@ -76,9 +76,9 @@ int Base::do_from(std::istream& in)
             if (!(in >> map_num)) return -6;
 
             // считаем сколько деталей можно создать
-            int det_kol = B.can_build_map(map_num);
+            int det_kol = can_build_map(map_num);
             if (det_kol < 0) { return -6; }
-            std::cout << "    can build " << det_kol << " details '" << B.name[B.map[map_num - 1].res] << "'\n";
+            std::cout << "    can build " << det_kol << " details '" << name.map[map_num - 1].res] << "'\n";
         }
 
         // можно ли создать деталь по карте ...
@@ -131,18 +131,18 @@ int Base::do_from(std::istream& in)
             if (!(in >> map_kol)) return -12;
 
             // считаем сколько деталей можно создать
-            int det_kol = B.build_map(map_num, map_kol);
+            int det_kol = build_map(map_num, map_kol);
             if (det_kol < 0) { return -13; }
-            std::cout << "    builded " << det_kol << " details '" << B.name[B.map[map_num - 1].res] << "'\n";
+            std::cout << "    builded " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
         // показать компоненты базы
         if (strcmp(mes, "show_details") == 0)
-            B.show_details();
+            show_details();
         if (strcmp(mes, "show_maps") == 0)
-            B.show_maps();
+            show_maps();
         if (strcmp(mes, "show_base") == 0)
-            B.show_base();
+            show_base();
 
     }
 
