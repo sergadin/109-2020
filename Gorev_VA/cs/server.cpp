@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
+        std::cout << er_code << "\n";
         if (er_code < 0)
         { 
             char cer_code[1024];
