@@ -10,7 +10,7 @@
 
 int main(int argc, char* argv[])
 {
-    int s;
+    int s, ns;
     struct sockaddr_in server;
     struct hostent* hp;
 
@@ -37,6 +37,8 @@ int main(int argc, char* argv[])
     }
 
     write(s, argv[3], strlen(argv[3])); // посылаем строчку
+
+    std::cout << "Hellow world\n";
     close(s);
     return 0;
 }
