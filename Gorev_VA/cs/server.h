@@ -37,7 +37,7 @@ int Base::do_from(std::istream& in, int ms)
                     if (!(in >> det_quant)) { write(ms, "error", sizeof("error"));  return -2; }
                     write(ms, "add_details_quant", sizeof("add_details_quant"));
                     bzero(mes, sizeof(mes));
-                    sprintf(mes, "%s", det_quant);
+                    sprintf(mes, "%d", det_quant);
                     write(ms, mes, sizeof(mes));
 
                     // добавляем детали в базу
