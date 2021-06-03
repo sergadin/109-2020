@@ -14,18 +14,29 @@ int main(int argc, char* argv[])
     struct sockaddr_in server;
     struct hostent* hp;
 
-    if (argc < 4) { return 1; } /* должно быть 3 аргумента: адрес, порт и сообщение */
+    if (argc < 4) { return 1; } // должно быть 3 аргумента: адрес, порт и сообщение
 
-    s = socket(AF_INET, SOCK_STREAM, 0); /* —оздаем сокет дл€ работы по TCP/IP */
+    // —оздаем сокет дл€ работы по TCP/IP
+    if ((s = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {
+        perror("ќшибка при вызове socket");
+        exit(1);
+    }
 
-    /* «аполн€ем струтуру с адресом сервера */
-    server.sin_family = AF_INET; /* протокол IP */
-    hp = gethostbyname(argv[1]); /* ќбращаемс€ к DNS и узнаем адрес по символьному имени*/
-    bcopy(hp->h_addr, &server.sin_addr, hp->h_length); /* копируем из hp->h_addr в &server.sin_addr hp->h_length байт */
-    server.sin_port = htons(atoi(argv[2])); /* номер порта, на котором запущен сервер */
+    // «аполн€ем струтуру с адресом сервера
+    server.sin_family = AF_INET; // протокол IP
+    hp = gethostbyname(argv[1]); // ќбращаемс€ к DNS и узнаем адрес по символьному имени
+    bcopy(hp->h_addr, &server.sin_addr, hp->h_length); // копируем из hp->h_addr в &server.sin_addr hp->h_length байт
+    server.sin_port = htons(atoi(argv[2])); // номер порта, на котором запущен сервер
 
-    connect(s, (struct sockaddr*)&server, sizeof(server)); /* устанавливаем соединение с сервером */
-    write(s, argv[3], strlen(argv[3])); /* посылаем строчку */
+    // устанавливаем соединение с сервером
+    if ((connect(s, (struct sockaddr*)&server, sizeof(server))) == -1)
+    {
+        perror("ќшибка при вызове connect");
+        exit(1);
+    }
+
+    write(s, argv[3], strlen(argv[3])); // посылаем строчку
     close(s);
     return 0;
 }
