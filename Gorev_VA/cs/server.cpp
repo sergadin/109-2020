@@ -19,24 +19,49 @@ int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
-    char buf[1024]; /* буфер для приема сообщений от клиентов */
+    char buf[1024]; // буфер для приема сообщений от клиентов
     char mes[1024];
     //char *cur;
     Base B;
-    as = socket(AF_INET, SOCK_STREAM, 0 ); /* Создаем сокет для работы по TCP/IP */
-    /* Заполняем структуру адреса, на котором будет работать сервер */
+
+    // Создаем сокет для работы по TCP/IP 
+    if ((as = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {
+        perror("Ошибка при вызове socket");
+        exit(1);
+    }
+    // костыль из кода сергея александровича
+    int on = 1;
+    if (setsockopt(sa, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) == -1) {
+        perror("Ошибка при вызове setsockopt");
+    }
+    // Заполняем структуру адреса, на котором будет работать сервер
     server.sin_family = AF_INET; /* IP */
-    server.sin_addr.s_addr = INADDR_ANY; /* любой сетевой интерфейс */
-    server.sin_port = htons(1230); /* порт */
-    /* сопоставляем адрес с сокетом */
-    bind(as, (struct sockaddr *) &server, sizeof(server));
+    server.sin_addr.s_addr = INADDR_ANY; // любой сетевой интерфейс
+    server.sin_port = htons(1230); // порт
+    // сопоставляем адрес с сокетом
+    if ((bind(as, (struct sockaddr*)&server, sizeof(server))) == -1)
+    {
+        perror("Ошибка при вызове bind");
+        exit(1);
+    }
 
-    listen(as, 5); /* сокет as используется для приема соединений; 5 - длина очереди */
+    // сокет as используется для приема соединений; 5 - длина очереди
+    if ((listen(as, 5)) == -1)
+    {
+        perror("Ошибка при вызове listen");
+        exit(1);
+    }
 
-    /* цикл обработки клиентов */
+    // цикл обработки клиентов
     while( 1 )
 	{
-        ms = accept(as, 0, 0); // выбираем первое соединение из очереди 
+        ms = accept(as, 0, 0); // выбираем первое соединение из очереди
+        if (ms < 0)
+        {
+            perror("Ошибка при вызове accept");
+            exit(1);
+        }
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         close(ms); // закрываем соединение с клиентом
@@ -52,7 +77,7 @@ int main(int argc, char *argv[])
         int er_code = B.do_from(in);
         if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
     }
-    close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
+    close( as ); // закрываем порт 1234; клиенты больше не могут подключаться
     return 0;
 }
 
