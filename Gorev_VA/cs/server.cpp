@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        if (strcmp(mes, "quit") == 0) { write(ms, buf, sizeof(buf)); break; }
+        if (strcmp(mes, "quit") == 0) { write(ms, mes, sizeof(mes)); break; }
         //cur = buf;
         //while (cur[0] == ' ') cur = cur + 1;
 

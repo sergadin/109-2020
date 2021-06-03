@@ -52,6 +52,13 @@ int main(int argc, char* argv[])
             std::cout << "Конец обработки сообщения\n";
             break;
         }
+
+        if (strcmp(mes, "quit") == 0)
+        {
+            std::cout << "Конец обработки сообщения\n";
+            std::cout << "Сервер завершил работу\n";
+            break;
+        }
         std::cout << "  Команда: " << mes << "\n";
     }
 
