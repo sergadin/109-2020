@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
+    struct sockaddr_in client;
     char buf[1024]; // буфер для приема сообщений от клиентов
     char mes[1024];
     //char *cur;
@@ -56,7 +57,8 @@ int main(int argc, char *argv[])
     // цикл обработки клиентов
     while( 1 )
 	{
-        ms = accept(as, 0, 0); // выбираем первое соединение из очереди
+        int size = sizeof(client);
+        ms = accept(as, (struct sockaddr*)&client, &size); // выбираем первое соединение из очереди
         if (ms < 0)
         {
             perror("Ошибка при вызове accept");
@@ -77,6 +79,8 @@ int main(int argc, char *argv[])
         int er_code = B.do_from(in);
         if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
     }
+
+
     close( as ); // закрываем порт 1234; клиенты больше не могут подключаться
     return 0;
 }
