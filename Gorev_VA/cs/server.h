@@ -2,15 +2,24 @@
 #include <fstream>
 #include <sstream>
 
-int Base::do_from(std::istream& in)
+int Base::do_from(std::istream& in, int ms)
 {
     char mes[1024];
     // цикл обработки одного сообщения
     while(1)
     {
         // читаем первую команду
-        if (!(in >> mes)) return 0;
-        printf("  command = %s, size = %d\n", mes, strlen(mes));
+        //if (!(in >> mes)) return 0;
+        //printf("  command = %s, size = %d\n", mes, strlen(mes));
+
+        if (in >> mes)
+            write(ms, mes, sizeof(mes));
+        else
+        {
+            mes = "END";
+            write(ms, mes, sizeof(mes));
+            return 0;
+        }
 
         // добавление деталей
         if (strcmp(mes, "add_details") == 0)

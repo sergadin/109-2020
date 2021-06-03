@@ -70,16 +70,14 @@ int main(int argc, char *argv[])
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         write(ms, buf, sizeof(buf));
 
-        printf("message is = %s, Size = %d\n", buf, strlen(buf));
-
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        if (strcmp(mes, "quit") == 0) break;
+        if (strcmp(mes, "quit") == 0) { write(ms, buf, sizeof(buf)); break; }
         //cur = buf;
         //while (cur[0] == ' ') cur = cur + 1;
 
         std::istringstream in(buf);
-        er_code = B.do_from(in);
+        er_code = B.do_from(in, ms);
         if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; }
 
         close(ms); // закрываем соединение с клиентом

@@ -38,10 +38,22 @@ int main(int argc, char* argv[])
 
     write(s, argv[3], strlen(argv[3])); // посылаем строчку
 
-    char buf[1024];
-    bzero(buf, sizeof(buf));
-    read(s, buf, sizeof(buf));
-    std::cout << buf << "\n";
+    char mes[1024];
+    bzero(mes, sizeof(mes));
+    read(s, mes, sizeof(mes));
+    printf("Принято сообщение: %s\n", mes);
+
+    while (1)
+    {
+        bzero(mes, sizeof(mes));
+        read(s, mes, sizeof(mes));
+        if (strcmp(mes, "END") == 0)
+        {
+            printf("Конец обработки сообщения\n");
+            break;
+        }
+        printf("  Команда: %s\n", mes);
+    }
 
     close(s);
     return 0;
