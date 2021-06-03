@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     char mes[1024];
     bzero(mes, sizeof(mes));
     read(s, mes, sizeof(mes));
-    std::cout << "Принято сообщение: " << mes << "\n";
+    std::cout << "Resieved message: " << mes << "\n";
 
     while (1)
     {
@@ -49,17 +49,17 @@ int main(int argc, char* argv[])
         read(s, mes, sizeof(mes));
         if (strcmp(mes, "END") == 0)
         {
-            std::cout << "Конец обработки сообщения\n";
+            std::cout << "End of message processing\n";
             break;
         }
 
         if (strcmp(mes, "quit") == 0)
         {
-            std::cout << "Конец обработки сообщения\n";
-            std::cout << "Сервер завершил работу\n";
+            std::cout << "End of message processing\n";
+            std::cout << "The server has shut down\n";
             break;
         }
-        std::cout << "  Команда: " << mes << "\n";
+        std::cout << "  Command: " << mes << "\n";
     }
 
     close(s);
