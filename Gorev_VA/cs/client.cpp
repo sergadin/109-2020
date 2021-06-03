@@ -65,7 +65,10 @@ int main(int argc, char* argv[])
             std::cout << "Error ";
             bzero(mes, sizeof(mes));
             read(s, mes, sizeof(mes));
+            std::cout << mes << "\n";
 
+            int er_code = 0;
+            sscanf(mes, "%d", &er_code);
         }
         std::cout << "  Command: " << mes << "\n";
     }

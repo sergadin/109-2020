@@ -78,7 +78,13 @@ int main(int argc, char *argv[])
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
-        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; }
+        if (er_code < 0)
+        { 
+            char cer_code[1024];
+            bzero(mes, sizeof(mes));
+            sprintf(cer_code, "%d", er_code);
+            write(ms, cer_code, sizeof(cer_code));
+        }
 
         close(ms); // закрываем соединение с клиентом
     }
