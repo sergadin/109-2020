@@ -16,8 +16,8 @@ int Base::do_from(std::istream& in, int ms)
             write(ms, mes, sizeof(mes));
         else
         {
-            strcpy(mes, "END");
-            write(ms, mes, sizeof(mes));
+            //strcpy(mes, "END");
+            write(ms, "END", sizeof("END"));
             return 0;
         }
 
