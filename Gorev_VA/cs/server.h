@@ -78,7 +78,7 @@ int Base::do_from(std::istream& in)
             // считаем сколько деталей можно создать
             int det_kol = can_build_map(map_num);
             if (det_kol < 0) { return -6; }
-            std::cout << "    can build " << det_kol << " details '" << name.map[map_num - 1].res] << "'\n";
+            std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
         // можно ли создать деталь по карте ...
