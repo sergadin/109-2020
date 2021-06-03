@@ -1,3 +1,7 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 int Base::do_from(std::istream& in)
 {
     char mes[1024];
@@ -134,6 +138,26 @@ int Base::do_from(std::istream& in)
             int det_kol = build_map(map_num, map_kol);
             if (det_kol < 0) { return -13; }
             std::cout << "    builded " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
+        }
+
+        // прочитать команды из файла
+        if (strcmp(mes, "read_from_file") == 0)
+        {
+            // читаем название файла
+            if (!(in >> mes)) return -13;
+            std::cout << "    start reading from file '" << mes << "'\n";
+            std::ifstream fin(mes);
+            if (!fin.is_open()) return -14;
+
+            int er_code = do_from(fin);
+            if (er_code < 0) return er_code;
+            fin.close();
+            std::cout << "    file '" << mes << "' closed\n";
+
+            // считаем сколько деталей можно создать
+            //int det_kol = can_build_map(map_num);
+            //if (det_kol < 0) { return -6; }
+            //std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
         // показать компоненты базы

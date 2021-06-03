@@ -22,6 +22,7 @@ int f(std::istream &in)
 int main()
 {
 	std::ifstream in("database.txt");
-	f(in);
+	if (in.is_open())
+		f(in);
 	return 0;
 }
