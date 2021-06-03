@@ -47,9 +47,11 @@ int main(int argc, char* argv[])
     {
         bzero(mes, sizeof(mes));
         read(s, mes, sizeof(mes));
+
         if (strcmp(mes, "END") == 0)
         {
             std::cout << "End of message processing\n";
+
             break;
         }
 
@@ -57,6 +59,7 @@ int main(int argc, char* argv[])
         {
             std::cout << "End of message processing\n";
             std::cout << "The server has shut down\n";
+
             break;
         }
 
@@ -69,6 +72,8 @@ int main(int argc, char* argv[])
 
             int er_code = 0;
             sscanf(mes, "%d", &er_code);
+            
+            break;
         }
         std::cout << "  Command: " << mes << "\n";
     }
