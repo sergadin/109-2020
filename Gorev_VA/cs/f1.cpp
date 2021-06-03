@@ -19,10 +19,23 @@ int f(std::istream &in)
 	return 0;
 }
 
+int ff(std::ofstream &out)
+{
+	out << 1234;
+}
+
 int main()
 {
 	std::ifstream in("database.txt");
-	f(in);
+	if (in.is_open())
+		f(in);
+		
+	std::cout << "\n\n\n\n\n";
+	
+	std::ofstream out("file.txt");
+	
+	if (out.is_open())
+		ff(out);
 	
 	return 0;
 }

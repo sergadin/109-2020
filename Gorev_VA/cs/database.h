@@ -249,6 +249,8 @@ public:
 	}
 
 	int do_from(std::istream& in);
+
+
 };
 
 

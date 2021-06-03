@@ -11,6 +11,8 @@
 #include <iostream>
 
 #include "database.h"
+#include "server.h"
+#include <sstream>
 
 int main()
 {
@@ -79,9 +81,14 @@ int main()
 	B.show_details();
 	std::cout << "\n\n\n";
 	
-	char c[1024] = "database.txt";
-	std::cout << c[11] << "," << int(c[12]) << ",\n";
-	B.read_from_file(c);
-	//delete [] mes;
+	std::ifstream in("database.txt");
+	std::string stri = "CCC AAA 1 BBB 22 end   BBB AAA 2 end";
+	std::istringstream sin(stri);
+	char ch[1024] = "CCC AAA 1 BBB 22 end   BBB AAA 2 end";
+	std::istringstream ssin(ch);
+	
+	B.do_from(in);
+	B.do_from(sin);
+	B.do_from(ssin);
 	return 0;
 }
