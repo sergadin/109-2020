@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in client;
     char buf[1024]; // буфер для приема сообщений от клиентов
     char mes[1024];
+    int er_code = 0;
     //char *cur;
     Base B;
 
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
     }
 
     // цикл обработки клиентов
-    while( 1 )
+    while( er_code == 0 )
 	{
         socklen_t size;
         size = sizeof(client);
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         write(ms, buf, sizeof(buf));
-        close(ms); // закрываем соединение с клиентом
+
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
@@ -78,11 +79,13 @@ int main(int argc, char *argv[])
         //while (cur[0] == ' ') cur = cur + 1;
 
         std::istringstream in(buf);
-        int er_code = B.do_from(in);
-        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
+        er_code = B.do_from(in);
+        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; }
+
+        close(ms); // закрываем соединение с клиентом
     }
     close( as ); // закрываем порт 1234; клиенты больше не могут подключаться
-    return 0;
+    return er_code;
 }
 
 /*

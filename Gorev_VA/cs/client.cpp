@@ -43,7 +43,6 @@ int main(int argc, char* argv[])
     read(s, buf, sizeof(buf));
     std::cout << buf << "\n";
 
-    std::cout << "Hellow world\n";
     close(s);
     return 0;
 }
