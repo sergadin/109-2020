@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     char mes[1024];
     bzero(mes, sizeof(mes));
     read(s, mes, sizeof(mes));
-    printf("Принято сообщение: %s\n", mes);
+    std::cout << "Принято сообщение: " << mes << "\n";
 
     while (1)
     {
@@ -49,10 +49,10 @@ int main(int argc, char* argv[])
         read(s, mes, sizeof(mes));
         if (strcmp(mes, "END") == 0)
         {
-            printf("Конец обработки сообщения\n");
+            std::cout << "Конец обработки сообщения\n";
             break;
         }
-        printf("  Команда: %s\n", mes);
+        std::cout << "  Команда: " << mes << "\n";
     }
 
     close(s);
