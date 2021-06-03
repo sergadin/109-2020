@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
         }
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
+        write(ms, buf, sizeof(buf));
         close(ms); // закрываем соединение с клиентом
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
@@ -80,8 +81,6 @@ int main(int argc, char *argv[])
         int er_code = B.do_from(in);
         if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
     }
-
-
     close( as ); // закрываем порт 1234; клиенты больше не могут подключаться
     return 0;
 }
