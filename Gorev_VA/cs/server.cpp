@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 
         std::istringstream in(buf);
         int er_code = B.do_from(in);
+        std::cout << "~~~~" << er_code << "\n";
         if (er_code < 0) { close(as); return er_code; }
     }
     close( as ); /* закрываем порт 1234; клиенты больше не могут подключаться */
