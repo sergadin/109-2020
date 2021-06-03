@@ -65,7 +65,7 @@ int Base::do_from(std::istream& in)
             }
 
             // добавляем карту в базу
-            B.add_map(map);
+            add_map(map);
         }
 
         // можно ли создать деталь по карте №...
@@ -114,7 +114,7 @@ int Base::do_from(std::istream& in)
             }
 
             // считаем сколько деталей можно создать
-            int det_kol = B.can_build_map(map);
+            int det_kol = can_build_map(map);
             if (det_kol < 0) { return -10; }
             std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
         }
