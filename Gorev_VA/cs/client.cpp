@@ -111,11 +111,20 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "    Component detailail's name: " << buf << "\n";
+            std::cout << "  " << buf << ") ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "Component detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "add_map_comp_quant") == 0)
         {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            for (int i = 0; i < (4 + strlen(buf)); i++)
+                std::cout << " ";
+
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
             std::cout << "    Component detailail's quant: " << buf << "\n";

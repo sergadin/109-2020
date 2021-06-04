@@ -79,6 +79,7 @@ int Base::do_from(std::istream& in, int ms)
         // добавление карты
         if (strcmp(mes, "add_map") == 0)
         {
+            count = 0;
             std::vector <std::string> map;
             map.resize(1);
 
@@ -111,12 +112,15 @@ int Base::do_from(std::istream& in, int ms)
                     break;
                 else
                 {
+                    count++;
                     std::string det_name1(mes);
                     map.resize(map.size() + 2);
                     map[map.size() - 2] = det_name1;
                     printf("    detail = %s, ", mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_map_comp_name");
+                    write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
                     write(ms, key, sizeof(key));
                     write(ms, mes, sizeof(mes));
 
@@ -131,6 +135,8 @@ int Base::do_from(std::istream& in, int ms)
                     printf("quant = %s\n", mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_map_comp_quant");
+                    write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
                     write(ms, key, sizeof(key));
                     write(ms, mes, sizeof(mes));
                     std::string det_quant1(mes);
