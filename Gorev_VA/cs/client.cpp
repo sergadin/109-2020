@@ -52,14 +52,14 @@ int main(int argc, char* argv[])
         read(s, buf, sizeof(buf));
         std::cout << "  Command: " << buf << "\n";
 
-        if (strcmp(mes, "END") == 0)
+        if (strcmp(buf, "END") == 0)
         {
             std::cout << "End of message processing\n";
 
             break;
         }
 
-        if (strcmp(mes, "quit") == 0)
+        if (strcmp(buf, "quit") == 0)
         {
             std::cout << "End of message processing\n";
             std::cout << "The server has shut down\n";
