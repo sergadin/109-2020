@@ -16,29 +16,29 @@ int main(int argc, char* argv[])
     struct sockaddr_in server;
     struct hostent* hp;
 
-    if (argc < 4) { return 1; } // Г¤Г®Г«Г¦Г­Г® ГЎГ»ГІГј 3 Г Г°ГЈГіГ¬ГҐГ­ГІГ : Г Г¤Г°ГҐГ±, ГЇГ®Г°ГІ ГЁ Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ
+    if (argc < 4) { return 1; } // должно быть 3 аргумента: адрес, порт и сообщение
 
-    // Г‘Г®Г§Г¤Г ГҐГ¬ Г±Г®ГЄГҐГІ Г¤Г«Гї Г°Г ГЎГ®ГІГ» ГЇГ® TCP/IP
+    // Создаем сокет для работы по TCP/IP
     if ((s = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        perror("ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ ГўГ»Г§Г®ГўГҐ socket");
+        perror("Ошибка при вызове socket");
         exit(1);
     }
 
-    // Г‡Г ГЇГ®Г«Г­ГїГҐГ¬ Г±ГІГ°ГіГІГіГ°Гі Г± Г Г¤Г°ГҐГ±Г®Г¬ Г±ГҐГ°ГўГҐГ°Г 
-    server.sin_family = AF_INET; // ГЇГ°Г®ГІГ®ГЄГ®Г« IP
-    hp = gethostbyname(argv[1]); // ГЋГЎГ°Г Г№Г ГҐГ¬Г±Гї ГЄ DNS ГЁ ГіГ§Г­Г ГҐГ¬ Г Г¤Г°ГҐГ± ГЇГ® Г±ГЁГ¬ГўГ®Г«ГјГ­Г®Г¬Гі ГЁГ¬ГҐГ­ГЁ
-    bcopy(hp->h_addr, &server.sin_addr, hp->h_length); // ГЄГ®ГЇГЁГ°ГіГҐГ¬ ГЁГ§ hp->h_addr Гў &server.sin_addr hp->h_length ГЎГ Г©ГІ
-    server.sin_port = htons(atoi(argv[2])); // Г­Г®Г¬ГҐГ° ГЇГ®Г°ГІГ , Г­Г  ГЄГ®ГІГ®Г°Г®Г¬ Г§Г ГЇГіГ№ГҐГ­ Г±ГҐГ°ГўГҐГ°
+    // Заполняем струтуру с адресом сервера
+    server.sin_family = AF_INET; // протокол IP
+    hp = gethostbyname(argv[1]); // Обращаемся к DNS и узнаем адрес по символьному имени
+    bcopy(hp->h_addr, &server.sin_addr, hp->h_length); // копируем из hp->h_addr в &server.sin_addr hp->h_length байт
+    server.sin_port = htons(atoi(argv[2])); // номер порта, на котором запущен сервер
 
-    // ГіГ±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ Г±Г®ГҐГ¤ГЁГ­ГҐГ­ГЁГҐ Г± Г±ГҐГ°ГўГҐГ°Г®Г¬
+    // устанавливаем соединение с сервером
     if ((connect(s, (struct sockaddr*)&server, sizeof(server))) == -1)
     {
-        perror("ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ ГўГ»Г§Г®ГўГҐ connect");
+        perror("Ошибка при вызове connect");
         exit(1);
     }
 
-    write(s, argv[3], strlen(argv[3])); // ГЇГ®Г±Г»Г«Г ГҐГ¬ Г±ГІГ°Г®Г·ГЄГі
+    write(s, argv[3], strlen(argv[3])); // посылаем строчку
 
     char mes[1024];
     bzero(mes, sizeof(mes));
@@ -99,6 +99,8 @@ int main(int argc, char* argv[])
 
             break;
         }
+
+        std::cout << "  Command: " << mes << "\n";
 
 
         /*if (strcmp(mes, "add_details") == 0)
