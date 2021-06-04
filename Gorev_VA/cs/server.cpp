@@ -62,34 +62,29 @@ int main(int argc, char *argv[])
             perror("Ошибка при вызове accept");
             exit(1);
         }
-        for (int i = 0; i < 1024; i++)
-        {
-            if (buf[i] != 0)
-                std::cout << "~" << i;
-        }
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения
-        for (int i = 0; i < 1024; i++)
-        {
-            if (buf[i] != 0)
-                std::cout << "~" << i;
-        }
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
         std::cout << write(ms, buf, sizeof(buf));
         std::cout << write(ms, buf, sizeof(buf));
-        close(ms); // закрываем соединение с клиентом
+        
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        if (strcmp(mes, "quit") == 0) break;
-        //cur = buf;
-        //while (cur[0] == ' ') cur = cur + 1;
+        if (strcmp(mes, "quit") == 0)
+        {
+            write(ms, buf, sizeof(buf));
+            close(ms);
+            break;
+        }
 
         std::istringstream in(buf);
         int er_code = B.do_from(in);
         if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
+
+        close(ms); // закрываем соединение с клиентом
     }
-    close( as ); // закрываем порт 1234; клиенты больше не могут подключаться
+    close(as); // закрываем порт 1234; клиенты больше не могут подключаться
     return 0;
 }
 

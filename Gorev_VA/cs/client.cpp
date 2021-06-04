@@ -46,7 +46,27 @@ int main(int argc, char* argv[])
     read(s, buf, sizeof(buf));
     std::cout << "Recieved message: " << buf << "\n";
 
+    for (int iii = 0; i < 100; i++)
+    {
+        bzero(buf, sizeof(buf));
+        read(s, buf, sizeof(buf));
+        std::cout << "  Command: " << buf << "\n";
 
+        if (strcmp(mes, "END") == 0)
+        {
+            std::cout << "End of message processing\n";
+
+            break;
+        }
+
+        if (strcmp(mes, "quit") == 0)
+        {
+            std::cout << "End of message processing\n";
+            std::cout << "The server has shut down\n";
+
+            break;
+        }
+    }
 
     close(s);
     return 0;
