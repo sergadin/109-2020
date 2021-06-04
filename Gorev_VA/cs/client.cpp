@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
         {
             std::cout << "Error ";
             bzero(mes, sizeof(mes));
-            std::cout << "~~~~~~ " << read(s, mes, sizeof(mes) << "\n";
+            std::cout << "~~~~~~ " << read(s, mes, sizeof(mes)) << "\n";
             std::cout << "|" << mes << "|" << (int)sizeof(mes) << "|" << (int)mes[0] << "|\n";
 
             int er_code = 0;
