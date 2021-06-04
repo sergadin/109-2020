@@ -1,0 +1,17 @@
+#Сервер запускается без параметров
+./tdb_client localhost 1234 "1"
+#Загрузить базу
+./tdb_client localhost 1234 "2"
+#Сохранить базу
+./tdb_client localhost 1234 "3"
+#Вывести всю базу
+./tdb_client localhost 1234 "4 :Test Tst Db:225:4:"
+#Добавить запись
+./tdb_client localhost 1234 "5 :Test Tst Db:225:4:"
+#Удалить запись
+./tdb_client localhost 1234 "6 :Test Tst Db:225:4:"
+#Найти запись
+./tdb_client localhost 1234 "7 O:Test Tst Db:225:4: N:Test Db Test:225:4:"
+#Изменить запись
+./tdb_client localhost 1234 "8"
+#Выйти
