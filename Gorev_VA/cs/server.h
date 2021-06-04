@@ -61,7 +61,7 @@ int Base::do_from(std::istream& in, int ms)
                     bzero(mes, sizeof(mes));
                     sprintf(mes, "%d", det_quant);
                     //strcpy(mes, key);
-                    std::cout << write(ms, mes, sizeof(mes) << "\n");
+                    std::cout << write(ms, mes, sizeof(mes)) << "\n";
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
