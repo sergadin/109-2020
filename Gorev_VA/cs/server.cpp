@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
             char cer_code[1024];
             bzero(cer_code, sizeof(cer_code));
             sprintf(cer_code, "%d", er_code);
-            std::cout << cer_code << ", " << write(ms, "-30", sizeof("-30")) << "\n";
+            std::cout << cer_code << ", " << (int)sizeof(cer_code) << ", " << write(ms, cer_code, sizeof(cer_code)) << "\n";
             er_code = 0;
         }
 
