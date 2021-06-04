@@ -62,10 +62,20 @@ int main(int argc, char *argv[])
             perror("Ошибка при вызове accept");
             exit(1);
         }
-        bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
+        for (int i = 0; i < 1024; i++)
+        {
+            if (buf[i] != 0)
+                std::cout << "~" << i;
+        }
+        bzero(buf, sizeof(buf)); // обнуляем буфер сообщения
+        for (int i = 0; i < 1024; i++)
+        {
+            if (buf[i] != 0)
+                std::cout << "~" << i;
+        }
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
-        write(ms, buf, sizeof(buf));
-        write(ms, buf, sizeof(buf));
+        std::cout << write(ms, buf, sizeof(buf));
+        std::cout << write(ms, buf, sizeof(buf));
         close(ms); // закрываем соединение с клиентом
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
