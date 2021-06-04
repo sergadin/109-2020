@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
-    struct sockaddr_in client;
     char buf[1024]; // буфер для приема сообщений от клиентов
     char mes[1024];
     int er_code = 0;
@@ -61,7 +60,7 @@ int main(int argc, char *argv[])
 	{
         socklen_t size;
         size = sizeof(client);
-        ms = accept(as, (struct sockaddr*)&client, &size); // выбираем первое соединение из очереди
+        ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
         {
             perror("Ошибка при вызове accept");
@@ -74,23 +73,15 @@ int main(int argc, char *argv[])
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0) { write(ms, mes, sizeof(mes)); break; }
-        //cur = buf;
-        //while (cur[0] == ' ') cur = cur + 1;
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
-        //std::cout << "er_code is " << er_code << "\n";
         if (er_code < 0)
         { 
             char cer_code[1024];
             bzero(cer_code, sizeof(cer_code));
-            //std::cout << "cer_code1 is " << cer_code << "\n";
             sprintf(cer_code, "%d", er_code);
-            //std::cout << "cer_code2 is " << cer_code << "\n";
-            //std::cout << write(ms, cer_code, sizeof(cer_code)) << " " << sizeof(cer_code) << "\n";
-            std::cout << "A\n";
-            std::cout << write_to_client(ms, cer_code) << "\n";
-            std::cout << "B\n";
+            std::cout << cer_code << ", " << write_to_client(ms, cer_code) << "\n";
             er_code = 0;
         }
 

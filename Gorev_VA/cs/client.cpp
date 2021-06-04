@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
     char mes[1024];
     bzero(mes, sizeof(mes));
     read(s, mes, sizeof(mes));
-    std::cout << "Resieved message: " << mes << "\n";
+    std::cout << "Recieved message: " << mes << "\n";
 
     while (1)
     {
