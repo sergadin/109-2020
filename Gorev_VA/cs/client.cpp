@@ -72,18 +72,23 @@ int main(int argc, char* argv[])
         }
 
         if (strcmp(buf, "add_details"))
+        {
             std::cout << "  Start additing details";
+            continue;
+        }
         if (strcmp(buf, "add_details_name"))
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
             std::cout << "    Detailail's name: " << buf << "\n";
+            continue;
         }
         if (strcmp(buf, "add_details_quant"))
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
             std::cout << "    Detailail's quant: " << buf << "\n";
+            continue;
         }
     }
 
