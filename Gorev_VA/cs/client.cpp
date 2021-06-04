@@ -42,6 +42,9 @@ int main(int argc, char* argv[])
     bzero(buf, sizeof(buf));
     read(s, buf, sizeof(buf));
     std::cout << "Recieved message: " << buf << "\n";
+    bzero(buf, sizeof(buf));
+    read(s, buf, sizeof(buf));
+    std::cout << "Recieved message: " << buf << "\n";
 
 
 
