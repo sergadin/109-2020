@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
             //std::cout << "cer_code2 is " << cer_code << "\n";
             //std::cout << write(ms, cer_code, sizeof(cer_code)) << " " << sizeof(cer_code) << "\n";
             std::cout << "A\n";
-            std::cout << send(ms, cer_code, sizeof(cer_code), 0) << "\n";
+            std::cout << write_to_client(ms, cer_code) << "\n";
             std::cout << "B\n";
             er_code = 0;
         }
