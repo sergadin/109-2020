@@ -10,7 +10,7 @@ int read_from_server(int fd, char* buf) {
         }
         else if (nbytes == 0) {
             fprintf(stderr, "Client: read length truncated\n");
-            return -1;
+            return -2;
         }
     }
 
@@ -18,11 +18,11 @@ int read_from_server(int fd, char* buf) {
         nbytes = read(fd, buf + i, len);
         if (nbytes < 0) {
             fprintf(stderr, "Client: read error\n");
-            return -1;
+            return -3;
         }
         else if (nbytes == 0) {
             fprintf(stderr, "Client: read truncated\n");
-            return -1;
+            return -4;
         }
     }
 
