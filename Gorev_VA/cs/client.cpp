@@ -44,6 +44,7 @@ int main(int argc, char* argv[])
     bzero(mes, sizeof(mes));
     read(s, mes, sizeof(mes));
     std::cout << "Recieved message: " << mes << "\n";
+    std::cout << "Size of message: " << (int)sizeof(mes) << "\n";
 
     while (1)
     {
@@ -68,6 +69,7 @@ int main(int argc, char* argv[])
         if (strcmp(mes, "error") == 0)
         {
             std::cout << "Error ";
+            std::cout << "$ Size of message error: " << (int)sizeof(mes) << "\n";
             bzero(mes, sizeof(mes));
             std::cout << "~~~~~~ " << read(s, mes, sizeof(mes)) << "\n";
             std::cout << "|" << mes << "|" << (int)sizeof(mes) << "|" << (int)mes[0] << "|\n";
