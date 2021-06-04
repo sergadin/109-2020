@@ -86,7 +86,7 @@ int Base::do_from(std::istream& in, int ms)
         {
             // читаем номер карты (порядок с единицы)
             int map_num;
-            if (!(in >> map_num)) { std::cout << "error" << ", " << sizeof("error") << ", " write(ms, "error", sizeof("error"));  return -6; }
+            if (!(in >> map_num)) { std::cout << "error" << ", " << sizeof("error") << ", " << write(ms, "error", sizeof("error")) << "\n";  return -6; }
 
             // считаем сколько деталей можно создать
             int det_kol = can_build_map(map_num);
