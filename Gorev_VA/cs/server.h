@@ -42,7 +42,7 @@ int Base::do_from(std::istream& in, int ms)
                     strcpy(key, "add_details_name");
                     std::cout << "~~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
                     std::cout << "~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
-                    printf("    new detail = %s, ", mes);
+                    printf("    new detail = %s\n", mes);
 
                     // читаем количество деталей
                     int det_quant;
