@@ -194,6 +194,17 @@ int main(int argc, char* argv[])
             std::cout << "    Component detailail's quant: " << buf << "\n";
             continue;
         }
+        if (strcmp(buf, "can_build_map_quant") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    " << buf << " details ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << buf << "\n";
+            continue;
+        }
     }
 
     close(s);

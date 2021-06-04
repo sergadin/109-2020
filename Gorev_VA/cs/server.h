@@ -187,7 +187,7 @@ int Base::do_from(std::istream& in, int ms)
             bzero(mes, sizeof(mes));
             std::istringstream sin(name[map[map_num - 1].res]);
             sin >> mes;
-            std::cout << write(ms, mes, sizeof(mes)) << "\n";
+            write(ms, mes, sizeof(mes));
             std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
@@ -261,8 +261,23 @@ int Base::do_from(std::istream& in, int ms)
 
             // считаем сколько деталей можно создать
             int det_kol = can_build_map(map);
-            if (det_kol < 0) { return -11; }
+            if (det_kol < 0)
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -11;
+            }
             std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
+            bzero(key, sizeof(key));
+            strcpy(key, "can_build_map_quant");
+            write(ms, key, sizeof(key));
+            bzero(mes, sizeof(mes));
+            sprintf(mes, "%d", det_kol);
+            write(ms, mes, sizeof(mes));
+            std::istringstream sin(map[0]);
+            sin >> mes;
+            write(ms, mes, sizeof(mes));
         }
 
         // создать деталь по карте
