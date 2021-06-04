@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
         std::cout << "  Command: " << mes << "\n";
 
 
-        if (strcmp(mes, "add_details") == 0)
+        /*if (strcmp(mes, "add_details") == 0)
         {
             std::cout << "Start additing details\n";
         }
@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
             read(s, mes, sizeof(mes));
 
             std::cout << "  Detail's quant: " << mes << "\n";
-        }
+        }*/
 
     }
 
