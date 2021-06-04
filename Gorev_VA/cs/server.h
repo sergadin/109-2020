@@ -9,7 +9,7 @@ int Base::do_from(std::istream& in, int ms)
     while(1)
     {
         // читаем первую команду
-        if (!(in >> mes)) { write(ms, "error", sizeof("error")); return -17 }
+        if (!(in >> mes)) { write(ms, "error", sizeof("error")); return -17; }
         if (strcmp(mes, "END") == 0)
         {
             write(ms, "END", sizeof("END"));
