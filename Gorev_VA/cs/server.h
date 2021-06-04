@@ -2,51 +2,36 @@
 #include <fstream>
 #include <sstream>
 
-int Base::do_from(std::istream& in, int ms)
+int Base::do_from(std::istream& in)
 {
     char mes[1024];
-    char mess[1024];
     // цикл обработки одного сообщения
     while(1)
     {
         // читаем первую команду
-        if (!(in >> mes)) { write(ms, "error", sizeof("error")); return -17; }
-        if (strcmp(mes, "END") == 0)
-        {
-            write(ms, "END", sizeof("END"));
-            return 0;
-        }
+        if (!(in >> mes)) return 0;
+        printf("  command = %s, size = %d\n", mes, strlen(mes));
 
         // добавление деталей
         if (strcmp(mes, "add_details") == 0)
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -1; }
+                if (!(in >> mes)) return -1;
 
                 if (strcmp(mes, "end") == 0)
                     break;
                 else
                 {
-                    std::string det_name(mes);
-                    write(ms, "add_details_name", sizeof("add_details_name"));
-                    
-                    bzero(mess, sizeof(mess));
-                    read(ms, mess, sizeof(mess));
-                    write(ms, "NextDetail", sizeof("NewDetail"));
+                    printf("    new detail = %s, ", mes);
 
                     // читаем количество деталей
                     int det_quant;
-                    if (!(in >> det_quant)) { write(ms, "error", sizeof("error"));  return -2; }
-                    
-                    bzero(mess, sizeof(mess));
-                    read(ms, mess, sizeof(mess));
-                    write(ms, "add_details_quant", sizeof("add_details_quant"));
-                    bzero(mes, sizeof(mes));
-                    sprintf(mes, "%d", det_quant);
-                    write(ms, mes, sizeof(mes));
+                    if (!(in >> det_quant)) return -2;
+                    printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
+                    std::string det_name(mes);
                     add_detail(det_name, det_quant);
                 }
             }
@@ -58,14 +43,14 @@ int Base::do_from(std::istream& in, int ms)
             map.resize(1);
 
             // читаем название первой детали
-            if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -3; }
+            if (!(in >> mes)) return -3;
             std::string det_name0(mes);
             map[0] = det_name0;
 
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -4; }
+                if (!(in >> mes)) return -4;
                 if (strcmp(mes, "end") == 0)
                     break;
                 else
@@ -76,7 +61,7 @@ int Base::do_from(std::istream& in, int ms)
                     printf("    detail = %s, ", mes);
 
                     // читаем количество деталей
-                    if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -5; }
+                    if (!(in >> mes)) return -5;
                     printf("quant = %s\n", mes);
                     std::string det_quant1(mes);
                     map[map.size() - 1] = det_quant1;
@@ -92,11 +77,11 @@ int Base::do_from(std::istream& in, int ms)
         {
             // читаем номер карты (порядок с единицы)
             int map_num;
-            if (!(in >> map_num)) { std::cout << "error" << ", " << sizeof("error") << ", " << write(ms, "error", sizeof("error")) << "\n";  return -6; }
+            if (!(in >> map_num)) return -6;
 
             // считаем сколько деталей можно создать
             int det_kol = can_build_map(map_num);
-            if (det_kol < 0) { write(ms, "error", sizeof("error"));  return -7; }
+            if (det_kol < 0) { return -6; }
             std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
@@ -107,14 +92,14 @@ int Base::do_from(std::istream& in, int ms)
             map.resize(1);
 
             // читаем название первой детали
-            if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -8; }
+            if (!(in >> mes)) return -7;
             std::string det_name0(mes);
             map[0] = det_name0;
 
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -9; }
+                if (!(in >> mes)) return -8;
                 if (strcmp(mes, "end") == 0)
                     break;
                 else
@@ -125,7 +110,7 @@ int Base::do_from(std::istream& in, int ms)
                     printf("    detail = %s, ", mes);
 
                     // читаем количество деталей
-                    if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -10; }
+                    if (!(in >> mes)) return -9;
                     printf("quant = %s\n", mes);
                     std::string det_quant1(mes);
                     map[map.size() - 1] = det_quant1;
@@ -134,7 +119,7 @@ int Base::do_from(std::istream& in, int ms)
 
             // считаем сколько деталей можно создать
             int det_kol = can_build_map(map);
-            if (det_kol < 0) { write(ms, "error", sizeof("error"));  return -11; }
+            if (det_kol < 0) { return -10; }
             std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
         }
 
@@ -143,15 +128,15 @@ int Base::do_from(std::istream& in, int ms)
         {
             // читаем номер карты (порядок с единицы)
             int map_num;
-            if (!(in >> map_num)) { write(ms, "error", sizeof("error"));  return -12; }
+            if (!(in >> map_num)) return -11;
 
             // читаем количество деталей которые надо создать 
             int map_kol;
-            if (!(in >> map_kol)) { write(ms, "error", sizeof("error"));  return -13; }
+            if (!(in >> map_kol)) return -12;
 
             // считаем сколько деталей можно создать
             int det_kol = build_map(map_num, map_kol);
-            if (det_kol < 0) { write(ms, "error", sizeof("error"));  return -14; }
+            if (det_kol < 0) { return -13; }
             std::cout << "    builded " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
@@ -159,15 +144,20 @@ int Base::do_from(std::istream& in, int ms)
         if (strcmp(mes, "read_from_file") == 0)
         {
             // читаем название файла
-            if (!(in >> mes)) { write(ms, "error", sizeof("error"));  return -15; }
+            if (!(in >> mes)) return -13;
             std::cout << "    start reading from file '" << mes << "'\n";
             std::ifstream fin(mes);
-            if (!fin.is_open()) { write(ms, "error", sizeof("error"));  return -16; }
+            if (!fin.is_open()) return -14;
 
-            int er_code = do_from(fin, ms);
+            int er_code = do_from(fin);
             if (er_code < 0) return er_code;
             fin.close();
             std::cout << "    file '" << mes << "' closed\n";
+
+            // считаем сколько деталей можно создать
+            //int det_kol = can_build_map(map_num);
+            //if (det_kol < 0) { return -6; }
+            //std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
         // показать компоненты базы

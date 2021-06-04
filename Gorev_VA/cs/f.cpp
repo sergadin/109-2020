@@ -4,6 +4,7 @@
 
 #include <strings.h>
 #include "database.h"
+#include "server.h"
 
 int f(std::istream &in)
 {
@@ -35,13 +36,6 @@ int main()
 	
 	if (out.is_open())
 		ff(out);
-	
-	std::cout << "\n\n\n\n\n";
-	
-	char buf[1024] = "Hellow world!";
-	int len = strlen(buf) + 1;
-	char* p = (char*)&len;
-	std::cout << *p;
 	
 	return 0;
 }

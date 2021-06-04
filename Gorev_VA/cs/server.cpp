@@ -10,7 +10,6 @@
 
 #include "database.h"
 #include "server.h"
-#include "read_write.h"
 
 #include <iostream>
 #include <fstream>
@@ -22,7 +21,6 @@ int main(int argc, char *argv[])
     struct sockaddr_in server;
     char buf[1024]; // буфер дл€ приема сообщений от клиентов
     char mes[1024];
-    int er_code = 0;
     //char *cur;
     Base B;
 
@@ -35,7 +33,7 @@ int main(int argc, char *argv[])
     // костыль из кода серге€ александровича
     int on = 1;
     if (setsockopt(as, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) == -1) {
-        perror("ќшибка при вызове setsockopt as");
+        perror("ќшибка при вызове setsockopt");
     }
     // «аполн€ем структуру адреса, на котором будет работать сервер
     server.sin_family = AF_INET; /* IP */
@@ -56,7 +54,7 @@ int main(int argc, char *argv[])
     }
 
     // цикл обработки клиентов
-    while(1)
+    while( 1 )
 	{
         ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
@@ -66,28 +64,21 @@ int main(int argc, char *argv[])
         }
         bzero(buf, sizeof(buf)); // обнул€ем буфер сообщени€ 
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
-        write(ms, buf, sizeof(buf));
+        close(ms); // закрываем соединение с клиентом
+        printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        if (strcmp(mes, "quit") == 0) { write(ms, mes, sizeof(mes)); close(ms); break; }
+        if (strcmp(mes, "quit") == 0) break;
+        //cur = buf;
+        //while (cur[0] == ' ') cur = cur + 1;
 
         std::istringstream in(buf);
-        er_code = B.do_from(in, ms);
-        if (er_code < 0)
-        { 
-            char cer_code[1024];
-            bzero(cer_code, sizeof(cer_code));
-            sprintf(cer_code, "%d", er_code);
-            int len = strlen(cer_code) + 1;
-            std::cout << "mistake" << ", " << sizeof("mistake") << ", " << write(ms, "mistake", sizeof("mistake")) << "\n";
-            er_code = 0;
-        }
-
-        close(ms); // закрываем соединение с клиентом
+        int er_code = B.do_from(in);
+        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
     }
     close( as ); // закрываем порт 1234; клиенты больше не могут подключатьс€
-    return er_code;
+    return 0;
 }
 
 /*

@@ -249,7 +249,7 @@ public:
 		return c;
 	}
 
-	int do_from(std::istream& in, int ms);
+	int do_from(std::istream& in);
 
 
 };
