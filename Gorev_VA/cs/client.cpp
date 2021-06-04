@@ -37,6 +37,14 @@ int main(int argc, char* argv[])
     }
 
     write(s, argv[3], strlen(argv[3])); // посылаем строчку
+
+    char buf[1024];
+    bzero(buf, sizeof(buf));
+    read(s, buf, sizeof(buf));
+    std::cout << "Recieved message: " << buf << "\n";
+
+
+
     close(s);
     return 0;
 }
