@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "  " << buf << ") ";
+            std::cout << "    " << buf << ") ";
 
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            for (int i = 0; i < (strlen(buf)); i++)
+            for (int i = 0; i < (2 + strlen(buf)); i++)
                 std::cout << " ";
 
             bzero(buf, sizeof(buf));
@@ -134,6 +134,31 @@ int main(int argc, char* argv[])
             std::cout << "    Component detailail's quant: " << buf << "\n";
             continue;
         }
+
+        if (strcmp(buf, "can_build_map_#") == 0)
+        {
+            std::cout << "  Start calculating how many details can be builded by map:\n";
+            continue;
+        }
+        if (strcmp(buf, "can_build_map_#_num") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Number " << buf << ": ";
+            continue;
+        }
+        if (strcmp(buf, "can_build_map_#_quant") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << buf << " details ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << buf << "\n";
+            continue;
+        }
+        
         
     }
 
