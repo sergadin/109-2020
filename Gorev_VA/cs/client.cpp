@@ -222,7 +222,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "    Want build " << buf << " details ";
+            std::cout << "    Want build: " << buf << " details ";
 
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "    " << buf << " details ";
+            std::cout << "    Builded: " << buf << " details ";
 
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));

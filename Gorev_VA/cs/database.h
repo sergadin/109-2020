@@ -246,7 +246,7 @@ public:
 		quant[map[n].res] += kol;
 		for (int i = 0; i < map[n].size(); i++)
 			quant[map[n].comp[i].num] -= kol * map[n].comp[i].quant;
-		return c;
+		return kol;
 	}
 
 	int do_from(std::istream& in, int ms);
