@@ -99,9 +99,13 @@ int main(int argc, char* argv[])
             continue;
         }
 
-        if (strcmp(buf, "add_map_res") == 0)
+        if (strcmp(buf, "add_map") == 0)
         {
             std::cout << "  Start additing map\n";
+            continue;
+        }
+        if (strcmp(buf, "add_map_res") == 0)
+        {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
             std::cout << "    Result detailail's name: " << buf << "\n";
