@@ -6,6 +6,7 @@ int Base::do_from(std::istream& in, int ms)
 {
     char mes[1024];
     char key[1024];
+    int count = 0;
     // цикл обработки одного сообщения
     while(1)
     {
@@ -42,6 +43,7 @@ int Base::do_from(std::istream& in, int ms)
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_name");
                     write(ms, key, sizeof(key));
+
                     write(ms, mes, sizeof(mes));
                     printf("    new detail = %s\n", mes);
 
@@ -57,9 +59,9 @@ int Base::do_from(std::istream& in, int ms)
                     strcpy(key, "add_details_quant");
                     write(ms, key, sizeof(key));
                     bzero(mes, sizeof(mes));
-                    sprintf(key, "%d", det_quant);
-                    strcpy(mes, key);
-                    write(ms, mes, sizeof(mes));
+                    sprintf(mes, "%d", det_quant);
+                    //strcpy(mes, key);
+                    std::cout << write(ms, mes, sizeof(mes) << "\n");
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
