@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
             //std::cout << "cer_code1 is " << cer_code << "\n";
             sprintf(cer_code, "%d", er_code);
             //std::cout << "cer_code2 is " << cer_code << "\n";
-            std::cout << write(ms, cer_code, sizeof(cer_code)) << " " << sizeof(cer_code) "\n";
+            std::cout << write(ms, cer_code, sizeof(cer_code)) << " " << sizeof(cer_code) << "\n";
             er_code = 0;
         }
 
