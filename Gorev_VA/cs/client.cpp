@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
     read(s, buf, sizeof(buf));
     std::cout << "Recieved message: " << buf << "\n";
 
-    for (int iii = 0; i < 100; i++)
+    for (int iii = 0; iii < 100; iii++)
     {
         bzero(buf, sizeof(buf));
         read(s, buf, sizeof(buf));
