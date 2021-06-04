@@ -14,14 +14,15 @@ int Base::do_from(std::istream& in, int ms)
         {
             bzero(key, sizeof(key));
             strcpy(key, "END");
-            std::cout << "~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+            write(ms, key, sizeof(key));
             return 0;
         }
-        std::cout << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
+        write(ms, mes, sizeof(mes));
         printf("  command = %s, size = %d\n", mes, strlen(mes));
 
         // добавление деталей
         if (strcmp(mes, "add_details") == 0)
+        {
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
@@ -29,7 +30,7 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     bzero(key, sizeof(key));
                     strcpy(key, "error");
-                    std::cout << "~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+                    write(ms, key, sizeof(key));
                     return -1;
                 }
 
@@ -40,8 +41,8 @@ int Base::do_from(std::istream& in, int ms)
                     std::string det_name(mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_name");
-                    std::cout << "~~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
-                    std::cout << "~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
+                    write(ms, key, sizeof(key));
+                    write(ms, mes, sizeof(mes));
                     printf("    new detail = %s\n", mes);
 
                     // читаем количество деталей
@@ -49,22 +50,25 @@ int Base::do_from(std::istream& in, int ms)
                     if (!(in >> det_quant))
                     {
                         strcpy(mes, "error");
-                        std::cout << "~~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
+                        write(ms, mes, sizeof(mes));
                         return -2;
                     }
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_quant");
-                    std::cout << "~~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+                    write(ms, key, sizeof(key));
                     bzero(mes, sizeof(mes));
                     sprintf(key, "%d", det_quant);
                     strcpy(mes, key);
-                    std::cout << "~~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
+                    write(ms, mes, sizeof(mes));
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
                     add_detail(det_name, det_quant);
                 }
             }
+            continue;
+        }
+            
 
         // добавление карты
         if (strcmp(mes, "add_map") == 0)
@@ -73,14 +77,30 @@ int Base::do_from(std::istream& in, int ms)
             map.resize(1);
 
             // читаем название первой детали
-            if (!(in >> mes)) return -3;
+            if (!(in >> mes))
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -3;
+            }
             std::string det_name0(mes);
             map[0] = det_name0;
+            bzero(key, sizeof(key));
+            strcpy(key, "add_map_res");
+            write(ms, key, sizeof(key));
+            write(ms, mes, sizeof(mes));
 
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (!(in >> mes)) return -4;
+                if (!(in >> mes))
+                {
+                    bzero(key, sizeof(key));
+                    strcpy(key, "error");
+                    write(ms, key, sizeof(key));
+                    return -4;
+                }
                 if (strcmp(mes, "end") == 0)
                     break;
                 else
@@ -89,10 +109,24 @@ int Base::do_from(std::istream& in, int ms)
                     map.resize(map.size() + 2);
                     map[map.size() - 2] = det_name1;
                     printf("    detail = %s, ", mes);
+                    bzero(key, sizeof(key));
+                    strcpy(key, "add_map_comp_name");
+                    write(ms, key, sizeof(key));
+                    write(ms, mes, sizeof(mes));
 
                     // читаем количество деталей
-                    if (!(in >> mes)) return -5;
+                    if (!(in >> mes))
+                    {
+                        bzero(key, sizeof(key));
+                        strcpy(key, "error");
+                        write(ms, key, sizeof(key));
+                        return -5;
+                    }
                     printf("quant = %s\n", mes);
+                    bzero(key, sizeof(key));
+                    strcpy(key, "add_map_comp_quant");
+                    write(ms, key, sizeof(key));
+                    write(ms, mes, sizeof(mes));
                     std::string det_quant1(mes);
                     map[map.size() - 1] = det_quant1;
                 }
@@ -100,6 +134,7 @@ int Base::do_from(std::istream& in, int ms)
 
             // добавляем карту в базу
             add_map(map);
+            continue;
         }
 
         // можно ли создать деталь по карте №...

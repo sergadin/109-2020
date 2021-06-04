@@ -70,19 +70,15 @@ int main(int argc, char* argv[])
 
             break;
         }
-        int q = 0;
         if (strcmp(buf, "add_details") == 0)
         {
-            q = 1;
             std::cout << "  Start additing details\n";
             continue;
         }
         if (strcmp(buf, "add_details_name") == 0)
         {
-            std::cout << "This is q: " << q << "\n";
-            std::cout << buf << "\n";
             bzero(buf, sizeof(buf));
-            std::cout << read(s, buf, sizeof(buf)) << "\n";
+            read(s, buf, sizeof(buf));
             std::cout << "    Detailail's name: " << buf << "\n";
             continue;
         }
@@ -93,6 +89,30 @@ int main(int argc, char* argv[])
             std::cout << "    Detailail's quant: " << buf << "\n";
             continue;
         }
+
+        if (strcmp(buf, "add_map_res") == 0)
+        {
+            std::cout << "  Start additing map\n";
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Result detailail's name: " << buf << "\n";
+            continue;
+        }
+        if (strcmp(buf, "add_map_comp_name") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Component detailail's name: " << buf << "\n";
+            continue;
+        }
+        if (strcmp(buf, "add_map_comp_quant") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Component detailail's quant: " << buf << "\n";
+            continue;
+        }
+        
     }
 
     close(s);
