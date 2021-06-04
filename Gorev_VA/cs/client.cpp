@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
             std::cout << "Error ";
             std::cout << "$ Size of message error: " << (int)sizeof(mes) << "\n";
             bzero(mes, sizeof(mes));
-            std::cout << "~~~~~~ " << read_from_server(s, mes) << "\n";
+            std::cout << "~~~~~~ " << read(s, mes, sizeof(mes)) << "\n";
             std::cout << "|" << mes << "|" << (int)sizeof(mes) << "|" << (int)mes[0] << "|\n";
 
             int er_code = 0;
