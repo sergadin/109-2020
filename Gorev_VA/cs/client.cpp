@@ -70,14 +70,16 @@ int main(int argc, char* argv[])
 
             break;
         }
-
+        int q = 0;
         if (strcmp(buf, "add_details"))
         {
-            std::cout << "  Start additing details";
+            q = 1;
+            std::cout << "  Start additing details\n";
             continue;
         }
         if (strcmp(buf, "add_details_name"))
         {
+            std::cout << "This is q: " << q << "\n"
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
             std::cout << "    Detailail's name: " << buf << "\n";
