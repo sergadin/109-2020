@@ -29,7 +29,10 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     std::string det_name(mes);
                     write(ms, "add_details_name", sizeof("add_details_name"));
-                    write(ms, "NewDetail", sizeof("NewDetail"));
+                    char mess[1024];
+                    bzero(mess, sizeof(mess);
+                    read(ms, mess, sizeof(mess));
+                    write(ms, "NextDetail", sizeof("NewDetail"));
 
                     // читаем количество деталей
                     int det_quant;

@@ -58,10 +58,6 @@ int main(int argc, char *argv[])
     // цикл обработки клиентов
     while(1)
 	{
-        on = 1;
-        if (setsockopt(ms, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) == -1) {
-            perror("Ошибка при вызове setsockopt ms");
-        }
         ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
         {
