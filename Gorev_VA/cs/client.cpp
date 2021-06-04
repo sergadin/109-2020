@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
     while (1)
     {
         bzero(mes, sizeof(mes));
-        read(s, mes, sizeof(mes));
+        read_from_server(s, mes);
 
         if (strcmp(mes, "END") == 0)
         {
