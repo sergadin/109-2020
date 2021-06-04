@@ -80,8 +80,9 @@ int main(int argc, char* argv[])
         if (strcmp(buf, "add_details_name"))
         {
             std::cout << "This is q: " << q << "\n";
+            std::cout << buf << "\n";
             bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            std::cout << read(s, buf, sizeof(buf)) << "\n";
             std::cout << "    Detailail's name: " << buf << "\n";
             continue;
         }
