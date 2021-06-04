@@ -71,13 +71,13 @@ int main(int argc, char* argv[])
             break;
         }
         int q = 0;
-        if (strcmp(buf, "add_details"))
+        if (strcmp(buf, "add_details") == 0)
         {
             q = 1;
             std::cout << "  Start additing details\n";
             continue;
         }
-        if (strcmp(buf, "add_details_name"))
+        if (strcmp(buf, "add_details_name") == 0)
         {
             std::cout << "This is q: " << q << "\n";
             std::cout << buf << "\n";
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
             std::cout << "    Detailail's name: " << buf << "\n";
             continue;
         }
-        if (strcmp(buf, "add_details_quant"))
+        if (strcmp(buf, "add_details_quant") == 0)
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
