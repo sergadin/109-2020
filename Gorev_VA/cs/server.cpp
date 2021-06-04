@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in server;
     char buf[1024]; // буфер для приема сообщений от клиентов
     char mes[1024];
-    //char *cur;
+    int er_code = 0;
     Base B;
 
     // Создаем сокет для работы по TCP/IP 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     }
 
     // цикл обработки клиентов
-    while( 1 )
+    while(er_code >= 0)
 	{
         ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
@@ -64,8 +64,7 @@ int main(int argc, char *argv[])
         }
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения
         read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
-        std::cout << write(ms, buf, sizeof(buf));
-        std::cout << write(ms, buf, sizeof(buf));
+        write(ms, buf, sizeof(buf));
         
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
@@ -79,8 +78,8 @@ int main(int argc, char *argv[])
         }
 
         std::istringstream in(buf);
-        int er_code = B.do_from(in);
-        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; close(as); return er_code; }
+        er_code = B.do_from(in, ms);
+        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; }
 
         close(ms); // закрываем соединение с клиентом
     }

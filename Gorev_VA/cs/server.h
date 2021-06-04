@@ -2,14 +2,22 @@
 #include <fstream>
 #include <sstream>
 
-int Base::do_from(std::istream& in)
+int Base::do_from(std::istream& in, int ms)
 {
     char mes[1024];
+    char key[1024];
     // цикл обработки одного сообщения
     while(1)
     {
         // читаем первую команду
-        if (!(in >> mes)) return 0;
+        if (!(in >> mes))
+        {
+            bzero(key, sizeof(key));
+            strcpy(key, "END");
+            std::cout << "~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+            return 0;
+        }
+        std::cout << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
         printf("  command = %s, size = %d\n", mes, strlen(mes));
 
         // добавление деталей
@@ -17,21 +25,43 @@ int Base::do_from(std::istream& in)
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (!(in >> mes)) return -1;
+                if (!(in >> mes))
+                {
+                    bzero(key, sizeof(key));
+                    strcpy(key, "error");
+                    std::cout << "~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+                    return -1;
+                }
 
                 if (strcmp(mes, "end") == 0)
                     break;
                 else
                 {
+                    std::string det_name(mes);
+                    bzero(key, sizeof(key));
+                    strcpy(key, "add_details_name");
+                    std::cout << "~~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+                    std::cout << "~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
                     printf("    new detail = %s, ", mes);
 
                     // читаем количество деталей
                     int det_quant;
-                    if (!(in >> det_quant)) return -2;
+                    if (!(in >> det_quant))
+                    {
+                        strcpy(mes, "error");
+                        std::cout << "~~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
+                        return -2;
+                    }
+                    bzero(key, sizeof(key));
+                    strcpy(key, "add_details_quant");
+                    std::cout << "~~~" << key << ", " << write(ms, key, sizeof(key)) << "\n";
+                    bzero(mes, sizeof(mes));
+                    sprintf(key, "%d", det_quant);
+                    strcpy(mes, key);
+                    std::cout << "~~~~" << mes << ", " << write(ms, mes, sizeof(mes)) << "\n";
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
-                    std::string det_name(mes);
                     add_detail(det_name, det_quant);
                 }
             }
@@ -149,7 +179,7 @@ int Base::do_from(std::istream& in)
             std::ifstream fin(mes);
             if (!fin.is_open()) return -14;
 
-            int er_code = do_from(fin);
+            int er_code = do_from(fin, ms);
             if (er_code < 0) return er_code;
             fin.close();
             std::cout << "    file '" << mes << "' closed\n";

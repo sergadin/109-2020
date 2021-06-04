@@ -42,9 +42,6 @@ int main(int argc, char* argv[])
     bzero(buf, sizeof(buf));
     read(s, buf, sizeof(buf));
     std::cout << "Recieved message: " << buf << "\n";
-    bzero(buf, sizeof(buf));
-    read(s, buf, sizeof(buf));
-    std::cout << "Recieved message: " << buf << "\n";
 
     for (int iii = 0; iii < 100; iii++)
     {
@@ -65,6 +62,28 @@ int main(int argc, char* argv[])
             std::cout << "The server has shut down\n";
 
             break;
+        }
+
+        if (strcmp(buf, "error") == 0)
+        {
+            std::cout << "Error\n";
+
+            break;
+        }
+
+        if (strcmp(buf, "add_details"))
+            std::cout << "  Start additing details";
+        if (strcmp(buf, "add_details_name"))
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Detailail's name: " << buf << "\n";
+        }
+        if (strcmp(buf, "add_details_quant"))
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Detailail's quant: " << buf << "\n";
         }
     }
 
