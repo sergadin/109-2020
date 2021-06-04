@@ -65,6 +65,7 @@ public:
 			for (int d = 1, j = M[2 * i + 2].length() - 1; j >= 0; d *= 10, j--)
 				m.comp[i].quant += d * (M[2 * i + 2][j] - '0');
 		}
+		return m;
 	}
 
 

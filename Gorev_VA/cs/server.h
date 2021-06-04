@@ -5,6 +5,7 @@
 int Base::do_from(std::istream& in, int ms)
 {
     char mes[1024];
+    char mess[1024];
     // цикл обработки одного сообщения
     while(1)
     {
@@ -29,7 +30,7 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     std::string det_name(mes);
                     write(ms, "add_details_name", sizeof("add_details_name"));
-                    char mess[1024];
+                    
                     bzero(mess, sizeof(mess));
                     read(ms, mess, sizeof(mess));
                     write(ms, "NextDetail", sizeof("NewDetail"));
@@ -37,7 +38,7 @@ int Base::do_from(std::istream& in, int ms)
                     // читаем количество деталей
                     int det_quant;
                     if (!(in >> det_quant)) { write(ms, "error", sizeof("error"));  return -2; }
-                    char mess[1024];
+                    
                     bzero(mess, sizeof(mess));
                     read(ms, mess, sizeof(mess));
                     write(ms, "add_details_quant", sizeof("add_details_quant"));
