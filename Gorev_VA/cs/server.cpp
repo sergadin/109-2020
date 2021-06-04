@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        if (strcmp(mes, "quit") == 0) { write(ms, mes, sizeof(mes)); break; }
+        if (strcmp(mes, "quit") == 0) { write(ms, mes, sizeof(mes)); close(ms); break; }
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
