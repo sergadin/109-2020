@@ -1,3 +1,5 @@
 add_details AAA 100 BBB 200 end
 add_map CCC AAA 2 BBB 3 end
 add_map BBB AAA 2 end
+
+END
