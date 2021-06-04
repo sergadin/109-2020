@@ -189,6 +189,7 @@ int Base::do_from(std::istream& in, int ms)
             sin >> mes;
             write(ms, mes, sizeof(mes));
             std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
+            continue;
         }
 
         // можно ли создать деталь по карте ...
@@ -278,6 +279,7 @@ int Base::do_from(std::istream& in, int ms)
             std::istringstream sin(map[0]);
             sin >> mes;
             write(ms, mes, sizeof(mes));
+            continue;
         }
 
         // создать деталь по карте
@@ -285,16 +287,61 @@ int Base::do_from(std::istream& in, int ms)
         {
             // читаем номер карты (порядок с единицы)
             int map_num;
-            if (!(in >> map_num)) return -12;
+            if (!(in >> map_num))
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -12;
+            }
+            bzero(key, sizeof(key));
+            strcpy(key, "build_map_#_num");
+            write(ms, key, sizeof(key));
+            bzero(mes, sizeof(mes));
+            sprintf(mes, "%d", map_num);
+            write(ms, mes, sizeof(mes));
 
             // читаем количество деталей которые надо создать 
             int map_kol;
-            if (!(in >> map_kol)) return -13;
+            if (!(in >> map_kol))
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -13;
+            }
+            bzero(key, sizeof(key));
+            strcpy(key, "build_map_#_quant");
+            write(ms, key, sizeof(key));
+            bzero(mes, sizeof(mes));
+            sprintf(mes, "%d", map_kol);
+            write(ms, mes, sizeof(mes));
+            bzero(mes, sizeof(mes));
+            std::istringstream sin(name[map[map_num - 1].res]);
+            sin >> mes;
+            write(ms, mes, sizeof(mes));
 
             // считаем сколько деталей можно создать
             int det_kol = build_map(map_num, map_kol);
-            if (det_kol < 0) { return -14; }
+            if (det_kol < 0)
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -14;
+            }
             std::cout << "    builded " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
+            bzero(key, sizeof(key));
+            strcpy(key, "build_map_#_builded");
+            write(ms, key, sizeof(key));
+            bzero(mes, sizeof(mes));
+            sprintf(mes, "%d", map_kol);
+            write(ms, mes, sizeof(mes));
+            bzero(mes, sizeof(mes));
+            std::istringstream sin(name[map[map_num - 1].res]);
+            sin >> mes;
+            write(ms, mes, sizeof(mes));
+            continue;
         }
 
         // прочитать команды из файла

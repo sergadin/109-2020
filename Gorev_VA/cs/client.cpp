@@ -205,6 +205,41 @@ int main(int argc, char* argv[])
             std::cout << buf << "\n";
             continue;
         }
+
+        if (strcmp(buf, "build_map_#") == 0)
+        {
+            std::cout << "  Start building details by map:\n";
+            continue;
+        }
+        if (strcmp(buf, "build_map_#_num") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Number " << buf << ":\n";
+            continue;
+        }
+        if (strcmp(buf, "build_map_#_quant") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Want build " << buf << " details ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << buf << "\n";
+            continue;
+        }
+        if (strcmp(buf, "build_map_#_builded") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    " << buf << " details ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << buf << "\n";
+            continue;
+        }
     }
 
     close(s);
