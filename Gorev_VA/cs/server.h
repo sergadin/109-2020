@@ -276,8 +276,8 @@ int Base::do_from(std::istream& in, int ms)
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", det_kol);
             write(ms, mes, sizeof(mes));
-            std::istringstream sin(map[0]);
-            sin >> mes;
+            std::istringstream sin1(map[0]);
+            sin1 >> mes;
             write(ms, mes, sizeof(mes));
             continue;
         }
@@ -317,8 +317,8 @@ int Base::do_from(std::istream& in, int ms)
             sprintf(mes, "%d", map_kol);
             write(ms, mes, sizeof(mes));
             bzero(mes, sizeof(mes));
-            std::istringstream sin(name[map[map_num - 1].res]);
-            sin >> mes;
+            std::istringstream sin2(name[map[map_num - 1].res]);
+            sin2 >> mes;
             write(ms, mes, sizeof(mes));
 
             // считаем сколько деталей можно создать
@@ -338,8 +338,8 @@ int Base::do_from(std::istream& in, int ms)
             sprintf(mes, "%d", map_kol);
             write(ms, mes, sizeof(mes));
             bzero(mes, sizeof(mes));
-            std::istringstream sin(name[map[map_num - 1].res]);
-            sin >> mes;
+            std::istringstream sin3(name[map[map_num - 1].res]);
+            sin3 >> mes;
             write(ms, mes, sizeof(mes));
             continue;
         }
