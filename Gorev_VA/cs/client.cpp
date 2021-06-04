@@ -79,14 +79,23 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "    Detailail's name: " << buf << "\n";
+            std::cout << "  " << buf << ") ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "Detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "add_details_quant") == 0)
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "    Detailail's quant: " << buf << "\n";
+            for (int i = 1; i <= (3 + strlen(buf)); i++)
+                std::cout << " ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "Detailail's quant: " << buf << "\n";
             continue;
         }
 

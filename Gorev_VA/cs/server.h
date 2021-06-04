@@ -24,6 +24,7 @@ int Base::do_from(std::istream& in, int ms)
         // добавление деталей
         if (strcmp(mes, "add_details") == 0)
         {
+            count = 0;
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
@@ -39,11 +40,13 @@ int Base::do_from(std::istream& in, int ms)
                     break;
                 else
                 {
+                    count++;
                     std::string det_name(mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_name");
                     write(ms, key, sizeof(key));
-
+                    sprintf(key, "%d", count);
+                    write(ms, key, sizeof(key));
                     write(ms, mes, sizeof(mes));
                     printf("    new detail = %s\n", mes);
 
@@ -58,10 +61,11 @@ int Base::do_from(std::istream& in, int ms)
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_quant");
                     write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
+                    write(ms, key, sizeof(key));
                     bzero(mes, sizeof(mes));
                     sprintf(mes, "%d", det_quant);
-                    //strcpy(mes, key);
-                    std::cout << write(ms, mes, sizeof(mes)) << "\n";
+                    write(ms, mes, sizeof(mes));
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
