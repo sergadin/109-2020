@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
             bzero(cer_code, sizeof(cer_code));
             sprintf(cer_code, "%d", er_code);
             int len = strlen(cer_code) + 1;
-            std::cout << cer_code << ", " << len << ", " << write(ms, "-6", sizeof("-6")) << "\n";
+            std::cout << "mistake" << ", " << sizeof("mistake") << ", " << write(ms, "mistake", sizeof("mistake")) << "\n";
             er_code = 0;
         }
 
