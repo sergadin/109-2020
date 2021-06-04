@@ -194,32 +194,68 @@ int Base::do_from(std::istream& in, int ms)
         // можно ли создать деталь по карте ...
         if (strcmp(mes, "can_build_map") == 0)
         {
+            count = 0;
             std::vector <std::string> map;
             map.resize(1);
 
             // читаем название первой детали
-            if (!(in >> mes)) return -8;
+            if (!(in >> mes))
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -8;
+            }
             std::string det_name0(mes);
             map[0] = det_name0;
+            bzero(key, sizeof(key));
+            strcpy(key, "can_build_map_res");
+            write(ms, key, sizeof(key));
+            write(ms, mes, sizeof(mes));
 
             while (1)
             {
                 // читаем название детали / сообщение об окончинии добавления
-                if (!(in >> mes)) return -9;
+                if (!(in >> mes))
+                {
+                    bzero(key, sizeof(key));
+                    strcpy(key, "error");
+                    write(ms, key, sizeof(key));
+                    return -9;
+                }
                 if (strcmp(mes, "end") == 0)
                     break;
                 else
                 {
+                    count++;
                     std::string det_name1(mes);
                     map.resize(map.size() + 2);
                     map[map.size() - 2] = det_name1;
                     printf("    detail = %s, ", mes);
+                    bzero(key, sizeof(key));
+                    strcpy(key, "can_build_map_comp_name");
+                    write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
+                    write(ms, key, sizeof(key));
+                    write(ms, mes, sizeof(mes));
 
                     // читаем количество деталей
-                    if (!(in >> mes)) return -10;
+                    if (!(in >> mes))
+                    {
+                        bzero(key, sizeof(key));
+                        strcpy(key, "error");
+                        write(ms, key, sizeof(key));
+                        return -10;
+                    }
                     printf("quant = %s\n", mes);
                     std::string det_quant1(mes);
                     map[map.size() - 1] = det_quant1;
+                    bzero(key, sizeof(key));
+                    strcpy(key, "can_build_map_comp_quant");
+                    write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
+                    write(ms, key, sizeof(key));
+                    write(ms, mes, sizeof(mes));
                 }
             }
 
