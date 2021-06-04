@@ -185,8 +185,9 @@ int Base::do_from(std::istream& in, int ms)
             sprintf(mes, "%d", det_kol);
             write(ms, mes, sizeof(mes));
             bzero(mes, sizeof(mes));
-            strcpy(mes, name[map[map_num - 1].res]);
-            write(ms, mes, sizeof(mes));
+            std::istringstream sin(name[map[map_num - 1].res]);
+            sin >> mes;
+            std::cout << write(ms, mes, sizeof(mes)) << "\n";
             std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
         }
 
