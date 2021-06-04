@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
             bzero(mes, sizeof(mes));
             std::cout << "~~~~~~ " << recv(s, mes, sizeof(mes), 0) << "\n";
             //read(s, mes, sizeof(mes));
-            std::cout << "|" << mes << "|" << mes[0] << "|\n";
+            std::cout << "|" << mes << "|" << (int)sizeof(mes) << "|\n";
 
             int er_code = 0;
             sscanf(mes, "%d", &er_code);
