@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
             std::cout << "$ Size of message error: " << (int)sizeof(mes) << "\n";
             for (int i = 0; i < 1024; i++)
                 mes[i] = 0;
-            read(s, mes, sizeof(mes));
+            read(s, mes, 8);
             std::cout << "|" << mes << "|" << (int)sizeof(mes) << "|" << (int)mes[0] << "|\n";
 
             int er_code = 0;
