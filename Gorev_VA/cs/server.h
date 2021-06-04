@@ -37,6 +37,9 @@ int Base::do_from(std::istream& in, int ms)
                     // читаем количество деталей
                     int det_quant;
                     if (!(in >> det_quant)) { write(ms, "error", sizeof("error"));  return -2; }
+                    char mess[1024];
+                    bzero(mess, sizeof(mess));
+                    read(ms, mess, sizeof(mess));
                     write(ms, "add_details_quant", sizeof("add_details_quant"));
                     bzero(mes, sizeof(mes));
                     sprintf(mes, "%d", det_quant);

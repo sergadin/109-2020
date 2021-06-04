@@ -117,6 +117,7 @@ int main(int argc, char* argv[])
         }
         if (strcmp(mes, "add_details_quant") == 0)
         {
+            write(s, "YES", sizeof("YES"));
             bzero(mes, sizeof(mes));
             read(s, mes, sizeof(mes));
 
