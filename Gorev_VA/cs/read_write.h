@@ -31,7 +31,7 @@ int read_from_server(int fd, char* buf) {
     else if (buf[0] == ' ' || (!strncmp(buf, "ERROR", 5)))
         printf("%s", buf);
 
-    return -1;
+    return 0;
 }
 
 
