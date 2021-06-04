@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            std::cout << "  " << buf << ") ";
+            std::cout << "  " << buf << ")  ";
 
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            for (int i = 0; i < (4 + strlen(buf)); i++)
+            for (int i = 0; i <= (strlen(buf)); i++)
                 std::cout << " ";
 
             bzero(buf, sizeof(buf));
