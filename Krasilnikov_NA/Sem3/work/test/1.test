@@ -1,0 +1,11 @@
+updateCourse index 1108 lectures 14 seminars 13 hw 8
+select columns seminars department end_columns rows_for_all n l r j sum_row
+updateCourse index 2031 lectures 13 seminars 15 hw 20
+updateCourseName 1597 xmduch
+updateCourseName 359 ecaxsw
+updateCourseName 1877 sciepp
+updateCourse index 1922 lectures 30 seminars 11 hw 11
+updateCourseName 348 vdopve
+updateCourse index 1152 lectures 9 seminars 3 hw 17
+updateCourseName 1974 ynvfgj
+exit
