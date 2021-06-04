@@ -58,8 +58,6 @@ int main(int argc, char *argv[])
     // цикл обработки клиентов
     while( 1 )
 	{
-        socklen_t size;
-        size = sizeof(client);
         ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
         {
