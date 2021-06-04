@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
     {
         bzero(mes, sizeof(mes));
         read(s, mes, sizeof(mes));
+        std::cout << mes << "\n";
 
         if (strcmp(mes, "END") == 0)
         {
@@ -71,7 +72,7 @@ int main(int argc, char* argv[])
             std::cout << "Error ";
             std::cout << "$ Size of message error: " << (int)sizeof(mes) << "\n";
             bzero(mes, sizeof(mes));
-            std::cout << "~~~~~~ " << read(s, mes, sizeof(mes)) << "\n";
+            read(s, mes, sizeof(mes));
             std::cout << "|" << mes << "|" << (int)sizeof(mes) << "|" << (int)mes[0] << "|\n";
 
             int er_code = 0;
