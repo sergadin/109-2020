@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
     std::cout << "Recieved message: " << mes << "\n";
     std::cout << "Size of message: " << (int)sizeof(mes) << "\n";
 
-    while (1)
+    for (int iii = 0; iii < 10; iii++)
     {
         bzero(mes, sizeof(mes));
         read(s, mes, sizeof(mes));
