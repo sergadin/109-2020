@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     // Заполняем структуру адреса, на котором будет работать сервер
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; // любой сетевой интерфейс
-    server.sin_port = htons(1230); // порт
+    server.sin_port = htons(1234); // порт
     // сопоставляем адрес с сокетом
     if ((bind(as, (struct sockaddr*)&server, sizeof(server))) == -1)
     {

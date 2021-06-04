@@ -2,40 +2,25 @@
 #include <fstream>
 #include <sstream>
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
 #include <strings.h>
 #include "database.h"
 #include "server.h"
 
-int f(std::istream &in)
-{
-	int i = 1;
-	std::string str;
-	while (in >> str)
-	{
-		std::cout << i << ") " << str << "\n";
-		i++;
-	}
-	std::cout << "It's done\n";
-	return 0;
-}
-
-int ff(std::ofstream &out)
-{
-	out << 1234;
-}
-
 int main()
 {
-	std::ifstream in("database.txt");
-	if (in.is_open())
-		f(in);
-		
-	std::cout << "\n\n\n\n\n";
-	
-	std::ofstream out("file.txt");
-	
-	if (out.is_open())
-		ff(out);
+	int as = ms
+	struct sockaddr_in addr;
+	char buf[1024];
+	as
 	
 	return 0;
 }
