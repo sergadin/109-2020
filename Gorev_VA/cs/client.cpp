@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
         {
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
-            for (int i = 1; i <= (3 + strlen(buf)); i++)
+            for (int i = 0; i < (4 + strlen(buf)); i++)
                 std::cout << " ";
 
             bzero(buf, sizeof(buf));
