@@ -20,10 +20,9 @@ int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
-    char buf[1024]; // буфер для приема сообщений от клиентов
+    char* buf; // буфер для приема сообщений от клиентов
     char mes[1024];
     int er_code = 0;
-    //char *cur;
     Base B;
 
     // Создаем сокет для работы по TCP/IP 
@@ -35,12 +34,12 @@ int main(int argc, char *argv[])
     // костыль из кода сергея александровича
     int on = 1;
     if (setsockopt(as, SOL_SOCKET, SO_REUSEADDR, (char*)&on, sizeof(on)) == -1) {
-        perror("Ошибка при вызове setsockopt as");
+        perror("Ошибка при вызове setsockopt");
     }
     // Заполняем структуру адреса, на котором будет работать сервер
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; // любой сетевой интерфейс
-    server.sin_port = htons(1230); // порт
+    server.sin_port = htons(1231); // порт
     // сопоставляем адрес с сокетом
     if ((bind(as, (struct sockaddr*)&server, sizeof(server))) == -1)
     {
@@ -64,30 +63,38 @@ int main(int argc, char *argv[])
             perror("Ошибка при вызове accept");
             exit(1);
         }
-        bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
-        read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
-        write(ms, buf, sizeof(buf));
+        buf = new char[1];
+        bzero(buf, 1); // обнуляем буфер сообщения
+        read_mes(ms, buf); // читаем сообщение от клиента
+        //write(ms, buf, sizeof(buf));
+        
+        printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
         bzero(mes, sizeof(mes));
         sscanf(buf, "%s", &mes);
-        if (strcmp(mes, "quit") == 0) { write(ms, mes, sizeof(mes)); close(ms); break; }
+        if (strcmp(mes, "quit") == 0)
+        {
+            write(ms, buf, sizeof(buf));
+            delete[] buf;
+            close(ms);
+            break;
+        }
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
         if (er_code < 0)
-        { 
-            char cer_code[1024];
-            bzero(cer_code, sizeof(cer_code));
-            sprintf(cer_code, "%d", er_code);
-            int len = strlen(cer_code) + 1;
-            std::cout << "mistake" << ", " << sizeof("mistake") << ", " << write(ms, "mistake", sizeof("mistake")) << "\n";
-            er_code = 0;
+        {
+            std::cout << "~~~~" << er_code << "\n";
+            bzero(mes, sizeof(mes));
+            sprintf(mes, "%d", er_code);
+            write(ms, mes, sizeof(mes));
         }
 
+        delete[] buf;
         close(ms); // закрываем соединение с клиентом
     }
-    close( as ); // закрываем порт 1234; клиенты больше не могут подключаться
-    return er_code;
+    close(as); // закрываем порт 1234; клиенты больше не могут подключаться
+    return 0;
 }
 
 /*

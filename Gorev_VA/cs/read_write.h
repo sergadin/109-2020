@@ -1,3 +1,44 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+int write_mes(int ms, char* mes)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+
+    int len = strlen(mes);
+    sprintf(mes_len, "%d", len);
+    write(ms, mes_len, sizeof(mes_len));
+
+    write(ms, mes, len);
+    return 0;
+}
+
+int read_mes(int ms, char* mes)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+    read(ms, mes_len, sizeof(mes_len));
+    int len = 0;
+    sscanf(mes_len, "%d", &len);
+
+    delete[] mes;
+    mes = new char[len + 1];
+    bzero(mes, len + 1);
+    read(ms, mes, len);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
 int read_from_server(int fd, char* buf) {
     int nbytes = 0, len = 0, i, j = sizeof(int);
     char* p = (char*)(&len);
