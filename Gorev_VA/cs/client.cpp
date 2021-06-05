@@ -304,7 +304,6 @@ int main(int argc, char* argv[])
                 {
                     bzero(buf, sizeof(buf));
                     read(s, buf, sizeof(buf));
-                    std::cout << "|" << buf << "|\n";
                     std::cout << "    " << I + 1 << ". Name: " << buf << ", ";
 
                     bzero(buf, sizeof(buf));
