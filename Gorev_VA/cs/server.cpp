@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
         }
         //buf = new char[1];
         //bzero(buf, 1); // обнуляем буфер сообщения
-        buf = read_mes(buf); // читаем сообщение от клиента
+        buf = read_mes(ms); // читаем сообщение от клиента
         std::cout << "|" << buf << "|\n";
         //write(ms, buf, sizeof(buf));
         
