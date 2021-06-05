@@ -10,7 +10,6 @@
 
 #include "database.h"
 #include "server.h"
-#include "read_write.h"
 
 #include <iostream>
 #include <fstream>
@@ -63,10 +62,11 @@ int main(int argc, char *argv[])
             perror("Ошибка при вызове accept");
             exit(1);
         }
-        buf = new char[1];
-        bzero(buf, 1); // обнуляем буфер сообщения
-        read_mes(ms, buf); // читаем сообщение от клиента
-        //write(ms, buf, sizeof(buf));
+        //buf = new char[1];
+        //bzero(buf, 1); // обнуляем буфер сообщения
+        buf = read_mes(ms); // читаем сообщение от клиента
+        std::cout << "|" << buf << "|\n";
+        write_mes(ms, buf);
         
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
         sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0)
         {
-            write(ms, buf, sizeof(buf));
+            write_mes(ms, buf);
             delete[] buf;
             close(ms);
             break;
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
             std::cout << "~~~~" << er_code << "\n";
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", er_code);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
         }
 
         delete[] buf;
@@ -96,12 +96,3 @@ int main(int argc, char *argv[])
     close(as); // закрываем порт 1234; клиенты больше не могут подключаться
     return 0;
 }
-
-/*
-ms = accept(as, 0, 0); // выбираем первое соединение из очереди 
-bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
-read(ms, buf, sizeof(buf)); // читаем сообщение от клиента 
-close(ms); // закрываем соединение с клиентом
-printf("message is = %s\n", buf);
-if (strcmp(buf, "quit") == 0) break;
-*/

@@ -15,7 +15,7 @@ int write_mes(int ms, char* mes)
     return 0;
 }
 
-int read_mes(int ms, char* mes)
+char* read_mes(int ms)
 {
     char mes_len[1024];
     bzero(mes_len, sizeof(mes_len));
@@ -23,11 +23,11 @@ int read_mes(int ms, char* mes)
     int len = 0;
     sscanf(mes_len, "%d", &len);
 
-    delete[] mes;
+    char* mes;
     mes = new char[len + 1];
     bzero(mes, len + 1);
     read(ms, mes, len);
-    return 0;
+    return mes;
 }
 
 

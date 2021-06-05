@@ -2,6 +2,35 @@
 #include <fstream>
 #include <sstream>
 
+int write_mes(int ms, char* mes)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+
+    int len = strlen(mes);
+    sprintf(mes_len, "%d", len);
+    write(ms, mes_len, sizeof(mes_len));
+
+    write(ms, mes, len);
+    return 0;
+}
+
+char* read_mes(int ms)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+    read(ms, mes_len, sizeof(mes_len));
+    int len = 0;
+    sscanf(mes_len, "%d", &len);
+
+    char* mes;
+    mes = new char[len + 1];
+    bzero(mes, len + 1);
+    read(ms, mes, len);
+    return mes;
+}
+
+
 int Base::do_from(std::istream& in, int ms)
 {
     char mes[1024];
@@ -17,10 +46,10 @@ int Base::do_from(std::istream& in, int ms)
         {
             bzero(key, sizeof(key));
             strcpy(key, "END");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             return 0;
         }
-        write(ms, mes, sizeof(mes));
+        write_mes(ms, mes);
         printf("  command = %s, size = %d\n", mes, strlen(mes));
 
         // добавление деталей
@@ -34,7 +63,7 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     bzero(key, sizeof(key));
                     strcpy(key, "error");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     return -1;
                 }
 
@@ -46,10 +75,10 @@ int Base::do_from(std::istream& in, int ms)
                     std::string det_name(mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_name");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, key);
+                    write_mes(ms, mes);
                     printf("    new detail = %s\n", mes);
 
                     // читаем количество деталей
@@ -57,17 +86,17 @@ int Base::do_from(std::istream& in, int ms)
                     if (!(in >> det_quant))
                     {
                         strcpy(mes, "error");
-                        write(ms, mes, sizeof(mes));
+                        write_mes(ms, mes);
                         return -2;
                     }
                     bzero(key, sizeof(key));
                     strcpy(key, "add_details_quant");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     bzero(mes, sizeof(mes));
                     sprintf(mes, "%d", det_quant);
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, mes);
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
@@ -90,15 +119,15 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -3;
             }
             std::string det_name0(mes);
             map[0] = det_name0;
             bzero(key, sizeof(key));
             strcpy(key, "add_map_res");
-            write(ms, key, sizeof(key));
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, key);
+            write_mes(ms, mes);
 
             while (1)
             {
@@ -107,7 +136,7 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     bzero(key, sizeof(key));
                     strcpy(key, "error");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     return -4;
                 }
                 if (strcmp(mes, "end") == 0)
@@ -121,26 +150,26 @@ int Base::do_from(std::istream& in, int ms)
                     printf("    detail = %s, ", mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_map_comp_name");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, key);
+                    write_mes(ms, mes);
 
                     // читаем количество деталей
                     if (!(in >> mes))
                     {
                         bzero(key, sizeof(key));
                         strcpy(key, "error");
-                        write(ms, key, sizeof(key));
+                        write_mes(ms, key);
                         return -5;
                     }
                     printf("quant = %s\n", mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "add_map_comp_quant");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, key);
+                    write_mes(ms, mes);
                     std::string det_quant1(mes);
                     map[map.size() - 1] = det_quant1;
                 }
@@ -160,16 +189,16 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -6;
             }
 
             bzero(key, sizeof(key));
             strcpy(key, "can_build_map_#_num");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", map_num);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
 
             // считаем сколько деталей можно создать
             int det_kol = can_build_map(map_num);
@@ -177,19 +206,19 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -7;
             }
             bzero(key, sizeof(key));
             strcpy(key, "can_build_map_#_quant");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", det_kol);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             bzero(mes, sizeof(mes));
             std::istringstream sin(name[map[map_num - 1].res]);
             sin >> mes;
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
             continue;
         }
@@ -206,15 +235,15 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -8;
             }
             std::string det_name0(mes);
             map[0] = det_name0;
             bzero(key, sizeof(key));
             strcpy(key, "can_build_map_res");
-            write(ms, key, sizeof(key));
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, key);
+            write_mes(ms, mes);
 
             while (1)
             {
@@ -223,7 +252,7 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     bzero(key, sizeof(key));
                     strcpy(key, "error");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     return -9;
                 }
                 if (strcmp(mes, "end") == 0)
@@ -237,17 +266,17 @@ int Base::do_from(std::istream& in, int ms)
                     printf("    detail = %s, ", mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "can_build_map_comp_name");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, key);
+                    write_mes(ms, mes);
 
                     // читаем количество деталей
                     if (!(in >> mes))
                     {
                         bzero(key, sizeof(key));
                         strcpy(key, "error");
-                        write(ms, key, sizeof(key));
+                        write_mes(ms, key);
                         return -10;
                     }
                     printf("quant = %s\n", mes);
@@ -255,10 +284,10 @@ int Base::do_from(std::istream& in, int ms)
                     map[map.size() - 1] = det_quant1;
                     bzero(key, sizeof(key));
                     strcpy(key, "can_build_map_comp_quant");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, key);
+                    write_mes(ms, mes);
                 }
             }
 
@@ -268,19 +297,19 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -11;
             }
             std::cout << "    can build " << det_kol << " details '" << map[0] << "'\n";
             bzero(key, sizeof(key));
             strcpy(key, "can_build_map_quant");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", det_kol);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             std::istringstream sin1(map[0]);
             sin1 >> mes;
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             continue;
         }
 
@@ -293,15 +322,15 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -12;
             }
             bzero(key, sizeof(key));
             strcpy(key, "build_map_#_num");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", map_num);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
 
             // читаем количество деталей которые надо создать 
             int map_kol;
@@ -309,19 +338,19 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -13;
             }
             bzero(key, sizeof(key));
             strcpy(key, "build_map_#_quant");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", map_kol);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             bzero(mes, sizeof(mes));
             std::istringstream sin2(name[map[map_num - 1].res]);
             sin2 >> mes;
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
 
             // считаем сколько деталей можно создать
             int det_kol = build_map(map_num, map_kol);
@@ -329,20 +358,20 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -14;
             }
             std::cout << "    builded " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
             bzero(key, sizeof(key));
             strcpy(key, "build_map_#_builded");
-            write(ms, key, sizeof(key));
+            write_mes(ms, key);
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", map_kol);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             bzero(mes, sizeof(mes));
             std::istringstream sin3(name[map[map_num - 1].res]);
             sin3 >> mes;
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
             continue;
         }
 
@@ -354,7 +383,7 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -15;
             }
             std::cout << "    start reading from file '" << mes << "'\n";
@@ -363,13 +392,13 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -16;
             }
             bzero(key, sizeof(key));
             strcpy(key, "read_from_file_open");
-            write(ms, key, sizeof(key));
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, key);
+            write_mes(ms, mes);
 
             int er_code = do_from(fin, ms);
             if (er_code < 0) { fin.close(); return er_code; }
@@ -377,8 +406,8 @@ int Base::do_from(std::istream& in, int ms)
             std::cout << "    file '" << mes << "' closed\n";
             bzero(key, sizeof(key));
             strcpy(key, "read_from_file_close");
-            write(ms, key, sizeof(key));
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, key);
+            write_mes(ms, mes);
             continue;
         }
 
@@ -412,7 +441,7 @@ int Base::do_from(std::istream& in, int ms)
                 {
                     bzero(key, sizeof(key));
                     strcpy(key, "error");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     return -17;
                 }
 
@@ -424,10 +453,10 @@ int Base::do_from(std::istream& in, int ms)
                     std::string det_name(mes);
                     bzero(key, sizeof(key));
                     strcpy(key, "del_details_name");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, key);
+                    write_mes(ms, mes);
                     printf("    deleted detail = %s\n", mes);
 
                     // читаем количество деталей
@@ -435,24 +464,24 @@ int Base::do_from(std::istream& in, int ms)
                     if (!(in >> det_quant))
                     {
                         strcpy(mes, "error");
-                        write(ms, mes, sizeof(mes));
+                        write_mes(ms, mes);
                         return -18;
                     }
                     bzero(key, sizeof(key));
                     strcpy(key, "del_details_quant");
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     sprintf(key, "%d", count);
-                    write(ms, key, sizeof(key));
+                    write_mes(ms, key);
                     bzero(mes, sizeof(mes));
                     sprintf(mes, "%d", det_quant);
-                    write(ms, mes, sizeof(mes));
+                    write_mes(ms, mes);
                     printf("quant = %d\n", det_quant);
 
                     // удяляем детали из базы
                     if (del_detail(det_name, det_quant) < 0)
                     {
                         strcpy(mes, "error");
-                        write(ms, mes, sizeof(mes));
+                        write_mes(ms, mes);
                         return -19;
                     }
                 }
@@ -468,7 +497,7 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -20;
             }
             std::cout << "    start reading from file '" << mes << "'\n";
@@ -477,21 +506,21 @@ int Base::do_from(std::istream& in, int ms)
             {
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
-                write(ms, key, sizeof(key));
+                write_mes(ms, key);
                 return -21;
             }
             bzero(key, sizeof(key));
             strcpy(key, "write_in_file_open");
-            write(ms, key, sizeof(key));
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, key);
+            write_mes(ms, mes);
 
             write_in_file(fout);
             fout.close();
             std::cout << "    file '" << mes << "' closed\n";
             bzero(key, sizeof(key));
             strcpy(key, "write_in_file_close");
-            write(ms, key, sizeof(key));
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, key);
+            write_mes(ms, mes);
             continue;
         }
     }
