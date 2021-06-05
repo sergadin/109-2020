@@ -42,14 +42,13 @@ int main()
 
             read(ms, buf, sizeof(buf)); /* читаем сообщение от клиента */
             printf("message is = %s\n", buf );
-            if ( ( strcmp(buf, "quit") == 0 )|| strcmp(buf, "") == 0) break;
+            if ( ( strcmp(buf, "quit") == 0 )|| strcmp(buf, "") == 0) 
+                break;
             string message(buf);
-            if (database.parce(buf,result) != 0)
-            {
-                
-            }
+
+            int res = database.parce(buf,result);
             
-            if(result.size() > 0)
+            if(res == 0)
             {
                 /*string success = "SELECT sucsesfull\n";
                 write(ms, success.c_str(), strlen(success.c_str()) );*/
@@ -59,10 +58,8 @@ int main()
                     ss <<"time: "<< data.second[0] <<" room: " <<data.second[1] << " teacher: " << data.first->get_teacher() << " course: " << data.first->get_course() 
                     << " group:"<< data.first->get_group() << endl;
                 }
-                write(ms, ss.str().c_str(), strlen(ss.str().c_str()) );
+                write(ms, (to_string(res) + ss.str()).c_str(), strlen((to_string(res) + ss.str()).c_str()) );
             }
-            else
-                write(ms, "OK", 3 );
             
         }
         close( ms );

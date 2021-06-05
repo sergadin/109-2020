@@ -7,11 +7,9 @@ int main()
 {
     Database_R2 A;
     std::list<std::pair<Cell*, std::array<int, 2>>> result;
-    A.parce("ADD teacher=John course=matan time=0 room=0 group=101", result);
-    A.parce("ADD teacher=John course=diffgem time=1 room=0 group=101", result);
-    //A.parce("DELETE teacher=John course=diffgem time=1 room=0 group=101", result);
-    A.parce("SELECT course=matan", result);
-
+    A.read_file();
+    cout << A.parce("SELECT course=matan,matlog group=101", result) <<endl;
+    
     stringstream ss;
     for(pair<Cell*, array<int,2 >> data : result)
     {

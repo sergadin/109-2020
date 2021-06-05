@@ -90,7 +90,7 @@ bool Cell::operator!=(const Cell that)
 }
 int Database_R2::ADD(std::string teacher, std::string course, int time, int room, int group)
 {
-    if((room > N_OF_ROOMS - 1) || (time >N_OFF_CLASSES - 1))
+    if((room > N_OF_ROOMS - 1) || (time > N_OFF_CLASSES - 1))
         return -1;
 
     if(_table[time][room] == Cell())
@@ -119,10 +119,6 @@ int Database_R2::DELETE(std::string teacher, std::string course, int time,int ro
     {
         //d_cell = &_table[time][room];
         _table[time][room] = Cell();
-    }
-    else
-    {
-        return -2;
     }
 
     bool teacher_deleted = false; //flag to show that teacher was compleatly deleted from _teachers
@@ -172,7 +168,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
                 {
                     for(const int  time : times)
                     {
-                        bool ok_group = true;
+                        bool ok_group = false;
                         if(!groups.empty())
                         {
                             for(int group :groups)
@@ -203,7 +199,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
                     for( Cell &cell : _table[time])
                     {
 
-                        bool ok_group = true;
+                        bool ok_group = false;
                         if(!groups.empty())
                         {
                             for(int group :groups)
@@ -233,7 +229,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
                     int time = 0;
                     while(time < N_OFF_CLASSES)
                     {
-                        bool ok_group = true;
+                        bool ok_group = false;
                         if(!groups.empty())
                         {
                             for(int group :groups)
@@ -333,7 +329,23 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
         {
             for(array<int, 2> coord : course_coordinates)
             {
-                result.push_back(make_pair(&_table[coord[0]][coord[1]],coord));
+                bool ok_group = false;
+                if(!groups.empty())
+                {
+                    for(int group :groups)
+                    {
+                        if(_table[coord[0]][coord[1]]._group_number == group )
+                            ok_group = true;
+                    }
+                }
+                else
+                    ok_group = true;
+
+                //adding to result if fields match
+                if(ok_group)
+                {
+                    result.push_back(make_pair(&_table[coord[0]][coord[1]],coord));
+                }
             }
         }
 
@@ -341,7 +353,23 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
         {
             for(array<int, 2> coord : teacher_coordinates)
             {
-                result.push_back(make_pair(&_table[coord[0]][coord[1]],coord));
+                bool ok_group = false;
+                if(!groups.empty())
+                {
+                    for(int group :groups)
+                    {
+                        if(_table[coord[0]][coord[1]]._group_number == group )
+                            ok_group = true;
+                    }
+                }
+                else
+                    ok_group = true;
+
+                //adding to result if fields match
+                if(ok_group)
+                {
+                    result.push_back(make_pair(&_table[coord[0]][coord[1]],coord));
+                }
             }
         }
         teacher_coordinates.sort(&comp);
@@ -352,7 +380,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
 
         for(array<int, 2> coord : res_coordinates)
         {
-            bool ok_group = true;
+            bool ok_group = false;
             if(!groups.empty())
             {
                 for(int group :groups)
@@ -380,7 +408,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
             {
                 for(int room = 0; room < N_OF_ROOMS; room++ )
                 {
-                    bool ok_group = true;
+                    bool ok_group = false;
                     if(!groups.empty())
                     {
                         for(int group :groups)
@@ -408,7 +436,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
             {
                 for(const auto cell : cells.second)
                 {
-                    bool ok_group = true;
+                    bool ok_group = false;
                     if(!groups.empty())
                     {
                         for(int group :groups)
@@ -530,17 +558,20 @@ int Database_R2::to_file(string name)
             << " group:"<< _table[cell[0]][cell[1]].get_group() << endl;
         }
     }
-
+    return 0;
 }
 
 
 
-
+/*returns 
+0 if ok, 
+-1 if wrong requwest 
+-2 if when command== ADD cell allready exists
+*/
 int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::array<int, 2>>> &result)
 {
 
     list<string> split_request = split_to_list(request, ' ');
-
 
     string command = split_request.front();
     split_request.pop_front();
@@ -570,12 +601,26 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
 
             if(field == "room")
             {
-                rooms.merge((split_to_int_list(data, ',')));
+                try
+                {
+                    rooms.merge((split_to_int_list(data, ',')));
+                }
+                catch(const std::invalid_argument ex)
+                {
+                    return -1;
+                }
             }
 
             if(field == "time")
             {
-                times.merge((split_to_int_list(data, ',')));
+                try
+                {
+                    times.merge((split_to_int_list(data, ',')));
+                }
+                catch(const std::invalid_argument ex)
+                {
+                    return -1;
+                }
             }
             
             if(field == "group")
@@ -584,7 +629,11 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
             }
             
         }
-        SELECT(result, teachers, courses, times, rooms, groups );
+        int res = SELECT(result, teachers, courses, times, rooms, groups );
+        if(res ==-1)
+        {
+            return -1;
+        }
         return 0;
     }
     if(command == "ADD")
@@ -612,7 +661,14 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
 
             if(field == "room")
             {
-                room = stoi(data);
+                try
+                {
+                    room  = stoi(data);
+                }
+                catch(const std::invalid_argument ex)
+                {
+                    return -1;
+                }
             }
 
             if(field == "time")
@@ -623,7 +679,7 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
                 }
                 catch(const std::invalid_argument ex)
                 {
-                    return -2;
+                    return -1;
                 }
             }
             
@@ -633,7 +689,15 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
             }
 
         }
-        ADD(teacher, course, time, room, group);
+        int res = ADD(teacher, course, time, room, group);
+        if(res ==-1)
+        {
+            return -1;
+        }
+        if(res == -2)
+        {
+            return -2;
+        }
         return 0;
     }
     if(command == "DELETE")
@@ -661,7 +725,14 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
 
             if(field == "room")
             {
-                room = stoi(data);
+                try
+                {
+                    room  = stoi(data);
+                }
+                catch(const std::invalid_argument ex)
+                {
+                    return -1;
+                }
             }
 
             if(field == "time")
@@ -672,7 +743,7 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
                 }
                 catch(const std::invalid_argument ex)
                 {
-                    return -2;
+                    return -1;
                 }
             }
             
@@ -683,7 +754,12 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
             }
 
         }
-        DELETE(teacher, course, time, room, group);
+        int res = DELETE(teacher, course, time, room, group);
+        if(res ==-1)
+        {
+            return -1;
+        }
         return 0;
     }
+    return -10;
 }
