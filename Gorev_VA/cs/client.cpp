@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    write(s, argv[3], strlen(argv[3])); // посылаем строчку
+    write_mes(s, argv[3]); // посылаем строчку
 
     char buf[1024];
     bzero(buf, sizeof(buf));

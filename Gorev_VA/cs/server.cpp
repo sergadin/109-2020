@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
             exit(1);
         }
         bzero(buf, sizeof(buf)); // обнуляем буфер сообщения
-        read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
+        read_mes(ms, buf); // читаем сообщение от клиента
         write(ms, buf, sizeof(buf));
         
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
