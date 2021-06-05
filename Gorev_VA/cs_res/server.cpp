@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     // Заполняем структуру адреса, на котором будет работать сервер
     server.sin_family = AF_INET; /* IP */
     server.sin_addr.s_addr = INADDR_ANY; // любой сетевой интерфейс
-    server.sin_port = htons(1234); // порт
+    server.sin_port = htons(1230); // порт
     // сопоставляем адрес с сокетом
     if ((bind(as, (struct sockaddr*)&server, sizeof(server))) == -1)
     {
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     }
 
     // цикл обработки клиентов
-    while(er_code >= 0)
+    while(1)
 	{
         ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
@@ -79,7 +79,14 @@ int main(int argc, char *argv[])
 
         std::istringstream in(buf);
         er_code = B.do_from(in, ms);
-        if (er_code < 0) { std::cout << "~~~~" << er_code << "\n"; }
+        if (er_code < 0)
+        {
+            std::cout << "~~~~" << er_code << "\n";
+            bzero(mes, sizeof(mes));
+            sprintf(mes, "%d", er_code);
+            write(ms, mes, sizeof(mes));
+        }
+
 
         close(ms); // закрываем соединение с клиентом
     }

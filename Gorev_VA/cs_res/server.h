@@ -362,7 +362,7 @@ int Base::do_from(std::istream& in, int ms)
                 bzero(key, sizeof(key));
                 strcpy(key, "error");
                 write(ms, key, sizeof(key));
-                return -15;
+                return -16;
             }
             bzero(key, sizeof(key));
             strcpy(key, "read_from_file_open");
