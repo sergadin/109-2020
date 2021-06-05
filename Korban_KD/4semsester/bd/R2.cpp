@@ -158,7 +158,7 @@ int comp(const std::array<int, 2> &a, const std::array<int, 2> &b )
 }
 
 
-int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result, const std::list<std::string> &teachers,const std::list<std::string> &courses,const std::list<int> &times , const std::list<int> &rooms, const std::list<int> &groups )
+int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result, const std::list<std::string> &teachers,const std::list<std::string> &courses,const std::list<int> &times , const std::list<int> &rooms, const std::list<int> &groups, bool emplty)
 {
     if((!teachers.empty()) || (!courses.empty()) || (!times.empty()) || (!rooms.empty()))
     {
@@ -372,31 +372,62 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
     }
     else
     {
-        for(int time = 0; time < N_OFF_CLASSES; time++)
+        if(emplty == 1)
         {
-            for(int room = 0; room < N_OF_ROOMS; room++ )
+            for(int time = 0; time < N_OFF_CLASSES; time++)
             {
-                bool ok_group = true;
-                if(!groups.empty())
+                for(int room = 0; room < N_OF_ROOMS; room++ )
                 {
-                    for(int group :groups)
+                    bool ok_group = true;
+                    if(!groups.empty())
                     {
-                        if(_table[time][room]._group_number == group )
-                            ok_group = true;
+                        for(int group :groups)
+                        {
+                            if(_table[time][room]._group_number == group )
+                                ok_group = true;
+                        }
                     }
-                }
-                else
-                    ok_group = true;
+                    else
+                        ok_group = true;
 
-                //adding to result if fields match
-                if(ok_group)
-                {
-                    array<int,2> coordinates = {time, room};
-                    result.push_back(make_pair(&_table[time][room],coordinates));
+                    //adding to result if fields match
+                    if(ok_group)
+                    {
+                        array<int,2> coordinates = {time, room};
+                        result.push_back(make_pair(&_table[time][room],coordinates));
+                    }
                 }
             }
         }
-        return 0;
+        else
+        {
+
+            for(const auto & cells : _teachers )
+            {
+                for(const auto cell : cells.second)
+                {
+                    bool ok_group = true;
+                    if(!groups.empty())
+                    {
+                        for(int group :groups)
+                        {
+                            if(_table[cell[0]][cell[1]]._group_number == group )
+                                ok_group = true;
+                        }
+                    }
+                    else
+                        ok_group = true;
+
+                    //adding to result if fields match
+                    if(ok_group)
+                    {
+                        result.push_back(make_pair(&_table[cell[0]][cell[1]],cell));
+                    }
+                }
+            }
+        }
+
+        
     }
 
 
@@ -478,7 +509,7 @@ int Database_R2::read_file(string name)
     }
     return 0;
 }
-/*
+
 int Database_R2::to_file(string name)
 {
     fstream file;
@@ -489,15 +520,16 @@ int Database_R2::to_file(string name)
         return -1;
     }
 
-    for(const auto &teacher : _teachers)
+    for(const auto & cells : _teachers )
     {
-        for(Cell* Cell : teacher.second)
+        for(const auto cell : cells.second)
         {
-        file <<"time: "<< data.second[0] <<" room: " <<data.second[1] << " teacher: " << data.first->get_teacher() << " course: " << data.first->get_course() << << endl;
+            file <<"time: "<< cell[0] <<" room: " <<cell[1] << " teacher: " << _table[cell[0]][cell[1]].get_teacher() << " course: " << _table[cell[0]][cell[1]].get_course() 
+            << " group:"<< _table[cell[0]][cell[1]].get_group() << endl;
         }
     }
 
-}*/
+}
 
 
 
@@ -522,8 +554,7 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
             
             if (_fields_in_bd.find(field) == _fields_in_bd.end())
             {
-                continue;
-                // throw exeption  
+                return -1;
             }
             if(field == "teacher")
             {

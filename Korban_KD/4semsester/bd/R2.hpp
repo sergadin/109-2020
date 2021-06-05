@@ -94,7 +94,7 @@ class Database_R2
         int ADD(std::string teacher, std::string course = "", int time = -1,int room = -1, int group = -1);
         int DELETE(std::string teacher = "", std::string course = "", int time = -1,int room = -1, int group = -1);
         //int UPDATE(std::string teaher = "", std::string course = "", int time = -1,int room = -1, int group = -1);
-        int SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> &result, const std::list<std::string> &teachers,const std::list<std::string> &courses,const std::list<int> &times , const std::list<int> &rooms, const std::list<int> &groups );
+        int SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result, const std::list<std::string> &teachers,const std::list<std::string> &courses,const std::list<int> &times , const std::list<int> &rooms, const std::list<int> &groups, bool emplty = false );
         //std::list<Cell> RESELECT(std::string teaher = '', std::string course = '', int time = -1,int room = -1, int group = -1,)
 };
 

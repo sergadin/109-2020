@@ -17,6 +17,7 @@ int main()
     Database_R2 database;
     std::list<std::pair<Cell*, std::array<int, 2>>> result;
     database.read_file();
+    database.to_file("to_file.txt");
 
     as = socket(AF_INET, SOCK_STREAM, 0 ); /* Создаем сокет для работы по TCP/IP */
 
