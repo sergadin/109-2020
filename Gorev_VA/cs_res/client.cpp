@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
             std::cout << er_code << "\n";
             
             std::cout << "  Error in: ";
-            if ((er_code > 0) || (er_code < -16)) std::cout << "Unknown error\n";
+            if ((er_code > 0) || (er_code < -21)) std::cout << "Unknown error\n";
             if (er_code == -1) std::cout << "add_details: reading of new detail's name\n";
             if (er_code == -2) std::cout << "add_details: reading of new detail's quant\n";
             if (er_code == -3) std::cout << "add_map: reading of result detail's name\n";
@@ -92,6 +92,11 @@ int main(int argc, char* argv[])
             if (er_code == -14) std::cout << "build_map_#: calculating of number of details than can be builded\n";
             if (er_code == -15) std::cout << "read_from_file: reading of file's name\n";
             if (er_code == -16) std::cout << "read_from_file: opening of file\n";
+            if (er_code == -17) std::cout << "del_details: reading of deleted detail's name\n";
+            if (er_code == -18) std::cout << "del_details: reading of deleted detail's quant\n";
+            if (er_code == -19) std::cout << "del_details: deleting\n";
+            if (er_code == -20) std::cout << "write_in_file: reading of file's name\n";
+            if (er_code == -21) std::cout << "write_in_file: opening of file\n";
 
             break;
         }
@@ -336,6 +341,55 @@ int main(int argc, char* argv[])
                     std::cout << "quant: " << buf << "\n";
                 }
             }
+        }
+
+        if (strcmp(buf, "del_details") == 0)
+        {
+            std::cout << "  Start deleting details\n";
+            continue;
+        }
+        if (strcmp(buf, "del_details_name") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "  " << buf << ") ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "Detailail's name: " << buf << "\n";
+            continue;
+        }
+        if (strcmp(buf, "del_details_quant") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            for (int i = 0; i < (4 + strlen(buf)); i++)
+                std::cout << " ";
+
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "Detailail's quant: " << buf << "\n";
+            continue;
+        }
+
+        if (strcmp(buf, "write_in_file") == 0)
+        {
+            std::cout << "  Start writing base in file:\n";
+            continue;
+        }
+        if (strcmp(buf, "write_in_file_open") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Filename: " << buf << "\n";
+            continue;
+        }
+        if (strcmp(buf, "write_in_file_close") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    File: " << buf << " closed\n";
+            continue;
         }
     }
 
