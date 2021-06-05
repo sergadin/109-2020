@@ -189,6 +189,8 @@ public:
 		for (int I = 0; I < num; I++)
 			std::cout << "    " << I + 1 << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
 
+		char mes[1024];
+		char key[1024];
 		bzero(key, sizeof(key));
 		strcpy(key, "show_details_num");
 		write(ms, key, sizeof(key));
@@ -205,7 +207,7 @@ public:
 		}
 		return 0;
 	}
-	int show_maps() // показать список карт
+	int show_maps(int ms) // показать список карт
 	{
 		std::cout << "    List of maps:\n";
 		for (int I = 0; I < map.size(); I++)
@@ -216,10 +218,10 @@ public:
 		}
 		return 0;
 	}
-	int show_base() // показать списки деталей и карт
+	int show_base(int ms) // показать списки деталей и карт
 	{
-		show_details();
-		show_maps();
+		show_details(ms);
+		show_maps(ms);
 		return 0;
 	}
 
