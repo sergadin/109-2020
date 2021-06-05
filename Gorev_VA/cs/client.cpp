@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     {
         bzero(buf, sizeof(buf));
         read(s, buf, sizeof(buf));
-        std::cout << "  Command: " << buf << "\n";
+        //std::cout << "  Command: " << buf << "\n";
 
         if (strcmp(buf, "END") == 0)
         {
