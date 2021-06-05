@@ -63,9 +63,10 @@ int main(int argc, char *argv[])
             perror("Ошибка при вызове accept");
             exit(1);
         }
-        buf = new char[1];
-        bzero(buf, 1); // обнуляем буфер сообщения
-        read_mes(ms, buf); // читаем сообщение от клиента
+        //buf = new char[1];
+        //bzero(buf, 1); // обнуляем буфер сообщения
+        buf = read_mes(buf); // читаем сообщение от клиента
+        std::cout << "|" << buf << "|\n";
         //write(ms, buf, sizeof(buf));
         
         printf("message is = %s, Size = %d\n", buf, strlen(buf));

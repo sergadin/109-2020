@@ -39,15 +39,15 @@ int main(int argc, char* argv[])
 
     write_mes(s, argv[3]); // посылаем строчку
 
-    char buf[1024];
+    char* buf;
     //bzero(buf, sizeof(buf));
     //read(s, buf, sizeof(buf));
     //std::cout << "Recieved message: " << buf << "\n";
 
     for (int iii = 0; iii < 100; iii++)
     {
-        bzero(buf, sizeof(buf));
-        read(s, buf, sizeof(buf));
+        //bzero(buf, sizeof(buf));
+        buf = read_mes(s);
         //std::cout << "  Command: " << buf << "\n";
 
         if (strcmp(buf, "END") == 0)
