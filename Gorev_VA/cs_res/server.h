@@ -6,6 +6,8 @@ int Base::do_from(std::istream& in, int ms)
 {
     char mes[1024];
     char key[1024];
+    bzero(mes, sizeof(mes));
+    bzero(key, sizeof(key));
     int count = 0;
     // цикл обработки одного сообщения
     while(1)
