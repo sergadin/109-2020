@@ -299,7 +299,7 @@ int main(int argc, char* argv[])
                 int num;
                 bzero(buf, sizeof(buf));
                 read(s, buf, sizeof(buf));
-                sscanf(buf, "%d", num);
+                sscanf(buf, "%d", &num);
                 for (int i = 1; i <= num; i++)
                 {
                     bzero(buf, sizeof(buf));
