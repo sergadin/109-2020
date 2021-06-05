@@ -140,14 +140,16 @@ int Database_R2::DELETE(std::string teacher, std::string course, int time,int ro
     }
 
     if(!teacher_deleted)
-    array<int,2> coordinates = {time, room};
+    {
         array<int,2> coordinates = {time, room};
         _teachers[teacher].remove(coordinates);
+    }
     
     if(!course_deleted)
+    {
         array<int,2> coordinates = {time, room};
         _courses[course].remove(coordinates);
-
+    }
     return 0;
 }
 
@@ -270,7 +272,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
                         teacher_coordinates.push_back(coord);
                     }
                 }
-                catch(std::out_of_range)
+                catch(const std::out_of_range ex)
                 {
                     return -1;
                 }
@@ -288,7 +290,7 @@ int Database_R2::SELECT(std::list<std::pair<Cell*, std::array<int, 2>>> & result
                         course_coordinates.push_back(coord);
                     }
                 }
-                catch(std::out_of_range)
+                catch(const std::out_of_range ex)
                 {
                     return -1;
                 }
@@ -596,8 +598,7 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
 
             if (_fields_in_bd.find(field) == _fields_in_bd.end())
             {
-                continue;
-                // throw exeption  
+                return -1;
             }
             if(field == "teacher")
             {
@@ -620,9 +621,9 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
                 {
                     time  = stoi(data);
                 }
-                catch(std::invalid_argument)
+                catch(const std::invalid_argument ex)
                 {
-
+                    return -2;
                 }
             }
             
@@ -646,8 +647,7 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
 
             if (_fields_in_bd.find(field) == _fields_in_bd.end())
             {
-                continue;
-                // throw exeption  
+                return -1;
             }
             if(field == "teacher")
             {
@@ -670,11 +670,12 @@ int Database_R2::parce(std::string request, std::list<std::pair<Cell*, std::arra
                 {
                     time  = stoi(data);
                 }
-                catch(std::invalid_argument)
+                catch(const std::invalid_argument ex)
                 {
-                    
+                    return -2;
                 }
             }
+            
             
             if(field == "group")
             {

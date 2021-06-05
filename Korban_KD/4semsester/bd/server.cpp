@@ -44,7 +44,10 @@ int main()
             printf("message is = %s\n", buf );
             if ( ( strcmp(buf, "quit") == 0 )|| strcmp(buf, "") == 0) break;
             string message(buf);
-            database.parce(buf,result);
+            if (database.parce(buf,result) != 0)
+            {
+                
+            }
             
             if(result.size() > 0)
             {
