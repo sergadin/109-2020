@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
-    char buf[1024]; // буфер для приема сообщений от клиентов
+    char* buf; // буфер для приема сообщений от клиентов
     char mes[1024];
     int er_code = 0;
     Base B;
@@ -63,7 +63,8 @@ int main(int argc, char *argv[])
             perror("Ошибка при вызове accept");
             exit(1);
         }
-        bzero(buf, sizeof(buf)); // обнуляем буфер сообщения
+        buf = new char[1];
+        bzero(buf, 1); // обнуляем буфер сообщения
         read_mes(ms, buf); // читаем сообщение от клиента
         write(ms, buf, sizeof(buf));
         
@@ -74,6 +75,7 @@ int main(int argc, char *argv[])
         if (strcmp(mes, "quit") == 0)
         {
             write(ms, buf, sizeof(buf));
+            delete[] buf;
             close(ms);
             break;
         }
@@ -88,7 +90,7 @@ int main(int argc, char *argv[])
             write(ms, mes, sizeof(mes));
         }
 
-
+        delete[] buf;
         close(ms); // закрываем соединение с клиентом
     }
     close(as); // закрываем порт 1234; клиенты больше не могут подключаться
