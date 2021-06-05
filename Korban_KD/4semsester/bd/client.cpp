@@ -47,9 +47,14 @@ int main(int argc, char** argv)
         string command;
         std::getline(std::cin, command);
 
-        if((command == "quit") || (command == "kill"))
+        if((command == "quit"))
             break;
         
+        if((command == "kill"))
+        {
+            write(s, command.c_str(), strlen(command.c_str()) );
+            break;
+        }
         //cout << command <<endl;
         write(s, command.c_str(), strlen(command.c_str()) );
 
