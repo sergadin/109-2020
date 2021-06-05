@@ -398,6 +398,60 @@ int Base::do_from(std::istream& in, int ms)
             show_base(ms);
             continue;
         }
+
+        // удалить детали
+        if (strcmp(mes, "del_details") == 0)
+        {
+            count = 0;
+            while (1)
+            {
+                // читаем название детали / сообщение об окончинии удаления
+                if (!(in >> mes))
+                {
+                    bzero(key, sizeof(key));
+                    strcpy(key, "error");
+                    write(ms, key, sizeof(key));
+                    return -17;
+                }
+
+                if (strcmp(mes, "end") == 0)
+                    break;
+                else
+                {
+                    count++;
+                    std::string det_name(mes);
+                    bzero(key, sizeof(key));
+                    strcpy(key, "del_details_name");
+                    write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
+                    write(ms, key, sizeof(key));
+                    write(ms, mes, sizeof(mes));
+                    printf("    deleted detail = %s\n", mes);
+
+                    // читаем количество деталей
+                    int det_quant;
+                    if (!(in >> det_quant))
+                    {
+                        strcpy(mes, "error");
+                        write(ms, mes, sizeof(mes));
+                        return -18;
+                    }
+                    bzero(key, sizeof(key));
+                    strcpy(key, "del_details_quant");
+                    write(ms, key, sizeof(key));
+                    sprintf(key, "%d", count);
+                    write(ms, key, sizeof(key));
+                    bzero(mes, sizeof(mes));
+                    sprintf(mes, "%d", det_quant);
+                    write(ms, mes, sizeof(mes));
+                    printf("quant = %d\n", det_quant);
+
+                    // добавляем детали в базу
+                    del_detail(det_name, det_quant);
+                }
+            }
+            continue;
+        }
     }
 
 	return 0;
