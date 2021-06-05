@@ -201,8 +201,13 @@ public:
 		for (int I = 0; I < num; I++)
 		{
 			bzero(mes, sizeof(mes));
-			std::istringstream sin(name[I]);
+			string str = name[I];
+			std::istringstream sin(str);
 			sin >> mes;
+			write(ms, mes, sizeof(mes));
+
+			bzero(mes, sizeof(mes));
+			sprintf(mes, "%d", quant[I]);
 			write(ms, mes, sizeof(mes));
 		}
 		return 0;
