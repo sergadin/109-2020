@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
     buf = read_mes(s);
     std::cout << "Recieved message: " << buf << "\n";
 
-    for (int iii = 0; iii < 100; iii++)
+    while (1)
     {
         delete[] buf;
         //bzero(buf, sizeof(buf));
