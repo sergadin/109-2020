@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0)
         {
-            write(ms, buf, sizeof(buf));
+            write_mes(ms, buf);
             delete[] buf;
             close(ms);
             break;
