@@ -307,7 +307,7 @@ public:
 
 	int do_from(std::istream& in, int ms);
 
-	int write_in_file(std::ostream& out);
+	int write_in_file(std::ostream& out)
 	{
 		out << "add_details\n";
 		for (int i = 0; i < num; i++)
