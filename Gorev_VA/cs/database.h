@@ -307,7 +307,24 @@ public:
 
 	int do_from(std::istream& in, int ms);
 
-
+	int write_in_file(std::ostream& out);
+	{
+		out << "add_details\n";
+		for (int i = 0; i < num; i++)
+		{
+			out << name[i] << " " << quant[i] << "\n";
+		}
+		out << "\n";
+		
+		for (int i = 0; i < map.size(); i++)
+		{
+			out << "add_map " << map[i].res;
+			for (int j = 0; j < map[i].size(); j++)
+				out << name[map[i].comp[j].num] << " " << map[i].comp[j].quant << " ";
+			cout << "\n";
+		}
+		return 0;
+	}
 };
 
 

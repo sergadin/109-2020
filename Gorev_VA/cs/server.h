@@ -446,7 +446,7 @@ int Base::do_from(std::istream& in, int ms)
                     write(ms, mes, sizeof(mes));
                     printf("quant = %d\n", det_quant);
 
-                    // добавляем детали в базу
+                    // удяляем детали из базы
                     if (del_detail(det_name, det_quant) < 0)
                     {
                         strcpy(mes, "error");
@@ -455,6 +455,41 @@ int Base::do_from(std::istream& in, int ms)
                     }
                 }
             }
+            continue;
+        }
+
+        // записать базу в файл
+        if (strcmp(mes, "write_in_file") == 0)
+        {
+            // читаем название файла
+            if (!(in >> mes))
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -20;
+            }
+            std::cout << "    start reading from file '" << mes << "'\n";
+            std::ofstream fout(mes);
+            if (!fout.is_open())
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -21;
+            }
+            bzero(key, sizeof(key));
+            strcpy(key, "write_in_file_open");
+            write(ms, key, sizeof(key));
+            write(ms, mes, sizeof(mes));
+
+            write_in_file(fout);
+            fout.close();
+            std::cout << "    file '" << mes << "' closed\n";
+            bzero(key, sizeof(key));
+            strcpy(key, "write_in_file_close");
+            write(ms, key, sizeof(key));
+            write(ms, mes, sizeof(mes));
             continue;
         }
     }
