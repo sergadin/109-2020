@@ -206,14 +206,14 @@ public:
 		char key[1024];
 		bzero(mes, sizeof(mes));
 		sprintf(mes, "%d", num);
-		write_mes1(ms, mes));
+		write_mes1(ms, mes);
 
 		for (int I = 0; I < num; I++)
 		{
 			bzero(mes, sizeof(mes));
 			for (int i = 0; i < name[I].length(); i++)
 				mes[i] = name[I][i];
-			write_mes1(ms, mes));
+			write_mes1(ms, mes);
 
 			bzero(mes, sizeof(mes));
 			sprintf(mes, "%d", quant[I]);
