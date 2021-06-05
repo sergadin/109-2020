@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
             bzero(buf, sizeof(buf));
             read(s, buf, sizeof(buf));
             int er_code = 0;
-            scanf(buf, "%d", &er_code);
+            sscanf(buf, "%d", &er_code);
             
             std::cout << "  Error in: ";
             if ((er_code > 0) || (er_code < -16)) std::cout << "Unknown error\n";
