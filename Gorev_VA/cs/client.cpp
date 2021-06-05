@@ -268,6 +268,7 @@ int main(int argc, char* argv[])
             read(s, buf, sizeof(buf));
             
             int num;
+            std::cout << buf << "-\n";
             sscanf(buf, "%d", &num);
             std::cout << num << "+\n";
             for (int I = 0; I < num; I++)

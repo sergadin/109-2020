@@ -191,9 +191,6 @@ public:
 
 		char mes[1024];
 		char key[1024];
-		bzero(key, sizeof(key));
-		strcpy(key, "show_details_num");
-		write(ms, key, sizeof(key));
 		bzero(mes, sizeof(mes));
 		sprintf(mes, "%d", num);
 		write(ms, mes, sizeof(mes));
