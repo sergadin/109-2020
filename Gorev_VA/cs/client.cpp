@@ -268,9 +268,7 @@ int main(int argc, char* argv[])
             read(s, buf, sizeof(buf));
             
             int num;
-            std::cout << buf << "-\n";
             sscanf(buf, "%d", &num);
-            std::cout << num << "+\n";
             for (int I = 0; I < num; I++)
             {
                 bzero(buf, sizeof(buf));
@@ -284,6 +282,36 @@ int main(int argc, char* argv[])
             continue;
         }
         
+        if (strcmp(buf, "show_maps") == 0)
+        {
+            std::cout << "  List of maps:\n";
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+
+            int Num;
+            sscanf(buf, "%d", &Num);
+            for (int I = 0; I < Num; I++)
+            {
+                bzero(buf, sizeof(buf));
+                read(s, buf, sizeof(buf));
+                std::cout << "  " << I + 1 << ") Name: " << buf << "\n";
+
+                int num;
+                bzero(buf, sizeof(buf));
+                read(s, buf, sizeof(buf));
+                sscanf(buf, "%d", num);
+                for (int i = 1; i <= num; i++)
+                {
+                    bzero(buf, sizeof(buf));
+                    read(s, buf, sizeof(buf));
+                    std::cout << "    " << I + 1 << ". Name: " << buf << ", ";
+
+                    bzero(buf, sizeof(buf));
+                    read(s, buf, sizeof(buf));
+                    std::cout << "quant: " << buf << "\n";
+                }
+            }
+        }
     }
 
     close(s);
