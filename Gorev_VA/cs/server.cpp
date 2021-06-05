@@ -87,6 +87,7 @@ int main(int argc, char *argv[])
             write(ms, mes, sizeof(mes));
         }
 
+
         close(ms); // закрываем соединение с клиентом
     }
     close(as); // закрываем порт 1234; клиенты больше не могут подключаться
