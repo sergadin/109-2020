@@ -1,0 +1,9 @@
+teacher=John course=matan time=0 room=0 group=101
+teacher=James course=Diffgem time=0 room=1 group=102
+teacher=Emma course=teorver time=0 room=2 group=103
+teacher=Benjamin course=matlog time=0 room=3 group=104
+
+teacher=John course=matan time=1 room=0 group=104
+teacher=James course=Diffgem time=1 room=1 group=103
+teacher=Emma course=teorver time=1 room=2 group=102
+teacher=Benjamin course=matlog time=1 room=3 group=101

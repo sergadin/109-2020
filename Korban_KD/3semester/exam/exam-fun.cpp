@@ -98,15 +98,19 @@ void gow (Node *root)
     if (root == 0) return;
     int i,j;
     for(i=0;i<1000;i++){
-        for(j=i+1;j<1000;j++){
-            if(root->A[i]==root->A[j]){
+        for(j=i+1;j<1000;j++)
+        {
+            if(root->A[i]==root->A[j])
+            {
                 root->A[j]=0;
             }
         }
     }
     for(i=0;i<1000;i++){
-        for(j=i+1;j<1000;j++){
-            if((root->A[i]==0)&&(root->A[j]!=0)){
+        for(j=i+1;j<1000;j++)
+        {
+            if((root->A[i]==0)&&(root->A[j]!=0))
+            {
                 root->A[i]=root->A[j];
                 root->A[j]=0;
             }
