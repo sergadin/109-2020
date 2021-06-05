@@ -183,11 +183,26 @@ public:
 	}
 
 
-	int show_details() // показать список деталей
+	int show_details(int ms) // показать список деталей
 	{
 		std::cout << "    List of details:\n";
 		for (int I = 0; I < num; I++)
 			std::cout << "    " << I + 1 << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
+
+		bzero(key, sizeof(key));
+		strcpy(key, "show_details_num");
+		write(ms, key, sizeof(key));
+		bzero(mes, sizeof(mes));
+		sprintf(mes, "%d", num);
+		write(ms, mes, sizeof(mes));
+
+		for (int I = 0; I < num; I++)
+		{
+			bzero(mes, sizeof(mes));
+			std::istringstream sin(name[I]);
+			sin >> mes;
+			write(ms, mes, sizeof(mes));
+		}
 		return 0;
 	}
 	int show_maps() // показать список карт

@@ -382,7 +382,11 @@ int Base::do_from(std::istream& in, int ms)
 
         // показать компоненты базы
         if (strcmp(mes, "show_details") == 0)
-            show_details();
+        {
+            show_details(ms);
+            continue;
+        }
+            
         if (strcmp(mes, "show_maps") == 0)
             show_maps();
         if (strcmp(mes, "show_base") == 0)

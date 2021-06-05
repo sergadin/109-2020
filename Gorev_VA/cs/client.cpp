@@ -260,6 +260,28 @@ int main(int argc, char* argv[])
             std::cout << "    File: " << buf << " closed\n";
             continue;
         }
+
+        if (strcmp(buf, "show_details") == 0)
+        {
+            std::cout << "  List of details:\n";
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            
+            int num;
+            sscanf(buf, "%d", &num);
+            for (int I = 0; I < num; I++)
+            {
+                bzero(buf, sizeof(buf));
+                read(s, buf, sizeof(buf));
+                std::cout << "  " << I + 1 << ") Name: " << buf << ", ";
+
+                bzero(buf, sizeof(buf));
+                read(s, buf, sizeof(buf));
+                std::cout << "quant: " << buf << "\n";
+            }
+            continue;
+        }
+        
     }
 
     close(s);
