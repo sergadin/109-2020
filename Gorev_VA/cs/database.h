@@ -321,7 +321,7 @@ public:
 			out << "add_map " << map[i].res;
 			for (int j = 0; j < map[i].size(); j++)
 				out << name[map[i].comp[j].num] << " " << map[i].comp[j].quant << " ";
-			cout << "\n";
+			out << "\n";
 		}
 		return 0;
 	}
