@@ -388,10 +388,16 @@ int Base::do_from(std::istream& in, int ms)
         }
             
         if (strcmp(mes, "show_maps") == 0)
-            show_maps();
+        {
+            show_maps(ms);
+            continue;
+        }
+            
         if (strcmp(mes, "show_base") == 0)
-            show_base();
-
+        {
+            show_base(ms);
+            continue;
+        }
     }
 
 	return 0;
