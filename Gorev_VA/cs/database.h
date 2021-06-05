@@ -251,7 +251,15 @@ public:
 	}
 	int show_base(int ms) // показать списки деталей и карт
 	{
+		char mes[1024];
+		bzero(mes, sizeof(mes));
+		strcpy(mes, "show_details");
+		write(ms, mes, sizeof(mes));
 		show_details(ms);
+
+		bzero(mes, sizeof(mes));
+		strcpy(mes, "show_maps");
+		write(ms, mes, sizeof(mes));
 		show_maps(ms);
 		return 0;
 	}
