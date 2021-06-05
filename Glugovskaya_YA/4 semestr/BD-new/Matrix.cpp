@@ -4,8 +4,8 @@
 #include "S.h"
 #include <typeinfo>
 
-Matrix::Matrix(){
+/*Matrix::Matrix(){
 	x_=y_=0;
 	matrix_= nullptr;
 }
-
+*/
