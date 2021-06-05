@@ -201,7 +201,8 @@ public:
 		for (int I = 0; I < num; I++)
 		{
 			bzero(mes, sizeof(mes));
-			string str = name[I];
+			std::string str;
+			str = name[I];
 			std::istringstream sin(str);
 			sin >> mes;
 			write(ms, mes, sizeof(mes));
