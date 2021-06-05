@@ -83,8 +83,8 @@ int main(int argc, char *argv[])
         {
             std::cout << "~~~~" << er_code << "\n";
             bzero(mes, sizeof(mes));
-            sprintf(mes, "%s", er_code);
-            write(ms, mes, sizeeof(mes));
+            sprintf(mes, "%d", er_code);
+            write(ms, mes, sizeof(mes));
         }
 
         close(ms); // закрываем соединение с клиентом
