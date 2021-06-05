@@ -269,6 +269,7 @@ int main(int argc, char* argv[])
             
             int num;
             sscanf(buf, "%d", &num);
+            std::cout << num << "+\n";
             for (int I = 0; I < num; I++)
             {
                 bzero(buf, sizeof(buf));
