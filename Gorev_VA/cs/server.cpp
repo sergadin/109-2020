@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
             std::cout << "~~~~" << er_code << "\n";
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", er_code);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
         }
 
         delete[] buf;
@@ -97,12 +97,3 @@ int main(int argc, char *argv[])
     close(as); // закрываем порт 1234; клиенты больше не могут подключаться
     return 0;
 }
-
-/*
-ms = accept(as, 0, 0); // выбираем первое соединение из очереди 
-bzero(buf, sizeof(buf)); // обнуляем буфер сообщения 
-read(ms, buf, sizeof(buf)); // читаем сообщение от клиента 
-close(ms); // закрываем соединение с клиентом
-printf("message is = %s\n", buf);
-if (strcmp(buf, "quit") == 0) break;
-*/

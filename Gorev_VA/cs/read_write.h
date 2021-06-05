@@ -9,9 +9,9 @@ int write_mes(int ms, char* mes)
 
     int len = strlen(mes);
     sprintf(mes_len, "%d", len);
-    std::cout << "~" << mes_len << ", " << sizeof(mes_len) << ", " << write(ms, mes_len, sizeof(mes_len)) << "\n";
+    write(ms, mes_len, sizeof(mes_len));
 
-    std::cout << "~~~" << mes << ", " << len << ", " << write(ms, mes, len) << "\n";
+    write(ms, mes, len);
     return 0;
 }
 
@@ -19,16 +19,14 @@ char* read_mes(int ms)
 {
     char mes_len[1024];
     bzero(mes_len, sizeof(mes_len));
-    std::cout << "~~" << read(ms, mes_len, sizeof(mes_len)) << "\n";
-    std::cout << mes_len << ", " << sizeof(mes_len) << "\n";
+    read(ms, mes_len, sizeof(mes_len));
     int len = 0;
     sscanf(mes_len, "%d", &len);
 
     char* mes;
     mes = new char[len + 1];
     bzero(mes, len + 1);
-    std::cout << "~~~~" << read(ms, mes, len) << "\n";
-    std::cout << mes << ", " << len << "\n";
+    read(ms, mes, len);
     return mes;
 }
 
