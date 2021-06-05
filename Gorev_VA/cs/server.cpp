@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     }
 
     // цикл обработки клиентов
-    while(er_code >= 0)
+    while(1)
 	{
         ms = accept(as, 0, 0); // выбираем первое соединение из очереди
         if (ms < 0)
