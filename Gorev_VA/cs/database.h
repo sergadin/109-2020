@@ -221,7 +221,7 @@ public:
 		char mes[1024];
 		char key[1024];
 		bzero(mes, sizeof(mes));
-		sprintf(mes, "%d", map.size());
+		sprintf(mes, "%d", (int)map.size());
 		write(ms, mes, sizeof(mes));
 
 		for (int I = 0; I < map.size(); I++)
