@@ -7,7 +7,35 @@
 #include <string.h>
 #include <unistd.h>
 #include "database.h"
-#include "read_write.h"
+
+int write_mes(int ms, char* mes)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+
+    int len = strlen(mes);
+    sprintf(mes_len, "%d", len);
+    write(ms, mes_len, sizeof(mes_len));
+
+    write(ms, mes, len);
+    return 0;
+}
+
+char* read_mes(int ms)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+    read(ms, mes_len, sizeof(mes_len));
+    int len = 0;
+    sscanf(mes_len, "%d", &len);
+
+    char* mes;
+    mes = new char[len + 1];
+    bzero(mes, len + 1);
+    read(ms, mes, len);
+    return mes;
+}
+
 
 int main(int argc, char* argv[])
 {
