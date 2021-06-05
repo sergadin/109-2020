@@ -348,20 +348,36 @@ int Base::do_from(std::istream& in, int ms)
         if (strcmp(mes, "read_from_file") == 0)
         {
             // читаем название файла
-            if (!(in >> mes)) return -15;
+            if (!(in >> mes))
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -15;
+            }
             std::cout << "    start reading from file '" << mes << "'\n";
             std::ifstream fin(mes);
-            if (!fin.is_open()) return -16;
+            if (!fin.is_open())
+            {
+                bzero(key, sizeof(key));
+                strcpy(key, "error");
+                write(ms, key, sizeof(key));
+                return -15;
+            }
+            bzero(key, sizeof(key));
+            strcpy(key, "read_from_file_open");
+            write(ms, key, sizeof(key));
+            write(ms, mes, sizeof(mes));
 
             int er_code = do_from(fin, ms);
-            if (er_code < 0) return er_code;
+            if (er_code < 0) return { fin.close(); er_code; }
             fin.close();
             std::cout << "    file '" << mes << "' closed\n";
-
-            // считаем сколько деталей можно создать
-            //int det_kol = can_build_map(map_num);
-            //if (det_kol < 0) { return -6; }
-            //std::cout << "    can build " << det_kol << " details '" << name[map[map_num - 1].res] << "'\n";
+            bzero(key, sizeof(key));
+            strcpy(key, "read_from_file_close");
+            write(ms, key, sizeof(key));
+            write(ms, mes, sizeof(mes));
+            continue;
         }
 
         // показать компоненты базы

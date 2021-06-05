@@ -240,6 +240,26 @@ int main(int argc, char* argv[])
             std::cout << buf << "\n";
             continue;
         }
+
+        if (strcmp(buf, "read_from_file") == 0)
+        {
+            std::cout << "  Start reading from file:\n";
+            continue;
+        }
+        if (strcmp(buf, "read_from_file_open") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    Filename: " << buf << "\n";
+            continue;
+        }
+        if (strcmp(buf, "read_from_file_close") == 0)
+        {
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            std::cout << "    File: " << buf << " closed\n";
+            continue;
+        }
     }
 
     close(s);
