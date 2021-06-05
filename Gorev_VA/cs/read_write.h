@@ -8,7 +8,7 @@ int write_mes(int ms, char* mes)
     bzero(mes_len, sizeof(mes_len));
 
     int len = sizeof(mes);
-    sprinf(mes_len, "%d", len);
+    sprintf(mes_len, "%d", len);
     write(ms, mes_len, sizeof(mes_len));
 
     write(ms, mes, len);
