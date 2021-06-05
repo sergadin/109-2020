@@ -238,8 +238,8 @@ public:
 			for (int i = 1; i <= map[I].size(); i++)
 			{
 				bzero(mes, sizeof(mes));
-				for (int i = 0; i < name[map[I].comp[i - 1].num].length(); i++)
-					mes[i] = name[map[I].comp[i - 1].num][i];
+				for (int j = 0; j < name[map[I].comp[i - 1].num].length(); j++)
+					mes[j] = name[map[I].comp[i - 1].num][j];
 				std::cout << "~~" << mes << ", " << sizeof(mes) << write(ms, mes, sizeof(mes)) << "\n";
 
 				bzero(mes, sizeof(mes));
