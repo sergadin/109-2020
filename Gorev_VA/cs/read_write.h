@@ -1,3 +1,7 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 int write_mes(int ms, char* mes)
 {
     char mes_len[1024];
