@@ -370,7 +370,7 @@ int Base::do_from(std::istream& in, int ms)
             write(ms, mes, sizeof(mes));
 
             int er_code = do_from(fin, ms);
-            if (er_code < 0) return { fin.close(); er_code; }
+            if (er_code < 0) { fin.close(); return er_code; }
             fin.close();
             std::cout << "    file '" << mes << "' closed\n";
             bzero(key, sizeof(key));
