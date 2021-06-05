@@ -193,18 +193,18 @@ public:
 		char key[1024];
 		bzero(mes, sizeof(mes));
 		sprintf(mes, "%d", num);
-		write(ms, mes, sizeof(mes));
+		write_mes1(ms, mes));
 
 		for (int I = 0; I < num; I++)
 		{
 			bzero(mes, sizeof(mes));
 			for (int i = 0; i < name[I].length(); i++)
 				mes[i] = name[I][i];
-			write(ms, mes, sizeof(mes));
+			write_mes1(ms, mes));
 
 			bzero(mes, sizeof(mes));
 			sprintf(mes, "%d", quant[I]);
-			write(ms, mes, sizeof(mes));
+			write_mes1(ms, mes);
 		}
 		return 0;
 	}
@@ -222,29 +222,29 @@ public:
 		char key[1024];
 		bzero(mes, sizeof(mes));
 		sprintf(mes, "%d", (int)map.size());
-		write(ms, mes, sizeof(mes));
+		write_mes1(ms, mes);
 
 		for (int I = 0; I < map.size(); I++)
 		{
 			bzero(mes, sizeof(mes));
 			for (int i = 0; i < name[map[I].res].length(); i++)
 				mes[i] = name[map[I].res][i];
-			write(ms, mes, sizeof(mes));
+			write_mes1(ms, mes);
 
 			bzero(mes, sizeof(mes));
 			sprintf(mes, "%d", map[I].size());
-			write(ms, mes, sizeof(mes));
+			write_mes1(ms, mes);
 
 			for (int i = 1; i <= map[I].size(); i++)
 			{
 				bzero(mes, sizeof(mes));
 				for (int j = 0; j < name[map[I].comp[i - 1].num].length(); j++)
 					mes[j] = name[map[I].comp[i - 1].num][j];
-				write(ms, mes, sizeof(mes));
+				write_mes1(ms, mes);
 
 				bzero(mes, sizeof(mes));
 				sprintf(mes, "%d", map[I].comp[i - 1].quant);
-				write(ms, mes, sizeof(mes));
+				write_mes1(ms, mes);
 			}
 		}
 		return 0;
@@ -254,12 +254,12 @@ public:
 		char mes[1024];
 		bzero(mes, sizeof(mes));
 		strcpy(mes, "show_details");
-		write(ms, mes, sizeof(mes));
+		write_mes1(ms, mes);
 		show_details(ms);
 
 		bzero(mes, sizeof(mes));
 		strcpy(mes, "show_maps");
-		write(ms, mes, sizeof(mes));
+		write_mes1(ms, mes);
 		show_maps(ms);
 		return 0;
 	}
@@ -327,29 +327,30 @@ public:
 	}
 };
 
-
-
-// прочитать следующее слово
-int scan_next(char*& cur, char mes[])
+int write_mes1(int ms, char* mes)
 {
-	for (int i = 0; i < strlen(mes); i++)
-		mes[i] = 0;
-	while (cur[0] == ' ') cur = cur + 1;
-	if (cur[0] == 0) return -1;
-	sscanf(cur, "%s", mes);
-	cur = cur + strlen(mes);
-	while (cur[0] == ' ') cur = cur + 1;
+	char mes_len[1024];
+	bzero(mes_len, sizeof(mes_len));
 
+	int len = strlen(mes);
+	sprintf(mes_len, "%d", len);
+	write(ms, mes_len, sizeof(mes_len));
+
+	write(ms, mes, len);
 	return 0;
 }
 
-int scan_next(char*& cur, int& num)
+char* read_mes1(int ms)
 {
-	while (cur[0] == ' ') cur = cur + 1;
-	if (cur[0] == 0) return -1;
-	sscanf(cur, "%d", &num);
-	while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-	while (cur[0] == ' ') cur = cur + 1;
+	char mes_len[1024];
+	bzero(mes_len, sizeof(mes_len));
+	read(ms, mes_len, sizeof(mes_len));
+	int len = 0;
+	sscanf(mes_len, "%d", &len);
 
-	return 0;
+	char* mes;
+	mes = new char[len + 1];
+	bzero(mes, len + 1);
+	read(ms, mes, len);
+	return mes;
 }
