@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
             if (er_code == -11) std::cout << "can_build_map: calculating of number of details that can be builded\n";
             if (er_code == -12) std::cout << "build_map_#: reading of map's number\n";
             if (er_code == -13) std::cout << "build_map_#: reading of number of details than must be builded\n";
-            if (er_code == -14) std::cout << "build_map_#: reading of number of details than can be builded\n";
+            if (er_code == -14) std::cout << "build_map_#: calculating of number of details than can be builded\n";
             if (er_code == -15) std::cout << "read_from_file: reading of file's name\n";
             if (er_code == -16) std::cout << "read_from_file: opening of file\n";
 
