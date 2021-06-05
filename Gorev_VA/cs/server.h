@@ -447,7 +447,12 @@ int Base::do_from(std::istream& in, int ms)
                     printf("quant = %d\n", det_quant);
 
                     // добавляем детали в базу
-                    del_detail(det_name, det_quant);
+                    if (del_detail(det_name, det_quant) < 0)
+                    {
+                        strcpy(mes, "error");
+                        write(ms, mes, sizeof(mes));
+                        return -19;
+                    }
                 }
             }
             continue;

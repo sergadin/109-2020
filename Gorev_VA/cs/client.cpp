@@ -94,6 +94,7 @@ int main(int argc, char* argv[])
             if (er_code == -16) std::cout << "read_from_file: opening of file\n";
             if (er_code == -17) std::cout << "del_details: reading of deleted detail's name\n";
             if (er_code == -18) std::cout << "del_details: reading of deleted detail's quant\n";
+            if (er_code == -19) std::cout << "del_details: deleting\n";
 
             break;
         }
