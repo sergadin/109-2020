@@ -201,7 +201,7 @@ public:
 		for (int I = 0; I < num; I++)
 		{
 			bzero(mes, sizeof(mes));
-			for (int i = 0; i < name[I].strlen(); i++)
+			for (int i = 0; i < name[I].length(); i++)
 				mes[i] = name[I][i];
 			write(ms, mes, sizeof(mes));
 
