@@ -68,6 +68,30 @@ int main(int argc, char* argv[])
         {
             std::cout << "Error\n";
 
+            bzero(buf, sizeof(buf));
+            read(s, buf, sizeof(buf));
+            int er_code = 0;
+            scanf(buf, "%d", &er_code);
+            
+            std::cout << "  Error in: ";
+            if ((er_code > 0) || (er_code < -16)) std::cout << "Unknown error\n";
+            if (er_code == -1) std::cout << "add_details: reading of new detail's name\n";
+            if (er_code == -2) std::cout << "add_details: reading of new detail's quant\n";
+            if (er_code == -3) std::cout << "add_map: reading of result detail's name\n";
+            if (er_code == -4) std::cout << "add_map: reading of component detail's name\n";
+            if (er_code == -5) std::cout << "add_map: reading of component detail's quant\n";
+            if (er_code == -6) std::cout << "can_build_map_#: reading of map's number\n";
+            if (er_code == -7) std::cout << "can_build_map_#: calculating of number of details that can be builded\n";
+            if (er_code == -8) std::cout << "can_build_map: reading of result detail's name\n";
+            if (er_code == -9) std::cout << "can_build_map: reading of component detail's name\n";
+            if (er_code == -10) std::cout << "can_build_map: reading of component detail's quant\n";
+            if (er_code == -11) std::cout << "can_build_map: calculating of number of details that can be builded\n";
+            if (er_code == -12) std::cout << "build_map_#: reading of map's number\n";
+            if (er_code == -13) std::cout << "build_map_#: reading of number of details than must be builded\n";
+            if (er_code == -14) std::cout << "build_map_#: reading of number of details than can be builded\n";
+            if (er_code == -15) std::cout << "read_from_file: reading of file's name\n";
+            if (er_code == -16) std::cout << "read_from_file: opening of file\n";
+
             break;
         }
         if (strcmp(buf, "add_details") == 0)
