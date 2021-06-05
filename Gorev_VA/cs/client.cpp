@@ -40,9 +40,9 @@ int main(int argc, char* argv[])
     write_mes(s, argv[3]); // посылаем строчку
 
     char buf[1024];
-    bzero(buf, sizeof(buf));
-    read(s, buf, sizeof(buf));
-    std::cout << "Recieved message: " << buf << "\n";
+    //bzero(buf, sizeof(buf));
+    //read(s, buf, sizeof(buf));
+    //std::cout << "Recieved message: " << buf << "\n";
 
     for (int iii = 0; iii < 100; iii++)
     {
