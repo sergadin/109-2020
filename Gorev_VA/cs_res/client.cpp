@@ -8,6 +8,35 @@
 #include <unistd.h>
 #include "database.h"
 
+int write_mes(int ms, char* mes)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+
+    int len = strlen(mes);
+    sprintf(mes_len, "%d", len);
+    write(ms, mes_len, sizeof(mes_len));
+
+    write(ms, mes, len);
+    return 0;
+}
+
+char* read_mes(int ms)
+{
+    char mes_len[1024];
+    bzero(mes_len, sizeof(mes_len));
+    read(ms, mes_len, sizeof(mes_len));
+    int len = 0;
+    sscanf(mes_len, "%d", &len);
+
+    char* mes;
+    mes = new char[len + 1];
+    bzero(mes, len + 1);
+    read(ms, mes, len);
+    return mes;
+}
+
+
 int main(int argc, char* argv[])
 {
     int s;
@@ -36,17 +65,17 @@ int main(int argc, char* argv[])
         exit(1);
     }
 
-    write(s, argv[3], strlen(argv[3])); // посылаем строчку
+    write_mes(s, argv[3]); // посылаем строчку
 
-    char buf[1024];
-    bzero(buf, sizeof(buf));
-    read(s, buf, sizeof(buf));
+    char* buf;
+    buf = read_mes(s);
     std::cout << "Recieved message: " << buf << "\n";
 
     for (int iii = 0; iii < 100; iii++)
     {
-        bzero(buf, sizeof(buf));
-        read(s, buf, sizeof(buf));
+        delete[] buf;
+        //bzero(buf, sizeof(buf));
+        buf = read_mes(s);
         //std::cout << "  Command: " << buf << "\n";
 
         if (strcmp(buf, "END") == 0)
@@ -68,8 +97,8 @@ int main(int argc, char* argv[])
         {
             std::cout << "Error ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             int er_code = 0;
             sscanf(buf, "%d", &er_code);
             std::cout << er_code << "\n";
@@ -107,24 +136,24 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "add_details_name") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "  " << buf << ") ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "Detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "add_details_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             for (int i = 0; i < (4 + strlen(buf)); i++)
                 std::cout << " ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "Detailail's quant: " << buf << "\n";
             continue;
         }
@@ -136,31 +165,31 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "add_map_res") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Result detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "add_map_comp_name") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    " << buf << ") ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "Component detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "add_map_comp_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             for (int i = 0; i < (2 + strlen(buf)); i++)
                 std::cout << " ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Component detailail's quant: " << buf << "\n";
             continue;
         }
@@ -172,19 +201,19 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "can_build_map_#_num") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Number " << buf << ":\n";
             continue;
         }
         if (strcmp(buf, "can_build_map_#_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    " << buf << " details ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << buf << "\n";
             continue;
         }
@@ -196,42 +225,42 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "can_build_map_res") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Result detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "can_build_map_comp_name") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    " << buf << ") ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "Component detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "can_build_map_comp_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             for (int i = 0; i < (2 + strlen(buf)); i++)
                 std::cout << " ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Component detailail's quant: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "can_build_map_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    " << buf << " details ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << buf << "\n";
             continue;
         }
@@ -243,30 +272,30 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "build_map_#_num") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Number " << buf << ":\n";
             continue;
         }
         if (strcmp(buf, "build_map_#_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Want build: " << buf << " details ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << buf << "\n";
             continue;
         }
         if (strcmp(buf, "build_map_#_builded") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Builded: " << buf << " details ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << buf << "\n";
             continue;
         }
@@ -278,15 +307,15 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "read_from_file_open") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Filename: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "read_from_file_close") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    File: " << buf << " closed\n";
             continue;
         }
@@ -294,19 +323,19 @@ int main(int argc, char* argv[])
         if (strcmp(buf, "show_details") == 0)
         {
             std::cout << "  List of details:\n";
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             
             int num;
             sscanf(buf, "%d", &num);
             for (int I = 0; I < num; I++)
             {
-                bzero(buf, sizeof(buf));
-                read(s, buf, sizeof(buf));
+                delete[] buf;
+                buf = read_mes(s);
                 std::cout << "  " << I + 1 << ") Name: " << buf << ", ";
 
-                bzero(buf, sizeof(buf));
-                read(s, buf, sizeof(buf));
+                delete[] buf;
+                buf = read_mes(s);
                 std::cout << "quant: " << buf << "\n";
             }
             continue;
@@ -315,32 +344,33 @@ int main(int argc, char* argv[])
         if (strcmp(buf, "show_maps") == 0)
         {
             std::cout << "  List of maps:\n";
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
 
             int Num;
             sscanf(buf, "%d", &Num);
             for (int I = 0; I < Num; I++)
             {
-                bzero(buf, sizeof(buf));
-                read(s, buf, sizeof(buf));
+                delete[] buf;
+                buf = read_mes(s);
                 std::cout << "  " << I + 1 << ") Name: " << buf << "\n";
 
                 int num;
-                bzero(buf, sizeof(buf));
-                read(s, buf, sizeof(buf));
+                delete[] buf;
+                buf = read_mes(s);
                 sscanf(buf, "%d", &num);
                 for (int i = 1; i <= num; i++)
                 {
-                    bzero(buf, sizeof(buf));
-                    read(s, buf, sizeof(buf));
+                    delete[] buf;
+                    buf = read_mes(s);
                     std::cout << "    " << I + 1 << ". Name: " << buf << ", ";
 
-                    bzero(buf, sizeof(buf));
-                    read(s, buf, sizeof(buf));
+                    delete[] buf;
+                    buf = read_mes(s);
                     std::cout << "quant: " << buf << "\n";
                 }
             }
+            continue;
         }
 
         if (strcmp(buf, "del_details") == 0)
@@ -350,24 +380,24 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "del_details_name") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "  " << buf << ") ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);;
             std::cout << "Detailail's name: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "del_details_quant") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             for (int i = 0; i < (4 + strlen(buf)); i++)
                 std::cout << " ";
 
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "Detailail's quant: " << buf << "\n";
             continue;
         }
@@ -379,20 +409,21 @@ int main(int argc, char* argv[])
         }
         if (strcmp(buf, "write_in_file_open") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    Filename: " << buf << "\n";
             continue;
         }
         if (strcmp(buf, "write_in_file_close") == 0)
         {
-            bzero(buf, sizeof(buf));
-            read(s, buf, sizeof(buf));
+            delete[] buf;
+            buf = read_mes(s);
             std::cout << "    File: " << buf << " closed\n";
             continue;
         }
     }
 
+    delete[] buf;
     close(s);
     return 0;
 }

@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
     int as, ms;
     struct sockaddr_in server;
-    char buf[1024]; // буфер дл€ приема сообщений от клиентов
+    char* buf; // буфер дл€ приема сообщений от клиентов
     char mes[1024];
     int er_code = 0;
     Base B;
@@ -62,9 +62,11 @@ int main(int argc, char *argv[])
             perror("ќшибка при вызове accept");
             exit(1);
         }
-        bzero(buf, sizeof(buf)); // обнул€ем буфер сообщени€
-        read(ms, buf, sizeof(buf)); // читаем сообщение от клиента
-        write(ms, buf, sizeof(buf));
+        //buf = new char[1];
+        //bzero(buf, 1); // обнул€ем буфер сообщени€
+        buf = read_mes(ms); // читаем сообщение от клиента
+        std::cout << "|" << buf << "|\n";
+        write_mes(ms, buf);
         
         printf("message is = %s, Size = %d\n", buf, strlen(buf));
 
@@ -72,7 +74,8 @@ int main(int argc, char *argv[])
         sscanf(buf, "%s", &mes);
         if (strcmp(mes, "quit") == 0)
         {
-            write(ms, buf, sizeof(buf));
+            write_mes(ms, buf);
+            delete[] buf;
             close(ms);
             break;
         }
@@ -84,21 +87,12 @@ int main(int argc, char *argv[])
             std::cout << "~~~~" << er_code << "\n";
             bzero(mes, sizeof(mes));
             sprintf(mes, "%d", er_code);
-            write(ms, mes, sizeof(mes));
+            write_mes(ms, mes);
         }
 
-
+        delete[] buf;
         close(ms); // закрываем соединение с клиентом
     }
     close(as); // закрываем порт 1234; клиенты больше не могут подключатьс€
     return 0;
 }
-
-/*
-ms = accept(as, 0, 0); // выбираем первое соединение из очереди 
-bzero(buf, sizeof(buf)); // обнул€ем буфер сообщени€ 
-read(ms, buf, sizeof(buf)); // читаем сообщение от клиента 
-close(ms); // закрываем соединение с клиентом
-printf("message is = %s\n", buf);
-if (strcmp(buf, "quit") == 0) break;
-*/
