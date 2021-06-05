@@ -40,12 +40,12 @@ int main(int argc, char* argv[])
     write_mes(s, argv[3]); // посылаем строчку
 
     char* buf;
-    //bzero(buf, sizeof(buf));
-    //read(s, buf, sizeof(buf));
-    //std::cout << "Recieved message: " << buf << "\n";
+    buf = read(s);
+    std::cout << "Recieved message: " << buf << "\n";
 
     for (int iii = 0; iii < 100; iii++)
     {
+        delete[] buf;
         //bzero(buf, sizeof(buf));
         buf = read_mes(s);
         //std::cout << "  Command: " << buf << "\n";
@@ -342,6 +342,7 @@ int main(int argc, char* argv[])
                     std::cout << "quant: " << buf << "\n";
                 }
             }
+            continue;
         }
 
         if (strcmp(buf, "del_details") == 0)
@@ -394,6 +395,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    delete[] buf;
     close(s);
     return 0;
 }
