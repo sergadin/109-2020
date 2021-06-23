@@ -1,5 +1,5 @@
 #include<iostream>
-#include<windows.h>
+//#include<windows.h>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -113,9 +113,9 @@ public:
 			cout << "3" << endl;										
 		}
 	
-		
+	//возвращает количество строк и столбцов	
 	//Mail Google Milk 100000 10 12 1999
-	friend class DataBase;
+	friend class DataBase;//не должно быть
 	friend class ListOD;
 	
 };
