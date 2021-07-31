@@ -1,0 +1,21 @@
+add_details <name1> <quant1> <name2> <name2> ... end - add <quant1> details <name1>, <quant2> details <name2>, ...
+
+del_details <name1> <quant1> <name2> <name2> ... end - delete <quant1> details <name1>, <quant2> details <name2>, ...
+
+add_map <result> <name1> <quant1> <name2> <quant2> ... end - add map for detail <result> with components: <quant1> details <name1>, <quant2> details <name2>, ...
+
+can_build_map_# <num> - how many details can be builded by map number <num>
+
+can_build_map <result> <name1> <quant1> <name2> <quant2> ... end - how many details can be builded by map <result> <name1> <quant1> <name2> <quant2> ...
+
+build_map_# <num> <quant> - build <quant> details by map <num>
+
+read_from_file <filename> - read commands from file <filename>
+
+write_in_file <filename> - write base in file <filename>
+
+show_details - show list of details
+
+show_maps - show list of maps
+
+show_base - show list of details and maps

@@ -18,7 +18,24 @@ public:
 		return reason_; 
 	}
 };
+class Matrix;
 
+class SubM {
+private:
+	Matrix *matrix_;
+	int i_corner_;
+	int j_corner_;
+	int n_sub_;
+	int m_sub_;
+public:
+	SubM(Matrix *m, int i_corner, int j_corner, int n_sub, int m_sub);
+	int GetElem(int row, int coloumn);
+//	~SubM();
+	//void get_submatrix(Matrix *matrix, int i0, int j0, int ns, int ms); // взятие подматрицы
+};	
+
+
+//class Matrix;
 class Matrix {
 private:
 	int n_;// количество строк
@@ -47,9 +64,10 @@ public:
 	void print(const Matrix &m); 
 	// печать матрицы
 
-	void get_submatrix(int i0, int j0, int ns, int ms); // взятие подматрицы
+	SubM get_submatrix(int i0, int j0, int ns, int ms); // взятие подматрицы
 };
 
+/*
 class SubM {
 private:
 	Matrix *matrix_;
@@ -62,6 +80,4 @@ public:
 	int GetElem(int row, int coloumn);
 //	~SubM();
 	//void get_submatrix(Matrix *matrix, int i0, int j0, int ns, int ms); // взятие подматрицы
-};	
-
-
+};*/	

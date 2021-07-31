@@ -11,6 +11,7 @@ class IntArray{
 	public:
 	IntArray(int n = 1);
 	~IntArray();
+	IntArray(const IntArray &other);
 	int get_elem(int i) const;
 	void set_elem(int i, int cmp);
 	void del_elem(int i);

@@ -1,0 +1,2 @@
+zf2: Zhukova_func2_test.c Zhukova_func2.h Zhukova_func2.c
+	gcc -o zf2 Zhukova_func2_test.c Zhukova_func2.c

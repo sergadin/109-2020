@@ -1,0 +1,11 @@
+updateCourseName 1254 ztxslw
+updateCourseName 2228 pyozyr
+select columns hw end_columns rows_for_all r sum_row
+updateCourse index 705 lectures 26 seminars 9 hw 34
+select columns seminars post post end_columns rows_for_all s sum_row
+updateCourse index 1519 lectures 35 seminars 31 hw 25
+updateCourseName 2303 zdlffg
+updateCourse index 2004 lectures 9 seminars 20 hw 39
+updateCourseName 1208 tczorn
+updateCourse index 282 lectures 26 seminars 28 hw 50
+exit

@@ -115,17 +115,18 @@ void Matrix ::change_element(int i, int j, int new_el) {// изменение э
 	}
 	matr_[i * m_ + j] = new_el;
 }
-	
-void Matrix ::get_submatrix(int i0, int j0, int ns, int ms){ // взятие подматрицы
-		Matrix temp = *this;
-		SubM SM(&temp, i0, j0, ns, ms);
-		for (int i = i0 ; i <= ns; i++) {
-			for (int j = j0 ; j <= ms; j++) {
-				std::cout << SM.GetElem(i, j) << " ";
-			}
-			std::cout << std::endl;
-		}
 
+	SubM Matrix::get_submatrix(int i0, int j0, int ns, int ms){ // взятие подматрицы
+    Matrix temp = *this;
+    SubM SM(&temp, i0, j0, ns, ms);
+    for (int i = i0 ; i <= ns; i++) {
+      for (int j = j0 ; j <= ms; j++) {
+        std::cout << SM.GetElem(i, j) << " ";
+      }
+      std::cout << std::endl;
+    }
+
+    return SM;
 
 }
 

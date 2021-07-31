@@ -19,7 +19,6 @@ class VectorError
 		}
 };
 
-
 class Vector 
 { 
 	private: 
@@ -35,4 +34,3 @@ class Vector
 		Vector & operator=(const Vector & right);
 		friend std::ostream& operator<<(std::ostream &os, const Vector& q);
 };
-

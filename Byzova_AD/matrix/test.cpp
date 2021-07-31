@@ -44,8 +44,10 @@ int main()
 		cout << "m2+m1" << endl << m1 + m2 << endl;
 
 		//SubM m4(&m1, 1, 1, 2, 2);
-		m1.get_submatrix(1, 1, 2, 2); // взятие подматрицы
-/*		for (int i = 1 ; i <= 2; i++) {
+		
+		SubM sm = m1.get_submatrix(1, 1, 2, 2); // взятие подматрицы
+	/*	
+	 	for (int i = 1 ; i <= 2; i++) {
 			for (int j = 1 ; j <= 2; j++) {
 				cout << m4.GetElem(i, j) << " ";
 			}
