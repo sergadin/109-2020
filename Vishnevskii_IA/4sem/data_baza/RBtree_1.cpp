@@ -1145,15 +1145,6 @@ int main()
 
 	cout << endl;
 
-	string a = "Vishnevskij";
-	string b = "Prohorov";
-	string c = "Dolgov";
-	string d = "Tishin";
-	string e = "Agapov";
-	string f = "Tomsov";
-	string g = "Afanasiev";
-
-	
 
 	RBtree_rating tree_rating;
 
