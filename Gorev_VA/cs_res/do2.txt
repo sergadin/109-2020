@@ -1,0 +1,119 @@
+add_details D0 100 end
+add_details D1 100 end
+add_details D2 100 end
+add_details D3 100 end
+add_details D4 100 end
+add_details D5 100 end
+add_details D6 100 end
+add_details D7 100 end
+add_details D8 100 end
+add_details D9 100 end
+add_details D10 100 end
+add_details D11 100 end
+add_details D12 100 end
+add_details D13 100 end
+add_details D14 100 end
+add_details D15 100 end
+add_details D16 100 end
+add_details D17 100 end
+add_details D18 100 end
+add_details D19 100 end
+add_details D20 100 end
+add_details D21 100 end
+add_details D22 100 end
+add_details D23 100 end
+add_details D24 100 end
+add_details D25 100 end
+add_details D26 100 end
+add_details D27 100 end
+add_details D28 100 end
+add_details D29 100 end
+add_details D30 100 end
+add_details D31 100 end
+add_details D32 100 end
+add_details D33 100 end
+add_details D34 100 end
+add_details D35 100 end
+add_details D36 100 end
+add_details D37 100 end
+add_details D38 100 end
+add_details D39 100 end
+add_details D40 100 end
+add_details D41 100 end
+add_details D42 100 end
+add_details D43 100 end
+add_details D44 100 end
+add_details D45 100 end
+add_details D46 100 end
+add_details D47 100 end
+add_details D48 100 end
+add_details D49 100 end
+add_details D50 100 end
+add_details D51 100 end
+add_details D52 100 end
+add_details D53 100 end
+add_details D54 100 end
+add_details D55 100 end
+add_details D56 100 end
+add_details D57 100 end
+add_details D58 100 end
+add_details D59 100 end
+add_details D60 100 end
+add_details D61 100 end
+add_details D62 100 end
+add_details D63 100 end
+add_details D64 100 end
+add_details D65 100 end
+add_details D66 100 end
+add_details D67 100 end
+add_details D68 100 end
+add_details D69 100 end
+add_details D70 100 end
+add_details D71 100 end
+add_details D72 100 end
+add_details D73 100 end
+add_details D74 100 end
+add_details D75 100 end
+add_details D76 100 end
+add_details D77 100 end
+add_details D78 100 end
+add_details D79 100 end
+add_details D80 100 end
+add_details D81 100 end
+add_details D82 100 end
+add_details D83 100 end
+add_details D84 100 end
+add_details D85 100 end
+add_details D86 100 end
+add_details D87 100 end
+add_details D88 100 end
+add_details D89 100 end
+add_details D90 100 end
+add_details D91 100 end
+add_details D92 100 end
+add_details D93 100 end
+add_details D94 100 end
+add_details D95 100 end
+add_details D96 100 end
+add_details D97 100 end
+add_details D98 100 end
+add_details D99 100 end
+add_map DEV0 D23 13 D29 13 D84 13 D15 13 D58 13 D19 13 D81 13 D17 13 D48 13 D15 13 end
+add_map DEV1 D36 13 D49 13 D91 13 D26 13 D89 13 D22 13 D63 13 D57 13 D33 13 D10 13 end
+add_map DEV2 D50 13 D56 13 D85 13 D4 13 D10 13 D63 13 D1 13 D72 13 D10 13 D48 13 end
+add_map DEV3 D25 13 D67 13 D89 13 D75 13 D72 13 D90 13 D92 13 D37 13 D89 13 D77 13 end
+add_map DEV4 D32 13 D19 13 D99 13 D16 13 D70 13 D50 13 D93 13 D71 13 D10 13 D20 13 end
+add_map DEV5 D55 13 D70 13 D7 13 D51 13 D19 13 D27 13 D63 13 D44 13 D3 13 D46 13 end
+add_map DEV6 D7 13 D3 13 D16 13 D39 13 D68 13 D53 13 D68 13 D27 13 D46 13 D27 13 end
+add_map DEV7 D45 13 D93 13 D8 13 D45 13 D94 13 D85 13 D12 13 D1 13 D23 13 D86 13 end
+add_map DEV8 D43 13 D76 13 D87 13 D37 13 D94 13 D79 13 D83 13 D94 13 D58 13 D59 13 end
+add_map DEV9 D31 13 D42 13 D90 13 D15 13 D83 13 D73 13 D49 13 D21 13 D11 13 D4 13 end
+can_build_map_# 1
+can_build_map_# 2
+can_build_map_# 3
+can_build_map_# 4
+can_build_map_# 5
+can_build_map_# 6
+can_build_map_# 7
+can_build_map_# 8
+can_build_map_# 9

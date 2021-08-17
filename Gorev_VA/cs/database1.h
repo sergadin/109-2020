@@ -65,6 +65,7 @@ public:
 			for (int d = 1, j = M[2 * i + 2].length() - 1; j >= 0; d *= 10, j--)
 				m.comp[i].quant += d * (M[2 * i + 2][j] - '0');
 		}
+		return m;
 	}
 
 
@@ -182,14 +183,32 @@ public:
 	}
 
 
-	int show_details() // показать список деталей
+	int show_details(int ms) // показать список деталей
 	{
 		std::cout << "    List of details:\n";
 		for (int I = 0; I < num; I++)
 			std::cout << "    " << I + 1 << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
+
+		char mes[1024];
+		char key[1024];
+		bzero(mes, sizeof(mes));
+		sprintf(mes, "%d", num);
+		write(ms, mes, sizeof(mes));
+
+		for (int I = 0; I < num; I++)
+		{
+			bzero(mes, sizeof(mes));
+			for (int i = 0; i < name[I].length(); i++)
+				mes[i] = name[I][i];
+			write(ms, mes, sizeof(mes));
+
+			bzero(mes, sizeof(mes));
+			sprintf(mes, "%d", quant[I]);
+			write(ms, mes, sizeof(mes));
+		}
 		return 0;
 	}
-	int show_maps() // показать список карт
+	int show_maps(int ms) // показать список карт
 	{
 		std::cout << "    List of maps:\n";
 		for (int I = 0; I < map.size(); I++)
@@ -198,12 +217,50 @@ public:
 			for (int i = 1; i <= map[I].size(); i++)
 				std::cout << "      " << i << ". Name: " << name[map[I].comp[i - 1].num] << ", quant: " << map[I].comp[i - 1].quant << "\n";
 		}
+
+		char mes[1024];
+		char key[1024];
+		bzero(mes, sizeof(mes));
+		sprintf(mes, "%d", (int)map.size());
+		write(ms, mes, sizeof(mes));
+
+		for (int I = 0; I < map.size(); I++)
+		{
+			bzero(mes, sizeof(mes));
+			for (int i = 0; i < name[map[I].res].length(); i++)
+				mes[i] = name[map[I].res][i];
+			write(ms, mes, sizeof(mes));
+
+			bzero(mes, sizeof(mes));
+			sprintf(mes, "%d", map[I].size());
+			write(ms, mes, sizeof(mes));
+
+			for (int i = 1; i <= map[I].size(); i++)
+			{
+				bzero(mes, sizeof(mes));
+				for (int j = 0; j < name[map[I].comp[i - 1].num].length(); j++)
+					mes[j] = name[map[I].comp[i - 1].num][j];
+				write(ms, mes, sizeof(mes));
+
+				bzero(mes, sizeof(mes));
+				sprintf(mes, "%d", map[I].comp[i - 1].quant);
+				write(ms, mes, sizeof(mes));
+			}
+		}
 		return 0;
 	}
-	int show_base() // показать списки деталей и карт
+	int show_base(int ms) // показать списки деталей и карт
 	{
-		show_details();
-		show_maps();
+		char mes[1024];
+		bzero(mes, sizeof(mes));
+		strcpy(mes, "show_details");
+		write(ms, mes, sizeof(mes));
+		show_details(ms);
+
+		bzero(mes, sizeof(mes));
+		strcpy(mes, "show_maps");
+		write(ms, mes, sizeof(mes));
+		show_maps(ms);
 		return 0;
 	}
 
@@ -245,10 +302,10 @@ public:
 		quant[map[n].res] += kol;
 		for (int i = 0; i < map[n].size(); i++)
 			quant[map[n].comp[i].num] -= kol * map[n].comp[i].quant;
-		return c;
+		return kol;
 	}
 
-	int do_from(std::istream& in);
+	int do_from(std::istream& in, int ms);
 
 
 };

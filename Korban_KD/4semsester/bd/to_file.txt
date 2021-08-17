@@ -1,0 +1,8 @@
+time: 0 room: 3 teacher: Benjamin course: matlog group:104
+time: 1 room: 3 teacher: Benjamin course: matlog group:101
+time: 0 room: 2 teacher: Emma course: teorver group:103
+time: 1 room: 2 teacher: Emma course: teorver group:102
+time: 0 room: 1 teacher: James course: Diffgem group:102
+time: 1 room: 1 teacher: James course: Diffgem group:103
+time: 0 room: 0 teacher: John course: matan group:101
+time: 1 room: 0 teacher: John course: matan group:104

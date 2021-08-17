@@ -23,6 +23,19 @@ struct Map
 	void resize(int n) { comp.resize(n); }
 };
 
+int write_mes1(int ms, char* mes)
+{
+	char mes_len[1024];
+	bzero(mes_len, sizeof(mes_len));
+
+	int len = strlen(mes);
+	sprintf(mes_len, "%d", len);
+	write(ms, mes_len, sizeof(mes_len));
+
+	write(ms, mes, len);
+	return 0;
+}
+
 
 // база склада
 class Base
@@ -183,14 +196,32 @@ public:
 	}
 
 
-	int show_details() // показать список деталей
+	int show_details(int ms) // показать список деталей
 	{
 		std::cout << "    List of details:\n";
 		for (int I = 0; I < num; I++)
 			std::cout << "    " << I + 1 << ") Name: " << name[I] << ", quant: " << quant[I] << "\n";
+
+		char mes[1024];
+		char key[1024];
+		bzero(mes, sizeof(mes));
+		sprintf(mes, "%d", num);
+		write_mes1(ms, mes);
+
+		for (int I = 0; I < num; I++)
+		{
+			bzero(mes, sizeof(mes));
+			for (int i = 0; i < name[I].length(); i++)
+				mes[i] = name[I][i];
+			write_mes1(ms, mes);
+
+			bzero(mes, sizeof(mes));
+			sprintf(mes, "%d", quant[I]);
+			write_mes1(ms, mes);
+		}
 		return 0;
 	}
-	int show_maps() // показать список карт
+	int show_maps(int ms) // показать список карт
 	{
 		std::cout << "    List of maps:\n";
 		for (int I = 0; I < map.size(); I++)
@@ -199,12 +230,50 @@ public:
 			for (int i = 1; i <= map[I].size(); i++)
 				std::cout << "      " << i << ". Name: " << name[map[I].comp[i - 1].num] << ", quant: " << map[I].comp[i - 1].quant << "\n";
 		}
+
+		char mes[1024];
+		char key[1024];
+		bzero(mes, sizeof(mes));
+		sprintf(mes, "%d", (int)map.size());
+		write_mes1(ms, mes);
+
+		for (int I = 0; I < map.size(); I++)
+		{
+			bzero(mes, sizeof(mes));
+			for (int i = 0; i < name[map[I].res].length(); i++)
+				mes[i] = name[map[I].res][i];
+			write_mes1(ms, mes);
+
+			bzero(mes, sizeof(mes));
+			sprintf(mes, "%d", map[I].size());
+			write_mes1(ms, mes);
+
+			for (int i = 1; i <= map[I].size(); i++)
+			{
+				bzero(mes, sizeof(mes));
+				for (int j = 0; j < name[map[I].comp[i - 1].num].length(); j++)
+					mes[j] = name[map[I].comp[i - 1].num][j];
+				write_mes1(ms, mes);
+
+				bzero(mes, sizeof(mes));
+				sprintf(mes, "%d", map[I].comp[i - 1].quant);
+				write_mes1(ms, mes);
+			}
+		}
 		return 0;
 	}
-	int show_base() // показать списки деталей и карт
+	int show_base(int ms) // показать списки деталей и карт
 	{
-		show_details();
-		show_maps();
+		char mes[1024];
+		bzero(mes, sizeof(mes));
+		strcpy(mes, "show_details");
+		write_mes1(ms, mes);
+		show_details(ms);
+
+		bzero(mes, sizeof(mes));
+		strcpy(mes, "show_maps");
+		write_mes1(ms, mes);
+		show_maps(ms);
 		return 0;
 	}
 
@@ -246,37 +315,27 @@ public:
 		quant[map[n].res] += kol;
 		for (int i = 0; i < map[n].size(); i++)
 			quant[map[n].comp[i].num] -= kol * map[n].comp[i].quant;
-		return c;
+		return kol;
 	}
 
-	int do_from(std::istream& in);
+	int do_from(std::istream& in, int ms);
 
-
+	int write_in_file(std::ostream& out)
+	{
+		out << "add_details\n";
+		for (int i = 0; i < num; i++)
+		{
+			out << name[i] << " " << quant[i] << "\n";
+		}
+		out << "\n";
+		
+		for (int i = 0; i < map.size(); i++)
+		{
+			out << "add_map " << name[map[i].res] << " ";
+			for (int j = 0; j < map[i].size(); j++)
+				out << name[map[i].comp[j].num] << " " << map[i].comp[j].quant << " ";
+			out << "\n";
+		}
+		return 0;
+	}
 };
-
-
-
-// прочитать следующее слово
-int scan_next(char*& cur, char mes[])
-{
-	for (int i = 0; i < strlen(mes); i++)
-		mes[i] = 0;
-	while (cur[0] == ' ') cur = cur + 1;
-	if (cur[0] == 0) return -1;
-	sscanf(cur, "%s", mes);
-	cur = cur + strlen(mes);
-	while (cur[0] == ' ') cur = cur + 1;
-
-	return 0;
-}
-
-int scan_next(char*& cur, int& num)
-{
-	while (cur[0] == ' ') cur = cur + 1;
-	if (cur[0] == 0) return -1;
-	sscanf(cur, "%d", &num);
-	while ((cur[0] != ' ') && (cur[0] != 0)) cur = cur + 1;
-	while (cur[0] == ' ') cur = cur + 1;
-
-	return 0;
-}

@@ -75,14 +75,14 @@ def read_sqlite_hand():
         if (cursor.fetchall() == None):
             return 0
         
-        sqlite_select_query = """SELECT count(*) from Hand"""
+        sqlite_select_query = """SELECT count(*) FROM hand"""
         cursor.execute(sqlite_select_query)
         
-        rows = cursor.fetchone()
+        (count,) = cursor.fetchone()
         
         cursor.close()
         
-        return rows
+        return count
 
     except sqlite3.Error as error:
         print("Ошибка", error)
@@ -120,7 +120,58 @@ class Card():
         self.Mastb = i
         self.Num   = j
 
+
+
+
+
+
+
+
 class Player():
+    
+    
+    def Sdelaykhod(self, m):
+        raise NotImplemented 
+        
+    def Poluchi(self, k, m):
+        hand = [None] * 11
+        for i in range(1+(k-1)*10, 11+(k-1)*10):
+            hand[i-(k-1)*10] = m[i]
+        for i in range(1, 11):
+             for j in range(1, 33):
+                 if (j == hand[i]):
+                     self.deck[j] = 1
+                 if (j != hand[i]) & (self.deck[j] != 1):
+                     self.deck[j] = 0
+        return self.deck
+
+    def Recording(self):
+        l = str(read_sqlite_hand())
+        s = int    
+        if (l == '0'):
+            s = 0
+            l = int(l)
+        else:
+            l = l[1:-1+len(l)-1]
+            l = int(l)
+            s = l
+        for i in range(1, 33):
+            if (self.deck[i] == 1):
+                s = s+1
+                insert_varible_into_hand(s, i, l/10+1)
+                
+                
+                
+                
+                
+#class crupie():
+    #подключить игрока
+    #нейросетевой обычный 
+    #полочи 
+    #разыграй (метод сделац ход 30 раз)
+                
+        
+class RandomPlayer(Player): 
     def __init__(self, deck):
         self.deck = deck
     
@@ -138,9 +189,9 @@ class Player():
             if (self.deck[k] == 1):
                 data.append(k)
                 l = l+1
-            if (mast(k) == m) & (self.deck[k] == 1):
+            if (mast(k) == m) and (self.deck[k] == 1):
                 p = p+1
-        if (p == 0) | (m == 0):
+        if (p == 0) or (m == 0):
             i = random.randint(0, l-1)
             s = data[i]
             self.deck[data[i]] = 0
@@ -186,6 +237,11 @@ class Player():
     def Print(self):
         print(self.deck, '\n')
 
+
+
+
+
+#"приватные" методы крупье
 def sravnit1(a, b, c, s): #сравнивает карты 1
     if (mast(b) == mast(a)) & (mast(c) == mast(a)):
         if (a > b) & (a > c):
@@ -317,15 +373,15 @@ if __name__ == '__main__':
     player3 = Player(neurons3)
     player3.Poluchi(3, r)
     
-    l = str(read_sqlite_trick())
-    s = int    
-    if (l == '0'):
-        s = 0
-        l = int(l)
-    else:
-        l = l[1:-1+len(l)-1]
-        l = int(l)
-        s = l
+    # l = str(read_sqlite_trick())
+    # s = 0    
+    # if (l == '0'):
+    #     s = 0
+    #     l = int(l)
+    # else:
+    #     l = l[1:-1+len(l)-1]
+    #     l = int(l)
+    #     s = l
         
     for i in range(1, 11):
         if (otvet[4] == 1):
