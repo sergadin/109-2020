@@ -1,9 +1,4 @@
-﻿
 
-
-// красно-черное дерево (
-// Сделано ввиде класса, удалена статистика
-// (с) Proteus  (lawnmower-man@mail.ru)
 
 #include<cstdio>
 #include<iostream>
