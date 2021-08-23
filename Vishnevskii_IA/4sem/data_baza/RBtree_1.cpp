@@ -1,4 +1,9 @@
+﻿
 
+
+// красно-черное дерево (
+// Сделано ввиде класса, удалена статистика
+// (с) Proteus  (lawnmower-man@mail.ru)
 
 #include<cstdio>
 #include<iostream>
@@ -10,6 +15,8 @@
 #include<stdlib.h>
 #include<time.h>
 #include<memory.h>
+#include<nlohmann/json.hpp> 
+#include<fstream>
 
 
 using namespace std;
@@ -1112,30 +1119,71 @@ int main()
 {
 	int n, i;
 
-	Hash_table test;
-	test.insert({ "anton", 1, 1 });
-	test.insert({ "artem", 2, 1 });
-	test.insert({ "ivan", 2, 2 });
-	test.insert({ "ilja", 3, 2 });
-	test.insert({ "kirill", 3, 3 });
-	test.insert({ "mifodij", 4, 3 });
-	test.insert({ "evpidokl", 5, 3 });
-	test.insert({ "seva", 4, 4 });
-	test.insert({ "egor", 5, 5 });
-	test.insert({ "johan", 5, 5 });
-	test.insert({ "vadim", 1, 6 });
-	test.insert({ "farid", 1, 7 });
-	test.insert({ "farid", 2, 10 });
-	test.insert({ "farid", 3, 11 });
-	test.insert({ "schamil", 2, 8 });
-	test.insert({ "evgenij", 2, 9 });
-	test.insert({ "aleksei", 2, 10 });
-	test.insert({ "abdul", 6, 0 });
-	test.insert({ "hazbula", 6, 0.1 });
-	test.insert({ "hazbula", 1, 55 });
-	test.insert({ "abdurozik", 6, 0.2 });
+	Student s{"Alex", 2, 5};
 
-	for (i = 1; i <= 6; i++)
+	nlohmann::json j{};
+	j["name"] = s.name;
+	j["group"] = s.group;
+	j["rating"] = s.rating;
+ 
+
+	cout << "___________________________________________________" << endl;
+
+	cout << endl << j << endl;
+
+	cout << "___________________________________________________" << endl;
+
+	cout << endl;
+
+	string serializedString = j.dump();
+
+	Student s1{};
+	nlohmann::json j1 = nlohmann::json::parse(serializedString);
+
+	s1.name = j1["name"].get<string>();
+	s1.group = j1["group"].get<int>();
+	s1.rating = j1["rating"].get<double>();
+
+	cout << "___________________________________________________" << endl;
+
+	cout << endl << s1.name << " " << s1.group << " " << s1.rating << endl;
+
+	cout << "___________________________________________________" << endl << endl;
+
+	ifstream file("student.txt");
+	string str;
+	Hash_table test;
+	int k = 1;
+	int max_group = -1; 
+
+	while (getline(file, str))
+	{
+
+		if (str == "") break;
+
+		Student s;
+		nlohmann::json j;
+
+		j = nlohmann::json::parse(str);
+
+		s.name = j["name"].get<string>();
+		s.group = j["group"].get<int>();
+		s.rating = j["rating"].get<double>();
+
+
+		cout << k << ")" << " " << s.name << " " << s.group << " " << s.rating << endl;
+
+		k++;
+		
+		if (s.group > max_group) max_group = s.group;
+
+		test.insert(s);
+
+	}
+
+	cout << "___________________________________________________" << endl << endl;
+
+	for (i = 1; i <= max_group; i++)
 	{
 		for (auto j : test[i])
 		{
@@ -1143,8 +1191,7 @@ int main()
 		}
 	}
 
-	cout << endl;
-
+	cout << "___________________________________________________" << endl << endl;
 
 	RBtree_rating tree_rating;
 
@@ -1158,7 +1205,7 @@ int main()
 
 	tree_rating.Show();
 
-	cout << endl;
+	cout << "___________________________________________________" << endl << endl;
 
 	RBtree_name tree_name;
 
@@ -1171,6 +1218,7 @@ int main()
 	}
 
 	tree_name.Show();
+	
 
 	return 0;
 
