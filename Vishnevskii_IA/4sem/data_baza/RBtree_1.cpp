@@ -1,4 +1,9 @@
+﻿
 
+
+// красно-черное дерево (
+// Сделано ввиде класса, удалена статистика
+// (с) Proteus  (lawnmower-man@mail.ru)
 
 #include<cstdio>
 #include<iostream>
@@ -297,7 +302,7 @@ public:
 	RBtree_name();
 	~RBtree_name();
 	void Clear();			//!< снести дерево				
-	bool Find(double);			//!< найти значение
+	list<Student> Find_name(string); //!< найти значение
 	void Insert(Student);		//!< вставить значение
 	void Remove(double);		//!< удалить значение
 	int GetNodesCount();	//!< узнать число узлов
@@ -517,14 +522,25 @@ bool RBtree_name::BalanceRemove2(node_st** root)
 }
 
 
-bool RBtree_name::Find(double value)
+list<Student> RBtree_name::Find_name(string name)
 {
 	node_st* node = tree_root;
 	while (node) {
-		if (node->value == value) return true;
-		node = node->value > value ? node->p1 : node->p2;
+		if (node->name == name)
+		{
+			list<Student> list;
+
+			list = node->student_list;
+			list.push_back(node->student);
+
+			return list;
+		}
+		node = node->name > name ? node->p1 : node->p2;
 	}
-	return false;
+
+	list<Student> list;
+
+	return list;
 }
 // потом изменю, если надо будет 
 
@@ -717,7 +733,7 @@ public:
 	RBtree_rating();
 	~RBtree_rating();
 	void Clear();			//!< снести дерево				
-	bool Find(double);			//!< найти значение
+	list<Student> Find_rating(double);			//!< найти значение
 	void Insert(Student);		//!< вставить значение
 	void Remove(double);		//!< удалить значение
 	int GetNodesCount();	//!< узнать число узлов
@@ -937,14 +953,25 @@ bool RBtree_rating::BalanceRemove2(node_st** root)
 }
 
 
-bool RBtree_rating::Find(double value)
+list<Student> RBtree_rating::Find_rating(double value)
 {
 	node_st* node = tree_root;
 	while (node) {
-		if (node->value == value) return true;
+		if (node->value == value)
+		{
+			list<Student> list;
+
+			list = node->student_list;
+			list.push_back(node->student);
+
+			return list;
+		}
 		node = node->value > value ? node->p1 : node->p2;
 	}
-	return false;
+
+	list<Student> list;
+
+	return list;
 }
 
 
@@ -1214,6 +1241,51 @@ int main()
 
 	tree_name.Show();
 	
+	cout << "___________________________________________________" << endl << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+	cout << "___________________________________________________" << endl << endl;
+
+	double rating = 1;
+
+	list<Student> student_list_rating = tree_rating.Find_rating(rating);
+
+	if (student_list_rating.size())
+	{
+
+		cout << "Students with a rating = " << rating << " : " << endl << endl;
+
+		for (auto i = student_list_rating.begin(); i != student_list_rating.end(); ++i) cout << "Name: " << i->name << " | " << "Group Number: " << i->group << " | " << " Rating: " << i->rating << endl;
+	}
+	else cout << "The list of students does not have students with a rating = " << rating << endl;
+
+	cout << "___________________________________________________" << endl << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+	cout << "___________________________________________________" << endl << endl;
+
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+
+	string name = "Hellraiser";
+
+	list<Student> student_list_name = tree_name.Find_name(name);
+
+	if (student_list_name.size())
+	{
+
+		cout << "Students with a name = \"" << name << "\" : " << endl << endl;
+
+		for (auto i = student_list_name.begin(); i != student_list_name.end(); ++i) cout << "Name: " << i->name << " | " << "Group Number: " << i->group << " | " << " Rating: " << i->rating << endl;
+	}
+	else cout << "The list of students does not have students with a name = " << name << endl;
+
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl << endl;
+
+
+	
+
 
 	return 0;
 
