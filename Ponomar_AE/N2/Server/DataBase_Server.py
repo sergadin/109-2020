@@ -263,13 +263,17 @@ def server(no_connections_timeout, max_buffer_size):
                 ready_to_connect = False
             print('Connection accepted.')
             while True:
-                request = connection.recv(max_buffer_size).decode()
-                #print('Got request: {}'.format(request))
-                if (not request):
-                    break               
-                database_response = DB.handle_request(request)
-                if (database_response != 'Ok'):
-                    connection.send(database_response.encode())
+                try: 
+                    request = connection.recv(max_buffer_size).decode()
+                    #print('Got request: {}'.format(request))
+                    if (not request):
+                        break               
+                    database_response = DB.handle_request(request)
+                    if (database_response != 'Ok'):
+                        connection.send(database_response.encode())
+            except:
+                print('Internal error occured.')
+                break
             connection.close()
             ready_to_connect = True
                 
