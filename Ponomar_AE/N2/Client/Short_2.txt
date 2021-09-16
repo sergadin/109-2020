@@ -1,0 +1,6 @@
+add_course Matan_5_sem 3 4 5 6
+add_course Matan_4_sem 67 87 22 11
+add_staff Petrov_F_A 2 1 1 0 1 0 0 4 5
+add_staff Nikiforov_N_N 1 1 1 0 0 0 1 4
+update_course Matan_4_sem 9 8 7 6
+save_on_server Test_Server.txt

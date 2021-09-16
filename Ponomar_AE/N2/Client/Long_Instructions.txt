@@ -1,0 +1,50 @@
+add_staff Staff_0 3 1 0 0 0 0 1 1 1 4
+add_course Course_1 58 29 90 64
+add_course Course_2 61 43 79 102
+add_staff Staff_3 3 0 0 1 1 0 1 3 8 0
+add_course Course_4 106 84 40 66
+add_course Course_5 69 139 46 122
+add_staff Staff_6 3 0 0 0 0 1 0 7 0 2
+add_staff Staff_7 3 1 0 1 0 1 0 8 7 8
+add_course Course_8 27 126 44 120
+add_course Course_9 139 91 83 35
+add_staff Staff_10 3 1 1 1 1 1 0 0 6 4
+add_course Course_11 137 45 52 102
+add_course Course_12 135 122 4 124
+add_staff Staff_13 3 0 0 1 1 0 0 8 7 7
+add_staff Staff_14 3 0 0 0 1 0 1 2 8 1
+add_course Course_15 134 18 54 88
+add_course Course_16 60 125 47 64
+add_course Course_17 40 28 56 61
+add_staff Staff_18 3 0 1 1 1 1 0 3 5 8
+add_course Course_19 3 93 84 123
+add_course Course_20 41 9 44 147
+add_staff Staff_21 3 1 1 1 0 1 1 8 9 3
+add_staff Staff_22 3 1 1 1 0 0 0 9 9 9
+add_staff Staff_23 3 1 1 1 0 0 1 1 8 4
+add_course Course_24 107 5 145 134
+add_staff Staff_25 3 0 1 1 1 0 0 6 3 1
+add_staff Staff_26 3 1 1 0 0 1 1 4 2 6
+add_course Course_27 70 56 33 80
+add_course Course_28 121 90 149 116
+add_course Course_29 72 134 88 5
+add_staff Staff_30 3 0 1 0 0 1 1 3 8 1
+add_course Course_31 37 136 10 9
+add_staff Staff_32 3 0 0 1 1 0 1 8 2 4
+add_course Course_33 129 28 62 119
+add_staff Staff_34 3 1 1 0 1 1 1 4 5 8
+add_staff Staff_35 3 1 1 0 1 1 1 5 7 2
+add_course Course_36 91 67 22 146
+add_staff Staff_37 3 0 1 1 0 0 0 9 3 2
+add_staff Staff_38 3 1 0 1 0 0 1 1 7 9
+add_course Course_39 124 90 19 3
+add_course Course_40 131 95 19 55
+add_staff Staff_41 3 0 1 0 1 1 0 5 8 1
+add_staff Staff_42 3 1 0 1 1 0 1 8 1 3
+add_staff Staff_43 3 1 1 1 0 1 1 7 0 2
+add_course Course_44 3 86 77 23
+add_staff Staff_45 3 0 1 0 1 0 1 4 1 1
+add_staff Staff_46 3 1 0 1 1 1 0 0 3 9
+add_staff Staff_47 3 0 0 0 0 0 1 3 2 8
+add_course Course_48 25 95 149 145
+add_course Course_49 113 85 100 114
