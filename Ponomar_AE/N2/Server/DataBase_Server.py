@@ -170,7 +170,7 @@ class database:
                 staff_hrs = self.staff_hours(s.name)
                 response += " ".join( list(map(lambda x: str(x), [staff_hrs[col] for col in requested_cols])) ) + '\n'
             self.cols_dump = satisfying_staff
-            return response[:-2]
+            return response[:-1]
         
         elif (command == "get_full_database"): 
             full_db = str(len(self.courses)) + '\n'
@@ -207,7 +207,7 @@ class database:
                 staff_hrs = self.staff_hours(s.name)
                 response += " ".join( list(map(lambda x: str(x), [staff_hrs[col] for col in requested_cols])) ) + '\n'
             self.cols_dump = satisfying_staff
-            return response[:-2]   
+            return response[:-1]   
         
         elif (command == "html_col"):
             requested_cols, hierarchy_code, satisfying_staff = [], [], []
