@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	int default_port = 8000;
 
 	// Generating Instructions if needed
-	gen_instructions("Long_Instructions.txt", 50);
+	gen_instructions("Long_Instructions.txt", 1000);
 
 	// Running autotest if needed
         if (autotest("Long_Instructions.txt", "Short_1.txt", "Short_2.txt", localhost, default_port) == true)
