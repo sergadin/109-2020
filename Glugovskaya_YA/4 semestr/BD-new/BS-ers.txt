@@ -1,3 +1,5 @@
 Yandex
 Gogal
 Milo
+Mail
+Google

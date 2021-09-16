@@ -1,5 +1,5 @@
 #include<iostream>
-#include<windows.h>
+//#include<windows.h>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -48,10 +48,14 @@ class ListOD{
 		
 		friend std::ostream& operator <<(std::ostream& os,const ListOD& List){
 			DealInfo *current = List.Head_;
+			cout << "_______Список______" << endl; 
+			cout << List.size_ << endl;  
 			for (int i=0; i <List.size_; i++){
+				cout << "Начали печать  " << endl;
 				cout << current -> IndSell_ << " " << current -> IndBuy_ << " " <<  current -> Price_ <<  " " <<current -> Day_ <<  " " << current -> Mounth_ << " " << current -> Year_ << endl;
 				current = current -> Next_;
-			}		
+			}
+			cout << "Закончили печать" << endl;	
 		}		
 		 
 		
@@ -67,22 +71,36 @@ class Matrix
     int x_, y_;
  
     class Iterator{
-    public:     
-        ListOD *pRow;
-        ListOD & operator[]( int i ){ return pRow[i]; }
+		ListOD *pRow;
+   
+   public: 	
+        
+        ListOD & operator[]( int i ){ 
+			cout << "Second [ ][" << i <<"]" <<endl;
+			cout << pRow[i] << endl;
+			return pRow[i]; 
+		}
  
-        Iterator( ListOD* pRow ) : pRow( pRow ){}
+        Iterator( ListOD* pRow ) : pRow( pRow ){}//вторые скобки
     };      
  
 public:
-    Matrix();
+   // Matrix();
  
     Iterator operator[]( int i )
     { 
-        return &matrix_[i * y_]; 
+		
+		cout << "First["<< i <<"]"<<endl;
+		//cout << matrix_ << endl;
+		//cout << matrix_[i*y_]<< endl;
+		return Iterator(&matrix_[i * y_]); 
+		
+       // return &matrix_[i * y_]; 
     }  
     Matrix( int x, int y ) : x_( x ), y_( y ), matrix_(new ListOD[x * y])
-    {}
+    {
+		cout << " Вызвали конструктор" << endl; 
+	}
     ~Matrix()
     {
         delete [] matrix_;
@@ -95,12 +113,12 @@ public:
 			cout << "3" << endl;										
 		}
 	
-	  
+	//возвращает количество строк и столбцов	
 	//Mail Google Milk 100000 10 12 1999
-	friend ListOD;
-};
-
+	friend class DataBase;//не должно быть
+	friend class ListOD;
 	
+};
 
 
 
@@ -118,18 +136,32 @@ class DataBase{
 		
 		void  GetNames(char nameS[], char nameM[]);
 		void setN(int N){
-			Matrix *NewMatr = new Matrix(N,N);
-			DaMatr=NewMatr;
+			DaMatr = new Matrix(N,N);
 		}
 			
 		void showNames(){
+			cout << "________Участники сделок_________" << endl;
 			for ( i = VectofNames.begin(); i != VectofNames.end(); i++ )
 					cout << *i << endl;
 		}
 	
 		void RecordDeals(char nameM[]);
-	    int IdName(string Name); 
 		
+	    int NameId(string Name); 
+		 
+			
+		
+		void showDeals(){
+			int k, j;
+			for (k=0; k<(*DaMatr).x_; k++){				
+				for(j=0; j<(*DaMatr).y_; j++){
+					cout << "Сделка между " << VectofNames[k] << " и " << VectofNames[j] << endl;
+					cout << (*DaMatr)[k][j] << endl;
+				}
+			}
+		}			
+		
+		void AddDeal(string NewDeal);
 	
 	
 	friend Matrix;	

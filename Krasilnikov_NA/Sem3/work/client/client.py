@@ -1,3 +1,4 @@
+import io
 import sys
 import socket
 
@@ -16,6 +17,11 @@ def receive_from_server(sock):
         else:
             res += s
     return res
+
+def to_html(msg):
+    buf = io.StringIO(msg)
+    return '<!DOCTYPE html>\n<html>\n<body>\n{}</body>\n</html>'.format("\n".join(["<p>" + x.strip('\n') + "</p>\n"
+                                                                             for x in buf.readlines()]))
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -47,11 +53,16 @@ if __name__ == "__main__":
             continue
         elif cmd.split()[0] == 'saveAsTxtFile':
             try:
-                if len(cmd.split()) != 2:
-                    raise ValueError("No file")
-                send_to_server(cmd, sock)
+                if len(cmd.split()) != 3:
+                    raise ValueError("No file and format")
+                send_to_server(" ".join(cmd.split()[:2]), sock)
                 fout = open(cmd.split()[1], 'w')
-                print(receive_from_server(sock), file=fout)
+                if cmd.split()[2].strip() == 'txt':
+                    print(receive_from_server(sock), file=fout)
+                elif cmd.split()[2].strip() == 'html':
+                    print(to_html(receive_from_server(sock)), file=fout)
+                else:
+                    raise ValueError("Unknown file format")
                 fout.close()
                 print(receive_from_server(sock), cmd.split()[1])
             except:

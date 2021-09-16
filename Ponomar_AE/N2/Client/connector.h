@@ -40,7 +40,7 @@
 
 
 
-#define MAX_RECIEVE_BUFFER 15000
+#define MAX_RECIEVE_BUFFER 4096
 
 class connector
 {

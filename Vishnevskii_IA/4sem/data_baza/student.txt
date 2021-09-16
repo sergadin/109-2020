@@ -1,0 +1,55 @@
+{"group":5,"name":"Hellraiser","rating":1945}
+{"group":5,"name":"Hellraiser","rating":1488}
+{"group":6,"name":"Hellraiser","rating":133}
+{"group":5,"name":"Hellraiser","rating":1422}
+{"group":5,"name":"Hellraiser","rating":2}
+{"group":6,"name":"Hellraiser","rating":1}
+{"group":5,"name":"Hellraiser","rating":4}
+{"group":5,"name":"Hellraiser","rating":1488}
+{"group":1,"name":"Hazbula","rating":133}
+{"group":2,"name":"Abdurozik","rating":122}
+{"group":3,"name":"Torch","rating":188}
+{"group":4,"name":"Rick","rating":13}
+{"group":5,"name":"Morty","rating":142}
+{"group":6,"name":"Naruto","rating":148}
+{"group":5,"name":"Saske","rating":133}
+{"group":5,"name":"Ruslan Gitelman","rating":1422}
+{"group":6,"name":"Gena Gorin","rating":1488}
+{"group":5,"name":"Hellraiser","rating":133}
+{"group":5,"name":"Hellraiser","rating":1945}
+{"group":5,"name":"Hellraiser","rating":1488}
+{"group":6,"name":"Hellraiser","rating":133}
+{"group":5,"name":"Hellraiser","rating":1422}
+{"group":5,"name":"Hellraiser","rating":2}
+{"group":6,"name":"Hellraiser","rating":1}
+{"group":5,"name":"Hellraiser","rating":4}
+{"group":5,"name":"Hellraiser","rating":1488}
+{"group":1,"name":"Hazbula","rating":133}
+{"group":2,"name":"Abdurozik","rating":122}
+{"group":3,"name":"Torch","rating":188}
+{"group":4,"name":"Rick","rating":13}
+{"group":5,"name":"Morty","rating":142}
+{"group":6,"name":"Naruto","rating":148}
+{"group":5,"name":"Saske","rating":133}
+{"group":5,"name":"Ruslan Gitelman","rating":1422}
+{"group":6,"name":"Gena Gorin","rating":1488}
+{"group":5,"name":"Hellraiser","rating":133}
+{"group":8,"name":"Mishka","rating":1945}
+{"group":5,"name":"Hellraiser","rating":1488}
+{"group":6,"name":"Hellraiser","rating":133}
+{"group":5,"name":"Hellraiser","rating":1422}
+{"group":5,"name":"Hellraiser","rating":2}
+{"group":6,"name":"Freddy","rating":1}
+{"group":5,"name":"Hellraiser","rating":4}
+{"group":5,"name":"Hellraiser","rating":1488}
+{"group":1,"name":"Hazbula","rating":133}
+{"group":2,"name":"Abdurozik","rating":122}
+{"group":9,"name":"Abdurozik123","rating":122}
+{"group":5,"name":"Hellraiser","rating":1422}
+{"group":5,"name":"Hellraiser","rating":2}
+{"group":6,"name":"Hellraiser","rating":1}
+{"group":5,"name":"Hellraiser","rating":4}
+{"group":10,"name":"Hellraiser","rating":1488}
+{"group":1,"name":"Artem","rating":133}
+{"group":8,"name":"Proxy","rating":122}
+{"group":7,"name":"Abdurozik123","rating":122}

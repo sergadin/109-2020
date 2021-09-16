@@ -133,7 +133,7 @@ void connector::request(std::string request_command, bool logs)
 		}
 		for (int i = 0; i < static_cast<int>(MAX_RECIEVE_BUFFER); ++i)
 		{
-			if (recieve_buffer[i] != 0) output_file << recieve_buffer[i];
+			if (recieve_buffer[i] != 0) output_file << recieve_buffer[i];//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		}
 		output_file.close();
 		if (logs) std::cout << "Saved database to file successfully." << std::endl;
@@ -418,8 +418,10 @@ void connector::execute_instructions(std::string instructions_file)
 	std::string line;
 	while (std::getline(instr_file, line))
 	{
-		std::this_thread::sleep_for(std::chrono::microseconds(15));
+		std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		std::cout << line << std::endl;
 		request(line, false);
+		line.clear();
 	}
 	std::cout << "Instrutions evaluated successfully" << std::endl;
 	instr_file.close();

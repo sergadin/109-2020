@@ -26,6 +26,7 @@ void ListOD::pop_front(){
 
 void ListOD::push_front(int IndSell, int IndBuy, double Price,
 				                int Day, int Mounth, int Year){
+	cout << "Make push" <<endl;								
 	Head_ = new DealInfo(IndSell, IndBuy, Price, Day, Mounth, Year, Head_, Tail_);
 	
 	if (size_ == 0) {
