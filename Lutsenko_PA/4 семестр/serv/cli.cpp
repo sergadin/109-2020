@@ -15,7 +15,7 @@
 
 #define SERVER_PORT 5555
 #define SERVER_NAME "127.0.0.1"
-#define BUFLEN 512
+
 
 int writeToServer (int fd);
 int readFromServer (int fd);
@@ -31,17 +31,17 @@ int main(void)
 
     int sock , i, err;
 
-    struct sockaddr_in server_addr;
+    struct sockaddr_in server_addr; // номер порта и айпи алрес
     struct hostent *hostinfo;
 
-    hostinfo = gethostbyname(SERVER_NAME);
+    hostinfo = gethostbyname(SERVER_NAME);  // получаем информацию о сервере и кго днс имени
     if (hostinfo == NULL)
     {
         fprintf(stderr, "unknown host %s\n",SERVER_NAME);
         exit (EXIT_FAILURE);
     }
     
-    server_addr.sin_family = PF_INET;
+    server_addr.sin_family = PF_INET;   //заполняем адречную структуру
     server_addr.sin_port = htons(SERVER_PORT);
     server_addr.sin_addr = *(struct in_addr*) hostinfo ->h_addr;
     
@@ -77,24 +77,23 @@ int main(void)
 int writeToServer (int fd)
 {
     int n;
-  //  int m;
+
     
     fprintf(stdout, "сколько строк в матрице? > ");
     fscanf(stdin, "%d", &n);
     N = n;
     
-//    fprintf(stdout, "сколько столбцов в матрице? > ");
-  //  fscanf(stdin, "%d", &m);
+  
     
     int ok;
     
-    double *syst = (double *)malloc(sizeof(double) * n * n);
+    double *matrix = (double *)malloc(sizeof(double) * n * n);
         for ( int i = 0; i < n; i++ )
         for (int  j = 0; j < n; j++ )
-        fscanf(stdin, "%lf",  &syst[i*(n)+j] );
+        fscanf(stdin, "%lf",  &matrix[i*(n)+j] );
      
 
-    ok = write (fd, syst, n*n);
+    ok = write (fd, matrix, n*n);
     if (ok < 0) {perror("writing problem");return -1;}
     return 0;
 }
@@ -102,10 +101,10 @@ int writeToServer (int fd)
 int readFromServer (int fd)
 {
     int ok;
-    double *syst = (double *)malloc(sizeof(double) * N * N);
+    double *matrix = (double *)malloc(sizeof(double) * N * N);
 
     
-    ok = read(fd,syst,N*N);
+    ok = read(fd,matrix,N*N);
     if (ok < 0) {perror("read");return -1;}
     else if (ok == 0) {fprintf (stderr,"client: no message\n");}
     else {fprintf(stdout, "server's reply:");
@@ -113,7 +112,7 @@ int readFromServer (int fd)
             {
               for (int  j = 0; j < N; j++ )
                  {
-                   printf( "%.1f\t",  syst[i*(N)+j] );
+                   printf( "%.1f\t",  matrix[i*(N)+j] );
                   }
                printf( "\n");
             }}

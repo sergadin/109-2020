@@ -3,18 +3,21 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <typeinfo>
+#include <ctype.h>
+#include <arpa/inet.h>
 #include "unistd.h"
 
 #define PORT 5555
 
 
-int writeToClient (int fd,int n,  double *syst);
-int readFromClient (int fd,int n,  double *syst);
+int writeToClient (int fd,int n,  double *matrix);
+int readFromClient (int fd,int n,  double *matrix );
 int N;
-//void PrintAddr (const struct sockaddr_in &addr, const char *text);
+
 
 int main(void)
 {
@@ -23,7 +26,7 @@ int main(void)
     fd_set active_set, read_set;
     struct sockaddr_in addr;
     struct sockaddr_in client;
-    double *syst = (double *)malloc(sizeof(double) * N * N);
+    double *matrix = (double *)malloc(sizeof(double) * N * N);
     socklen_t size;
     
     sock = socket (PF_INET, SOCK_STREAM, 0);
@@ -32,7 +35,7 @@ int main(void)
         perror("server: socket was not created \n");
         exit (EXIT_FAILURE);
     }
-    setsockopt(sock,SQL_SOCKET,SO_REUSEADDR,(char*)&opt,sizeof(opt));
+    setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,(char*)&opt,sizeof(opt));
     
     
     addr.sin_family = AF_INET;
@@ -54,8 +57,8 @@ int main(void)
         exit (EXIT_FAILURE);
     }
     
-    FD_ZERO(%active_set);
-    FD_SET(sock, %active_set);
+    FD_ZERO(&active_set);
+    FD_SET(sock, &active_set);
 
     
     while (1)
@@ -82,13 +85,13 @@ int main(void)
                         perror("server:accept failure \n");
                         exit (EXIT_FAILURE);
                     }
-                    fprintf (stdout, "Server: connect from host %s, port &hu.\n",inet_ntoa(client.sin_addr),ntohs(client.sin_port));
+                    fprintf (stdout, "Server: connect from host %s, port %hu.\n",inet_ntoa(client.sin_addr),ntohs(client.sin_port));
                     FD_SET (new_sock,&active_set);
                 }
                 else
                 {
-                    err = readFromClient(i,N,syst);
-                    if (err<0) {close(i); FD_CLP(i,&active_set);}
+                    err = readFromClient(i,N,matrix);
+                    if (err<0) {close(i); FD_CLR(i,&active_set);}
                 }
                     
                 
@@ -106,28 +109,28 @@ int main(void)
     
 }
 
-int writeToClient (int fd,int n, double *syst)
+int writeToClient (int fd,int n, double *matrix)
 {
     int ok;
     
      for ( int i = 0; i < n; i++ )
      for (int  j = 0; j < n; j++ )
-          syst[i*(N)+j] = syst[i*(N)+j]*3;
+          matrix[i*(N)+j] = matrix[i*(N)+j]*3;
         
       
 
-    ok = write (fd, syst ,n*n);
+    ok = write (fd, &matrix ,n*n);
     if (ok != 0) fprintf(stdout, "server: i sent the answer");
     
     if (ok < 0) {perror("server: writing failure");return -1;}
     return 0;
 }
 
-int readFromClient (int fd,int n, double *syst)
+int readFromClient (int fd,int n, double *matrix)
 {
     int ok;
     N=n;
-    ok = read(fd,syst,n*n);
+    ok = read(fd,&matrix,n*n);
     if (ok < 0) {perror("server:reading failure");return -1;}
     else if (ok == 0) {fprintf (stderr,"server: no data\n"); return -1;}
     else {fprintf(stdout, "server: i got the message ");}
