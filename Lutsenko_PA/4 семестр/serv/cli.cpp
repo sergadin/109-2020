@@ -1,5 +1,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <stdio.h>
@@ -9,15 +10,18 @@
 #include <math.h>
 #include <errno.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include <fcntl.h>
 #include <stdio.h>
 
 
-#define SERVER_PORT 5555
+#define PORT_THIS 5556
+#define PORT_TO 5555
 #define SERVER_NAME "127.0.0.1"
+#define BUFLEN 512
 
-
-int writeToServer (int fd);
+int sendNToServer (int fd);
+int sendMatrixToServer (int fd);
 int readFromServer (int fd);
 int N;
 
@@ -29,9 +33,11 @@ int main(void)
     
     
 
-    int sock , i, err;
+    int sock , i, err, opt = 1;
 
-    struct sockaddr_in server_addr; // номер порта и айпи алрес
+    struct sockaddr_in addr_to; // номер порта и айпи алрес
+    struct sockaddr_in addr_from;
+    struct sockaddr_in addr_this;
     struct hostent *hostinfo;
 
     hostinfo = gethostbyname(SERVER_NAME);  // получаем информацию о сервере и кго днс имени
@@ -41,19 +47,23 @@ int main(void)
         exit (EXIT_FAILURE);
     }
     
-    server_addr.sin_family = PF_INET;   //заполняем адречную структуру
-    server_addr.sin_port = htons(SERVER_PORT);
-    server_addr.sin_addr = *(struct in_addr*) hostinfo ->h_addr;
+    addr_to.sin_family = hostinfo-> h_addrtype;
+    addr_to.sin_port = htons(PORT_TO);
+    addr_to.sin_addr = *(struct in_addr*) hostinfo ->h_addr;
     
-    sock = socket (PF_INET, SOCK_STREAM, 0);
+    addr_this.sin_family = AF_INET;
+    addr_this.sin_port = htons(PORT_THIS);
+    addr_this.sin_addr.s_addr  = INADDR_ANY;
+    
+    sock = socket (PF_INET, SOCK_DGRAM, 0);
     if (sock < 0)
     {
         perror("client: socket was not created \n");
         exit (EXIT_FAILURE);
     }
+    setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,(char*)&opt,sizeof(opt));
     
-    
-    err = connect (sock, (struct sockaddr*)&server_addr,sizeof(server_addr));
+    err = bind (sock, (struct sockaddr*)&addr_this,sizeof(addr_this));
     if (err < 0)
     {
         perror("client: connect failure \n");
@@ -62,8 +72,8 @@ int main(void)
     fprintf (stdout, "connection is ready\n");
     
     while (1)
-   {
-        if (writeToServer(sock)<0) break;
+   {    if (sendNToServer(sock)<0) break;
+        if (sendMatrixToServer(sock)<0) break;
         if (readFromServer(sock)<0) break;
    }
     
@@ -73,38 +83,49 @@ int main(void)
     exit (EXIT_SUCCESS);
     
 }
-
-int writeToServer (int fd)
+int sendNToServer (int fd)
 {
-    int n;
-
+    
+    char buf[1];
     
     fprintf(stdout, "сколько строк в матрице? > ");
-    fscanf(stdin, "%d", &n);
-    N = n;
-    
-  
-    
+    fscanf(stdin, "%s", buf);
+    N = atoi(buf);
+
+    int ok;
+     
+    ok = write (fd,buf,1);
+    if (ok < 0) {perror("client:sending N problem");return -1;}
+    else {fprintf(stdout, "client:  я отправил  N = %d .Введите элементы матрицы:\n",N);}
+    return 0;
+}
+
+int sendMatrixToServer (int fd)
+{
+   
     int ok;
     
-    double *matrix = (double *)malloc(sizeof(double) * n * n);
-        for ( int i = 0; i < n; i++ )
-        for (int  j = 0; j < n; j++ )
-        fscanf(stdin, "%lf",  &matrix[i*(n)+j] );
+    double *matrix = (double *)malloc(sizeof(double)*N*N);
+
+    
+        for ( int i = 0; i < N; i++ )
+        for (int  j = 0; j < N; j++ )
+        fscanf(stdin, "%lf",  &matrix[i*(N)+j] );
      
 
-    ok = write (fd, matrix, n*n);
-    if (ok < 0) {perror("writing problem");return -1;}
+    ok = write (fd, matrix,N*N);
+    if (ok < 0) {perror("/n client: problem with sending matrix");return -1;}
+    else {fprintf(stdout, "client:  я отправил  matrix ");}
     return 0;
 }
 
 int readFromServer (int fd)
 {
     int ok;
-    double *matrix = (double *)malloc(sizeof(double) * N * N);
+    double *matrix = (double *)malloc(sizeof(double)*BUFLEN);
 
     
-    ok = read(fd,matrix,N*N);
+    ok = read(fd,matrix,BUFLEN);
     if (ok < 0) {perror("read");return -1;}
     else if (ok == 0) {fprintf (stderr,"client: no message\n");}
     else {fprintf(stdout, "server's reply:");
