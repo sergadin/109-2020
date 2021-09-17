@@ -61,8 +61,8 @@ int main(int argc, char* argv[], char* envp[])
             printf("Сlient: Send error.\n");
             exit(-1);
         }
-        recv(sock, buffer, sizeof(message), 0);
-        printf("\n Сlient: Сервер вернул : %s \n", buffer);
+     //   recv(sock, buffer, sizeof(message), 0);
+     //   printf("\n Сlient: Сервер вернул : %s \n", buffer);
     
         
         char matrix[N*N][BUFLEN];
@@ -79,12 +79,60 @@ int main(int argc, char* argv[], char* envp[])
             printf("Сlient: Send error.\n");
             exit(-1);
           }
-          recv(sock, buffer, sizeof(matrix[i]), 0);
-           printf("\n Сlient: Сервер вернул : %s \n", buffer);
+         
         }
     
-      //  for ( int i = 0; i < N*N; i++ )
-       // { printf("\n %s", matrix[i] );}
+    /*   for ( int i = 0; i < N*N; i++ )
+              {
+                
+                recv(sock, buffer, sizeof(matrix[i]), 0);
+                 printf("\n Сlient: Сервер вернул : %s \n", buffer);
+              }
+     */
+     
+        printf("Сlient: Если хотите умножить матрицу на число нажмите 1 ,если хотите найти максимум в строке,нажмите 2\n");
+       fscanf(stdin, "%s", message);
+        ok = sendall(sock, message, sizeof(message), 0);
+        if(ok == -1)
+       {
+         printf("Сlient: Send error.\n");
+         exit(-1);
+       }
+       int k = atoi(message);
+       if (k==1)
+       {
+         printf("Сlient: На какое число вы хотите умножить?\n");
+         fscanf(stdin, "%s", message);
+           
+            ok = sendall(sock, message, sizeof(message), 0);
+                     if(ok == -1)
+                    {
+                      printf("Сlient: Send error.\n");
+                      exit(-1);
+                    }
+           
+           for ( int i = 0; i < N*N; i++ )
+           {
+             
+             recv(sock, buffer, sizeof(matrix[i]), 0);
+             printf("\n Сlient: Сервер вернул : %s \n", buffer);
+           }
+           
+       }
+       if (k==2)
+       {
+           printf("Сlient: В какой строчке найти максимум?\n");
+           fscanf(stdin, "%s", message);
+            ok = sendall(sock, message, sizeof(message), 0);
+           if(ok == -1)
+           {
+             printf("Сlient: Send error.\n");
+             exit(-1);
+           }
+            printf("Сlient:  Результат операции: \n");
+       }
+       
+      
     
         
    
@@ -92,3 +140,4 @@ int main(int argc, char* argv[], char* envp[])
     return 0;
 }
 
+//делает пересылки в байтах
