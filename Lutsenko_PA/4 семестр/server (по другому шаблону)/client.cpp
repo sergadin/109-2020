@@ -1,3 +1,4 @@
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -14,13 +15,11 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#define BUFLEN 512
-
-int sendall(int s, char *buf, int len, int flags)
+int sendmatrix(int s, double *buf, int len, int flags)
 {
     int total = 0;
     int n;
-
+    
     while (total < len)
     {
         n = send(s, buf+total, len - total, flags);
@@ -34,110 +33,86 @@ int sendall(int s, char *buf, int len, int flags)
     return(n == -1 ? -1 : total);
 }
 
+int sendn(int s, int *buf, int len, int flags)
+{
+    int total = 0;
+    int n;
+    
+    while (total < len)
+    {
+        n = send(s, buf+total, len - total, flags);
+        if(n == -1)
+        {
+            printf("Send error.\n");
+            break;
+        }
+        total += n;
+    }
+    return(n == -1 ? -1 : total);
+}
+
+
+
+
+
 int main(int argc, char* argv[], char* envp[])
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
-
+    
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(26565);
     server_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
+    
     if(connect(sock, (const struct sockaddr*)&server_addr, sizeof(struct sockaddr_in)) == -1)
     {
         printf("Сlient: Connecting error.\n");
         exit(-1);
     }
-
-        
-        char message[BUFLEN];
-        fprintf(stdout, "Сlient:Cколько строк в матрице? > ");
-        fscanf(stdin, "%s", message);
-        int N = atoi(message);
-        char buffer[sizeof(message)];
-        int ok = sendall(sock, message, sizeof(message), 0);
-        if(ok == -1)
-        {
-            printf("Сlient: Send error.\n");
-            exit(-1);
-        }
-     //   recv(sock, buffer, sizeof(message), 0);
-     //   printf("\n Сlient: Сервер вернул : %s \n", buffer);
     
-        
-        char matrix[N*N][BUFLEN];
-        printf("Сlient: Введите матрицу \n");
-         
-        for ( int i = 0; i < N*N; i++ )
-        { scanf("%s", matrix[i] );}
+    int N = 0;
+    fprintf(stdout, "Сlient:Cколько строк в матрице? > ");
+    fscanf(stdin, "%d", &N);
     
-        for ( int i = 0; i < N*N; i++ )
-        {
-            int ok = sendall(sock, matrix[i], sizeof(matrix[i]), 0);
-           if(ok == -1)
-          {
-            printf("Сlient: Send error.\n");
-            exit(-1);
-          }
-         
-        }
+    int ok = sendn(sock, &N, 1, 0);
+    if(ok == -1)
+    {
+        printf("Сlient: Send error.\n");
+        exit(-1);
+    }
     
-    /*   for ( int i = 0; i < N*N; i++ )
-              {
-                
-                recv(sock, buffer, sizeof(matrix[i]), 0);
-                 printf("\n Сlient: Сервер вернул : %s \n", buffer);
-              }
-     */
-     
-        printf("Сlient: Если хотите умножить матрицу на число нажмите 1 ,если хотите найти максимум в строке,нажмите 2\n");
-       fscanf(stdin, "%s", message);
-        ok = sendall(sock, message, sizeof(message), 0);
-        if(ok == -1)
-       {
-         printf("Сlient: Send error.\n");
-         exit(-1);
-       }
-       int k = atoi(message);
-       if (k==1)
-       {
-         printf("Сlient: На какое число вы хотите умножить?\n");
-         fscanf(stdin, "%s", message);
-           
-            ok = sendall(sock, message, sizeof(message), 0);
-                     if(ok == -1)
-                    {
-                      printf("Сlient: Send error.\n");
-                      exit(-1);
-                    }
-           
-           for ( int i = 0; i < N*N; i++ )
-           {
-             
-             recv(sock, buffer, sizeof(matrix[i]), 0);
-             printf("\n Сlient: Сервер вернул : %s \n", buffer);
-           }
-           
-       }
-       if (k==2)
-       {
-           printf("Сlient: В какой строчке найти максимум?\n");
-           fscanf(stdin, "%s", message);
-            ok = sendall(sock, message, sizeof(message), 0);
-           if(ok == -1)
-           {
-             printf("Сlient: Send error.\n");
-             exit(-1);
-           }
-            printf("Сlient:  Результат операции: \n");
-       }
-       
-      
+    double matrix[N*N];
+    for ( int i = 0; i < N*N; i++ )
+    {
+        matrix[i] = 0;
+    }
     
-        
-   
+    printf("Сlient: Введите матрицу \n");
+    
+    for ( int i = 0; i < N*N; i++ )
+    {
+        scanf("%lf", matrix + i );
+    }
+    
+    
+    ok = sendmatrix(sock, matrix, N*N*8, 0);
+    if(ok == -1)
+    {
+        printf("Сlient: Send error.\n");
+        exit(-1);
+    }
+    
+    
+    double buffer[N*N];
+    
+    recv(sock, buffer, N*N*8, 0);
+    printf("\n Сlient: Сервер вернул матрицу:\n");
+    
+    for ( int i = 0; i < N*N; i++ )
+    {
+        printf("%lf\n", buffer[i]);
+    }
+    
     close(sock);
     return 0;
 }
-
-//делает пересылки в байтах
