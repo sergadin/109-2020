@@ -99,14 +99,14 @@ int main(int argc, char* argv[], char* envp[])
         }
         if(k == 1)
         {
-            double v;
+            int v;
             ok = recv(com_socket, &v, 1, 0);
             if(ok == -1)
             {
                 printf("Recive error.\n");
                 break;
             }
-
+            
             
             for(int i = 0; i < N; i++)
             {
@@ -115,6 +115,7 @@ int main(int argc, char* argv[], char* envp[])
                     matrix[i*N + j] = matrix[i*N + j]*v;
                 }
             }
+            
             ok = sendmatrix(com_socket, matrix, N*N*8, 0);
             if(ok == -1)
             {
@@ -124,23 +125,23 @@ int main(int argc, char* argv[], char* envp[])
         }
         else if(k == 2)
         {
-            int з = 0;
-
-            ok = recv(com_socket, &з, 1, 0);
+            int p = 0;
+            
+            ok = recv(com_socket, &p, 1, 0);
             if(ok == -1)
             {
                 printf("Recive error.\n");
             }
-
+            
             double max = 0;
             for (int i = 0; i < N; i++)
             {
-                if(matrix[з * N + i] > max)
+                if(matrix[p * N + i] > max)
                 {
-                    max = matrix[з * N + i];
+                    max = matrix[p * N + i];
                 }
             }
-
+            
             ok = sendmatrix(com_socket, &max, 8, 0);
             if(ok == -1)
             {
@@ -156,11 +157,11 @@ int main(int argc, char* argv[], char* envp[])
         
         
         /*   ok = sendmatrix(com_socket, matrix, N*N*8, 0);
-        if(ok == -1)
-        {
-            printf("Send error\n");
-            exit(-1);
-        } */
+         if(ok == -1)
+         {
+         printf("Send error\n");
+         exit(-1);
+         } */
         close(com_socket);
     }
     close(sock);

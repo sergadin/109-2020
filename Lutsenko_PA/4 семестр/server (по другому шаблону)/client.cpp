@@ -123,12 +123,12 @@ int main(int argc, char* argv[], char* envp[])
        {
            printf("Сlient: На какое число вы хотите умножить?\n");
 
-           double v;
+           int v;
           
-              fscanf(stdin,"%lf", &v);
+              fscanf(stdin,"%d", &v);
            
 
-           ok = sendmatrix(sock, &v, 1, 0);
+           ok = sendn(sock, &v, 1, 0);
            if(ok == -1)
            {
                printf("Сlient: Send error.\n");
