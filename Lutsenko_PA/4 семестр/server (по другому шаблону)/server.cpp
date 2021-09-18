@@ -43,6 +43,8 @@ int main(int argc, char* argv[], char* envp[])
         printf("Creating socket error\n");
         exit(-1);
     }
+    int opt = 1;
+    setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,(char*)&opt,sizeof(opt));
     
     struct sockaddr_in local_addr;
     local_addr.sin_family = AF_INET;
@@ -88,16 +90,78 @@ int main(int argc, char* argv[], char* envp[])
             printf("Recive error\n");
             break;
         }
+        int k = 0;
+        ok = recv(com_socket, &k, 1, 0);
+        if(ok == -1)
+        {
+            printf("Recive error.\n");
+            break;
+        }
+        if(k == 1)
+        {
+            double v;
+            ok = recv(com_socket, &v, 1, 0);
+            if(ok == -1)
+            {
+                printf("Recive error.\n");
+                break;
+            }
+
+            
+            for(int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    matrix[i*N + j] = matrix[i*N + j]*v;
+                }
+            }
+            ok = sendmatrix(com_socket, matrix, N*N*8, 0);
+            if(ok == -1)
+            {
+                printf("Send error\n");
+                exit(-1);
+            }
+        }
+        else if(k == 2)
+        {
+            int з = 0;
+
+            ok = recv(com_socket, &з, 1, 0);
+            if(ok == -1)
+            {
+                printf("Recive error.\n");
+            }
+
+            double max = 0;
+            for (int i = 0; i < N; i++)
+            {
+                if(matrix[з * N + i] > max)
+                {
+                    max = matrix[з * N + i];
+                }
+            }
+
+            ok = sendmatrix(com_socket, &max, 8, 0);
+            if(ok == -1)
+            {
+                printf("Send error.\n");
+                exit(-1);
+            }
+        }
+        else
+        {
+            printf("Такой команды нет\n");
+        }
         
         
         
-        ok = sendmatrix(com_socket, matrix, N*N*8, 0);
+        /*   ok = sendmatrix(com_socket, matrix, N*N*8, 0);
         if(ok == -1)
         {
             printf("Send error\n");
             exit(-1);
-        }
-        close(com_socket);      
+        } */
+        close(com_socket);
     }
     close(sock);
     return 0;

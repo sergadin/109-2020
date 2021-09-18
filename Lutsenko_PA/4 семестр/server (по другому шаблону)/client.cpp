@@ -58,6 +58,13 @@ int sendn(int s, int *buf, int len, int flags)
 int main(int argc, char* argv[], char* envp[])
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0)
+    {
+    perror("client: socket was not created \n");
+    exit (EXIT_FAILURE);
+    }
+    int opt = 1;
+    setsockopt(sock,SOL_SOCKET,SO_REUSEADDR,(char*)&opt,sizeof(opt));
     
     struct sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
@@ -102,16 +109,77 @@ int main(int argc, char* argv[], char* envp[])
         exit(-1);
     }
     
+    printf("Client: Если хотите умножить матрицу на число нажмите 1 ,если хотите найти максимум в строке,нажмите 2\n");
+       int k = 0;
+       fscanf(stdin,"%d", &k);
+       ok = sendn(sock, &k, 1, 0);
+       if(ok == -1)
+       {
+           printf("Сlient: Send error.\n");
+           exit(-1);
+       }
+
+       if(k == 1)
+       {
+           printf("Сlient: На какое число вы хотите умножить?\n");
+
+           double v;
+          
+              fscanf(stdin,"%lf", &v);
+           
+
+           ok = sendmatrix(sock, &v, 1, 0);
+           if(ok == -1)
+           {
+               printf("Сlient: Send error.\n");
+               exit(-1);
+           }
+
+
+           printf("Сlient:  Результат операции: \n");
+           double buffer[N*N];
+           recv(sock, buffer, N*N*8, 0);
+           for ( int i = 0; i < N*N; i++ )
+           {
+               printf("%lf\n", buffer[i]);
+           }
+       }
+       else if(k == 2)
+       {
+           printf("Сlient: В какой строчке найти максимум?\n");
+
+           int p = 0;
+           fscanf(stdin,"%d", &p);
+           p = p - 1;
+
+           ok = sendn(sock, &p, 1, 0);
+           if(ok == -1)
+           {
+               printf("Сlient: Send error.\n");
+               exit(-1);
+           }
+
+           double max = 0;
+           ok = recv(sock, &max, 8, 0);
+           if(ok == -1)
+           {
+               printf("Recive error.\n");
+           }
+
+          printf("\n Сlient: Сервер вернул : %f \n", max);
+       }
+       
+   
     
+   /*
     double buffer[N*N];
-    
     recv(sock, buffer, N*N*8, 0);
-    printf("\n Сlient: Сервер вернул матрицу:\n");
+    printf("\n Сlient: Server sent matrix:\n");
     
     for ( int i = 0; i < N*N; i++ )
     {
         printf("%lf\n", buffer[i]);
-    }
+    } */
     
     close(sock);
     return 0;
