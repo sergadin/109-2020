@@ -14,7 +14,7 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <unistd.h>
-
+#include <vector>
 
 
 ///	                                         Available commands:          
@@ -42,20 +42,6 @@
 
 #define MAX_RECIEVE_BUFFER 4096
 
-class connector
-{
-private:
-	int connection_socket;
-public:
-	connector(std::string server_address, int connection_port);
-	void request(std::string request_command, bool logs);
-	void polling();
-	void execute_instructions(std::string instructions_file);
-	~connector();
-};
-
-
-
 
 class request_error : public std::exception
 {
@@ -68,6 +54,19 @@ public:
 
 // service function
 unsigned int inet_addr(const char* str);
+
+class connector
+{
+private:
+	int connection_socket;
+public:
+	connector(std::string server_address, int connection_port);
+	void request(std::string request_command, bool logs);
+	void polling();
+	std::vector<std::string> parse_response(char* db_response);
+	void execute_instructions(std::string instructions_file);
+	~connector();
+};
 
 
 #endif//CONNECT

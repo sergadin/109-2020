@@ -67,7 +67,7 @@ void connector::request(std::string request_command, bool logs)
 				course_ss << " " << hours;
 			}
 			// Microsleep to avoid sticking tcp-packages together
-			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			std::this_thread::sleep_for(std::chrono::milliseconds(2));
 			int response_code = send(connection_socket, (course_ss.str()).c_str(), strlen((course_ss.str()).c_str()), 0);
 			if (response_code < 0)
 			{
@@ -100,14 +100,15 @@ void connector::request(std::string request_command, bool logs)
 			}
 			// Microsleep to avoid sticking tcp-packages together
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			//std::cout << "Debug-2: " << staff_ss.str() << std::endl;
 			int response_code = send(connection_socket, staff_ss.str().c_str(), strlen(staff_ss.str().c_str()), 0);
 			if (response_code < 0)
 			{
 				throw request_error("Failed to send data to server.");
 			}
 		}
-		if (logs) std::cout << "Loaded database from file successfully." << std::endl;
 		input_file.close();
+		if(logs) std::cout << "Loaded database from file successfully." << std::endl;
 	}
 	else if (request_command.find("save_to_txt") != std::string::npos)
 	{
@@ -131,9 +132,17 @@ void connector::request(std::string request_command, bool logs)
 		{
 			throw request_error("Failed to recieve data from server.");
 		}
-		for (int i = 0; i < static_cast<int>(MAX_RECIEVE_BUFFER); ++i)
+		auto response_tokens = parse_response(recieve_buffer);
+		for (auto word : response_tokens)
 		{
-			if (recieve_buffer[i] != 0) output_file << recieve_buffer[i];//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if (word != "SLASHN")
+			{
+				output_file << word << " ";
+			}
+			else
+			{
+				output_file << '\n';
+			}
 		}
 		output_file.close();
 		if (logs) std::cout << "Saved database to file successfully." << std::endl;
@@ -199,12 +208,11 @@ void connector::request(std::string request_command, bool logs)
 		{
 			throw request_error("Filed to recieve data from server.");
 		}
+		auto recieve_tokens = parse_response(recieve_buffer);
 		std::stringstream course_ss;
-		int i = 0;
-		while (recieve_buffer[i] != 0)
+		for (auto word : recieve_tokens)
 		{
-			course_ss << recieve_buffer[i];
-			i++;
+			course_ss << word << " ";
 		}
 		if (logs) std::cout << course_ss.str() << std::endl;
 		delete[] recieve_buffer;
@@ -224,12 +232,12 @@ void connector::request(std::string request_command, bool logs)
 		{
 			throw request_error("Filed to recieve data from server.");
 		}
+		auto recieve_tokens = parse_response(recieve_buffer);
 		std::stringstream staff_ss;
 		int i = 0;
-		while (recieve_buffer[i] != 0)
+		for (auto word : recieve_tokens)
 		{
-			staff_ss << recieve_buffer[i];
-			i++;
+			staff_ss << word << " ";
 		}
 		if (logs) std::cout << staff_ss.str() << std::endl;
 		delete[] recieve_buffer;
@@ -251,10 +259,17 @@ void connector::request(std::string request_command, bool logs)
 		}
 		std::stringstream db_ss;
 		int i = 0;
-		while (recieve_buffer[i] != 0)
+		auto recieve_tokens = parse_response(recieve_buffer);
+		for (auto word : recieve_tokens)
 		{
-			db_ss << recieve_buffer[i];
-			i++;
+			if (word != "SLASHN")
+			{
+				db_ss << word << " ";
+			}
+			else
+			{
+				db_ss << '\n';
+			}
 		}
 		if (logs) std::cout << db_ss.str();
 		delete[] recieve_buffer;
@@ -293,7 +308,19 @@ void connector::request(std::string request_command, bool logs)
 		}
 		std::stringstream recieve_ss;
 		int i = 0;
-		while (recieve_buffer[i] != 0) recieve_ss << recieve_buffer[i], i++;
+		auto recieve_tokens = parse_response(recieve_buffer);
+
+		for (auto word : recieve_tokens)
+		{
+			if (word != "SLASHN")
+			{
+				recieve_ss << word << " ";
+			}
+			else
+			{
+				recieve_ss << '\n';
+			}
+		}
 		if (logs) std::cout << recieve_ss.str() << std::endl;
 	}
 	else if (request_command.find("subcols") != std::string::npos)
@@ -312,7 +339,18 @@ void connector::request(std::string request_command, bool logs)
 		}
 		std::stringstream recieve_ss;
 		int i = 0;
-		while (recieve_buffer[i] != 0) recieve_ss << recieve_buffer[i], i++;
+		auto recieve_tokens = parse_response(recieve_buffer);
+		for (auto word : recieve_tokens)
+		{
+			if (word != "SLASHN")
+			{
+				recieve_ss << word << " ";
+			}
+			else
+			{
+				recieve_ss << '\n';
+			}
+		}
 		if (logs) std::cout << recieve_ss.str() << std::endl;
 		delete[] recieve_buffer;
 	}
@@ -405,7 +443,6 @@ void connector::polling()
 		}
 	}
 }
-
 void connector::execute_instructions(std::string instructions_file)
 {
 	std::ifstream instr_file;
@@ -431,4 +468,35 @@ connector::~connector()
 {
 	close(connection_socket);
 	std::cout << "Connection closed successfully." << std::endl;
+}
+
+std::vector<std::string> connector::parse_response(char* db_response)
+{
+	std::vector<std::string> response_tokens;
+
+	int pos = 0;
+	std::string curr_token = "";
+
+	while (db_response[pos] != 0)
+	{
+		if (db_response[pos] == ' ')
+		{
+			response_tokens.push_back(curr_token);
+			curr_token = "";
+		}
+		else if (db_response[pos] == '\n')
+		{
+			response_tokens.push_back(curr_token);
+			curr_token = "SLASHN";
+			response_tokens.push_back(curr_token);
+			curr_token = "";
+		}
+		else
+		{
+			curr_token += db_response[pos];
+		}
+		pos += 1;
+	}
+
+	return response_tokens;
 }

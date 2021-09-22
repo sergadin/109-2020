@@ -43,9 +43,7 @@ void gen_instructions(std::string output_file, int instructions_number)
 }
 bool autotest(std::string long_sequence, std::string short_sequence_1, std::string short_sequence_2, std::string addr, int port)
 {
-	// 1: Testing big instructions section
-	//
-	
+	// 1: Testing long instructions sequence
 	try
 	{
 		connector Test_Connector(addr, port);
@@ -57,29 +55,6 @@ bool autotest(std::string long_sequence, std::string short_sequence_1, std::stri
 		std::cout << "Autotest failed with error <" << exc.what() << ">" << std::endl;
 		return false;
 	}
-
-	try
-	{
-		connector C_1(addr, port);
-		C_1.execute_instructions(short_sequence_1);
-		C_1.request("clear", false);
-	}
-	catch (const std::exception& exc)
-	{
-		std::cout << "Autotest failed with error <" << exc.what() << ">" << std::endl;
-		return false;
-	}
-	
-	try
-	{
-		connector C_2(addr, port);
-		C_2.execute_instructions(short_sequence_2);
-		C_2.request("clear", false);
-	}
-	catch (const std::exception& exc)
-	{
-		std::cout << "Autotest failed with error <" << exc.what() << ">" << std::endl;
-		return false;
-	}
 	return true;
 }
+
