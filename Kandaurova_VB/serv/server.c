@@ -143,6 +143,9 @@ int main(int argc, char *argv[]){
 				buf[i]=' ';
 		}
 	    	char *s1;
+	    	char s2[100];
+	    	char s3[100];
+	    	sprintf(s3, "%c", '*');
 	    	double n1 = strtod(&buf[1], &s1), x;
 	    	//char *s1;
 	    	if(n1 == N) {
@@ -157,12 +160,15 @@ int main(int argc, char *argv[]){
 	    				
 	    			}
 	    			//printf("%f\n", x);
-	    			sprintf(buf, "%f*", x);
-	    			printf("%79s\n", buf);
+	    			sprintf(s2, "%f*", x);
+	    			strcat(s3, s2);
+	    			printf("%s\n", s2);
+	    			printf("%s\n", s3);
 	    			//write(cfd[i], buf, 40);
 	    		}
+	    	
+	    	write(cfd[i], s3, 40);	
 	    	}
-	    	write(cfd[i], buf, 40);	
 	    }
 	    printf("connection %d: %s\n", i, buf);
 	    write(cfd[i], "Ok.\n", 4);
