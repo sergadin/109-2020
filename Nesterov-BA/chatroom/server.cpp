@@ -18,7 +18,7 @@
 #define PORT   5555
 #define BUFLEN   512
 
-int readFromClient(int fd, char *buf);
+//int readFromClient(int fd, char *buf);
 void writeToClient(int fd, char *buf, int sender);
 
 
@@ -29,7 +29,7 @@ int main(void)
 	socklen_t size;
 	struct sockaddr_in addr;
 	struct sockaddr_in client;
-	char buf[BUFLEN];
+	char *buf;
 
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock<0) {
@@ -93,7 +93,23 @@ int main(void)
 							close(new_sock);
 						}
 					} else {
-						err = readFromClient(act_set[i].fd, buf);
+							int nbytes1, nbytes2, msgsize;
+
+							nbytes1 = read(act_set[i].fd, &msgsize, 4);
+							printf("msgsize = %d\n", msgsize);
+							buf = new char[msgsize+1];
+							nbytes2 = read(act_set[i].fd, buf, msgsize+1);
+
+							if(nbytes2<0){
+								perror("Server: read failure");
+								err =  -1;
+							} else if (nbytes2 == 0)
+							{					
+								err = -1;
+							} else {
+								fprintf(stdout, "Server got message: %s\n", buf);
+								err = 0;
+							}
 						printf("%d [%s] %p\n", err, buf, strstr(buf, "stop"));
 						if (err<0 || strstr(buf, "stop"))
 						{	
@@ -121,33 +137,39 @@ int main(void)
 	}
 }
 
-int readFromClient(int fd, char *buf){
-	int nbytes;
+/*int readFromClient(int fd, char *buf){
+	int nbytes1, nbytes2, msgsize;
 
-	nbytes = read(fd, buf, BUFLEN);
+	nbytes1 = read(fd, &msgsize, 4);
+	printf("msgsize = %d\n", msgsize);
+	buf = new char[msgsize];
+	nbytes2 = read(fd, buf, msgsize);
 
-	if(nbytes<0){
+	if(nbytes2<0){
 		perror("Server: read failure");
 		return -1;
-	} else if (nbytes == 0)
+	} else if (nbytes2 == 0)
 	{
 		return -1;
 	} else {
 		fprintf(stdout, "Server got message: %s\n", buf);
 	}
 	return 0;
-}
+}*/
 
 void writeToClient(int fd, char *buf, int sender){
-	int nbytes;
-	char whowrote[200] = {};
+	int nbytes1, nbytes2;
+	int msgsize;
+	char whowrote[strlen(buf)+20] = {};
 	sprintf(whowrote, "User#%d: ", sender-3);
 	strcat(whowrote, buf);
+	msgsize = strlen(whowrote)+4;
     fprintf(stdout, "New message: %s\n", whowrote);
-	nbytes = write(fd, whowrote, strlen(whowrote)+1);
-	fprintf(stdout, "Write back to %d: %s\n nbytes = %d\n", fd, buf, nbytes);
+    nbytes1 = write(fd, &msgsize, 4);
+	nbytes2 = write(fd, whowrote, strlen(whowrote)+1);
+	fprintf(stdout, "Write back to %d: %s\n nbytes = %d\n", fd, buf, nbytes2);
 
-	if (nbytes<0){
+	if (nbytes2<0){
 		perror("Server: write failure");
 	}
 }

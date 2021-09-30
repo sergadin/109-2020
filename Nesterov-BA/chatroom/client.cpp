@@ -24,6 +24,7 @@ int main(void)
 {
 	int sock;
 	int i, err;
+	int oldfl;
 	struct sockaddr_in server_addr;
 	struct hostent *hostinfo;
 	pid_t pid;
@@ -76,17 +77,18 @@ int main(void)
 
 
 int writeToServer(int fd){
-	int nbytes;
-	char buf[BUFLEN];
-
-	
-	if (fgets(buf, BUFLEN, stdin)==nullptr){
+	int nbytes1, nbytes2, msgsize;
+	char *buf;
+	printf("ready to write\n");
+	if ( scanf ("%m[^\n]%*c", &buf)==0){
 		printf("error\n");
 	}
-	buf[strlen(buf)-1]=0;
-
-	nbytes = write(fd, buf, strlen(buf)+1);
-	if(nbytes<0){
+	msgsize = strlen(buf)+4;
+	fprintf(stdout, "buf [%s] gets%d bytes\n", buf, msgsize);
+	buf[strlen(buf)]=0;
+	nbytes1 = write(fd, &msgsize, 4);
+	nbytes2 = write(fd, buf, msgsize);
+	if(nbytes2<0){
 		perror("write");
 		return -1;
 	}
@@ -95,15 +97,16 @@ int writeToServer(int fd){
 }
 
 int readFromServer(int fd){
-	int nbytes;
-	char buf[BUFLEN];
+	int nbytes1, nbytes2;
+	int msgsize;
+	char *buf;
+	nbytes1 = read(fd, &msgsize, 4);
+	nbytes2 = read(fd, buf, msgsize);
 
-	nbytes = read(fd, buf, BUFLEN);
-
-	if(nbytes<0){
+	if(nbytes2<0){
 		perror("read");
 		return -1;
-	} else if (nbytes == 0)
+	} else if (nbytes2 == 0)
 	{
 		fprintf(stderr, "Client: no message\n");
 		return -2;
